@@ -1,6 +1,14 @@
 = javascript_include_tag "specific/events-form.js"
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-  = simple_form_for [:admins, event], html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      .tools
+        .tool-item
+          = link_to admins_event_path(@current_event) do
+            span#undo.icon.material-icons undo
+            span.mdl-tooltip data-mdl-for="undo"  Back
+
+  = simple_form_for [:admins, event], html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings:{select: :mdl_field, text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .fieldset
       .section-header
         i.material-icons info
@@ -9,18 +17,7 @@
         = f.input :name, placeholder: true
         = f.input :timezone, as: :time_zone, include_blank: false
         = f.input :support_email, placeholder: true, required: true
-
-    .fieldset
-      .section-header
-        i.material-icons local_atm
-        span Currency
-      .form-inputs.short-input
-        = f.input :currency
-        = f.input :token_symbol
-      .form-inputs
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='iban_enabled'
-          span.mdl-switch__label.form-label Iban enabled
-          = f.input :iban_enabled, :input_html => { id: 'iban_enabled' }
+        = f.input :owner_id, as: :select, collection: User.where(role: ["promoter", "admin"]).collect { |u| [u.email, u.id] }, include_blank: false, placeholder: true
 
     .fieldset
       .section-header

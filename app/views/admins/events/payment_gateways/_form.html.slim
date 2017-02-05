@@ -3,7 +3,7 @@
     .mdl-cell.mdl-cell--12-col
       .tools
         .tool-item
-          = link_to [:admins, @current_event, @gateway] do
+          = link_to admins_event_payment_gateways_path(@current_event) do
             span#undo.icon.material-icons undo
             span.mdl-tooltip data-mdl-for="undo"  Back
 

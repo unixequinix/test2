@@ -1,71 +1,81 @@
 -if event.created?
   .status-container
-    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
-    label for="five"  LAUNCHED
-    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
-    label for="twentyfive"  STARTED
-    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
-    label for="fifty"  FINISHED
-    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
-    label for="seventyfive"  CLOSED
-    input#onehundred.radio.change-state checked='checked' name="progress" type="radio" data-state="created" data-id=event.id
-    label for="onehundred"  REBOOT
+    input#five.radio.change-state checked='checked' name="progress" type="radio" data-state="created" data-id=event.id
+    label for="five"  CREATED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="twentyfive"  LAUNCHED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="fifty"  STARTED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="seventyfive"  FINISHED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="onehundred"  CLOSED
+    input#zero.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="zero"  REBOOT
     .progress
       .progress-bar
 -if event.launched?
   .status-container
-    input#five.radio.change-state checked='checked' name="progress" type="radio" data-state="launched" data-id=event.id
-    label for="five"  LAUNCHED
-    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
-    label for="twentyfive"  STARTED
-    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
-    label for="fifty"  FINISHED
-    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
-    label for="seventyfive"  CLOSED
-    input#onehundred.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
-    label for="onehundred"  REBOOT
+    input#five.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="five"  CREATED
+    input#twentyfive.radio.change-state checked='checked' name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="twentyfive"  LAUNCHED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="fifty"  STARTED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="seventyfive"  FINISHED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="onehundred"  CLOSED
+    input#zero.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="zero"  REBOOT
     .progress
       .progress-bar
 -if event.started?
   .status-container
-    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
-    label for="five"  LAUNCHED
-    input#twentyfive.radio.change-state checked='checked' name="progress" type="radio" data-state="started" data-id=event.id
-    label for="twentyfive"  STARTED
-    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
-    label for="fifty"  FINISHED
-    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
-    label for="seventyfive"  CLOSED
-    input#onehundred.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
-    label for="onehundred"  REBOOT
+    input#five.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="five"  CREATED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="twentyfive"  LAUNCHED
+    input#fifty.radio.change-state checked='checked' name="progress" type="radio" data-state="started" data-id=event.id
+    label for="fifty"  STARTED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="seventyfive"  FINISHED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="onehundred"  CLOSED
+    input#zero.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="zero"  REBOOT
     .progress
       .progress-bar
 -if event.finished?
   .status-container
-    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
-    label for="five"  LAUNCHED
-    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
-    label for="twentyfive"  STARTED
-    input#fifty.radio.change-state checked='checked' name="progress" type="radio" data-state="finished" data-id=event.id
-    label for="fifty"  FINISHED
-    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
-    label for="seventyfive"  CLOSED
-    input#onehundred.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
-    label for="onehundred"  REBOOT
+    input#five.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="five"  CREATED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="twentyfive"  LAUNCHED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="fifty"  STARTED
+    input#seventyfive.radio.change-state checked='checked' name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="seventyfive"  FINISHED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="onehundred"  CLOSED
+    input#zero.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="zero"  REBOOT
     .progress
       .progress-bar
 -if event.closed?
   .status-container
-    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
-    label for="five"  LAUNCHED
-    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
-    label for="twentyfive"  STARTED
-    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
-    label for="fifty"  FINISHED
-    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
-    label for="seventyfive"  CLOSED
-    input#onehundred.radio.change-state checked='checked' name="progress" type="radio" data-state="created" data-id=event.id
-    label for="onehundred"  REBOOT
+    input#five.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="five"  CREATED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="twentyfive"  LAUNCHED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="fifty"  STARTED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="seventyfive"  FINISHED
+    input#onehundred.radio.change-state checked='checked' name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="onehundred"  CLOSED
+    input#zero.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="zero"  REBOOT
     .progress
       .progress-bar
 

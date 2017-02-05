@@ -7,13 +7,14 @@
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
-              = link_to edit_admins_event_gtag_settings_path(@current_event) do
+              = link_to admins_event_path(@current_event) do
+                span#undo.icon.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
+            .tool-item
+              = link_to edit_gtag_settings_admins_event_path(@current_event) do
                 span#edit.icon.material-icons edit
                 span.mdl-tooltip data-mdl-for="edit"  Edit
-            .tool-item
-              = link_to load_defaults_admins_event_gtag_settings_path(@current_event), data: {confirm: "This will override all Gtag settings, are you sure?"} do
-                span#settings.icon.material-icons settings
-                span.mdl-tooltip data-mdl-for="settings"  Load Defaults
+
 
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody

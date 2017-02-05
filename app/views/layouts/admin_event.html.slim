@@ -26,7 +26,7 @@ html
           = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank" do
             i#launch.material-icons launch
             span.mdl-tooltip data-mdl-for="launch" Customer Portal
-          = link_to "#{@current_event.name}" "#{l Time.use_zone(@current_event.timezone) { Time.current }, format: :zone_description}", admins_event_path(@current_event), class: "mdl-layout-title header-item"
+          = link_to @current_event.name, admins_event_path(@current_event), class: "mdl-layout-title header-item"
           .mdl-layout-spacer
           - if @q
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
@@ -49,72 +49,21 @@ html
       .mdl-layout__drawer
         .drawer-logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
         nav.mdl-navigation.global-nav
-          span.nav-title EVENTS
           = link_to admins_event_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons info_outline
             | Details
-
+          = link_to admins_event_devices_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons phone_android
+            | Devices
+          - if policy(@current_event).event_settings?
+            = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons person
+              | Users
           - if policy(@current_event).event_charts?
             = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
               | Live Stats
 
-          - if policy(@current_event).event_settings?
-            = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons person
-              | Users
-            = link_to admins_event_gtag_settings_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons place
-              | GTag Settings
-            = link_to admins_event_payment_gateways_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons payment
-              | Payment Settings
-            = link_to admins_event_device_settings_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons phonelink_setup
-              | Device Settings
-            = link_to admins_event_eventbrite_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons web
-              | Eventbrite Settings
-        nav.mdl-navigation.global-nav
-          span.nav-title SETUP
-          = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons import_export
-            | Accesses
-          = link_to admins_event_credits_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons local_atm
-            | Credits
-          = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons view_module
-            | Packs
-          = link_to admins_event_products_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons shopping_basket
-            | Products
-          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons class
-            | Ticket types
-          = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons bookmark_border
-            | Tickets
-          = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons place
-            | GTags
-        nav.mdl-navigation.global-nav
-          span.nav-title STATIONS
-          = link_to admins_event_stations_path(@current_event, group: "access"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons play_for_work
-            | Access Stations
-          = link_to admins_event_stations_path(@current_event, group: "monetary"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons attach_money
-            | Monetary Stations
-          = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons local_activity
-            | Event Mgmt Stations
-          = link_to admins_event_stations_path(@current_event, group: "glownet"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons adjust
-            | Glownet Stations
-          = link_to admins_event_stations_path(@current_event, group: "touchpoint"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons fingerprint
-            | Touchpoint Stations
         nav.mdl-navigation.global-nav
           span.nav-title CRM
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
@@ -126,12 +75,45 @@ html
           = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons undo
             | Refunds
-        nav.mdl-navigation.global-nav
-          span.nav-title DEVICES
-          = link_to admins_event_devices_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons phone_android
-            | Devices
+          = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons bookmark_border
+            | Tickets
+          = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons place
+            | GTags
 
+        nav.mdl-navigation.global-nav
+          span.nav-title SETUP
+          = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons import_export
+            | Accesses
+          = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons view_module
+            | Packs
+          = link_to admins_event_products_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons shopping_basket
+            | Products
+          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons class
+            | Ticket types
+
+        nav.mdl-navigation.global-nav
+          span.nav-title STATIONS
+          = link_to admins_event_stations_path(@current_event, group: "access"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons play_for_work
+            | Access
+          = link_to admins_event_stations_path(@current_event, group: "monetary"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons attach_money
+            | Monetary
+          = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons local_activity
+            | Management
+          = link_to admins_event_stations_path(@current_event, group: "glownet"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons adjust
+            | Glownet
+          = link_to admins_event_stations_path(@current_event, group: "touchpoint"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons fingerprint
+            | Touchpoint
 
         - if policy(@current_event).inconsistencies?
           nav.mdl-navigation.global-nav

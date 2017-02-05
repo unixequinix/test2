@@ -1,0 +1,55 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    = javascript_include_tag "specific/events-form.js"
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col
+          .tools
+            .tool-item
+              = link_to gtag_settings_admins_event_path(@current_event) do
+                span#undo.icon.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
+
+      = simple_form_for [:admins, @current_event], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+        = hidden_field_tag :redirect_path, "edit_gtag_settings"
+        .fieldset
+          .section-header
+            i.material-icons info_outline
+            span Info
+          .form-inputs.short-input
+            = f.input :gtag_format, collection: Gtag::UID_FORMATS.map{ |format| [format.to_s.humanize, format] }, include_blank: false
+          .form-inputs
+            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='cards_can_refund'
+              span.mdl-switch__label.form-label Cards can refund
+              = f.input :cards_can_refund, :input_html => { :id => 'cards_can_refund' }
+          .form-inputs
+            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='wristbands_can_refund'
+              span.mdl-switch__label.form-label Wristbands can refund
+              = f.input :wristbands_can_refund, :input_html => { :id => 'wristbands_can_refund' }
+
+        .fieldset
+          .section-header
+            i.material-icons phonelink_setup
+            span Device
+          .form-inputs.short-input
+            = f.input :gtag_type, collection: Gtag::DEFINITIONS.keys.map{ |key| [key.to_s.humanize, key] }, include_blank: false
+            = f.input :maximum_gtag_balance
+            = f.input :gtag_deposit_fee
+            = f.input :initial_topup_fee
+            = f.input :topup_fee
+
+        .fieldset
+          .section-header
+            i.material-icons message
+            span Texts
+          .form-inputs.form-texts
+            = f.label :gtag_form_disclaimer, class: 'form-label'
+            = f.input :gtag_form_disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+            = f.label :gtag_assignation_notification, class: 'form-label'
+            = f.input :gtag_assignation_notification, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+
+        .form-actions
+          .col-sm-offset-3.col-sm-9
+            = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer

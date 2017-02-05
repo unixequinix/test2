@@ -9,10 +9,10 @@
       .mdl-cell.mdl-cell--9-col
         = link_to "Active", admins_events_path, class: "filters__item #{"filters__item--active" if @status == [:launched, :started, :finished]}"
         = link_to "All", admins_events_path(status: "all"), class: "filters__item #{"filters__item--active" if @status == "all"}"
-        = link_to "Not published", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if @status == "created"}"
-        = link_to "Pre-Event", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if @status == "launched"}"
-        = link_to "During Event", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if @status == "started"}"
-        = link_to "Post-Event", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if @status == "finished"}"
+        = link_to "Created", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if @status == "created"}"
+        = link_to "Launched", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if @status == "launched"}"
+        = link_to "Satrted", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if @status == "started"}"
+        = link_to "Finished", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if @status == "finished"}"
         = link_to "Closed", admins_events_path(status: "closed"), class: "filters__item #{"filters__item--active" if @status == "closed"}"
       .mdl-cell.mdl-cell--3-col.italic.small.right = page_entries_info @events
 

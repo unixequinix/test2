@@ -115,24 +115,28 @@
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05))
   transition: 0.4s linear
 
+#zero:checked ~ .progress > .progress-bar
+  width: 0%
+
 #five:checked ~ .progress > .progress-bar
   width: 5%
-  background-color: $pink
+  background-color: $goGreen
 
 #twentyfive:checked ~ .progress > .progress-bar
-  width: 30%
+  width: 25%
   background-color: $green
 
 #fifty:checked ~ .progress > .progress-bar
-  width: 100%
-  background-color: $amber
+  width: 50%
+  background-color: $pink
 
 #seventyfive:checked ~ .progress > .progress-bar
-  width: 100%
-  background-color: $red
+  width: 75%
+  background-color: $amber
 
 #onehundred:checked ~ .progress > .progress-bar
-  width: 0%
+  width: 100%
+  background-color: $red
 
 .radio
   display: none

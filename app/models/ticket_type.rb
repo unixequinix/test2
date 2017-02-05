@@ -42,8 +42,4 @@ class TicketType < ActiveRecord::Base
   def show!
     update(hidden: false)
   end
-
-  def self.form_selector(event)
-    where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
-  end
 end

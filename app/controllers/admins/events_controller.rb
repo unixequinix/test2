@@ -1,4 +1,6 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
+  layout "admin_event"
+
   def index
     params[:status] ||= [:launched, :started, :finished]
     @status = params[:status]
@@ -6,16 +8,15 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     @events = @q.result
     @events = @events.with_state(params[:status]) if params[:status] != "all" && params[:q].blank?
     @events = @events.page(params[:page])
+    render layout: "admin"
   end
 
   def show
     authorize @current_event
-    render layout: "admin_event"
   end
 
   def stats
     authorize @current_event, :event_charts?
-    render layout: "admin_event"
   end
 
   def transactions_chart
@@ -37,6 +38,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def new
     @event = Event.new
     authorize(@event)
+    render layout: "admin"
   end
 
   def sample_event
@@ -60,7 +62,32 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   def edit
     authorize @current_event
-    render layout: "admin_event"
+  end
+
+  def edit_credit
+    authorize @current_event
+  end
+
+  def edit_gtag_settings
+    authorize @current_event
+  end
+
+  def edit_device_settings
+    authorize @current_event
+  end
+
+  def gtag_settings
+    authorize @current_event
+  end
+
+  def device_settings
+    authorize @current_event
+  end
+
+  def remove_db
+    authorize @current_event
+    @current_event.update(params[:db] => nil)
+    redirect_to admins_event_device_settings_path(@current_event)
   end
 
   def update
@@ -68,10 +95,11 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
-        format.json { render :show, status: :ok, location: @current_event }
+        format.json { head :ok }
       else
-        flash.now[:alert] = t("alerts.error")
-        format.html { render :edit }
+        flash.now[:alert] = @current_event.errors.full_messages.to_sentence
+        params[:redirect_path] ||= :edit
+        format.html { render params[:redirect_path].to_sym }
         format.json { render json: @current_event.errors, status: :unprocessable_entity }
       end
     end
@@ -107,7 +135,8 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   private
 
   def permitted_params # rubocop:disable Metrics/MethodLength
-    params.require(:event).permit(:state,
+    params.require(:event).permit(:action,
+                                  :state,
                                   :name,
                                   :url,
                                   :start_date,
@@ -149,6 +178,36 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :agreed_event_condition,
                                   :receive_communications,
                                   :receive_communications_two,
-                                  :iban_enabled)
+                                  :iban_enabled,
+                                  :private_zone_password,
+                                  :fast_removal_password,
+                                  :touchpoint_update_online_orders,
+                                  :pos_update_online_orders,
+                                  :topup_initialize_gtag,
+                                  :transaction_buffer,
+                                  :days_to_keep_backup,
+                                  :sync_time_event_parameters,
+                                  :sync_time_server_date,
+                                  :sync_time_basic_download,
+                                  :sync_time_tickets,
+                                  :sync_time_gtags,
+                                  :sync_time_customers,
+                                  :gtag_form_disclaimer,
+                                  :gtag_assignation_notification,
+                                  :format,
+                                  :gtag_type,
+                                  :gtag_deposit,
+                                  :initial_topup_fee,
+                                  :topup_fee,
+                                  :ultralight_c,
+                                  :mifare_classic,
+                                  :ultralight_ev1,
+                                  :cards_can_refund,
+                                  :maximum_gtag_balance,
+                                  :wristbands_can_refund,
+                                  :gtag_deposit_fee,
+                                  :topup_fee,
+                                  :card_return_fee,
+                                  credit_attributes: [:id, :name, :step, :initial_amount, :max_purchasable, :min_purchasable, :value])
   end
 end

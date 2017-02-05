@@ -107,9 +107,11 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   has_one :credit, dependent: :destroy
 
+  accepts_nested_attributes_for :credit
+
   belongs_to :owner, class_name: 'User'
 
-  scope :with_state, ->(status) { where state: status }
+  scope :with_state, ->(state) { where state: state }
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -130,7 +132,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   validates :name, :support_email, :timezone, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
-  # validates :gtag_deposit_fee, :topup_fee, :card_return_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :maximum_gtag_balance, :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :name, uniqueness: true
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
   validates :receive_communications_message, presence: true, if: :receive_communications?
@@ -185,7 +187,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def active?
-    %w(launched started finished).include? state
+    state.in? %w(launched started finished)
   end
 
   def initial_setup!

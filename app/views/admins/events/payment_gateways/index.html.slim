@@ -5,6 +5,11 @@
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col Payment Settings
         .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to admins_event_path(@current_event) do
+                span#undo.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
       table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
         thead
           tr
@@ -17,7 +22,18 @@
             tr
               td.mdl-data-table__cell--non-numeric
                 = gateway.to_s.humanize
-                = render 'admins/events/payment_gateways/actions', gateway: gateway
+                - if gw
+                  .table-action
+                    = link_to edit_admins_event_payment_gateway_path(@current_event, gw) do
+                      button.icon.material-icons id ="edit_#{gateway}" edit
+                  .table-action
+                    = link_to admins_event_payment_gateway_path(@current_event, gw), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="add_#{gateway}" delete
+
+                - else
+                .table-action
+                  = link_to new_admins_event_payment_gateway_path(@current_event, gateway: gateway) do
+                    button.icon.material-icons id ="add_#{gateway}" add
               td
                 - if gw
                   - if gw&.topup?
@@ -34,6 +50,7 @@
                   - else
                     = link_to refund_admins_event_payment_gateway_path(@current_event, gw), method: :post do
                       .material-icons radio_button_unchecked
+
             span.mdl-tooltip data-mdl-for="edit_#{gateway}" Edit
             span.mdl-tooltip data-mdl-for="add_#{gateway}" Add
             span.mdl-tooltip data-mdl-for="delete_#{gateway}" Delete

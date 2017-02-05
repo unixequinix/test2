@@ -125,7 +125,7 @@ SimpleForm.setup do |config|
   # Custom mappings for input types. This should be a hash containing a regexp
   # to match as key, and the input type that will be used when the field name
   # matches the regexp as value.
-  # config.input_mappings = { /citext/ => :string }
+  config.input_mappings = { /citext/ => :string }
 
   # Custom wrappers for input types. This should be a hash containing an input
   # type as key and the wrapper that will be used for all inputs with specified type.
@@ -164,8 +164,3 @@ SimpleForm.setup do |config|
   # config.i18n_scope = 'simple_form'
 end
 
-module SimpleForm
-  class FormBuilder < ActionView::Helpers::FormBuilder
-    map_type :citext, to: SimpleForm::Inputs::StringInput
-  end
-end

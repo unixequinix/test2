@@ -6,13 +6,13 @@
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
-              = link_to edit_admins_event_device_settings_path(@current_event) do
+              = link_to admins_event_path(@current_event) do
+                span#undo.icon.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
+            .tool-item
+              = link_to edit_device_settings_admins_event_path(@current_event) do
                 span#edit.material-icons edit
                 span.mdl-tooltip data-mdl-for="edit" Edit
-            .tool-item
-              = link_to load_defaults_admins_event_device_settings_path(@current_event), data: { confirm: "This will override all Device settings, are you sure?" } do
-                span#default.material-icons settings
-                span.mdl-tooltip data-mdl-for="default" Load Defaults
 
 
   .mdl-cell.mdl-cell--12-col
@@ -30,7 +30,7 @@
                     td = @current_event.device_full_db_updated_at ? l(@current_event.device_full_db_updated_at) : "Not found"
                     td = number_to_human_size(@current_event.device_full_db_file_size)
                     td.database__actions
-                      = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
+                      = link_to remove_db_admins_event_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
                         span.icon.material-icons clear
                         | Clear cache
                       = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "#{"database__btn--disabled" if @current_event.device_full_db.blank?}"
@@ -42,7 +42,7 @@
                     td = @current_event.device_basic_db_updated_at ? l(@current_event.device_basic_db_updated_at) : "Not found"
                     td = number_to_human_size(@current_event.device_basic_db_file_size)
                     td.database__actions
-                      = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
+                      = link_to remove_db_admins_event_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
                         span.icon.material-icons clear
                         | Clear cache
                       = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"

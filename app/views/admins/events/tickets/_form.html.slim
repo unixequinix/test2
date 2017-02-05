@@ -10,7 +10,7 @@
   = simple_form_for [:admins, @current_event, ticket], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .form-inputs.short-input
       = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-      = f.input :ticket_type_id, as: :select, collection: TicketType.form_selector(@current_event), include_blank: false, placeholder: true
+      = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.map { |tt| [tt.name, tt.id] }, include_blank: false, placeholder: true
       = f.input :code, placeholder: true, as: :string
       = f.input :purchaser_first_name
       = f.input :purchaser_last_name

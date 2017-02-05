@@ -1,6 +1,7 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  root "admins/events#index"
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
 
@@ -32,13 +33,18 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
+        get :edit_credit
+        get :edit_gtag_settings
+        get :edit_device_settings
+        get :device_settings
+        get :gtag_settings
+        get :gtag_settings
+        delete :remove_db
         get :stats
         post :remove_logo
         post :remove_background
         get :create_admin
         get :create_customer_support
-        get :transactions_chart
-        get :credits_chart
       end
 
       scope module: "events" do
@@ -87,15 +93,6 @@ Rails.application.routes.draw do
             get :download_transactions
             get :reset_password
           end
-        end
-        resource :device_settings, only: [:show, :edit, :update] do
-          member do
-            delete :remove_db
-            get :load_defaults
-          end
-        end
-        resource :gtag_settings, only: [:show, :edit, :update] do
-          get :load_defaults, on: :member
         end
         resources :gtags do
           member do

@@ -7,9 +7,26 @@
           .mdl-cell.mdl-cell--8-col
             .tools
               .tool-item
+                = link_to admins_event_eventbrite_path(@current_event) do
+                  span#eventbrite_setting.material-icons gesture
+                  span.mdl-tooltip data-mdl-for="eventbrite_setting"  Eventbrite Settings
+              .tool-item
+                = link_to admins_event_payment_gateways_path(@current_event) do
+                  span#payment_setting.material-icons payment
+                  span.mdl-tooltip data-mdl-for="payment_setting"  Payment Settings
+              .tool-item
+                = link_to gtag_settings_admins_event_path(@current_event) do
+                  span#gtag_settings.material-icons place
+                  span.mdl-tooltip data-mdl-for="gtag_settings"  Gtag Settings
+              .tool-item
+                = link_to device_settings_admins_event_path(@current_event) do
+                  span#device_settings.material-icons phonelink_setup
+                  span.mdl-tooltip data-mdl-for="device_settings"  Device Settings
+              .tool-item
                 = link_to edit_admins_event_path(@current_event) do
                   span#edit.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit"  Edit Event
+                  span.mdl-tooltip data-mdl-for="edit"  Settings
+
               - unless Rails.env.production?
                 .tool-item
                   = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
@@ -17,10 +34,7 @@
                     span.mdl-tooltip data-mdl-for="delete" Delete Event
 
   .mdl-cell.mdl-cell--12-col
-    .data-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        h2.mdl-card__title-text Current Status
-      .info-container = render "admins/events/status", event: @current_event
+    .info-container = render "admins/events/status", event: @current_event
 
 
 
@@ -28,82 +42,40 @@
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
-        .mdl-cell.mdl-cell--4-col
+        .mdl-cell.mdl-cell--12-col
           i.material-icons info_outline
-          |Event info
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to edit_admins_event_path(@current_event) do
-                span#edit1.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit1" Edit
+          | Info
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
-            tr
-              td.mdl-data-table__cell--non-numeric State
-              td = @current_event.state
             tr
               td.mdl-data-table__cell--non-numeric Slug
               td = @current_event.slug
             tr
               td.mdl-data-table__cell--non-numeric Support email
               td = @current_event.support_email
-
-  .mdl-cell.mdl-cell--6-col
-    .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--4-col
-          i.material-icons place
-          |State & Location
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to edit_admins_event_path(@current_event) do
-                span#edit2.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit2" Edit
-
-      .mdl-card__supporting-text
-        table.table-show.mdl-data-table.mdl-js-data-table.within-card
-          tbody
-            tr
-              td.mdl-data-table__cell--non-numeric Timezone
-              td = @current_event.timezone
-            tr
-              td.mdl-data-table__cell--non-numeric End date
-              td = l @current_event.end_date
-            tr
-              td.mdl-data-table__cell--non-numeric Start date
-              td = l @current_event.start_date
-
-  .mdl-cell.mdl-cell--6-col
-    .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--6-col
-          i.material-icons work
-          |Company information
-        .mdl-cell.mdl-cell--6-col
-          .tools
-            .tool-item
-              = link_to edit_admins_event_path(@current_event) do
-                span#edit3.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit3" Edit
-
-      .mdl-card__supporting-text
-        table.table-show.mdl-data-table.mdl-js-data-table.within-card
-          tbody
             tr
               td.mdl-data-table__cell--non-numeric Company Name
               td = format_abstract_value(@current_event.company_name)
-            tr
-              td.mdl-data-table__cell--non-numeric Official Address
-              td = format_abstract_value(@current_event.official_address)
-            tr
-              td.mdl-data-table__cell--non-numeric Official Name
-              td = format_abstract_value(@current_event.official_name)
-            tr
-              td.mdl-data-table__cell--non-numeric Registration Num
-              td = format_abstract_value(@current_event.registration_num)
+              tr
+                td.mdl-data-table__cell--non-numeric Official Address
+                td = format_abstract_value(@current_event.official_address)
+              tr
+                td.mdl-data-table__cell--non-numeric Official Name
+                td = format_abstract_value(@current_event.official_name)
+              tr
+                td.mdl-data-table__cell--non-numeric Registration Num
+                td = format_abstract_value(@current_event.registration_num)
+              tr
+                td.mdl-data-table__cell--non-numeric Timezone
+                td = @current_event.timezone
+                tr
+                  td.mdl-data-table__cell--non-numeric End date
+                  td = l @current_event.end_date
+                tr
+                  td.mdl-data-table__cell--non-numeric Start date
+                  td = l @current_event.start_date
+
 
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
@@ -114,7 +86,7 @@
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
-              = link_to edit_admins_event_path(@current_event) do
+              = link_to edit_credit_admins_event_path(@current_event) do
                 span#edit4.material-icons edit
                 span.mdl-tooltip data-mdl-for="edit4" Edit
 
@@ -122,27 +94,39 @@
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
             tr
+              td.mdl-data-table__cell--non-numeric IBAN enabled?
+              td = format_abstract_value(@current_event.iban_enabled?)
+            tr
               td.mdl-data-table__cell--non-numeric Token symbol
               td = @current_event.token_symbol
             tr
               td.mdl-data-table__cell--non-numeric Currency
               td = @current_event.currency
             tr
-              td.mdl-data-table__cell--non-numeric IBAN enabled?
-              td = format_abstract_value(@current_event.iban_enabled?)
+              td.mdl-data-table__cell--non-numeric Credit Name
+              td = @current_event.credit.name
+            tr
+              td.mdl-data-table__cell--non-numeric Step
+              td = @current_event.credit.step
+            tr
+              td.mdl-data-table__cell--non-numeric Initial Amount
+              td = @current_event.credit.initial_amount
+            tr
+              td.mdl-data-table__cell--non-numeric Max Purchasable
+              td = @current_event.credit.max_purchasable
+            tr
+              td.mdl-data-table__cell--non-numeric Min Purchasable
+              td = @current_event.credit.min_purchasable
+            tr
+              td.mdl-data-table__cell--non-numeric Value
+              td = @current_event.credit.value
 
   .mdl-cell.mdl-cell--12-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
-        .mdl-cell.mdl-cell--4-col
+        .mdl-cell.mdl-cell--12-col
           i.material-icons build
-          |Features
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to edit_admins_event_path(@current_event) do
-                span#edit6.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit6" Edit
+          | Features
 
       .mdl-card__supporting-text
         .content-grid.mdl-grid
@@ -197,7 +181,7 @@
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col
           i.material-icons insert_photo
-          |Images
+          | Style
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
@@ -211,9 +195,6 @@
             tr
               td.mdl-data-table__cell--non-numeric Background Type
               td = @current_event.background_type
-            tr
-              td.mdl-data-table__cell--non-numeric Background Content Type
-              td = @current_event.background_content_type
             tr
               - if @current_event.logo.present?
                 td.mdl-data-table__cell--non-numeric
@@ -229,7 +210,7 @@
             tr
               - if @current_event.background.present?
                 td.mdl-data-table__cell--non-numeric
-                  |Background
+                  | Background
                   .table-action
                     = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
                       button#delete_background.icon.material-icons delete
