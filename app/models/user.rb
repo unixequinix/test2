@@ -26,14 +26,11 @@
 #
 
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :rememberable, :recoverable, :validatable
+  devise :database_authenticatable, :validatable, :trackable
 
   belongs_to :event
 
   has_many :owned_events, foreign_key: :owner_id, class_name: "Event"
-
-  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
-  validates :email, presence: true, uniqueness: true
 
   before_create :generate_access_token
 

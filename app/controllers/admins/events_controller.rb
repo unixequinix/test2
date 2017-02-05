@@ -14,8 +14,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def stats
-    authorize @current_event
-    cookies.signed[:user_id] = current_user.id
     authorize @current_event, :event_charts?
     render layout: "admin_event"
   end

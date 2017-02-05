@@ -26,6 +26,8 @@
           tr
             th.mdl-data-table__cell--non-numeric Email
             th.mdl-data-table__cell--non-numeric Role
+            th Sign in count
+            th Last sign in time
         tbody
           - @users.each do |user|
             tr data-admin = user.id
@@ -37,8 +39,9 @@
                 .table-action
                   = link_to admins_event_user_path(@current_event, user), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                     button.material-icons delete
-              td.mdl-data-table__cell--non-numeric
-                = user.role.humanize
+              td.mdl-data-table__cell--non-numeric = user.role.humanize
+              td = user.sign_in_count
+              td = user.last_sign_in_at&.to_formatted_s(:short)
 
     = paginate @users
   .mdl-layout-spacer
