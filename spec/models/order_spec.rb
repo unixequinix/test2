@@ -10,10 +10,12 @@
 # Indexes
 #
 #  index_orders_on_customer_id  (customer_id)
+#  index_orders_on_event_id     (event_id)
 #
 # Foreign Keys
 #
 #  fk_rails_3dad120da9  (customer_id => customers.id)
+#  fk_rails_64bd9e45d4  (event_id => events.id)
 #
 
 require "spec_helper"

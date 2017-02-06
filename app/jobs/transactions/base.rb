@@ -1,11 +1,11 @@
 class Transactions::Base < ActiveJob::Base
-  SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter activation_counter).freeze
+  SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter).freeze
 
   def perform(atts) # rubocop:disable Metrics/MethodLength
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
-    gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
+    gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
 
     begin
       transaction = klass.find_or_create_by(atts.slice(*SEARCH_ATTS))
@@ -34,7 +34,6 @@ class Transactions::Base < ActiveJob::Base
   end
 
   def preformat_atts(atts)
-    atts[:activation_counter] = 1 if atts[:activation_counter].to_i.zero?
     atts[:transaction_origin] = Transaction::ORIGINS[:device]
     atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id])&.id
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)

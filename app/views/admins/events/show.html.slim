@@ -26,6 +26,10 @@
                 = link_to edit_admins_event_path(@current_event) do
                   span#edit.material-icons edit
                   span.mdl-tooltip data-mdl-for="edit"  Settings
+              .tool-item
+                = link_to edit_event_style_admins_event_path(@current_event) do
+                  span#edit_style.material-icons brush
+                  span.mdl-tooltip data-mdl-for="edit_style"  Style
 
               - unless Rails.env.production?
                 .tool-item
@@ -185,7 +189,7 @@
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
-              = link_to edit_admins_event_path(@current_event) do
+              = link_to edit_event_style_admins_event_path(@current_event) do
                 span#edit5.material-icons edit
                 span.mdl-tooltip data-mdl-for="edit5" Edit
 
@@ -196,11 +200,11 @@
               td.mdl-data-table__cell--non-numeric Background Type
               td = @current_event.background_type
             tr
-              - if @current_event.logo.present?
+              - if @current_event.logo?
                 td.mdl-data-table__cell--non-numeric
                   |Logo
                   .table-action
-                    = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
+                    = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
                       button#delete_logo.icon.material-icons delete
                 td = image_tag @current_event.logo.url, class: "event-img-preview"
               - else
@@ -208,13 +212,13 @@
                 td.italic No logo found
 
             tr
-              - if @current_event.background.present?
+              - if @current_event.background?
                 td.mdl-data-table__cell--non-numeric
                   | Background
                   .table-action
-                    = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
+                    = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
                       button#delete_background.icon.material-icons delete
-                td = image_tag @current_event.background.url, class: "event-img-preview"
+                td = image_tag @current_event.background.url, class: "event-img-preview" if @current_event.background?
               - else
                 td.mdl-data-table__cell--non-numeric Background
                 td.italic No background found

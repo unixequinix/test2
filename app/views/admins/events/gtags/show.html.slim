@@ -32,7 +32,7 @@
           tbody
             tr
               td.mdl-data-table__cell--non-numeric Tag UID
-              td = "#{@gtag.tag_uid} - #{@gtag.activation_counter.to_i}"
+              td = @gtag.tag_uid
             tr
               td.mdl-data-table__cell--non-numeric Format
               td @gtag.format

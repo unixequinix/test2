@@ -96,7 +96,6 @@ de:
       name: Name
       updated_at: Updated at
     gtags:
-      activation_counter: Activation
       banned: Banned
       customer: Kunde
       format: Format

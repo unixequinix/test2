@@ -51,7 +51,6 @@
           thead
             tr
               th.mdl-data-table__cell--non-numeric Tag UID
-              th Activation
               th Customer
               th Loyalty
               th Banned
@@ -66,7 +65,6 @@
                   .table-action
                     = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{gtag.id}" delete
-                td data-label="Activation" = gtag.activation_counter
                 td data-label="Customer" = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
                 td data-label="Loyalty" = gtag.loyalty? ? fa_icon("check-circle") : fa_icon("times-circle")
                 td data-label="Banned"

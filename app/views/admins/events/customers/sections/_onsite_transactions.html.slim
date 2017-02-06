@@ -12,7 +12,6 @@
       table.mdl-data-table.mdl-js-data-table.within-card
         thead
           tr
-            th.mdl-data-table__cell--non-numeric Activation
             th Counters
             th Device Created At
             th Station
@@ -24,7 +23,6 @@
         tbody
            - transactions.each do |transaction|
             tr class="#{"danger" unless transaction.status_code.zero?}"
-              td.mdl-data-table__cell--non-numeric data-label="Activation" = transaction.activation_counter
               td data-label="Counters" = transaction.gtag_counter
               td data-label="Device Created At" = l Time.zone.parse(transaction.device_created_at)
               td data-label="Station" = transaction.station&.name

@@ -11,13 +11,19 @@
   = simple_form_for [:admins, event], html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings:{select: :mdl_field, text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .fieldset
       .section-header
+        i.material-icons pregnant_woman
+        span Owner
+      .form-inputs
+        = f.input :owner_id, as: :select, collection: User.where(role: "promoter", event_id: nil).collect { |u| [u.email, u.id] }, include_blank: true, placeholder: true
+
+    .fieldset
+      .section-header
         i.material-icons info
         span Event Info
       .form-inputs
         = f.input :name, placeholder: true
         = f.input :timezone, as: :time_zone, include_blank: false
         = f.input :support_email, placeholder: true, required: true
-        = f.input :owner_id, as: :select, collection: User.where(role: ["promoter", "admin"]).collect { |u| [u.email, u.id] }, include_blank: false, placeholder: true
 
     .fieldset
       .section-header
@@ -69,54 +75,6 @@
         label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='birthdate_mandatory'
           span.mdl-switch__label.form-label Birthday Mandatory
           = f.input :birthdate_mandatory, :input_html => { :id => 'birthdate_mandatory' }
-
-    .fieldset
-      .section-header
-        i.material-icons insert_photo
-        span Images
-      .file-inputs
-        input#uploadL.mdl-textfield__input placeholder="Logo" readonly="readonly" type="text" /
-        .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
-          i.material-icons attach_file
-          = f.input :logo, :input_html => { :id => 'uploadLogo', :type => 'file'}
-
-        input#uploadB.mdl-textfield__input placeholder="Background" readonly="readonly" type="text" /
-        .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
-          i.material-icons attach_file
-          = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
-
-      .form-inputs.short-input
-        = f.input :background_type, collection: Event.background_types_selector, include_blank: false
-
-
-    .fieldset
-      .section-header
-        i.material-icons message
-        span Texts
-      .form-inputs.form-texts
-        = f.label :agreed_event_condition_message, class: 'form-label'
-        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea" }
-        = f.label :receive_communications_message, class: 'form-label'
-        = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea" }
-        = f.label :receive_communications_two_message, class: 'form-label'
-        = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea" }
-      .form-inputs.form-texts
-        = f.label :info, class: 'form-label'
-        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea" }
-        = f.label :disclaimer, class: 'form-label'
-        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea" }
-        = f.label :privacy_policy, class: 'form-label'
-        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea" }
-        = f.label :terms_of_use, class: 'form-label'
-        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea" }
-
-    .fieldset
-      .section-header
-        i.material-icons brush
-        span Custom styles
-      .form-inputs.form-texts
-        = f.label :style, class: 'form-label'
-        = f.input :style, as: :text, input_html: { rows: 20, class: "cssarea" }
 
     .form-actions
       .col-sm-offset-3.col-sm-9

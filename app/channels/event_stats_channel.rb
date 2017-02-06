@@ -50,7 +50,7 @@ class EventStatsChannel < ApplicationCable::Channel
     @data[:fees] = event.transactions.credit.where("action LIKE '%_fee'").count
     @data[:num_gtags] = event.gtags.count
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits) } }
-    @data[:operators] = sales.select(:credits, :operator_tag_uid).group_by(&:operator_tag_uid).to_a.map { |tag, ts| { name: tag, data: ts.sum(&:credits) } } # rubocop:disable Metrics/LineLength
+    @data[:operators] = sales.pluck(:operator_tag_uid).uniq.map { |tag| { name: tag, data: sales.where(operator_tag_uid: tag).sum(&:credits) } } # rubocop:disable Metrics/LineLength
 
     @data[:transactions_chart] = %w(credit money credential).map do |type|
       { name: type, data: event.transactions.send(type).group_by_day(:device_created_at).count }

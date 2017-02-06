@@ -9,7 +9,6 @@
 #  background_file_size            :integer
 #  background_type                 :string           default("fixed")
 #  birthdate_mandatory             :boolean
-#  card_return_fee                 :integer          default(0)
 #  cards_can_refund                :boolean          default(TRUE)
 #  city_mandatory                  :boolean
 #  company_name                    :string
@@ -30,11 +29,11 @@
 #  fast_removal_password           :string           default("123456")
 #  gender_mandatory                :boolean
 #  gtag_assignation                :boolean          default(FALSE)
-#  gtag_deposit                    :integer          default(0)
 #  gtag_deposit_fee                :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
 #  iban_enabled                    :boolean          default(TRUE)
+#  initial_topup_fee               :integer          default(0)
 #  logo_content_type               :string
 #  logo_file_name                  :string
 #  logo_file_size                  :integer

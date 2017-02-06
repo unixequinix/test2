@@ -76,6 +76,10 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize @current_event
   end
 
+  def edit_event_style
+    authorize @current_event
+  end
+
   def gtag_settings
     authorize @current_event
   end
@@ -108,15 +112,13 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def remove_logo
     authorize @current_event
     @current_event.logo.destroy
-    flash[:notice] = t("alerts.destroyed")
-    redirect_to admins_event_path(@current_event)
+    redirect_to admins_event_path(@current_event), notice: t("alerts.destroyed")
   end
 
   def remove_background
     authorize @current_event
     @current_event.background.destroy
-    flash[:notice] = t("alerts.destroyed")
-    redirect_to admins_event_path(@current_event)
+    redirect_to admins_event_path(@current_event), notice: t("alerts.destroyed")
   end
 
   def destroy

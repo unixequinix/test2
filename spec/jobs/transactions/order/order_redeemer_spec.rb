@@ -15,7 +15,6 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
       customer_id: customer.id,
       catalog_item_id: catalog_item.id,
       order_item_counter: order_item.counter,
-      activation_counter: 1,
       gtag_id: gtag.id
     }
   end

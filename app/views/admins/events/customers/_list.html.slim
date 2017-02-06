@@ -28,6 +28,6 @@
                   = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
             td data-label="Gtags"
               - if gtag = customer.active_gtag
-                = link_to "#{gtag.tag_uid} - #{gtag.activation_counter}", admins_event_gtag_path(@current_event, gtag)
+                = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
 
 

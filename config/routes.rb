@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         get :edit_credit
         get :edit_gtag_settings
         get :edit_device_settings
+        get :edit_event_style
         get :device_settings
         get :gtag_settings
         get :gtag_settings

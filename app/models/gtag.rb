@@ -2,7 +2,6 @@
 #
 # Table name: gtags
 #
-#  activation_counter       :integer          default(1)
 #  active                   :boolean          default(TRUE)
 #  banned                   :boolean          default(FALSE)
 #  credits                  :decimal(8, 2)
@@ -14,11 +13,10 @@
 #
 # Indexes
 #
-#  index_gtags_on_activation_counter                           (activation_counter)
-#  index_gtags_on_customer_id                                  (customer_id)
-#  index_gtags_on_event_id                                     (event_id)
-#  index_gtags_on_event_id_and_tag_uid_and_activation_counter  (event_id,tag_uid,activation_counter) UNIQUE
-#  index_gtags_on_tag_uid                                      (tag_uid)
+#  index_gtags_on_customer_id           (customer_id)
+#  index_gtags_on_event_id              (event_id)
+#  index_gtags_on_tag_uid               (tag_uid)
+#  index_gtags_on_tag_uid_and_event_id  (tag_uid,event_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -48,7 +46,7 @@ class Gtag < ActiveRecord::Base
   belongs_to :event
   has_many :transactions, dependent: :restrict_with_error
 
-  validates :tag_uid, uniqueness: { scope: [:event_id, :activation_counter] }
+  validates :tag_uid, uniqueness: { scope: :event_id }
   validates :tag_uid, presence: true
 
   scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, loyalty, format") }
@@ -69,7 +67,7 @@ class Gtag < ActiveRecord::Base
   def solve_inconsistent
     ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
     transaction = transactions.credit.find_by(gtag_counter: 0)
-    atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, activation_counter: 0, final_balance: 0, final_refundable_balance: 0)
+    atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, final_balance: 0, final_refundable_balance: 0)
     transaction = CreditTransaction.write!(event, "correction", :device, nil, nil, atts) unless transaction
     credits = ts.last&.final_balance.to_f - ts.map(&:credits).sum
     refundable_credits = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).sum

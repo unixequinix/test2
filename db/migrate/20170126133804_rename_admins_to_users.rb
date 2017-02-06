@@ -1,5 +1,6 @@
 class RenameAdminsToUsers < ActiveRecord::Migration[5.0]
   def change
-    rename_table :admins, :users unless data_source_exists?(:users)
+    drop_table :users if data_source_exists?(:users)
+    rename_table :admins, :users
   end
 end

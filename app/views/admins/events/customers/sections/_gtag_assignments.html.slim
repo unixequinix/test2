@@ -15,7 +15,7 @@
            - customer.gtags.each do |gtag|
             tr
               td.mdl-data-table__cell--non-numeric data-label="Gtag"
-                = link_to "#{gtag.tag_uid} - #{gtag.activation_counter.to_i}", admins_event_gtag_path(@current_event, gtag)
+                = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
                 = link_to admins_event_gtag_assignment_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                   button#revoke.icon.material-icons delete
               td data-label="Active" = gtag.active? ? fa_icon("check") : fa_icon("times")
