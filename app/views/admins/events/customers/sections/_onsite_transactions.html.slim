@@ -25,10 +25,8 @@
             tr class="#{"danger" unless transaction.status_code.zero?}"
               td data-label="Counters" = transaction.gtag_counter
               td data-label="Device Created At" = l Time.zone.parse(transaction.device_created_at)
-              td data-label="Station" = transaction.station&.name
-              td data-label="Device UID"
-                - if device = Device.find_by_mac(transaction.device_uid)
-                  = link_to(device.asset_tracker, admins_device_path(device))
+              td data-label="Station" = link_to transaction.station_id, admins_event_station_station_items_path(@current_event, transaction.station_id)
+              td data-label="Device UID" = transaction.device_uid
               td data-label="Action"
                 - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
                 = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do

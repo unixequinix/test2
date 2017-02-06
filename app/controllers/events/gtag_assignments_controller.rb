@@ -7,7 +7,7 @@ class Events::GtagAssignmentsController < Events::BaseController
   end
 
   def create
-    @gtag = @current_event.gtags.where(tag_uid: permitted_params[:tag_uid].strip)
+    @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip)
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: @current_event)
 
     flash.now[:error] = t("alerts.gtag.invalid") if @gtag.nil?
