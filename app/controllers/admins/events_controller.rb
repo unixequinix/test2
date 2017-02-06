@@ -20,22 +20,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     cookies.signed[:user_id] = current_user.id
   end
 
-  def transactions_chart
-    result = %w(access credential credit money).map { |type| { name: type, data: @current_event.transactions.send(type).group_by_day(:created_at).count } } # rubocop:disable Metrics/LineLength
-    authorize @current_event, :event_charts?
-    render json: result.chart_json
-  end
-
-  def credits_chart
-    result = %w(sale topup).map do |action|
-      data = @current_event.transactions.credit.where(action: action).group_by_day(:created_at).sum(:credits)
-      data = data.collect { |k, v| [k, v.to_i.abs] }
-      { name: action, data: Hash[data] }
-    end
-    authorize @current_event, :event_charts?
-    render json: result.chart_json
-  end
-
   def new
     @event = Event.new
     authorize(@event)
@@ -92,7 +76,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def remove_db
     authorize @current_event
     @current_event.update(params[:db] => nil)
-    redirect_to admins_event_device_settings_path(@current_event)
+    redirect_to device_settings_admins_event_path(@current_event)
   end
 
   def update
