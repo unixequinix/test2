@@ -21,9 +21,6 @@ class EventStatsChannel < ApplicationCable::Channel
       stations = @data[:stations].find { |hash| hash[:id].eql?(atts[:station_id]) }
       stations[:data] += 1 if stations
 
-      ops = find_or_create(@data[:stations], atts[:operator_tag_uid])
-      ops[:data].eql?({}) ? ops[:data] = atts[:credits] : ops[:data] += atts[:credits]
-
       hc = find_or_create(@data[:credits_chart], atts[:action])
       hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits]
     end
@@ -50,7 +47,6 @@ class EventStatsChannel < ApplicationCable::Channel
     @data[:fees] = event.transactions.credit.where("action LIKE '%_fee'").count
     @data[:num_gtags] = event.gtags.count
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits) } }
-    @data[:operators] = sales.pluck(:operator_tag_uid).uniq.map { |tag| { name: tag, data: sales.where(operator_tag_uid: tag).sum(&:credits) } } # rubocop:disable Metrics/LineLength
 
     @data[:transactions_chart] = %w(credit money credential).map do |type|
       { name: type, data: event.transactions.send(type).group_by_day(:device_created_at).count }
