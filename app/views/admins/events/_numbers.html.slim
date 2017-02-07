@@ -50,11 +50,11 @@
 
 .mdl-cell.mdl-cell--12-col
   .data-card-wide.mdl-card.mdl-shadow--2dp
-    .info-container = line_chart data[:credits_chart], title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
+    = line_chart data[:credits_chart], title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
 
 .mdl-cell.mdl-cell--6-col
   .data-card-wide.mdl-card.mdl-shadow--2dp
-    .info-container = line_chart data[:transactions_chart], title: "Transactions Flow", legend: false, colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
+    = line_chart data[:transactions_chart], title: "Transactions Flow", legend: false, colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
 
 
 .mdl-cell.mdl-cell--6-col
