@@ -25,7 +25,7 @@
       .form-inputs.short-input
         label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='alcohol_forbidden'
           span.mdl-switch__label.form-label Alcohol Forbidden
-          = f.input :alcohol_forbidden, value: true, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: @pack.pack_catalog_items.find_by(catalog_item: @item).amount.eql?(1) }
+          = f.input :alcohol_forbidden, value: true, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: pack.pack_catalog_items.select{|i| i.catalog_item.eql?(@item) }.first.amount.eql?(1) }
 
     .fieldset
       .section-header
@@ -52,33 +52,6 @@ javascript:
     $('form').on('click', '.btn-remove-fields', function(event) {
       $(this).prev('input[type=hidden]').val('1');
       $(this).closest('fieldset').hide();
-      return event.preventDefault();
-    });
-
-    $('form').on('click', '.user_flag', function(event) {
-      var time = new Date().getTime();
-      var flag_id = $(this).attr('for').split('-')[1];
-      var flag_input = $('#flag-' + flag_id);
-      var flag_destroy = $('#flag-' + flag_id + '-destroy');
-      if(flag_input[0]) {
-        var pack_item = flag_input.closest('input[type=checkbox]').attr('name').split('][')[1];
-        if(flag_input.prop('checked')) {
-          flag_input.prop('checked', false)
-          if(flag_destroy[0]) {
-            flag_destroy.val('1');
-          } else {
-            $(this).closest('.checkbox').append($('<input type="hidden" name="pack[pack_catalog_items_attributes][' + pack_item + '][_destroy]" id="flag-' + flag_id + '-destroy" value="1">'));
-          }
-        } else {
-          flag_destroy.val('0');
-          flag_input.prop('checked', true)
-        }
-      } else {
-        flag_amount = $('<input type="hidden" name="pack[pack_catalog_items_attributes][' + time + '][amount]" value="1">');
-        flag_input = $('<input type="checkbox" style="display:none" name="pack[pack_catalog_items_attributes][' + time + '][catalog_item_id]" id="flag-' + flag_id + '" value="' + flag_id + '" checked>')
-        $(this).closest('.checkbox').prepend(flag_input);
-        $(this).closest('.checkbox').prepend(flag_amount);
-      }
       return event.preventDefault();
     });
 

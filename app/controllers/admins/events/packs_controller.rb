@@ -11,20 +11,22 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   def new
     @pack = @current_event.packs.new
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-    @pack.pack_catalog_items.new(catalog_item: @item, amount: 0)
+    @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
     authorize @pack
   end
 
   def create
     flag = permitted_params.delete(:alcohol_forbidden)
+    @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+
     @pack = @current_event.packs.new(permitted_params)
     authorize @pack
 
     if @pack.save
-      user_flag = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-      @pack.pack_catalog_items.create(catalog_item: user_flag, amount: flag)
+      @pack.pack_catalog_items.create(catalog_item: @item, amount: flag)
       redirect_to [:admins, @current_event, @pack], notice: t("alerts.created")
     else
+      @pack.pack_catalog_items.build(catalog_item: @item, amount: flag)
       flash.now[:alert] = t("alerts.error")
       render :new
     end
@@ -32,10 +34,10 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def update
     flag = permitted_params.delete(:alcohol_forbidden)
+    @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
 
     if @pack.update(permitted_params)
-      user_flag = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-      @pack.pack_catalog_items.find_by(catalog_item: user_flag).update(amount: flag)
+      @pack.pack_catalog_items.find_by(catalog_item: @item).update(amount: flag)
 
       # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
       @pack.pack_catalog_items.map(&:save)

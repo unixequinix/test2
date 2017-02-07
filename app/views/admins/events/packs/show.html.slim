@@ -49,7 +49,7 @@
               th Type
               th Amount
           tbody
-            - @pack.pack_catalog_items.each do |pci|
+            - @pack.pack_catalog_items.order(:catalog_item_id).each do |pci|
               tr
                 td.mdl-data-table__cell--non-numeric = pci.catalog_item.name.humanize
                 td = pci.catalog_item.type
