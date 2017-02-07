@@ -10,15 +10,20 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def new
     @pack = @current_event.packs.new
+    @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+    @pack.pack_catalog_items.new(catalog_item: @item, amount: 0)
     authorize @pack
   end
 
   def create
+    flag = permitted_params.delete(:alcohol_forbidden)
     @pack = @current_event.packs.new(permitted_params)
     authorize @pack
 
     if @pack.save
-      redirect_to admins_event_packs_path, notice: t("alerts.created")
+      user_flag = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+      @pack.pack_catalog_items.create(catalog_item: user_flag, amount: flag)
+      redirect_to [:admins, @current_event, @pack], notice: t("alerts.created")
     else
       flash.now[:alert] = t("alerts.error")
       render :new
@@ -26,13 +31,17 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def update
+    flag = permitted_params.delete(:alcohol_forbidden)
+
     if @pack.update(permitted_params)
+      user_flag = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+      @pack.pack_catalog_items.find_by(catalog_item: user_flag).update(amount: flag)
 
       # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
       @pack.pack_catalog_items.map(&:save)
       @pack.pack_catalog_items.select(&:marked_for_destruction?).map(&:destroy)
 
-      redirect_to admins_event_packs_path, notice: t("alerts.updated")
+      redirect_to [:admins, @current_event, @pack], notice: t("alerts.updated")
     else
       flash.now[:alert] = t("alerts.error")
       render :edit
@@ -55,6 +64,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def set_pack
     @pack = @current_event.packs.find(params[:id])
+    @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
     authorize @pack
   end
 
@@ -63,7 +73,12 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:pack).permit(:name, :initial_amount, :step, :max_purchasable, :min_purchasable,
+    params.require(:pack).permit(:name,
+                                 :initial_amount,
+                                 :step,
+                                 :max_purchasable,
+                                 :min_purchasable,
+                                 :alcohol_forbidden,
                                  pack_catalog_items_attributes: [:id, :catalog_item_id, :amount, :_destroy])
   end
 end
