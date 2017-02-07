@@ -24,7 +24,7 @@ class Order < ActiveRecord::Base
   belongs_to :event
   belongs_to :customer, touch: true
   has_many :order_items, dependent: :destroy
-  has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
+  has_many :catalog_items, through: :order_items
   accepts_nested_attributes_for :order_items
 
   validates :number, :status, presence: true

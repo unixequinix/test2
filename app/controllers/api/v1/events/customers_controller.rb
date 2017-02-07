@@ -3,7 +3,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   def index
     customers = customers_sql || []
-    date = @current_event.tickets.maximum(:updated_at)&.httpdate
+    date = @current_event.customers.maximum(:updated_at)&.httpdate
 
     render_entity(customers, date)
   end
