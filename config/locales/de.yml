@@ -102,7 +102,6 @@ de:
       formats:
         card: Card
         wristband: Wristband
-      loyalty: Loyalty
       tag: Tag UID
     order_items:
       amount: Betrag

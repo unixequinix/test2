@@ -102,7 +102,6 @@ es:
       formats:
         card: Tarjeta
         wristband: Pulsera
-      loyalty: Fidelidad
       tag: Tag UID
     order_items:
       amount: Cantidad

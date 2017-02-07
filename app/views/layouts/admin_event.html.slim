@@ -108,9 +108,6 @@ html
           = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons local_activity
             | Management
-          = link_to admins_event_stations_path(@current_event, group: "glownet"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons adjust
-            | Glownet
 
         - if policy(@current_event).inconsistencies?
           nav.mdl-navigation.global-nav

@@ -8,7 +8,6 @@
 #  final_balance            :decimal(8, 2)
 #  final_refundable_balance :decimal(8, 2)
 #  format                   :string           default("wristband")
-#  loyalty                  :boolean          default(FALSE)
 #  refundable_credits       :decimal(8, 2)
 #
 # Indexes
@@ -49,7 +48,7 @@ class Gtag < ActiveRecord::Base
   validates :tag_uid, uniqueness: { scope: :event_id }
   validates :tag_uid, presence: true
 
-  scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, loyalty, format") }
+  scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, format") }
   scope :banned, -> { where(banned: true) }
 
   alias_attribute :reference, :tag_uid
@@ -102,6 +101,6 @@ class Gtag < ActiveRecord::Base
   def can_refund?
     card = card? && event.cards_can_refund?
     wristband = wristband? && event.wristbands_can_refund?
-    loyalty? || card || wristband
+    card || wristband
   end
 end

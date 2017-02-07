@@ -101,7 +101,6 @@ th:
       formats:
         card: Card
         wristband: Wristband
-      loyalty: Loyalty
       tag: Tag UID
     order_items:
       amount: Amount

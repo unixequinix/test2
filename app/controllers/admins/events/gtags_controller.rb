@@ -88,7 +88,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
         tag = @current_event.gtags.find_or_create_by(tag_uid: row.field("tag_uid"))
-        tag.update!(format: row.field("format"), loyalty: row.field("loyalty"))
+        tag.update!(format: row.field("format"))
       end
     rescue
       return redirect_to(path, alert: t("alerts.error"))
@@ -115,6 +115,6 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :loyalty, :ticket_type_id, :format)
+    params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format)
   end
 end
