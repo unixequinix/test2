@@ -41,7 +41,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
       redirect_to admins_event_path(@event), notice: t("alerts.created")
     else
       flash[:error] = t("alerts.error")
-      render :new
+      render :new, layout: "admin"
     end
   end
 
