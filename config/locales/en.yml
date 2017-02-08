@@ -180,6 +180,9 @@ en:
     products: Products
     total: Total
     vat: VAT Included
+    card_name: "card name"
+    card_doc_type: "document type"
+    card_doc_number: "ducment number"
   passwords:
     edit:
       button: Change my password

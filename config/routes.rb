@@ -194,6 +194,10 @@ Rails.application.routes.draw do
       post :stripe_purchase, to: "stripe#purchase"
       post :stripe_refund, to: "stripe#refund"
 
+      # Stripe
+      post :mercadopago_purchase, to: "mercadopago#purchase"
+      post :mercadopago_refund, to: "mercadopago#refund"
+
       # Wirecard
       post :wirecard_purchase, to: "wirecard#purchase"
       post :wirecard_refund, to: "wirecard#refund"

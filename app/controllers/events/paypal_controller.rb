@@ -28,12 +28,7 @@ class Events::PaypalController < Events::PaymentsController
   end
 
   def purchase
-    response = paypal.purchase(
-      @total,
-      payer_id: params[:PayerID],
-      token: params[:token],
-      currency: @current_event.currency
-    )
+    response = paypal.purchase(@total, payer_id: params[:PayerID], token: params[:token], currency: @current_event.currency)
 
     if response.success?
       @order.complete!("paypal", response.params.as_json)

@@ -5,6 +5,7 @@
 #  completed_at :datetime
 #  gateway      :string
 #  payment_data :jsonb            not null
+#  refund_data  :jsonb            not null
 #  status       :string           default("in_progress"), not null
 #
 # Indexes
@@ -52,7 +53,7 @@ class Order < ActiveRecord::Base
   end
 
   def cancel!(payment)
-    update(status: "cancelled", payment_data: payment)
+    update(status: "cancelled", refund_data: payment)
   end
 
   def cancelled?

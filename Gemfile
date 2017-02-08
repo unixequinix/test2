@@ -76,7 +76,7 @@ gem 'phony_rails'
 gem 'tinymce-rails'
 
 # Payments
-gem 'activemerchant'
+gem 'activemerchant', github: "aspgems/active_merchant"
 
 # Asyncronous mailer
 gem 'sinatra', github: 'sinatra/sinatra', require: false

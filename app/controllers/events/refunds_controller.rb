@@ -1,7 +1,7 @@
 class Events::RefundsController < Events::BaseController
   before_action :set_refund, only: [:new, :create]
 
-  def create # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def create # rubocop:disable Metrics/AbcSize
     @refund.field_a = permitted_params[:field_a]
     @refund.field_b = permitted_params[:field_b]
 
@@ -9,10 +9,7 @@ class Events::RefundsController < Events::BaseController
 
     if @refund.save
       credit = @current_event.credit
-      atts = { items_amount: @refund.amount.to_f * -1,
-               payment_gateway: "bank_account",
-               payment_method: "online",
-               price: @refund.money.to_f * -1 }
+      atts = { items_amount: @refund.amount.to_f * -1, payment_gateway: "bank_account", payment_method: "online", price: @refund.money.to_f * -1 }
 
       MoneyTransaction.write!(@current_event, "refund", :portal, current_customer, current_customer, atts)
 

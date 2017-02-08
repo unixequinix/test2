@@ -9,16 +9,14 @@
 
   = simple_form_for [:admins, @current_event, @gateway], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .field
-      = hidden_field_tag "payment_gateway[gateway]", @gateway.gateway
+      = hidden_field_tag "payment_gateway[name]", @gateway.name
       - if @config_atts
         .section-header
           i.material-icons info_outline
           span Basic Settings
         .form-inputs.short-input
-          - @config_atts.map(&:to_s).each do |att|
-            .mdl-textfield.mdl-js-textfield.mdl_field_floating
-              label.mdl-textfield__label = att.to_s.humanize
-              = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att], class: 'mdl-textfield__input'
+          - @config_atts.each do |att|
+            = f.input att
 
       - if @refund_atts
         .section-header
@@ -27,10 +25,8 @@
         .form-inputs.short-input
           = f.input :refund_field_a_name
           = f.input :refund_field_b_name
-          - @refund_atts.map(&:to_s).each do |att|
-            .mdl-textfield.mdl-js-textfield.mdl_field_floating
-              label.mdl-textfield__label = att.to_s.humanize
-              = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att], class: 'mdl-textfield__input'
+          - @refund_atts.each do |att|
+            = f.input att
 
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
