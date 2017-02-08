@@ -91,7 +91,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   def ban
     @ticket.ban
     respond_to do |format|
-      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+      format.html { redirect_to admins_event_tickets_path, notice: t("alerts.updated") }
       format.json { render json: true }
     end
   end
@@ -99,7 +99,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   def unban
     @ticket.unban
     respond_to do |format|
-      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+      format.html { redirect_to admins_event_tickets_path, notice: t("alerts.updated") }
       format.json { render json: true }
     end
   end
