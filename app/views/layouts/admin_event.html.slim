@@ -65,25 +65,19 @@ html
               | Live Reports
 
         nav.mdl-navigation.global-nav
-          span.nav-title CRM
+          span.nav-title EVENT CONFIGURATION
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons people_outline
             | Customers
-          = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons add_shopping_cart
-            | Orders
-          = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons undo
-            | Refunds
           = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons bookmark_border
             | Tickets
+          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons class
+            | Ticket types
           = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons place
             | GTags
-
-        nav.mdl-navigation.global-nav
-          span.nav-title SETUP
           = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             | Accesses
@@ -93,9 +87,13 @@ html
           = link_to admins_event_products_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons shopping_basket
             | Products
-          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons class
-            | Ticket types
+          = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons add_shopping_cart
+            | Orders
+          = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons undo
+            | Refunds
+
 
         nav.mdl-navigation.global-nav
           span.nav-title STATIONS

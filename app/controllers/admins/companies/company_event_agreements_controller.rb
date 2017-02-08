@@ -7,7 +7,7 @@ class Admins::Companies::CompanyEventAgreementsController < Admins::BaseControll
   end
 
   def create
-    @agreement = @company.company_event_agreements.create!(permitted_params)
+    @agreement = @company.company_event_agreements.create(permitted_params)
     redirect_to admins_company_company_event_agreements_path(@company)
   end
 

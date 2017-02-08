@@ -69,11 +69,11 @@
                 td data-label="Customer"= link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
                 td data-label="Banned"
                   - if ticket.banned?
-                    = link_to unban_admins_event_ticket_path(@current_event, ticket), method: :delete, title: "Unban ticket" do
-                       .material-icons radio_button_checked
+                    = link_to unban_admins_event_ticket_path(@current_event, ticket), title: "Unban ticket" do
+                      .material-icons radio_button_checked
                   - else
                     = link_to ban_admins_event_ticket_path(@current_event, ticket), title: "Ban ticket" do
-                       .material-icons radio_button_unchecked
+                      .material-icons radio_button_unchecked
                 td data-label="Redeemed"
                   - if ticket.redeemed?
                     .mdl-color-text--teal-500.material-icons radio_button_checked
