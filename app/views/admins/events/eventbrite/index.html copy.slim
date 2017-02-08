@@ -1,0 +1,54 @@
+- provide :actions do
+  = link_to admins_event_path(@current_event), class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+
+  - if @current_event.eventbrite?
+    = link_to admins_event_eventbrite_import_tickets_path(@current_event), class: "btn btn-action btn-action-back small" do
+      = fa_icon 'download'
+      = t('actions.import_tickets')
+    = link_to admins_event_eventbrite_disconnect_path(@current_event), class: "btn btn-action btn-action-back small", alert: "Beware! Tickets will remain in the system. If you want, delete them by hand." do
+      = fa_icon 'chain-broken'
+      | Disconnect
+
+.wrapper-negative-space
+  - if @current_event.eventbrite_event.present?
+    h2 = "Connected to '#{@eb_event.name.text}'"
+    .container-show
+      = image_tag @eb_event.logo.original.url, width: "100%" if @eb_event.logo.present?
+      dl
+        dt Start
+        dd = Time.parse(@eb_event.start.local).to_s(:long)
+        dt End
+        dd = Time.parse(@eb_event.end.local).to_s(:long)
+        dt Attendees
+        dd = "#{@eb_attendees.to_i} sold out of #{@eb_event.capacity}"
+        dt Status
+        dd = @eb_event.status
+        dt Password
+        dd = @eb_event.try(:password)
+        dt Currency
+        dd = @eb_event.currency
+        dt ID
+        dd = @eb_event.id
+        dt URL
+        dd = link_to @eb_event.url, @eb_event.url, target: "_blank"
+
+  - else
+    h2 Connect Eventbrite and Glownet
+    table.events
+      thead
+        tr
+          th Name
+          th ID
+          th Connect
+      tbody
+        - @eb_events.each do |event|
+          tr
+            td = event.name.text
+            td = event.id
+            td
+              - if @current_event.eventbrite_event.eql?(event.id)
+                = fa_icon 'check'
+              - else
+                = link_to fa_icon('plug'), admins_event_eventbrite_connect_path(@current_event, event.id)
