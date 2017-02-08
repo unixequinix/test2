@@ -88,7 +88,6 @@ FactoryGirl.define do
     support_email "support@glownet.com"
     style "html { font-family: Helvetica; }"
     currency "EUR"
-    background_type "fixed"
     disclaimer "Some Disclaimer"
     gtag_assignation_notification "Some gtag assignation notification"
     gtag_form_disclaimer "Some gtag form notification"

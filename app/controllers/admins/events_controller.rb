@@ -131,7 +131,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :support_email,
                                   :style,
                                   :logo,
-                                  :background_type,
                                   :background,
                                   :info,
                                   :disclaimer,

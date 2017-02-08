@@ -7,7 +7,6 @@
 #  background_content_type         :string
 #  background_file_name            :string
 #  background_file_size            :integer
-#  background_type                 :string           default("fixed")
 #  birthdate_mandatory             :boolean
 #  cards_can_refund                :boolean          default(TRUE)
 #  city_mandatory                  :boolean
@@ -79,7 +78,7 @@
 #  index_events_on_slug  (slug) UNIQUE
 #
 
-class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Event < ActiveRecord::Base
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
              :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer,
@@ -118,9 +117,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
   LOCALES = [:en, :es, :it, :de, :th].freeze
-  BACKGROUND_FIXED = "fixed".freeze
-  BACKGROUND_REPEAT = "repeat".freeze
-  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT].freeze
   STATES = %w(created launched started finished closed).freeze
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }) # rubocop:disable Metrics/LineLength
@@ -148,18 +144,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     define_method "#{method_name}?" do
       state == method_name
     end
-  end
-
-  def background_fixed?
-    object.background_type.eql? BACKGROUND_FIXED
-  end
-
-  def background_repeat?
-    object.background_type.eql? BACKGROUND_REPEAT
-  end
-
-  def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| f }
   end
 
   def topups?

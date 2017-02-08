@@ -25,10 +25,6 @@
           i.material-icons attach_file
           = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
 
-      .form-inputs.short-input
-        = f.input :background_type, collection: Event.background_types_selector, include_blank: false
-
-
     .fieldset
       .section-header
         i.material-icons message

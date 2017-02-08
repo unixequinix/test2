@@ -79,9 +79,6 @@ de:
       model: Model
       serial_number: Serial Number
     event:
-      background_types:
-        fixed: Fixiert
-        repeat: Wiederholen
       fieldests:
         parameters: Parameter
         security: Sicherheit
