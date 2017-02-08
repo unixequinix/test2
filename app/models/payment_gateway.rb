@@ -20,7 +20,8 @@
 
 class PaymentGateway < ActiveRecord::Base
   belongs_to :event
-  store_accessor :data, [:fee, :minimum, :login, :password, :secret_key, :client_id, :client_secret, :public_key, :token, :signature, :terminal, :currency, :destination] # rubocop:disable Metrics/LineLength
+  store_accessor :data, [:fee, :minimum, :login, :password, :secret_key, :client_id,
+                         :client_secret, :public_key, :token, :signature, :terminal, :currency, :destination]
 
   GATEWAYS = YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml')).reject! { |k, _v| k.eql?("commons") }
 
@@ -31,6 +32,8 @@ class PaymentGateway < ActiveRecord::Base
 
   validates :login, :password, :signature, presence: true, if: -> { paypal? || wirecard? }
   validates :login, :secret_key, :terminal, presence: true, if: -> { redsys? }
+  validates :public_key, :token, presence: true, if: -> { mercadopago? }
+  validates :client_id, :client_secret, presence: true, if: -> { wirecard? }
   validates :login, presence: true, if: -> { stripe? }
 
   enum name: { paypal: 0, redsys: 1, stripe: 2, wirecard: 3, bank_account: 4, mercadopago: 5 }

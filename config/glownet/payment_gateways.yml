@@ -31,12 +31,10 @@ stripe:
 wirecard:
   <<: *commons
   config:
-    - login
-    - password
-    - signature
+    - client_id
+    - client_secret
 
 bank_account:
-  <<: *commons
   actions:
     - refund
   refund:
