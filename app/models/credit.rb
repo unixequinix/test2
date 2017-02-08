@@ -27,7 +27,15 @@ class Credit < CatalogItem
   validates :value, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :value, numericality: { greater_than: 0 }
 
+  after_save :set_customer_portal_price
+
   def credits
     1
+  end
+
+  private
+
+  def set_customer_portal_price
+    station_catalog_items.update_all(price: value)
   end
 end
