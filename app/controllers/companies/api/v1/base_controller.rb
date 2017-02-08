@@ -1,7 +1,6 @@
 class Companies::Api::V1::BaseController < Companies::BaseController
   attr_reader :current_event, :agreement
   before_action :restrict_access_with_http
-  before_action :api_enabled, except: [:restrict_access_with_http]
 
   private
 
@@ -11,11 +10,6 @@ class Companies::Api::V1::BaseController < Companies::BaseController
       @agreement = @current_event&.company_event_agreements&.includes(:company)&.find_by(companies: { access_token: company_token })
       @current_event && @agreement || render(status: 403, json: :unauthorized)
     end
-  end
-
-  def api_enabled
-    return unless @current_event.finished?
-    render(status: :unauthorized, json: :unauthorized)
   end
 
   def validate_ticket_type!

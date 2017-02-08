@@ -36,7 +36,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
         FROM gtags
         WHERE
           gtags.event_id = #{@current_event.id} AND
-          customer_id is not NULL OR gtags.banned = TRUE
+          (customer_id is not NULL OR gtags.banned = TRUE)
           #{"AND gtags.updated_at > '#{@modified}'" if @modified}
       ) g
     SQL
