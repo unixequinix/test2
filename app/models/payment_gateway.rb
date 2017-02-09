@@ -20,8 +20,7 @@
 
 class PaymentGateway < ActiveRecord::Base
   belongs_to :event
-  store_accessor :data, [:fee, :minimum, :login, :password, :secret_key, :client_id,
-                         :client_secret, :public_key, :token, :signature, :terminal, :currency, :destination]
+  store_accessor :data, [:login, :password, :signature, :public_key, :token, :secret_key, :terminal, :destination, :fee, :minimum]
 
   GATEWAYS = YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml')).reject! { |k, _v| k.eql?("commons") }
 
@@ -31,7 +30,6 @@ class PaymentGateway < ActiveRecord::Base
   validates :fee, :minimum, numericality: { greater_than_or_equal_to: 0 }, if: -> { refund? }
 
   validates :login, :password, :signature, presence: true, if: -> { paypal? || wirecard? }
-  validates :login, :secret_key, :terminal, presence: true, if: -> { redsys? }
   validates :public_key, :token, presence: true, if: -> { mercadopago? }
   validates :client_id, :client_secret, presence: true, if: -> { wirecard? }
   validates :login, presence: true, if: -> { stripe? }

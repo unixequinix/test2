@@ -8,12 +8,16 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def new
-    @gateway = @current_event.payment_gateways.new(name: params[:name], data: {})
+    @gateway = @current_event.payment_gateways.new(name: params[:name])
     authorize @gateway
   end
 
   def create
-    @gateway = @current_event.payment_gateways.new(permitted_params)
+    # TODO: this is weird behaviour. But when mass alignment is done, a "string not matched" exception is show.
+    #       believed to be something to do with serialization of hash stored attributes.
+    @gateway = @current_event.payment_gateways.new(name: permitted_params.delete(:name))
+    @gateway.data = permitted_params
+
     authorize @gateway
     if @gateway.save
       redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.created")
@@ -25,7 +29,10 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def update
-    if @gateway.update(permitted_params)
+    @gateway.name = permitted_params.delete(:name)
+    @gateway.data = permitted_params
+
+    if @gateway.save
       redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated")
     else
       flash.now[:alert] = t("alerts.error")

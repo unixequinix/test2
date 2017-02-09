@@ -13,7 +13,7 @@
       - if @config_atts
         .section-header
           i.material-icons info_outline
-          span Basic Settings
+          span #{@gateway.name.humanize} settings
         .form-inputs.short-input
           - @config_atts.each do |att|
             = f.input att

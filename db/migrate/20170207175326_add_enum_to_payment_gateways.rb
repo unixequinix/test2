@@ -5,6 +5,7 @@ class AddEnumToPaymentGateways < ActiveRecord::Migration[5.0]
       begin
         gw.update_attribute(:name, gw.gateway)
       rescue
+        next
       end
     end
     remove_column :payment_gateways, :gateway, :string
