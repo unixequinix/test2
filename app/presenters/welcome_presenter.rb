@@ -8,7 +8,7 @@ class WelcomePresenter < BasePresenter
   end
 
   def render_credentiable_links
-    "#{generate_button("gtag")} #{context.content_tag(:span, I18n.t("registration.new.or"), class: "buttons-separator")} #{generate_button("ticket")}"
+    "#{generate_button('gtag')} #{context.content_tag(:span, I18n.t('registration.new.or'), class: 'buttons-separator')} #{generate_button('ticket')}"
   end
 
   def generate_button(button)
