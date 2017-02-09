@@ -97,7 +97,7 @@ FactoryGirl.define do
 
     # Event states
 
-    trait :pre_event do
+    trait :launched do
       state "launched"
     end
 
@@ -111,16 +111,6 @@ FactoryGirl.define do
 
     trait :closed do
       state "closed"
-    end
-
-    # Event features
-
-    trait :ticket_assignation do
-      ticket_assignation true
-    end
-
-    trait :gtag_assignation do
-      gtag_assignation true
     end
 
     after :create do |event|

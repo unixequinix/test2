@@ -1,6 +1,6 @@
 class GtagAssignmentsPresenter < BasePresenter
   def can_render?
-    @event.gtag_assignation? && @customer.active_credentials?
+    true
   end
 
   def gtag_tag_uid
@@ -15,12 +15,8 @@ class GtagAssignmentsPresenter < BasePresenter
     @refund.present?
   end
 
-  def gtag_assignments_enabled?
-    @event.gtag_assignation?
-  end
-
   def gtag_show_remove?
-    @event.gtag_assignation? && valid_event_state?
+    valid_event_state?
   end
 
   def valid_event_state?

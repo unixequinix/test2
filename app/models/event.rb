@@ -8,7 +8,6 @@
 #  background_file_name            :string
 #  background_file_size            :integer
 #  birthdate_mandatory             :boolean
-#  cards_can_refund                :boolean          default(TRUE)
 #  city_mandatory                  :boolean
 #  company_name                    :string
 #  country_mandatory               :boolean
@@ -27,7 +26,6 @@
 #  eventbrite_token                :string
 #  fast_removal_password           :string           default("123456")
 #  gender_mandatory                :boolean
-#  gtag_assignation                :boolean          default(FALSE)
 #  gtag_deposit_fee                :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
@@ -61,7 +59,6 @@
 #  sync_time_gtags                 :integer          default(10)
 #  sync_time_server_date           :integer          default(1)
 #  sync_time_tickets               :integer          default(5)
-#  ticket_assignation              :boolean          default(FALSE)
 #  timezone                        :string           default("UTC")
 #  token                           :string
 #  token_symbol                    :string           default("t")
@@ -71,7 +68,6 @@
 #  transaction_buffer              :integer          default(100)
 #  ultralight_c_private_key        :string
 #  ultralight_ev1_private_key      :string
-#  wristbands_can_refund           :boolean          default(TRUE)
 #
 # Indexes
 #

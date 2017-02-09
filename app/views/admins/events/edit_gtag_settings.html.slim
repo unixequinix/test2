@@ -19,14 +19,6 @@
             span Info
           .form-inputs.short-input
             = f.input :gtag_format, collection: Gtag::UID_FORMATS.map{ |format| [format.to_s.humanize, format] }, include_blank: false
-          .form-inputs
-            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='cards_can_refund'
-              span.mdl-switch__label.form-label Cards can refund
-              = f.input :cards_can_refund, :input_html => { :id => 'cards_can_refund' }
-          .form-inputs
-            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='wristbands_can_refund'
-              span.mdl-switch__label.form-label Wristbands can refund
-              = f.input :wristbands_can_refund, :input_html => { :id => 'wristbands_can_refund' }
 
         .fieldset
           .section-header

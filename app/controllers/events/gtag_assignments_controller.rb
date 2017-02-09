@@ -1,5 +1,4 @@
 class Events::GtagAssignmentsController < Events::BaseController
-  before_action :check_event_status!
   before_action :check_has_not_gtag!, only: [:new, :create]
 
   def new
@@ -26,11 +25,6 @@ class Events::GtagAssignmentsController < Events::BaseController
   end
 
   private
-
-  def check_event_status!
-    return if @current_event.gtag_assignation?
-    redirect_to event_path(@current_event), flash: { error: t("alerts.error") }
-  end
 
   def check_has_not_gtag!
     return if current_customer.active_gtag.nil?

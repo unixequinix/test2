@@ -7,8 +7,6 @@ class SampleEvent # rubocop:disable all
                           support_email: "support@glownet.com",
                           currency: "EUR",
                           token_symbol: "t",
-                          ticket_assignation: true,
-                          gtag_assignation: true,
                           private_zone_password: 'a',
                           fast_removal_password: 'a')
 

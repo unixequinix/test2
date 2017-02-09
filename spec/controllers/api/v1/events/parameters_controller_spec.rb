@@ -88,16 +88,8 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         expect(@body).to include("name" => "initial_topup_fee", "value" => event.initial_topup_fee)
       end
 
-      it "includes cards_can_refund" do
-        expect(@body).to include("name" => "cards_can_refund", "value" => event.cards_can_refund)
-      end
-
       it "includes maximum_gtag_balance" do
         expect(@body).to include("name" => "maximum_gtag_balance", "value" => event.maximum_gtag_balance)
-      end
-
-      it "includes wristbands_can_refund" do
-        expect(@body).to include("name" => "wristbands_can_refund", "value" => event.wristbands_can_refund)
       end
     end
 
