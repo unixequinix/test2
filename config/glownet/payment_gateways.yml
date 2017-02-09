@@ -28,12 +28,6 @@ stripe:
     - login
     - destination
 
-wirecard:
-  <<: *commons
-  config:
-    - client_id
-    - client_secret
-
 bank_account:
   actions:
     - refund
