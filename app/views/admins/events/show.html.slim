@@ -9,8 +9,8 @@
               - if @current_event.created?
                 .tool-item
                   = link_to '#launch-modal' do
-                    span#launch.icon.material-icons file_upload
-                    span.mdl-tooltip data-mdl-for="launch"  Launch
+                    span#launch_link.icon.material-icons flight_takeoff
+                    span.mdl-tooltip data-mdl-for="launch_link"  Launch
               .tool-item
                 = link_to admins_event_eventbrite_path(@current_event) do
                   span#eventbrite_setting.material-icons gesture
@@ -45,12 +45,14 @@
   - if @current_event.created?
     .remodal data-remodal-id="launch-modal"
       button.remodal-close data-remodal-action="close"
-      h3.remodal__title Remember that after launch:
-
+      h3.remodal__title Very Important!
+      | After launch
       ul style="text-align: left"
         li Nothing will be allowed to be deleted
         li The credit value will not be allowed to change.
         li The customer portal located #{link_to 'here', customer_root_path(@current_event), target: "_blank" } will open
+        li Devices will be allowed to download event data
+        li The Ticketing API will be enabled for all companies
         li This action cannot be undone
 
       h6 style="text-align: center"
@@ -62,8 +64,6 @@
         br
         = link_to "#", data: {remodal: {action: "close"}}, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
           span.mdl-button__ripple-container NO
-
-      .remodal__actions
   - else
     .mdl-cell.mdl-cell--12-col
       .info-container = render "admins/events/status", event: @current_event
