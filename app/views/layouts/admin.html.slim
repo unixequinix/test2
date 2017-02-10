@@ -30,6 +30,12 @@ html
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"
             = link_to edit_user_path(current_user) do
               li.mdl-menu__item Edit Profile
+            = link_to admins_events_path do
+              li.mdl-menu__item Events
+            = link_to admins_companies_path do
+              li.mdl-menu__item Companies
+            = link_to admins_devices_path do
+              li.mdl-menu__item Devices
             = link_to destroy_user_session_path, method: :delete do
               li.mdl-menu__item Log out
       main.mdl-layout__content
