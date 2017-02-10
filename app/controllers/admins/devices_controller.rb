@@ -15,10 +15,14 @@ class Admins::DevicesController < Admins::BaseController
   end
 
   def update
-    if @device.update!(permitted_params)
-      render json: @product
-    else
-      render status: :unprocessable_entity, json: :no_content
+    respond_to do |format|
+      if @device.update(permitted_params)
+        format.json { render json: @device }
+        format.html { redirect_to [:admins, @device] }
+      else
+        format.json { render status: :unprocessable_entity, json: :no_content }
+        format.html { render :edit }
+      end
     end
   end
 
