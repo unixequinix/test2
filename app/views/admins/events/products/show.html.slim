@@ -28,7 +28,7 @@
             td = best_in_place @product, :vat, url: [:admins, @current_event, @product]
           tr
             td.mdl-data-table__cell--non-numeric Is alcohol?
-            td = best_in_place @product, :is_alcohol, as: :checkbox, url: [:admins, @current_event, @product]
+            td = best_in_place @product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, @product])
           tr
             td.mdl-data-table__cell--non-numeric Created At
             td = l @product.created_at

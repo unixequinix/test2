@@ -74,7 +74,7 @@
 #  index_events_on_slug  (slug) UNIQUE
 #
 
-class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Event < ActiveRecord::Base
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
              :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer,
@@ -126,9 +126,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
   validates :maximum_gtag_balance, :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :name, uniqueness: true
-  validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
-  validates :receive_communications_message, presence: true, if: :receive_communications?
-  validates :receive_communications_two_message, presence: true, if: :receive_communications_two?
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}

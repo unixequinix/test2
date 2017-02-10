@@ -63,7 +63,7 @@
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Topup Initialize Gtag
-                  td = best_in_place @current_event, :topup_initialize_gtag, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :topup_initialize_gtag, best_in_place_checkbox([:admins, @current_event])
       .mdl-layout-spacer
       .mdl-cell.mdl-cell--6-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
@@ -76,10 +76,10 @@
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Touchpoint Update Orders
-                  td = best_in_place @current_event, :touchpoint_update_online_orders, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :touchpoint_update_online_orders, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Pos Update Orders
-                  td = best_in_place @current_event, :pos_update_online_orders, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :pos_update_online_orders, best_in_place_checkbox([:admins, @current_event])
       .mdl-layout-spacer
 
   .mdl-cell.mdl-cell--12-col

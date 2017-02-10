@@ -124,7 +124,7 @@
           tbody
             tr
               td.mdl-data-table__cell--non-numeric IBAN enabled?
-              td = best_in_place @current_event, :iban_enabled?, as: :checkbox, url: [:admins, @current_event]
+              td = best_in_place @current_event, :iban_enabled?, best_in_place_checkbox([:admins, @current_event])
             tr
               td.mdl-data-table__cell--non-numeric Token symbol
               td = best_in_place @current_event, :token_symbol, url: [:admins, @current_event]
@@ -165,41 +165,38 @@
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
-                  td.mdl-data-table__cell--non-numeric Evenbrite
-                  td = best_in_place @current_event, :eventbrite?, as: :checkbox, url: [:admins, @current_event]
-                tr
                   td.mdl-data-table__cell--non-numeric Phone Mandatory
-                  td = best_in_place @current_event, :phone_mandatory, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Address Mandatory
-                  td = best_in_place @current_event, :address_mandatory, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :address_mandatory, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric City Mandatory
-                  td = best_in_place @current_event, :city_mandatory, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :city_mandatory, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Country Mandatory
-                  td = best_in_place @current_event, :country_mandatory, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :country_mandatory, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Postcode Mandatory
+                  td = best_in_place @current_event, :postcode_mandatory, best_in_place_checkbox([:admins, @current_event])
           .mdl-cell.mdl-cell--6-col
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
-                  td.mdl-data-table__cell--non-numeric Postcode Mandatory
-                  td = best_in_place @current_event, :postcode_mandatory, as: :checkbox, url: [:admins, @current_event]
-                tr
                   td.mdl-data-table__cell--non-numeric Gender Mandatory
-                  td = best_in_place @current_event, :gender_mandatory, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :gender_mandatory, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Birthday Mandatory
-                  td = best_in_place @current_event, :birthdate_mandatory, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Agreed Event Condition
-                  td = best_in_place @current_event, :agreed_event_condition, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :agreed_event_condition, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Receive Communications
-                  td = best_in_place @current_event, :receive_communications, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :receive_communications, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Receive Communications Two
-                  td = best_in_place @current_event, :receive_communications_two, as: :checkbox, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :receive_communications_two, best_in_place_checkbox([:admins, @current_event])
 
   .mdl-cell.mdl-cell--12-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
