@@ -1,13 +1,12 @@
-class Events::GtagAssignmentsController < Events::BaseController
+class Events::GtagAssignmentsController < Events::EventsController
   before_action :check_has_not_gtag!, only: [:new, :create]
 
   def new
-    @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: @current_event)
+    @gtag = @current_event.gtags.new
   end
 
   def create
     @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip)
-    @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: @current_event)
 
     flash.now[:error] = t("alerts.gtag.invalid") if @gtag.nil?
     flash.now[:error] = t("alerts.gtag.already_assigned") if @gtag&.customer

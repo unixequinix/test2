@@ -1,4 +1,4 @@
-class Events::PaymentsController < Events::BaseController
+class Events::PaymentsController < Events::EventsController
   before_action :check_order_status!, only: [:purchase, :setup_purchase]
 
   def set_order_details

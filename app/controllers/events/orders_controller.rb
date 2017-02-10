@@ -1,7 +1,4 @@
-class Events::OrdersController < Events::BaseController
-  before_action :check_top_ups_is_active!
-  before_action :check_customer_credentials!
-
+class Events::OrdersController < Events::EventsController
   def show
     @payment_service = params[:payment_service]
     @order = Order.includes(order_items: :catalog_item).find(params[:id])

@@ -14,10 +14,9 @@ html [lang=I18n.locale]
     = content_tag :style, current_event.style, type: "text/css"
     = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css"
 
-    = render 'events/shared/cookies_consent'
     = render 'layouts/analytics'
 
-  body class="#{controller_name} #{"fixed-background"}" style=("background-image: url(#{current_event.background})")
+  body class="#{controller_name} #{"fixed-background"}" style=("background-image: url(#{current_event.background if current_event.background?})")
     .container-main
       = render 'events/shared/header'
       #mainWrapper.wrapper-main

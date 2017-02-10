@@ -282,10 +282,6 @@ it:
     terms_of_use: condizioni d'uso
   confirm:
     log_out: Desidera terminare la sessione?
-  cookies:
-    learn_more: Cookies Policy
-    notification_title: Usiamo i cookie per essere sicuri che ottenete la migliore esperienza sul nostro sito. Se continui a navigare, riteniamo che hai accettata l'uso.
-    preference_consent: Acconsento
   dashboard:
     admissions:
       call_to_action: Desidera eliminare questo ticket?
@@ -307,7 +303,7 @@ it:
       gtag: Aggiungi Tag
       ticket: Aggiungi ticket
     gtag_registration:
-      title: 'Il numero della tua Paycard:'
+      title: Wristband/Card ID
     paypal:
       button: Sync con PayPal
     without_admissions:

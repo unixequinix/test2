@@ -63,7 +63,7 @@ en:
       gtag: Add Tag
       ticket: Add ticket
     gtag_registration:
-      title: Your Tag
+      title: Wristband/Card ID
     paypal:
       button: Pay with PayPal
     without_admissions:

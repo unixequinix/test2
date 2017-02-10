@@ -1,6 +1,0 @@
-= image_tag "img-bar-code.png"
-h3 = t('admissions.call_to_action')
-p = t('admissions.description')
-= form_tag event_admissions_path(@current_event) do |f|
-= text_field_tag :ticket_number, nil, placeholder: t('admissions.placeholders.ticket_number')
-= submit_tag t('admissions.button'), class: "btn"

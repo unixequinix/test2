@@ -1,4 +1,4 @@
-class Events::TicketAssignmentsController < Events::BaseController
+class Events::TicketAssignmentsController < Events::EventsController
   def create
     @code = permitted_params[:code].strip
     @ticket = @current_event.tickets.find_by(code: @code)

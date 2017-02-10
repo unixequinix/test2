@@ -284,10 +284,6 @@ de:
     terms_of_use: Datenschutzbedingungen
   confirm:
     log_out: Möchten Sie diese Sitzung beenden?
-  cookies:
-    learn_more: Cookies Bestimmungen
-    notification_title: Wir verwenden Cookies um sicherzustellen, dass Du die komfortabelste Erfahrung mit unserer Website machst. Wenn Du fortfährst, gehen wir davon aus, dass Du die Verwendung von Cookies akzeptierst.
-    preference_consent: Ich stimme zu
   dashboard:
     admissions:
       call_to_action: Wollen Sie dieses Ticket entfernen?
@@ -309,7 +305,7 @@ de:
       ticket: Ticket hinzufügen
       wristband: Tag hinzufügen
     gtag_registration:
-      title: Dein Tag
+      title: Wristband/Card ID
     paypal:
       button: Mit PayPal synchronisieren
     without_admissions:

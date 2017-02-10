@@ -283,10 +283,6 @@ th:
     terms_of_use: ข้อตกลงการใช้งาน
   confirm:
     log_out: Do you want to end this session?
-  cookies:
-    learn_more: นโยบายการใช้คุ๊กกี้
-    notification_title: เราใช้คุ๊กกี้ของคุณเพื่อให้ระบบสามารถให้การใช้งานที่ดีที่สุดสำหรับคุณได้ ถ้าคุณทำการใช้งานบนเว็บไซด์ต่อไป เราถือว่าคุณได้ทำการยอมรับเงื่อนไขนี้
-    preference_consent: ข้าพเจ้ายอมรับ
   dashboard:
     admissions:
       call_to_action: ต้องการยกเลิกบัตรเข้างาน?

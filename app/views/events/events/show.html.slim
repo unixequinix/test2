@@ -1,4 +1,72 @@
-= render @dashboard.partial
+.wrapper-module
+  h3 = t('dashboard.credits.header')
+  p.panel-amount-number
+    = number_with_precision(@current_customer.credits, precision: 2)
+    span.currency-symbol = @current_event.token_symbol
+  - if @current_event.refunds? && @current_event.finished?
+    = link_to t('refunds.button'), new_event_refund_path(@current_event), class: "btn btn-action btn-action-dashboard btn-action-dashboard--refund"
+  - if @current_event.topups? && (@current_event.launched? || @current_event.started?)
+    = link_to t('dashboard.credits.button'), new_event_order_path(@current_event), class: "btn btn-action btn-action-dashboard"
+  ul.refundable-conversion-list
+    p.refundable-text.center-text.bold-text= "#{t('dashboard.credits.refundable')}:"
+    li.bold-text
+      = "#{@current_customer.refundable_credits}"
+      span.currency-symbol = @current_event.token_symbol
 
-- @dashboard.each_presenter do |presenter|
-  = render presenter.path, presenter: presenter if presenter.can_render?
+.wrapper-module
+  h3 Tickets
+  = link_to t('dashboard.without_admissions.button'), new_event_ticket_assignment_path(@current_event), class: "btn btn-action btn-action-dashboard"
+
+  ul.customer-tickets-list
+    - @current_customer.tickets.each do |ticket|
+      li.customer-ticket
+        = link_to event_ticket_path(@current_event, ticket) do
+          p = ticket.ticket_type.name
+          p.ticket-id = ticket.code
+          = fa_icon "angle-right"
+
+.wrapper-module
+  h3 = t('dashboard.gtag_registration.title')
+  = link_to t('dashboard.without_admissions.button'), new_event_gtag_assignment_path(@current_event), class: "btn btn-action btn-action-dashboard" unless @current_customer.active_gtag
+
+  ul.customer-tickets-list
+    i.customer-ticket
+      p.ticket-id = @current_customer.active_gtag&.tag_uid
+
+
+- if @current_customer.orders.any?
+  .wrapper-module
+    h3 = t('dashboard.online_orders')
+    .orders-disclaimer
+      | Remember! Online purchases will be applied onsite at the event
+    ul.container-purchase-order
+      - @current_customer.orders.each do |order|
+        .order
+          .order__header
+            .order__title
+              span = "#{order.refund? ? "Refund" : "Sale"} ##{order.number}"
+              - if order.status.eql?("cancelled")
+                span.order__status.order__status--cancelled Cancelled
+              - else
+                - if order.redeemed?
+                  span.order__status.order__status--completed Completed
+                - else
+                  span.order__status.order__status--tba Will be applied on site
+            .order__info
+              - if @current_event.launched? && !order.redeemed? && !order.cancelled? && order.gateway.present? && !order.refund?
+                span.order__actions = link_to "Cancel", send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
+          ul.items__list
+            - order.order_items.each do |order_item|
+              li.order-item
+                .order-item__item
+                  span.purchase-amount = order_item.amount
+                  |x
+                  span = order_item.catalog_item.name
+                .order-item__price
+                  - if order_item.amount.positive?
+                    = "#{order_item.total} #{@current_event.currency}"
+
+- if @current_event.finished?
+  .wrapper-module-centered
+    h3 = t('dashboard.credits_history.header')
+    = link_to t('dashboard.credits_history.button'), event_credits_history_path(@current_event, format: :pdf), class: "btn btn-action btn-action-empty-state btn-full-width"

@@ -14,7 +14,6 @@ unless ARGV.any? {|e| e =~ /guard-rspec/ }
     add_group "Helpers", "app/helpers"
     add_group "Jobs", "app/jobs"
     add_group "Domain Logic", "app/glownet"
-    add_group "Presenters", "app/presenters"
 
     add_filter "/spec/"
     add_filter "/config/"

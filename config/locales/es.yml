@@ -284,10 +284,6 @@ es:
     terms_of_use: las condiciones de uso
   confirm:
     log_out: "¿Quieres finalizar la sesión?"
-  cookies:
-    learn_more: Política de Cookies
-    notification_title: Usamos cookies para mejorar tu experiencia en esta página Web. Si continúas navegando, consideramos que aceptas su uso.
-    preference_consent: Acepto
   dashboard:
     admissions:
       call_to_action: "¿Quiéres borrar el ticket?"
@@ -309,7 +305,7 @@ es:
       gtag: Añadir Tag
       ticket: Añadir ticket
     gtag_registration:
-      title: Tu Tag
+      title: ID de Pulsera/Tarjeta
     paypal:
       button: Sincroniza con PayPal
     without_admissions:

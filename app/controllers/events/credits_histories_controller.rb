@@ -1,4 +1,4 @@
-class Events::CreditsHistoriesController < Events::BaseController
+class Events::CreditsHistoriesController < Events::EventsController
   layout false
 
   def history

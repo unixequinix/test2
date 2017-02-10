@@ -27,7 +27,7 @@ class PaymentGateway < ActiveRecord::Base
   validates :name, uniqueness: { scope: :event_id }
 
   validates :refund_field_a_name, :refund_field_b_name, presence: true, if: -> { refund? }
-  validates :fee, :minimum, numericality: { greater_than_or_equal_to: 0 }, if: -> { refund? }
+  validates :fee, :minimum, numericality: { greater_than_or_equal_to: 0 }, if: -> { bank_account? }
 
   validates :login, :password, :signature, presence: true, if: -> { paypal? || wirecard? }
   validates :public_key, :token, presence: true, if: -> { mercadopago? }

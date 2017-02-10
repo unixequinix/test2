@@ -1,4 +1,4 @@
-class Events::RefundsController < Events::BaseController
+class Events::RefundsController < Events::EventsController
   before_action :set_refund, only: [:new, :create]
 
   def create # rubocop:disable Metrics/AbcSize
