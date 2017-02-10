@@ -69,6 +69,12 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize @current_event
   end
 
+  def launch
+    authorize @current_event
+    @current_event.update_attribute :state, "launched"
+    redirect_to [:admins, @current_event], notice: t("alerts.updated")
+  end
+
   def remove_db
     authorize @current_event
     @current_event.update(params[:db] => nil)

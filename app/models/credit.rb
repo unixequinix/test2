@@ -31,6 +31,10 @@ class Credit < CatalogItem
 
   after_save :set_customer_portal_price
 
+  def full_description
+    "1 #{event.token_symbol} = #{value} #{event.currency}"
+  end
+
   def credits
     1
   end

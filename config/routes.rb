@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         get :gtag_settings
         delete :remove_db
         get :stats
+        get :launch
         post :remove_logo
         post :remove_background
         get :create_admin

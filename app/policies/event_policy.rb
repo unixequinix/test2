@@ -43,6 +43,10 @@ class EventPolicy < ApplicationPolicy
     admin_and_promoter
   end
 
+  def launch?
+    admin_and_promoter
+  end
+
   def update?
     admin_and_promoter
   end

@@ -24,7 +24,10 @@ en:
     order_complete: Order Completed
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
-    confirm_delete: This action cannot be undone. Are you sure you want to continue?
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
     empty_items_list: "No %{item} found"
   auth:
     mailer:
