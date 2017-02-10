@@ -1,7 +1,7 @@
 class Transactions::Base < ActiveJob::Base
   SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter).freeze
 
-  def perform(atts) # rubocop:disable Metrics/MethodLength
+  def perform(atts)
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
@@ -11,14 +11,14 @@ class Transactions::Base < ActiveJob::Base
       transaction = klass.find_or_create_by(atts.slice(*SEARCH_ATTS))
       atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id if atts[:customer_tag_uid].present?
 
-      return if transaction.executed?
-      transaction.update!(column_attributes(klass, atts))
+      transaction.executed? ? return : transaction.update!(executed: true)
 
       return unless atts[:status_code].to_i.zero?
 
+      transaction.update!(column_attributes(klass, atts))
       EventStatsChannel.broadcast_to(Event.find(atts[:event_id]), data: transaction)
       execute_operations(atts.merge(transaction_id: transaction.id))
-      transaction.update! executed: true
+
     rescue ActiveRecord::RecordNotUnique
       retry
     end
@@ -38,7 +38,8 @@ class Transactions::Base < ActiveJob::Base
     atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id])&.id
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:order_item_counter] = atts[:order_item_id] if atts.key?(:order_item_id)
-    atts[:device_created_at_fixed] = atts[:device_created_at].gsub(/(?<hour>[\+,\-][0-9][0-9])(?<minute>[0-9][0-9])/, '\k<hour>:\k<minute>')
+    atts[:device_created_at] = atts[:device_created_at].gsub(/(?<hour>[\+,\-][0-9][0-9])(?<minute>[0-9][0-9])/, '\k<hour>:\k<minute>')
+    atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     atts
   end

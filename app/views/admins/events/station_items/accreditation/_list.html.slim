@@ -6,15 +6,15 @@
     thead
       tr
         th.mdl-data-table__cell--non-numeric Name
-        - unless @station.category == "staff_accreditation"
-          th Price
+        th Price (edit)
         th Type
 
     tbody
       - @items.each do |item|
         tr class="#{'station-hidden' if item.hidden?}"
-          td
-            = best_in_place item.catalog_item, :name, url: admins_event_catalog_item_path(@current_event, item.catalog_item_id)
+          td.mdl-data-table__cell--non-numeric
+            = item.catalog_item.name
+
             - unless @current_event.active?
               .table-action
                 = link_to admins_event_station_station_item_path(@current_event, @station, item, item_type: "station_catalog_item"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
@@ -29,6 +29,6 @@
               .table-action
                 = link_to admins_event_station_station_item_visibility_path(@current_event, @station, item, item_type: "station_catalog_item"), method: :post do
                   button.icon.material-icons id ="hide_#{item.id}" visibility_off
-          td = item.catalog_item.price
+          td = best_in_place item, :price, url: admins_event_station_station_item_path(@current_event, item.station, item, item_type: "station_catalog_item")
           td = item.catalog_item.type
 

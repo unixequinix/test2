@@ -18,8 +18,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     authorize @station
     @group = @station.group
     if @station.save
-      path = admins_event_stations_path(@current_event, group: @station.group)
-      redirect_to path, notice: t("alerts.created")
+      redirect_to admins_event_station_station_items_path(@current_event, @station), notice: t("alerts.created")
     else
       flash.now[:alert] = t("alerts.error")
       render :new
@@ -29,7 +28,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def update
     respond_to do |format|
       if @station.update(permitted_params)
-        format.html { redirect_to admins_event_stations_path(@current_event, group: @group), notice: t("alerts.updated") }
+        format.html { redirect_to admins_event_station_station_items_path(@current_event, @station), notice: t("alerts.updated") }
         format.json { render json: @station }
       else
         format.html do
@@ -42,7 +41,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def clone
     @station = @station.deep_clone(include: [:station_catalog_items, :station_products, :topup_credits, :access_control_gates], validate: false)
-    render :new
+    @station.name = "#{@station.name} - #{rand(10_000)}"
+    @station.save!
+    redirect_to admins_event_station_station_items_path(@current_event, @station)
   end
 
   def destroy

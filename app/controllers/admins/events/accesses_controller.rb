@@ -25,12 +25,16 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def update
-    if @access.update(permitted_params)
-      flash[:notice] = t("alerts.updated")
-      redirect_to admins_event_accesses_path
-    else
-      flash.now[:alert] = @access.errors.full_messages.join(". ")
-      render :edit
+    respond_to do |format|
+      if @access.update(permitted_params)
+        flash[:notice] = t("alerts.updated")
+        format.html { redirect_to admins_event_accesses_path }
+        format.json { render json: @access }
+      else
+        flash.now[:alert] = @access.errors.full_messages.join(". ")
+        format.html { render :edit }
+        format.json { render json: @access.errors, status: :unprocessable_entity }
+      end
     end
   end
 

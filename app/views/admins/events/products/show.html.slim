@@ -19,19 +19,16 @@
         tbody
           tr
             td.mdl-data-table__cell--non-numeric Name
-            td = @product.name
-          tr
-            td.mdl-data-table__cell--non-numeric Product Type
-            td = @product.product_type
+            td = best_in_place @product, :name, url: [:admins, @current_event, @product]
           tr
             td.mdl-data-table__cell--non-numeric Description
-            td = @product.description && "-"
+            td = best_in_place @product, :description , url: [:admins, @current_event, @product]
           tr
             td.mdl-data-table__cell--non-numeric VAT
-            td = @product.vat
+            td = best_in_place @product, :vat, url: [:admins, @current_event, @product]
           tr
             td.mdl-data-table__cell--non-numeric Is alcohol?
-            td = @product.is_alcohol
+            td = best_in_place @product, :is_alcohol, as: :checkbox, url: [:admins, @current_event, @product]
           tr
             td.mdl-data-table__cell--non-numeric Created At
             td = l @product.created_at

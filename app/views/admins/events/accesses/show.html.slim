@@ -3,7 +3,7 @@
   .mdl-cell.mdl-cell--6-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
-        .mdl-cell.mdl-cell--4-col = @access.name
+        .mdl-cell.mdl-cell--4-col #{@access.name} (editable)
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
@@ -22,26 +22,23 @@
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
           tr
-            td.mdl-data-table__cell--non-numeric ID
-            td = @access.id
-          tr
             td.mdl-data-table__cell--non-numeric Name
-            td = @access.name
+            td = best_in_place @access, :name, url: [:admins, @current_event, @access]
           tr
             td.mdl-data-table__cell--non-numeric Mode
-            td = @access.mode
+            td = best_in_place @access, :mode, as: :select, collection: Access::MODES.map{ |mode| [mode, mode.humanize] }, url: [:admins, @current_event, @access]
           tr
             td.mdl-data-table__cell--non-numeric Step
-            td = @access.step
+            td = best_in_place @access, :step, url: [:admins, @current_event, @access]
           tr
             td.mdl-data-table__cell--non-numeric Initial Amount
-            td = @access.initial_amount
+            td = best_in_place @access, :initial_amount, url: [:admins, @current_event, @access]
           tr
             td.mdl-data-table__cell--non-numeric Max Purchasable
-            td = @access.max_purchasable
+            td = best_in_place @access, :max_purchasable, url: [:admins, @current_event, @access]
           tr
             td.mdl-data-table__cell--non-numeric Miin Purchasable
-            td = @access.min_purchasable
+            td = best_in_place @access, :min_purchasable, url: [:admins, @current_event, @access]
           tr
             td.mdl-data-table__cell--non-numeric Created At
             td = l @access.created_at

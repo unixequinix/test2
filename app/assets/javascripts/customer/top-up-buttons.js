@@ -49,4 +49,3 @@ function topUpButton() {
 }
 
 $(document).on('turbolinks:load', topUpButton);
-$(document).ready(topUpButton);

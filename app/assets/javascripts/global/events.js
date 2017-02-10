@@ -15,11 +15,8 @@ $(document).on("ready", function(){
       data: {event: newState},
       success: function(){
         $button.is(':checked');
-        console.log("right");
       },
       error: function(err){
-        console.log("wrooooong \n");
-        console.log(err);
       }
     });
  });

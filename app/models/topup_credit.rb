@@ -28,6 +28,10 @@ class TopupCredit < ActiveRecord::Base
     StationItemPolicy
   end
 
+  def self.sort_column
+    :amount
+  end
+
   private
 
   def valid_topup_credit

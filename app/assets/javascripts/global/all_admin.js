@@ -1,4 +1,12 @@
 $(document).on("ready", function(){
+
+  $(document).ready(function() {
+      jQuery(".best_in_place").best_in_place();
+  });
+
+  $('.best_in_place').bind("ajax:success", function () { $(this).closest('tr').children().effect('highlight', {color: "#90EE90"}, 'slow'); });
+  $('.best_in_place').bind("ajax:error", function () { $(this).closest('tr').children().effect('highlight', {color: "#dd2c00"}, 'slow'); });
+
   $("#delete_multiple").on("click",function(event){
     var type = $(this).data("type");
     var myElements = document.querySelectorAll(".is-selected");

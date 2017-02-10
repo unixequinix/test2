@@ -1,0 +1,11 @@
+table.mdl-data-table.mdl-js-data-table.within-card
+  tbody
+    - @products.each do |product|
+      tr
+        td.mdl-data-table__cell--non-numeric
+          = link_to product.name, "#", class: "product_name_selector"
+
+javascript:
+  $(".product_name_selector").click(function () {
+      $("#station_product_product_name").val($(this).text());
+  });

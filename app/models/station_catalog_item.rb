@@ -25,4 +25,8 @@ class StationCatalogItem < ActiveRecord::Base
   def self.policy_class
     StationItemPolicy
   end
+
+  def self.sort_column
+    :price
+  end
 end

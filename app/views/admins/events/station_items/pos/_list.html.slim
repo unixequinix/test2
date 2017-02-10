@@ -1,21 +1,24 @@
 .admin-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
-    .mdl-cell.mdl-cell--4-col #{@station.name} Products
+    .mdl-cell.mdl-cell--4-col
+      = best_in_place @station, :name, url: [:admins, @current_event, @station]
+      |  (edit)
     .mdl-cell.mdl-cell--8-col
   table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card.sortable
     thead
       tr
         th.table-sortable-field #
         th.mdl-data-table__cell--non-numeric Name
-        th Price
+        th Price (edit)
         th Is alcohol?
-        th Description
+
     tbody
-      - @items.each do |station_product|
+      - @items.sort_by(&:position).each do |station_product|
         tr data-id="#{station_product.id}" class="#{'station-hidden' if station_product.hidden?}"
           td.table-sortable-field = fa_icon("bars")
-          td
-            = station_product.product.name
+          td.mdl-data-table__cell--non-numeric
+            = link_to station_product.product.name, [:admins, @current_event, station_product.product]
+
             .table-action
               = link_to admins_event_station_station_item_path(@current_event, @station, station_product, item_type: "station_product"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                 button.icon.material-icons id ="delete_#{@station.id}" delete
@@ -31,9 +34,6 @@
                   button.icon.material-icons id ="hide_#{@station.id}" visibility_off
           td = best_in_place station_product, :price, as: :input, url: admins_event_station_station_item_path(@current_event, station_product.station_id, station_product, item_type: "station_product")
           td.is-alcohol = best_in_place station_product.product, :is_alcohol, as: :checkbox, collection: { false: fa_icon('circle-thin'), true: fa_icon('circle') }, url: admins_event_product_path(@current_event, station_product.product_id)
-          td = best_in_place station_product.product, :description, url: admins_event_product_path(@current_event, station_product.product_id)
-
-
 
 javascript:
   function setPositions() {

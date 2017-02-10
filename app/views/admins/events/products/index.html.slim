@@ -37,7 +37,6 @@
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
-              th Product_type
               th VAT
               th Is alcohol?
               th Stations
@@ -49,7 +48,6 @@
                   .table-action
                     = link_to edit_admins_event_product_path(@current_event, product) do
                       button.icon.material-icons edit
-                td data-label="Product Type" = product.product_type
                 td data-label="VAT" = product.vat
                 td data-label="Is alcohol?"= product.is_alcohol
                 td data-label="Stations" = product.station_products&.first&.station&.name

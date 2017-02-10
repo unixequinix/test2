@@ -45,10 +45,6 @@
 .content-grid.mdl-grid
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--12-col
-          i.material-icons info_outline
-          | Info
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
@@ -56,81 +52,85 @@
               td.mdl-data-table__cell--non-numeric Slug
               td = @current_event.slug
             tr
+              td.mdl-data-table__cell--non-numeric Timezone
+              td = @current_event.timezone
+            tr
+              td.mdl-data-table__cell--non-numeric End date
+              td = l @current_event.end_date
+            tr
+              td.mdl-data-table__cell--non-numeric Start date
+              td = l @current_event.start_date
+
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col
+          i.material-icons info_outline
+          | Official Info (editable)
+      .mdl-card__supporting-text
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
               td.mdl-data-table__cell--non-numeric Support email
-              td = @current_event.support_email
+              td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
             tr
               td.mdl-data-table__cell--non-numeric Company Name
-              td = format_abstract_value(@current_event.company_name)
-              tr
-                td.mdl-data-table__cell--non-numeric Official Address
-                td = format_abstract_value(@current_event.official_address)
-              tr
-                td.mdl-data-table__cell--non-numeric Official Name
-                td = format_abstract_value(@current_event.official_name)
-              tr
-                td.mdl-data-table__cell--non-numeric Registration Num
-                td = format_abstract_value(@current_event.registration_num)
-              tr
-                td.mdl-data-table__cell--non-numeric Timezone
-                td = @current_event.timezone
-                tr
-                  td.mdl-data-table__cell--non-numeric End date
-                  td = l @current_event.end_date
-                tr
-                  td.mdl-data-table__cell--non-numeric Start date
-                  td = l @current_event.start_date
+              td = best_in_place @current_event, :company_name, url: [:admins, @current_event]
+            tr
+              td.mdl-data-table__cell--non-numeric Official Address
+              td = best_in_place @current_event, :official_address, url: [:admins, @current_event]
+            tr
+              td.mdl-data-table__cell--non-numeric Official Name
+              td = best_in_place @current_event, :official_name, url: [:admins, @current_event]
+            tr
+              td.mdl-data-table__cell--non-numeric Registration Num
+              td = best_in_place @current_event, :registration_num, url: [:admins, @current_event]
 
 
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
       .mdl-card__title
-        .mdl-cell.mdl-cell--4-col
+        .mdl-cell.mdl-cell--12-col
           i.material-icons local_atm
-          |Currency
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to edit_credit_admins_event_path(@current_event) do
-                span#edit4.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit4" Edit
+          |Currency (editable)
 
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
             tr
               td.mdl-data-table__cell--non-numeric IBAN enabled?
-              td = format_abstract_value(@current_event.iban_enabled?)
+              td = best_in_place @current_event, :iban_enabled?, as: :checkbox, url: [:admins, @current_event]
             tr
               td.mdl-data-table__cell--non-numeric Token symbol
-              td = @current_event.token_symbol
+              td = best_in_place @current_event, :token_symbol, url: [:admins, @current_event]
             tr
               td.mdl-data-table__cell--non-numeric Currency
-              td = @current_event.currency
+              td = best_in_place @current_event, :currency, url: [:admins, @current_event]
             tr
               td.mdl-data-table__cell--non-numeric Credit Name
-              td = @current_event.credit.name
+              td = best_in_place @current_event.credit, :name, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
             tr
               td.mdl-data-table__cell--non-numeric Step
-              td = @current_event.credit.step
+              td = best_in_place @current_event.credit, :step, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
             tr
               td.mdl-data-table__cell--non-numeric Initial Amount
-              td = @current_event.credit.initial_amount
+              td = best_in_place @current_event.credit, :initial_amount, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
             tr
               td.mdl-data-table__cell--non-numeric Max Purchasable
-              td = @current_event.credit.max_purchasable
+              td = best_in_place @current_event.credit, :max_purchasable, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
             tr
               td.mdl-data-table__cell--non-numeric Min Purchasable
-              td = @current_event.credit.min_purchasable
+              td = best_in_place @current_event.credit, :min_purchasable, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
             tr
               td.mdl-data-table__cell--non-numeric Value
-              td = @current_event.credit.value
+              td = best_in_place @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
+        br
+
 
   .mdl-cell.mdl-cell--12-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--12-col
           i.material-icons build
-          | Features
+          | Features (editable)
 
       .mdl-card__supporting-text
         .content-grid.mdl-grid
@@ -139,40 +139,40 @@
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Evenbrite
-                  td = format_abstract_value(@current_event.eventbrite?)
+                  td = best_in_place @current_event, :eventbrite?, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Phone Mandatory
-                  td = format_abstract_value(@current_event.phone_mandatory)
+                  td = best_in_place @current_event, :phone_mandatory, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Address Mandatory
-                  td = format_abstract_value(@current_event.address_mandatory)
+                  td = best_in_place @current_event, :address_mandatory, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric City Mandatory
-                  td = format_abstract_value(@current_event.city_mandatory)
+                  td = best_in_place @current_event, :city_mandatory, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Country Mandatory
-                  td = format_abstract_value(@current_event.country_mandatory)
+                  td = best_in_place @current_event, :country_mandatory, as: :checkbox, url: [:admins, @current_event]
           .mdl-cell.mdl-cell--6-col
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Postcode Mandatory
-                  td = format_abstract_value(@current_event.postcode_mandatory)
+                  td = best_in_place @current_event, :postcode_mandatory, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Gender Mandatory
-                  td = format_abstract_value(@current_event.gender_mandatory)
+                  td = best_in_place @current_event, :gender_mandatory, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Birthday Mandatory
-                  td = format_abstract_value(@current_event.birthdate_mandatory)
+                  td = best_in_place @current_event, :birthdate_mandatory, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Agreed Event Condition
-                  td = format_abstract_value(@current_event.agreed_event_condition)
+                  td = best_in_place @current_event, :agreed_event_condition, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Receive Communications
-                  td = format_abstract_value(@current_event.receive_communications)
+                  td = best_in_place @current_event, :receive_communications, as: :checkbox, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Receive Communications Two
-                  td = format_abstract_value(@current_event.receive_communications_two)
+                  td = best_in_place @current_event, :receive_communications_two, as: :checkbox, url: [:admins, @current_event]
 
   .mdl-cell.mdl-cell--12-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
@@ -185,7 +185,7 @@
             .tool-item
               = link_to edit_event_style_admins_event_path(@current_event) do
                 span#edit5.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit5" Edit
+                span.mdl-tooltip data-mdl-for="edit5" Edit Style
 
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card

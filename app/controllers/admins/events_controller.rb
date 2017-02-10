@@ -49,10 +49,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize @current_event
   end
 
-  def edit_credit
-    authorize @current_event
-  end
-
   def edit_gtag_settings
     authorize @current_event
   end

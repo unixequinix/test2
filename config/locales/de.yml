@@ -116,7 +116,6 @@ de:
       number: Nummer
       product_name: Produktname
       product_price: Produktpreis
-      product_type: Produktart
       state: Status
       total: Summe
     pack:
@@ -136,7 +135,6 @@ de:
     products:
       is_alcohol: alkoholisch
       name: Name
-      product_type: Product Type
       stations: Stations
       vat: VAT %
     purchasers:

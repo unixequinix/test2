@@ -26,4 +26,8 @@ class AccessControlGate < ActiveRecord::Base
   def self.policy_class
     StationItemPolicy
   end
+
+  def self.sort_column
+    :access_id
+  end
 end

@@ -23,10 +23,6 @@ class EventPolicy < ApplicationPolicy
     admin_and_promoter
   end
 
-  def edit_credit?
-    admin_and_promoter
-  end
-
   def edit_gtag_settings?
     admin_and_promoter
   end

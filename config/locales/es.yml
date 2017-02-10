@@ -116,7 +116,6 @@ es:
       number: Número
       product_name: Producto
       product_price: Precio del Producto
-      product_type: Tipo de Producto
       state: Estado
       total: Total
     pack:
@@ -136,7 +135,6 @@ es:
     products:
       is_alcohol: Es alcohol
       name: Nombre
-      product_type: Tipo de producto
       stations: Stations
       vat: VAT %
     purchasers:

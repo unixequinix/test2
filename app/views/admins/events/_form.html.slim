@@ -23,7 +23,6 @@
       .form-inputs
         = f.input :name, placeholder: true
         = f.input :timezone, as: :time_zone, include_blank: false
-        = f.input :support_email, placeholder: true, required: true
 
     .fieldset
       .section-header
@@ -33,42 +32,7 @@
         = f.input :start_date, as: :datetime
         = f.input :end_date, as: :datetime
 
-    .fieldset
-      .section-header
-        i.material-icons work
-        span Company Information
-      .form-inputs
-        = f.input :company_name
-        = f.input :official_name, placeholder: true
-        = f.input :official_address, placeholder: true
-        = f.input :registration_num, placeholder: true
 
-    .fieldset
-      .section-header
-        i.material-icons build
-        span Features
-      .form-inputs
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='phone_mandatory'
-          span.mdl-switch__label.form-label Phone Mandatory
-          = f.input :phone_mandatory, :input_html => { :id => 'phone_mandatory' }
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='address_mandatory'
-          span.mdl-switch__label.form-label Address Mandatory
-          = f.input :address_mandatory, :input_html => { :id => 'address_mandatory' }
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='city_mandatory'
-          span.mdl-switch__label.form-label City Mandatory
-          = f.input :city_mandatory, :input_html => { :id => 'city_mandatory' }
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='country_mandatory'
-          span.mdl-switch__label.form-label Country Mandatory
-          = f.input :country_mandatory, :input_html => { :id => 'country_mandatory' }
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='postcode_mandatory'
-          span.mdl-switch__label.form-label Postcode Mandatory
-          = f.input :postcode_mandatory, :input_html => { :id => 'postcode_mandatory' }
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='gender_mandatory'
-          span.mdl-switch__label.form-label Gender Mandatory
-          = f.input :gender_mandatory, :input_html => { :id => 'gender_mandatory' }
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='birthdate_mandatory'
-          span.mdl-switch__label.form-label Birthday Mandatory
-          = f.input :birthdate_mandatory, :input_html => { :id => 'birthdate_mandatory' }
 
     .form-actions
       .col-sm-offset-3.col-sm-9

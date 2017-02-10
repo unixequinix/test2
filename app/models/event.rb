@@ -74,7 +74,7 @@
 #  index_events_on_slug  (slug) UNIQUE
 #
 
-class Event < ActiveRecord::Base
+class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
              :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer,
@@ -129,6 +129,7 @@ class Event < ActiveRecord::Base
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
   validates :receive_communications_message, presence: true, if: :receive_communications?
   validates :receive_communications_two_message, presence: true, if: :receive_communications_two?
+  validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}

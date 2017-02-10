@@ -26,13 +26,13 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
 
   def update
     respond_to do |format|
-      if @product.update_attributes(permitted_params)
+      if @product.update(permitted_params)
         format.html { redirect_to admins_event_products_path, notice: t("alerts.updated") }
+        format.json { render json: @product }
       else
         format.html { render :edit }
+        format.json { render json: @product.errors.full_messages, status: :unprocessable_entry }
       end
-
-      format.json { render json: @product }
     end
   end
 
@@ -82,6 +82,6 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:product).permit(:id, :name, :product_type, :description, :is_alcohol, :vat, :event_id)
+    params.require(:product).permit(:id, :name, :description, :is_alcohol, :vat, :event_id)
   end
 end

@@ -33,7 +33,6 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
-        get :edit_credit
         get :edit_gtag_settings
         get :edit_device_settings
         get :edit_event_style
@@ -129,6 +128,7 @@ Rails.application.routes.draw do
           resources :station_items do
             put :sort, on: :collection
             post :visibility
+            get :find_product, on: :collection
           end
         end
         resources :ticket_types, except: :show do

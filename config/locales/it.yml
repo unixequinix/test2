@@ -114,7 +114,6 @@ it:
       number: Number
       product_name: Product name
       product_price: Product price
-      product_type: Product type
       state: State
       total: Total
     pack:
@@ -134,7 +133,6 @@ it:
     products:
       is_alcohol: Is alcohol
       name: Name
-      product_type: Product Type
       stations: Stations
       vat: VAT %
     purchasers:

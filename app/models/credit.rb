@@ -26,6 +26,8 @@
 class Credit < CatalogItem
   validates :value, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :value, numericality: { greater_than: 0 }
+  validates :initial_amount, numericality: { less_than: ->(c) { c.max_purchasable } }
+  validates :max_purchasable, numericality: { greater_than: ->(c) { c.initial_amount } }
 
   after_save :set_customer_portal_price
 
