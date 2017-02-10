@@ -29,6 +29,7 @@ class TicketType < ActiveRecord::Base
   validates :company_code, uniqueness: { scope: :company_event_agreement }, allow_blank: true
 
   scope :for_devices, -> { where.not(catalog_item_id: nil) }
+  scope :no_catalog_item, -> { where(catalog_item_id: nil) }
   scope :companies, lambda { |_event|
     joins(company_event_agreement: :company)
       .where(company_event_agreements: { event_id: Event.first.id })

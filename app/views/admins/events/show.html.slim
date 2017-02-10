@@ -49,11 +49,22 @@
       | After launch
       ul style="text-align: left"
         li Nothing will be allowed to be deleted
-        li The credit value will not be allowed to change.
+        li
+          | The credit value will not be allowed to change
+          b style="text-align: center" &nbsp; (Current value is #{@current_event.credit.full_description})
         li The customer portal located #{link_to 'here', customer_root_path(@current_event), target: "_blank" } will open
         li Devices will be allowed to download event data
         li The Ticketing API will be enabled for all companies
+        - ticket_types = @current_event.ticket_types.no_catalog_item
+        - if ticket_types.any?
+          li
+            | The following ticket types are missing a catalog item and will not be downloaded to the devices. This can be fixed later:
+            ul style="text-align: left"
+              - ticket_types.each do |ticket_type|
+                li = link_to "#{ticket_type.name} - #{ticket_type.tickets.count} tickets", [:edit, :admins, @current_event, ticket_type]
         li This action cannot be undone
+
+
 
       h6 style="text-align: center"
         | Still want to launch?
