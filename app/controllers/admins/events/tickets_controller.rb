@@ -34,11 +34,14 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def update
-    if @ticket.update(permitted_params)
-      redirect_to admins_event_ticket_path(@current_event, @ticket), notice: t("alerts.updated")
-    else
-      flash.now[:alert] = t("alerts.error")
-      render :edit
+    respond_to do |format|
+      if @ticket.update(permitted_params)
+        format.html { redirect_to admins_event_ticket_path(@current_event, @ticket), notice: t("alerts.updated") }
+        format.json { render status: :ok, json: @ticket }
+      else
+        format.html { render :edit }
+        format.json { render json: @ticket.error.full_messages, status: :unporcessable_entry }
+      end
     end
   end
 

@@ -42,6 +42,10 @@ class Ticket < ActiveRecord::Base
   alias_attribute :reference, :code
   alias_attribute :ticket_reference, :code
 
+  def full_name
+    "#{purchaser_first_name} #{purchaser_last_name}"
+  end
+
   def assignation_atts
     { ticket: self }
   end
