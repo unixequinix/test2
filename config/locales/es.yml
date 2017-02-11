@@ -94,9 +94,6 @@ es:
       banned: Baneado
       customer: Cliente
       format: Formato
-      formats:
-        card: Tarjeta
-        wristband: Pulsera
       tag: Tag UID
     order_items:
       amount: Cantidad

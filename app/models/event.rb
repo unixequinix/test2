@@ -46,7 +46,7 @@
 #  registration_num                :string
 #  slug                            :string           not null
 #  start_date                      :datetime
-#  state                           :string           default("created")
+#  state                           :integer          default("created")
 #  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
@@ -74,7 +74,7 @@ class Event < ActiveRecord::Base
   has_many :tickets, dependent: :destroy
   has_many :catalog_items, dependent: :destroy
   has_many :ticket_types, dependent: :destroy
-  has_many :companies
+  has_many :companies, dependent: :destroy
   has_many :gtags, dependent: :destroy
   has_many :payment_gateways, dependent: :destroy
   has_many :products, dependent: :destroy
@@ -101,7 +101,8 @@ class Event < ActiveRecord::Base
 
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
   LOCALES = [:en, :es, :it, :de, :th].freeze
-  STATES = %w(created launched started finished closed).freeze
+
+  enum state: { created: 1, launched: 2, started: 3, finished: 4, closed: 5 }
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }) # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension")
@@ -121,12 +122,6 @@ class Event < ActiveRecord::Base
 
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
-
-  STATES.each do |method_name|
-    define_method "#{method_name}?" do
-      state == method_name
-    end
-  end
 
   def topups?
     payment_gateways.map(&:topup).any?

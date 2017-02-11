@@ -11,7 +11,6 @@
     .form-inputs.short-input
       = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
       = f.input :tag_uid, placeholder: true, as: :string
-      = f.input :format, as: :select, collection: Gtag::FORMATS, include_blank: false
     .file
       label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='banned'
         span.mdl-switch__label.form-label Banned

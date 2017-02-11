@@ -39,10 +39,16 @@
         tbody
           - @events.each do |event|
             tr
-              td.mdl-data-table__cell--non-numeric = link_to event.name, admins_event_path(event), class: "no_link"
+              td.mdl-data-table__cell--non-numeric
+                = link_to event.name, admins_event_path(event), class: "no_link"
+
+                - if event.created?
+                  .table-action
+                    = link_to admins_event_path(event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{event.id}" delete
               td.mdl-data-table__cell--non-numeric = event.state
-            span.mdl-tooltip data-mdl-for="edit_#{event.id}" Edit
-            - unless Rails.env.production?
+
+            - if event.created?
               span.mdl-tooltip data-mdl-for="delete_#{event.id}" Delete
   .mdl-layout-spacer
 

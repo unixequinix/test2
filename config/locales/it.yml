@@ -92,9 +92,6 @@ it:
       banned: Banned
       customer: Customer
       format: Format
-      formats:
-        card: Card
-        wristband: Wristband
       tag: Tag UID
     order_items:
       amount: Amount

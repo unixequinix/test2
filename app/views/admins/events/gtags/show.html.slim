@@ -34,15 +34,6 @@
               td.mdl-data-table__cell--non-numeric Tag UID
               td = @gtag.tag_uid
             tr
-              td.mdl-data-table__cell--non-numeric Format
-              td @gtag.format
-            tr
-              td.mdl-data-table__cell--non-numeric Server Balance
-              td = "#{number_to_token @gtag.credits} (Refundable: #{number_to_token @gtag.refundable_credits})"
-            tr
-              td.mdl-data-table__cell--non-numeric Gtag Balance
-              td = "#{number_to_token @gtag.final_balance} (Refundable: #{number_to_token @gtag.final_refundable_balance})"
-            tr
               td.mdl-data-table__cell--non-numeric Status
               td
                 - if @gtag.valid_balance?
@@ -54,6 +45,38 @@
                 td.mdl-data-table__cell--non-numeric Gtag Customer
                 td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, @gtag.customer)
   .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--3-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token @gtag.credits
+          .mdl-card__supporting-text
+            | Server
+            .small = "(sum of all credit transactions)"
+      .mdl-cell.mdl-cell--3-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token @gtag.refundable_credits
+          .mdl-card__supporting-text
+            | Server Refundable
+            .small = "(sum of all r credit transactions)"
+      .mdl-cell.mdl-cell--3-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token @gtag.final_balance
+          .mdl-card__supporting-text
+            | Gtag
+            .small = "(last transaction final balance)"
+      .mdl-cell.mdl-cell--3-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token @gtag.final_refundable_balance
+          .mdl-card__supporting-text
+            | Gtag Refundable
+            .small = "(last transaction final r balance)"
 
 .content-grid.mdl-grid
   = render("admins/events/customers/sections/onsite_transactions", transactions: @transactions, title: "Onsite Transactions" ) if @transactions.present?

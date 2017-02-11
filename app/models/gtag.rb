@@ -26,17 +26,6 @@
 class Gtag < ActiveRecord::Base
   include Credentiable
 
-  STANDARD = "standard".freeze
-  CARD = "card".freeze
-  SIMPLE = "simple".freeze
-  WRISTBAND = "wristband".freeze
-
-  # UID categorization of the gtags
-  UID_FORMATS = [STANDARD, CARD, SIMPLE].freeze
-
-  # Physical type of the gtags
-  FORMATS = [CARD, WRISTBAND].freeze
-
   # Gtag limits
   DEFINITIONS = { mifare_classic: { entitlement_limit: 15, credential_limit: 15 },
                   ultralight_ev1: { entitlement_limit: 40, credential_limit: 32 },
@@ -89,12 +78,5 @@ class Gtag < ActiveRecord::Base
 
   def assignation_atts
     { customer_tag_uid: tag_uid }
-  end
-
-  # Defines a method with a question mark for each gtag format which returns if the gtag has that format
-  FORMATS.each do |method_name|
-    define_method "#{method_name}?" do
-      format == method_name
-    end
   end
 end

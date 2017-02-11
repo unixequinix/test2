@@ -4,7 +4,7 @@ class RemoveCompanyEventAgreements < ActiveRecord::Migration[5.0]
     add_reference :companies, :event, foreign_key: true, index: true
     add_reference :ticket_types, :company, foreign_key: true, index: true
 
-    ids = ActiveRecord::Base.connection.exec_query("SELECT id, event_id, company_id FROM company_event_agreements").rows # rubocop:disbale MEtrics/LineLength
+    ids = ActiveRecord::Base.connection.exec_query("SELECT id, event_id, company_id FROM company_event_agreements").rows
     ids.each do |id, event_id, company_id|
       event = Event.find(event_id)
       old_company = Company.find(company_id)

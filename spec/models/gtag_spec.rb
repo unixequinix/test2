@@ -31,12 +31,4 @@ RSpec.describe Gtag, type: :model do
   it "has a valid factory" do
     expect(subject).to be_valid
   end
-
-  it "responds to the method card?" do
-    expect(subject).to respond_to(:card?)
-  end
-
-  it "responds to the method wristband?" do
-    expect(subject).to respond_to(:wristband?)
-  end
 end
