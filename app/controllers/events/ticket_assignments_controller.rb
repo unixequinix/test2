@@ -19,7 +19,7 @@ class Events::TicketAssignmentsController < Events::EventsController
   def can_assign?(ticket)
     flash.now[:error] = case
                           when ticket.blank? then "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support." # rubocop:disable Metrics/LineLength
-                          when ticket.ticket_type&.catalog_item.nil? then "The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support" # rubocop:disable Metrics/LineLength
+                          when ticket.ticket_type&.catalog_item.nil? then "The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support" # rubocop:disable Metrics/LineLength
                           when ticket.banned? then "Ticket is blacklisted"
                           when ticket.customer then "Ticket already assigned"
                         end

@@ -252,7 +252,7 @@ th:
     ticket_already_assigned: Ticket already assigned
     ticket_assigned: Ticket assigned successfully
     ticket_banned: Ticket is blacklisted
-    ticket_without_credential: The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support
+    ticket_without_credential: The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support
     unassigned: ยกเลิกสำเร็จ
     updated: อัพเดทสำเร็จ
   auth:
