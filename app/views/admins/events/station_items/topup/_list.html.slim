@@ -28,7 +28,7 @@
                 = link_to admins_event_station_station_item_visibility_path(@current_event, @station, topup_credit, item_type: "topup_credit"), method: :post do
                   button.icon.material-icons id ="hide_#{topup_credit.id}" visibility_off
 
-          td = number_to_currency topup_credit.credit.value * topup_credit.amount, format: "%n %u", unit: @current_event.credit.name
+          td = number_to_token topup_credit.credit.value * topup_credit.amount
 
 
 

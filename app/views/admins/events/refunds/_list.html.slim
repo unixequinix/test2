@@ -26,6 +26,6 @@
             td data-label="Status" = refund.status.humanize
             td data-label="Amount" = number_to_token refund.amount
             td data-label="Fee" = number_to_token refund.fee
-            td data-label="Money" = number_to_currency refund.money
+            td data-label="Money" = number_to_event_currency refund.money
             td data-label="Created at" = l refund.created_at
 

@@ -40,8 +40,9 @@ html
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="vertmenu"
             = link_to admins_events_path do
               li.mdl-menu__item Events
-            = link_to admins_devices_path do
-              li.mdl-menu__item Devices
+            - if current_user.admin?
+              = link_to admins_devices_path do
+                li.mdl-menu__item Devices
             = link_to destroy_user_session_path, method: :delete do
               li.mdl-menu__item Log out
       .mdl-layout__drawer
