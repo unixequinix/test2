@@ -33,12 +33,8 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
-        get :edit_gtag_settings
-        get :edit_device_settings
         get :edit_event_style
         get :device_settings
-        get :gtag_settings
-        get :gtag_settings
         delete :remove_db
         get :stats
         get :launch
@@ -167,7 +163,6 @@ Rails.application.routes.draw do
       get "login", to: "sessions#new"
       delete "logout", to: "sessions#destroy"
 
-      resource :info
       resources :locale do
         member do
           get "change"

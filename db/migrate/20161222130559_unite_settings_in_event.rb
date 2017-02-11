@@ -50,7 +50,6 @@ class UniteSettingsInEvent < ActiveRecord::Migration
       event.country_mandatory = event.registration_settings["country"]
       event.postcode_mandatory = event.registration_settings["postcode"]
       event.birthdate_mandatory = event.registration_settings["birthdate"]
-      event.agreed_event_condition = event.registration_settings["agreed_event_condition"]
       event.receive_communications = event.registration_settings["receive_communications"]
       event.receive_communications_two = event.registration_settings["receive_communications_two"]
       event.gtag_format = event.gtag_settings["gtag"]

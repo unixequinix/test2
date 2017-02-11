@@ -81,8 +81,6 @@ th:
       fieldests:
         parameters: Parameters
         security: Security
-      gtag_assignation_notification: Gtag  assignation notification
-      gtag_form_disclaimer: Gtag assignation form disclaimer
       name: Name
       token: Event token
     general:
@@ -276,11 +274,6 @@ th:
     no_credit:
       description: You don't have sufficient refundable balance
       title: Sorry
-  conditions:
-    action: ข้าพเจ้าตกลง
-    conjunction: และ
-    privacy_conditions: นโยบายความเป็นส่วนตัว
-    terms_of_use: ข้อตกลงการใช้งาน
   confirm:
     log_out: Do you want to end this session?
   dashboard:

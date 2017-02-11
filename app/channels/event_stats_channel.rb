@@ -33,7 +33,7 @@ class EventStatsChannel < ApplicationCable::Channel
   end
 
   def initial_stats(event) # rubocop:disable all
-    @data = { token_symbol: event.token_symbol, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
+    @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
 
     sales = event.transactions.credit.where(action: "sale")
     @data[:sales] = sales.sum(:credits)

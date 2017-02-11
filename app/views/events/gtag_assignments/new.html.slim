@@ -1,8 +1,7 @@
 .wrapper-module-centered
   h3 = t('gtag_assignations.call_to_action')
-  p = t("gtag_assignations.description.#{@current_event.gtag_format}")
-  = image_tag "#{@current_event.gtag_format}-gtag.png", class: "wristband-image"
-  p.disclaimer-gtag-text = @current_event.gtag_form_disclaimer
+  p = t("gtag_assignations.description.standard")
+  = image_tag "standard-gtag.png", class: "wristband-image"
   = form_for :gtag_assignment_form, url: event_gtag_assignments_path(@current_event) do |f|
     .assign-input
     p.wristband-hint

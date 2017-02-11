@@ -1,9 +1,3 @@
-- if current_event.info || current_event.disclaimer
-  .container-event-column 
-    .wrapper-session
-      = raw current_event.info if current_event.info
-      = raw current_event.disclaimer if current_event.disclaimer
-
 .container-event-login
   .social-login
       = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do

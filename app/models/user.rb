@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
   before_create :generate_access_token
 
-  enum role: { admin: 0, promoter: 1, support: 3 }
+  enum role: { admin: 0, promoter: 1, support: 3, tech_lead: 4, station_manager: 5 }
 
   private
 

@@ -9,11 +9,6 @@
               = link_to admins_event_path(@current_event) do
                 span#undo.icon.material-icons undo
                 span.mdl-tooltip data-mdl-for="undo"  Back
-            .tool-item
-              = link_to edit_device_settings_admins_event_path(@current_event) do
-                span#edit.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit" Edit
-
 
   .mdl-cell.mdl-cell--12-col
     .mdl-grid
@@ -56,21 +51,9 @@
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-card__title-text
-              i.material-icons info_outline
-              | Parameters
-          .mdl-card__supporting-text
-            table.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Topup Initialize Gtag
-                  td = best_in_place @current_event, :topup_initialize_gtag, best_in_place_checkbox([:admins, @current_event])
-      .mdl-layout-spacer
-      .mdl-cell.mdl-cell--6-col
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-card__title-text
               i.material-icons shopping_cart
-              | Orders
+              | Initialization
+
           .mdl-card__supporting-text
             table.mdl-data-table.mdl-js-data-table.within-card
               tbody
@@ -80,13 +63,11 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Pos Update Orders
                   td = best_in_place @current_event, :pos_update_online_orders, best_in_place_checkbox([:admins, @current_event])
-      .mdl-layout-spacer
+                tr
+                  td.mdl-data-table__cell--non-numeric Topup Initialize Gtag
+                  td = best_in_place @current_event, :topup_initialize_gtag, best_in_place_checkbox([:admins, @current_event])
 
-  .mdl-cell.mdl-cell--12-col
-    .mdl-grid
-      .mdl-layout-spacer
-      .mdl-cell.mdl-cell--6-col
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+
           .mdl-card__title
             .mdl-card__title-text
               i.material-icons lock_outline
@@ -100,6 +81,7 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Fast Removal Password
                   td = best_in_place @current_event, :fast_removal_password, url: [:admins, @current_event]
+
       .mdl-layout-spacer
       .mdl-cell.mdl-cell--6-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp

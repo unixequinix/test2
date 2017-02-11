@@ -2,7 +2,7 @@
   h3 = t('dashboard.credits.header')
   p.panel-amount-number
     = number_with_precision(@current_customer.credits, precision: 2)
-    span.currency-symbol = @current_event.token_symbol
+    span.currency-symbol = @current_event.credit.name
   - if @current_event.refunds? && @current_event.finished?
     = link_to t('refunds.button'), new_event_refund_path(@current_event), class: "btn btn-action btn-action-dashboard btn-action-dashboard--refund"
   - if @current_event.topups? && (@current_event.launched? || @current_event.started?)
@@ -11,7 +11,7 @@
     p.refundable-text.center-text.bold-text= "#{t('dashboard.credits.refundable')}:"
     li.bold-text
       = "#{@current_customer.refundable_credits}"
-      span.currency-symbol = @current_event.token_symbol
+      span.currency-symbol = @current_event.credit.name
 
 .wrapper-module
   h3 Tickets
@@ -37,8 +37,7 @@
 - if @current_customer.orders.any?
   .wrapper-module
     h3 = t('dashboard.online_orders')
-    .orders-disclaimer
-      | Remember! Online purchases will be applied onsite at the event
+    .orders-disclaimer Remember! Online purchases will be applied onsite at the event
     ul.container-purchase-order
       - @current_customer.orders.each do |order|
         .order

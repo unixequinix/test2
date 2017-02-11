@@ -8,9 +8,7 @@
 #  background_file_name            :string
 #  background_file_size            :integer
 #  birthdate_mandatory             :boolean
-#  city_mandatory                  :boolean
 #  company_name                    :string
-#  country_mandatory               :boolean
 #  currency                        :string           default("USD"), not null
 #  days_to_keep_backup             :integer          default(5)
 #  device_basic_db_content_type    :string
@@ -27,7 +25,6 @@
 #  fast_removal_password           :string           default("123456")
 #  gender_mandatory                :boolean
 #  gtag_deposit_fee                :integer          default(0)
-#  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
 #  iban_enabled                    :boolean          default(TRUE)
 #  initial_topup_fee               :integer          default(0)
@@ -43,7 +40,6 @@
 #  official_name                   :string
 #  phone_mandatory                 :boolean
 #  pos_update_online_orders        :boolean          default(FALSE)
-#  postcode_mandatory              :boolean
 #  private_zone_password           :string           default("123456")
 #  receive_communications          :boolean
 #  receive_communications_two      :boolean
@@ -61,7 +57,6 @@
 #  sync_time_tickets               :integer          default(5)
 #  timezone                        :string           default("UTC")
 #  token                           :string
-#  token_symbol                    :string           default("t")
 #  topup_fee                       :integer          default(0)
 #  topup_initialize_gtag           :boolean          default(TRUE)
 #  touchpoint_update_online_orders :boolean          default(FALSE)
@@ -75,12 +70,6 @@
 #
 
 class Event < ActiveRecord::Base
-  translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
-             :refund_disclaimer, :bank_account_disclaimer,
-             :gtag_assignation_notification, :gtag_form_disclaimer,
-             :agreed_event_condition_message, :receive_communications_message, :receive_communications_two_message,
-             fallbacks_for_empty_translations: true
-
   has_many :transactions, dependent: :restrict_with_error
   has_many :tickets, dependent: :destroy
   has_many :catalog_items, dependent: :destroy

@@ -3,7 +3,7 @@
 # Table name: payment_gateways
 #
 #  data                :jsonb            not null
-#  gateway             :string
+#  name                :integer
 #  refund              :boolean
 #  refund_field_a_name :string           default("iban")
 #  refund_field_b_name :string           default("swift")

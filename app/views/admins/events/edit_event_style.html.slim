@@ -9,7 +9,7 @@
             span.mdl-tooltip data-mdl-for="undo"  Back
 
   = simple_form_for [:admins, @current_event], html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings:{select: :mdl_field, text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
-    = hidden_field_tag :redirect_path, "edit_device_settings"
+    = hidden_field_tag :redirect_path, "edit_event_style"
     .fieldset
       .section-header
         i.material-icons insert_photo
@@ -24,27 +24,6 @@
         .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
           i.material-icons attach_file
           = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
-
-    .fieldset
-      .section-header
-        i.material-icons message
-        span Texts
-      .form-inputs.form-texts
-        = f.label :agreed_event_condition_message, class: 'form-label'
-        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea" }
-        = f.label :receive_communications_message, class: 'form-label'
-        = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea" }
-        = f.label :receive_communications_two_message, class: 'form-label'
-        = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea" }
-      .form-inputs.form-texts
-        = f.label :info, class: 'form-label'
-        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea" }
-        = f.label :disclaimer, class: 'form-label'
-        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea" }
-        = f.label :privacy_policy, class: 'form-label'
-        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea" }
-        = f.label :terms_of_use, class: 'form-label'
-        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea" }
 
     .fieldset
       .section-header

@@ -9,10 +9,10 @@ html
 
     = yield(:javascripts)
 
-    = javascript_include_tag "application"
     = javascript_include_tag "//www.google.com/jsapi", "chartkick"
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
     = javascript_include_tag "//cdn.tinymce.com/4/tinymce.min.js"
+    = javascript_include_tag "application"
 
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
@@ -76,7 +76,7 @@ html
             i.mdl-color-text--teal-200.material-icons class
             | Ticket types
           = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons place
+            i.mdl-color-text--teal-200.material-icons loyalty
             | GTags
           = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export

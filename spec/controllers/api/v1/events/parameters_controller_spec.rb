@@ -72,10 +72,6 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         expect(@body).to include("name" => "touchpoint_update_online_orders", "value" => event.touchpoint_update_online_orders)
       end
 
-      it "includes gtag_format" do
-        expect(@body).to include("name" => "gtag_format", "value" => event.gtag_format)
-      end
-
       it "includes gtag_deposit" do
         expect(@body).to include("name" => "gtag_deposit_fee", "value" => event.gtag_deposit_fee)
       end

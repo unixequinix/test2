@@ -23,19 +23,7 @@ class EventPolicy < ApplicationPolicy
     admin_and_promoter
   end
 
-  def edit_gtag_settings?
-    admin_and_promoter
-  end
-
-  def edit_device_settings?
-    admin_and_promoter
-  end
-
   def edit_event_style?
-    admin_and_promoter
-  end
-
-  def gtag_settings?
     admin_and_promoter
   end
 

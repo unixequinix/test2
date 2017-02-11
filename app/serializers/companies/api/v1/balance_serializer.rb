@@ -6,6 +6,6 @@ class Companies::Api::V1::BalanceSerializer < Companies::Api::V1::BaseSerializer
   end
 
   def currency
-    object.event.token_symbol
+    object.event.credit.name
   end
 end

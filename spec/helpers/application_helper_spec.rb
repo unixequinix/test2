@@ -21,11 +21,6 @@ RSpec.describe ApplicationHelper, type: :helper do
     it "returns the value of the number" do
       expect(helper.number_to_token(10)).to include("10")
     end
-
-    it "attaches the token symbol for the event" do
-      @current_event.token_symbol = "foo"
-      expect(helper.number_to_token(10)).to include("foo")
-    end
   end
 
   describe ".format_abstract_value" do

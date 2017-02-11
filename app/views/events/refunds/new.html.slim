@@ -21,10 +21,6 @@
     = f.input :field_b, label: false, label: @refund_gateway.refund_field_b_name, input_html: { class: 'session-input' }
     = f.button :submit, t('refunds.button'),  class: "btn-action btn-edit-customer"
 
-  - if @current_event.refund_disclaimer
-    .wrapper-module-disclaimer
-      = raw @current_event.refund_disclaimer
-
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back " do
     = fa_icon "chevron-left"

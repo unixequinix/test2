@@ -2,31 +2,28 @@
 #
 # Table name: customers
 #
-#  address                    :string
-#  agreed_event_condition     :boolean          default(FALSE)
-#  agreed_on_registration     :boolean          default(FALSE)
-#  banned                     :boolean
-#  birthdate                  :datetime
-#  city                       :string
-#  country                    :string
-#  current_sign_in_at         :datetime
-#  current_sign_in_ip         :inet
-#  email                      :citext           default(""), not null
-#  encrypted_password         :string           default(""), not null
-#  first_name                 :string           default(""), not null
-#  gender                     :string
-#  last_name                  :string           default(""), not null
-#  last_sign_in_at            :datetime
-#  last_sign_in_ip            :inet
-#  locale                     :string           default("en")
-#  phone                      :string
-#  postcode                   :string
-#  receive_communications     :boolean          default(FALSE)
-#  receive_communications_two :boolean          default(FALSE)
-#  remember_token             :string
-#  reset_password_sent_at     :datetime
-#  reset_password_token       :string
-#  sign_in_count              :integer          default(0), not null
+#  address                :string
+#  agreed_on_registration :boolean          default(FALSE)
+#  banned                 :boolean
+#  birthdate              :datetime
+#  city                   :string
+#  country                :string
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :inet
+#  email                  :citext           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  first_name             :string           default(""), not null
+#  gender                 :string
+#  last_name              :string           default(""), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :inet
+#  locale                 :string           default("en")
+#  phone                  :string
+#  postcode               :string
+#  remember_token         :string
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sign_in_count          :integer          default(0), not null
 #
 # Indexes
 #

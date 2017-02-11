@@ -80,8 +80,6 @@ it:
       fieldests:
         parameters: Parameters
         security: Security
-      gtag_assignation_notification: Gtag  assignation notification
-      gtag_form_disclaimer: Gtag assignation form disclaimer
       name: Name
       token: Event token
     general:
@@ -275,11 +273,6 @@ it:
     no_credit:
       description: Il suo saldo rimborsabile non e sufficiente
       title: Ci scusiamo
-  conditions:
-    action: Accetto
-    conjunction: e
-    privacy_conditions: la informativa sulla privacy
-    terms_of_use: condizioni d'uso
   confirm:
     log_out: Desidera terminare la sessione?
   dashboard:

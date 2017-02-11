@@ -49,19 +49,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize @current_event
   end
 
-  def edit_gtag_settings
-    authorize @current_event
-  end
-
-  def edit_device_settings
-    authorize @current_event
-  end
-
   def edit_event_style
-    authorize @current_event
-  end
-
-  def gtag_settings
     authorize @current_event
   end
 
@@ -134,35 +122,19 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :style,
                                   :logo,
                                   :background,
-                                  :info,
-                                  :disclaimer,
-                                  :terms_of_use,
-                                  :privacy_policy,
                                   :currency,
-                                  :token_symbol,
-                                  :agreed_event_condition_message,
                                   :company_name,
-                                  :agreement_acceptance,
                                   :official_name,
                                   :official_address,
-                                  :receive_communications_message,
-                                  :receive_communications_two_message,
                                   :address,
                                   :registration_num,
                                   :eventbrite_client_key,
                                   :eventbrite_event,
                                   :timezone,
-                                  :ticket_assignation,
                                   :phone_mandatory,
                                   :address_mandatory,
-                                  :city_mandatory,
-                                  :country_mandatory,
-                                  :postcode_mandatory,
                                   :gender_mandatory,
                                   :birthdate_mandatory,
-                                  :agreed_event_condition,
-                                  :receive_communications,
-                                  :receive_communications_two,
                                   :iban_enabled,
                                   :private_zone_password,
                                   :fast_removal_password,
@@ -177,7 +149,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :sync_time_tickets,
                                   :sync_time_gtags,
                                   :sync_time_customers,
-                                  :gtag_form_disclaimer,
                                   :format,
                                   :gtag_type,
                                   :gtag_deposit,

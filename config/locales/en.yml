@@ -38,11 +38,6 @@ en:
     description: After you buy online credits here, they will automatically be applied to your Tag once you enter the event.
     store: " store"
     total: Total
-  conditions:
-    action: I accept
-    conjunction: and
-    privacy_conditions: the privacy policy
-    terms_of_use: the terms of use
   confirm:
     log_out: Do you want to end this session?
   dashboard:

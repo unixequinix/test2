@@ -82,8 +82,6 @@ de:
       fieldests:
         parameters: Parameter
         security: Sicherheit
-      gtag_assignation_notification: Benachrichtigung über Gtag Anmeldung
-      gtag_form_disclaimer: Gtag Anmeldeformular Disclaimer
       name: Name
       token: Veranstaltungsschlüssel
     general:
@@ -277,11 +275,6 @@ de:
     no_credit:
       description: Sie haben keinen erstattungsfähiges Guthaben
       title: Es tut uns leid
-  conditions:
-    action: Ich stimme den
-    conjunction: und den
-    privacy_conditions: Nutzungsbedingungen zu
-    terms_of_use: Datenschutzbedingungen
   confirm:
     log_out: Möchten Sie diese Sitzung beenden?
   dashboard:

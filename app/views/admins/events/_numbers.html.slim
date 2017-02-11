@@ -8,10 +8,10 @@
             td = number_to_human data[:num_gtags]
           tr
             td.mdl-data-table__cell--non-numeric Fees
-            td = number_to_currency data[:fees].abs, format: "%n %u", unit: data[:token_symbol].to_s
+            td = number_to_currency data[:fees].abs, format: "%n %u", unit: data[:credit_name].to_s
           tr
             td.mdl-data-table__cell--non-numeric Box office
-            td = number_to_currency data[:box_office], format: "%n %u", unit: data[:token_symbol].to_s
+            td = number_to_currency data[:box_office], format: "%n %u", unit: data[:credit_name].to_s
 
     .mdl-card__supporting-text Other
 
@@ -22,13 +22,13 @@
         tbody
           tr
             td.mdl-data-table__cell--non-numeric Sales
-            td = number_to_currency data[:sales].abs, format: "%n %u", unit: data[:token_symbol].to_s
+            td = number_to_currency data[:sales].abs, format: "%n %u", unit: data[:credit_name].to_s
           tr
             td.mdl-data-table__cell--non-numeric Topups
-            td = number_to_currency data[:topups].abs, format: "%n %u", unit: data[:token_symbol].to_s
+            td = number_to_currency data[:topups].abs, format: "%n %u", unit: data[:credit_name].to_s
           tr
             td.mdl-data-table__cell--non-numeric Refunds
-            td = number_to_currency data[:refunds].abs, format: "%n %u", unit: data[:token_symbol].to_s
+            td = number_to_currency data[:refunds].abs, format: "%n %u", unit: data[:credit_name].to_s
 
     .mdl-card__supporting-text Cash
 
@@ -74,6 +74,6 @@
           - data[:stations].sort_by { |h| h[:data].abs }.reverse.each do |atts|
             tr data-station = atts[:id]
               td.mdl-data-table__cell--non-numeric data-label="Station" = link_to atts[:name], admins_event_station_station_items_path(data[:event_id], atts[:id]), target: "_blank"
-              td data-label="Sales" = number_to_currency atts[:data].abs, format: "%n %u", unit: data[:token_symbol].to_s
+              td data-label="Sales" = number_to_currency atts[:data].abs, format: "%n %u", unit: data[:credit_name].to_s
 
   .mdl-layout-spacer

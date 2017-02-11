@@ -82,8 +82,6 @@ es:
       fieldests:
         parameters: Parámetros
         security: Seguridad
-      gtag_assignation_notification: Notificación al asignar el Gtag
-      gtag_form_disclaimer: Texto formulario asignación Gtag
       name: Nombre
       token: Token del evento
     general:
@@ -277,11 +275,6 @@ es:
     no_credit:
       description: No tienes crédito para realizar la devolución
       title: Lo sentimos
-  conditions:
-    action: Acepto
-    conjunction: y
-    privacy_conditions: la política de privacidad
-    terms_of_use: las condiciones de uso
   confirm:
     log_out: "¿Quieres finalizar la sesión?"
   dashboard:

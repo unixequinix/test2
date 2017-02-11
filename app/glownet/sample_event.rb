@@ -6,7 +6,6 @@ class SampleEvent # rubocop:disable all
                           end_date: Time.zone.now + 4.days,
                           support_email: "support@glownet.com",
                           currency: "EUR",
-                          token_symbol: "t",
                           private_zone_password: 'a',
                           fast_removal_password: 'a')
 
@@ -40,7 +39,6 @@ class SampleEvent # rubocop:disable all
                              gender: "male",
                              birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
                              postcode: "28012",
-                             agreed_event_condition: true,
                              password: "test",
                              password_confirmation: "test")
   end

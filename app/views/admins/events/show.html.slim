@@ -20,10 +20,6 @@
                   span#payment_setting.material-icons euro_symbol
                   span.mdl-tooltip data-mdl-for="payment_setting"  Payment Settings
               .tool-item
-                = link_to gtag_settings_admins_event_path(@current_event) do
-                  span#gtag_settings.material-icons place
-                  span.mdl-tooltip data-mdl-for="gtag_settings"  Gtag Settings
-              .tool-item
                 = link_to device_settings_admins_event_path(@current_event) do
                   span#device_settings.material-icons phonelink_setup
                   span.mdl-tooltip data-mdl-for="device_settings"  Device Settings
@@ -83,6 +79,10 @@
 .content-grid.mdl-grid
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col
+          i.material-icons info_outline
+          | Info
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
@@ -103,6 +103,7 @@
         .mdl-cell.mdl-cell--12-col
           i.material-icons info_outline
           | Official Info (editable)
+
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
@@ -121,24 +122,26 @@
             tr
               td.mdl-data-table__cell--non-numeric Registration Num
               td = best_in_place @current_event, :registration_num, url: [:admins, @current_event]
-
+            tr
+              td.mdl-data-table__cell--non-numeric Gtag Type
+              td = best_in_place @current_event, :gtag_type, as: :select, collection: Gtag::DEFINITIONS.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event]
 
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--12-col
           i.material-icons local_atm
-          |Currency (editable)
+          | Money Settings (editable)
 
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
             tr
+              td.mdl-data-table__cell--non-numeric Value
+              td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description
+            tr
               td.mdl-data-table__cell--non-numeric IBAN enabled?
               td = best_in_place @current_event, :iban_enabled?, best_in_place_checkbox([:admins, @current_event])
-            tr
-              td.mdl-data-table__cell--non-numeric Token symbol
-              td = best_in_place @current_event, :token_symbol, url: [:admins, @current_event]
             tr
               td.mdl-data-table__cell--non-numeric Currency
               td = best_in_place @current_event, :currency, url: [:admins, @current_event]
@@ -158,12 +161,21 @@
               td.mdl-data-table__cell--non-numeric Min Purchasable
               td = best_in_place @current_event.credit, :min_purchasable, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
             tr
-              td.mdl-data-table__cell--non-numeric Value
-              td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description
+              td.mdl-data-table__cell--non-numeric Maximum Gtag balance
+              td = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
+            tr
+              td.mdl-data-table__cell--non-numeric Gtag deposit fee
+              td = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event]
+            tr
+              td.mdl-data-table__cell--non-numeric Initial Topup fee
+              td = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event]
+            tr
+              td.mdl-data-table__cell--non-numeric Topup fee
+              td = best_in_place @current_event, :topup_fee, url: [:admins, @current_event]
         br
 
 
-  .mdl-cell.mdl-cell--12-col
+  .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--12-col
@@ -171,45 +183,22 @@
           | Features (editable)
 
       .mdl-card__supporting-text
-        .content-grid.mdl-grid
-          .mdl-cell.mdl-cell--6-col
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Phone Mandatory
-                  td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Address Mandatory
-                  td = best_in_place @current_event, :address_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric City Mandatory
-                  td = best_in_place @current_event, :city_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Country Mandatory
-                  td = best_in_place @current_event, :country_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Postcode Mandatory
-                  td = best_in_place @current_event, :postcode_mandatory, best_in_place_checkbox([:admins, @current_event])
-          .mdl-cell.mdl-cell--6-col
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Gender Mandatory
-                  td = best_in_place @current_event, :gender_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Birthday Mandatory
-                  td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Agreed Event Condition
-                  td = best_in_place @current_event, :agreed_event_condition, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Receive Communications
-                  td = best_in_place @current_event, :receive_communications, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Receive Communications Two
-                  td = best_in_place @current_event, :receive_communications_two, best_in_place_checkbox([:admins, @current_event])
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Phone Mandatory
+              td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])
+            tr
+              td.mdl-data-table__cell--non-numeric Address Mandatory
+              td = best_in_place @current_event, :address_mandatory, best_in_place_checkbox([:admins, @current_event])
+            tr
+              td.mdl-data-table__cell--non-numeric Gender Mandatory
+              td = best_in_place @current_event, :gender_mandatory, best_in_place_checkbox([:admins, @current_event])
+            tr
+              td.mdl-data-table__cell--non-numeric Birthday Mandatory
+              td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
 
-  .mdl-cell.mdl-cell--12-col
+  .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col
@@ -219,7 +208,7 @@
           .tools
             .tool-item
               = link_to edit_event_style_admins_event_path(@current_event) do
-                span#edit5.material-icons edit
+                span#edit5.material-icons brush
                 span.mdl-tooltip data-mdl-for="edit5" Edit Style
 
       .mdl-card__supporting-text
