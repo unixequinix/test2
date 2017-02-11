@@ -74,8 +74,7 @@ class Event < ActiveRecord::Base
   has_many :tickets, dependent: :destroy
   has_many :catalog_items, dependent: :destroy
   has_many :ticket_types, dependent: :destroy
-  has_many :companies, through: :company_event_agreements
-  has_many :company_event_agreements, dependent: :destroy
+  has_many :companies
   has_many :gtags, dependent: :destroy
   has_many :payment_gateways, dependent: :destroy
   has_many :products, dependent: :destroy
@@ -159,6 +158,7 @@ class Event < ActiveRecord::Base
 
   def initial_setup!
     create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
+    companies.create!(name: "Glownet", hidden: true)
     user_flags.create!(name: "alcohol_forbidden", step: 1)
     station = stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
     station.station_catalog_items.create(catalog_item: credit, price: 1)

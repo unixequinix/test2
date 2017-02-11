@@ -9,12 +9,12 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def new
-    @ticket_type = TicketType.new
+    @ticket_type = @current_event.ticket_types.new
     authorize @ticket_type
   end
 
   def create
-    @ticket_type = TicketType.new(permitted_params)
+    @ticket_type = @current_event.ticket_types.new(permitted_params)
     authorize @ticket_type
     if @ticket_type.save
       redirect_to admins_event_ticket_types_path, notice: t("alerts.created")
@@ -52,7 +52,6 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
 
   def set_catalog_items
     @catalog_items = @current_event.catalog_items
-    @agreements = @current_event.company_event_agreements
   end
 
   def set_ticket_type
@@ -61,6 +60,6 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:ticket_type).permit(:event_id, :company_id, :name, :company_code, :company_event_agreement_id, :catalog_item_id)
+    params.require(:ticket_type).permit(:company_id, :name, :company_code, :catalog_item_id)
   end
 end

@@ -20,7 +20,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def create
-    @ticket_type = agreement.ticket_types.build(ticket_type_params)
+    @ticket_type = @company.ticket_types.build(ticket_type_params)
     @ticket_type.event = @current_event
 
     if @ticket_type.save

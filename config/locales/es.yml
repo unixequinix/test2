@@ -323,11 +323,6 @@ es:
         mail_ignore: Si no lo has solicitado, por favor ignora este correo. Tu contraseña no sufrirá cambios hasta que se proceda al enlace proporcionado y se cree una nueva contraseña.
         mail_link: Cambiar mi contraseña.
     customer:
-      agreement:
-        accepted:
-          greet: Hello %{name}!
-          mail_body: You have accepted the PayPal Agreement so you can now do auto-topups!
-          title: Paypal Agreement Accepted
       communication: Este es un mensaje automático de %{event_name}
       follow_on_twitter: Síguenos en Twitter
       footer_copy: Copyright Glownet © %{year} Todos los derechos reservados.

@@ -322,11 +322,6 @@ th:
         mail_ignore: ถ้าคุณไม่ต้องการเปลี่ยนรหัสผ่าน ไม่ต้อง ไม่ต้องให้ความสนใจกับอีเมลนี้ รหัสผ่านของคุณจะคงอยูเหมือนเดิมจนกว่าคุณจะคลิ๊กลิงค์ด้านบนเพื่อเปลี่ยนรหัสผ่านใหม่
         mail_link: เปลี่ยนรหัสผ่าน
     customer:
-      agreement:
-        accepted:
-          greet: Hello, %{name}!
-          mail_body: You have accepted the PayPal Agreement so you can now do auto-topups!
-          title: Paypal Agreement Accepted
       communication: นี่เป็นการสื่อสารจากระบบอัตโนมัติจาก %{event_name}
       follow_on_twitter: Follow on Twitter
       footer_copy: Copyright Glownet © %{year} All rights reserved.

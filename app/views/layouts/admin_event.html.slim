@@ -40,8 +40,6 @@ html
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="vertmenu"
             = link_to admins_events_path do
               li.mdl-menu__item Events
-            = link_to admins_companies_path do
-              li.mdl-menu__item Companies
             = link_to admins_devices_path do
               li.mdl-menu__item Devices
             = link_to destroy_user_session_path, method: :delete do
@@ -55,6 +53,9 @@ html
           = link_to admins_event_devices_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons phone_android
             | Devices
+          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons markunread_mailbox
+            | Companies
           - if policy(@current_event).event_settings?
             = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person

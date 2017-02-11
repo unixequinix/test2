@@ -5,25 +5,27 @@
 #  access_token :string
 #  name         :string           not null
 #
+# Indexes
+#
+#  index_companies_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_b64f18cd7d  (event_id => events.id)
+#
 
 class Company < ActiveRecord::Base
-  has_many :company_event_agreements, dependent: :destroy
-  has_many :events, through: :company_event_agreements
+  has_many :ticket_types
 
-  before_create :generate_access_token
+  belongs_to :event
 
   validates :name, presence: true
-
-  def unassigned_events
-    Event.where.not(id: events)
-  end
-
-  private
+  validates :name, uniqueness: { scope: :event_id }
 
   def generate_access_token
     loop do
       self.access_token = SecureRandom.hex
-      break unless self.class.exists?(access_token: access_token)
+      break unless Company.exists?(access_token: access_token)
     end
   end
 end

@@ -2,42 +2,48 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   before_action :set_company, except: [:index, :new, :create]
 
   def index
-    @companies = @current_event.companies
+    @q = @current_event.companies.order(:name).ransack(params[:q])
+    @companies = @q.result
     authorize @companies
     @companies = @companies.page(params[:page])
   end
 
   def new
-    @company = Company.new
+    @company = @current_event.companies.new(hidden: true)
+    @company.generate_access_token
     authorize @company
   end
 
   def create
-    @company = Company.new(permitted_params)
+    @company = @current_event.companies.new(permitted_params)
     authorize @company
     if @company.save
-      flash[:notice] = t("alerts.created")
-      redirect_to admins_event_companies_path
+      redirect_to admins_event_companies_path, notice: t("alerts.created")
     else
-      flash[:error] = @company.errors.full_messages.join(". ")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
 
   def update
     if @company.update(permitted_params)
-      flash[:notice] = t("alerts.updated")
-      redirect_to admins_event_companies_path
+      redirect_to admins_event_companies_path, notice: t("alerts.updated")
     else
-      flash[:error] = @company.errors.full_messages.join(". ")
+      flash.now[:alert] = t("alerts.error")
       render :edit
     end
   end
 
+  def visibility
+    @company = @current_event.companies.find(params[:id])
+    authorize @company
+    @company.toggle!(:hidden)
+    redirect_to admins_event_companies_path(@current_event, @company), notice: t("alerts.updated")
+  end
+
   def destroy
     if @company.destroy
-      flash[:notice] = t("alerts.destroyed")
-      redirect_to admins_event_companies_path
+      redirect_to admins_event_companies_path, notice: t("alerts.destroyed")
     else
       flash.now[:alert] = t("errors.messages.ticket_type_dependent")
       @companies = @current_event.companies.page
@@ -53,6 +59,6 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:company).permit(:name, :event_id)
+    params.require(:company).permit(:name, :access_token, :hidden)
   end
 end

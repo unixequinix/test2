@@ -17,6 +17,7 @@
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
+              th Company Name
               th Company Code
               th Catalog Item
               th Number of Tickets
@@ -24,8 +25,24 @@
             - @ticket_types.each do |ticket_type|
               tr class="#{'ticket-hidden' if ticket_type.hidden?}"
                 td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = link_to ticket_type.name, edit_admins_event_ticket_type_path(@current_event, ticket_type), class: "no_link"
-                  = render 'admins/events/ticket_types/actions', ticket_type: ticket_type
+                  = ticket_type.name
+                  - unless @current_event.started?
+                    .table-action
+                      = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
+                        button.icon.material-icons id ="edit_#{ticket_type}" edit
+                    .table-action
+                      = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons id ="delete_#{ticket_type}" delete
+
+                  - if ticket_type.hidden?
+                    .table-action
+                      = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
+                        button.icon.material-icons id ="show_#{ticket_type}" visibility
+                  - else
+                    .table-action
+                      = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
+                        button.icon.material-icons id ="hide_#{ticket_type}" visibility_off
+                td data-label="Company Code" = ticket_type.company.name
                 td data-label="Company Code" = ticket_type.company_code
                 td data-label="Catalog Item" = ticket_type.catalog_item&.name
                 td data-label="Number of Tickets" = ticket_type.tickets.count

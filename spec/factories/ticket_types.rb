@@ -24,10 +24,7 @@ FactoryGirl.define do
     sequence(:company_code)
     catalog_item
     event
-
-    after(:build) do |ctt|
-      ctt.company_event_agreement = create(:company_event_agreement, event: ctt.event)
-    end
+    company
 
     after(:create) do |ctt|
       ctt.update catalog_item: create(:credit, event: ctt.event)

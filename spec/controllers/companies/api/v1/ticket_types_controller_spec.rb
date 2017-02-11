@@ -2,8 +2,8 @@ require "spec_helper"
 
 RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   let(:event) { create(:event) }
-  let(:ticket_type) { create(:ticket_type, event: event) }
-  let(:company) { ticket_type.company_event_agreement.company }
+  let(:company) { create(:company, event: event) }
+  let(:ticket_type) { create(:ticket_type, event: event, company: company) }
 
   describe "GET index" do
     context "when authenticated" do
@@ -18,11 +18,9 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
         get :index, params: { event_id: event }
 
         body = JSON.parse(response.body)
-        ticket_types = body["ticket_types"].map { |m| m["name"] }
+        db_ttypes = body["ticket_types"].map { |m| m["name"] }
 
-        db_ttypes = TicketType.where(company_event_agreement: ticket_type.company_event_agreement, event: event)
-
-        expect(ticket_types).to match_array(db_ttypes.map(&:name))
+        expect(company.ticket_types).to match_array(db_ttypes.map(&:name))
       end
     end
 

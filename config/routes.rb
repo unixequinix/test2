@@ -24,11 +24,7 @@ Rails.application.routes.draw do
     resources :locale do
       get :change, on: :member
     end
-    resources :companies do
-      scope module: "companies" do
-        resources :company_event_agreements, only: [:index, :create, :destroy]
-      end
-    end
+
     resources :events do
       get :sample_event, on: :collection
 
@@ -56,7 +52,9 @@ Rails.application.routes.draw do
         resources :accesses
         resources :packs
         resources :ticket_assignments, only: :destroy
-        resources :companies, except: :show
+        resources :companies, except: :show do
+          post :visibility, on: :member
+        end
         resources :users
 
         # Eventbrite

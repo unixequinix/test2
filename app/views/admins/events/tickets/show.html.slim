@@ -30,7 +30,7 @@
               td = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?
             tr
               td.mdl-data-table__cell--non-numeric Company
-              td = @ticket.ticket_type.company_event_agreement.company.name unless @ticket.ticket_type.nil?
+              td = @ticket.ticket_type.company.name unless @ticket.ticket_type.nil?
             tr
               td.mdl-data-table__cell--non-numeric Purchaser First Name
               td = @ticket.purchaser_first_name

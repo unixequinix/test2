@@ -14,7 +14,6 @@
 
 $small_text:        $base_font_size * 0.75;
 $label-size:        $base-font-size;
-$paypal-logo-agreement:        $base-font-size * 3;
 $credit-size:       $base-font-size * 5;
 
 $radius:            3px;
@@ -215,87 +214,9 @@ a {
   }
 }
 
-.wrapper-module-agreement {
-  margin: modules(2) 0 0;
-  padding: modules(1) modules(1) modules(2);
-  border-radius: $radius;
-  box-shadow: inset 0 0 1px 0 $paypal;
-  background-color: $light_paypal;
-  text-align: left;
-
-  .hint {
-    top: modules(1) !important;
-    text-align: center;
-    z-index: 3;
-  }
-}
-
-.paypal-agreement-title {
-  @include mscale($base-font-size * 1);
-  margin-bottom: modules(0.5);
-  color: $paypal;
-
-  i { padding-right: modules(0.25); }
-}
-
-.agreement-description,
-.agreement-hint,
-.agreement-amount {
-  color: $grey;
-}
-
-.agreemet-current {
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-
-  @include min-screen($bp3) {
-    width: 48%;
-    box-shadow: 1px 0 0 0 $light_grey;
-  }
-}
-
-.agreement-hint {
-  margin-bottom: modules(0.5);
-  font-weight: bold;
-}
-
-.agreement-select {
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-  margin: modules(1) 0;
-
-  @include min-screen($bp3) {
-    width: 42%;
-    margin: 0 0 modules(1) 10%;
-  }
-
-  select { width: 100%; }
-}
-
-.agreement-amount {
-  @include mscale($base-font-size * 3);
-  margin-bottom: 0;
-}
-
 .wristband-hint {
   margin-bottom: 0;
   text-align: left;
 
   i { padding-right: modules(0.25); }
 }
-
-.paypal-styled {
-  @include mscale($paypal-logo-agreement);
-  display: block;
-  margin-bottom: 0;
-  color: $grey;
-}
-
-body.synchronous_payments.error,
-body.asynchronous_payments.error {
-  background-color: lighten($red,30%) !important;
-}
-
-// ···

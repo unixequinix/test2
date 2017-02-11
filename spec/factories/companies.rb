@@ -9,11 +9,8 @@
 FactoryGirl.define do
   factory :company do
     sequence(:name) { |n| "Company #{n}" }
+    event
 
-    trait :with_company_event_agreement do
-      after(:build) do |company|
-        company.company_event_agreements << build(:company_event_agreement, company: company)
-      end
-    end
+    before :create, &:generate_access_token
   end
 end

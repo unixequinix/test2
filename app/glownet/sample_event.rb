@@ -107,11 +107,10 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_ticket_types
-    company = Company.find_or_create_by(name: "Glownet")
-    agreement = CompanyEventAgreement.create!(event: @event, company: company)
+    company = @event.companies.find_or_create_by(name: "Glownet")
 
     @event.accesses.each do |catalog_item|
-      @event.ticket_types.create!(company_event_agreement: agreement,
+      @event.ticket_types.create!(company: company,
                                   catalog_item: catalog_item,
                                   company_code: Time.zone.now.to_i + rand(10_000),
                                   name: catalog_item.name)

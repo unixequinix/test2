@@ -10,8 +10,4 @@ class CustomerMailerPreview < ActionMailer::Preview
     order.order_items.create(amount: 10, total: 20, catalog_item: CatalogItem.first)
     CustomerMailer.completed_order_email(order, Event.first)
   end
-
-  def accepted_agreement_email
-    CustomerMailer.accepted_agreement_email(Customer.first)
-  end
 end

@@ -2,9 +2,8 @@ require "spec_helper"
 
 RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   let(:event) { create(:event) }
-  let(:ticket_type) { create(:ticket_type, event: event) }
-  let(:agreement) { ticket_type.company_event_agreement }
-  let(:company) { agreement.company }
+  let(:company) { create(:company, event: event) }
+  let(:ticket_type) { create(:ticket_type, event: event, company: company) }
   before { create_list(:ticket, 2, banned: true, event: event, ticket_type: ticket_type) }
 
   describe "GET index" do
@@ -22,9 +21,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body["blacklisted_tickets"].map { |m| m["ticket_reference"] }
 
-        db_tickets = event.tickets.where(banned: true)
-                          .joins(ticket_type: :company_event_agreement)
-                          .where(company_event_agreements: { id: agreement.id })
+        db_tickets = company.ticket_types.map(&:tickets).flatten
 
         expect(tickets).to match_array(db_tickets.map(&:code))
       end
