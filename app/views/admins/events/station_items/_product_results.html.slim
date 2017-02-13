@@ -11,4 +11,5 @@ table.mdl-data-table.mdl-js-data-table.within-card
 javascript:
   $(".product_name_selector").click(function () {
       $("#station_product_product_name").val($(this).next().text());
+      $("#product_results").toggle();
   });

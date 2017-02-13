@@ -8,7 +8,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @items = @station.all_station_items
     @items.sort_by!(&@items.first.class.sort_column) if @items.first
     @item = @klass.new(permitted_params)
-
+    #byebug
     authorize @item
     if @item.save
       redirect_to [:admins, @current_event, @item.station], notice: t("alerts.created")
@@ -51,7 +51,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
 
   def find_product
     skip_authorization
-    @products = @current_event.products.where("name LIKE '%#{params[:product_name]}%'")
+    @products = @current_event.products.where("lower(name) LIKE '%#{params[:product_name].downcase}%'").order(:name)
     render partial: "product_results"
   end
 

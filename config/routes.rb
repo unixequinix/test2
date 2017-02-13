@@ -121,7 +121,7 @@ Rails.application.routes.draw do
         resources :stations do
           post :clone
           post :visibility
-          resources :station_items, only: [:create, :update] do
+          resources :station_items, only: [:create, :update, :destroy] do
             put :sort, on: :collection
             post :visibility
             get :find_product, on: :collection

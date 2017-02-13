@@ -10,7 +10,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def show
     authorize @station
     @items = @station.all_station_items
-    @items.sort_by!(&@items.first.class.sort_column) if @items.first
+    @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
   end
 
   def new
