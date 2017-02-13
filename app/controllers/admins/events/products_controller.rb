@@ -9,12 +9,12 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   def new
-    @product = Product.new
+    @product = @current_event.products.new
     authorize @product
   end
 
   def create
-    @product = Product.new(permitted_params)
+    @product = @current_event.products.new(permitted_params)
     authorize @product
     if @product.save
       redirect_to admins_event_products_path, notice: t("alerts.created")
