@@ -8,7 +8,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @items = @station.all_station_items
     @items.sort_by!(&@items.first.class.sort_column) if @items.first
     @item = @klass.new(permitted_params)
-    #byebug
+
     authorize @item
     if @item.save
       redirect_to [:admins, @current_event, @item.station], notice: t("alerts.created")
