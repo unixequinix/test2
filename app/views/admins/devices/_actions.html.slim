@@ -1,9 +1,0 @@
-.table-action
-  = link_to admins_device_path(device) do
-    button.icon.material-icons info_outline
-.table-action
-  = link_to edit_admins_device_path(device) do
-    button.icon.material-icons edit
-.table-action
-  = link_to admins_device_path(device), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-    button.icon.material-icons delete

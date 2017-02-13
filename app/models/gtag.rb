@@ -36,6 +36,7 @@ class Gtag < ActiveRecord::Base
 
   validates :tag_uid, uniqueness: { scope: :event_id }
   validates :tag_uid, presence: true
+  validates :tag_uid, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }
 
   scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, format") }
   scope :banned, -> { where(banned: true) }

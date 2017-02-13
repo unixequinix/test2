@@ -4,6 +4,6 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def import?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 end

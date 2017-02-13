@@ -20,11 +20,11 @@ class EventPolicy < ApplicationPolicy
   end
 
   def edit?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def edit_event_style?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def device_settings?
@@ -32,11 +32,15 @@ class EventPolicy < ApplicationPolicy
   end
 
   def launch?
-    admin_and_promoter
+    admin_and_promoter && event_open
+  end
+
+  def close?
+    admin_and_promoter && event_open
   end
 
   def update?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def event_charts?
@@ -44,22 +48,18 @@ class EventPolicy < ApplicationPolicy
   end
 
   def remove_logo?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def remove_background?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def remove_db?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def event_settings?
-    admin_and_promoter
-  end
-
-  def load_defaults?
     admin_and_promoter
   end
 
@@ -68,7 +68,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def eventbrite_connect?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def eventbrite_disconnect?
@@ -76,7 +76,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def eventbrite_import_tickets?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def missing?
@@ -102,14 +102,18 @@ class EventPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       case
-        when user.admin? then scope.all
-        when user.promoter? then scope.where(owner: user)
-        when user.support? then scope.where(id: user.event&.id)
+        when user.admin? then scope.all.order(:name)
+        when user.promoter? then scope.where(owner: user).order(:name)
+        when user.support? then scope.where(id: user.event&.id).order(:name)
       end
     end
   end
 
   private
+
+  def event_open
+    !record.closed?
+  end
 
   def admin_and_promoter
     user.admin? || (user.promoter? && user.owned_events.include?(record))

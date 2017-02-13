@@ -26,7 +26,11 @@ html
           = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank" do
             i#launch.material-icons launch
             span.mdl-tooltip data-mdl-for="launch" Customer Portal
-          = link_to @current_event.name, admins_event_path(@current_event), class: "mdl-layout-title header-item"
+          |  &nbsp;&nbsp;
+
+          = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item" do
+            = @current_event.name
+            = " (CLOSED)" if @current_event.closed?
           .mdl-layout-spacer
           - if @q
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
@@ -34,6 +38,14 @@ html
                 i.material-icons search
               .mdl-textfield__expandable-holder
                 = yield(:search)
+            |  &nbsp;&nbsp;
+
+
+          = yield(:actions)
+
+          = link_to [:admins, @current_event], class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+            span#event_details.icon.material-icons info
+            span.mdl-tooltip data-mdl-for="event_details" Event Details
 
           button#vertmenu.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
             i.material-icons more_vert
@@ -45,70 +57,84 @@ html
                 li.mdl-menu__item Devices
             = link_to destroy_user_session_path, method: :delete do
               li.mdl-menu__item Log out
+
       .mdl-layout__drawer
         .drawer-logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
+
+        - if policy(@current_event).event_charts? && !@current_event.created?
+          nav.mdl-navigation.global-nav
+            = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons show_chart
+              |  Live Reports (BETA)
+            = link_to admins_sidekiq_web_path, class: "mdl-navigation__link", target: "_blank" do
+              i.mdl-color-text--teal-200.material-icons cloud_queue
+              |  Sidekiq
+
         nav.mdl-navigation.global-nav
-          = link_to admins_event_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons info_outline
-            | Details
+          span.nav-title CONFIGURATION
           = link_to admins_event_devices_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons phone_android
-            | Devices
-          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons markunread_mailbox
-            | Companies
+            |  Devices
           - if policy(@current_event).event_settings?
             = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
-              | Users
-          - if policy(@current_event).event_charts? && !@current_event.created?
-            = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              | Live Reports
+              |  Users
 
         nav.mdl-navigation.global-nav
-          span.nav-title EVENT CONFIGURATION
+          span.nav-title CRM
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons people_outline
-            | Customers
-          = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons bookmark_border
-            | Tickets
-          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons class
-            | Ticket types
+            |  Customers
           = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons loyalty
-            | GTags
+            |  GTags
+          - unless @current_event.created?
+            = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons import_export
+              |  Transactions
+
+        nav.mdl-navigation.global-nav
+          span.nav-title TICKETING
+          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons markunread_mailbox
+            |  Companies
+          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons class
+            |  Ticket types
+          = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons bookmark_border
+            |  Tickets
+
+        nav.mdl-navigation.global-nav
+          span.nav-title STORE
           = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
-            | Accesses
+            |  Accesses
           = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons view_module
-            | Packs
+            |  Packs
           = link_to admins_event_products_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons shopping_basket
-            | Products
+            |  Products
           - unless @current_event.created?
             = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons add_shopping_cart
-              | Orders
+              |  Orders
             = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons undo
-              | Refunds
-
+              |  Refunds
 
         nav.mdl-navigation.global-nav
           span.nav-title STATIONS
           = link_to admins_event_stations_path(@current_event, group: "access"), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons play_for_work
-            | Access
+            |  Access
           = link_to admins_event_stations_path(@current_event, group: "monetary"), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons attach_money
-            | Monetary
+            |  Monetary
           = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons local_activity
-            | Management
+            |  Management
 
         - unless @current_event.created?
           - if policy(@current_event).inconsistencies?
@@ -117,42 +143,16 @@ html
               - if policy(@current_event).real?
                 = link_to real_admins_event_inconsistencies_path(@current_event), class: "mdl-navigation__link" do
                   i.mdl-color-text--teal-200.material-icons report_problem
-                  | Real
+                  |  Real
               - if policy(@current_event).missing?
                 = link_to missing_admins_event_inconsistencies_path(@current_event), class: "mdl-navigation__link" do
                   i.mdl-color-text--teal-200.material-icons texture
-                  | Missing
+                  |  Missing
               - if policy(@current_event).resolvable?
                 = link_to resolvable_admins_event_inconsistencies_path(@current_event), class: "mdl-navigation__link" do
                   i.mdl-color-text--teal-200.material-icons healing
-                  | Resolvable
+                  |  Resolvable
 
-          nav.mdl-navigation.global-nav
-            span.nav-title TRANSACTIONS
-            = link_to admins_event_transactions_path(@current_event, type: "access"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons import_export
-              | Access
-            = link_to admins_event_transactions_path(@current_event, type: "credential"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons assignment_ind
-              | Credential
-            = link_to admins_event_transactions_path(@current_event, type: "credit"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons local_atm
-              | Credit
-            = link_to admins_event_transactions_path(@current_event, type: "money"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons attach_money
-              | Money
-            = link_to admins_event_transactions_path(@current_event, type: "order"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons add_shopping_cart
-              | Order
-            = link_to admins_event_transactions_path(@current_event, type: "operator"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons store
-              | Operator
-            = link_to admins_event_transactions_path(@current_event, type: "user_engagement"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons loyalty
-              | User Engagement
-            = link_to admins_event_transactions_path(@current_event, type: "user_flag"), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons flag
-              | User Flag
       main.mdl-layout__content
         #notifications
           = render 'layouts/notifications'

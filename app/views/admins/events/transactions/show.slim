@@ -107,7 +107,7 @@
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Station
-                  td = link_to @transaction.station.name, admins_event_station_station_items_path(@current_event, @transaction.station) if @transaction.station
+                  td = link_to @transaction.station.name, admins_event_station_path(@current_event, @transaction.station) if @transaction.station
 
 
 

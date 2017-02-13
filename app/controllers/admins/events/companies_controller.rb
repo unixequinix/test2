@@ -26,11 +26,15 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   end
 
   def update
-    if @company.update(permitted_params)
-      redirect_to admins_event_companies_path, notice: t("alerts.updated")
-    else
-      flash.now[:alert] = t("alerts.error")
-      render :edit
+    respond_to do |format|
+      if @company.update(permitted_params)
+        format.html { redirect_to admins_event_companies_path, notice: t("alerts.updated") }
+        format.json { render json: @company }
+      else
+        flash.now[:alert] = t("alerts.error")
+        format.html { render :edit }
+        format.json { render json: { errors: @company.errors }, status: :unprocessable_entity }
+      end
     end
   end
 

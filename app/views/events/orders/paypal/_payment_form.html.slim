@@ -1,6 +1,6 @@
 .wrapper-module
   = link_to event_paypal_setup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-paypal btn-full-width" do
-    = fa_icon("paypal")
+    = image_tag "img-paypal-logo.png"
     = t("dashboard.paypal.button")
 
 javascript:

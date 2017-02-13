@@ -1,17 +1,13 @@
+- content_for(:actions) do
+  = link_to new_admins_event_ticket_type_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add"  Add
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @ticket_types
-
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--4-col Ticket types
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to new_admins_event_ticket_type_path do
-                span#add.icon.material-icons add
-                span.mdl-tooltip data-mdl-for="add"  Add
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
           thead
@@ -21,11 +17,12 @@
               th Company Code
               th Catalog Item
               th Number of Tickets
+              th Hidden
           tbody
             - @ticket_types.each do |ticket_type|
-              tr class="#{'ticket-hidden' if ticket_type.hidden?}"
+              tr class="#{'resource-hidden' if ticket_type.hidden?}"
                 td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = ticket_type.name
+                  = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
                   - unless @current_event.started?
                     .table-action
                       = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
@@ -34,22 +31,14 @@
                       = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                         button.icon.material-icons id ="delete_#{ticket_type}" delete
 
-                  - if ticket_type.hidden?
-                    .table-action
-                      = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
-                        button.icon.material-icons id ="show_#{ticket_type}" visibility
-                  - else
-                    .table-action
-                      = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
-                        button.icon.material-icons id ="hide_#{ticket_type}" visibility_off
-                td data-label="Company Code" = ticket_type.company.name
-                td data-label="Company Code" = ticket_type.company_code
-                td data-label="Catalog Item" = ticket_type.catalog_item&.name
+                td data-label="Company Name" = ticket_type.company.name
+                td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
+                td data-label="Catalog Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.map { |item| [item.id, item.name] }, url: [:admins, @current_event, ticket_type]
                 td data-label="Number of Tickets" = ticket_type.tickets.count
+                td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
+
               span.mdl-tooltip data-mdl-for="edit_#{ticket_type}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{ticket_type}" Delete
-              span.mdl-tooltip data-mdl-for="hide_#{ticket_type}" Hide
-              span.mdl-tooltip data-mdl-for="show_#{ticket_type}" Show
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @ticket_types
   .mdl-layout-spacer
 

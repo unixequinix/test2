@@ -1,3 +1,8 @@
+- content_for(:actions) do
+  = link_to new_admins_event_user_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add"  Add
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col
@@ -8,10 +13,6 @@
         .mdl-cell.mdl-cell--4-col Users
         .mdl-cell.mdl-cell--8-col
           .tools
-            .tool-item
-              = link_to new_admins_event_user_path do
-                span#add.icon.material-icons add
-                span.mdl-tooltip data-mdl-for="add"  Add
             .tool-item
               span#check.icon.material-icons done_all
               span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes

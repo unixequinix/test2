@@ -1,7 +1,0 @@
-.table-action
-  = link_to edit_admins_event_access_path(@current_event, access) do
-    button.icon.material-icons id ="edit_#{access.id}" edit
-.table-action
-  = link_to admins_event_access_path(@current_event, access), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-    button.icon.material-icons id ="delete_#{access.id}" delete
-

@@ -1,15 +1,15 @@
 class Admins::Events::TicketTypesController < Admins::Events::BaseController
   before_action :set_ticket_type, except: [:index, :new, :create, :visibility]
-  before_action :set_catalog_items, except: [:index, :destroy, :visibility]
+  before_action :set_catalog_items, except: [:destroy, :visibility]
 
   def index
-    @ticket_types = @current_event.ticket_types
+    @ticket_types = @current_event.ticket_types.order([:company_id, :name])
     authorize @ticket_types
     @ticket_types = @ticket_types.page(params[:page])
   end
 
   def new
-    @ticket_type = @current_event.ticket_types.new
+    @ticket_type = @current_event.ticket_types.new(hidden: true)
     authorize @ticket_type
   end
 
@@ -25,11 +25,15 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def update
-    if @ticket_type.update(permitted_params)
-      redirect_to admins_event_ticket_types_path, notice: t("alerts.updated")
-    else
-      flash.now[:alert] = @ticket_type.errors.full_messages.join(". ")
-      render :edit
+    respond_to do |format|
+      if @ticket_type.update(permitted_params)
+        format.html { redirect_to admins_event_ticket_types_path, notice: t("alerts.updated") }
+        format.json { render json: @ticket_type }
+      else
+        flash.now[:alert] = t("alerts.errors")
+        format.html { render :edit }
+        format.json { render json: { errors: @ticket_type.errors }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -60,6 +64,6 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:ticket_type).permit(:company_id, :name, :company_code, :catalog_item_id)
+    params.require(:ticket_type).permit(:company_id, :name, :company_code, :catalog_item_id, :hidden)
   end
 end

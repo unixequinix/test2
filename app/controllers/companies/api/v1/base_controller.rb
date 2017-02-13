@@ -8,7 +8,7 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     authenticate_or_request_with_http_basic do |event_token, company_token|
       @current_event = Event.find_by(token: event_token)
       @company = @current_event&.companies&.find_by(access_token: company_token)
-      @current_event && @company || render(status: 403, json: :unauthorized)
+      @current_event && @company && @current_event.active? || render(status: 403, json: :unauthorized)
     end
   end
 
@@ -16,12 +16,6 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     ticket_type_id = params[:ticket][:ticket_type_id]
     return true unless ticket_type_id
     @current_event.ticket_types.find_by(id: ticket_type_id, company: @company)
-  end
-
-  def validate_gtag_type!
-    ticket_type_id = params[:gtag][:ticket_type_id]
-    return true unless ticket_type_id
-    @current_event.ticket_types.find_by(id: params[:gtag][:ticket_type_id], company: @company)
   end
 
   def ticket_types

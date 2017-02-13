@@ -24,8 +24,10 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:error] = t("alerts.not_authorized")
-    redirect_to(request.referer || admins_events_path)
+    respond_to do |format|
+      format.html { redirect_to (request.referer || admins_events_path), alert: t("alerts.not_authorized") }
+      format.json { render json: { error: t("alerts.not_authorized") }, status: :unauthorized }
+    end
   end
 
   def fetch_current_event
@@ -37,8 +39,8 @@ class ApplicationController < ActionController::Base
     skip_authorization
     skip_policy_scope
     authenticate_or_request_with_http_basic do |email, token|
-      admin = User.find_by(email: email)
-      admin && admin.access_token.eql?(token)
+      user = User.find_by(email: email)
+      user && user.access_token.eql?(token)
     end
   end
 end

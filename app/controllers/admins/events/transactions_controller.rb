@@ -3,8 +3,6 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_transactions, except: :show
   before_action :set_transaction, only: [:show, :update, :fix]
 
-  def index; end
-
   def search
     authorize @transactions
     render :index
@@ -21,7 +19,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
       if @transaction.update(permitted_params)
         format.json { render status: :ok, json: @transaction }
       else
-        format.json { render status: :unprocessable_entity, json: @transaction }
+        format.json { render json: { errors: @transaction.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -46,12 +44,11 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def set_type
-    @type = params[:type]
-    redirect_to(admins_event_path(@current_event)) && return unless @type
+    @type = params[:type] || (params[:q] && params[:q][:type])
   end
 
   def set_transactions
-    @transactions = @current_event.transactions.where(type: "#{@type}_transaction".classify)
+    @transactions = "#{@type}_transaction".classify.constantize.where(event: @current_event)
     authorize @transactions
     @q = @transactions.search(params[:q])
     @transactions = @q.result.page(params[:page]).includes(:customer, :station)

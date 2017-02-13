@@ -8,9 +8,6 @@
 #  background_file_name            :string
 #  background_file_size            :integer
 #  birthdate_mandatory             :boolean
-#  city_mandatory                  :boolean
-#  company_name                    :string
-#  country_mandatory               :boolean
 #  currency                        :string           default("USD"), not null
 #  days_to_keep_backup             :integer          default(5)
 #  device_basic_db_content_type    :string
@@ -42,14 +39,13 @@
 #  official_name                   :string
 #  phone_mandatory                 :boolean
 #  pos_update_online_orders        :boolean          default(FALSE)
-#  postcode_mandatory              :boolean
 #  private_zone_password           :string           default("123456")
 #  receive_communications          :boolean
 #  receive_communications_two      :boolean
 #  registration_num                :string
 #  slug                            :string           not null
 #  start_date                      :datetime
-#  state                           :string           default("created")
+#  state                           :integer          default("created")
 #  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
@@ -60,7 +56,6 @@
 #  sync_time_tickets               :integer          default(5)
 #  timezone                        :string           default("UTC")
 #  token                           :string
-#  token_symbol                    :string           default("t")
 #  topup_fee                       :integer          default(0)
 #  topup_initialize_gtag           :boolean          default(TRUE)
 #  touchpoint_update_online_orders :boolean          default(FALSE)

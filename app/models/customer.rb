@@ -20,9 +20,9 @@
 #  locale                 :string           default("en")
 #  phone                  :string
 #  postcode               :string
-#  remember_token         :string
+#  remember_token         :string           indexed
 #  reset_password_sent_at :datetime
-#  reset_password_token   :string
+#  reset_password_token   :string           indexed
 #  sign_in_count          :integer          default(0), not null
 #
 # Indexes

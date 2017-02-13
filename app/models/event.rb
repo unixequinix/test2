@@ -8,7 +8,6 @@
 #  background_file_name            :string
 #  background_file_size            :integer
 #  birthdate_mandatory             :boolean
-#  company_name                    :string
 #  currency                        :string           default("USD"), not null
 #  days_to_keep_backup             :integer          default(5)
 #  device_basic_db_content_type    :string
@@ -44,7 +43,7 @@
 #  receive_communications          :boolean
 #  receive_communications_two      :boolean
 #  registration_num                :string
-#  slug                            :string           not null
+#  slug                            :string           not null, indexed
 #  start_date                      :datetime
 #  state                           :integer          default("created")
 #  style                           :text
@@ -105,7 +104,7 @@ class Event < ActiveRecord::Base
   enum state: { created: 1, launched: 2, started: 3, finished: 4, closed: 5 }
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }) # rubocop:disable Metrics/LineLength
-  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension")
+  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: "/assets/background-default.jpg") # rubocop:disable Metrics/LineLength
   has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
   has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
 

@@ -5,7 +5,7 @@
 #  initial_amount  :integer
 #  max_purchasable :integer
 #  memory_length   :integer          default(1)
-#  memory_position :integer
+#  memory_position :integer          indexed => [event_id]
 #  min_purchasable :integer
 #  mode            :string
 #  name            :string

@@ -9,7 +9,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def new
-    @pack = @current_event.packs.new
+    @pack = @current_event.packs.new(step: 1, initial_amount: 0, max_purchasable: 300, min_purchasable: 1)
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
     @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
     authorize @pack
@@ -57,7 +57,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
         format.json { render json: true }
       else
         format.html { redirect_to [:admins, @current_event, @pack], alert: @pack.errors.full_messages.to_sentence }
-        format.json { render json: { errors: @pack.errors.full_messages.to_sentence }, status: :unprocessable_entity }
+        format.json { render json: { errors: @pack.errors }, status: :unprocessable_entity }
       end
     end
   end

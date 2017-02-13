@@ -5,12 +5,12 @@
 #  access_token           :string           not null
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :inet
-#  email                  :citext           default(""), not null
+#  email                  :citext           default(""), not null, indexed
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :inet
 #  reset_password_sent_at :datetime
-#  reset_password_token   :string
+#  reset_password_token   :string           indexed
 #  role                   :integer          default("support")
 #  sign_in_count          :integer          default(0), not null
 #
@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
   before_create :generate_access_token
 
-  enum role: { admin: 0, promoter: 1, support: 3, tech_lead: 4, station_manager: 5 }
+  enum role: { admin: 0, promoter: 1, support: 3 }
 
   private
 

@@ -1,79 +1,46 @@
-.content-grid.mdl-grid
+- content_for(:actions) do
   - if policy(@current_event).edit?
-    .mdl-cell.mdl-cell--12-col
-      .inconsistencies-card.mdl-card
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              - if @current_event.created?
-                .tool-item
-                  = link_to '#launch-modal' do
-                    span#launch_link.icon.material-icons flight_takeoff
-                    span.mdl-tooltip data-mdl-for="launch_link"  Launch
-              .tool-item
-                = link_to admins_event_eventbrite_path(@current_event) do
-                  span#eventbrite_setting.material-icons gesture
-                  span.mdl-tooltip data-mdl-for="eventbrite_setting"  Eventbrite Settings
-              .tool-item
-                = link_to admins_event_payment_gateways_path(@current_event) do
-                  span#payment_setting.material-icons euro_symbol
-                  span.mdl-tooltip data-mdl-for="payment_setting"  Payment Settings
-              .tool-item
-                = link_to device_settings_admins_event_path(@current_event) do
-                  span#device_settings.material-icons phonelink_setup
-                  span.mdl-tooltip data-mdl-for="device_settings"  Device Settings
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit"  Settings
-              .tool-item
-                = link_to edit_event_style_admins_event_path(@current_event) do
-                  span#edit_style.material-icons brush
-                  span.mdl-tooltip data-mdl-for="edit_style"  Style
+    - if @current_event.created?
+      .tool-item
+        = link_to '#launch-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+          span#launch_link.icon.material-icons flight_takeoff
+          span.mdl-tooltip data-mdl-for="launch_link" Launch
 
-              - unless Rails.env.production?
-                .tool-item
-                  = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                    span#delete.material-icons delete
-                    span.mdl-tooltip data-mdl-for="delete" Delete Event
+    - if @current_event.active?
+      .tool-item
+        = link_to '#close-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+          span#launch_link.icon.material-icons flight_land
+          span.mdl-tooltip data-mdl-for="launch_link" Close
 
-  - if @current_event.created?
-    .remodal data-remodal-id="launch-modal"
-      button.remodal-close data-remodal-action="close"
-      h3.remodal__title Very Important!
-      | After launch
-      ul style="text-align: left"
-        li Nothing will be allowed to be deleted
-        li
-          | The credit value will not be allowed to change
-          b style="text-align: center" &nbsp; (Current value is #{@current_event.credit.full_description})
-        li The customer portal located #{link_to 'here', customer_root_path(@current_event), target: "_blank" } will open
-        li Devices will be allowed to download event data
-        li The Ticketing API will be enabled for all companies
-        - ticket_types = @current_event.ticket_types.no_catalog_item
-        - if ticket_types.any?
-          li
-            | The following ticket types are missing a catalog item and will not be downloaded to the devices. This can be fixed later:
-            ul style="text-align: left"
-              - ticket_types.each do |ticket_type|
-                li = link_to "#{ticket_type.name} - #{ticket_type.tickets.count} tickets", [:edit, :admins, @current_event, ticket_type]
-        li This action cannot be undone
+    = link_to admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#eventbrite_setting.material-icons gesture
+      span.mdl-tooltip data-mdl-for="eventbrite_setting" Eventbrite Settings
 
+    = link_to admins_event_payment_gateways_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#payment_setting.material-icons euro_symbol
+      span.mdl-tooltip data-mdl-for="payment_setting" Payment Settings
 
+    = link_to device_settings_admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#device_settings.material-icons phonelink_setup
+      span.mdl-tooltip data-mdl-for="device_settings" Device Settings
 
-      h6 style="text-align: center"
-        | Still want to launch?
+    = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#edit.material-icons edit
+      span.mdl-tooltip data-mdl-for="edit" Settings
 
-      h4 style="text-align: center"
-        = link_to launch_admins_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
-          span.mdl-button__ripple-container Yes
-        br
-        = link_to "#", data: {remodal: {action: "close"}}, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
-          span.mdl-button__ripple-container NO
-  - else
-    .mdl-cell.mdl-cell--12-col
-      .info-container = render "admins/events/status", event: @current_event
+    = link_to edit_event_style_admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#edit_style.material-icons brush
+      span.mdl-tooltip data-mdl-for="edit_style" Style
+
+  - if policy(@current_event).destroy?
+    - if @current_event.created?
+      = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+        span#delete.material-icons delete
+        span.mdl-tooltip data-mdl-for="delete" Delete Event
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .info-container = render "admins/events/status", event: @current_event
 
 
 .content-grid.mdl-grid
@@ -98,6 +65,9 @@
             tr
               td.mdl-data-table__cell--non-numeric Start date
               td = l @current_event.start_date
+            tr
+              td.mdl-data-table__cell--non-numeric Gtag Type
+              td = best_in_place @current_event, :gtag_type, as: :select, collection: Gtag::DEFINITIONS.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event]
 
       .mdl-card__title
         .mdl-cell.mdl-cell--12-col
@@ -111,20 +81,14 @@
               td.mdl-data-table__cell--non-numeric Support email
               td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
             tr
-              td.mdl-data-table__cell--non-numeric Company Name
-              td = best_in_place @current_event, :company_name, url: [:admins, @current_event]
+              td.mdl-data-table__cell--non-numeric Official Name
+              td = best_in_place @current_event, :official_name, url: [:admins, @current_event]
             tr
               td.mdl-data-table__cell--non-numeric Official Address
               td = best_in_place @current_event, :official_address, url: [:admins, @current_event]
             tr
-              td.mdl-data-table__cell--non-numeric Official Name
-              td = best_in_place @current_event, :official_name, url: [:admins, @current_event]
-            tr
               td.mdl-data-table__cell--non-numeric Registration Num
               td = best_in_place @current_event, :registration_num, url: [:admins, @current_event]
-            tr
-              td.mdl-data-table__cell--non-numeric Gtag Type
-              td = best_in_place @current_event, :gtag_type, as: :select, collection: Gtag::DEFINITIONS.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event]
 
   .mdl-cell.mdl-cell--6-col
     .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
@@ -139,9 +103,6 @@
             tr
               td.mdl-data-table__cell--non-numeric Value
               td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description
-            tr
-              td.mdl-data-table__cell--non-numeric IBAN enabled?
-              td = best_in_place @current_event, :iban_enabled?, best_in_place_checkbox([:admins, @current_event])
             tr
               td.mdl-data-table__cell--non-numeric Currency
               td = best_in_place @current_event, :currency, url: [:admins, @current_event]
@@ -185,6 +146,9 @@
       .mdl-card__supporting-text
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
+            tr
+              td.mdl-data-table__cell--non-numeric IBAN enabled?
+              td = best_in_place @current_event, :iban_enabled?, best_in_place_checkbox([:admins, @current_event])
             tr
               td.mdl-data-table__cell--non-numeric Phone Mandatory
               td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])

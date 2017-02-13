@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   include ControllerMacros
 
-  let(:event) { create(:event) }
+  let(:event) { create(:event, state: "started") }
   let(:user) { create(:user) }
   let(:transaction) { CreditTransaction.new }
   let(:params) do
@@ -52,6 +52,14 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         it "returns a 400 status code" do
           post :create, params: { event_id: event.id }
           expect(response.status).to eq(400)
+        end
+      end
+
+      context "when there are no parameters" do
+        it "returns a 400 status code" do
+          event.update!(state: "closed")
+          post :create, params: { event_id: event.id }
+          expect(response.status).to eq(403)
         end
       end
 

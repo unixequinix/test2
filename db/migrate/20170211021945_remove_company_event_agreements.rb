@@ -8,9 +8,10 @@ class RemoveCompanyEventAgreements < ActiveRecord::Migration[5.0]
     ids.each do |id, event_id, company_id|
       event = Event.find(event_id)
       old_company = Company.find(company_id)
-      new_company = Company.create!(name: old_company.name, access_token: old_company.access_token, event_id: event_id)
+      new_company = Company.find_or_create_by!(name: old_company.name, event_id: event_id)
+      new_company.update!(access_token: old_company.access_token)
       tts = ActiveRecord::Base.connection.exec_query("SELECT id FROM ticket_types WHERE ticket_types.company_event_agreement_id = #{id}").rows.flatten
-      tts.each { |id| TicketType.find(id).update!(company_id: new_company.id) }
+      tts.each { |id| TicketType.find(id).update_attribute(:company_id, new_company.id) }
       (event.ticket_types - TicketType.find(tts)).each { |tt| tt.update_attribute(:company_id, event.companies.find_or_create_by!(name: "Glownet").id) }
     end
 

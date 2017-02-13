@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/activerecord-hackery/ransack.git
-  revision: 1f1ec180ea6e29cfe717fccd45c2e06878d59257
+  revision: 8ca8c95c6543c5da9b98a4e2747a0a4023d60bfc
   specs:
     ransack (1.8.2)
       actionpack (>= 3.0)
@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: https://github.com/envoy/eventbrite.git
-  revision: efa8c4752b7204a9f274345d26deed753d803361
+  revision: 30377281b64076d7747404f0f49d961a72322b0c
   specs:
     eventbrite (0.1.0)
       hashie (~> 3.0)
@@ -29,7 +29,7 @@ GIT
 
 GIT
   remote: https://github.com/globalize/globalize.git
-  revision: e1cbe4247458c13b344738a682609d23eba53f65
+  revision: 5b0ff2c92e7536f908dc82a4c2a15b04be79e821
   specs:
     globalize (5.1.0)
       activemodel (>= 4.2, < 5.1)
@@ -45,7 +45,7 @@ GIT
 
 GIT
   remote: https://github.com/rails-api/active_model_serializers.git
-  revision: 93ca27fe444c3a940890cb7a4dedbd8369f481f3
+  revision: a9d533d916e64c8fb585a3b19c2cbbc8405a6f05
   specs:
     active_model_serializers (0.10.4)
       actionpack (>= 4.1, < 6)
@@ -63,7 +63,7 @@ GIT
 
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: 004daf4922af6ee7a7a87982f3040768e428209e
+  revision: 32f416c7b8e5131247dadee4ac848ac42c43c761
   specs:
     rack-protection (2.0.0.beta2)
       rack
@@ -109,7 +109,7 @@ GEM
       activemodel (= 5.0.1)
       activesupport (= 5.0.1)
       arel (~> 7.0)
-    activerecord-import (0.16.2)
+    activerecord-import (0.17.1)
       activerecord (>= 3.2)
     activesupport (5.0.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -126,27 +126,24 @@ GEM
     arel (7.1.4)
     ast (2.3.0)
     awesome_print (1.7.0)
-    aws-sdk (2.6.43)
-      aws-sdk-resources (= 2.6.43)
-    aws-sdk-core (2.6.43)
+    aws-sdk (2.7.7)
+      aws-sdk-resources (= 2.7.7)
+    aws-sdk-core (2.7.7)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.6.43)
-      aws-sdk-core (= 2.6.43)
+    aws-sdk-resources (2.7.7)
+      aws-sdk-core (= 2.7.7)
     aws-sigv4 (1.0.0)
     bcrypt (3.1.11)
     best_in_place (3.1.0)
       actionpack (>= 3.2)
       railties (>= 3.2)
-    bourbon (4.2.7)
+    bourbon (4.3.2)
       sass (~> 3.4)
       thor (~> 0.19)
-    builder (3.2.2)
-    bullet (5.5.0)
-      activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.10.0)
+    builder (3.2.3)
     byebug (9.0.6)
-    capistrano (3.7.1)
+    capistrano (3.7.2)
       airbrussh (>= 1.0.0)
       capistrano-harrow
       i18n
@@ -160,7 +157,7 @@ GEM
     capistrano-harrow (0.5.3)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
-    capistrano-rails (1.2.1)
+    capistrano-rails (1.2.2)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rails-console (2.2.0)
@@ -169,7 +166,7 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capybara (2.11.0)
+    capybara (2.12.0)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -181,12 +178,10 @@ GEM
     case_transform (0.2)
       activesupport
     chartkick (2.2.2)
-    childprocess (0.5.9)
+    childprocess (0.6.1)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    chronic (0.10.2)
-    climate_control (0.0.3)
-      activesupport (>= 3.0)
+    climate_control (0.1.0)
     cliver (0.3.2)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
@@ -197,9 +192,10 @@ GEM
     coderay (1.1.1)
     concurrent-ruby (1.0.4)
     connection_pool (2.2.1)
-    countries (2.0.5)
+    countries (2.0.6)
       i18n_data (~> 0.7.0)
       money (~> 6.7)
+      sixarm_ruby_unaccent (~> 1.1)
       unicode_utils (~> 1.4)
     country_select (3.0.0)
       countries (~> 2.0)
@@ -213,7 +209,7 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
-    diff-lcs (1.2.5)
+    diff-lcs (1.3)
     docile (1.1.5)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
@@ -226,21 +222,21 @@ GEM
       railties (>= 3.0.0)
     faraday (0.10.1)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.14)
+    ffi (1.9.17)
     figaro (1.1.1)
       thor (~> 0.14)
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
-    foreman (0.82.0)
+    foreman (0.83.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
     friendly_id (5.2.0)
       activerecord (>= 4.0.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
-    groupdate (3.1.1)
+    groupdate (3.2.0)
       activesupport (>= 3)
-    guard (2.14.0)
+    guard (2.14.1)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
       lumberjack (~> 1.0)
@@ -257,7 +253,7 @@ GEM
     guard-rubocop (1.2.0)
       guard (~> 2.0)
       rubocop (~> 0.20)
-    hashie (3.4.6)
+    hashie (3.5.3)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -273,23 +269,32 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (1.8.3)
+    json (1.8.6)
     jsonapi (0.1.1.beta6)
       jsonapi-parser (= 0.1.1.beta3)
       jsonapi-renderer (= 0.1.1.beta1)
     jsonapi-parser (0.1.1.beta3)
     jsonapi-renderer (0.1.1.beta1)
     jwt (1.5.6)
-    kaminari (0.17.0)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
+    kaminari (1.0.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.0.1)
+      kaminari-activerecord (= 1.0.1)
+      kaminari-core (= 1.0.1)
+    kaminari-actionview (1.0.1)
+      actionview
+      kaminari-core (= 1.0.1)
+    kaminari-activerecord (1.0.1)
+      activerecord
+      kaminari-core (= 1.0.1)
+    kaminari-core (1.0.1)
     libv8 (3.16.14.17)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    lumberjack (1.0.10)
+    lumberjack (1.0.11)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
@@ -297,7 +302,7 @@ GEM
     mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
-    money (6.7.1)
+    money (6.8.1)
       i18n (>= 0.6.4, <= 0.7.0)
       sixarm_ruby_unaccent (>= 1.1.1, < 2)
     multi_json (1.12.1)
@@ -310,14 +315,14 @@ GEM
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (4.0.0)
+    net-ssh (4.0.1)
     netrc (0.11.0)
-    newrelic_rpm (3.17.2.327)
+    newrelic_rpm (3.18.1.330)
     nilify_blanks (1.2.1)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     nio4r (1.2.1)
-    nokogiri (1.7.0)
+    nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -329,11 +334,11 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    oj (2.18.0)
+    oj (2.18.1)
     oj_mimic_json (1.0.1)
-    omniauth (1.3.1)
-      hashie (>= 1.2, < 4)
-      rack (>= 1.0, < 3)
+    omniauth (1.5.0)
+      hashie (~> 3.5.0, < 4)
+      rack (>= 1.6.2, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-google-oauth2 (0.4.1)
@@ -347,9 +352,9 @@ GEM
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
-    omniauth-twitter (1.2.1)
-      json (~> 1.3)
+    omniauth-twitter (1.4.0)
       omniauth-oauth (~> 1.1)
+      rack
     orm_adapter (0.5.0)
     paperclip (5.1.0)
       activemodel (>= 4.2.0)
@@ -357,14 +362,14 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
-    parser (2.3.3.1)
+    parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.19.0)
-    phony (2.15.38)
-    phony_rails (0.14.4)
+    phony (2.15.40)
+    phony_rails (0.14.5)
       activesupport (>= 3.0)
       phony (~> 2.15)
-    poltergeist (1.12.0)
+    poltergeist (1.13.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
@@ -376,11 +381,11 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (2.0.5)
-    puma (3.6.2)
+    puma (3.7.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.1)
-    rack-cors (0.4.0)
+    rack-cors (0.4.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.1)
@@ -414,10 +419,10 @@ GEM
     rainbow (2.2.1)
     rake (11.3.0)
     rb-fsevent (0.9.8)
-    rb-inotify (0.9.7)
+    rb-inotify (0.9.8)
       ffi (>= 0.5.0)
     rdoc (4.3.0)
-    redis (3.3.2)
+    redis (3.3.3)
     ref (2.0.0)
     request_store (1.3.2)
     responders (2.3.0)
@@ -427,7 +432,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     rfc-822 (0.4.1)
-    roo (2.7.0)
+    roo (2.7.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
     rspec (3.5.0)
@@ -458,8 +463,8 @@ GEM
       rspec (~> 3.0, >= 3.0.0)
       sidekiq (>= 2.4.0)
     rspec-support (3.5.0)
-    rubocop (0.46.0)
-      parser (>= 2.3.1.1, < 3.0)
+    rubocop (0.47.1)
+      parser (>= 2.3.3.1, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
@@ -468,7 +473,7 @@ GEM
       rubocop (>= 0.30.1)
     ruby-graphviz (1.2.2)
     ruby-progressbar (1.8.1)
-    rubyzip (1.2.0)
+    rubyzip (1.2.1)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -479,22 +484,22 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (3.0.5)
+    selenium-webdriver (3.0.8)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     shellany (0.0.1)
-    sidekiq (4.2.7)
+    sidekiq (4.2.9)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.2, >= 3.2.1)
     sidekiq-failures (0.4.5)
       sidekiq (>= 2.16.0)
-    simple_form (3.3.1)
+    simple_form (3.4.0)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
-    simplecov (0.12.0)
+    simplecov (0.13.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
@@ -506,7 +511,7 @@ GEM
     slop (3.6.0)
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
-    spring (2.0.0)
+    spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -518,7 +523,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.11.5)
+    sshkit (1.12.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     sshkit-interactive (0.2.0)
@@ -526,13 +531,13 @@ GEM
     temple (0.7.7)
     terminal-notifier (1.7.1)
     terminal-notifier-guard (1.7.0)
-    therubyracer (0.12.2)
-      libv8 (~> 3.16.14.0)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
       ref
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.5)
-    tinymce-rails (4.5.1)
+    tilt (2.0.6)
+    tinymce-rails (4.5.3)
       railties (>= 3.1.1)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
@@ -544,23 +549,20 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
-    unicode-display_width (1.1.2)
+    unicode-display_width (1.1.3)
     unicode_utils (1.4.0)
-    uniform_notifier (1.10.0)
     url (0.3.2)
-    warden (1.2.6)
+    warden (1.2.7)
       rack (>= 1.0)
     web-console (3.4.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
       debug_inspector
       railties (>= 5.0)
-    websocket (1.2.3)
-    websocket-driver (0.6.4)
+    websocket (1.2.4)
+    websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    whenever (0.9.7)
-      chronic (>= 0.6.3)
     wicked_pdf (1.1.0)
     wkhtmltopdf-binary (0.12.3.1)
     xpath (2.0.0)
@@ -579,7 +581,6 @@ DEPENDENCIES
   aws-sdk (~> 2)
   best_in_place
   bourbon
-  bullet
   byebug
   capistrano (~> 3.6)
   capistrano-faster-assets (~> 1.0)
@@ -611,6 +612,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   jquery-ui-rails
+  json (~> 1.8.5)
   kaminari
   listen (~> 3.0.5)
   neat
@@ -664,12 +666,11 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
-  whenever
   wicked_pdf
   wkhtmltopdf-binary
 
 RUBY VERSION
-   ruby 2.3.3p222
+   ruby 2.4.0p0
 
 BUNDLED WITH
-   1.14.3
+   1.14.4

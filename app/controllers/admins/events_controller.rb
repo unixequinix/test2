@@ -63,6 +63,14 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     redirect_to [:admins, @current_event], notice: t("alerts.updated")
   end
 
+  def close
+    authorize @current_event
+    @current_event.update_attribute :state, "closed"
+    @current_event.companies.update_all(hidden: true)
+    @current_event.payment_gateways.delete_all
+    redirect_to [:admins, @current_event], notice: t("alerts.updated")
+  end
+
   def remove_db
     authorize @current_event
     @current_event.update(params[:db] => nil)
@@ -79,7 +87,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
         flash.now[:alert] = @current_event.errors.full_messages.to_sentence
         params[:redirect_path] ||= :edit
         format.html { render params[:redirect_path].to_sym }
-        format.json { render json: @current_event.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @current_event.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -123,7 +131,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :logo,
                                   :background,
                                   :currency,
-                                  :company_name,
                                   :official_name,
                                   :official_address,
                                   :address,

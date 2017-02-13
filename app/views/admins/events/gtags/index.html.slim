@@ -2,6 +2,17 @@
   = search_form_for @q, url: admins_event_gtags_path do |f|
     = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
+- content_for(:actions) do
+    = link_to new_admins_event_gtag_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#add.icon.material-icons add
+      span.mdl-tooltip data-mdl-for="add"  Add
+    = link_to admins_event_gtags_path(format: "csv"), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#file_download.icon.material-icons file_download
+      span.mdl-tooltip data-mdl-for="file_download"  Download CSV
+    = link_to '#import-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#upload.icon.material-icons file_upload
+      span.mdl-tooltip data-mdl-for="upload"  Import
+
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
   h3.remodal__title Import products by CSV file
@@ -25,18 +36,6 @@
         .mdl-cell.mdl-cell--8-col
           .tools
             .tool-item
-              = link_to new_admins_event_gtag_path do
-                span#add.icon.material-icons add
-                span.mdl-tooltip data-mdl-for="add"  Add
-            .tool-item
-              = link_to admins_event_gtags_path(format: "csv") do
-                span#file_download.icon.material-icons file_download
-                span.mdl-tooltip data-mdl-for="file_download"  Download CSV
-            .tool-item
-              = link_to '#import-modal' do
-                span#upload.icon.material-icons file_upload
-                span.mdl-tooltip data-mdl-for="upload"  Import
-            .tool-item
               span#check.icon.material-icons done_all
               span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes
             .tool-item
@@ -52,6 +51,8 @@
             tr
               th.mdl-data-table__cell--non-numeric Tag UID
               th Customer
+              th Credits
+              th Refundable Credits
               th Banned
           tbody
             - @gtags.each do |gtag|
@@ -65,6 +66,8 @@
                     = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{gtag.id}" delete
                 td data-label="Customer" = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td data-label="Credits" = number_to_event_currency gtag.credits
+                td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
                 td data-label="Banned"
                   - if gtag.banned?
                     = link_to unban_admins_event_gtag_path(@current_event, gtag), title: "Unban gtag" do

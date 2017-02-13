@@ -20,19 +20,19 @@ class ApplicationPolicy
   end
 
   def create?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def new?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def update?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def edit?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def destroy?
@@ -57,6 +57,10 @@ class ApplicationPolicy
   end
 
   private
+
+  def event_open
+    !record.event.closed?
+  end
 
   def admin_and_promoter
     user.admin? || (user.promoter? && user.owned_events.include?(record.event))

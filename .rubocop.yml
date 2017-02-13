@@ -34,6 +34,9 @@ Style/CaseIndentation:
 Metrics/LineLength:
   Max: 150
 
+Metrics/BlockLength:
+  Enabled: false
+
 Style/StringLiterals:
   Enabled: false
 
@@ -55,3 +58,6 @@ Lint/RequireParentheses:
 
 Rails:
   Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false

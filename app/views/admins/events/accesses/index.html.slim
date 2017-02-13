@@ -1,3 +1,8 @@
+- content_for(:actions) do
+  = link_to new_admins_event_access_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add_access.material-icons add
+    span.mdl-tooltip data-mdl-for="add_access"  Add
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
@@ -8,10 +13,6 @@
         .mdl-cell.mdl-cell--4-col Accesses
         .mdl-cell.mdl-cell--8-col
           .tools
-            .tool-item
-              = link_to new_admins_event_access_path do
-                span#add.material-icons add
-                span.mdl-tooltip data-mdl-for="add"  Add
             .tool-item
               span#check.material-icons done_all
               span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes
@@ -37,7 +38,13 @@
               tr data-event=@current_event.id data-access=access.id
                 td.mdl-data-table__cell--non-numeric data-label="Name"
                   = link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
-                  = render 'admins/events/accesses/actions', access: access unless @current_event.started?
+                  - if @current_event.created?
+                    .table-action
+                      = link_to edit_admins_event_access_path(@current_event, access) do
+                        button.icon.material-icons id ="edit_#{access.id}" edit
+                    .table-action
+                      = link_to admins_event_access_path(@current_event, access), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons id ="delete_#{access.id}" delete
                 td data-label="Step" = access.step
                 td data-label="Initial Amount" = access.initial_amount
                 td data-label="Max purchasable" = access.max_purchasable

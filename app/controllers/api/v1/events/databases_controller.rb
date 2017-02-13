@@ -19,7 +19,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
     end
 
     render(status: :created, json: :created) && return if @current_event.save
-    render(status: :unprocessable_entity, json: { errors: @current_event.errors.full_messages })
+    render(status: :unprocessable_entity, json: { errors: @current_event.errors })
   end
 
   private

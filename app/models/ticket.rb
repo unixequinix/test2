@@ -3,7 +3,7 @@
 # Table name: tickets
 #
 #  banned               :boolean          default(FALSE)
-#  code                 :citext
+#  code                 :citext           indexed => [event_id]
 #  purchaser_email      :string
 #  purchaser_first_name :string
 #  purchaser_last_name  :string
@@ -32,8 +32,7 @@ class Ticket < ActiveRecord::Base
 
   has_many :transactions, dependent: :restrict_with_error
 
-  validates :code, uniqueness: { scope: :event_id }
-  validates :code, presence: true
+  validates :code, uniqueness: { scope: :event_id }, presence: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") } # rubocop:disable Metrics/LineLength
   validates :ticket_type_id, presence: true
 
   scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }

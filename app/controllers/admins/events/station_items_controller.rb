@@ -1,21 +1,20 @@
 class Admins::Events::StationItemsController < Admins::Events::BaseController
-  before_action :set_item_class, except: [:index, :find_product]
-  before_action :set_station, only: [:index, :create]
+  before_action :set_item_class, except: [:find_product]
 
-  def index
-    skip_authorization
-  end
-
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     params[:station_product][:product_id] = current_event.products.find_or_create_by!(name: params[:station_product][:product_name]).id if params[:item_type].eql?("station_product") # rubocop:disable Metrics/LineLength
+
+    @station = @current_event.stations.find(params[:station_id])
+    @items = @station.all_station_items
+    @items.sort_by!(&@items.first.class.sort_column) if @items.first
     @item = @klass.new(permitted_params)
 
     authorize @item
     if @item.save
-      redirect_to admins_event_station_station_items_path(@current_event, @item.station), notice: t("alerts.created")
+      redirect_to [:admins, @current_event, @item.station], notice: t("alerts.created")
     else
       flash.now[:alert] = t("alerts.error")
-      render :index
+      render 'admins/events/stations/show'
     end
   end
 
@@ -23,10 +22,10 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @item = @klass.find(params[:id])
     authorize @item
     respond_to do |format|
-      if @item.update(params.require(params[:item_type]).permit(:price, :amount))
+      if @item.update(params.require(params[:item_type]).permit(:price, :amount, :hidden))
         format.json { render status: :ok, json: @item }
       else
-        format.json { render status: :unprocessable_entity, json: @item }
+        format.json { render json: { errors: @item.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -35,7 +34,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @item = @klass.find(params[:station_item_id])
     authorize @item
     @item.toggle!(:hidden)
-    redirect_to admins_event_station_station_items_path(@current_event, @item.station), notice: t("alerts.updated")
+    redirect_to [:admins, @current_event, @item.station], notice: t("alerts.updated")
   end
 
   def destroy
@@ -47,7 +46,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     else
       flash[:error] = @pack.errors.full_messages.to_sentence
     end
-    redirect_to admins_event_station_station_items_path(@current_event, @item.station)
+    redirect_to [:admins, @current_event, @item.station]
   end
 
   def find_product
@@ -67,12 +66,6 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
 
   private
 
-  def set_station
-    @station = @current_event.stations.find(params[:station_id])
-    @items = @station.all_station_items
-    @items.sort_by!(&@items.first.class.sort_column) if @items.first
-  end
-
   def set_item_class
     @klass = params[:item_type].camelcase.constantize
   end
@@ -86,6 +79,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
                                               :product_name,
                                               :amount,
                                               :credit_id,
-                                              :station_id)
+                                              :station_id,
+                                              :hidden)
   end
 end

@@ -4,10 +4,10 @@ class PaymentGatewayPolicy < ApplicationPolicy
   end
 
   def topup?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def refund?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 end

@@ -4,8 +4,7 @@ footer
       - locales = Event::LOCALES.map(&:to_s)
       - if locales.length >= 1
         - locales.each_with_index do |locale, index|
-          li
-            = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+          li = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
           - if (index + 1 < Event::LOCALES.length)
             span.footer-separator
     ul.terms-list

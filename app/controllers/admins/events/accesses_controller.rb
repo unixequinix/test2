@@ -7,7 +7,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def new
-    @access = @current_event.accesses.new
+    @access = @current_event.accesses.new(mode: "permanent")
     authorize @access
   end
 
@@ -33,7 +33,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       else
         flash.now[:alert] = @access.errors.full_messages.join(". ")
         format.html { render :edit }
-        format.json { render json: @access.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @access.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -42,7 +42,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
     respond_to do |format|
       if @access.destroy
         format.html { redirect_to admins_event_accesses_path, notice: 'Access was successfully deleted.' }
-        format.json { render :show, status: :ok, location: admins_event_accesses_path }
+        format.json { render :show, location: admins_event_accesses_path }
       else
         redirect_to [:admins, @current_event, @access], alert: @access.errors.full_messages.to_sentence
       end

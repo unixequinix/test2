@@ -40,7 +40,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
         format.json { render status: :ok, json: @ticket }
       else
         format.html { render :edit }
-        format.json { render json: @ticket.error.full_messages, status: :unporcessable_entry }
+        format.json { render json: { errors: @ticket.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -49,7 +49,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     respond_to do |format|
       if @ticket.destroy
         format.html { redirect_to admins_event_tickets_path, notice: 'Ticket was successfully deleted.' }
-        format.json { render :show, status: :ok, location: admins_event_tickets_path }
+        format.json { render :show, location: admins_event_tickets_path }
       else
         redirect_to [:admins, @current_event, @ticket], alert: @ticket.errors.full_messages.to_sentence
       end

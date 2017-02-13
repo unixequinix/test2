@@ -1,6 +1,6 @@
 class TransactionPolicy < ApplicationPolicy
   def fix?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def search?

@@ -1,33 +1,11 @@
-- if @current_event.eventbrite?
-  .content-grid.mdl-grid
-    .mdl-cell.mdl-cell--10-col
-      .inconsistencies-card.mdl-card
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to admins_event_eventbrite_import_tickets_path(@current_event) do
-                  span#tickets.material-icons file_download
-                  span.mdl-tooltip data-mdl-for="tickets"  Import tickets
-              .tool-item
-                = link_to admins_event_eventbrite_disconnect_path(@current_event), alert: "Beware! Tickets will remain in the system. If you want, delete them by hand." do
-                  span#disconnect.material-icons not_interested
-                  span.mdl-tooltip data-mdl-for="disconnect"  Disconnect
-
 - if @current_event.eventbrite_event.present?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--6-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
         .mdl-card__title
-          .mdl-cell.mdl-cell--4-col = "Connected to '#{@eb_event.name.text}'"
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to admins_event_path(@current_event) do
-                  span#undo.icon.material-icons undo
-                  span.mdl-tooltip data-mdl-for="undo"  Back
+          .mdl-cell.mdl-cell--12-col = "Connected to '#{@eb_event.name.text}'"
+
 
         table.mdl-data-table.mdl-js-data-table.within-card
           tbody
@@ -63,13 +41,7 @@
     .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
         .mdl-card__title
-          .mdl-cell.mdl-cell--4-col Connect Eventbrite and Glownet
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to admins_event_path(@current_event) do
-                  span#undo.icon.material-icons undo
-                  span.mdl-tooltip data-mdl-for="undo"  Back
+          .mdl-cell.mdl-cell--12-col Connect Eventbrite and Glownet
         .table-responsive
           table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
             thead

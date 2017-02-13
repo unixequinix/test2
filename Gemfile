@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.3.3'
+ruby '2.4.0'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
@@ -26,6 +26,7 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'deep_cloneable'
 gem 'pg' # Use pg as the database for Active Record
+gem 'json', '~> 1.8.5' # TODO: remove after deploy of v3
 
 # Assets
 gem 'jquery-rails'
@@ -83,9 +84,6 @@ gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
 gem 'sidekiq-failures'
 
-# Cron tasks
-gem 'whenever', require: false
-
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', group: :doc
 
@@ -103,7 +101,6 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.0.5'
   gem 'foreman'
-  gem 'bullet' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
   gem 'capistrano', '~> 3.6'

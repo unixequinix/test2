@@ -18,7 +18,15 @@
           tr
             td.mdl-data-table__cell--non-numeric data-label="Model"
               = device.device_model
-              = render 'admins/devices/actions', device: device
+              .table-action
+                = link_to admins_device_path(device) do
+                  button.icon.material-icons info_outline
+              .table-action
+                = link_to edit_admins_device_path(device) do
+                  button.icon.material-icons edit
+              .table-action
+                = link_to admins_device_path(device), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                  button.icon.material-icons delete
             td data-label="Asset" = device.asset_tracker
             td data-label="Imei" = device.imei
             td data-label="Mac" = device.mac

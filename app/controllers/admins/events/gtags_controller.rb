@@ -1,4 +1,4 @@
-class Admins::Events::GtagsController < Admins::Events::BaseController
+class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_gtag, except: [:index, :new, :create]
 
   def index
@@ -18,12 +18,12 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def new
-    @gtag = Gtag.new
+    @gtag = @current_event.gtags.new
     authorize @gtag
   end
 
   def create
-    @gtag = Gtag.new(permitted_params)
+    @gtag = @current_event.gtags.new(permitted_params)
     authorize @gtag
     if @gtag.save
       redirect_to admins_event_gtags_path, notice: t("alerts.created")
@@ -34,11 +34,15 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def update
-    if @gtag.update(permitted_params)
-      redirect_to admins_event_gtag_path(@current_event, @gtag), notice: t("alerts.updated")
-    else
-      flash.now[:alert] = t("alerts.error")
-      render :edit
+    respond_to do |format|
+      if @gtag.update(permitted_params)
+        format.html { redirect_to admins_event_gtag_path(@current_event, @gtag), notice: t("alerts.updated") }
+        format.json { render json: @gtag }
+      else
+        flash.now[:alert] = t("alerts.error")
+        format.html { render :edit }
+        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -49,7 +53,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
         format.json { render json: true }
       else
         format.html { redirect_to [:admins, @current_event, @gtag], alert: @gtag.errors.full_messages.to_sentence }
-        format.json { render json: { errors: @gtag.errors.full_messages.to_sentence }, status: :unprocessable_entity }
+        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
       end
     end
   end

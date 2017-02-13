@@ -2,6 +2,14 @@
   = search_form_for @q, url: admins_event_products_path do |f|
     = f.search_field :name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
+- content_for(:actions) do
+  = link_to new_admins_event_product_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add"  Add
+  = link_to '#import-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#upload.icon.material-icons file_upload
+    span.mdl-tooltip data-mdl-for="upload"  Import
+
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
   h3.remodal__title Import products by CSV file
@@ -20,18 +28,6 @@
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @products
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--4-col Products (editable)
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to new_admins_event_product_path do
-                span#add.icon.material-icons add
-                span.mdl-tooltip data-mdl-for="add"  Add
-            .tool-item
-              = link_to '#import-modal' do
-                span#upload.icon.material-icons file_upload
-                span.mdl-tooltip data-mdl-for="upload"  Import
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
           thead

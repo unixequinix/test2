@@ -4,9 +4,9 @@
 #
 #  asset_tracker :string
 #  device_model  :string
-#  imei          :string
-#  mac           :string
-#  serial_number :string
+#  imei          :string           indexed => [mac, serial_number]
+#  mac           :string           indexed => [imei, serial_number]
+#  serial_number :string           indexed => [mac, imei]
 #
 # Indexes
 #

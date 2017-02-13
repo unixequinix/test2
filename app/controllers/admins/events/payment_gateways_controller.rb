@@ -29,30 +29,23 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def update
-    @gateway.name = permitted_params.delete(:name)
-    @gateway.data = permitted_params
+    @gateway.name = permitted_params.delete(:name) if permitted_params[:name]
 
-    if @gateway.save
-      redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated")
-    else
-      flash.now[:alert] = t("alerts.error")
-      render :edit
+    respond_to do |format|
+      if @gateway.save
+        format.html { redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated") }
+        format.json { render json: @gateway }
+      else
+        flash.now[:alert] = t("alerts.error")
+        format.html { render :edit }
+        format.json { render json: { errors: @gateway.errors }, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @gateway.destroy
     redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.destroyed")
-  end
-
-  def topup
-    @gateway.update(topup: !@gateway.topup?)
-    redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated")
-  end
-
-  def refund
-    @gateway.update(refund: !@gateway.refund?)
-    redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated")
   end
 
   private
@@ -85,6 +78,8 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
                                             :signature,
                                             :terminal,
                                             :currency,
-                                            :destination)
+                                            :destination,
+                                            :topup,
+                                            :refund)
   end
 end

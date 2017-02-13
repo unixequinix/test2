@@ -1,6 +1,6 @@
 class TicketPolicy < ApplicationPolicy
   def import?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def sample_csv?
@@ -8,10 +8,10 @@ class TicketPolicy < ApplicationPolicy
   end
 
   def ban?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 
   def unban?
-    admin_and_promoter
+    admin_and_promoter && event_open
   end
 end

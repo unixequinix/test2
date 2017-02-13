@@ -36,20 +36,15 @@
           tr
             th.mdl-data-table__cell--non-numeric Name
             th.mdl-data-table__cell--non-numeric Status
+            th.mdl-data-table__cell--non-numeric Start
+            th.mdl-data-table__cell--non-numeric End
         tbody
           - @events.each do |event|
             tr
-              td.mdl-data-table__cell--non-numeric
-                = link_to event.name, admins_event_path(event), class: "no_link"
-
-                - if event.created?
-                  .table-action
-                    = link_to admins_event_path(event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{event.id}" delete
+              td.mdl-data-table__cell--non-numeric = link_to event.name, admins_event_path(event), class: "no_link"
               td.mdl-data-table__cell--non-numeric = event.state
-
-            - if event.created?
-              span.mdl-tooltip data-mdl-for="delete_#{event.id}" Delete
+              td.mdl-data-table__cell--non-numeric = event.start_date.to_date.to_formatted_s(:short)
+              td.mdl-data-table__cell--non-numeric = event.end_date.to_date.to_formatted_s(:short)
   .mdl-layout-spacer
 
 

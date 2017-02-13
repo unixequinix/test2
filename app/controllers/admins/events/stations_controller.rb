@@ -7,18 +7,24 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     authorize @stations
   end
 
+  def show
+    authorize @station
+    @items = @station.all_station_items
+    @items.sort_by!(&@items.first.class.sort_column) if @items.first
+  end
+
   def new
-    @station = Station.new(group: params[:group])
+    @station = @current_event.stations.new(group: params[:group])
     authorize @station
     @group = @station.group
   end
 
   def create
-    @station = Station.new(permitted_params.merge(hidden: true))
+    @station = @current_event.stations.new(permitted_params.merge(hidden: true))
     authorize @station
     @group = @station.group
     if @station.save
-      redirect_to admins_event_station_station_items_path(@current_event, @station), notice: t("alerts.created")
+      redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.created")
     else
       flash.now[:alert] = t("alerts.error")
       render :new
@@ -28,13 +34,12 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def update
     respond_to do |format|
       if @station.update(permitted_params)
-        format.html { redirect_to admins_event_station_station_items_path(@current_event, @station), notice: t("alerts.updated") }
+        format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
         format.json { render json: @station }
       else
-        format.html do
-          flash.now[:alert] = t("alerts.error")
-          render :edit
-        end
+        flash.now[:alert] = t("alerts.error")
+        format.html { render :edit }
+        format.json { render json: { errors: @station.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -43,7 +48,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @station = @station.deep_clone(include: [:station_catalog_items, :station_products, :topup_credits, :access_control_gates], validate: false)
     @station.name = "#{@station.name} - #{rand(10_000)}"
     @station.save!
-    redirect_to admins_event_station_station_items_path(@current_event, @station)
+    redirect_to admins_event_station_path(@current_event, @station)
   end
 
   def destroy
@@ -76,6 +81,15 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:station).permit(:name, :location, :event_id, :category, :group, :reporting_category, :address, :registration_num, :official_name)
+    params.require(:station).permit(:name,
+                                    :location,
+                                    :event_id,
+                                    :category,
+                                    :group,
+                                    :reporting_category,
+                                    :address,
+                                    :registration_num,
+                                    :official_name,
+                                    :hidden)
   end
 end

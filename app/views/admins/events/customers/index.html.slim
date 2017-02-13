@@ -2,10 +2,37 @@
   = search_form_for @q, url: admins_event_customers_path do |f|
     = f.search_field :email_or_first_name_or_last_name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
+- content_for(:actions) do
+  = link_to admins_event_customers_path(format: "csv"), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#download.icon.material-icons file_download
+    span.mdl-tooltip data-mdl-for="download" Download CSV
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @customers
-    = render "admins/events/customers/list", customers: @customers
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Email
+              th First name
+              th Last name
+              th Tickets
+              th Gtags
+          tbody
+            - @customers.each do |customer|
+              tr [id="customer-#{customer.id}"]
+                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to customer.email, admins_event_customer_path(@current_event, customer)
+                td data-label="First name" = customer.first_name
+                td data-label="Last name" = customer.last_name
+                td data-label="Tickets"
+                  - if customer.tickets.any?
+                    - customer.tickets.each do |ticket|
+                      = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+                td data-label="Gtags"
+                  - if gtag = customer.active_gtag
+                    = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
     .mdl-cell.mdl-cell--12-col = paginate @customers
   .mdl-layout-spacer
