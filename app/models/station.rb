@@ -37,20 +37,16 @@ class Station < ActiveRecord::Base
   after_create :add_predefined_values
   before_create :add_station_event_id
 
-  ASSOCIATIONS = {
-    accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
-    pos: [:bar, :vendor],
-    topup: [:top_up_refund, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix],
-    access: [:access_control, :ticket_validation]
-  }.freeze
+  ASSOCIATIONS = { accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
+                   pos: [:bar, :vendor],
+                   topup: [:top_up_refund, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix],
+                   access: [:access_control, :ticket_validation] }.freeze
 
-  GROUPS = {
-    access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
-    event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation], # rubocop:disable Metrics/LineLength
-    glownet: [:gtag_recycler, :envelope_linker],
-    monetary: [:bar, :vendor, :top_up_refund],
-    touchpoint: [:touchpoint]
-  }.freeze
+  GROUPS = { access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
+             event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation], # rubocop:disable Metrics/LineLength
+             glownet: [:gtag_recycler, :envelope_linker],
+             monetary: [:bar, :vendor, :top_up_refund],
+             touchpoint: [:touchpoint] }.freeze
 
   def form
     ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first
@@ -76,6 +72,7 @@ class Station < ActiveRecord::Base
 
   def add_predefined_values
     return unless ASSOCIATIONS[:topup].include?(category.to_sym)
+    return unless topup_credits.empty?
 
     amounts = [1, 5, 10]
     amounts += category.starts_with?("cs_") ? [0.01, 0.10, 0.50] : [20, 25, 50]

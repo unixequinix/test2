@@ -36,6 +36,6 @@ class TopupCredit < ActiveRecord::Base
 
   def valid_topup_credit
     return unless station
-    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits.visible.count >= 6
+    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits.visible.count > 6
   end
 end
