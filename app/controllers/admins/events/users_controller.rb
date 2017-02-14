@@ -30,10 +30,14 @@ class Admins::Events::UsersController < Admins::Events::BaseController
   end
 
   def destroy
-    if @user.destroy
-      redirect_to admins_event_users_path, notice: t("alerts.destroyed")
-    else
-      redirect_to [:admins, @current_event, @user], error: t("alerts.error")
+    respond_to do |format|
+      if @user.destroy
+        format.html { redirect_to admins_event_users_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
+      else
+        format.html { redirect_to [:admins, @current_event, @user], alert: @user.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @user.errors }, status: :unprocessable_entity }
+      end
     end
   end
 

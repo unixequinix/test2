@@ -16,6 +16,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    admin_and_promoter && record.event.created? && recrod.event.active?
+    admin_and_promoter
   end
 end

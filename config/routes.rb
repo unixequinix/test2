@@ -260,7 +260,7 @@ end
 #                                            root GET      /                                                                                                 admins/events#index
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007ffb971ab928 @mutex=#<Monitor:0x007ffb971ab900 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007ffb971ab8b0>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fc1b0e04d08 @mutex=#<Monitor:0x007fc1b0e04c90 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fc1b0e04ba0>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -444,6 +444,7 @@ end
 #              admins_event_station_station_items POST     /admins/events/:event_id/stations/:station_id/station_items(.:format)                             admins/events/station_items#create
 #               admins_event_station_station_item PATCH    /admins/events/:event_id/stations/:station_id/station_items/:id(.:format)                         admins/events/station_items#update
 #                                                 PUT      /admins/events/:event_id/stations/:station_id/station_items/:id(.:format)                         admins/events/station_items#update
+#                                                 DELETE   /admins/events/:event_id/stations/:station_id/station_items/:id(.:format)                         admins/events/station_items#destroy
 #                           admins_event_stations GET      /admins/events/:event_id/stations(.:format)                                                       admins/events/stations#index
 #                                                 POST     /admins/events/:event_id/stations(.:format)                                                       admins/events/stations#create
 #                        new_admins_event_station GET      /admins/events/:event_id/stations/new(.:format)                                                   admins/events/stations#new

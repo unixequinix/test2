@@ -1,8 +1,4 @@
 $(document).on("ready", function(){
-  $('#check').click(function(){
-    $(".mdl-data-table td:first-of-type").toggle();
-    $(".mdl-data-table th:first-of-type").toggle();
-  });
 
   $(function(){
     var classes = document.querySelectorAll(".expanf")

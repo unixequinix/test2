@@ -14,8 +14,7 @@
 #
 # Indexes
 #
-#  index_stations_on_event_id          (event_id)
-#  index_stations_on_station_event_id  (station_event_id)
+#  index_stations_on_event_id  (event_id)
 #
 # Foreign Keys
 #

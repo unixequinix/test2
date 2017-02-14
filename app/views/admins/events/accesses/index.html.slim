@@ -1,7 +1,11 @@
 - content_for(:actions) do
-  = link_to new_admins_event_access_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+  = link_to new_admins_event_access_path, class: "mdl-button mdl-button--icon" do
     span#add_access.material-icons add
     span.mdl-tooltip data-mdl-for="add_access"  Add
+  span#bulk.icon.material-icons more_vert
+  span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
+  ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
+    li.mdl-menu__item#delete_multiple data-type="accesse" Delete selected
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -11,18 +15,6 @@
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col Accesses
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              span#check.material-icons done_all
-              span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes
-            .tool-item
-              span#bulk.material-icons more_vert
-              span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
-              ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-                li.mdl-menu__item#hide Hide selected
-                li.mdl-menu__item#show Show all
-                li.mdl-menu__item#delete_multiple data-type="access" Delete selected
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead
@@ -34,24 +26,24 @@
               th Min purchasable
               th Mode
           tbody
-            - @accesses.each do |access|
-              tr data-event=@current_event.id data-access=access.id
+            - @accesses.each do |accesse|
+              tr data-event=@current_event.id data-accesse=accesse.id
                 td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
+                  = link_to(accesse.name, admins_event_access_path(@current_event, accesse), class: "no_link")
                   - if @current_event.created?
                     .table-action
-                      = link_to edit_admins_event_access_path(@current_event, access) do
-                        button.icon.material-icons id ="edit_#{access.id}" edit
+                      = link_to edit_admins_event_access_path(@current_event, accesse) do
+                        button.icon.material-icons id ="edit_#{accesse.id}" edit
                     .table-action
-                      = link_to admins_event_access_path(@current_event, access), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                        button.icon.material-icons id ="delete_#{access.id}" delete
-                td data-label="Step" = access.step
-                td data-label="Initial Amount" = access.initial_amount
-                td data-label="Max purchasable" = access.max_purchasable
-                td data-label="Min purchasable" = access.min_purchasable
-                td data-label="Mode"= access.mode
-              span.mdl-tooltip data-mdl-for="edit_#{access.id}" Edit
-              span.mdl-tooltip data-mdl-for="delete_#{access.id}" Delete
+                      = link_to admins_event_access_path(@current_event, accesse), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons id ="delete_#{accesse.id}" delete
+                td data-label="Step" = accesse.step
+                td data-label="Initial Amount" = accesse.initial_amount
+                td data-label="Max purchasable" = accesse.max_purchasable
+                td data-label="Min purchasable" = accesse.min_purchasable
+                td data-label="Mode"= accesse.mode
+              span.mdl-tooltip data-mdl-for="edit_#{accesse.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{accesse.id}" Delete
 
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @accesses
   .mdl-layout-spacer

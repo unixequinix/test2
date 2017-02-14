@@ -2,38 +2,38 @@
   - if policy(@current_event).edit?
     - if @current_event.created?
       .tool-item
-        = link_to '#launch-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+        = link_to '#launch-modal', class: "mdl-button mdl-button--icon" do
           span#launch_link.icon.material-icons flight_takeoff
           span.mdl-tooltip data-mdl-for="launch_link" Launch
 
     - if @current_event.active?
       .tool-item
-        = link_to '#close-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+        = link_to '#close-modal', class: "mdl-button mdl-button--icon" do
           span#launch_link.icon.material-icons flight_land
           span.mdl-tooltip data-mdl-for="launch_link" Close
 
-    = link_to admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-button--icon" do
       span#eventbrite_setting.material-icons gesture
       span.mdl-tooltip data-mdl-for="eventbrite_setting" Eventbrite Settings
 
-    = link_to admins_event_payment_gateways_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to admins_event_payment_gateways_path(@current_event), class: "mdl-button mdl-button--icon" do
       span#payment_setting.material-icons euro_symbol
       span.mdl-tooltip data-mdl-for="payment_setting" Payment Settings
 
-    = link_to device_settings_admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to device_settings_admins_event_path(@current_event), class: "mdl-button mdl-button--icon" do
       span#device_settings.material-icons phonelink_setup
       span.mdl-tooltip data-mdl-for="device_settings" Device Settings
 
-    = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-button--icon" do
       span#edit.material-icons edit
       span.mdl-tooltip data-mdl-for="edit" Settings
 
-    = link_to edit_event_style_admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to edit_event_style_admins_event_path(@current_event), class: "mdl-button mdl-button--icon" do
       span#edit_style.material-icons brush
       span.mdl-tooltip data-mdl-for="edit_style" Style
 
-  - if policy(@current_event).destroy? || !Rails.env.production?
-    - if @current_event.created? || !Rails.env.production?
+  - if policy(@current_event).destroy?
+    - if @current_event.created?
       = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
         span#delete.material-icons delete
         span.mdl-tooltip data-mdl-for="delete" Delete Event
@@ -203,3 +203,6 @@
                 td.italic No background found
             span.mdl-tooltip data-mdl-for="delete_background" Delete Background
             span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
+  - if policy(@current_event).destroy?
+    - if @current_event.created?
+      = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-button--icon" do

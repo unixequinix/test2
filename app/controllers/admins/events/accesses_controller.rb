@@ -41,10 +41,11 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   def destroy
     respond_to do |format|
       if @access.destroy
-        format.html { redirect_to admins_event_accesses_path, notice: 'Access was successfully deleted.' }
-        format.json { render :show, location: admins_event_accesses_path }
+        format.html { redirect_to admins_event_packs_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
       else
-        redirect_to [:admins, @current_event, @access], alert: @access.errors.full_messages.to_sentence
+        format.html { redirect_to [:admins, @current_event, @access], alert: @access.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @access.errors }, status: :unprocessable_entity }
       end
     end
   end

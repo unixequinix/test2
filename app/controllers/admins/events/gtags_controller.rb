@@ -69,18 +69,26 @@ class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop
   end
 
   def ban
-    @gtag.ban
     respond_to do |format|
-      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
-      format.json { render json: true }
+      if @gtag.ban
+        format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+        format.json { render json: true }
+      else
+        format.html { redirect_to [:admins, @current_event, @gtag] }
+        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
+      end
     end
   end
 
   def unban
-    @gtag.unban
     respond_to do |format|
-      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
-      format.json { render json: true }
+      if @gtag.ban
+        format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+        format.json { render json: true }
+      else
+        format.html { redirect_to [:admins, @current_event, @gtag] }
+        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
+      end
     end
   end
 

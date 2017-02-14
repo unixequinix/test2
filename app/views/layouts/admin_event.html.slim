@@ -31,7 +31,13 @@ html
           = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item" do
             = @current_event.name
             = " (CLOSED)" if @current_event.closed?
+
           .mdl-layout-spacer
+
+          = yield(:title)
+
+          .mdl-layout-spacer
+
           - if @q
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
@@ -40,23 +46,16 @@ html
                 = yield(:search)
             |  &nbsp;&nbsp;
 
-
           = yield(:actions)
 
-          = link_to [:admins, @current_event], class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+          = link_to [:admins, @current_event], class: "mdl-button mdl-button--icon" do
             span#event_details.icon.material-icons info
             span.mdl-tooltip data-mdl-for="event_details" Event Details
 
-          button#vertmenu.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
-            i.material-icons more_vert
-          ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="vertmenu"
-            = link_to admins_events_path do
-              li.mdl-menu__item Events
-            - if current_user.admin?
-              = link_to admins_devices_path do
-                li.mdl-menu__item Devices
-            = link_to destroy_user_session_path, method: :delete do
-              li.mdl-menu__item Log out
+          = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
+            span#out.icon.material-icons power_settings_new
+            span.mdl-tooltip data-mdl-for="out"  Log out
+
 
       .mdl-layout__drawer
         .drawer-logo = link_to image_tag("glownet-event-logo.png"), admins_events_path

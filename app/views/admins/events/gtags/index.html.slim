@@ -3,15 +3,21 @@
     = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-    = link_to new_admins_event_gtag_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to new_admins_event_gtag_path, class: "mdl-button mdl-button--icon" do
       span#add.icon.material-icons add
       span.mdl-tooltip data-mdl-for="add"  Add
-    = link_to admins_event_gtags_path(format: "csv"), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to admins_event_gtags_path(format: "csv"), class: "mdl-button mdl-button--icon" do
       span#file_download.icon.material-icons file_download
       span.mdl-tooltip data-mdl-for="file_download"  Download CSV
-    = link_to '#import-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    = link_to '#import-modal', class: "mdl-button mdl-button--icon" do
       span#upload.icon.material-icons file_upload
       span.mdl-tooltip data-mdl-for="upload"  Import
+    span#bulk.icon.material-icons more_vert
+    span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
+    ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
+      li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
+      li.mdl-menu__item#ban_multiple data-type="gtag" Ban selected
+      li.mdl-menu__item#unban_multiple data-type="gtag" Unban selected
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
@@ -34,17 +40,6 @@
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col GTags
         .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              span#check.icon.material-icons done_all
-              span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes
-            .tool-item
-              span#bulk.icon.material-icons more_vert
-              span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
-              ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-                li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
-                li.mdl-menu__item#ban_multiple data-type="gtag" Ban selected
-                li.mdl-menu__item#unban_multiple data-type="gtag" Unban selected
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead
