@@ -15,7 +15,6 @@
       = f.input :address, placeholder: true
       = f.input :registration_num, placeholder: true
       - if station.new_record?
-        - stations = Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }
-        = f.input :category, collection: stations.map { |g| g }, include_blank: false
+        = f.input :category, collection: Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }.map { |g| g }, include_blank: false
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
