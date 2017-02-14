@@ -25,7 +25,7 @@ class TicketType < ActiveRecord::Base
   belongs_to :catalog_item
   belongs_to :company
 
-  validates :name, presence: true
+  validates :name, :company_id, presence: true
   validates :company_code, uniqueness: { scope: :company_id }, allow_blank: true
 
   scope :for_devices, -> { where.not(catalog_item_id: nil) }
