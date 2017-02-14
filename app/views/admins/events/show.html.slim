@@ -33,7 +33,7 @@
       span.mdl-tooltip data-mdl-for="edit_style" Style
 
   - if policy(@current_event).destroy?
-    - if @current_event.created?
+    - if @current_event.created? || !Rails.env.production?
       = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
         span#delete.material-icons delete
         span.mdl-tooltip data-mdl-for="delete" Delete Event
