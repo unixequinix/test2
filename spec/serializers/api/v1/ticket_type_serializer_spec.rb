@@ -9,12 +9,12 @@ RSpec.describe Api::V1::TicketTypeSerializer, type: :serializer do
 
     subject { JSON.parse(serialization.to_json) }
 
-    it "returns the agreements comapny id" do
-      expect(subject["company_id"]).to eq(resource.company_event_agreement.company.id)
+    it "returns the comapny id" do
+      expect(subject["company_id"]).to eq(resource.company.id)
     end
 
-    it "returns the agreements company name" do
-      expect(subject["company_name"]).to eq(resource.company_event_agreement.company.name)
+    it "returns the company name" do
+      expect(subject["company_name"]).to eq(resource.company.name)
     end
 
     it "returns the company_code as ticket_type_ref" do

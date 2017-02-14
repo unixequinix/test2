@@ -2,11 +2,10 @@
 #
 # Table name: products
 #
-#  description  :string
-#  is_alcohol   :boolean          default(FALSE)
-#  name         :string
-#  product_type :string
-#  vat          :float            default(0.0)
+#  description :string
+#  is_alcohol  :boolean          default(FALSE)
+#  name        :string
+#  vat         :float            default(0.0)
 #
 # Indexes
 #

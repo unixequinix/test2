@@ -1,29 +1,35 @@
-- if current_event.info || current_event.disclaimer
-  .container-event-column 
-    .wrapper-session
-      = raw current_event.info if current_event.info
-      = raw current_event.disclaimer if current_event.disclaimer
-
 .container-event-login
-  .social-login
-      = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
-        = fa_icon "facebook"
-        = "Sign in with Facebook"
-      = link_to customer_google_oauth2_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
-        = fa_icon "google"
-        = "Sign in with Google"
-      = link_to t('sessions.create_account.link'), event_register_path(current_event), class: "btn btn-action-register"
-  .traditional-login
-    //h3.center-text = t('sessions.welcome')
-    = simple_form_for resource, url: event_login_path(current_event), method: :post do |f|
-      = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
-      .wrapper-session-login
-        = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
-        = fa_icon "envelope-o"
-      .wrapper-session-login
-        = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
-        = fa_icon "key"
-      = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
-    .wrapper-redirect-sessions.center-text
-      = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
+  - if current_event.created?
+    .wrapper-module-restriction
+      = image_tag "img-open-event.png", class: "event-state-image state-illustration"
+      h3 = t('dashboard.event_started.title')
+      p = t('dashboard.event_started.description')
+
+  - elsif current_event.closed?
+    .wrapper-module-restriction
+      = image_tag "img-closed-event.png", class: "event-state-image state-illustration"
+      h3 = t('dashboard.without_gtags_claiming_started.claim')
+      p = t('dashboard.without_gtags_claiming_started.description')
+
+  - else
+    .social-login
+        = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
+          = fa_icon "facebook"
+          = "Sign in with Facebook"
+        = link_to customer_google_oauth2_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
+          = fa_icon "google"
+          = "Sign in with Google"
+        = link_to t('sessions.create_account.link'), event_register_path(current_event), class: "btn btn-action-register"
+    .traditional-login
+      = simple_form_for resource, url: event_login_path(current_event), method: :post do |f|
+        = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
+        .wrapper-session-login
+          = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
+          = fa_icon "envelope-o"
+        .wrapper-session-login
+          = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
+          = fa_icon "key"
+        = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
+      .wrapper-redirect-sessions.center-text
+        = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
 

@@ -1,49 +1,48 @@
-- breadcrumb :admins_event_stations, @current_event, @group
-- provide :actions do
-  = link_to new_admins_event_station_path(group: @group), class: "btn btn-action btn-action-new small" do
-    = fa_icon 'plus'
-    = t('admin.actions.new')
+- content_for(:title) do
+  .mdl-layout-title.header-item #{@group.humanize} Stations
 
-.wrapper-negative-space
-  - if @stations.any?
-    table.accesses
-      thead
-        tr
-          th = t('admin.stations.name')
-          th = t('admin.stations.type')
-          th = t('admin.stations.location')
-          th = t('admin.stations.reporting_category')
-          th.table-actions-field = t('admin.defaults.actions')
-      tbody
-        - @stations.each do |station|
-          tr class="#{'station-hidden' if station.hidden?}"
-            td data-label=t('admin.stations.name')
-              = best_in_place station, :name, url: admins_event_station_path(@current_event, station)
-            td data-label=t('admin.stations.type')
-              = t("admin.stations.categories.#{station.category}")
-            td data-label=t('admin.stations.location')
-              = best_in_place station, :location, url: admins_event_station_path(@current_event, station)
-            td data-label=t('admin.stations.reporting_category')
-              = best_in_place station, :reporting_category, url: admins_event_station_path(@current_event, station)
-            td.table-actions-field
-              ul
-                - if station.form
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("list-alt", class: "fa-fw"), admins_event_station_station_items_path(@current_event, station))
-                li.table-action.action-edit = link_to_unless(station.hidden?, fa_icon("edit", class: "fa-fw"), edit_admins_event_station_path(@current_event, station))
-                
-                - unless station.category.eql?("customer_portal")
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(@current_event, station), method: :post)
-                
-                - unless station.category.eql?("touchpoint")
-                  - if station.hidden?
-                    li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_visibility_path(@current_event, station, group: @group), method: :post
-                  - else
-                    li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_visibility_path(@current_event, station, group: @group), method: :post
-                
-                - unless @current_event.active? || station.category.eql?("customer_portal")
-                  li.table-action.action-delete = link_to_unless(station.hidden?, fa_icon("trash", class: "fa-fw"), admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') })
+- content_for(:actions) do
+  = link_to new_admins_event_station_path(group: @group), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add"  Add
 
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'stations')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th.mdl-data-table__cell--non-numeric Type
+              th Items
+              th Hidden
+
+          tbody
+            - @stations.each do |station|
+              tr class="#{'resource-hidden' if station.hidden?}"
+                td.mdl-data-table__cell--non-numeric data-label="Name"
+                  = link_to station.name, [:admins, @current_event, station]
+                  - unless station.category.eql?("customer_portal")
+                    .table-action
+                      = link_to edit_admins_event_station_path(@current_event, station) do
+                        button.icon.material-icons id ="edit_#{station.id}" edit
+                    .table-action
+                      = link_to admins_event_station_clone_path(@current_event, station), method: :post do
+                        button.icon.material-icons id ="copy_#{station.id}" content_copy
+
+                    - unless @current_event.active?
+                      .table-action
+                        = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                          button.icon.material-icons id ="delete_#{station.id}" delete
+
+                td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
+                td data-label="Items" = station.all_station_items.size
+                td data-label="Hidden" = best_in_place station, :hidden, best_in_place_checkbox([:admins, @current_event, station])
+
+              span.mdl-tooltip data-mdl-for="edit_#{station.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{station.id}" Delete
+              span.mdl-tooltip data-mdl-for="copy_#{station.id}" Clone
+  .mdl-layout-spacer
+

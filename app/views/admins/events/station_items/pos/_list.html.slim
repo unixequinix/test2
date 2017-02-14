@@ -1,34 +1,27 @@
-table.station_products
-  thead
-    tr
-      th.table-sortable-field #
-      th = t('admin.stations.station_product.name')
-      th = t('admin.stations.station_product.price')
-      th = t('admin.stations.station_product.is_alcohol')
-      th = t('admin.stations.station_product.description')
-      th.table-actions-field = t('admin.defaults.actions')
-  tbody.sortable
-    - @items.each do |station_product|
-      tr data-id="#{station_product.id}" class="#{'station-hidden' if station_product.hidden?}"
-        td.table-sortable-field = fa_icon("bars")
-        td data-label=t('admin.stations.station_product.name')
-          = best_in_place station_product.product, :name, url: admins_event_product_path(@current_event, station_product.product_id)
-        td data-label=t('admin.stations.station_product.price')
-          = best_in_place station_product, :price, as: :input, url: admins_event_station_station_item_path(@current_event, station_product.station_id, station_product, item_type: "station_product")
-        td.is-alcohol data-label=t('admin.stations.station_product.is_alcohol')
-          = best_in_place station_product.product, :is_alcohol, as: :checkbox, collection: { false: fa_icon('circle-thin'), true: fa_icon('circle') }, url: admins_event_product_path(@current_event, station_product.product_id)
-        td data-label=t('admin.stations.station_product.description')
-          = best_in_place station_product.product, :description, url: admins_event_product_path(@current_event, station_product.product_id)
-        td.table-actions-field
-          ul
-            - unless @current_event.active?
-              li.table-action.action-delete = link_to fa_icon("trash"), admins_event_station_station_item_path(@current_event, @station, station_product, item_type: "station_product"), method: :delete, data: { confirm: t('admin.confirm.delete') }
-            - if station_product.hidden?
-              li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_station_item_visibility_path(@current_event, @station, station_product, item_type: "station_product"), method: :post
-            - else
-              li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_station_item_visibility_path(@current_event, @station, station_product, item_type: "station_product"), method: :post
+.admin-card-wide.mdl-card.mdl-shadow--2dp
+  table.mdl-data-table.within-card.sortable
+    thead
+      tr
+        th.table-sortable-field #
+        th.mdl-data-table__cell--non-numeric Name
+        th Price (edit)
+        th Alcohol
+        th Hidden
 
-              
+    tbody
+      - @items.each do |station_product|
+        tr data-id="#{station_product.id}" class="#{'resource-hidden' if station_product.hidden?}"
+          td.table-sortable-field = fa_icon("bars")
+          td.mdl-data-table__cell--non-numeric
+            = link_to station_product.product.name, [:admins, @current_event, station_product.product]
+            .table-action
+              = link_to admins_event_station_station_item_path(@current_event, @station, station_product, item_type: "station_product"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                button.icon.material-icons id ="delete_#{@station.id}" delete
+          td = best_in_place station_product, :price, as: :input, url: admins_event_station_station_item_path(@current_event, station_product.station, station_product, item_type: "station_product")
+          td = best_in_place station_product.product, :is_alcohol, best_in_place_checkbox(admins_event_product_path(@current_event, station_product.product))
+          td = best_in_place station_product, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, station_product.station, station_product, item_type: "station_product"))
+
+
 javascript:
   function setPositions() {
     $('.sortable tr').each(function(i) {
@@ -46,12 +39,12 @@ javascript:
     $('.sortable').sortable().bind('sortupdate', function(e, ui) {
         updated_order = [];
         setPositions();
-  
+
         $('.sortable tr').each(function(i){
             updated_order.push({ id: $(this).data("id"), position: i + 1 });
         });
 
-  
+
         $.ajax({
             type: "PUT",
             url: "#{sort_admins_event_station_station_items_path(@current_event, @station, item_type: 'station_product')}",

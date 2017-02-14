@@ -1,0 +1,2 @@
+class PackPolicy < ApplicationPolicy
+end

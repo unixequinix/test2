@@ -24,10 +24,18 @@ class TopupCredit < ActiveRecord::Base
 
   scope :visible, -> { where(hidden: [false, nil]) }
 
+  def self.policy_class
+    StationItemPolicy
+  end
+
+  def self.sort_column
+    :amount
+  end
+
   private
 
   def valid_topup_credit
     return unless station
-    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits.visible.count >= 6
+    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits.visible.count > 6
   end
 end

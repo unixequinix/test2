@@ -1,4 +1,4 @@
-class Events::LocaleController < Events::BaseController
+class Events::LocaleController < Events::EventsController
   skip_before_action :authenticate_customer!
 
   # Change the locale in the session

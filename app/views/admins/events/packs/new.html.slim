@@ -1,7 +1,5 @@
-- breadcrumb :new_admins_event_pack, @current_event
-- provide :actions do
-  = link_to admins_event_packs_path, class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
-
-= render "form", pack: @pack
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    = render "form", pack: @pack
+  .mdl-layout-spacer

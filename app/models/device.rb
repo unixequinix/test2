@@ -4,9 +4,9 @@
 #
 #  asset_tracker :string
 #  device_model  :string
-#  imei          :string
-#  mac           :string
-#  serial_number :string
+#  imei          :string           indexed => [mac, serial_number]
+#  mac           :string           indexed => [imei, serial_number]
+#  serial_number :string           indexed => [mac, imei]
 #
 # Indexes
 #
@@ -15,12 +15,6 @@
 
 class Device < ActiveRecord::Base
   before_validation :upcase_asset_tracker!
-
-  SETTINGS = [:private_zone_password, :fast_removal_password, :uid_reverse, :transaction_buffer,
-              :days_to_keep_backup, :touchpoint_update_online_orders, :pos_update_online_orders,
-              :topup_initialize_gtag, :cypher_enabled, :gtag_blacklist, :event_id,
-              :sync_time_event_parameters, :sync_time_server_date, :sync_time_basic_download, :sync_time_tickets,
-              :sync_time_gtags, :sync_time_customers].freeze
 
   def self.transactions_count(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL

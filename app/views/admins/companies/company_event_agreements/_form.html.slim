@@ -1,4 +1,0 @@
-= simple_form_for [:admins, company, agreement] do |f|
-  .wrapper-negative-space
-    = f.association :event, collection: company.unassigned_events
-    = f.button :submit, class: "btn btn-primary"

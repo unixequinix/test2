@@ -1,16 +1,20 @@
-= simple_form_for [:admins, @current_event, station] do |f|
-  .wrapper-negative-space
-    = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-    = f.input :group, as: :hidden, input_html: { value: @group }
-    = f.input :name, placeholder: true
-    = f.input :location, placeholder: true
-    = f.input :reporting_category
-    = f.input :official_name, placeholder: true
-    = f.input :address, placeholder: true
-    = f.input :registration_num, placeholder: true
-    - if station.new_record?
-      - stations = Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }
-      = f.input :category, collection: stations.map { |g| [I18n.t("admin.stations.categories.#{g}"), g] }, include_blank: false
+- content_for(:actions) do
+  = link_to admins_event_stations_path(@current_event, group: @group), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-
-    = f.button :submit, class: "btn btn-primary"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, station], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs
+      = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
+      = f.input :group, as: :hidden, input_html: { value: @group }
+      = f.input :name, placeholder: true
+      = f.input :location, placeholder: true
+      = f.input :reporting_category
+      = f.input :official_name, placeholder: true
+      = f.input :address, placeholder: true
+      = f.input :registration_num, placeholder: true
+      - if station.new_record?
+        = f.input :category, collection: Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }.map { |g| g }, include_blank: false
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

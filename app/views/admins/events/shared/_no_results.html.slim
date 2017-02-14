@@ -1,5 +1,0 @@
-.section-title-empty
-  = image_tag "img-empty.png"
-  p = t("admin.defaults.item_not_found",
-    item: @list_model_presenter.model_name.human(count: 0))
-  = link_to t("actions.back"),eval("admins_event_#{@list_model_presenter.model_name.plural}_path"),class: "btn btn-action btn-action-new"

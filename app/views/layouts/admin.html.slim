@@ -1,21 +1,45 @@
 doctype html
-html [lang=I18n.locale]
-
+html
   head
-    title = title
-    meta name="viewport" content="height=device-height,width=device-width,user-scalable=no,initial-scale=1"
-    = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track' => true
-    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
-    = javascript_include_tag 'admin', 'data-turbolinks-track' => true
+    title
+      = title
+    = stylesheet_link_tag "layout"
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
+    = javascript_include_tag "//www.google.com/jsapi", "chartkick"
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
+    link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet" /
+    script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"
+    script src="//cdn.tinymce.com/4/tinymce.min.js"
+    meta content="width=device-width, initial-scale=1.0" name="viewport" /
     = csrf_meta_tags
 
-  body class="#{controller_name} #{action_name}"
-    .wrapper-main
-      #notifications
-        = render 'notifications'
-      .container-main
-        = render 'admins/shared/header'
-        = render 'admins/shared/action_bar'
-        .container-admin
+  body class=("#{controller_name} #{action_name}")
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          .mdl-layout-spacer
+          - if @q
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+              label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
+                i.material-icons search
+              .mdl-textfield__expandable-holder
+                = yield(:search)
+          button#hdrbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
+            i.material-icons more_vert
+          ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"
+            = link_to edit_user_path(current_user) do
+              li.mdl-menu__item Edit Profile
+            = link_to admins_devices_path do
+              li.mdl-menu__item Devices
+            = link_to admins_events_path do
+              li.mdl-menu__item Events
+            = link_to destroy_user_session_path, method: :delete do
+              li.mdl-menu__item Log out
+      main.mdl-layout__content
+        #notifications
+          = render 'layouts/notifications'
+        .page-content
           = yield
-        = render 'admins/shared/footer'
+
+

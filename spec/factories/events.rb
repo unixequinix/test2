@@ -7,13 +7,7 @@
 #  background_content_type         :string
 #  background_file_name            :string
 #  background_file_size            :integer
-#  background_type                 :string           default("fixed")
 #  birthdate_mandatory             :boolean
-#  card_return_fee                 :integer          default(0)
-#  cards_can_refund                :boolean          default(TRUE)
-#  city_mandatory                  :boolean
-#  company_name                    :string
-#  country_mandatory               :boolean
 #  currency                        :string           default("USD"), not null
 #  days_to_keep_backup             :integer          default(5)
 #  device_basic_db_content_type    :string
@@ -29,12 +23,10 @@
 #  eventbrite_token                :string
 #  fast_removal_password           :string           default("123456")
 #  gender_mandatory                :boolean
-#  gtag_assignation                :boolean          default(FALSE)
-#  gtag_deposit                    :integer          default(0)
 #  gtag_deposit_fee                :integer          default(0)
-#  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
 #  iban_enabled                    :boolean          default(TRUE)
+#  initial_topup_fee               :integer          default(0)
 #  logo_content_type               :string
 #  logo_file_name                  :string
 #  logo_file_size                  :integer
@@ -47,14 +39,13 @@
 #  official_name                   :string
 #  phone_mandatory                 :boolean
 #  pos_update_online_orders        :boolean          default(FALSE)
-#  postcode_mandatory              :boolean
 #  private_zone_password           :string           default("123456")
 #  receive_communications          :boolean
 #  receive_communications_two      :boolean
 #  registration_num                :string
 #  slug                            :string           not null
 #  start_date                      :datetime
-#  state                           :string           default("created")
+#  state                           :integer          default("created")
 #  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
@@ -63,17 +54,14 @@
 #  sync_time_gtags                 :integer          default(10)
 #  sync_time_server_date           :integer          default(1)
 #  sync_time_tickets               :integer          default(5)
-#  ticket_assignation              :boolean          default(FALSE)
 #  timezone                        :string           default("UTC")
 #  token                           :string
-#  token_symbol                    :string           default("t")
 #  topup_fee                       :integer          default(0)
 #  topup_initialize_gtag           :boolean          default(TRUE)
 #  touchpoint_update_online_orders :boolean          default(FALSE)
 #  transaction_buffer              :integer          default(100)
 #  ultralight_c_private_key        :string
 #  ultralight_ev1_private_key      :string
-#  wristbands_can_refund           :boolean          default(TRUE)
 #
 # Indexes
 #
@@ -89,17 +77,11 @@ FactoryGirl.define do
     support_email "support@glownet.com"
     style "html { font-family: Helvetica; }"
     currency "EUR"
-    background_type "fixed"
-    disclaimer "Some Disclaimer"
-    gtag_assignation_notification "Some gtag assignation notification"
-    gtag_form_disclaimer "Some gtag form notification"
-    info "Information about the festival"
-    refund_success_message "Your refund has been successfull"
     gtag_type "ultralight_c"
 
     # Event states
 
-    trait :pre_event do
+    trait :launched do
       state "launched"
     end
 
@@ -113,16 +95,6 @@ FactoryGirl.define do
 
     trait :closed do
       state "closed"
-    end
-
-    # Event features
-
-    trait :ticket_assignation do
-      ticket_assignation true
-    end
-
-    trait :gtag_assignation do
-      gtag_assignation true
     end
 
     after :create do |event|

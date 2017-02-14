@@ -23,6 +23,7 @@
 class Refund < ActiveRecord::Base
   attr_accessor :validate_iban
 
+  belongs_to :event
   belongs_to :customer
   validate :correct_iban_and_swift, if: :validate_iban
   validates :field_a, presence: true

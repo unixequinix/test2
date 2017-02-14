@@ -1,9 +1,20 @@
-= simple_form_for [:admins, @current_event, ticket_type] do |f|
-  .wrapper-negative-space
-    = f.input :name
-    = f.input :company_code
-    = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-    = f.association :catalog_item, collection: @catalog_items, label_method: lambda { |item| item.name }
-    = f.association :company_event_agreement,collection: @company_event_agreement_collection, label_method: lambda { |cea| "#{cea.company.name}" }, label: "Owner", include_blank: false
+- content_for(:actions) do
+  = link_to admins_event_ticket_types_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-    = f.button :submit, class: "btn btn-primary"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, ticket_type], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs
+      = f.input :name
+      = f.input :company_code
+      = f.input :company_id, as: :select, collection: @current_event.companies.map { |c| [c.name, c.id] }, include_blank: false
+      = f.association :catalog_item, collection: @catalog_items, label_method: lambda { |item| item.name }, include_blank: false
+      .file
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
+          span.mdl-switch__label.form-label Hidden
+          = f.input :hidden, :input_html => { :id => 'hidden' }
+
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+

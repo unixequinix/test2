@@ -5,7 +5,7 @@
 #  initial_amount  :integer
 #  max_purchasable :integer
 #  memory_length   :integer          default(1)
-#  memory_position :integer
+#  memory_position :integer          indexed => [event_id]
 #  min_purchasable :integer
 #  mode            :string
 #  name            :string
@@ -38,15 +38,13 @@ class Access < CatalogItem
   validate :validate_memory_position
   validate :min_below_max
 
-  scope :infinite, -> { where(mode: ALL_PERMANENT) }
+  scope :infinite, -> { where(mode: [PERMANENT, PERMANENT_STRICT]) }
 
-  # Modes
   COUNTER = "counter".freeze
   PERMANENT = "permanent".freeze
   PERMANENT_STRICT = "permanent_strict".freeze
 
   MODES = [COUNTER, PERMANENT, PERMANENT_STRICT].freeze
-  ALL_PERMANENT = [PERMANENT, PERMANENT_STRICT].freeze
 
   def infinite?
     mode == PERMANENT || mode == PERMANENT_STRICT

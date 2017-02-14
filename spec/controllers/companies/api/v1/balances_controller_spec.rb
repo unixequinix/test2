@@ -2,13 +2,9 @@ require "spec_helper"
 
 RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
   let(:event) { create(:event) }
-  let(:company) { create(:company) }
+  let(:company) { create(:company, event: event) }
   let(:customer) { create(:customer, event: event) }
   let(:gtag) { create(:gtag, event: event, customer: customer) }
-
-  before do
-    create(:company_event_agreement, event: event, company: company)
-  end
 
   describe "GET show" do
     context "when authenticated" do
@@ -25,7 +21,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
           body = JSON.parse(response.body)
           expect(body["tag_uid"]).to eq(gtag.tag_uid)
           expect(body["balance"]).to eq(gtag.customer.credits)
-          expect(body["currency"]).to eq(gtag.event.token_symbol)
+          expect(body["currency"]).to eq(gtag.event.credit.name)
         end
       end
 

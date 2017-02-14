@@ -1,7 +1,5 @@
-- breadcrumb :edit_admins_event_access, @current_event, @access
-- provide :actions do
-  = link_to admins_event_access_path(@current_event, @access), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('admin.actions.back')
-
-= render "form", access: @access
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    = render "form", access: @access
+  .mdl-layout-spacer

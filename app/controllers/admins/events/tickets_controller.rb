@@ -1,80 +1,63 @@
-# rubocop:disable Metrics/ClassLength
 class Admins::Events::TicketsController < Admins::Events::BaseController
-  before_action :set_presenter, only: [:index, :search]
+  before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv]
 
   def index
+    @q = @current_event.tickets.order(:code).ransack(params[:q])
+    @tickets = @q.result
+    authorize @tickets
+    @tickets = @tickets.page(params[:page])
+
     respond_to do |format|
       format.html
-      format.csv do
-        tickets = Ticket.query_for_csv(@current_event)
-        redirect_to(admins_event_tickets_path(@current_event)) && return if tickets.empty?
-
-        send_data(CsvExporter.to_csv(tickets))
-      end
+      format.csv { send_data(CsvExporter.to_csv(Ticket.query_for_csv(@current_event))) }
     end
   end
 
-  def search
-    render :index
-  end
-
   def show
-    assoc = { ticket_type: [company_event_agreement: :company] }
-    @ticket = @current_event.tickets.includes(:customer, assoc).find(params[:id])
     @catalog_item = @ticket.ticket_type&.catalog_item
   end
 
   def new
-    @ticket = Ticket.new
+    @ticket = @current_event.tickets.new
+    authorize @ticket
   end
 
   def create
-    @ticket = Ticket.new(permitted_params)
+    @ticket = @current_event.tickets.new(permitted_params)
+    authorize @ticket
     if @ticket.save
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_tickets_url
+      redirect_to admins_event_tickets_path, notice: t("alerts.created")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
 
-  def edit
-    @ticket = @current_event.tickets.find(params[:id])
-  end
-
   def update
-    @ticket = @current_event.tickets.find(params[:id])
-    if @ticket.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_ticket_url(@current_event, @ticket)
-    else
-      flash.now[:error] = I18n.t("alerts.error")
-      render :edit
+    respond_to do |format|
+      if @ticket.update(permitted_params)
+        format.html { redirect_to admins_event_ticket_path(@current_event, @ticket), notice: t("alerts.updated") }
+        format.json { render status: :ok, json: @ticket }
+      else
+        format.html { render :edit }
+        format.json { render json: { errors: @ticket.errors }, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
-    @ticket = @current_event.tickets.find(params[:id])
-    if @ticket.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
-    else
-      flash[:error] = @ticket.errors.full_messages.join(". ")
-    end
-    redirect_to admins_event_tickets_url
-  end
-
-  def destroy_multiple
-    tickets = params[:tickets]
-    if tickets
-      @current_event.tickets.where(id: tickets.keys).each do |ticket|
-        flash[:error] = ticket.errors.full_messages.join(". ") unless ticket.destroy
+    respond_to do |format|
+      if @ticket.destroy
+        format.html { redirect_to admins_event_tickets_path, notice: 'Ticket was successfully deleted.' }
+        format.json { render :show, location: admins_event_tickets_path }
+      else
+        redirect_to [:admins, @current_event, @ticket], alert: @ticket.errors.full_messages.to_sentence
       end
     end
-    redirect_to admins_event_tickets_url
   end
 
   def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    authorize @current_event.tickets.new
     path = admins_event_tickets_path(@current_event)
     redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
@@ -82,24 +65,13 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     begin
       CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
         c_name = row.field("company_name")
-        com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
-        agree = com.company_event_agreements.find_or_create_by!(event: @current_event)
+        company = @current_event.companies.find_by("LOWER(name) = ?", c_name.downcase) || @current_event.companies.create!(name: c_name)
 
-        ticket_type_atts = {
-          name: row.field("ticket_type"),
-          company_code: row.field("company_code"),
-          company_event_agreement: agree
-        }
+        ticket_type_atts = { name: row.field("ticket_type"), company_code: row.field("company_code"), company: company }
         ticket_type = @current_event.ticket_types.find_or_create_by!(ticket_type_atts)
 
-        ticket_atts = {
-          code: row.field("reference"),
-          ticket_type: ticket_type,
-          purchaser_first_name: row.field("first_name"),
-          purchaser_last_name: row.field("last_name"),
-          purchaser_email: row.field("email")
-        }
-        @current_event.tickets.find_or_create_by!(ticket_atts)
+        ticket_atts = { code: row.field("reference"), ticket_type: ticket_type, purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") } # rubocop:disable Metrics/LineLength
+        @ticket = @current_event.tickets.find_or_create_by!(ticket_atts)
       end
     rescue
       return redirect_to(path, alert: t("admin.tickets.import.error"))
@@ -109,39 +81,36 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def sample_csv
+    authorize @current_event.tickets.new
     header = %w(ticket_type company_code company_name reference first_name last_name email)
-    data = [["VIP Night", "098", "Glownet Tickets", "0011223344", "Jon", "Snow", "jon@snow.com"],
-            ["VIP Day", "099", "Glownet Tickets", "4433221100", "Arya", "Stark", "arya@stark.com"]]
+    data = [["VIP Night", "098", "Glownet Tickets", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet Tickets", "4433221100", "Arya", "Stark", "arya@stark.com"]] # rubocop:disable Metrics/LineLength
 
-    csv_file = CsvExporter.sample(header, data)
     respond_to do |format|
-      format.csv { send_data(csv_file) }
+      format.csv { send_data(CsvExporter.sample(header, data)) }
     end
   end
 
   def ban
-    ticket = @current_event.tickets.find(params[:id])
-    ticket.update(banned: true)
-    redirect_to(admins_event_tickets_url)
+    @ticket.ban
+    respond_to do |format|
+      format.html { redirect_to admins_event_tickets_path, notice: t("alerts.updated") }
+      format.json { render json: true }
+    end
   end
 
   def unban
-    ticket = @current_event.tickets.find(params[:id])
-    ticket.update(banned: false)
-    redirect_to(admins_event_tickets_url)
+    @ticket.unban
+    respond_to do |format|
+      format.html { redirect_to admins_event_tickets_path, notice: t("alerts.updated") }
+      format.json { render json: true }
+    end
   end
 
   private
 
-  def set_presenter
-    @list_model_presenter = ListModelPresenter.new(
-      model_name: "Ticket".constantize.model_name,
-      fetcher: @current_event.tickets,
-      search_query: params[:q],
-      page: params[:page],
-      include_for_all_items: [customer: [:active_gtag]],
-      context: view_context
-    )
+  def set_ticket
+    @ticket = @current_event.tickets.find(params[:id])
+    authorize @ticket
   end
 
   def permitted_params

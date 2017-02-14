@@ -1,10 +1,6 @@
 commons: &commons
   actions:
     - topup
-    - refund
-  refund:
-    - fee
-    - minimum
 
 paypal:
   <<: *commons
@@ -12,6 +8,12 @@ paypal:
     - login
     - password
     - signature
+
+mercadopago:
+  <<: *commons
+  config:
+    - public_key
+    - token
 
 redsys:
   <<: *commons
@@ -26,14 +28,9 @@ stripe:
     - login
     - destination
 
-wirecard:
-  <<: *commons
-  config:
-    - login
-    - password
-    - signature
-
 bank_account:
-  <<: *commons
   actions:
     - refund
+  refund:
+    - fee
+    - minimum

@@ -1,21 +1,23 @@
-h3.section-header
-  = fa_icon "list"
-  = t("admin.transactions.order_item")
-  = @transaction.order_item_counter
-
-- if order_item = OrderItem.find_by(order: @transaction.customer&.orders, counter: @transaction.order_item_counter)
-  table.order_items
-    thead
-      tr
-        th = t("admin.order_items.id")
-        th = t("admin.order_items.customer")
-        th = t("admin.order_items.catalog_item")
-        th = t("admin.order_items.amount")
-        th = t("admin.order_items.redeemed")
-    tbody
-      tr
-        td data-label=t("admin.order_items.id") = order_item.id
-        td data-label=t("admin.order_items.customer") = link_to order_item.order.customer_id, admins_event_customer_path(@current_event, order_item.order.customer.id)
-        td data-label=t("admin.order_items.catalog_item") = order_item.catalog_item.name
-        td data-label=t("admin.order_items.amount") = order_item.amount
-        td data-label=t("admin.order_items.redeemed") = order_item.redeemed
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons add_shopping_cart
+        |Order
+        = @transaction.order_item_counter
+    .mdl-card__supporting-text
+      - if order_item = OrderItem.find_by(order: @transaction.customer&.orders, counter: @transaction.order_item_counter)
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th Customer
+              th Catalog_item
+              th Amount
+              th Redeemed
+          tbody
+            - transactions.each do |transaction|
+            tr
+              td = link_to order_item.order.customer_id, admins_event_customer_path(@current_event, order_item.order.customer.id)
+              td = order_item.catalog_item.name
+              td = order_item.amount
+              td = order_item.redeemed

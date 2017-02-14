@@ -26,6 +26,10 @@ footer {
   }
 }
 
+.copyright {
+  color: white;
+}
+
 .footer-nav {
   display: block;
 
@@ -36,6 +40,10 @@ footer {
     padding: 0 modules(0.25);
     font-weight: bold;
     cursor: pointer;
+  }
+
+  a {
+    color: white;
   }
 }
 
@@ -75,7 +83,7 @@ footer {
 
 .footer-separator:before {
   content: "|";
-  color: $grey;
+  color: white;
 }
 
 .copyright {

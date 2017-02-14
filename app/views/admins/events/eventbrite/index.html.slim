@@ -1,55 +1,64 @@
-- breadcrumb :admins_event, @current_event
-- provide :actions do
-  = link_to admins_event_path(@current_event), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
+- if @current_event.eventbrite_event.present?
+  - content_for(:title) do
+    .mdl-layout-title.header-item Connected to '#{@eb_event.name.text}'
 
-  - if @current_event.eventbrite?
-    = link_to admins_event_eventbrite_import_tickets_path(@current_event), class: "btn btn-action btn-action-back small" do
-      = fa_icon 'download'
-      = t('actions.import_tickets')
-    = link_to admins_event_eventbrite_disconnect_path(@current_event), class: "btn btn-action btn-action-back small", alert: "Beware! Tickets will remain in the system. If you want, delete them by hand." do
-      = fa_icon 'chain-broken'
-      | Disconnect
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--6-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Start
+              td = Time.parse(@eb_event.start.local).to_s(:long)
+            tr
+              td.mdl-data-table__cell--non-numeric End
+              td = Time.parse(@eb_event.end.local).to_s(:long)
+            tr
+              td.mdl-data-table__cell--non-numeric Attendees
+              td = "#{@eb_attendees.to_i} sold out of #{@eb_event.capacity}"
+            tr
+              td.mdl-data-table__cell--non-numeric Status
+              td = @eb_event.status
+            tr
+              td.mdl-data-table__cell--non-numeric Password
+              td = @eb_event.try(:password)
+            tr
+              td.mdl-data-table__cell--non-numeric Currency
+              td = @eb_event.currency
+            tr
+              td.mdl-data-table__cell--non-numeric ID
+              td = @eb_event.id
+            tr
+              td.mdl-data-table__cell--non-numeric URL
+              td = link_to @eb_event.url, @eb_event.url, target: "_blank"
+    .mdl-layout-spacer
 
-.wrapper-negative-space
-  - if @current_event.eventbrite_event.present?
-    h2 = "Connected to '#{@eb_event.name.text}'"
-    .container-show
-      = image_tag @eb_event.logo.original.url, width: "100%" if @eb_event.logo.present?
-      dl
-        dt Start
-        dd = Time.parse(@eb_event.start.local).to_s(:long)
-        dt End
-        dd = Time.parse(@eb_event.end.local).to_s(:long)
-        dt Attendees
-        dd = "#{@eb_attendees.to_i} sold out of #{@eb_event.capacity}"
-        dt Status
-        dd = @eb_event.status
-        dt Password
-        dd = @eb_event.try(:password)
-        dt Currency
-        dd = @eb_event.currency
-        dt ID
-        dd = @eb_event.id
-        dt URL
-        dd = link_to @eb_event.url, @eb_event.url, target: "_blank"
+- else
+  - content_for(:title) do
+    .mdl-layout-title.header-item Connect Eventbrite and Glownet
 
-  - else
-    h2 Connect Eventbrite and Glownet
-    table.events
-      thead
-        tr
-          th Name
-          th ID
-          th Connect
-      tbody
-        - @eb_events.each do |event|
-          tr
-            td = event.name.text
-            td = event.id
-            td
-              - if @current_event.eventbrite_event.eql?(event.id)
-                = fa_icon 'check'
-              - else
-                = link_to fa_icon('plug'), admins_event_eventbrite_connect_path(@current_event, event.id)
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Name
+                th ID
+                th Connect
+            tbody
+              - @eb_events.each do |event|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = event.name.text
+                  td data-label="ID" = event.id
+                  td data-label="Connect"
+                    - if @current_event.eventbrite_event.eql?(event.id)
+                      = fa_icon 'check'
+                    - else
+                      = link_to fa_icon('plug'), admins_event_eventbrite_connect_path(@current_event, event.id)
+
+
+    .mdl-layout-spacer

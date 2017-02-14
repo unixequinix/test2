@@ -1,19 +1,24 @@
-table.access_control_gates
-  thead
-    tr
-      th = t('admin.stations.access_control_gate.name')
-      th = t('admin.stations.access_control_gate.direction')
-      th.table-actions-field = t('admin.defaults.actions')
-  tbody
-    - @items.each do |gate|
-      tr class="#{'station-hidden' if gate.hidden?}"
-        td data-label=t('admin.stations.access_control_gate.name') = gate.access.name
-        td data-label=t('admin.stations.access_control_gate.direction') = gate.direction == "1" ? "In" : "Out"
-        td.table-actions-field
-          ul
-          - unless @current_event.active?
-            li.table-action.action-delete = link_to fa_icon("trash"), admins_event_station_station_item_path(@current_event, @station, gate, item_type: "access_control_gate"), method: :delete, data: { confirm: t('admin.confirm.delete') }
-          - if gate.hidden?
-            li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_station_item_visibility_path(@current_event, @station, gate, item_type: "access_control_gate"), method: :post
-          - else
-            li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_station_item_visibility_path(@current_event, @station, gate, item_type: "access_control_gate"), method: :post
+.admin-card-wide.mdl-card.mdl-shadow--2dp
+  table.mdl-data-table.mdl-js-data-table.within-card
+    thead
+      tr
+        th.mdl-data-table__cell--non-numeric Name
+        th Direction
+        th Hidden
+
+    tbody
+      - @items.each do |gate|
+        tr class="#{'resource-hidden' if gate.hidden?}"
+          td
+            = gate.access.name
+            - unless @current_event.active?
+              .table-action
+                = link_to admins_event_station_station_item_path(@current_event, @station, gate, item_type: "access_control_gate"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                  button.icon.material-icons id ="delete_#{gate.id}" delete
+
+
+          td = gate.direction == "1" ? "In" : "Out"
+          td = best_in_place gate, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, gate.station_id, gate, item_type: "access_control_gate"))
+
+
+

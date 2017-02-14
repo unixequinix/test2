@@ -3,7 +3,7 @@ class Events::PaypalController < Events::PaymentsController
 
   def setup_purchase # rubocop:disable Metrics/MethodLength
     items = @order.order_items.map do |oi|
-      amount = (oi.catalog_item.price.to_f * 100).round
+      amount = (oi.total / oi.amount * 100).round
       { name: oi.catalog_item.name, description: "test", amount: amount, quantity: oi.amount.to_i }
     end
 
@@ -28,12 +28,7 @@ class Events::PaypalController < Events::PaymentsController
   end
 
   def purchase
-    response = paypal.purchase(
-      @total,
-      payer_id: params[:PayerID],
-      token: params[:token],
-      currency: @current_event.currency
-    )
+    response = paypal.purchase(@total, payer_id: params[:PayerID], token: params[:token], currency: @current_event.currency)
 
     if response.success?
       @order.complete!("paypal", response.params.as_json)

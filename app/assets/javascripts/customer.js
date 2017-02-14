@@ -4,7 +4,6 @@
 
 //= require vendor/fastclick
 //= require vendor/fastclick_load
-//= require vendor/jquery.cookiebar
 
 //= require customer/placeholder-to-label
 //= require customer/nav-mobile

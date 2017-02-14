@@ -1,9 +1,10 @@
-- @item ||= AccessControlGate.new
-= simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station) do |f|
-  .wrapper-negative-space
-    = hidden_field_tag :item_type, "access_control_gate"
-    = f.input :direction, collection: [["In", 1], ["Out", -1]], include_blank: "Select the direction"
-    = f.input :access_id, collection: @current_event.accesses.map { |c| [c.name, c.id] }, include_blank: "Select the access"
-    = f.input :station_id, as: :hidden, input_html: { value: @station.id }
-
-    = f.button :submit, class: "btn btn-primary"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  - @item ||= AccessControlGate.new
+  = simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station), wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs.short-input
+      = hidden_field_tag :item_type, "access_control_gate"
+      = f.input :direction, collection: [["In", 1], ["Out", -1]], include_blank: "Select the direction"
+      = f.input :access_id, collection: @current_event.accesses.map { |c| [c.name, c.id] }, include_blank: "Select the access"
+      = f.input :station_id, as: :hidden, input_html: { value: @station.id }
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

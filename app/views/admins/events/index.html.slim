@@ -1,24 +1,51 @@
-- breadcrumb :admins_events
-- provide :actions do
-  = link_to new_admins_event_path, class: "btn btn-action btn-action-new small" do
-    = fa_icon 'plus'
-    = t('admin.actions.new')
+- content_for(:search) do
+  = search_form_for @q, url: admins_events_path do |f|
+    = f.search_field :name_or_slug_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
-.wrapper-negative-space
-  .event-info
-    .current-showing = page_entries_info @events
-    .filters
-      = link_to "Active", admins_events_path, class: "filters__item #{"filters__item--active" if params[:status] == [:launched, :started, :finished]}"
-      = link_to "All", admins_events_path(status: "all"), class: "filters__item #{"filters__item--active" if params[:status] == "all"}"
-      = link_to "Not published", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if params[:status] == "created"}"
-      = link_to "Pre-Event", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if params[:status] == "launched"}"
-      = link_to "During Event", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if params[:status] == "started"}"
-      = link_to "Post-Event", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if params[:status] == "finished"}"
-      = link_to "Closed", admins_events_path(status: "closed"), class: "filters__item #{"filters__item--active" if params[:status] == "closed"}"
-  - if @events.empty?
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_events")
-      = link_to t("actions.new"), new_admins_event_path, class: "btn btn-action btn-action-new"
-  - else
-    = render "admins/events/list", events: @events
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--9-col
+        = link_to "Active", admins_events_path, class: "filters__item #{"filters__item--active" if @status == [:launched, :started, :finished]}"
+        = link_to "All", admins_events_path(status: "all"), class: "filters__item #{"filters__item--active" if @status == "all"}"
+        = link_to "Created", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if @status == "created"}"
+        = link_to "Launched", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if @status == "launched"}"
+        = link_to "Started", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if @status == "started"}"
+        = link_to "Finished", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if @status == "finished"}"
+        = link_to "Closed", admins_events_path(status: "closed"), class: "filters__item #{"filters__item--active" if @status == "closed"}"
+      .mdl-cell.mdl-cell--3-col.italic.small.right = page_entries_info @events
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Events
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            - unless Rails.env.production?
+              .tool-item
+                = link_to sample_event_admins_events_path do
+                  span#add-fake.icon.material-icons add_box
+                  span.mdl-tooltip data-mdl-for="add-fake" Sample event
+            - if current_user.admin?
+              .tool-item
+                = link_to new_admins_event_path do
+                  span#add.icon.material-icons add
+                  span.mdl-tooltip data-mdl-for="add"  Add
+
+      table.mdl-data-table.mdl-js-data-table.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Name
+            th.mdl-data-table__cell--non-numeric Status
+            th.mdl-data-table__cell--non-numeric Start
+            th.mdl-data-table__cell--non-numeric End
+        tbody
+          - @events.each do |event|
+            tr
+              td.mdl-data-table__cell--non-numeric = link_to event.name, admins_event_path(event), class: "no_link"
+              td.mdl-data-table__cell--non-numeric = event.state
+              td.mdl-data-table__cell--non-numeric = event.start_date.to_date.to_formatted_s(:short)
+              td.mdl-data-table__cell--non-numeric = event.end_date.to_date.to_formatted_s(:short)
+  .mdl-layout-spacer
+
+

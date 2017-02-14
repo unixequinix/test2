@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    meta[charset="utf-8"]
+    = wicked_pdf_stylesheet_link_tag "pdf"
+    = wicked_pdf_javascript_include_tag "number_pages"
+  body[onload="number_pages"]
+    #content.container-bill
+      table.table-bill
+        tr
+          th.transaction-bill-title colspan="4"
+            span = @current_event.name
+            span = t("pdf.pdf_title")
+        tbody
+
+          tr
+            td.wrapper-bill-user
+              p.account-user-name
+                span = current_customer.full_name
+              p.account-user.user-mail = current_customer.email
+            td.wrapper-bill-logo
+              = image_tag @current_event.logo.url(:paypal), class: "bill-logo" unless @current_event.logo.blank?
+          tr
+            table.related-bill
+              thead.bill-row
+                th.table-bill-header = t("pdf.type")
+                th.table-bill-header = t("pdf.station")
+                th.table-bill-header = t("pdf.date")
+                th.table-bill-header = t("pdf.amount")
+              tbody
+                - @pdf_transactions.each do |t|
+                  tr.bill-row
+                    td.transaction-type-cell
+                      p.transaction-type-title = t("pdf.actions.#{t.action}")
+                      ul
+                        - t.sale_items.each do |item|
+                          li
+                            = item.product.name
+                            = " (#{item.quantity})"
+                    td = t.station.name
+                    td = l Time.zone.parse(t.device_created_at)
+                    td.transaction-item-amount = number_to_token t.credits
+
+                tr
+                  td.transactions-total colspan="4"
+                    p.bill-total-title total:
+                    p.bill-total-value = number_to_token @pdf_transactions.sum(:credits)

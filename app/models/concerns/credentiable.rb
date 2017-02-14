@@ -5,6 +5,14 @@ module Credentiable
     belongs_to :customer
   end
 
+  def ban
+    update_attribute(:banned, true)
+  end
+
+  def unban
+    update_attribute(:banned, false)
+  end
+
   def assign_customer(new_customer, origin, operator)
     update!(customer: new_customer)
     new_customer.touch

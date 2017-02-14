@@ -1,25 +1,32 @@
-- breadcrumb :admins_event_refund, @current_event, @refund
-- provide :actions do
-  = link_to admins_event_refunds_path(@current_event), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t("actions.back")
+- content_for(:actions) do
+  = link_to admins_event_refunds_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.refund.customer_name")
-      dd = "#{@refund.customer.first_name} #{@refund.customer.last_name}"
-      dt = t("admin.refunds.customer_email")
-      dd = link_to @refund.customer.email, admins_event_customer_path(@current_event, @refund.customer)
-      dt =t('admin.refunds.status')
-      dd = @refund.status.humanize
-      dt =t('admin.refunds.created_at')
-      dd = @refund.created_at.strftime("%d-%m-%Y %H:%M:%S")
-      dt =t('admin.refunds.amount')
-      dd = @refund.amount
-      dt =t('admin.refunds.fee')
-      dd = @refund.fee
-      dt =t('admin.refunds.iban')
-      dd = @refund.iban
-      dt =t('admin.refunds.swift')
-      dd = @refund.swift
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Customer Name
+            td = "#{@refund.customer.first_name} #{@refund.customer.last_name}"
+          tr
+            td.mdl-data-table__cell--non-numeric Customer Email
+            td = link_to @refund.customer.email, admins_event_customer_path(@current_event, @refund.customer)
+          tr
+            td.mdl-data-table__cell--non-numeric Status
+            td = @refund.status.humanize
+          tr
+            td.mdl-data-table__cell--non-numeric Created at
+            td = l @refund.created_at
+          tr
+            td.mdl-data-table__cell--non-numeric Amount
+            td = @refund.amount
+          tr
+            td.mdl-data-table__cell--non-numeric Fee
+            td = @refund.fee
+  .mdl-layout-spacer
+
+

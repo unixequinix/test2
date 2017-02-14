@@ -173,46 +173,4 @@ $border_with_opacity:     rgba(255, 255, 255, 1);
   a:hover { text-decoration: underline; }
 }
 
-// -------- DISCLAIMER -------
-
-.container-disclaimer {
-  @include mscale($small_text);
-  position: relative;
-  overflow: visible;
-  width: 100%;
-  padding: modules(0.5);
-  text-align: center;
-
-  @include min-screen($bp4) {
-    @include animation(loadFadeIn);
-    @include animation-duration(300ms);
-    @include animation-timing-function(linear);
-    @include outer-container(40%);
-    margin-bottom: modules(2);
-    height: auto;
-    border-radius: $radius;
-  }
-}
-
-.wrapper-disclaimer {
-  margin-bottom: modules(0.5);
-
-  &:last-child { margin-bottom: 0; }
-}
-
-.wrapper-captcha {
-  position: relative;
-  padding-bottom: modules(1);
-
-  .to-be-label { color: $nuclear; }
-}
-
-.captcha-error {
-  display: block;
-  width: modules(12.75);
-  margin: 0 auto;
-
-  @include min-screen($bp3) { width: modules(13.5); }
-}
-
 // ···

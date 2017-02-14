@@ -1,34 +1,74 @@
-- breadcrumb :admins_event_gtags, @current_event
-- provide :actions do
-  - unless current_admin.customer_service?
-    = link_to new_admins_event_gtag_path, class: "btn btn-action btn-action-new small" do
-      = fa_icon 'plus'
-      = t('admin.actions.new')
-    = link_to admins_event_gtags_path(format: "csv"), class: "btn btn-action btn-action-download small"
-      = fa_icon "download"
-      = t('admin.actions.download')
-    = link_to '#import-modal', class: "btn btn-action btn-action-search small" do
-      = fa_icon 'upload'
-      = t('admin.actions.import')
-  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'search'
-    = t('actions.search')
-    
-    
-.remodal data-remodal-id="import-modal" 
-  button.remodal-close data-remodal-action="close" 
-  h3.remodal__title = t('admin.gtags.import.title')
-  = simple_form_for :file, url: import_admins_event_gtags_path(@current_event), html: { multipart: true} do |f|
+- content_for(:title) do
+  .mdl-layout-title.header-item Gtags
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_gtags_path do |f|
+    = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+- content_for(:actions) do
+    = link_to new_admins_event_gtag_path, class: "mdl-button mdl-button--icon" do
+      span#add.icon.material-icons add
+      span.mdl-tooltip data-mdl-for="add"  Add
+    = link_to admins_event_gtags_path(format: "csv"), class: "mdl-button mdl-button--icon" do
+      span#file_download.icon.material-icons file_download
+      span.mdl-tooltip data-mdl-for="file_download"  Download CSV
+    = link_to '#import-modal', class: "mdl-button mdl-button--icon" do
+      span#upload.icon.material-icons file_upload
+      span.mdl-tooltip data-mdl-for="upload"  Import
+    span#bulk.icon.material-icons more_vert
+    span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
+    ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
+      li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
+
+
+.remodal data-remodal-id="import-modal"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Import products by CSV file
+  = simple_form_for :file, url: import_admins_event_gtags_path(@current_event), html: { multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     p = f.file_field :data, label: :import
-    p 
-      | Download a 
+    p
+      | Download a
       = link_to "sample CSV", sample_csv_admins_event_gtags_path(@current_event, format: "csv")
       |  template to see an example of the format required.
     .remodal__actions
-      = f.submit "Submit", class: "btn btn-primary btn--block"
+      = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
-.wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/gtags/list', gtags: @list_model_presenter.all_items
-  - else
-    = render @list_model_presenter.no_items_for_presentation
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @gtags
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Tag UID
+              th Customer
+              th Credits
+              th Refundable Credits
+              th Banned
+              th Redeemed
+          tbody
+            - @gtags.each do |gtag|
+              tr data-event =@current_event.id data-gtag =gtag.id
+                td.mdl-data-table__cell--non-numeric data-label="Tag UID"
+                  = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
+                  .table-action
+                    = link_to edit_admins_event_gtag_path(@current_event, gtag) do
+                      button.icon.material-icons id ="edit_#{gtag.id}" edit
+                  .table-action
+                    = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{gtag.id}" delete
+                td data-label="Customer" = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td data-label="Credits" = number_to_event_currency gtag.credits
+                td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
+                td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
+                td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
+              span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
+    .mdl-cell.mdl-cell--12-col.italic.small = paginate @gtags
+  .mdl-layout-spacer
+
+
+
+

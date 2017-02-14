@@ -1,5 +1,0 @@
-ul
-  li.table-action.action-delete = link_to admins_event_company_path(@current_event, company), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-    = fa_icon "trash"
-  li.table-action.action-edit = link_to edit_admins_event_company_path(@current_event, company) do
-    = fa_icon "edit"

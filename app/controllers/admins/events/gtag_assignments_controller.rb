@@ -1,24 +1,35 @@
 class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   before_action :set_customer, only: [:new, :create]
 
-  # rubocop:disable Metrics/AbcSize
-  def create
+  def new
+    authorize @customer, :new_credential?
+  end
+
+  def create # rubocop:disable Metrics/AbcSize
+    authorize @customer, :create_credential?
+
     @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
 
-    flash.now[:error] = I18n.t("alerts.gtag.invalid") if @gtag.nil?
-    flash.now[:error] = I18n.t("alerts.gtag.already_assigned") if @gtag&.customer
-    render(:new) && return unless flash.now[:error].blank?
+    errors = []
+    errors << t("alerts.credential.not_found", item: "Gtag") if @gtag.blank?
+    errors << t("alerts.credential.already_assigned", item: "Gtag") if @gtag&.customer
 
-    @gtag.update(active: permitted_params[:active].present?)
-    @customer.gtags.update_all(active: false) if @gtag.active?
-    @gtag.assign_customer(@customer, :admin, current_admin)
-    redirect_to admins_event_customer_url(@current_event, @customer), notice: I18n.t("alerts.created")
+    if errors.any?
+      flash.now[:errors] = errors.to_sentence
+      render(:new)
+    else
+      @gtag.update(active: permitted_params[:active].present?)
+      @customer.gtags.update_all(active: false) if @gtag.active?
+      @gtag.assign_customer(@customer, :admin, current_user)
+      redirect_to admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Gtag")
+    end
   end
 
   def destroy
-    @gtag = Gtag.find(params[:id])
-    @gtag.unassign_customer(:admin, current_admin)
-    flash[:notice] = I18n.t("alerts.unassigned")
+    @gtag = @current_event.gtags.find(params[:id])
+    authorize @gtag.customer, :destroy_credential?
+    @gtag.unassign_customer(:admin, current_user)
+    flash[:notice] = t("alerts.credential.unassigned", item: "Gtag")
     redirect_to :back
   end
 

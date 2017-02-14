@@ -10,12 +10,12 @@
     - @order.order_items.each do |order_item|
       tr
         td [colspan="2"] #{pluralize(order_item.amount, order_item.catalog_item.name)}
-        td.table-amount #{order_item.total}
+        td.table-amount #{order_item.total_formatted} #{@current_event.currency}
     tr.total-amount
       td [colspan="2"]
         = t('orders.total')
         .vat-text = t('orders.vat')
-      td [colspan="3"] #{@order.total_formated} #{@current_event.currency}
+      td [colspan="3"] #{@order.total_formatted} #{@current_event.currency}
 
   - if @payment_gateways.size.positive?
     p#payment-anchor.payment-anhor-mobile.hint-text
@@ -24,7 +24,7 @@
       = t('orders.payment')
 
     ul.container-payment-buttons
-      - @payment_gateways.pluck(:gateway).each_with_index do |gateway, index|
+      - @payment_gateways.pluck(:name).each_with_index do |gateway, index|
         - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway)
         li
           .btn-payment-trigger [data-target="#{gateway}" class=(selected ? "button-selected" : "")]
@@ -32,9 +32,9 @@
             p = t("orders.payment-buttons.#{gateway}.name")
 
 - @payment_gateways.each_with_index do |gateway, index|
-  - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway.gateway)
-  .container-method id="method-#{gateway.gateway}" class=(selected ? "show-container" : "")
-    = render "events/orders/#{gateway.gateway}/payment_form"
+  - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway.name)
+  .container-method id="method-#{gateway.name}" class=(selected ? "show-container" : "")
+    = render "events/orders/#{gateway.name}/payment_form"
 
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do

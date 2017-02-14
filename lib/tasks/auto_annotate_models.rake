@@ -6,8 +6,8 @@ if Rails.env.development?
     # You can override any of these by setting an environment variable of the
     # same name.
     Annotate.set_defaults(
-      'routes'                  => 'false',
-      'position_in_routes'      => 'before',
+      'routes'                  => 'true',
+      'position_in_routes'      => 'after',
       'position_in_class'       => 'before',
       'position_in_test'        => 'before',
       'position_in_fixture'     => 'before',
@@ -15,13 +15,13 @@ if Rails.env.development?
       'position_in_serializer'  => 'before',
       'show_foreign_keys'       => 'true',
       'show_indexes'            => 'true',
-      'simple_indexes'          => 'false',
+      'simple_indexes'          => 'true',
       'model_dir'               => 'app/models',
-      'root_dir'                => '',
+      'root_dir'                => 'app/',
       'include_version'         => 'false',
       'require'                 => '',
       'exclude_tests'           => 'false',
-      'exclude_fixtures'        => 'false',
+      'exclude_fixtures'        => 'tru',
       'exclude_factories'       => 'false',
       'exclude_serializers'     => 'false',
       'exclude_scaffolds'       => 'true',

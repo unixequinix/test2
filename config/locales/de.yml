@@ -1,298 +1,77 @@
 ---
 de:
-  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
-  general_company_name: 'Glownet'
-  general_support_email: 'support@glownet.com'
-  gender:
-    male: 'Male'
-    female: 'Female'
-  gtag_name: 'Wristband'
-  event:
-    subject_support: 'Need help for %{event}'
-    locales:
-      en: 'ENG'
-      es: 'ESP'
-      it: 'ITA'
-      th: 'THA'
-      de: 'GER'
-      pt: 'PT'
-  events:
-    create:
-      error: "Event couldn't be created, check the errors below"
-  activemodel:
-    errors:
-      models:
-        customer:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
-            birthdate:
-              invalid: "It's not a valid date"
-              too_young: "Must be older than %{age} years old"
-        epg_claim_form:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
-        bank_account_claim_form:
-          attributes:
-            swift:
-              invalid: "It's not a valid BIC/SWIFT"
-            iban:
-              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
-    attributes:
-      euro_bank_account_claim_form:
-        swift: "BIC/SWIFT"
-        iban: "IBAN"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-      aus_bank_account_claim_form:
-        bsb: "BSB"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-        number: "Account number"
-      nz_bank_account_claim_form:
-        bsb: "BSB"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-        number: "Account number (00 0000 0000000 000)"
-      thailand_bank_account_claim_form:
-        bsb: "BSB (000000)"
-        account_holder: "Account holder's name (Thai)"
-        account_holder_translation: "Account holder's name (English)"
-        bank_name: "Bank name"
-        number: "Account number"
-  activerecord:
-    models:
-      admin:
-        one: 'admin'
-        other: 'admins'
-      claim:
-        one: 'claim'
-        other: 'claims'
-      credit:
-        one: 'credit'
-        other: 'credits'
-      customer:
-        one: 'customer'
-        other: 'customers'
-      gtag:
-        one: 'gtag'
-        other: 'gtags'
-      order:
-        one: 'order'
-        other: 'orders'
-      payment:
-        one: 'payment'
-        other: 'payments'
-      refund:
-        one: 'refund'
-        other: 'refunds'
-      ticket:
-        one: 'ticket'
-        other: 'tickets'
-      company:
-        one: 'company'
-        other: 'companies'
-      pack:
-        one: 'pack'
-        other: 'packs'
-      ticket_type:
-        one: 'company ticket type'
-        other: 'company ticket types'
-    errors:
-      models:
-        customer:
-          attributes:
-            email:
-              taken: 'Email taken'
-        ticket_type:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are tickets associated"
-        ticket:
-          attributes:
-            number:
-              taken: 'Number taken'
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are customers associated"
-        gtag:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are customers associated"
-            tag_uid:
-              taken: 'Tag UID taken'
-        admission:
-          attributes:
-            ticket:
-              taken: 'taken'
-
   actions:
     back: Zurück
-    cancel: Stornieren
     check_news: Zurück zur Veranstaltungswebsite
-    confirm: Confirm
     delete: Löschen
-    delete_account: Löschen Sie Ihr Konto
-    delete_ticket: Ticket löschen
     edit: Bearbeiten
-    finalize: Finalize
-    logout: Logout
   admin:
     accesses:
       initial_amount: Initial Amount
       max_purchasable: Maximum Purchasable
       min_purchasable: Minimum Purchasable
-      mode: Mode
-      modes:
-        counter: Counter
-        permanent: Permanent
-        permanent_strict: Permanent Strict
       step: Step
     actions:
-      assign_gtag: gtag anmelden
-      assign_ticket: Ticket anmelden
       back: Zurück
-      cancel: Storno
-      credits_history: Credits history
-      csv: CSV
       delete_selected: Löschen ausgewählt
-      disable: Sperren
       download: CSV
-      manual_claims_csv: Manuelle Forderungen CSV
       new: Neu
-      search: Suchen
-      select_all: Alle auswählen
       update: Aktualisieren
-    admins:
-      email: Email
     admissions:
-      state: Status
-      created_at: Erstellt am
       customer:
         complete_name: Vollständiger Name
         email: Email
+      state: Status
       states:
         assigned: Ist jetzt angemeldet
-        unassigned: Vorherige Anmeldung
       ticket: Ticket
-      updated_at: Aktualisiert am
-    agreements:
-      granted: Garantiert
-      revoked: Widerrufen
-      status: Status
     aside:
-      access_transactions: Access
       accesses: Zugänge
       admins: Admins
-      ban_transactions: Ban
-      claims: Forderungen
       companies: Firmen
-      credential_transactions: Credential
-      inconsistencies: Inconsistencies
-      credit_transactions: Credit
       credits: Guthaben
       crm: CRM
       customers: 'Kunden Veranstaltungscustomer '
       details: Details
-      device_transactions: Device
       event: Veranstaltung
       events: Events
       gtag: GTags
-      logs: Logs
-      missing_transactions: Missing
-      money_transactions: Money
-      operator_transactions: Operator
-      order_transactions: Order
+      inconsistencies: Inconsistencies
       orders: Bestellungen
       payment_settings: Zahlungseinstellungen
-      payments: Zahlungen
-      refund_settings: Erstattungseinstellungen
       refunds: Erstattungen
       setup: Einrichtung
       sign_out: Abmeldung
       ticket_types: Firmenticketarten
-      user_engagement_transactions: User Engagement
     catalog_item:
       initial_amount: Anfangsbetrag
       max_purchasable: Max käuflich
       min_purchasable: Min käuflich
       name: Name
       step: Schritt
-      type: Type
     companies:
       name: Name
       token: Firmenschlüssel
     confirm:
-      clone: Sind Sie sicher?
       delete: Sind Sie sicher?
     credits:
-      currency: Währung
-      standard: Standard
       value: Wert
-    customer:
-      id: ID
     customers:
-      admissions: Ticketregistrierungen
-      agreed_event_condition: Veranstaltungskondition zugestimmt
-      amount: Betrag
-      banned: Banned
-      claims: Forderungen
-      completed_claim: Endgültige Forderungen
-      creadit_logs: Guthaben logs
-      created_at: 'Erstellt bei '
-      credits: Guthaben
-      current_sign: Aktuell angemeldet
-      current_sign_ip: Aktuelle Anmeldung IP
-      delete: Gelöscht
       email: Email
       first_name: Vorname
       gtag: Gtags
-      gtag_credits: Gtag Guthaben
-      id: Id
       last_name: Nachname
-      last_sign: Letzte Anmeldung am
-      last_sign_ip: Letzte Anmeldung IP
-      orders: Bestellungen
-      payments: Zahlungen
-      payments_activated: Aktivierte Zahlungen
-      refund: Erstattung
-      search:
-        confirmed: Bestätigt?
-        credits_purchased: Guthaben erworben?
-        email: Email eingeben
-        first_name: Vornamen eingeben
-        gtag: Gtags
-        last_name: Nachnamen eingeben
-        tickets: Tickets?
-      sign: Anmeldung Zählung
-      state: Status
       ticket: Ticket
       tickets: Tickets
-      transactions: Transaktion
-      transactions_type: Transaktionstyp
-    dashboard:
-      api_access: API Zugang
-      change_state: Status ändern?
-      current_token: 'Ihr aktueller API Zugangsschlüssel:'
     defaults:
       actions: Aktionen
       all: Auswahl
-      empty_events: No events
       empty_item: Keinen %{item}
-      home: Home
       item_not_found: Keinen %{item} gefunden
       log_in: Login
-      search: Suche
     device_settings:
       form:
-        currency: Währungssymbol
-        maximum_wb_balance: Maximum Armband Rechnung
         private_zone_password: Privater Bereich Passwort
-        public_key_a: Tag Passwort
-        uid_reverse: UID Reverse
     devices:
       asset: Asset ID
       imei: Imei
@@ -300,120 +79,25 @@ de:
       model: Model
       serial_number: Serial Number
     event:
-      background: Hintergrund
-      background_type: Hintergrundtyp
-      background_types:
-        fixed: Fixiert
-        repeat: Wiederholen
-      bank_account_disclaimer: Bankkonto Disclaimer
-      company_name: Firmenname
-      description: Beschreibung
-      disclaimer: Disclaimer
-      end_date: Enddatum
-      features: Aktivierte Features
-      features_options:
-        agreement_acceptance: Agreement acceptance
-        authorization: Authorization
-        gtag_assignation: Gtag assignations
-        refunds: Erstattungen
-        ticket_assignation: Ticket assignations
-        top_ups: Guthaben Top Ups
-        transactions_pdf: Transactions PDF
-      fee: Gebühr
       fieldests:
-        company: Company information
-        custom: Benutzerdefinierte Formatvorlagen
-        date: Datum und Ort
-        image: Bilder
-        info: Veranstaltungsinformation
-        limits: Limits
-        nfc: NFC
-        optional_form_parameters: Optionale Formatparameter
         parameters: Parameter
         security: Sicherheit
-        text: Texte
-      gtag_assignation_notification: Benachrichtigung über Gtag Anmeldung
-      gtag_form_disclaimer: Gtag Anmeldeformular Disclaimer
-      images:
-        background: 'Hintergrundbild Vorschau '
-        customer: Profilbild Vorschau
-      info: Info
-      locales: Aktivierte Sprachen
-      locales_options:
-        de_lang: Deustch
-        en_lang: Englisch
-        es_lang: Spanisch
-        it_lang: Italienisch
-        pt_lang: Portugiesisch
-        th_lang: Thai
-      logo: Logo
-      mass_email_claim_notification: Benachrichtigung über Massenemailanforderung
-      minimum: Minimum
       name: Name
-      payment_service: Zahlungsservice
-      privacy_policy: Privacy policy
-      refund_disclaimer: Erstattung Disclaimer
-      refund_service: Erstattungsservices
-      refund_success_message: Nachricht über erfolgreiche Erstattung (zur Prüfung Überprüfung anklicken)
-      slug: Slug
-      start_date: Anfangsdatum
-      states:
-        claiming_started: Anforderung begonnen
-        closed: abgeschlossen
-        created: Nicht veröffentlicht
-        finished: Nach der Veranstaltung
-        launched: Vor der Veranstaltung
-        started: Während der Veranstaltung
-      status: Status
-      style: Stil
-      support_email: Support Email
-      terms_of_use: Terms of use
       token: Veranstaltungsschlüssel
-      url: Veranstaltung URL
     general:
       created_at: Created at
       description: Description
       id: ID
       name: Name
       updated_at: Updated at
-    gtag_assignations:
-      state: Status
-      button: Akzeptieren
-      created_at: 'Erstellt bei '
-      customer:
-        complete_name: Vollständiger Name
-        email: Email
-      serial: Tag Seriennummer
-      states:
-        assigned: Ist jetzt angemeldet
-        unassigned: Vorherige Anmeldung
-      tag: Tag UID
-      updated_at: 'Aktualisiert bei '
     gtags:
-      actions:
-        delete_credits: Alle Guthaben löschen
-        delete_gtags: Alle GTags löschen
-      activation_counter: Activation
-      assigned_at: Angemeldet bei
       banned: Banned
-      created_at: 'Erstellt bei '
       customer: Kunde
       format: Format
       formats:
         card: Card
         wristband: Wristband
-      gtag_assignation: Gtag Anmeldungen
-      id: ID
-      import: GTags importieren (Wählen Sie ein CSV File mit Kommatrennung)
-      import_credits: " Guthaben importieren (Wählen Sie ein CSV File mit Kommatrennung)"
-      loyalty: Loyalty
-      search:
-        tag_serial: Tag Seriennummer
-        tag_uid: Tag UID
       tag: Tag UID
-      tickets: Tickets
-      total: Gesamtguthaben
-      updated_at: 'Aktualisiert bei '
     order_items:
       amount: Betrag
       catalog_item: Katalogartikel
@@ -428,14 +112,8 @@ de:
       gateway: Gateway
       items: Items
       number: Nummer
-      order_item: Bestellung Artikel
-      payments: Zahlungen
-      product_description: Produktbeschreibung
       product_name: Produktname
       product_price: Produktpreis
-      product_type: Produktart
-      search:
-        number: Nummer
       state: Status
       total: Summe
     pack:
@@ -451,78 +129,25 @@ de:
       confirm: Neues Passwort bestätigen
       forgotten: Passwort vergessen?
       new: Neues Passwort
-      reset_password: Passwort zurücksetzen
-      reset_password_confirm: |-
-        The password will be set to '123456'.
-         Are you sure?
       send_instructions: "'Bitte lass mir die Passwort-Instruktionen zukommen'"
-    payment_settings:
-      redsys:
-        code: Code
-        currency: Währung
-        form: Formular URL
-        ip: IP
-        name: Name
-        password: Passwort
-        pay_methods: Zahlungsmethode
-        terminal: Terminal
-        transaction_type: Transaktionstyp
     products:
-      description: Beschreibung
-      id: ID
       is_alcohol: alkoholisch
       name: Name
-      product_type: Product Type
       stations: Stations
       vat: VAT %
     purchasers:
       email: Käufer Email
       first_name: Käufer Vorname
-      gtag_delivery_address: Gtag Lieferadresse
       last_name: Käufer Nachname
-    refund_settings:
-      bank_account:
-        fee: Erstattungsgebühr (in Währung)
-        minimum: Nach Gebühr Erstattung minimum (in Währung)
-      epg:
-        country: Land
-        currency: Währung
-        fee: Erstattungsgebühr (in Währung)
-        md5key: Md5 Schlüssel
-        merchant_id: Händler ID
-        minimum: Nach Gebühr Erstattung minimum (in Währung)
-        operation_type: Bearbeitungstyp
-        payment_solution: Zahlungsart
-        product_id: Produkt
-        url: URL
-      nofication_description: Benachrichtigen Sie die Kunden, dass sie ihre Erstattung anfordern können.
-      notify: Benachrichtigen
-      tipalti:
-        country: Land
-        fee: Erstattungsgebühr (in Währung)
-        idap: Idap
-        minimum: Nach Gebühr Erstattung minimum (in Währung)
-        payer: Zahlender
-        secret_key: Geheimschlüssel
-        url: URL
-      want_to_notify: Wollen Sie benachrichtigen?
     refunds:
       amount: Betrag
       created_at: Erstellt bei
       customer_email: Email des Kunden
-      customer_name: Name des Kunden
       fee: Gebühr
-      iban: IBAN Nummer
       id: ID
-      search:
-        amount: Betrag
-        status: Status
       status: Status
-      swift: SWIFT Nummer
-      updated_at: Aktualisiert bei
     sessions:
       mail: anwender@domain.com
-      password: Passwort
     stations:
       access_control_gate:
         direction: Richtung
@@ -536,35 +161,25 @@ de:
         cs_gtag_balance_fix: CS Gtag Balance Fix
         cs_topup_refund: CS Topup/Refund
         customer_portal: Kundenportal
-        customer_service: Kundenservice
         envelope_linker: Envelope Linker
         exhibitor: Aussteller
         gtag_recycler: Gtag Recycler
         hospitality_top_up: Bewirtung Top Up
         incident_report: Vorfallsbericht
         operator_permissions: Operator Berechtigungen
-        payout_top_up: Auszahlung Top Up
         staff_accreditation: Personalakkreditierung
         ticket_validation: Ticket Validation
         top_up_refund: Top Up / Erstattung
         touchpoint: Touchpoint
         vendor: Vendor
-      group: Gruppe
       items: Produkte
       location: Ort
       name: Name
       reporting_category: Reporting Category
       station_catalog_item:
-        description: Beschreibung
         name: Name
         price: Preis
         type: Type
-      station_groups:
-        access: Zugang
-        event_management: Eventmanagement
-        glownet: Glownet
-        monetary: Monetär
-        touchpoint: Touchpoint
       station_product:
         description: Beschreibung
         is_alcohol: Is alcohol?
@@ -572,52 +187,25 @@ de:
         price: Preis
       topup_credit:
         amount: Betrag
-        credit: Guthaben
         credit_value: Wert des Guthabens
         price: Preis
       type: Typ
     ticket_types:
       catalog_item: Item
-      company: Firma
       company_code: Firmencode
-      credit: Guthaben
-      id: ID
-      import: Wichtige Ticketarten (Wählen Sie ein CSV File mit Kommatrennung)
       name: Name
       number_of_tickets: Tickets
-      simplified_name: Kurzname
     tickets:
-      actions:
-        delete_tickets: Alle Tickets löschen
-      admission: Ticketregistrierungen
       banned: Banned
       code: Code
-      created_at: Erstellt am
       customer: Angemeldeter Kunde
-      gtags: Gtags
-      id: ID
-      import: Tickets importieren (Wählen Sie ein CSV File mit Kommatrennung)
-      search:
-        code: Ticket Barcode Nummer
-        customer: Angemeldete Kunden Email
-        purchaser_email: Käufer Email
-        purchaser_first_name: Käufer First Name
-        purchaser_last_name: Käufer Last Name
-        type: Typ
-      ticket_type: Firmenticketart
-      ticket_type_simplified: Vereinfachte Ticketart
     transactions:
       access: Access
       action: Type
-      catalog_item_id: Catalog Item ID
-      counter: Counter
       counters: Counters
-      credential: Credential
-      credit_value: Credit Value
       credits: Credits
       customer_id: Customer
       customer_tag_uid: Customer Tag
-      device: Device
       device_created_at: Date
       device_db_index: DB index
       device_uid: Device
@@ -626,14 +214,9 @@ de:
       final_balance: Final Balance
       final_refundable_balance: R Final Balance
       final_value: Final Value
-      gtag: Gtag
       gtag_counter: Gtag Counter
       id: ID
-      inconsistent_balance: Inconsistent
-      inconsistent_refundable_balance: R Inconsistent
       items_amount: Items Amount
-      missing_transactions: Missing?
-      money: Money
       operator_tag_uid: Operator Tag
       payment_gateway: Gateway
       payment_method: Method
@@ -646,7 +229,6 @@ de:
       status_code: Status Code
       status_message: Status Message
       ticket: Ticket
-      ticket_code: Ticket
       total: Total
       transaction_origin: Origin
       type: Catalogable Type
@@ -655,171 +237,49 @@ de:
     button: Aktivieren
     call_to_action: Aktivieren Sie Ihr Veranstaltungsticket!
     description: Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes.
-    description2: Ihr Code sollte mit '4UMoB beginnen.'
     placeholders:
       ticket_code: Veranstaltungsticket Codenummer
-    title: Ticketaktivierung
   alerts:
-    access_only_one_way: Only one way per access
     admissions: Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support.
-    checkout: Du kannst nur numerische Daten ohne Dezimalstelle und niedriger als %{limit} verwenden
-    claim_complete: Forderung abgeschlossen. Mehr als 15 Minuten vergangen.
-    cloned: Succesfully cloned
     created: Erfolgreich erstellt
-    credential_already_assigned: Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Erfolgreich entfernt
     error: Formfehler prüfen
     gtag:
       already_assigned: Dieser Tag ist bereits angemeldet
       invalid: Die ist keinen gültiger Tag
-    gtag_already_assigned: Sie haben bereits ein gtag angemeldet
-    imported: Erfolgreich importiert
     order_complete: Bestellung abgeschlossen
-    order_expired: Bestellung abgelaufen. Mehr als 15 Minuten vergangen.
-    quantity_not_refundable: Guthabenmenge nicht erstattungsfähig
-    resend: Erfolgreich wieder gesendet
     ticket_already_assigned: Ticket bereits angemeldet
     ticket_assigned: Ticket assigned successfully
     ticket_banned: Ticket is blacklisted
-    ticket_doesnt_exist: Ticket doesn't exist
-    ticket_without_credential: The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support
+    ticket_without_credential: The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support
     unassigned: Erfolgreich nicht zugeteilt
     updated: Erfolgreich aktualisiert
   auth:
-    failure:
-      already_authenticated: Sie sind bereits angemeldet.
-      inactive: Ihr Konto ist noch nicht aktiviert.
-      invalid: Falsche %{authentication_keys} oder Passwort.
-      invalid_current_password: Ungültiges Passwort
-      last_attempt: Sie haben einen weiteren Versuch, ehe Ihr Konto gesperrt ist.
-      locked: Ihr Konto ist gesperrt.
-      not_found_in_database: Ungültige Zugangsberechtigung.
-      timeout: Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an, um fortzufahren.
-      unauthenticated: Sie müssen sich anmelden oder registrieren, um fortzufahren.
     mailer:
       reset_password_instructions:
         subject: Anleitung zur Passwort-Rücksetzung
-      unlock_instructions:
-        subject: Anleitungen zur Entsperrung
-    omniauth_callbacks:
-      failure: Konnte Sie nicht authentifizieren aufgrund von %{kind} aus "%{reason}".
-      success: Erfolgreich authentifizierte mit %{kind} Konto.
-    passwords:
-      no_token: Sie müssen von einer Email mit Passwortrücksetzung kommen, um Zugang zu dieser Seite zu haben. Wenn dies der Fall ist, stellen Sie bitte sicher, dass Sie die komplette URL eingegeben haben, die Sie erhalten haben.
-      send_instructions: Sie erhalten eine Email mit Anleitungen, wie Sie in wenigen Minuten Ihr Passwort zurücksetzen können.
-      send_paranoid_instructions: Wenn sich Ihre Emailadresse in unserer Datenbank befindet, erhalten Sie in wenigen Minuten an diese Emailadresse einen Link zur Passwort-Wiederherstellung.
-      updated: Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet.
-      updated_not_active: Ihr Passwort wurde erfolgreich geändert.
-    registrations:
-      destroyed: Auf Wiedersehen! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen Sie kommen bald zurück.
-      signed_up: Willkommen! Sie haben sich erfolgreich registriert.
-      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Allerdings konnten wir Sie nicht anmelden, weil Ihr Konto noch nicht aktiviert ist.
-      signed_up_but_locked: Sie haben sich erfolgreich registriert. Allerdings konnten wir Sie noch nicht anmelden, weil Ihr Konto gesperrt ist.
-      update_needs_confirmation: Sie haben Ihr Konto erfolgreich aktualisiert. Allerdings müssen wir noch Ihre neue Emailadresse prüfen. Bitte öffnen Sie Ihr Emailkonto und folgen Sie dem von uns übersandten Link zur Bestätigung Ihrer neuen Emailadresse.
-      updated: Ihr Konto wurde erfolgreich aktualisiert.
-    sessions:
-      already_signed_out: Erfolgreich angemeldet.
-      signed_in: Erfolgreich angemeldet.
-      signed_out: Erfolgreich abgemeldet.
-    unlocks:
-      send_instructions: Sie erhalten eine Email mit Anleitungen, wie Sie in wenigen Minuten Ihr Konto entsperren können.
-      send_paranoid_instructions: Wenn Ihr Konto existiert, erhalten Sie eine Email mit Anleitungen, wie Sie Ihr Konto in wenigen Minuten entsperren können.
-      unlocked: Ihr Konto wurde erfolgreich entsperrt. Um fortzufahren, einfach anmelden.
-  bank_account_claim:
-    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>Was bedeutet BIC / SWIFT und wo finde ich meine Daten dazu?</a>"
-    iban_disclaimer_html: "<sup>2</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'> Was bedeutet BIC / SWIFT und wo finde ich meine Daten dazu?</a>"
-  cancel:
-    title: Mein Konto löschen
-    unhappy: Schreiben Sie uns eine Email, wir möchten erfahren, was passiert ist!
   checkout:
     button: Bestellung bestätigen
     description: Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein Tag übertragen, sobald Du die Veranstaltung betreten hast.
     store: " shop"
-    title: Top-up
     total: Summe
   claims:
-    amount: Betrag
-    button: Erstattung
-    button_iupay: IUPAY
-    claim_present:
-      description: Ihre Forderung wurde korrekt gestellt und ist auf dem Weg.
-      title: Vielen Dank!
     credentiable_refund_disabled:
       description: Your credential is not elegible for online refunds
       title: Sorry
-    description: " Bitte überprüfen Sie Ihre Bestellung und veranlassen Sie die Bezahlung."
-    direct_claim:
-      button: Veranlassen
-      description: Wir werden Ihr Guthaben automatisch zurückerstatten.
-      title: Anforderung Ihrer Abrechnung
-    fee: Erstattungsgebühr
     invalid_claim:
       description: Please contact us at %{email} in order to process your refund.
       title: Erstattung in Bearbeitung
     no_credit:
       description: Sie haben keinen erstattungsfähiges Guthaben
       title: Es tut uns leid
-    paypal:
-      button: Refund with PayPal
-    product_description: Erstattungsfähiges Guthaben
-    products: Produkte
-    redirect: " Du wirst zum Zahlungsgateway der Bank weitergeleitet."
-    refund: Bitte überprüfen Sie Ihr Guthaben, um die Rückerstattung zu veranlassen.
-    title: Erstattung bestätigen
-    total: Summe
-    vat: inklusive MwSt
-    wirecard:
-      button: Refund with Wirecard
-  conditions:
-    action: Ich stimme den
-    conjunction: und den
-    privacy_conditions: Nutzungsbedingungen zu
-    terms_of_use: Datenschutzbedingungen
   confirm:
-    cancel_paypal: Bei Stornierung wird Ihr Tag von Ihrem Paypal-Konto getrennt.
-    cancel_paypal_agreement: Cancel agreement
     log_out: Möchten Sie diese Sitzung beenden?
-    remove_ticket: Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden.
-  cookies:
-    all_sites_settings_dialog_subtitle: Sie können den Cookies für alle Websites zustimmen, die dieses Plugin verwenden.
-    all_sites_settings_dialog_title_a: Privatsphäre Einstellungen
-    all_sites_settings_dialog_title_b: Für alle Websiten
-    allow_cookies: Cookies zulassen
-    allow_cookies_implicit: Schließen
-    allow_for_all_sites: Für alle Sites zulassen
-    analytics_default_description: Wir bewerten anonym Ihre Nutzung dieser Website, um Ihre Erfahrung damit zu verbessern
-    analytics_default_title: Analytics
-    back_to_site_settings: Zurück zu den Website-Einstellungen
-    change_for_all_sites_link: Einstellungen für alle Websites ändern
-    description: Wenn Sie auf dieser Website fortfahren, gehen wir davon aus, dass Sie unsere Konditionen akzeptieren
-    hide_details: verbergen
-    learn_more: Cookies Bestimmungen
-    not_using_cookies: Diese Website verwendet keinen Cookies.
-    notification_title: Wir verwenden Cookies um sicherzustellen, dass Du die komfortabelste Erfahrung mit unserer Website machst. Wenn Du fortfährst, gehen wir davon aus, dass Du die Verwendung von Cookies akzeptierst.
-    notification_title_implicit: GSpot verwendet kundenspezifische Cookies und Cookies Dritter, um den Service zu verbessern.
-    preference_always: Immer zulassen
-    preference_ask: Bei jedem Mal nachfragen
-    preference_consent: Ich stimme zu
-    preference_decline: Ich lehne ab
-    preference_never: Niemals zulassen
-    preference_use_global: Allgemeine Einstellung verwenden
-    privacy_settings: Privatsphäre
-    privacy_settings_dialog_subtitle: Einige Features dieser Website bedürfen Ihrer Zustimmung um festzuhalten, wer Sie sind.
-    privacy_settings_dialog_title_a: Privatsphäre Einstellungen
-    privacy_settings_dialog_title_b: für diese Website
-    save_for_all_sites: Für alle Sites speichern
-    save_preference: Präferenzen speichern
-    see_details: siehe Details
-    see_details_implicit: Einstellungen ändern
-  currency_symbol: EUR
   dashboard:
     admissions:
-      button: Entfernen
       call_to_action: Wollen Sie dieses Ticket entfernen?
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich.
-      header: Ticket %{ticket_type}
-      success: Ticket erfolgreich aktiviert!
     credits:
       button: Top-up
       calculating_balance: We are validating your final balance. Please return in 48 hours to proceed with your refund.
@@ -827,61 +287,24 @@ de:
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich.
       header: Dein Guthaben
       refundable: Erstattungsfähig
-      ticket_first: Zuerst ein Ticket oder Tag hinzufügen
     credits_history:
       button: Download Transactions
       header: Transaction history
-    error_refund_disclaimer:
-      claim: Zu Ihrer Erstattung ist ein Fehler aufgetreten
-      description: Versuchen Sie zurück zur Übersicht zu gehen und den Antrag erneut zu stellen.
-    event_refunds:
-      claim: Die Veranstaltung ist noch nicht zu Ende
-      description: Kommen Sie bald zurück, um die Erstattung Ihres Guthabens zu beantragen
     event_started:
       description: Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben.
       title: Letzte Details!
     first_register:
       ticket: Ticket hinzufügen
-      wristband: "Tag hinzufügen"
-    gtag_after_refund:
-      description: Ihre Erstattung wird bearbeitet
+      wristband: Tag hinzufügen
     gtag_registration:
-      button: Ändern
-      call_to_action: Bearbeiten
-      hint: Sie haben versehentlich ein falsches Tag verwendet? Löschen Sie den Vorgang und beginnen Sie erneut
-      title: Dein Tag
-    more_gtags:
-      description: Sie haben mehrere Tags? Bitte erneut mit jeweils einer anderen Email registrieren.
-    not_refundable:
-      call_to_action: Es tut uns leid. Sie haben keinen erstattungsfähiges Guthaben.
-      title: 'Ihre Rechnung:'
+      title: Wristband/Card ID
     paypal:
       button: Mit PayPal synchronisieren
-    paypal_nvp:
-      button: Mit PayPal synchronisieren
-    refunds:
-      button: Bankkonto ändern
-      call_to_action: Erstattung erfolgreich beantragt. Sie erhalten in Kürze Ihre Überweisung.
-      title: 'Ihre Rechnung:'
-    success_refund_disclaimer:
-      claim: Sie haben Ihre Erstattung erfolgreich beantragt
-      description: In 1-4 Werktagen erhalten Sie die Zahlung auf Ihrem Bankkonto.
-    tipalti:
-      disclaimer: The content of this page could take some seconds to load.
-    title: Meine Übersichtsseite
-    wait_refund_disclaimer:
-      claim: Sie haben Ihre Erstattung erfolgreich beantragt
-      description: In 5 bis 15 Werktagen erhalten Sie eine Email, wenn Ihre Guthaben bereitstehen.
-      description2: Dann können Sie Ihre Rechnung prüfen, Ihre Bankdetails eingeben und die Zahlung erhalten.
     without_admissions:
       button: Mehr hinzufügen
-      call_to_action: Aktivieren Sie nur solche Tickets, die Sie auch SELBST benutzen
-      description: Aktivieren Sie NICHT das Ticket eines Freundes über Ihr Konto.
     without_gtags:
       add: Anmelden Tag
       button: Anmelden Tag
-      description: 'Bitte beachten: Pro Konto kann nur ein Tag aktiviert werden.'
-      title: Guthaben übrig?
     without_gtags_claiming_started:
       claim: Entschuldigung
       description: Der Zeitraum für Erstattungen ist vorbei. Bei Fragen wenden Sie sich bitte an den Support.
@@ -890,132 +313,7 @@ de:
       description: Wenn Sie zu einem früheren Zeitpunkt eine Supportanfrage an uns gerichtet haben,
       description2: keinene Sorge, wir helfen Ihnen mit Ihrer Erstattung weiter.
     without_refunds:
-      button: Rechnung anfordern
       call_to_action: Weiter zur Erstattung
-      title: 'Ihre Rechnung:'
-  date:
-    abbr_day_names:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
-    abbr_month_names:
-    - 
-    - Jan
-    - Feb
-    - Mär
-    - Apr
-    - Mai
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Okt
-    - Nov
-    - Dez
-    day_names:
-    - Sonntag
-    - Montag
-    - Dienstag
-    - Mittwoch
-    - Donnerstag
-    - Freitag
-    - Samstag
-    formats:
-      custom: "%{month} %{day}"
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
-      short: "%B %d"
-    month_names:
-    - 
-    - Januar
-    - Februar
-    - März
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
-    order:
-    - :day
-    - :month
-    - :year
-  datetime:
-    distance_in_words:
-      about_x_hours:
-        one: etwa eine Stunde
-        other: etwa %{count} Stunden
-      about_x_months:
-        one: etwa ein Monat
-        other: etwa %{count} Monate
-      about_x_years:
-        one: etwa ein Jahr
-        other: etwa %{count} Jahre
-      almost_x_years:
-        one: fast ein Jahr
-        other: fast %{count} Jahre
-      half_a_minute: eine halbe Minute
-      less_than_x_minutes:
-        one: weniger als eine Minute
-        other: weniger als %{count} Minuten
-      less_than_x_seconds:
-        one: weniger als eine Sekunde
-        other: weniger als %{count} Sekunden
-      over_x_years:
-        one: mehr als ein Jahr
-        other: mehr als %{count} Jahre
-      x_days:
-        one: ein Tag
-        other: "%{count} Tage"
-      x_minutes:
-        one: eine Minute
-        other: "%{count} Minuten"
-      x_months:
-        one: ein Monat
-        other: "%{count} Monate"
-      x_seconds:
-        one: eine Sekunde
-        other: "%{count} Sekunden"
-    prompts:
-      day: Tag
-      hour: Stunden
-      minute: Minute
-      month: Monat
-      second: Sekunde
-      year: Jahr
-
-  devise:
-      confirmations:
-        confirmed: Your email address has been successfully confirmed
-        send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes
-        send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes
-      failure:
-        already_authenticated: You are already signed in
-        inactive: Your account is not activated yet
-        invalid: Passwort und %{authentication_keys} stimmen nicht ueberein
-        last_attempt: You have one more attempt before your account is locked
-        locked: Your account is locked.
-        not_found_in_database: Passwort und %{authentication_keys} stimmen nicht ueberein
-        timeout: Your session expired. Please sign in again to continue
-        unauthenticated: You need to sign in or sign up before continuing
-        unconfirmed: You have to confirm your email address before continuing
-
-  edit_refund:
-    button: Speichern
-    call_to_action: Geben Sie Ihre Bankverbindung ein!
-    description: Sie können die Bankverbindung für Ihre Forderung bearbeiten.
-    placeholders:
-      bank_account: ES00 0000 0000 0000 0000 0000
-      swift: 0000 0000
-    swift: BIC/SWIFT (Falls sich das Konto außerhalb Deutschlands befindet)
-    title: Anforderung der Erstattung
   email:
     admin:
       reset_password:
@@ -1024,50 +322,11 @@ de:
         mail_ignore: Wenn Sie dies nicht beantragt haben, ignorieren Sie bitte diese Email. Ihr Passwort wird nicht geändert, es sei denn, Sie nutzen den obigen Link und erstellen ein neues Passwort.
         mail_link: Mein Passwort ändern
     customer:
-      agreement:
-        accepted:
-          greet: Hello %{name}!
-          mail_body: You have accepted the PayPal Agreement so you can now do auto-topups!
-          subject: Paypal Agreement Accepted
-          title: Paypal Agreement Accepted
-      claim:
-        available_claim:
-          greet: Hallo, %{name}!
-          mail_body: " Sie können Ihr Guthaben jetzt erstattet bekommen, wenn Sie dem nachfolgenden Link folgen."
-          mail_link: Loggen Sie sich jetzt ein um Ihre Rechnung zu sehen und Ihre Erstattung zu beantragen.
-          subject: Sie können Ihr Guthaben jetzt erstattet bekommen!
-          title: Sie können Ihr Guthaben jetzt erstattet bekommen!
-        completed:
-          date: Datum der Transaktion
-          description: Ihr Guthaben wurde angewiesen. In 1-4 Tagen erhalten Sie die Zahlung auf Ihrem Bankkonto gutgeschrieben.
-          greet: Hallo, %{name}!
-          order_number: Nummer der Erstattung
-          subject: Erstattung abgeschlossen
-          success: 'Hier finden Sie die Einzelheiten zu Ihrer Erstattung:'
-          thanks: 'Danke für die Beantragung der Erstattung! '
-          title: Benachrichtigung über die Erstattung
       communication: Dies ist eine automatisierte Kommunikation der Veranstaltung %{event_name}
-      confirmation:
-        greet: Hallo, %{name}!
-        mail_body: Mit nachfolgendem Link können Sie die Emailadresse für Ihr Konto bestätigen.
-        mail_link: Konto bestätigen
-        title: Passwort bestätigen
       follow_on_twitter: Folgen Sie uns auf Twitter
       footer_copy: Copyright Glownet © %{year} Alle Rechte vorbehalten.
       footer_glownet: 'We are happy to assist you with the use of event portal if you message us at '
       footer_organizer: 'Have a question for the event organiser? Contact them directly at '
-      gtag:
-        assigned:
-          greet: Hallo, %{name}!
-          mail_body: 'Ihnen wurde ein Tag mit folgender ID zugewiesen:'
-          subject: "Tag zugewiesen"
-          title: "Tag zugewiesen"
-        unassigned:
-          greet: Hallo, %{name}!
-          mail_body: 'Sie haben ein Tag mit folgender ID gelöscht:'
-          mail_link: Auf der Website überprüfen
-          subject: "Tag gelöscht"
-          title: "Tag gelöscht"
       like_on_facebook: Gefällt mir auf Facebook
       order:
         completed:
@@ -1087,78 +346,15 @@ de:
         title: Passwort zurücksetzen
       suscribe_on_you_tube: In YouTube abonnieren
   errors:
-    event_alerts:
-      catalog_items: There are company ticket types without any catalog items associated
-      company_codes: There are company ticket types without company code
-      refunds: Refunds are enabled but there is no refunds service selected
-      topups: Topups are enabled but there is no payments service selected
-    format: "%{attribute} %{message}"
-    main:
-      error_400: Fehlerhafte Anfrage
-      error_404: Pfad nicht gefunden
-      error_500: Interner Serverfehler
     messages:
-      accepted: muss akzeptiert werden
-      blank: muss ausgefüllt werden
       catalog_item_dependent: Bestandteil kann nicht gelöscht werden, ist Teil eines Paketes or Station
-      confirmation: stimmt nicht mit %{attribute} überein
-      empty: muss ausgefüllt werden
       end_date_after_start_date: must be after start date
-      equal_to: muss genau %{count} sein
-      even: muss gerade sein
-      exclusion: ist nicht verfügbar
-      expired: ist abgelaufen, bitte neu beantragen
-      greater_than: muss größer als %{count} sein
       greater_than_maximum: The minimum purchasable can't be greater than maximum purchasable
-      greater_than_or_equal_to: muss größer oder gleich %{count} sein
-      inclusion: ist keinen gültiger Wert
-      invalid: ist nicht gültig
       invalid_max_value_for_infinite: Der Maximum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde
       invalid_min_value_for_infinite: 'Der Minimum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde '
-      less_than: muss kleiner als %{count} sein
-      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
       max_credits_reached: Du hast das maximale Guthaben erreicht
-      max_standard_credits: Nur ein Standardguthaben pro Veranstaltung
-      model_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
-      more_credits_than_max_balance: can't be greater than maximum gtag balance
-      not_a_number: ist keinene Zahl
-      not_an_integer: muss ganzzahlig sein
-      not_belong_to_event: gehört nicht zu dieser Veranstaltung
-      not_enough_space_for_credential: Nicht genug Platz in gtag für diese Anmeldung
-      not_enough_space_for_credential_configuration: Nicht genug Platz in gtag für die bestehende Anmeldungskonfiguration
-      not_found: nicht gefunden
-      not_locked: war nicht gesperrt
-      not_saved:
-        one: '1 Error hat verhindert, dass diese %{resource} gespeichert werden konnte:'
-        other: "%{count} Error haben verhindert, dass diese %{resource} gespeichert werden konnte:"
-      odd: muss ungerade sein
-      only_hex: only allows hexadecimal values
-      other_than: darf nicht gleich %{count} sein
-      present: darf nicht ausgefüllt werden
-      product_already_added: already added to this station
-      required: muss ausgefüllt werden
-      station_dependent: Bestandteil kann nicht gelöscht werden, ist Teil eines Station
-      station_has_associations: Station has been used and can't be deleted.
-      taken: ist bereits vergeben
       ticket_type_dependent: Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen
-      ticket_type_has_tickets: there are tickets using this ticket type
-      too_long:
-        one: ist zu lang (mehr als 1 Zeichen)
-        other: ist zu lang (mehr als %{count} Zeichen)
-      too_short:
-        one: ist zu kurz (weniger als 1 Zeichen)
-        other: ist zu kurz (weniger als %{count} Zeichen)
       topup_credit_count: Sie können in dem Topup höchstens 6 Buttons haben
-      topup_credit_id: Sie können bei jedem Topup nur 1 Kredittyp haben
-      unauthorized: Ungültiger Berechtigungsnachweis
-      wrong_length:
-        one: hat die falsche Länge (muss genau 1 Zeichen haben)
-        other: hat die falsche Länge (muss genau %{count} Zeichen haben)
-    template:
-      body: 'Bitte überprüfen Sie die folgenden Felder:'
-      header:
-        one: 'Konnte %{model} nicht speichern: ein Fehler.'
-        other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
   event:
     locales:
       de: GER
@@ -1168,123 +364,29 @@ de:
       pt: PT
       th: THA
     subject_support: Hilfe benötigt für %{event}
-  events:
-    create:
-      error: Event couldn't be created, check the errors below
   footer:
     copyright: "© Copyright Glownet"
     privacy: Datenschutzbestimmungen
     support: Support
     use: Nutzungsbedingungen
   gtag_assignations:
-    back: Zurück
     button: Registrieren
-    call_to_action: "Tag anmelden und los!"
+    call_to_action: Tag anmelden und los!
     description:
       card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
       simple: Assign the yellow highlighted numbers as appears in your Tag
       standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
     info:
-      line_1: Nur Zahlen von "0" bis "9"
       line_2: 'Symbole möglich: "0" - "9" und "A, B, C, D, E, F"'
-    placeholders:
-      card:
-        line_1: 'Zeile 1 z.B.: 12345'
-        line_2: 'Zeile 2 z.B.: BA6D7DC0'
-      simple:
-        line_1: ''
-        line_2: 'ID Nummer z.B.: BA6D7DC0'
-      standard:
-        line_1: 'Zeile 1 z.B.: 12345'
-        line_2: 'Zeile 2 z.B.: BA6D7DC0'
-    title: Anmelden Tag
   header:
-    close: Logout
     edit: Profil bearbeiten
-    help: Hilfe
-    home: Veranstaltungswebsite
-    menu: Home
-  helpers:
-    select:
-      prompt: Bitte wählen
-    submit:
-      create: "%{model} erstellen"
-      submit: "%{model} speichern"
-      update: "%{model} aktualisieren"
   links:
     buttons:
-      back: Zurück zu Home
-      join: Beitreten
       sign_in: Login
-      sign_up: Konto erstellen
     forgot: Passwort vergessen?
-    resend_confirmation: Sie haben keinen Email-Bestätigung erhalten?
-    sign_in: Haben Sie ein Konto?
-    sign_up: Noch nicht registriert?
-  number:
-    currency:
-      format:
-        delimiter: "."
-        format: "%n %u"
-        precision: 2
-        separator: ","
-        significant: false
-        strip_insignificant_zeros: false
-        unit: "€"
-    format:
-      delimiter: "."
-      precision: 2
-      separator: ","
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: "%n %u"
-        units:
-          billion:
-            one: Milliarde
-            other: Milliarden
-          million: Millionen
-          quadrillion:
-            one: Billiarde
-            other: Billiarden
-          thousand: Tausend
-          trillion: Billionen
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one: Byte
-            other: Bytes
-          gb: GB
-          kb: KB
-          mb: MB
-          tb: TB
-    percentage:
-      format:
-        delimiter: ''
-        format: "%n %"
-    precision:
-      format:
-        delimiter: ''
   orders:
-    amount: Betrag
-    braintree:
-      button: Bezahlen
-      card_code_verification: Kartenprüfnummer (CCV)
-      card_expiration_month: Ablaufmonat der Karte
-      card_expiration_year: Ablaufjahr der Karte
-      card_number: Kartennummer
     button: Bezahlen
-    button_iupay: IUPAY
     card_info: Karteninformation
-    description: Bitte überprüfen Sie Ihre Bestellung und veranlassen Sie die Bezahlung.
     order_review: Überprüfung der Bestellung
     payment: Zahlungsmethode
     payment-buttons:
@@ -1300,48 +402,19 @@ de:
       stripe:
         icon: Credit Card
         name: Kreditkarte
-    paypal:
-      charge: Verification charge
-      sync_copy: Paypal Experience
-      sync_description: In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically.
-      sync_final_description: Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account.
-      sync_title: Mit Paypal synchronisieren, um die Zahlung durchzuführen
-      with_agreement_subtitle: Sie können direkte Zahlungen durchführen
-      with_agreement_title: Bereits mit PayPal synchronisiert
     price: Preis
     products: Produkte
-    redirect: Du wirst zum Zahlungsgateway der Bank weitergeleitet.
-    stripe:
-      button: Bezahlen
-      card_code_verification: Kartenprüfnummer (CCV)
-      card_expiration_date: Ablaufdatum der Karte
-      card_number: Kartennummer
-    title: " Top-up bestätigen"
     total: Summe
     vat: inklusive MwSt
-    wirecard:
-      button: Bezahlen
-      card_code_verification: Kartenprüfnummer (CCV)
-      card_expiration_date: Ablaufdatum der Karte
-      card_holder: Card Holder
-      card_number: Kartennummer
   passwords:
     edit:
       button: Mein Passwort ändern
       header: Neues Passwort
       password: 'Neues Passwort '
       password_confirmation: Neues Passwort bestätigen
-      title: Passwort ändern
     new:
       button: Bitte lass mir die Passwort-Instruktionen zukommen
       title: Passwort vergessen?
-  payment:
-    error:
-      call_to_action: 'Bitte kontaktieren Sie uns:'
-      title: Transaktion fehlgeschlagen
-    success:
-      description: Danke für Ihre Bestellung. Deine Zahlung wurde erfolgreich durchgeführt. Du erhältst eine Bestätigungsemail zu Deiner Bestellung
-      title: Zahlung durchgeführt
   pdf:
     actions:
       refund: Refund
@@ -1429,105 +502,32 @@ de:
       line_9_2: 9.2 Bei Fragen zu oder in Zusammenhang mit den personenbezogenen Daten, die wir über Sie haben, kontaktieren Sie uns bitte über die unter Nummer 2. genannten Kontaktdaten. Sofern wir aufgrund von geltendem Gesetz das Recht haben, eine kostendeckende Gebühr für die Bereitstellung von Ihrerseits angefragten Details über Ihre personenbezogenen Daten bei uns zu berechnen, werden wir Sie darüber entsprechend informieren. Auch sind wir berechtigt, von Ihnen eine ausreichende Identifizierung zu verlangen, ehe wir die Anfrage bearbeiten.
       line_9_3: 9.3 Sie haben das Recht, von uns jederzeit die Einstellung der Zusendung von Marketinginformationen zu verlangen, indem Sie uns dies schriftlich mitteilen oder indem Sie die „unsubscribe“-Anleitung befolgen, die jede von uns übersendete Marketingkommunikation vorsieht.
       title: 9. Ihre Rechte
-  ransack:
-    all: alle
-    and: und
-    any: jegliche
-    asc: ansteigend
-    attribute: Zusatz
-    between: zwischen
-    combinator: Kombinator
-    condition: Kondition
-    desc: absteigend
-    or: oder
-    predicate: Prädikat
-  refund:
-    error:
-      call_to_action: 'Kontaktieren Sie uns:'
-      title: Transaktion fehlgeschlagen
-    refund_method: Art der Erstattung
-    success:
-      description: Ihre Erstattung wurde erfolgreich durchgeführt. Sie erhalten dazu eine Bestätigungsemail.
-      title: Erstattung ausgeführt
   registration:
-    autotoup_agreement:
-      billing_agreement_description: Ich stimme automatisch entstehenden Kosten zu, falls mein Guthaben ausgeht
-      cancel: Möchten Sie Ihre Autotopup Vereinbarung stornieren?
-      current_amount: 'Current top up:'
-      new_amount: 'Change your quantity:'
-      success: Account added!
-      success_description: Now you can perform direct auto topups through your account
-      title: Paypal Vereinbarung
     edit:
       button: Aktualisierung
-      current_password_hint: Um Ihre Änderungen zu bestätigen, benötigen wir Ihr Passwort.
       password_hint: Einfach frei lassen, wenn Sie dies nicht ändern wollen.
-      title: Bearbeiten
-      waiting_confirmation: 'Warten auf Bestätigung für:'
     new:
       button: Registrieren
-      details: "'Bitte geben Sie Ihre korrekten persönlichen Daten als Gast der Veranstaltung ein. Dies ermöglicht uns, Ihnen einen sicheren und komfortablen Service zu bieten."
-      info: Bitte geben Sie nachfolgend Ihre korrekten persönlichen Daten ein. Dies ermöglicht uns, Ihnen einen sicheren und komfortablen Service zu bieten.
       or: oder
       title: Jetzt Registrieren
   sessions:
     create_account:
       link: Neu Registrieren!
       lost_password: Passwort vergessen?
-      title: Du hast noch keinen Festival account?
-    end:
-      close_title: Möchten Sie die Session beenden?
     first_register:
-      description_with_credentiable: 'Um mit Deinem Event fortzufahren, bitte:'
       description_without_credentiable: Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later.
       welcome: Willkommen!
     log_in:
       link: Logge Dich hier ein
       title: Du hast bereits ein account?
-    new:
-      button: Login
-      copy: Was sind die Vorteile?
-      description: So funktioniert es
-      title: Login
     placeholder:
-      address: z.B. Marktplatz 1
-      city: z.B. Berlin
       email: z.B. spitzname@mail.com
-      last_name: z.B. Hendricks
-      name: z.B. Richard
       password: z.B. · · · · · ·
-      phone: z.B. 111 22 33 44
-      post: z.B. 10333
-    welcome: Willkommen!
   simple_form:
-    error_notification:
-      default_message: 'Bitte die unten aufgeführten Probleme überprüfen:'
-    'false': Nein
     labels:
-      admin:
-        edit:
-          current_password: Aktuelles Passwort
-          email: Email
-          password: Passwort
-          password_confirmation: Bestätigung des Passworts
-        new:
-          current_password: Aktuelles Passwort
-          email: Email
-          password: Passwort
-          password_confirmation: Bestätigung des Passworts
-      bank_account_claim_form:
-        new:
-          iban_html: IBAN<sup>2</sup>
-          swift_html: BIC/SWIFT<sup>1</sup>
-      bank_account_refund_settings_form:
-        edit:
-          fee: Erstattungsgebühr (in Währung)
-          minimum: Rückerstattungsminimum nach Gebührenabzug (in Währung)
-          product_id: Produkt
       customer:
-        edit:
+        new:
           address: Adresse
-          agreed_on_registration: Ich habe die Nutzungsbedingungen gelesen und verstanden
           birthdate: Geburtsdatum
           city: Stadt
           country: Land
@@ -1540,243 +540,6 @@ de:
           password_confirmation: Bestätigung des Passworts
           phone: Telefonnummer
           postcode: Postleitzahl
-          remember_me: Merken
-        new:
-          address: Adresse
-          agreed_on_registration: Ich habe die Nutzungsbedingungen gelesen und verstanden
-          birthdate: Geburtsdatum
-          city: Stadt
-          country: Land
-          current_password: Aktuelles Passwort
-          email: Email
-          first_name: Vorname
-          gender: Geschlecht
-          last_name: Nachname
-          password: Passwort
-          password_confirmation: Bestätigung des Passworts
-          phone: Telefonnummer
-          postcode: Postleitzahl
-          remember_me: Merken
-      defaults:
-        created_at: Erstellt am
-        password: Passwort
-        updated_at: Aktualisiert am
-      device_settings_form:
-        edit:
-          currency: Währungssymbol
-          maximum_wb_balance: Maximum Armband-Rechnung
-          private_zone_password: Passwort für privaten Bereich
-          public_key_a: Tag Passwort
-          uid_reverse: UID verkertrum
-      epg_claim_form:
-        new:
-          address: Adresse
-          city: Stadt
-          country_code: Länderkennzeichen
-          phone: Telefonnummer
-          post_code: Postleitzahl
-          state: Staat
-      epg_refund_settings_form:
-        edit:
-          country: Land
-          currency: Währung
-          fee: Erstattungsgebühr (in Währung)
-          md5key: Md5 Schlüssel
-          merchant: Händler
-          minimum: Rückerstattungsminimum nach Gebührenabzug (in Währung)
-          operation_type: Transaktionsart
-          payment_solution: Bezahl-Lösung
-          product_id: Produkt
-          url: URL
-      event:
-        edit:
-          agreed_event_condition_message: Condition message
-          background: Hintergrund
-          background_type: Hintergrundtyp
-          company_name: Firmenname
-          currency: Währung
-          description: Beschreibung
-          disclaimer: Disclaimer
-          end_date: Enddatum
-          gtag_registration: Gtag Registrierung
-          info: Info
-          logo: Logo
-          mass_email_claim_notification: Benachrichtigung über Massenemail-Anforderung
-          name: Name
-          payment_service: Zahlungsservice
-          privacy_policy: Privacy policy
-          refund_disclaimer: Ablehnung der Erstattung
-          refund_service: „Erstattungsservice"
-          refund_success_message: Benachrichtigung über erfolgreiche Rückerstattung
-          start_date: Anfangsdatum
-          style: Stil
-          support_email: Support Email
-          terms_of_use: Terms of use
-        new:
-          agreed_event_condition_message: Condition message
-          background: Hintergrund
-          background_type: Hintergrundtyp
-          company_name: Firmenname
-          currency: Währung
-          description: Beschreibung
-          disclaimer: Disclaimer
-          end_date: Enddatum
-          gtag_registration: Gtag Registrierung
-          info: Info
-          logo: Logo
-          mass_email_claim_notification: Benachrichtigung über Massenemail-Anforderung
-          name: Name
-          payment_service: Zahlungsservice
-          privacy_policy: Privacy policy
-          refund_disclaimer: Ablehnung der Erstattung
-          refund_service: „Erstattungsservice"
-          refund_success_message: Benachrichtigung über erfolgreiche Rückerstattung
-          start_date: Anfangsdatum
-          style: Stil
-          support_email: Support Email
-          terms_of_use: Terms of use
-      gtag:
-        edit:
-          gtag_credit_log: Bingo
-          tag_uid: Tag UID
-        new:
-          gtag_credit_log: Bingo
-          tag_uid: Tag UID
-      gtag_credit_log:
-        edit:
-          amount: Betrag
-        new:
-          amount: Betrag
-      online_product:
-        edit:
-          description: Beschreibung
-          initial_amount: Anfangsbetrag
-          max_purchasable: Max käuflich
-          min_purchasable: Min käuflich
-          name: Name
-          price: Preis
-          step: Schritt
-        new:
-          description: Beschreibung
-          initial_amount: Anfangsbetrag
-          max_purchasable: Max käuflich
-          min_purchasable: Min käuflich
-          name: Name
-          price: Preis
-          step: Schritt
-      product:
-        vat: VAT %
-      purchaser:
-        edit:
-          email: Email
-          first_name: Vorname
-          gtag_delivery_address: Lieferadresse
-          last_name: Familienname
-        new:
-          email: Email
-          first_name: Vorname
-          gtag_delivery_address: Lieferadresse
-          last_name: Familienname
-      redsys_payment_settings_form:
-        edit:
-          code: Code
-          currency: Währung
-          form: Formular URL
-          ip: IP
-          name: Name
-          password: Passwort
-          pay_methods: Zahlungsmethode
-          terminal: Terminal
-          transaction_type: Transaktionstyp
-      ticket:
-        edit:
-          code: Nummer
-        new:
-          code: Nummer
-      ticket_type:
-        edit:
-          company: Firma
-          credit: Guthaben
-          name: Name
-          simplified_name: Kurzname
-        new:
-          company: Firma
-          credit: Guthaben
-          name: Name
-          simplified_name: Kurzname
-    placeholders:
-      bank_account_claim_form:
-        new:
-          iban: DE00 0000 0000 0000 0000 0000
-          swift: 0000 0000
-      epg_claim_form:
-        new:
-          address: Adresse, Hausnummer, Etage
-          phone: 'Telefonnummer mit internationaler Vorwahl: +1123...'
-          state: Ihr Herkunftsland
-      event:
-        edit:
-          agreed_event_condition_message: Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert
-          description: Fügen Sie eine besondere bzw. weitere Informationen, die Sie für wichtig halten, hinzu
-          name: Veranstaltungsname. Empfohlen wird zudem die Angabe der Jahreszahl
-          receive_communications_message: Add the text for the receive communications checkbox
-          style: "/*Add some CSS magic*/"
-          support_email: Kunden-Emailsupport
-          url: Offizielle Website zur Veranstaltung
-        new:
-          agreed_event_condition_message: Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert
-          description: Fügen Sie eine besondere bzw. weitere Informationen, die Sie für wichtig halten, hinzu
-          name: Veranstaltungsname. Empfohlen wird zudem die Angabe der Jahreszahl
-          receive_communications_message: Add the text for the receive communications checkbox
-          style: "/*Add some CSS magic*/"
-          support_email: Kunden-Emailsupport
-          url: Offizielle Website zur Veranstaltung
-      gtag:
-        edit:
-          tag_uid: Zweite Zahlenreihe des Tag
-        new:
-          tag_uid: Zweite Zahlenreihe des Tag
-      gtag_credit_log:
-        edit:
-          amount: Betrag
-        new:
-          amount: Verfügbarer Betrag
-      purchaser:
-        edit:
-          email: Emailadresse des Käufers
-          first_name: Vorname des Käufers
-          gtag_delivery_address: "Tag Lieferadresse"
-          last_name: Nachname des Käufers
-        new:
-          email: Emailadresse des Käufers
-          first_name: Vorname des Käufers
-          gtag_delivery_address: "Tag Lieferadresse"
-          last_name: Nachname des Käufers
-      ticket:
-        edit:
-          code: Ticketnummer
-        new:
-          code: Ticketnummer
-      ticket_type:
-        edit:
-          company: Veranstalter
-          credit: Verfügbares Guthaben
-          name: Wählen Sie einen Ticketnamen
-          simplified_name: Der Kurzname für Ihr Ticket
-        new:
-          company: Veranstalter
-          credit: Verfügbares Guthaben
-          name: Wählen Sie einen Ticketnamen
-          simplified_name: Der Kurzname für Ihr Ticket
-    required:
-      mark: "*"
-      text: erforderlich
-    'true': Ja
-  support:
-    array:
-      last_word_connector: " und "
-      two_words_connector: " und "
-      words_connector: ", "
   terms_of_use:
     main_title: GLOWNET - WEBSITE NUTZUNGSBEDINGUNGEN
     ph_1:
@@ -1822,7 +585,7 @@ de:
       line_3_5: 3.5 Sie sind selbst dafür verantwortlich, alle für Sie erforderlichen Maßnahmen zu ergreifen, um auf unsere Website zugreifen zu können.
       title: 3. Site-Zugang und -Nutzung
     ph_4:
-      line_4_1: '4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).'
+      line_4_1: 4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).
       line_4_2: '4.2 Sie erklären sich damit einverstanden, dass Sie nur korrekte, aktuelle und vollständige Informationen über sich angeben, und dass Sie die in Ihrem Profil enthaltenen persönlichen Angaben auf dem aktuellen Stand halten und im Fall von Änderungen unverzüglich aktualisieren. Weitere Informationen darüber, wie wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren Datenschutzrichtlinien '
       line_4_3: 4.3 Sie stimmen zu, dass Sie mit niemandem Ihr Passwort teilen, und dass Ihr Passwort vertraulich bleibt.
       title: 4. Konto
@@ -1856,17 +619,3 @@ de:
       title: 9. Links zur und von der Site
   ticket_assignations:
     button: Akzeptieren
-  time:
-    am: vormittags
-    formats:
-      default: "%A, %d. %B %Y, %H:%M Uhr"
-      long: "%A, %d. %B %Y, %H:%M Uhr"
-      short: "%d. %B, %H:%M Uhr"
-    pm: nachmittags
-  views:
-    pagination:
-      first: "&laquo; Erste"
-      last: Letzte &raquo;
-      next: Nächste &rsaquo;
-      previous: "&lsaquo; Vorangegangene"
-      truncate: "&hellip;"

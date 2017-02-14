@@ -1,82 +1,53 @@
-= simple_form_for [:admins, @current_event, pack] do |f|
-  fieldset
-    h3.section-header
-      = fa_icon "info-circle"
-      = t("admin.pack.fieldests.general")
-    = f.input :name, placeholder: true
-    = f.input :step, placeholder: true
-    = f.input :initial_amount, placeholder: true
-    = f.input :max_purchasable, placeholder: true
-    = f.input :min_purchasable, placeholder: true
-  fieldset
-    h3.section-header
-      = fa_icon "flag"
-      = t("admin.pack.fieldests.user_flags")
-    .controls style="box-shadow: none;"
-      - @current_event.user_flags.each do |flag|
-        span.checkbox
-          - if pack.pack_catalog_items.map(&:catalog_item_id).include?(flag.id)
-            - pci = pack.pack_catalog_items.find_by(catalog_item: flag)
-            - time = Time.now.to_i
-            - if pci
-              input type="hidden" name="pack[pack_catalog_items_attributes][#{pci&.id}][id]" value="#{pci.id}"
-            input type="hidden" name="pack[pack_catalog_items_attributes][#{pci&.id || time}][amount]" value="1"
-            input type="checkbox" style="display:none" name="pack[pack_catalog_items_attributes][#{pci&.id || time}][catalog_item_id]" id="flag-#{flag.id}" value="#{flag.id}" checked="true"
-          label.user_flag for="flag-#{flag.id}" = flag.name.humanize
-        
-          
-  
-  fieldset
-    h3.section-header
-      = fa_icon "archive"
-      = t("admin.pack.fieldests.pack_items")
-    .wrapper-instructions
-      b = I18n.t("admin.pack.instructions.title")
-      - I18n.t("admin.pack.instructions.conditions").each do |condition|
-        .condition = " · #{condition}"
+- content_for(:actions) do
+  = link_to [:admins, @current_event, pack], class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-    = f.simple_fields_for :pack_catalog_items do |pack_catalog_item|
-      - next if pack_catalog_item.object.catalog_item.is_a?(UserFlag)
-      = render 'pack_catalog_item_fields', f: pack_catalog_item
-    = link_to_add_fields(I18n.t("admin.pack.add_item"), f, :pack_catalog_items)
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, pack], wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .fieldset
+      .section-header
+        i.material-icons info
+        span General
+      .form-inputs.short-input
+        = f.input :name, placeholder: true
+        = f.input :step, placeholder: true
+        = f.input :initial_amount, placeholder: true
+        = f.input :max_purchasable, placeholder: true
+        = f.input :min_purchasable, placeholder: true
+    .fieldset
+      .section-header
+        i.material-icons turned_in
+        span User Flags
+      .form-inputs.short-input
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='alcohol_forbidden'
+          span.mdl-switch__label.form-label Alcohol Forbidden
+          = f.input :alcohol_forbidden, value: true, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: pack.pack_catalog_items.select{|i| i.catalog_item.eql?(@item) }.first.amount.eql?(1) }
 
-    = f.button :submit, class: "btn btn-primary"
+    .fieldset
+      .section-header
+        i.material-icons create_new_folder
+        span Pack Items
+      .wrapper-instructions
+        | Attention. Credits in a pack will be refundable only if:
+        .condition - There aren't other kind of items in a pack, like accesses.
+        .condition - If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credit value.
+      = f.simple_fields_for :pack_catalog_items do |pack_catalog_item|
+        - next if pack_catalog_item.object.catalog_item.is_a?(UserFlag)
+        = render 'pack_catalog_item_fields', f: pack_catalog_item
+      = link_to_add_fields(("add item"), f, :pack_catalog_items)
+
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
 javascript:
-
   var ready;
 
   ready = function() {
     $('form').on('click', '.btn-remove-fields', function(event) {
       $(this).prev('input[type=hidden]').val('1');
       $(this).closest('fieldset').hide();
-      return event.preventDefault();
-    });
-
-    $('form').on('click', '.user_flag', function(event) {
-      var time = new Date().getTime();
-      var flag_id = $(this).attr('for').split('-')[1];
-      var flag_input = $('#flag-' + flag_id);
-      var flag_destroy = $('#flag-' + flag_id + '-destroy');
-      if(flag_input[0]) {
-        var pack_item = flag_input.closest('input[type=checkbox]').attr('name').split('][')[1];
-        if(flag_input.prop('checked')) {
-          flag_input.prop('checked', false)
-          if(flag_destroy[0]) {
-            flag_destroy.val('1');
-          } else {
-            $(this).closest('.checkbox').append($('<input type="hidden" name="pack[pack_catalog_items_attributes][' + pack_item + '][_destroy]" id="flag-' + flag_id + '-destroy" value="1">'));
-          }
-        } else {
-          flag_destroy.val('0');
-          flag_input.prop('checked', true)
-        }
-      } else {
-        flag_amount = $('<input type="hidden" name="pack[pack_catalog_items_attributes][' + time + '][amount]" value="1">');
-        flag_input = $('<input type="checkbox" style="display:none" name="pack[pack_catalog_items_attributes][' + time + '][catalog_item_id]" id="flag-' + flag_id + '" value="' + flag_id + '" checked>')
-        $(this).closest('.checkbox').prepend(flag_input);
-        $(this).closest('.checkbox').prepend(flag_amount);
-      }
       return event.preventDefault();
     });
 

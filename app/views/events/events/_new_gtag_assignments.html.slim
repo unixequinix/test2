@@ -1,9 +1,0 @@
-.wrapper-module-centered
-  - if presenter.gtag_assignments_enabled?
-    h3 = t('dashboard.without_gtags.add')
-    = link_to t('dashboard.without_gtags.button'),
-      new_event_gtag_assignment_path(@current_event), class: 'btn btn-action btn-action-empty-state btn-full-width'
-  - else
-    h3.claim = t('dashboard.without_gtags_disabled.claim')
-    h3 = t('dashboard.without_gtags_disabled.description')
-    h3 = t('dashboard.without_gtags_disabled.description2')

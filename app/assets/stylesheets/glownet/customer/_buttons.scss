@@ -268,24 +268,17 @@
   }
 }
 
-.btn-remove-agreement {
-  @include mscale($small_text);
-  display: block;
-  width: auto;
-  height: auto;
-  margin-bottom: 0;
-  padding: modules(1) 0 0;
-  color: $paypal;
-  text-decoration: underline;
-  text-align: left;
+.btn-action-add-mercadopago {
+  background-color: $mercadopago;
+  color: $nuclear;
 
-  @include min-screen($bp3) {
-    float: right;
-    padding: 0;
-    text-align: right;
+  &:hover { background-color: lighten($mercadopago, 7%); }
+
+  &--disabled {
+    background-color: lighten($mercadopago, 40%);
+    cursor: not-allowed;
+    pointer-events: none;
   }
-
-  &:hover { text-decoration: none; }
 }
 
 .btn-action-back {

@@ -4,61 +4,82 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
 
   def index
     @gateways = @current_event.payment_gateways
+    authorize @gateways
   end
 
   def new
-    @gateway = @current_event.payment_gateways.new(gateway: params[:gateway], data: {})
+    @gateway = @current_event.payment_gateways.new(name: params[:name])
+    authorize @gateway
   end
 
   def create
-    @gateway = @current_event.payment_gateways.new(gateway: permitted_params[:gateway], data: permitted_params[:data])
+    # TODO: this is weird behaviour. But when mass alignment is done, a "string not matched" exception is show.
+    #       believed to be something to do with serialization of hash stored attributes.
+    @gateway = @current_event.payment_gateways.new(name: permitted_params.delete(:name))
+    @gateway.data = permitted_params
+
+    authorize @gateway
     if @gateway.save
-      redirect_to admins_event_payment_gateways_path(@current_event)
+      redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.created")
     else
       @attributes = set_attributes
-      flash.now[:error] = @gateway.errors.full_messages.to_sentence
+      flash.now[:alert] = t("alerts.error")
       render :new, gateway: permitted_params[:gateway]
     end
   end
 
   def update
-    if @gateway.update(permitted_params)
-      redirect_to admins_event_payment_gateways_path(@current_event)
-    else
-      flash.now[:error] = @gateway.errors.full_messages.to_sentence
-      render :edit
+    @gateway.name = permitted_params.delete(:name) if permitted_params[:name]
+
+    respond_to do |format|
+      if @gateway.save
+        format.html { redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated") }
+        format.json { render json: @gateway }
+      else
+        flash.now[:alert] = t("alerts.error")
+        format.html { render :edit }
+        format.json { render json: { errors: @gateway.errors }, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @gateway.destroy
-    redirect_to admins_event_payment_gateways_path(@current_event)
-  end
-
-  def topup
-    @gateway.update(topup: !@gateway.topup?)
-    redirect_to admins_event_payment_gateways_path(@current_event)
-  end
-
-  def refund
-    @gateway.update(refund: !@gateway.refund?)
-    redirect_to admins_event_payment_gateways_path(@current_event)
+    redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.destroyed")
   end
 
   private
 
   def set_gateway
     @gateway = @current_event.payment_gateways.find(params[:id])
+    authorize @gateway
   end
 
   def set_attributes
-    gateway = @gateway&.gateway || params[:gateway]
-    settings = PaymentGateway::GATEWAYS[gateway]
+    name = @gateway&.name || params[:name]
+    settings = PaymentGateway::GATEWAYS[name]
     @config_atts = settings["config"]
     @refund_atts = settings["refund"]
   end
 
-  def permitted_params
-    params.require(:payment_gateway).permit(:gateway, :refund_field_a_name, :refund_field_b_name, data: [:login, :password, :secret_key, :client_id, :signature, :terminal, :currency, :destination, :fee, :minimum]) # rubocop:disable Metrics/LineLength
+  def permitted_params # rubocop:disable Metrics/MethodLength
+    params.require(:payment_gateway).permit(:name,
+                                            :refund_field_a_name,
+                                            :refund_field_b_name,
+                                            :fee,
+                                            :minimum,
+                                            :login,
+                                            :password,
+                                            :secret_key,
+                                            :client_id,
+                                            :client_secret,
+                                            :public_key,
+                                            :token,
+                                            :signature,
+                                            :terminal,
+                                            :currency,
+                                            :destination,
+                                            :topup,
+                                            :refund)
   end
 end

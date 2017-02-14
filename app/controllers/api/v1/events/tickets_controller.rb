@@ -15,9 +15,16 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
     render(json: ticket, serializer: Api::V1::TicketSerializer)
   end
 
+  def banned
+    tickets = tickets_sql(true) || []
+    date = @current_event.tickets.banned.maximum(:updated_at)&.httpdate
+
+    render_entity(tickets, date)
+  end
+
   private
 
-  def tickets_sql # rubocop:disable Metrics/MethodLength
+  def tickets_sql(only_banned = false) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))
       FROM (
@@ -41,6 +48,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
 
         WHERE tickets.event_id = #{@current_event.id}
         #{"AND tickets.updated_at > '#{@modified}'" if @modified}
+        #{'AND tickets.banned = TRUE' if only_banned}
       ) t
     SQL
     ActiveRecord::Base.connection.select_value(sql)

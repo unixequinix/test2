@@ -11,6 +11,7 @@
       - catalog_items.each do |catalog_item|
         - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
         = render partial, catalog_item: catalog_item
+
   .wrapper-store-module
     .checkout-total
       p.checkout-title = t('checkout.total')

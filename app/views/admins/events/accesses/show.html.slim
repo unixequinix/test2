@@ -1,31 +1,42 @@
-- breadcrumb :admins_event_access, @current_event, @access
-- provide :actions do
-  - unless current_admin.customer_service?
-    = link_to edit_admins_event_access_path(@current_event, @access), class: "btn btn-action btn-action-edit small" do
-      = fa_icon 'edit'
-      = t('actions.edit')
-    = link_to admins_event_accesses_path, class: "btn btn-action btn-action-back small" do
-      = fa_icon 'arrow-circle-left'
-      = t('actions.back')
-  
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.general.id")
-      dd = @access.id
-      dt = t("admin.general.name")
-      dd = @access.name
-      dt = t("admin.accesses.mode")
-      dd = t("admin.accesses.modes.#{@access.mode}")
-      dt = t("admin.accesses.step")
-      dd = @access.step
-      dt = t("admin.accesses.initial_amount")
-      dd = @access.initial_amount
-      dt = t("admin.accesses.max_purchasable")
-      dd = @access.max_purchasable
-      dt = t("admin.accesses.min_purchasable")
-      dd = @access.min_purchasable
-      dt = t("admin.general.created_at")
-      dd = @access.created_at.strftime("%y-%m-%d %H:%M:%S")
-      dt = t("admin.general.updated_at")
-      dd = @access.updated_at.strftime("%y-%m-%d %H:%M:%S")
+- content_for(:actions) do
+  = link_to admins_event_accesses_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
+  = link_to edit_admins_event_access_path(@current_event, @access), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#edit.icon.material-icons edit
+    span.mdl-tooltip data-mdl-for="edit"  Edit
+  = link_to admins_event_access_path(@current_event, @access), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#destroy.icon.material-icons delete
+    span.mdl-tooltip data-mdl-for="destroy"  Delete
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Name
+            td = best_in_place @access, :name, url: [:admins, @current_event, @access]
+          tr
+            td.mdl-data-table__cell--non-numeric Mode
+            td = best_in_place @access, :mode, as: :select, collection: Access::MODES.map{ |mode| [mode, mode.humanize] }, url: [:admins, @current_event, @access]
+          tr
+            td.mdl-data-table__cell--non-numeric Step
+            td = best_in_place @access, :step, url: [:admins, @current_event, @access]
+          tr
+            td.mdl-data-table__cell--non-numeric Initial Amount
+            td = best_in_place @access, :initial_amount, url: [:admins, @current_event, @access]
+          tr
+            td.mdl-data-table__cell--non-numeric Max Purchasable
+            td = best_in_place @access, :max_purchasable, url: [:admins, @current_event, @access]
+          tr
+            td.mdl-data-table__cell--non-numeric Miin Purchasable
+            td = best_in_place @access, :min_purchasable, url: [:admins, @current_event, @access]
+          tr
+            td.mdl-data-table__cell--non-numeric Created At
+            td = l @access.created_at
+          tr
+            td.mdl-data-table__cell--non-numeric Updated At
+            td = l @access.updated_at
+  .mdl-layout-spacer

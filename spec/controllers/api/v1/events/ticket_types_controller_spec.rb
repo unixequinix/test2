@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
   let(:event) { create(:event) }
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:db_ticket_types) { event.ticket_types }
 
   before do
@@ -13,7 +13,7 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
 
   describe "GET index" do
     context "when authenticated" do
-      before { http_login(admin.email, admin.access_token) }
+      before { http_login(user.email, user.access_token) }
 
       it "returns a 200 status code" do
         get :index, params: { event_id: event.id }

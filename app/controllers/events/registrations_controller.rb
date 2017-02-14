@@ -28,9 +28,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def configure_permitted_parameters
-    customer = [:first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender, :birthdate,
-                :agreed_on_registration, :agreed_event_condition, :receive_communications, :receive_communications_two,
-                :provider, :uid]
+    customer = [:first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender, :birthdate, :provider, :uid, :agreed_on_registration]
 
     devise_parameter_sanitizer.permit(:account_update, keys: customer)
     devise_parameter_sanitizer.permit(:sign_up, keys: customer)
@@ -45,9 +43,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def current_event
-    id = params[:event_id] || params[:id]
-    id = current_admin.slug if current_admin&.promoter? || current_admin&.customer_service?
-    return false unless id
-    @current_event = Event.find_by(slug: id) || Event.find_by(id: id)
+    params[:event_id] ||= params[:id]
+    @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])
   end
 end

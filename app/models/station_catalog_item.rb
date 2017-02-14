@@ -21,4 +21,13 @@ class StationCatalogItem < ActiveRecord::Base
 
   validates :price, presence: true
   validates :price, numericality: true
+  validates :catalog_item_id, presence: true
+
+  def self.policy_class
+    StationItemPolicy
+  end
+
+  def self.sort_column
+    :price
+  end
 end

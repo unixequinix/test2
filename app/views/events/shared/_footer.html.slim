@@ -4,8 +4,7 @@ footer
       - locales = Event::LOCALES.map(&:to_s)
       - if locales.length >= 1
         - locales.each_with_index do |locale, index|
-          li
-            = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+          li = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
           - if (index + 1 < Event::LOCALES.length)
             span.footer-separator
     ul.terms-list
@@ -13,9 +12,7 @@ footer
         = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
       li
         = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
-      li
-        = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
-          = t("footer.support")
+
 
   = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
     = t('footer.copyright')

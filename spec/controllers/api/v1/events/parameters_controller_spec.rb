@@ -1,13 +1,13 @@
 require "spec_helper"
 
 RSpec.describe Api::V1::Events::ParametersController, type: :controller do
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:event) { create(:event, gtag_type: "ultralight_c", ultralight_c_private_key: "ab") }
 
   describe "GET index" do
     describe "common parameters" do
       before do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
         get :index, params: { event_id: event.id }
         @body = JSON.parse(response.body)
       end
@@ -72,30 +72,26 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         expect(@body).to include("name" => "touchpoint_update_online_orders", "value" => event.touchpoint_update_online_orders)
       end
 
-      it "includes gtag_format" do
-        expect(@body).to include("name" => "gtag_format", "value" => event.gtag_format)
-      end
-
       it "includes gtag_deposit" do
-        expect(@body).to include("name" => "gtag_deposit", "value" => event.gtag_deposit)
+        expect(@body).to include("name" => "gtag_deposit_fee", "value" => event.gtag_deposit_fee)
       end
 
-      it "includes cards_can_refund" do
-        expect(@body).to include("name" => "cards_can_refund", "value" => event.cards_can_refund)
+      it "includes topup_fee" do
+        expect(@body).to include("name" => "gtag_deposit_fee", "value" => event.topup_fee)
+      end
+
+      it "includes initial_topup_fee" do
+        expect(@body).to include("name" => "initial_topup_fee", "value" => event.initial_topup_fee)
       end
 
       it "includes maximum_gtag_balance" do
         expect(@body).to include("name" => "maximum_gtag_balance", "value" => event.maximum_gtag_balance)
       end
-
-      it "includes wristbands_can_refu" do
-        expect(@body).to include("name" => "wristbands_can_refund", "value" => event.wristbands_can_refund)
-      end
     end
 
     describe "gtag_type" do
       before do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
       end
 
       it "should include ultralight_c_private_key if gtag_type is ultralight_c" do

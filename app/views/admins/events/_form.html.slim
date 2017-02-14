@@ -1,101 +1,38 @@
-= tinymce_assets
+= javascript_include_tag "specific/events-form.js"
 
-= simple_form_for [:admins, event], html: { multipart: true } do |f|
-  .wrapper-negative-space
-    = f.button :submit, class: "btn btn-primary"
-    .container-show
-      fieldset
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.info")
-        = f.input :name, placeholder: true, required: true
-        = f.input :support_email, placeholder: true, required: true
+- content_for(:actions) do
+  = link_to admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-        h3.section-header
-          = fa_icon "money"
-          = t("admin.event.fieldests.currency")
-        = f.input :currency
-        = f.input :token_symbol
-        = f.input :iban_enabled
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, event], html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings:{select: :mdl_field, text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .fieldset
+      .section-header
+        i.material-icons pregnant_woman
+        span Owner
+      .form-inputs
+        = f.input :owner_id, as: :select, collection: User.where(role: "promoter", event_id: nil).collect { |u| [u.email, u.id] }, include_blank: true, placeholder: true
 
-      fieldset
-        h3.section-header
-          = fa_icon "calendar"
-          = t("admin.event.fieldests.date")
-        = f.input :start_date, as: :datetime
-        = f.input :end_date, as: :datetime
+    .fieldset
+      .section-header
+        i.material-icons info
+        span Event Info
+      .form-inputs
+        = f.input :name, placeholder: true
         = f.input :timezone, as: :time_zone, include_blank: false
 
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.company")
-        = f.input :company_name
-        = f.input :official_name
-        = f.input :official_address
-        = f.input :registration_num
-
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.features")
-
-        = f.input :ticket_assignation
-        = f.input :gtag_assignation
-        = f.input :phone_mandatory
-        = f.input :address_mandatory
-        = f.input :city_mandatory
-        = f.input :country_mandatory
-        = f.input :postcode_mandatory
-        = f.input :gender_mandatory
-        = f.input :birthdate_mandatory
-        = f.input :agreed_event_condition
-        = f.input :receive_communications
-        = f.input :receive_communications_two
-
-      fieldset
-        h3.section-header
-          = fa_icon "camera"
-          = t("admin.event.fieldests.image")
-
-        = f.input :logo
-        .edit-event-image
-          label
-            = t('admin.event.images.customer')
-          .container-image-preview
-            = image_tag event.logo.url unless event.logo.blank?
-        = f.input :background_type, collection: Event.background_types_selector, include_blank: false
-        = f.input :background
-        .edit-event-image
-          label
-            = t('admin.event.images.background')
-          .container-image-preview
-            = image_tag event.background.url unless event.background.blank?
-
-      fieldset
-        h3.section-header
-          = fa_icon "file-text-o"
-          = t("admin.event.fieldests.texts")
-
-        = f.label :agreed_event_condition_message
-        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-        = f.label :receive_communications_message
-        = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-        = f.label :receive_communications_two_message
-        = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-        = f.label :info
-        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :disclaimer
-        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :privacy_policy
-        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :terms_of_use
-        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-
-      fieldset
-        h3.section-header
-          = fa_icon "paint-brush"
-          = t("admin.event.fieldests.custom")
-        = f.input :style, as: :text, input_html: { rows: 30, class: "textarea" }
-    = f.button :submit, class: "btn btn-primary"
+    .fieldset
+      .section-header
+        i.material-icons event
+        span Date & Location
+      .form-inputs
+        = f.input :start_date, as: :datetime
+        = f.input :end_date, as: :datetime
 
 
-= tinymce
+
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+

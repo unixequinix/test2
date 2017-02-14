@@ -2,31 +2,28 @@
 #
 # Table name: customers
 #
-#  address                    :string
-#  agreed_event_condition     :boolean          default(FALSE)
-#  agreed_on_registration     :boolean          default(FALSE)
-#  banned                     :boolean
-#  birthdate                  :datetime
-#  city                       :string
-#  country                    :string
-#  current_sign_in_at         :datetime
-#  current_sign_in_ip         :inet
-#  email                      :citext           default(""), not null
-#  encrypted_password         :string           default(""), not null
-#  first_name                 :string           default(""), not null
-#  gender                     :string
-#  last_name                  :string           default(""), not null
-#  last_sign_in_at            :datetime
-#  last_sign_in_ip            :inet
-#  locale                     :string           default("en")
-#  phone                      :string
-#  postcode                   :string
-#  receive_communications     :boolean          default(FALSE)
-#  receive_communications_two :boolean          default(FALSE)
-#  remember_token             :string
-#  reset_password_sent_at     :datetime
-#  reset_password_token       :string
-#  sign_in_count              :integer          default(0), not null
+#  address                :string
+#  agreed_on_registration :boolean          default(FALSE)
+#  banned                 :boolean
+#  birthdate              :datetime
+#  city                   :string
+#  country                :string
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :inet
+#  email                  :citext           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  first_name             :string           default(""), not null
+#  gender                 :string
+#  last_name              :string           default(""), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :inet
+#  locale                 :string           default("en")
+#  phone                  :string
+#  postcode               :string
+#  remember_token         :string           indexed
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string           indexed
+#  sign_in_count          :integer          default(0), not null
 #
 # Indexes
 #
@@ -50,9 +47,9 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
-  has_many :gtags, dependent: :nullify
-  has_many :tickets, dependent: :nullify
-  has_many :transactions
+  has_many :gtags, dependent: :restrict_with_error
+  has_many :tickets, dependent: :restrict_with_error
+  has_many :transactions, dependent: :restrict_with_error
 
   validates :email, format: { with: RFC822::EMAIL }
   validates :email, uniqueness: { scope: [:event_id] }
@@ -62,10 +59,10 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :phone, presence: true, if: -> { custom_validation("phone") }
   validates :birthdate, presence: true, if: -> { custom_validation("birthdate") }
   validates :phone, presence: true, if: -> { custom_validation("phone") }
-  validates :postcode, presence: true, if: -> { custom_validation("postcode") }
+  validates :postcode, presence: true, if: -> { custom_validation("address") }
   validates :address, presence: true, if: -> { custom_validation("address") }
-  validates :city, presence: true, if: -> { custom_validation("city") }
-  validates :country, presence: true, if: -> { custom_validation("country") }
+  validates :city, presence: true, if: -> { custom_validation("address") }
+  validates :country, presence: true, if: -> { custom_validation("address") }
   validates :gender, presence: true, if: -> { custom_validation("gender") }
 
   scope :query_for_csv, lambda { |event|
@@ -111,18 +108,29 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     active_credentials.any?
   end
 
-  def order_counters
-    order_items.pluck(:counter).sort
-  end
-
   def order_items
     OrderItem.where(order: orders)
+  end
+
+  def build_order(items)
+    order = orders.new(event: event)
+    last_counter = order_items.pluck(:counter).sort.last.to_i
+    items.each.with_index do |arr, index|
+      item_id, amount = arr
+      item = event.catalog_items.find(item_id)
+      counter = last_counter + index + 1
+      total = amount.to_i * item.price
+      order.order_items.new(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
+    end
+    order
   end
 
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)
-    packs = Pack.joins(:catalog_items).where(id: catalog_items, catalog_items: { type: "Access" }).select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id) # rubocop:disable Metrics/LineLength
+    packs = Pack.joins(:catalog_items)
+                .where(id: catalog_items, catalog_items: { type: "Access" })
+                .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
 
     accesses + packs
   end
@@ -142,12 +150,8 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
                                      password_confirmation: token,
                                      agreed_on_registration: true)
 
-    customer.save unless event.receive_communications? || event.receive_communications_two?
+    customer.save
     customer
-  end
-
-  def self.gender_selector
-    %w(male female).map { |f| [I18n.t("gender." + f), f] }
   end
 
   def email_required?

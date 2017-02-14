@@ -33,6 +33,7 @@ coverage
 rubocop
 dump.rdb
 
+.byebug_history
 .ruby-gemset
 .idea/*
 *.sql

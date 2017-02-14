@@ -46,7 +46,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.json     :device_settings
       t.string   :timezone
       t.timestamps
-    end  unless table_exists?(:events)
+    end  unless data_source_exists?(:events)
     add_index(:events, [:slug], name: :index_events_on_slug, unique: true, using: :btree) unless index_exists?(:events, :slug)
 
     create_table :stations do |t|
@@ -63,7 +63,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer :station_event_id
       t.boolean  :hidden,             default: false
       t.timestamps
-    end  unless table_exists?(:stations)
+    end  unless data_source_exists?(:stations)
 
     create_table :access_control_gates do |t|
       t.references :access, index: true
@@ -71,7 +71,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean    :hidden
       t.references :station, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:access_control_gates)
+    end  unless data_source_exists?(:access_control_gates)
 
     create_table :admins do |t|
       t.string   :email,                  default:"", null: false
@@ -86,7 +86,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.inet     :current_sign_in_ip
       t.inet     :last_sign_in_ip
       t.timestamps
-    end  unless table_exists?(:admins)
+    end  unless data_source_exists?(:admins)
     add_index(:admins, [:email], name: :index_admins_on_email, unique: true, using: :btree) unless index_exists?(:admins, :email)
     add_index(:admins, [:reset_password_token], name: :index_admins_on_reset_password_token, unique: true, using: :btree) unless index_exists?(:admins, :reset_password_token)
 
@@ -100,20 +100,20 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :min_purchasable
       t.decimal  :value,           precision: 8, scale: 2, default: 1.0, null: false
       t.timestamps
-    end  unless table_exists?(:catalog_items)
+    end  unless data_source_exists?(:catalog_items)
 
     create_table :companies do |t|
       t.string   :name,         null: false
       t.string   :access_token
       t.timestamps
-    end  unless table_exists?(:companies)
+    end  unless data_source_exists?(:companies)
 
     create_table :company_event_agreements do |t|
       t.references :company, index: true, foreign_key: true
       t.references :event, index: true, foreign_key: true
       t.string   :aasm_state
       t.timestamps
-    end  unless table_exists?(:company_event_agreements)
+    end  unless data_source_exists?(:company_event_agreements)
 
     create_table :customers do |t|
       t.references :event, index: true, foreign_key: true
@@ -146,7 +146,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :receive_communications_two, default: false
       t.boolean  :banned
       t.timestamps
-    end  unless table_exists?(:customers)
+    end  unless data_source_exists?(:customers)
     add_index(:customers, [:remember_token], name: :index_customers_on_remember_token, unique: true, using: :btree) unless index_exists?(:customers, :remember_token)
     add_index(:customers, [:reset_password_token], name: :index_customers_on_reset_password_token, unique: true, using: :btree) unless index_exists?(:customers, :reset_password_token)
 
@@ -162,7 +162,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :status_code,             default: 0
       t.string   :status_message
       t.timestamps
-    end  unless table_exists?(:device_transactions)
+    end  unless data_source_exists?(:device_transactions)
 
     create_table :devices do |t|
       t.string   :device_model
@@ -171,7 +171,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :serial_number
       t.string   :asset_tracker
       t.timestamps
-    end  unless table_exists?(:devices)
+    end  unless data_source_exists?(:devices)
     add_index(:devices, [:mac, :imei, :serial_number], name: :index_devices_on_mac_and_imei_and_serial_number, unique: true, using: :btree) unless index_exists?(:devices, [:mac, :imei, :serial_number])
 
     create_table :entitlements do |t|
@@ -181,7 +181,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :memory_length,   default: 1
       t.string   :mode,            default: :counter
       t.timestamps
-    end  unless table_exists?(:entitlements)
+    end  unless data_source_exists?(:entitlements)
 
     create_table :event_translations do |t|
       t.references :event, index: true, foreign_key: true
@@ -201,7 +201,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.text     :terms_of_use
       t.text     :receive_communications_two_message
       t.timestamps
-    end  unless table_exists?(:event_translations)
+    end  unless data_source_exists?(:event_translations)
     add_index(:event_translations, [:locale], name: :index_event_translations_on_locale, using: :btree) unless index_exists?(:event_translations, :locale)
 
     create_table :friendly_id_slugs do |t|
@@ -209,7 +209,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :sluggable_id,              null: false
       t.string   :sluggable_type, limit: 50
       t.string   :scope
-    end  unless table_exists?(:friendly_id_slugs)
+    end  unless data_source_exists?(:friendly_id_slugs)
     add_index(:friendly_id_slugs, [:slug, :sluggable_type, :scope], name: :index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope, unique: true, using: :btree) unless index_exists?(:friendly_id_slugs, [:slug, :sluggable_type, :scope])
     add_index(:friendly_id_slugs, [:slug, :sluggable_type], name: :index_friendly_id_slugs_on_slug_and_sluggable_type, using: :btree) unless index_exists?(:friendly_id_slugs, [:slug, :sluggable_type])
     add_index(:friendly_id_slugs, [:sluggable_id], name: :index_friendly_id_slugs_on_sluggable_id, using: :btree) unless index_exists?(:friendly_id_slugs, :sluggable_id)
@@ -229,7 +229,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.decimal  :final_refundable_balance, precision: 8, scale: 2
       t.references :customer, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:gtags)
+    end  unless data_source_exists?(:gtags)
 
     create_table :orders do |t|
       t.string   :status,       default: :in_progress, null: false
@@ -238,7 +238,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :gateway
       t.references :customer, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:orders)
+    end  unless data_source_exists?(:orders)
 
     create_table :order_items do |t|
       t.references :order, index: true, foreign_key: true
@@ -248,14 +248,14 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :redeemed
       t.integer  :counter
       t.timestamps
-    end  unless table_exists?(:order_items)
+    end  unless data_source_exists?(:order_items)
 
     create_table :pack_catalog_items do |t|
       t.references :pack, index: true
       t.references :catalog_item, index: true, foreign_key: true
       t.decimal  :amount,          precision: 8, scale: 2
       t.timestamps
-    end  unless table_exists?(:pack_catalog_items)
+    end  unless data_source_exists?(:pack_catalog_items)
 
     create_table :payment_gateways do |t|
       t.references :event, index: true, foreign_key: true
@@ -264,7 +264,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :refund
       t.boolean  :topup
       t.timestamps
-    end  unless table_exists?(:payment_gateways)
+    end  unless data_source_exists?(:payment_gateways)
 
     create_table :products do |t|
       t.references :event, index: true, foreign_key: true
@@ -274,7 +274,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.float    :vat,          default: 0.0
       t.string   :product_type
       t.timestamps
-    end  unless table_exists?(:products)
+    end  unless data_source_exists?(:products)
 
     create_table :refunds do |t|
       t.decimal  :amount,      precision: 8, scale: 2, null: false
@@ -285,7 +285,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.decimal  :money,       precision: 8, scale: 2
       t.references :customer, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:refunds)
+    end  unless data_source_exists?(:refunds)
 
     create_table :station_catalog_items do |t|
       t.references :catalog_item, index: true, foreign_key: true
@@ -293,14 +293,14 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :hidden,          default: false
       t.references :station, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:station_catalog_items)
+    end  unless data_source_exists?(:station_catalog_items)
 
     create_table :station_parameters do |t|
       t.references :station, index: true, foreign_key: true
       t.integer  :station_parametable_id,   null: false
       t.string   :station_parametable_type, null: false
       t.timestamps
-    end  unless table_exists?(:station_parameters)
+    end  unless data_source_exists?(:station_parameters)
 
     create_table :station_products do |t|
       t.references :product, index: true, foreign_key: true
@@ -309,7 +309,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :hidden,     default: false
       t.references :station, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:station_products)
+    end  unless data_source_exists?(:station_products)
 
     create_table :ticket_types do |t|
       t.references :event, index: true, foreign_key: true
@@ -319,7 +319,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :hidden,                     default: false
       t.references :catalog_item, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:ticket_types)
+    end  unless data_source_exists?(:ticket_types)
 
     create_table :tickets do |t|
       t.references :event, index: true, foreign_key: true
@@ -333,7 +333,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.references :customer, index: true, foreign_key: true
       t.string   :description
       t.timestamps
-    end  unless table_exists?(:tickets)
+    end  unless data_source_exists?(:tickets)
 
     create_table :topup_credits do |t|
       t.float    :amount
@@ -341,7 +341,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.boolean  :hidden,     default: false
       t.references :station, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:topup_credits)
+    end  unless data_source_exists?(:topup_credits)
 
     create_table :transactions do |t|
       t.references :event, index: true, foreign_key: true
@@ -384,10 +384,10 @@ class InitialDatabase < ActiveRecord::Migration
       t.references :gtag, index: true, foreign_key: true
       t.references :customer, index: true, foreign_key: true
       t.timestamps
-    end  unless table_exists?(:transactions)
+    end  unless data_source_exists?(:transactions)
     add_index(:transactions, [:type], name: :index_transactions_on_type, using: :btree) unless index_exists?(:transactions, :type)
 
-    unless table_exists?(:sale_items)
+    unless data_source_exists?(:sale_items)
       create_table :sale_items do |t|
         t.references :product, index: true, foreign_key: true
         t.integer :quantity

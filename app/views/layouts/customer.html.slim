@@ -12,12 +12,11 @@ html [lang=I18n.locale]
     = csrf_meta_tags
 
     = content_tag :style, current_event.style, type: "text/css"
-    = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css" if current_event.background_type == Event::BACKGROUND_FIXED
+    = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css"
 
-    = render 'events/shared/cookies_consent'
-    = render 'application/analytics'
+    = render 'layouts/analytics'
 
-  body class="#{controller_name} #{"fixed-background" if current_event.background_type == Event::BACKGROUND_FIXED}" style=("background-image: url(#{current_event.background})")
+  body class="#{controller_name} #{"fixed-background"}" style=("background-image: url(#{current_event.background})")
     .container-main
       = render 'events/shared/header'
       #mainWrapper.wrapper-main

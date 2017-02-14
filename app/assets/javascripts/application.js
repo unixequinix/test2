@@ -1,12 +1,11 @@
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
-//= require turbolinks
+//= require best_in_place
 
-//= require customer/top-up-buttons
-//= require customer/nav-mobile
+//= require vendor/remodal.min
+//= require vendor/jquery-qrcode
 
-//= require admin/header
+//= require_tree ./global
 
-//= require vendor/fastclick
-//= require vendor/fastclick_load
-//= require vendor/jquery.cookiebar
+

@@ -5,15 +5,18 @@
 #  completed_at :datetime
 #  gateway      :string
 #  payment_data :jsonb            not null
+#  refund_data  :jsonb            not null
 #  status       :string           default("in_progress"), not null
 #
 # Indexes
 #
 #  index_orders_on_customer_id  (customer_id)
+#  index_orders_on_event_id     (event_id)
 #
 # Foreign Keys
 #
 #  fk_rails_3dad120da9  (customer_id => customers.id)
+#  fk_rails_64bd9e45d4  (event_id => events.id)
 #
 
 require "spec_helper"
@@ -86,10 +89,10 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".total_formated" do
+  describe ".total_formatted" do
     it "returns the total formated" do
       allow(subject).to receive(:total).and_return(5)
-      expect(subject.total_formated).to eq("5.00")
+      expect(subject.total_formatted).to eq("5.00")
     end
   end
 
@@ -118,20 +121,6 @@ RSpec.describe Order, type: :model do
       subject.order_items << item1
       subject.order_items << item2
       expect(subject.refundable_credits).to eq(33)
-    end
-  end
-
-  describe ".set_counters" do
-    it "sets the correct counter" do
-      expect(subject).to be_new_record
-      subject.order_items << build(:order_item, :with_credit, amount: 10)
-      subject.order_items << build(:order_item, :with_credit, amount: 23)
-      subject.save
-      expect(subject.order_items.first.counter).to eq(1)
-      expect(subject.order_items.last.counter).to eq(2)
-
-      order = create(:order, :with_different_items, customer: subject.customer)
-      expect(order.order_items.first.counter).to eq(3)
     end
   end
 

@@ -2,20 +2,20 @@
 #
 # Table name: ticket_types
 #
-#  company_code               :string
-#  name                       :string
+#  company_code    :string
+#  name            :string
 #
 # Indexes
 #
-#  index_ticket_types_on_catalog_item_id             (catalog_item_id)
-#  index_ticket_types_on_company_event_agreement_id  (company_event_agreement_id)
-#  index_ticket_types_on_event_id                    (event_id)
+#  index_ticket_types_on_catalog_item_id  (catalog_item_id)
+#  index_ticket_types_on_company_id       (company_id)
+#  index_ticket_types_on_event_id         (event_id)
 #
 # Foreign Keys
 #
 #  fk_rails_46208a732b  (event_id => events.id)
 #  fk_rails_4abbce3a9c  (catalog_item_id => catalog_items.id)
-#  fk_rails_6f2c36d14d  (company_event_agreement_id => company_event_agreements.id)
+#  fk_rails_db490f924c  (company_id => companies.id)
 #
 
 class TicketType < ActiveRecord::Base
@@ -23,17 +23,13 @@ class TicketType < ActiveRecord::Base
 
   belongs_to :event
   belongs_to :catalog_item
-  belongs_to :company_event_agreement
+  belongs_to :company
 
-  validates :name, :company_event_agreement, presence: true
-  validates :company_code, uniqueness: { scope: :company_event_agreement }, allow_blank: true
+  validates :name, :company_id, presence: true
+  validates :company_code, uniqueness: { scope: :company_id }, allow_blank: true
 
   scope :for_devices, -> { where.not(catalog_item_id: nil) }
-  scope :companies, lambda { |_event|
-    joins(company_event_agreement: :company)
-      .where(company_event_agreements: { event_id: Event.first.id })
-      .uniq.pluck("companies.name")
-  }
+  scope :no_catalog_item, -> { where(catalog_item_id: nil) }
 
   def hide!
     update(hidden: true)
@@ -41,9 +37,5 @@ class TicketType < ActiveRecord::Base
 
   def show!
     update(hidden: false)
-  end
-
-  def self.form_selector(event)
-    where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
   end
 end

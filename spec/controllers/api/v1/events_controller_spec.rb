@@ -1,7 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:device) { create(:device) }
   let(:db_events) { Event.all }
 
@@ -9,7 +9,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     context "with authentication" do
       before do
         create_list(:event, 2)
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
       end
 
       it "returns a 202 status code if the device doesn't have a asset_tracker_id" do

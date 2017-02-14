@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.3.3'
+ruby '2.4.0'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
@@ -26,6 +26,7 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'deep_cloneable'
 gem 'pg' # Use pg as the database for Active Record
+gem 'json', '~> 1.8.5' # TODO: remove after deploy of v3
 
 # Assets
 gem 'jquery-rails'
@@ -42,18 +43,21 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
-gem "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2'
+gem 'pundit'
 
 # Design
 gem 'bourbon'
 gem 'neat'
 gem 'font-awesome-rails'
+gem 'chartkick'
+gem 'groupdate'
 
 # APIs
 gem 'jbuilder', '~> 2.5'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'rack-cors', require: 'rack/cors'
-gem 'eventbrite', github: "envoy/eventbrite"
+gem 'eventbrite', github: 'envoy/eventbrite'
 
 # SEO
 gem 'friendly_id'
@@ -63,7 +67,6 @@ gem 'roo'
 
 # Navigation
 gem 'kaminari'
-gem 'gretel', github: 'lassebunk/gretel'
 
 # Search
 gem 'ransack', github: 'activerecord-hackery/ransack'
@@ -74,33 +77,30 @@ gem 'phony_rails'
 gem 'tinymce-rails'
 
 # Payments
-gem 'activemerchant'
+gem 'activemerchant', github: "aspgems/active_merchant"
 
 # Asyncronous mailer
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
 gem 'sidekiq-failures'
 
-# Cron tasks
-gem 'whenever', require: false
-
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', group: :doc
 
 # PDF Generation
 gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 # Validations
 gem 'rfc-822'
 gem 'iban-tools'
-gem 'iso-swift', github: "hugolantaume/iso-swift"
+gem 'iso-swift', github: 'hugolantaume/iso-swift'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.0.5'
   gem 'foreman'
-  gem 'bullet' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
   gem 'capistrano', '~> 3.6'
@@ -111,6 +111,7 @@ group :development do
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem 'annotate'
+  # gem 'i18n-tasks' # enable when needed
 end
 
 group :development, :test do
@@ -132,6 +133,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
+  gem 'pry'
 end
 
 group :test do

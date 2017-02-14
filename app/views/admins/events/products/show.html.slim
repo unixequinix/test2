@@ -1,28 +1,34 @@
-- breadcrumb :admins_event_product, @current_event, @product
-- provide :actions do
-  = link_to edit_admins_event_product_path(@current_event, @product), class: "btn btn-action btn-action-edit small" do
-    = fa_icon 'edit'
-    = t('actions.edit')
-  = link_to admins_event_products_path, class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
+- content_for(:actions) do
+  = link_to edit_admins_event_product_path(@current_event, @product), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#edit.icon.material-icons edit
+    span.mdl-tooltip data-mdl-for="edit"  Edit
+  = link_to admins_event_products_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.general.id")
-      dd = @product.id
-      dt = t("admin.general.name")
-      dd = @product.name
-      dt = t("admin.products.product_type")
-      dd = @product.product_type
-      dt = t("admin.general.description")
-      dd = @product.description && "-"
-      dt = t("admin.products.vat")
-      dd = @product.vat
-      dt = t("admin.products.is_alcohol")
-      dd = @product.is_alcohol
-      dt = t("admin.general.created_at")
-      dd = @product.created_at.strftime("%y-%m-%d %H:%M:%S")
-      dt = t("admin.general.updated_at")
-      dd = @product.updated_at.strftime("%y-%m-%d %H:%M:%S")
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Name
+            td = best_in_place @product, :name, url: [:admins, @current_event, @product]
+          tr
+            td.mdl-data-table__cell--non-numeric Description
+            td = best_in_place @product, :description , url: [:admins, @current_event, @product]
+          tr
+            td.mdl-data-table__cell--non-numeric VAT
+            td = best_in_place @product, :vat, url: [:admins, @current_event, @product]
+          tr
+            td.mdl-data-table__cell--non-numeric Is alcohol?
+            td = best_in_place @product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, @product])
+          tr
+            td.mdl-data-table__cell--non-numeric Created At
+            td = l @product.created_at
+          tr
+            td.mdl-data-table__cell--non-numeric Updated At
+            td = l @product.updated_at
+  .mdl-layout-spacer
+

@@ -32,9 +32,30 @@ RSpec.describe Credit, type: :model do
     expect(subject).to be_valid
   end
 
+  it "validates initial_amount against max_purchasable" do
+    subject.initial_amount = subject.max_purchasable + 1
+    expect(subject).not_to be_valid
+  end
+
+  it "validates max_purchasable against initial_amount" do
+    subject.max_purchasable = subject.initial_amount - 1
+    expect(subject).not_to be_valid
+  end
+
   describe ".credits" do
     it "returns 1" do
       expect(subject.credits).to eq(1)
+    end
+  end
+
+  describe ".set_customer_portal_price" do
+    let(:event) { create(:event) }
+
+    it "sets the price to whatever the value of the credit is after save" do
+      event.initial_setup!
+      credit = event.credit
+      credit.update(value: 4.5)
+      expect(event.portal_station.station_catalog_items.find_by(catalog_item: credit).price).to eq(4.5)
     end
   end
 end

@@ -5,7 +5,7 @@
 #  initial_amount  :integer
 #  max_purchasable :integer
 #  memory_length   :integer          default(1)
-#  memory_position :integer
+#  memory_position :integer          indexed => [event_id]
 #  min_purchasable :integer
 #  mode            :string
 #  name            :string
@@ -24,6 +24,8 @@
 #
 
 class Pack < CatalogItem
+  attr_accessor :alcohol_forbidden
+
   has_many :pack_catalog_items, dependent: :destroy, inverse_of: :pack
   has_many :catalog_items, through: :pack_catalog_items
 
@@ -52,7 +54,7 @@ class Pack < CatalogItem
   private
 
   def infinite_item?
-    catalog_items.any?(&:infinite?)
+    catalog_items.accesses.any?(&:infinite?)
   end
 
   def valid_max_value

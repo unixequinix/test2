@@ -1,14 +1,20 @@
-= simple_form_for [:admins, @current_event, access] do |f|
-  .wrapper-negative-space
-    = f.input :mode, collection: Access::MODES, include_blank: false, id: "mode_selector"
-    = f.input :name, autofocus: false, placeholder: true
-    #shop-fields
-      = f.input :step, placeholder: true
-      = f.input :initial_amount, placeholder: true
-      = f.input :max_purchasable, placeholder: true
-      = f.input :min_purchasable, placeholder: true
+- content_for(:actions) do
+  = link_to [:admins, @current_event, access], class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
 
-    = f.button :submit, class: "btn btn-primary"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, access], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs.short-input
+      = f.input :mode, collection: Access::MODES, include_blank: false, id: "mode_selector"
+      = f.input :name, autofocus: false, placeholder: true
+      #shop-fields
+        = f.input :step, placeholder: true
+        = f.input :initial_amount, placeholder: true
+        = f.input :max_purchasable, placeholder: true
+        = f.input :min_purchasable, placeholder: true
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
 javascript:
   var changeSelect = function() {
@@ -19,5 +25,5 @@ javascript:
   };
 
   $("#access_mode").change(changeSelect);
-  $(document).on('turbolinks:load', changeSelect);
+  $(document).on('page:load', changeSelect);
   $(document).ready(changeSelect);

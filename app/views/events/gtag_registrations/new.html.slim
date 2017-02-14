@@ -1,12 +1,11 @@
 // TODO: Do we use this view?
-= image_tag "#{@gtag_registration_presenter.gtag_format}-gtag.png"
+= image_tag "standard-gtag.png"
 h3 = t('gtag_registrations.call_to_action')
-p = t("gtag_registrations.description.#{@gtag_registration_presenter.gtag_format}")
-p = @gtag_registration_presenter.gtag_form_disclaimer
+p = t("gtag_registrations.description.standard")
 = form_tag event_gtag_registrations_path(@current_event) do |f|
-  = render "events/gtag_registrations/#{@gtag_registration_presenter.gtag_format}"
+  = render "events/gtag_registrations/standard"
   p
     = fa_icon "info-circle"
     = t('gtag_registrations.info.line_2')
-  = text_field_tag :tag_uid, nil, placeholder: t("gtag_registrations.placeholders.#{@gtag_registration_presenter.gtag_format}.line_2")
+  = text_field_tag :tag_uid, nil, placeholder: t("gtag_registrations.placeholders.standard.line_2")
 = submit_tag t('gtag_registrations.button'), class: "btn"

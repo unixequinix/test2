@@ -67,7 +67,7 @@ RSpec.describe OrderItem, type: :model do
         pack = create(:pack)
         credit = create(:credit, event: pack.event, value: 5)
         pack.pack_catalog_items.create(catalog_item: credit, amount: 10)
-        order_item = create(:order_item, total: 20, catalog_item: pack.reload)
+        order_item = create(:order_item, total: 20, catalog_item: pack.reload, counter: 1)
         expect(order_item.refundable_credits).to eq(4)
       end
     end

@@ -1,11 +1,48 @@
-- breadcrumb :admins_event_companies, @current_event
-- provide :actions do
-  = link_to new_admins_event_company_path, class: "btn btn-action btn-action-new small" do
-    = fa_icon 'plus'
-    = t('admin.actions.new')
+- content_for(:title) do
+  .mdl-layout-title.header-item Companies
 
-.wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/companies/list', companies: @list_model_presenter.all_items
-  - else
-    = render @list_model_presenter.no_items_for_presentation
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_companies_path do |f|
+    = f.search_field :name_or_access_token_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+- content_for(:actions) do
+  = link_to new_admins_event_company_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add_company.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add_company"  Add
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @companies
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th.mdl-data-table__cell--non-numeric Access Token
+              th Ticket types
+              th Hidden
+          tbody
+            - @companies.each do |company|
+              tr data-event = @current_event.id data-company = company.id class="#{'resource-hidden' if company.hidden? }"
+                td.mdl-data-table__cell--non-numeric data-label="Tag UID"
+                  = best_in_place company, :name, url: [:admins, @current_event, company]
+                  .table-action
+                    = link_to edit_admins_event_company_path(@current_event, company) do
+                      button.icon.material-icons id ="edit_#{company.id}" edit
+                  .table-action
+                    = link_to admins_event_company_path(@current_event, company), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{company.id}" delete
+                td.mdl-data-table__cell--non-numeric data-label="Access Token" = best_in_place company, :access_token, url: [:admins, @current_event, company]
+                td data-label="Ticket_types" = company.ticket_types.count
+                td data-label="Hidden" = best_in_place company, :hidden, best_in_place_checkbox([:admins, @current_event, company])
+
+              span.mdl-tooltip data-mdl-for="edit_#{company.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{company.id}" Delete
+    .mdl-cell.mdl-cell--12-col.italic.small = paginate @companies
+  .mdl-layout-spacer
+
+
+
+

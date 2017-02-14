@@ -1,10 +1,25 @@
-- @item ||= StationProduct.new
-= simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station) do |f|
-  = hidden_field_tag :item_type, "station_product"
-  = f.input :price
-  = f.input :product_id, collection: @station.unassigned_products, wrapper_html: { style: "overflow: inherit;"}
-  = f.input :station_id, as: :hidden, input_html: { value: @station.id }
-  = f.button :submit, class: "btn btn-primary"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  - @item ||= @station.station_products.new
+  = simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station), wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    = f.input :product_id, as: :hidden
+    = f.input :station_id, as: :hidden, html: { value: @station.id }
+
+    .form-inputs
+      = hidden_field_tag :item_type, "station_product"
+      = f.input :price
+      = f.input :product_name, placeholder: "Product"
+
+      #product_results
+
+    .form-actions
+      = f.button :submit, "Add Product", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
 javascript:
-  $('#station_product_product_id').selectize();
+    $("#station_product_product_name").keyup(function () {
+      $.ajax({
+          url: "#{find_product_admins_event_station_station_items_path(@current_event, @station)}",
+          data: { product_name: $(this).val() }
+      }).done(function (html) {
+          return $("#product_results").html(html);
+      });
+    });

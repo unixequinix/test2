@@ -8,7 +8,7 @@ class Events::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
     else
       session["omniauth"] = request.env["omniauth.auth"].except("extra")
-      redirect_to event_register_url(current_event)
+      redirect_to event_register_path(current_event)
     end
   end
 
@@ -21,7 +21,7 @@ class Events::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       set_flash_message(:notice, :success, kind: "Google") if is_navigational_format?
     else
       session["omniauth"] = request.env["omniauth.auth"].except("extra")
-      redirect_to event_register_url(current_event)
+      redirect_to event_register_path(current_event)
     end
   end
 

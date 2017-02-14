@@ -30,7 +30,7 @@ RSpec.describe TopupCredit, type: :model do
 
   describe ".valid_topup_credit?" do
     it "adds an error if the station has more than 6 topup_credits" do
-      station.topup_credits << create_list(:topup_credit, 6, station: station, credit: subject.credit)
+      station.topup_credits << create_list(:topup_credit, 7, station: station, credit: subject.credit)
       expect(subject).not_to be_valid
     end
   end

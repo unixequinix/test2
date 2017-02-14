@@ -2,14 +2,13 @@
   h1
     = link_to admin_root_path
       = image_tag "glownet-login-logo", class: "logo"
-  h3 = t("admin.passwords.change")
   = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
     = f.error_notification
     = f.input :reset_password_token, as: :hidden
     = f.full_error :reset_password_token
     .form-inputs
-      = f.input :password, placeholder: t("admin.passwords.new"), required: true, autofocus: true
-      = f.input :password_confirmation, placeholder: t("admin.passwords.confirm"), required: true
+      = f.input :password, required: true, autofocus: true
+      = f.input :password_confirmation, required: true
     .form-actions
-      = f.button :submit, t("admin.passwords.new"), class: "btn btn-login"
+      = f.button :submit, class: "btn btn-login"
   = render "admins/shared/links"

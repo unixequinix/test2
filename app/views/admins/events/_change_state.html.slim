@@ -1,3 +1,0 @@
-= simple_form_for @current_event, url: admins_event_path(@current_event) do |f|
-  = f.input :state, as: :hidden, input_html: { value: new_state }
-  = f.button :submit, action, class: "btn btn-dashboard btn-dashboard-#{new_state}"

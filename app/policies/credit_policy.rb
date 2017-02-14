@@ -1,0 +1,2 @@
+class CreditPolicy < ApplicationPolicy
+end

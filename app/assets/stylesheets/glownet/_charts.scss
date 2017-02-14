@@ -1,0 +1,162 @@
+$color1: #F06292;
+$color2: #F48FB1;
+
+@function longshadow($color_a,$color_b,$stepnum, $opacity: 1){
+	$gradient_steps: null;
+	@for $i from 1 through $stepnum {
+		$weight: ( ( $i - 1 ) / $stepnum ) * 100;
+		$colour_mix: mix($color_b, rgba($color_a, $opacity), $weight);
+		$separator: null;
+		@if($i != $stepnum){
+			$separator: #{','};
+		}
+		$gradient_steps: append( unquote("#{$gradient_steps}"), unquote("#{$i}px") unquote("#{$i}px") $colour_mix $separator );
+ }
+  @return $gradient_steps;
+}
+
+@mixin easeOut {
+  transition: all .6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.chart-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  color: white;
+  font-family: 'Lato';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.card {
+  float: left;
+  position: relative;
+  width: calc(100% * .3333 - 40px + .3333 * 30px);
+  height: 160px;
+  margin: 0 30px 30px 0;
+
+
+  &:first-child {
+    .card__front {
+      background: $color1;
+    }
+    .card__num {
+      text-shadow: longshadow(darken($color1, 15%),$color1,100, 0.8);
+    }
+  }
+
+  &:nth-child(2) {
+     .card__front {
+      background: $color1;
+    }
+    .card__num {
+      text-shadow: longshadow(darken($color1, 15%),$color1,100, 0.8);
+    }
+  }
+
+  &:nth-child(3) {
+    margin-right: 0;
+     .card__front {
+      background: $color1;
+    }
+    .card__num {
+      text-shadow: longshadow(darken($color1, 15%),$color1,100, 0.8);
+    }
+  }
+
+  &:nth-child(4) {
+     .card__front {
+      background: $color2;
+    }
+    .card__num {
+      text-shadow: longshadow(darken($color2, 15%),$color2,100, 0.8);
+    }
+  }
+
+  &:nth-child(5) {
+     .card__front {
+      background: $color2;
+    }
+    .card__num {
+      text-shadow: longshadow(darken($color2, 15%),$color2,100, 0.8);
+    }
+  }
+
+  &:nth-child(6) {
+     .card__front {
+      background: $color2;
+    }
+    .card__num {
+      text-shadow: longshadow(darken($color2, 15%),$color2,100, 0.8);
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &__front {
+    position: absolute;
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+  }
+
+  &__front {
+    transform: rotateY(0);
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  &__name {
+    font-size: 32px;
+    line-height: 0.9;
+    font-weight: 700;
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  &__num {
+    font-size: 50px;
+    font-weight: 700;
+
+    @media (max-width: 700px) {
+      font-size: 70px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    height: 290px;
+    margin-right: 0;
+    float: none;
+
+    .card__front,
+    .card__back {
+      height: 290px;
+    }
+  }
+}

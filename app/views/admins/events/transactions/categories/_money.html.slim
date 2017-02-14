@@ -1,26 +1,33 @@
-h3.section-header
-  = fa_icon "money"
-  = t("admin.transactions.money")
-dl
-  - if order = @transaction.order
-    dt = t("admin.transactions.order")
-    dd = link_to order.number, admin_event_orders_path(@current_event, @transaction.order)
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons attach_money
+        |Money
+    .mdl-card__supporting-text
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            - if order = @transaction.order
+              td.mdl-data-table__cell--non-numeric Order
+              td = link_to order.number, admins_event_orders_path(@current_event, @transaction.order)
 
-  - if class_name = @transaction.catalog_item&.class.to_s
-    dt = t("admin.transactions.type")
-    dd = link_to class_name.capitalize, send("edit_admins_event_#{class_name.downcase}_path", @current_event, @transaction.catalog_item)
+            - if class_name = @transaction.catalog_item&.class.to_s
+              td.mdl-data-table__cell--non-numeric Type
+              td = link_to class_name.capitalize, send("edit_admins_event_#{class_name.downcase}_path", @current_event, @transaction.catalog_item)
+          tr
+            td.mdl-data-table__cell--non-numeric Catalog item ID
+            td = @transaction.catalog_item_id
+          tr
+            td.mdl-data-table__cell--non-numeric Items amount
+            td = @transaction.items_amount
+          tr
+            td.mdl-data-table__cell--non-numeric Price
+            td = @transaction.price
+          tr
+            td.mdl-data-table__cell--non-numeric Payment method
+            td = @transaction.payment_method
+          tr
+            td.mdl-data-table__cell--non-numeric Payment gateway
+            td = @transaction.payment_gateway
 
-  dt = t("admin.transactions.id")
-  dd = @transaction.catalog_item_id
-
-  dt = t("admin.transactions.items_amount")
-  dd = @transaction.items_amount
-
-  dt = t("admin.transactions.price")
-  dd = @transaction.price
-
-  dt = t("admin.transactions.payment_method")
-  dd = @transaction.payment_method
-
-  dt = t("admin.transactions.payment_gateway")
-  dd = @transaction.payment_gateway

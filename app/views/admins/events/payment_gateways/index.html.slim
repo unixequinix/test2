@@ -1,37 +1,46 @@
-- breadcrumb :admins_event_payment_gateways, @current_event
+- content_for(:title) do
+  .mdl-layout-title.header-item Payment Gateways
 
-.wrapper-negative-space
-  table.events
-    thead
-      tr
-        th Gateway
-        th Topups
-        th Refunds
-        th.table-actions-field Actions
-    tbody
-      - PaymentGateway::GATEWAYS.keys.each do |gateway|
-        - gw = @gateways.find_by(gateway: gateway)
-        tr
-          td = gateway.to_s.humanize
-          td
-            - if gw
-              - if gw&.topup?
-                li = link_to fa_icon("circle", class: "fa-fw"), topup_admins_event_payment_gateway_path(@current_event, gw), method: :post
-              - else
-                li = link_to fa_icon("circle-thin", class: "fa-fw"), topup_admins_event_payment_gateway_path(@current_event, gw), method: :post
-          td
-            - if gw
-              - if gw&.refund?
-                li = link_to fa_icon("circle", class: "fa-fw"), refund_admins_event_payment_gateway_path(@current_event, gw), method: :post
-              - else
-                li = link_to fa_icon("circle-thin", class: "fa-fw"), refund_admins_event_payment_gateway_path(@current_event, gw), method: :post
-          td.table-actions-field
-            ul
-              - if gw
-                li.table-action.action-edit
-                  = link_to fa_icon("edit"), edit_admins_event_payment_gateway_path(@current_event, gw)
-                li.table-action.action-delete
-                  = link_to fa_icon("trash"), admins_event_payment_gateway_path(@current_event, gw), method: :delete, data: { confirm: t('admin.confirm.delete') }
-              - else
-                li.table-action.action-new
-                  = link_to fa_icon('plus'), new_admins_event_payment_gateway_path(@current_event, gateway: gateway)
+- content_for(:actions) do
+  = link_to admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Gateway
+            th Topups
+            th Refunds
+        tbody
+          - PaymentGateway::GATEWAYS.keys.each do |name|
+            - gw = @gateways.find_by(name: name)
+            tr
+              td.mdl-data-table__cell--non-numeric
+                = name.to_s.humanize
+                - if gw
+                  .table-action
+                    = link_to edit_admins_event_payment_gateway_path(@current_event, gw) do
+                      button.icon.material-icons id ="edit_#{name}" edit
+                  .table-action
+                    = link_to admins_event_payment_gateway_path(@current_event, gw), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="add_#{name}" delete
+
+                - else
+                  .table-action
+                    = link_to new_admins_event_payment_gateway_path(@current_event, name: name) do
+                      button.icon.material-icons id ="add_#{name}" add
+              td = best_in_place gw, :topup, best_in_place_checkbox([:admins, @current_event, gw]) if gw && !gw.name.eql?("bank_account")
+              td = best_in_place gw, :refund, best_in_place_checkbox([:admins, @current_event, gw]) if gw && gw.name.eql?("bank_account")
+
+            span.mdl-tooltip data-mdl-for="edit_#{name}" Edit
+            span.mdl-tooltip data-mdl-for="add_#{name}" Add
+            span.mdl-tooltip data-mdl-for="delete_#{name}" Delete
+  .mdl-layout-spacer
+
+
+

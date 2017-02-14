@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:db_gtags) { event.gtags }
 
   before do
@@ -13,7 +13,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     context "with authentication" do
       before(:each) do
         db_gtags.each { |tag| tag.update!(customer: create(:customer, event: event)) }
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
         get :index, params: { event_id: event.id }
       end
 
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         @order = create(:order, customer: @customer, status: "completed")
         @item = create(:order_item, order: @order, catalog_item: @pack, counter: 1)
 
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
       end
 
       describe "when gtag exists" do
@@ -74,8 +74,8 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = JSON.parse(response.body)
           gtag_keys = %w(reference banned customer)
           customer_keys = %w(id credentials first_name last_name email orders)
-          order_keys = %w(id catalog_item_id amount)
-          credential_keys = %w(reference type)
+          order_keys = %w(catalog_item_id amount status redeemed id)
+          credential_keys = %w(reference type redeemed banned)
 
           expect(gtag.keys).to eq(gtag_keys)
           expect(gtag["customer"].keys).to eq(customer_keys)
@@ -91,19 +91,19 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
             banned: @gtag.banned,
             customer: {
               id:  @gtag.customer.id,
-              credentials: [{ reference: @gtag.tag_uid, type: "gtag" }],
+              credentials: [{ reference: @gtag.tag_uid, type: "gtag", banned: @gtag.banned, redeemed: @gtag.redeemed }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
-              orders: [{
-                id: @item.counter,
-                catalog_item_id: @item.catalog_item_id,
-                amount: @item.amount
-              }]
+              orders: [{ catalog_item_id: @item.catalog_item_id,
+                         amount: @item.amount,
+                         status: @item.order.status,
+                         redeemed: @item.redeemed,
+                         id: @item.counter }]
             }
-          }
+          }.as_json
 
-          expect(JSON.parse(response.body)).to eq(gtag.as_json)
+          expect(JSON.parse(response.body)).to eq(gtag)
         end
       end
 

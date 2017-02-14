@@ -1,9 +1,15 @@
-h3.section-header
-  = fa_icon "user"
-  = t("admin.transactions.user_engagement")
-dl
-  dt = t("admin.transactions.priority")
-  dd = @transaction.priority
-  
-  dt = t("admin.transactions.message")
-  dd = @transaction.message
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons loyalty
+        |User Engagement
+    .mdl-card__supporting-text
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Priority
+            td = @transaction.priority
+          tr
+            td.mdl-data-table__cell--non-numeric Message
+            td = @transaction.message

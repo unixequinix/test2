@@ -5,7 +5,7 @@
 #  initial_amount  :integer
 #  max_purchasable :integer
 #  memory_length   :integer          default(1)
-#  memory_position :integer
+#  memory_position :integer          indexed => [event_id]
 #  min_purchasable :integer
 #  mode            :string
 #  name            :string
@@ -26,8 +26,22 @@
 class Credit < CatalogItem
   validates :value, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :value, numericality: { greater_than: 0 }
+  validates :initial_amount, numericality: { less_than: ->(c) { c.max_purchasable } }
+  validates :max_purchasable, numericality: { greater_than: ->(c) { c.initial_amount } }
+
+  after_save :set_customer_portal_price
+
+  def full_description
+    "1 #{event.credit.name} = #{value} #{event.currency}"
+  end
 
   def credits
     1
+  end
+
+  private
+
+  def set_customer_portal_price
+    station_catalog_items.update_all(price: value)
   end
 end

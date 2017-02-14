@@ -22,37 +22,11 @@
     = f.input :last_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
     = f.input :phone, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone_mandatory?
     = f.input :address, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address_mandatory?
-    = f.input :city, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.city_mandatory?
-    = f.input :postcode, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode_mandatory?
-    = f.input :country, required: true, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' }, label: t("simple_form.labels.customer.new.country") if current_event.country_mandatory?
-    = f.input :gender, required: true, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, label: t("simple_form.labels.customer.new.gender") if current_event.gender_mandatory?
+    = f.input :city, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.address_mandatory?
+    = f.input :postcode, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.address_mandatory?
+    = f.input :country, required: true, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' }, label: t("simple_form.labels.customer.new.country") if current_event.address_mandatory?
+    = f.input :gender, required: true, wrapper_html: { class: 'registration-select' }, collection: %w(male female).map { |f| [t("gender." + f), f] }, label: t("simple_form.labels.customer.new.gender") if current_event.gender_mandatory?
     = f.input :birthdate, required: true, include_blank: true, wrapper_html: { class: 'registration-select' }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year], label: t("simple_form.labels.customer.new.birthdate") if current_event.birthdate_mandatory?
-    
-    - if current_event.receive_communications?
-      .session-accept-terms
-        = f.input :receive_communications, as: :boolean,
-                                           checked_value: true,
-                                           unchecked_value: false,
-                                           label: current_event.receive_communications_message.html_safe,
-                                           input_html: { checked: true },
-                                           wrapper_html: { class: 'customer-agreed-on-registration' }
-    
-    - if current_event.receive_communications_two?
-      .session-accept-terms
-        = f.input :receive_communications_two, as: :boolean,
-                                           checked_value: true,
-                                           unchecked_value: false,
-                                           label: current_event.receive_communications_two_message.html_safe,
-                                           input_html: { checked: true },
-                                           wrapper_html: { class: 'customer-agreed-on-registration' }
-                                           
-    - if current_event.agreed_event_condition?
-      .session-accept-terms
-        = f.input :agreed_event_condition, as: :boolean,
-                                           checked_value: true,
-                                           unchecked_value: false,
-                                           label: current_event.agreed_event_condition_message.html_safe,
-                                           wrapper_html: { class: 'customer-agreed-on-registration' }
 
     .session-accept-terms = f.input :agreed_on_registration, as: :boolean, checked_value: true, unchecked_value: false, label: raw("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}"), wrapper_html: { class: 'customer-agreed-on-registration' }
     = f.button :submit, t('registration.new.button'), class: "btn btn-action-enter"
