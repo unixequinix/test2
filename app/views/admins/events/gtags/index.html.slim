@@ -16,8 +16,10 @@
     span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
     ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
       li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
-      li.mdl-menu__item#ban_multiple data-type="gtag" Ban selected
-      li.mdl-menu__item#unban_multiple data-type="gtag" Unban selected
+
+- content_for(:title) do
+  .mdl-layout-title.header-item Gtags
+
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
@@ -35,7 +37,6 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @gtags
-
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col GTags
@@ -49,6 +50,7 @@
               th Credits
               th Refundable Credits
               th Banned
+              th Redeemed
           tbody
             - @gtags.each do |gtag|
               tr data-event =@current_event.id data-gtag =gtag.id
@@ -63,13 +65,8 @@
                 td data-label="Customer" = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
                 td data-label="Credits" = number_to_event_currency gtag.credits
                 td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
-                td data-label="Banned"
-                  - if gtag.banned?
-                    = link_to unban_admins_event_gtag_path(@current_event, gtag), title: "Unban gtag" do
-                      .material-icons radio_button_checked
-                  - else
-                    = link_to ban_admins_event_gtag_path(@current_event, gtag), title: "Ban gtag" do
-                      .material-icons radio_button_unchecked
+                td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
+                td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
               span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @gtags

@@ -93,9 +93,7 @@ Rails.application.routes.draw do
         resources :gtags do
           member do
             get :recalculate_balance
-            get :ban
             get :solve_inconsistent
-            get :unban
           end
           collection do
             get :sample_csv

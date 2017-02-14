@@ -63,18 +63,8 @@
                 td.mdl-data-table__cell--non-numeric data-label="First Name" = ticket.full_name
                 td.mdl-data-table__cell--non-numeric data-label="Email"= ticket.purchaser_email
                 td.mdl-data-table__cell--non-numeric data-label="Customer"= link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
-                td data-label="Banned"
-                  - if ticket.banned?
-                    = link_to unban_admins_event_ticket_path(@current_event, ticket), title: "Unban ticket" do
-                      .material-icons radio_button_checked
-                  - else
-                    = link_to ban_admins_event_ticket_path(@current_event, ticket), title: "Ban ticket" do
-                      .material-icons radio_button_unchecked
-                td data-label="Redeemed"
-                  - if ticket.redeemed?
-                    .mdl-color-text--teal-500.material-icons radio_button_checked
-                  - else
-                    .mdl-color-text--teal-500.material-icons radio_button_unchecked
+                td data-label="Banned"= best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
+                td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])
               span.mdl-tooltip data-mdl-for="edit_#{ticket.id}" Edit
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @tickets
   .mdl-layout-spacer

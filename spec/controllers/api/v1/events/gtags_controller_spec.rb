@@ -75,7 +75,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag_keys = %w(reference banned customer)
           customer_keys = %w(id credentials first_name last_name email orders)
           order_keys = %w(catalog_item_id amount status redeemed id)
-          credential_keys = %w(reference type)
+          credential_keys = %w(reference type redeemed banned)
 
           expect(gtag.keys).to eq(gtag_keys)
           expect(gtag["customer"].keys).to eq(customer_keys)
@@ -91,7 +91,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
             banned: @gtag.banned,
             customer: {
               id:  @gtag.customer.id,
-              credentials: [{ reference: @gtag.tag_uid, type: "gtag" }],
+              credentials: [{ reference: @gtag.tag_uid, type: "gtag", banned: @gtag.banned, redeemed: @gtag.redeemed }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,

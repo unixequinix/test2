@@ -77,7 +77,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           ticket_keys = %w(reference redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id credentials first_name last_name email orders)
           order_keys = %w(catalog_item_id amount status redeemed id)
-          credential_keys = %w(reference type)
+          credential_keys = %w(reference type redeemed banned)
 
           expect(ticket.keys).to eq(ticket_keys)
           expect(ticket["customer"].keys).to eq(c_keys)
@@ -95,7 +95,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             catalog_item_id: @ticket.ticket_type.catalog_item.id,
             customer: {
               id:  @ticket.customer.id,
-              credentials: [{ reference: @ticket.code, type: "ticket" }],
+              credentials: [{ reference: @ticket.code, type: "ticket", banned: @ticket.banned, redeemed: @ticket.redeemed }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,

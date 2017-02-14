@@ -8,6 +8,7 @@
 #  final_balance            :decimal(8, 2)
 #  final_refundable_balance :decimal(8, 2)
 #  format                   :string           default("wristband")
+#  redeemed                 :boolean          default(TRUE)
 #  refundable_credits       :decimal(8, 2)
 #
 # Indexes

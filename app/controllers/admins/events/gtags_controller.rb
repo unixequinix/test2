@@ -1,4 +1,4 @@
-class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
+class Admins::Events::GtagsController < Admins::Events::BaseController
   before_action :set_gtag, except: [:index, :new, :create]
 
   def index
@@ -66,30 +66,6 @@ class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop
   def recalculate_balance
     @gtag.recalculate_balance
     redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
-  end
-
-  def ban
-    respond_to do |format|
-      if @gtag.ban
-        format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
-        format.json { render json: true }
-      else
-        format.html { redirect_to [:admins, @current_event, @gtag] }
-        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def unban
-    respond_to do |format|
-      if @gtag.ban
-        format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
-        format.json { render json: true }
-      else
-        format.html { redirect_to [:admins, @current_event, @gtag] }
-        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
-      end
-    end
   end
 
   def import
