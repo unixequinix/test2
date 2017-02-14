@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "34.250.198.124", user: "deploy", roles: %w(web app db)
 
-set :branch, "master"
+set :branch, "develop"
 set :rails_env, "production"
 
 set :sidekiq_processes, 1
