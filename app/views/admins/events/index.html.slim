@@ -26,6 +26,7 @@
                 = link_to sample_event_admins_events_path do
                   span#add-fake.icon.material-icons add_box
                   span.mdl-tooltip data-mdl-for="add-fake" Sample event
+            - if policy(@current_event).new?
               .tool-item
                 = link_to new_admins_event_path do
                   span#add.icon.material-icons add
