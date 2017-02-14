@@ -1,12 +1,11 @@
 - if @current_event.eventbrite_event.present?
+  - content_for(:title) do
+    .mdl-layout-title.header-item Connected to '#{@eb_event.name.text}'
+
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--6-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--12-col = "Connected to '#{@eb_event.name.text}'"
-
-
         table.mdl-data-table.mdl-js-data-table.within-card
           tbody
             tr
@@ -36,12 +35,13 @@
     .mdl-layout-spacer
 
 - else
+  - content_for(:title) do
+    .mdl-layout-title.header-item Connect Eventbrite and Glownet
+
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--12-col Connect Eventbrite and Glownet
         .table-responsive
           table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
             thead

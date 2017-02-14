@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Customers
+
 - content_for(:search) do
   = search_form_for @q, url: admins_event_customers_path do |f|
     = f.search_field :email_or_first_name_or_last_name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"

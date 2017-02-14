@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Packs
+
 - content_for(:actions) do
   = link_to new_admins_event_pack_path, class: "mdl-button mdl-button--icon" do
     span#add.icon.material-icons add
@@ -12,9 +15,6 @@
   .mdl-cell.mdl-cell--10-col
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @packs
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--4-col Packs
-        .mdl-cell.mdl-cell--8-col
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead

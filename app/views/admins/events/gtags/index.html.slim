@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Gtags
+
 - content_for(:search) do
   = search_form_for @q, url: admins_event_gtags_path do |f|
     = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
@@ -17,9 +20,6 @@
     ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
       li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
 
-- content_for(:title) do
-  .mdl-layout-title.header-item Gtags
-
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
@@ -38,9 +38,6 @@
   .mdl-cell.mdl-cell--10-col
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @gtags
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--4-col GTags
-        .mdl-cell.mdl-cell--8-col
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead

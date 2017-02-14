@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Products
+
 - content_for(:search) do
   = search_form_for @q, url: admins_event_products_path do |f|
     = f.search_field :name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
@@ -26,7 +29,6 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @products
-
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card

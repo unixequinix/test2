@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item #{@type.to_s.humanize} Transactions
+
 - content_for(:actions) do
   = link_to admins_event_transactions_path(@current_event, type: "access"), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#import_export.icon.material-icons import_export
