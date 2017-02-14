@@ -15,6 +15,12 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     authorize @pack
   end
 
+  def edit
+    @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+    @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
+    authorize @pack
+  end
+
   def create
     flag = permitted_params.delete(:alcohol_forbidden)
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")

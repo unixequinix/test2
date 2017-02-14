@@ -6,7 +6,7 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server "34.250.198.124", user: "deploy", roles: %w(web app db)
+server "gspot.glownet.com", user: "deploy", roles: %w(web app db)
 
 set :branch, "develop"
 set :rails_env, "production"
