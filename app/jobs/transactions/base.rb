@@ -6,7 +6,7 @@ class Transactions::Base < ActiveJob::Base
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
     gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
-
+    return if atts[:action].eql?("gtag_checkin")
     begin
       transaction = klass.find_or_create_by(atts.slice(*SEARCH_ATTS))
       atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id if atts[:customer_tag_uid].present?
