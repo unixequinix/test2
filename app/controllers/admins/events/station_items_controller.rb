@@ -5,6 +5,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     params[:station_product][:product_id] = current_event.products.find_or_create_by!(name: params[:station_product][:product_name]).id if params[:item_type].eql?("station_product") # rubocop:disable Metrics/LineLength
 
     @station = @current_event.stations.find(params[:station_id])
+    @group = @station.group
     @items = @station.all_station_items
     @items.sort_by!(&@items.first.class.sort_column) if @items.first
     @item = @klass.new(permitted_params)
