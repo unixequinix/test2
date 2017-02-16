@@ -34,6 +34,7 @@ class CatalogItem < ActiveRecord::Base
   has_many :transactions, dependent: :restrict_with_error
 
   validates :name, presence: true
+  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :step, numericality: { greater_than: 0 }
 
   scope :accesses, -> { where(type: "Access") }
