@@ -6,15 +6,16 @@ class Transactions::Base < ActiveJob::Base
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
     gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
-    return if atts[:action].eql?("gtag_checkin")
+
     begin
       transaction = klass.find_or_create_by(atts.slice(*SEARCH_ATTS))
       atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id if atts[:customer_tag_uid].present?
 
-      transaction.executed? ? return : transaction.update!(executed: true)
-      transaction.update!(column_attributes(klass, atts))
+      return if transaction.executed?
+      transaction.update!(column_attributes(klass, atts).merge(executed: true))
 
       return unless atts[:status_code].to_i.zero?
+
       EventStatsChannel.broadcast_to(Event.find(atts[:event_id]), data: transaction)
       execute_operations(atts.merge(transaction_id: transaction.id))
 
