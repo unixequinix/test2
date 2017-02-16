@@ -32,7 +32,7 @@ class Station < ActiveRecord::Base
   has_many :access_control_gates, dependent: :destroy
 
   validates :name, presence: true
-  validates :name, uniqueness: { scope: :event }
+  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
 
   after_create :add_predefined_values
   before_create :add_station_event_id

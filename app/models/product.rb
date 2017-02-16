@@ -22,5 +22,5 @@ class Product < ActiveRecord::Base
   has_many :sale_items, dependent: :restrict_with_error
 
   validates :name, :event_id, presence: true
-  validates :name, uniqueness: { scope: :event_id }
+  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
 end
