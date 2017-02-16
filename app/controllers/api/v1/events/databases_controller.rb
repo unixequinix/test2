@@ -18,7 +18,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
       @current_event.device_full_db = file
     end
 
-    render(status: :created, json: :created) && return if @current_event.save
+    render(status: :created, json: :created) && return if @current_event.save(touch: false)
     render(status: :unprocessable_entity, json: { errors: @current_event.errors })
   end
 

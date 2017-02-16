@@ -73,7 +73,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   def remove_db
     authorize @current_event
-    @current_event.update(params[:db] => nil)
+    @current_event.update_column(params[:db], nil)
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
