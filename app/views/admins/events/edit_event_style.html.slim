@@ -22,14 +22,6 @@
           i.material-icons attach_file
           = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
 
-    .fieldset
-      .section-header
-        i.material-icons brush
-        span Custom styles
-      .form-inputs.form-texts
-        = f.label :style, class: 'form-label'
-        = f.input :style, as: :text, input_html: { rows: 20, class: "cssarea" }
-
     .form-actions
       .col-sm-offset-3.col-sm-9
         = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

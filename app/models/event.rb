@@ -46,7 +46,6 @@
 #  slug                            :string           not null, indexed
 #  start_date                      :datetime
 #  state                           :integer          default("created")
-#  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
 #  sync_time_customers             :integer          default(10)
