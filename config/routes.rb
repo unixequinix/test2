@@ -258,7 +258,7 @@ end
 #                                            root GET      /                                                                                                 admins/events#index
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fc1b0e04d08 @mutex=#<Monitor:0x007fc1b0e04c90 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fc1b0e04ba0>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007f9677cdcd90 @mutex=#<Monitor:0x007f9677cdcd40 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007f9677cdcc50>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -399,9 +399,7 @@ end
 #                          admins_event_customers GET      /admins/events/:event_id/customers(.:format)                                                      admins/events/customers#index
 #                           admins_event_customer GET      /admins/events/:event_id/customers/:id(.:format)                                                  admins/events/customers#show
 #           recalculate_balance_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/recalculate_balance(.:format)                                  admins/events/gtags#recalculate_balance
-#                           ban_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/ban(.:format)                                                  admins/events/gtags#ban
 #            solve_inconsistent_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/solve_inconsistent(.:format)                                   admins/events/gtags#solve_inconsistent
-#                         unban_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/unban(.:format)                                                admins/events/gtags#unban
 #                   sample_csv_admins_event_gtags GET      /admins/events/:event_id/gtags/sample_csv(.:format)                                               admins/events/gtags#sample_csv
 #                       import_admins_event_gtags POST     /admins/events/:event_id/gtags/import(.:format)                                                   admins/events/gtags#import
 #                              admins_event_gtags GET      /admins/events/:event_id/gtags(.:format)                                                          admins/events/gtags#index
