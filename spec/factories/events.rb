@@ -75,7 +75,6 @@ FactoryGirl.define do
     start_date { Time.zone.now }
     end_date { Time.zone.now + 2.days }
     support_email "support@glownet.com"
-    style "html { font-family: Helvetica; }"
     currency "EUR"
     gtag_type "ultralight_c"
 
