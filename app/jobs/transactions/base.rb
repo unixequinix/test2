@@ -12,10 +12,9 @@ class Transactions::Base < ActiveJob::Base
       atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id if atts[:customer_tag_uid].present?
 
       transaction.executed? ? return : transaction.update!(executed: true)
+      transaction.update!(column_attributes(klass, atts))
 
       return unless atts[:status_code].to_i.zero?
-
-      transaction.update!(column_attributes(klass, atts))
       EventStatsChannel.broadcast_to(Event.find(atts[:event_id]), data: transaction)
       execute_operations(atts.merge(transaction_id: transaction.id))
 
