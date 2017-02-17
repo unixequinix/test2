@@ -1,30 +1,35 @@
+- content_for(:actions) do
+  = link_to new_admins_event_ticket_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add"  Add
+  = link_to admins_event_ticket_path(@current_event, @ticket), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket?' }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#destroy.material-icons delete
+    span.mdl-tooltip data-mdl-for="destroy"  Delete
+  = link_to admins_event_tickets_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
+  = link_to edit_admins_event_ticket_path(@current_event, @ticket), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#edit.material-icons edit
+    span.mdl-tooltip data-mdl-for="edit"  Edit
+
+- content_for(:title) do
+  .mdl-layout-title.header-item Ticket
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--2-col style="text-align: center;"
+    #qrcode
+    br
+    p = @ticket.code
+  .mdl-layout-spacer
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--4-col Ticket #{@ticket.id}
-        .mdl-cell.mdl-cell--8-col
-          .tools
-            .tool-item
-              = link_to admins_event_ticket_path(@current_event, @ticket), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket?' }, class: "btn btn-action btn-action-new btn-action-delete small" do
-                span#destroy.material-icons delete
-                span.mdl-tooltip data-mdl-for="destroy"  Delete
-            .tool-item
-               = link_to admins_event_tickets_path do
-                span#undo.material-icons undo
-                span.mdl-tooltip data-mdl-for="undo"  Back
-            .tool-item
-              = link_to edit_admins_event_ticket_path(@current_event, @ticket), class: "btn btn-action btn-action-new small" do
-                span#edit.material-icons edit
-                span.mdl-tooltip data-mdl-for="edit"  Edit
-
       .table-fix
         table.mdl-data-table.mdl-js-data-table.within-card
           tbody
-            tr
-              td.mdl-data-table__cell--non-numeric Code
-              td = @ticket.code
             tr
               td.mdl-data-table__cell--non-numeric Ticket type
               td = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?
@@ -32,30 +37,38 @@
               td.mdl-data-table__cell--non-numeric Company
               td = @ticket.ticket_type.company.name unless @ticket.ticket_type.nil?
             tr
-              td.mdl-data-table__cell--non-numeric Purchaser First Name
-              td = @ticket.purchaser_first_name
-            tr
-              td.mdl-data-table__cell--non-numeric Purchaser Last Name
-              td = @ticket.purchaser_last_name
-            tr
-              td.mdl-data-table__cell--non-numeric Purchaser Email
-              td = @ticket.purchaser_email
-            tr
               td.mdl-data-table__cell--non-numeric Banned
-              td = @ticket.banned?
+              td = best_in_place @ticket, :banned, best_in_place_checkbox([:admins, @current_event, @ticket])
             tr
               td.mdl-data-table__cell--non-numeric Redeemed
-              td = @ticket.redeemed?
+              td = best_in_place @ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, @ticket])
             tr
               td.mdl-data-table__cell--non-numeric Created At
               td = l @ticket.created_at
             tr
               td.mdl-data-table__cell--non-numeric Updated At
               td = l @ticket.updated_at
+
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Purchaser
+      .table-fix
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
             tr
-              td.mdl-data-table__cell--non-numeric Code
-              td
-                #qrcode
+              td.mdl-data-table__cell--non-numeric First Name
+              td = best_in_place @ticket, :purchaser_first_name, url: [:admins, @current_event, @ticket]
+            tr
+              td.mdl-data-table__cell--non-numeric Last Name
+              td = best_in_place @ticket, :purchaser_last_name, url: [:admins, @current_event, @ticket]
+            tr
+              td.mdl-data-table__cell--non-numeric Email
+              td = best_in_place @ticket, :purchaser_email, url: [:admins, @current_event, @ticket]
   .mdl-layout-spacer
 
 - if @ticket.customer
