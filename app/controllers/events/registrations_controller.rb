@@ -42,6 +42,10 @@ class Events::RegistrationsController < Devise::RegistrationsController
     customer_root_path(current_event)
   end
 
+  def update_resource(resource, params)
+    resource.update_without_password(params)
+  end
+
   def current_event
     params[:event_id] ||= params[:id]
     @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])

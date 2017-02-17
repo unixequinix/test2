@@ -150,6 +150,7 @@ Rails.application.routes.draw do
         delete "/logout", to: "sessions#destroy"
         get "/register", to: "registrations#new"
         get "/account", to: "registrations#edit"
+        get "/change_password", to: "registrations#change_password"
         post "/register", to: "registrations#create"
         patch "/register", to: "registrations#update"
         get "/recover_password", to: "passwords#new"

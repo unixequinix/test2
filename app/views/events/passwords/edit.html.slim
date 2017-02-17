@@ -2,7 +2,7 @@
   = simple_form_for resource, url: event_edit_password_path(current_event), method: :patch do |f|
     h3 = t('passwords.edit.header') 
     = f.error_notification 
-    = f.input :reset_password_token, as: :hidden 
+    = f.input :reset_password_token, as: :hidden, :error => false
     = f.full_error :reset_password_token 
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :password, label: t('passwords.edit.password'), required: true, autofocus: true

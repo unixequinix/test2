@@ -11,9 +11,10 @@
   = link_to download_transactions_admins_event_customer_path(@current_event, @customer), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#credit_history.material-icons file_download
     span.mdl-tooltip data-mdl-for="credit_history" Credit History
-  = link_to reset_password_admins_event_customer_path(@current_event, @customer), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#pass.material-icons lock_open
-    span.mdl-tooltip data-mdl-for="pass" Reset Password
+  - if @customer.provider.blank?
+    = link_to reset_password_admins_event_customer_path(@current_event, @customer), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#pass.material-icons lock_open
+      span.mdl-tooltip data-mdl-for="pass" Reset Password
   = link_to admins_event_customers_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.material-icons undo
     span.mdl-tooltip data-mdl-for="undo"  Back

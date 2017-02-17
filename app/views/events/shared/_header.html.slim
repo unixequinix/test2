@@ -7,5 +7,7 @@ header.header-desktop
     ul
       - if customer_signed_in?
         li = link_to fa_icon("home"), event_url(current_event), class: "btn-desktop-customer"
+        - if current_customer.provider.blank?
+          li = link_to fa_icon("lock"), event_change_password_path(current_event), class: "btn-desktop-customer"
         li = link_to fa_icon("user"), event_account_path(current_event), class: "btn-desktop-customer"
         li = link_to fa_icon("sign-out"), event_logout_path(current_event), method: :delete, class: "btn-desktop-customer", data: { confirm: (t("confirm.log_out")) }

@@ -6,10 +6,6 @@
     = f.input :email, required: true, autocomplete: "off", input_html: { class: 'session-input', autocomplete: 'off' }, label: t("simple_form.labels.customer.new.email"), as: :string
     = f.input :first_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
     = f.input :last_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
-    = f.input :current_password, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.current_password")
-    = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
-    = f.input :password_confirmation, required: false, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.password_confirmation")
-
     = f.input :phone, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone_mandatory?
     = f.input :address, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address_mandatory?
     = f.input :city, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.address_mandatory?
