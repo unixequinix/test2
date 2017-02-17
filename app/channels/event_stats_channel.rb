@@ -11,18 +11,18 @@ class EventStatsChannel < ApplicationCable::Channel
   def render_stats(atts) # rubocop:disable all
     atts.symbolize_keys!
     if atts[:action].in?(%w(sale topup)) && atts[:status_code].zero?
-      @data[:topups] += atts[:credits] if atts[:action].eql?("topup")
-      @data[:sales] += atts[:credits] if atts[:action].eql?("sale")
+      @data[:topups] += atts[:credits].abs if atts[:action].eql?("topup")
+      @data[:sales] += atts[:credits].abs if atts[:action].eql?("sale")
       @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
       @data[:refunds] += 1 if atts[:action].eql?("refund")
-      @data[:fees] += atts[:credits] if atts[:action].ends_with?("_fee")
-      @data[:box_office] += atts[:credits] if atts[:action].eql?("record_credit")
+      @data[:fees] += atts[:credits].abs if atts[:action].ends_with?("_fee")
+      @data[:box_office] += atts[:credits].abs if atts[:action].eql?("record_credit")
 
       stations = @data[:stations].find { |hash| hash[:id].eql?(atts[:station_id]) }
       stations[:data] += 1 if stations
 
       hc = find_or_create(@data[:credits_chart], atts[:action])
-      hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits]
+      hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
     end
 
     @data["num_#{atts[:category]}_trans".to_sym] += 1 if atts[:category].in? %w(credit money credential)
@@ -37,8 +37,8 @@ class EventStatsChannel < ApplicationCable::Channel
     @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
 
     sales = event.transactions.credit.where(action: "sale")
-    @data[:sales] = sales.sum(:credits)
-    @data[:topups] = event.transactions.credit.where(action: "topup").sum(:credits)
+    @data[:sales] = sales.sum(:credits).abs
+    @data[:topups] = event.transactions.credit.where(action: "topup").sum(:credits).abs
     @data[:num_trans] = event.transactions.count
     @data[:num_credit_trans] = event.transactions.credit.count
     @data[:num_money_trans] = event.transactions.money.count
@@ -48,7 +48,7 @@ class EventStatsChannel < ApplicationCable::Channel
     @data[:box_office] = event.transactions.credit.where(action: "record_credit").count
     @data[:fees] = event.transactions.credit.where("action LIKE '%_fee'").count
     @data[:num_gtags] = event.gtags.count
-    @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits) } }
+    @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
 
     @data[:transactions_chart] = %w(credit money credential).map do |type|
       { name: type, data: event.transactions.send(type).group_by_day(:device_created_at).count }
