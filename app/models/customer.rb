@@ -37,7 +37,7 @@
 #
 
 class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable,
+  devise :database_authenticatable, :registerable, :recoverable, :validatable, :omniauthable,
          authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id],
          omniauth_providers: [:facebook, :google_oauth2]
 

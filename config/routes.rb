@@ -1,5 +1,7 @@
 require "sidekiq/web"
 
+Rails.application.routes.default_url_options[:host] = Rails.application.secrets.host
+
 Rails.application.routes.draw do
   root "admins/events#index"
   get "/admins", to: "admins/events#index", as: :admin_root
