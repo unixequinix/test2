@@ -362,7 +362,7 @@ es:
       th: THA
     subject_support: Necesito ayuda para %{event}
   footer:
-    copyright: "© Copyright Glownet"
+    copyright: "© Glownet"
     privacy: Política de privacidad
     support: Soporte
     use: Condiciones de uso

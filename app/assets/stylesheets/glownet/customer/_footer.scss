@@ -27,11 +27,12 @@ footer {
 }
 
 .copyright {
-  color: white;
+  color: $grey;
 }
 
 .footer-nav {
-  display: block;
+  display: flex;
+  margin-top: 5%;
 
   li {
     display: inline-block;
@@ -43,13 +44,26 @@ footer {
   }
 
   a {
-    color: white;
+    color: $grey;
   }
 }
 
-.terms-list {
-  width: 100%;
+ul.container-language{
+  flex: 1;
+  font-size: 12px;
+}
 
+ul.terms-list{
+  flex: 1;
+  font-size: 12px;
+}
+
+ul.copyright{
+  flex: 1;
+  font-size: 12px;
+}
+
+.terms-list {
   li {
     display: block;
 
@@ -83,12 +97,8 @@ footer {
 
 .footer-separator:before {
   content: "|";
-  color: white;
+  color: $grey;
 }
 
-.copyright {
-  display: block;
-  padding-top: modules(0.25);
-}
 
 // ···
