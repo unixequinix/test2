@@ -1,3 +1,6 @@
+h1 style="display: block; width: 100%; text-align: center; color: #999"
+  = number_with_delimiter data[:num_trans]
+  .small Transactions processed
 
 .mdl-cell.mdl-cell--12-col
   .mdl-grid
@@ -76,5 +79,3 @@
             tr data-station = atts[:id]
               td.mdl-data-table__cell--non-numeric data-label="Station" = link_to atts[:name], admins_event_station_path(data[:event_id], atts[:id]), target: "_blank"
               td data-label="Sales" = number_to_currency atts[:data].abs, format: "%n %u", unit: data[:credit_name].to_s
-
-  .mdl-layout-spacer
