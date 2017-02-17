@@ -30,7 +30,7 @@
                   td = @transaction.status_code
                 tr
                   td.mdl-data-table__cell--non-numeric Status message
-                  td = @transaction.status_message || "null"
+                  td = @transaction.status_message
                 tr
                   td.mdl-data-table__cell--non-numeric Created in device at
                   td = l Time.zone.parse(@transaction.device_created_at)

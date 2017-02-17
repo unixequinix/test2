@@ -29,6 +29,9 @@
                 table.mdl-data-table.mdl-js-data-table.within-card
                   tbody
                     tr
+                      td.mdl-data-table__cell--non-numeric Category
+                      td = @station.category
+                    tr
                       td.mdl-data-table__cell--non-numeric Name
                       td = best_in_place @station, :name, url: [:admins, @current_event, @station]
                     tr

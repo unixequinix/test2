@@ -26,6 +26,7 @@ class EventStatsChannel < ApplicationCable::Channel
     end
 
     @data["num_#{atts[:category]}_trans".to_sym] += 1 if atts[:category].in? %w(credit money credential)
+    @data[:num_trans] += 1
     hc2 = find_or_create(@data[:transactions_chart], atts[:category])
     hc2[:data][atts[:device_created_at].to_date] = hc2[:data][atts[:device_created_at].to_date].to_i + 1
 
@@ -38,6 +39,7 @@ class EventStatsChannel < ApplicationCable::Channel
     sales = event.transactions.credit.where(action: "sale")
     @data[:sales] = sales.sum(:credits)
     @data[:topups] = event.transactions.credit.where(action: "topup").sum(:credits)
+    @data[:num_trans] = event.transactions.count
     @data[:num_credit_trans] = event.transactions.credit.count
     @data[:num_money_trans] = event.transactions.money.count
     @data[:num_access_trans] = event.transactions.access.count
