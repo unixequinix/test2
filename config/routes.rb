@@ -4,6 +4,7 @@ Rails.application.routes.default_url_options[:host] = Rails.application.secrets.
 
 Rails.application.routes.draw do
   root "admins/events#index"
+  get "/admins/sign_in", to: "admins/sessions#new"
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
 
@@ -259,9 +260,10 @@ end
 #
 #                                          Prefix Verb     URI Pattern                                                                                       Controller#Action
 #                                            root GET      /                                                                                                 admins/events#index
+#                                  admins_sign_in GET      /admins/sign_in(.:format)                                                                         admins/sessions#new
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fd755248d88 @mutex=#<Monitor:0x007fd755248d60 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fd755248cc0>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007f90a5001c60 @mutex=#<Monitor:0x007f90a5001c38 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007f90a5001bc0>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -493,6 +495,7 @@ end
 #                                    event_logout DELETE   /:event_id/logout(.:format)                                                                       events/sessions#destroy
 #                                  event_register GET      /:event_id/register(.:format)                                                                     events/registrations#new
 #                                   event_account GET      /:event_id/account(.:format)                                                                      events/registrations#edit
+#                           event_change_password GET      /:event_id/change_password(.:format)                                                              events/registrations#change_password
 #                                                 POST     /:event_id/register(.:format)                                                                     events/registrations#create
 #                                                 PATCH    /:event_id/register(.:format)                                                                     events/registrations#update
 #                          event_recover_password GET      /:event_id/recover_password(.:format)                                                             events/passwords#new

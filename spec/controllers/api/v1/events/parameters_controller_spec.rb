@@ -85,7 +85,7 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
       end
 
       it "includes maximum_gtag_balance" do
-        expect(@body).to include("name" => "maximum_gtag_balance", "value" => event.maximum_gtag_balance)
+        expect(@body).to include("name" => "maximum_gtag_balance", "value" => event.credit.max_purchasable)
       end
     end
 

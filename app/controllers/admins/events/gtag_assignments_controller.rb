@@ -16,13 +16,13 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
     if errors.any?
       flash.now[:errors] = errors.to_sentence
-      render(:new)
-    else
-      @gtag.update(active: permitted_params[:active].present?)
-      @customer.gtags.update_all(active: false) if @gtag.active?
-      @gtag.assign_customer(@customer, :admin, current_user)
-      redirect_to admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Gtag")
+      render(:new) && return
     end
+
+    @gtag.update(active: permitted_params[:active].present?)
+    @customer.gtags.update_all(active: false) if @gtag.active?
+    @gtag.assign_customer(@customer, :admin, current_user)
+    redirect_to admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Gtag")
   end
 
   def destroy
