@@ -62,6 +62,9 @@ html
 
         - if policy(@current_event).event_charts? && !@current_event.created?
           nav.mdl-navigation.global-nav
+            = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons import_export
+              |  Transactions
             = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
               |  Live Reports (BETA)
@@ -87,10 +90,7 @@ html
           = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons loyalty
             |  GTags
-          - unless @current_event.created?
-            = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons import_export
-              |  Transactions
+
 
         nav.mdl-navigation.global-nav
           span.nav-title TICKETING
@@ -135,22 +135,7 @@ html
             i.mdl-color-text--teal-200.material-icons local_activity
             |  Management
 
-        - unless @current_event.created?
-          - if policy(@current_event).inconsistencies?
-            nav.mdl-navigation.global-nav
-              span.nav-title INCONSISTENCIES
-              - if policy(@current_event).real?
-                = link_to real_admins_event_inconsistencies_path(@current_event), class: "mdl-navigation__link" do
-                  i.mdl-color-text--teal-200.material-icons report_problem
-                  |  Real
-              - if policy(@current_event).missing?
-                = link_to missing_admins_event_inconsistencies_path(@current_event), class: "mdl-navigation__link" do
-                  i.mdl-color-text--teal-200.material-icons texture
-                  |  Missing
-              - if policy(@current_event).resolvable?
-                = link_to resolvable_admins_event_inconsistencies_path(@current_event), class: "mdl-navigation__link" do
-                  i.mdl-color-text--teal-200.material-icons healing
-                  |  Resolvable
+
 
       main.mdl-layout__content
         #notifications
