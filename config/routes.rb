@@ -260,7 +260,7 @@ end
 #                                            root GET      /                                                                                                 admins/events#index
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fe07d02ab60 @mutex=#<Monitor:0x007fe07d02aa98 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fe07d02a9a8>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007f86bca57cc0 @mutex=#<Monitor:0x007f86bca57c98 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007f86bca57c48>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -312,14 +312,6 @@ end
 #                                                 PUT      /admins/events/:event_id/ticket_types/:id(.:format)                                               admins/events/ticket_types#update
 #                                                 DELETE   /admins/events/:event_id/ticket_types/:id(.:format)                                               admins/events/ticket_types#destroy
 #                            admins_event_devices GET      /admins/events/:event_id/devices(.:format)                                                        admins/events/devices#index
-#                     admins_event_asset_trackers GET      /admins/events/:event_id/asset_trackers(.:format)                                                 admins/events/asset_trackers#index
-#                                                 POST     /admins/events/:event_id/asset_trackers(.:format)                                                 admins/events/asset_trackers#create
-#                  new_admins_event_asset_tracker GET      /admins/events/:event_id/asset_trackers/new(.:format)                                             admins/events/asset_trackers#new
-#                 edit_admins_event_asset_tracker GET      /admins/events/:event_id/asset_trackers/:id/edit(.:format)                                        admins/events/asset_trackers#edit
-#                      admins_event_asset_tracker GET      /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#show
-#                                                 PATCH    /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#update
-#                                                 PUT      /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#update
-#                                                 DELETE   /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#destroy
 #                            admins_event_credits GET      /admins/events/:event_id/credits(.:format)                                                        admins/events/credits#index
 #                        edit_admins_event_credit GET      /admins/events/:event_id/credits/:id/edit(.:format)                                               admins/events/credits#edit
 #                             admins_event_credit GET      /admins/events/:event_id/credits/:id(.:format)                                                    admins/events/credits#show
@@ -492,6 +484,7 @@ end
 #                                    event_logout DELETE   /:event_id/logout(.:format)                                                                       events/sessions#destroy
 #                                  event_register GET      /:event_id/register(.:format)                                                                     events/registrations#new
 #                                   event_account GET      /:event_id/account(.:format)                                                                      events/registrations#edit
+#                           event_change_password GET      /:event_id/change_password(.:format)                                                              events/registrations#change_password
 #                                                 POST     /:event_id/register(.:format)                                                                     events/registrations#create
 #                                                 PATCH    /:event_id/register(.:format)                                                                     events/registrations#update
 #                          event_recover_password GET      /:event_id/recover_password(.:format)                                                             events/passwords#new
