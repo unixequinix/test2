@@ -50,7 +50,6 @@ Rails.application.routes.draw do
         resources :gtag_assignments, only: :destroy
         resources :ticket_types, except: :show
         resources :devices, only: :index
-        resources :asset_trackers
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses

@@ -22,15 +22,14 @@ class Device < ActiveRecord::Base
       FROM (
         SELECT transaction.device_uid, count(transaction.device_uid) as transactions_count,
         (
-          SELECT type
-          FROM transactions
-          WHERE transactions.device_uid = transaction.device_uid
-          AND transactions.event_id = #{event.id}
-          AND transactions.type = 'DeviceTransaction'
+          SELECT action
+          FROM device_transactions
+          WHERE device_transactions.device_uid = transaction.device_uid
+          AND device_transactions.event_id = #{event.id}
           ORDER BY device_created_at DESC
           LIMIT 1
         ) as action
-        FROM (SELECT device_uid FROM transactions WHERE transactions.event_id = #{event.id}) as transaction
+        FROM (SELECT device_uid FROM device_transactions WHERE device_transactions.event_id = #{event.id}) as transaction
         GROUP BY device_uid
         ORDER BY device_uid
       ) cep
