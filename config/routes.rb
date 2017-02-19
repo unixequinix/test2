@@ -1,5 +1,7 @@
 require "sidekiq/web"
 
+Rails.application.routes.default_url_options[:host] = Rails.application.secrets.host
+
 Rails.application.routes.draw do
   root "admins/events#index"
   get "/admins", to: "admins/events#index", as: :admin_root
@@ -47,7 +49,6 @@ Rails.application.routes.draw do
         resources :gtag_assignments, only: :destroy
         resources :ticket_types, except: :show
         resources :devices, only: :index
-        resources :asset_trackers
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
@@ -148,6 +149,7 @@ Rails.application.routes.draw do
         delete "/logout", to: "sessions#destroy"
         get "/register", to: "registrations#new"
         get "/account", to: "registrations#edit"
+        get "/change_password", to: "registrations#change_password"
         post "/register", to: "registrations#create"
         patch "/register", to: "registrations#update"
         get "/recover_password", to: "passwords#new"
@@ -258,7 +260,7 @@ end
 #                                            root GET      /                                                                                                 admins/events#index
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fc1b0e04d08 @mutex=#<Monitor:0x007fc1b0e04c90 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fc1b0e04ba0>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007f86bca57cc0 @mutex=#<Monitor:0x007f86bca57c98 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007f86bca57c48>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -310,14 +312,6 @@ end
 #                                                 PUT      /admins/events/:event_id/ticket_types/:id(.:format)                                               admins/events/ticket_types#update
 #                                                 DELETE   /admins/events/:event_id/ticket_types/:id(.:format)                                               admins/events/ticket_types#destroy
 #                            admins_event_devices GET      /admins/events/:event_id/devices(.:format)                                                        admins/events/devices#index
-#                     admins_event_asset_trackers GET      /admins/events/:event_id/asset_trackers(.:format)                                                 admins/events/asset_trackers#index
-#                                                 POST     /admins/events/:event_id/asset_trackers(.:format)                                                 admins/events/asset_trackers#create
-#                  new_admins_event_asset_tracker GET      /admins/events/:event_id/asset_trackers/new(.:format)                                             admins/events/asset_trackers#new
-#                 edit_admins_event_asset_tracker GET      /admins/events/:event_id/asset_trackers/:id/edit(.:format)                                        admins/events/asset_trackers#edit
-#                      admins_event_asset_tracker GET      /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#show
-#                                                 PATCH    /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#update
-#                                                 PUT      /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#update
-#                                                 DELETE   /admins/events/:event_id/asset_trackers/:id(.:format)                                             admins/events/asset_trackers#destroy
 #                            admins_event_credits GET      /admins/events/:event_id/credits(.:format)                                                        admins/events/credits#index
 #                        edit_admins_event_credit GET      /admins/events/:event_id/credits/:id/edit(.:format)                                               admins/events/credits#edit
 #                             admins_event_credit GET      /admins/events/:event_id/credits/:id(.:format)                                                    admins/events/credits#show
@@ -399,9 +393,7 @@ end
 #                          admins_event_customers GET      /admins/events/:event_id/customers(.:format)                                                      admins/events/customers#index
 #                           admins_event_customer GET      /admins/events/:event_id/customers/:id(.:format)                                                  admins/events/customers#show
 #           recalculate_balance_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/recalculate_balance(.:format)                                  admins/events/gtags#recalculate_balance
-#                           ban_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/ban(.:format)                                                  admins/events/gtags#ban
 #            solve_inconsistent_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/solve_inconsistent(.:format)                                   admins/events/gtags#solve_inconsistent
-#                         unban_admins_event_gtag GET      /admins/events/:event_id/gtags/:id/unban(.:format)                                                admins/events/gtags#unban
 #                   sample_csv_admins_event_gtags GET      /admins/events/:event_id/gtags/sample_csv(.:format)                                               admins/events/gtags#sample_csv
 #                       import_admins_event_gtags POST     /admins/events/:event_id/gtags/import(.:format)                                                   admins/events/gtags#import
 #                              admins_event_gtags GET      /admins/events/:event_id/gtags(.:format)                                                          admins/events/gtags#index
@@ -492,6 +484,7 @@ end
 #                                    event_logout DELETE   /:event_id/logout(.:format)                                                                       events/sessions#destroy
 #                                  event_register GET      /:event_id/register(.:format)                                                                     events/registrations#new
 #                                   event_account GET      /:event_id/account(.:format)                                                                      events/registrations#edit
+#                           event_change_password GET      /:event_id/change_password(.:format)                                                              events/registrations#change_password
 #                                                 POST     /:event_id/register(.:format)                                                                     events/registrations#create
 #                                                 PATCH    /:event_id/register(.:format)                                                                     events/registrations#update
 #                          event_recover_password GET      /:event_id/recover_password(.:format)                                                             events/passwords#new

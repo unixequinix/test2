@@ -3,6 +3,10 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_transactions, except: :show
   before_action :set_transaction, only: [:show, :update, :fix]
 
+  def index
+    @display = true
+  end
+
   def search
     authorize @transactions
     render :index

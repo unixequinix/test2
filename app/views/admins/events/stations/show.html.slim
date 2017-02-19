@@ -49,7 +49,9 @@
                     tr
                       td.mdl-data-table__cell--non-numeric Reporting Category
                       td = best_in_place @station, :reporting_category, url: [:admins, @current_event, @station]
-          .mdl-cell.mdl-cell--12-col = render(partial: "admins/events/station_items/#{@station.form}/form")
+          - if @station.form
+            .mdl-cell.mdl-cell--12-col = render(partial: "admins/events/station_items/#{@station.form}/form")
       .mdl-cell.mdl-cell--6-col
-        .mdl-cell.mdl-cell--12-col = render(partial: "admins/events/station_items/#{@station.form}/list")
+        - if @station.form
+          .mdl-cell.mdl-cell--12-col = render(partial: "admins/events/station_items/#{@station.form}/list")
   .mdl-layout-spacer

@@ -131,7 +131,7 @@ en:
       th: THA
     subject_support: Need help for %{event}
   footer:
-    copyright: "© Copyright Glownet"
+    copyright: "© Glownet"
     privacy: Privacy policy
     support: Support
     use: Terms of use

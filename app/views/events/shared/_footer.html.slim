@@ -14,6 +14,8 @@ footer
         = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
 
 
-  = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
-    = t('footer.copyright')
-    = Date.current.year
+    ul.copyright
+      li
+        = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
+          = t('footer.copyright')
+          = Date.current.year

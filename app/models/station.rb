@@ -32,10 +32,11 @@ class Station < ActiveRecord::Base
   has_many :access_control_gates, dependent: :destroy
 
   validates :name, presence: true
-  validates :name, uniqueness: { scope: :event }
+  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
+  validates :station_event_id, uniqueness: { scope: :event_id }
 
   after_create :add_predefined_values
-  before_create :add_station_event_id
+  before_validation :add_station_event_id
 
   ASSOCIATIONS = { accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
                    pos: [:bar, :vendor],
@@ -67,7 +68,7 @@ class Station < ActiveRecord::Base
   private
 
   def add_station_event_id
-    self.station_event_id = event.stations.size + 1
+    self.station_event_id ||= event.stations.order(:station_event_id).pluck(:station_event_id).last.to_i + 1
   end
 
   def add_predefined_values

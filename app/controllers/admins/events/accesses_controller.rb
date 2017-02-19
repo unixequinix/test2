@@ -41,7 +41,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   def destroy
     respond_to do |format|
       if @access.destroy
-        format.html { redirect_to admins_event_packs_path, notice: t("alerts.destroyed") }
+        format.html { redirect_to admins_event_accesses_path, notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
         format.html { redirect_to [:admins, @current_event, @access], alert: @access.errors.full_messages.to_sentence }

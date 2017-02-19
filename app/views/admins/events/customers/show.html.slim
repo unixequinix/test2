@@ -11,9 +11,10 @@
   = link_to download_transactions_admins_event_customer_path(@current_event, @customer), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#credit_history.material-icons file_download
     span.mdl-tooltip data-mdl-for="credit_history" Credit History
-  = link_to reset_password_admins_event_customer_path(@current_event, @customer), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#pass.material-icons lock_open
-    span.mdl-tooltip data-mdl-for="pass" Reset Password
+  - if @customer.provider.blank?
+    = link_to reset_password_admins_event_customer_path(@current_event, @customer), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#pass.material-icons lock_open
+      span.mdl-tooltip data-mdl-for="pass" Reset Password
   = link_to admins_event_customers_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.material-icons undo
     span.mdl-tooltip data-mdl-for="undo"  Back
@@ -27,11 +28,30 @@
       .mdl-cell.mdl-cell--8-col
         .tools
 
+.mdl-cell.mdl-cell--12-col
+  .mdl-grid
+    .mdl-cell.mdl-cell--3-col
+      .customer-card.mdl-card.mdl-shadow--2dp
+        .mdl-card__title.mdl-card--expand
+          h2.mdl-card__title-text = number_to_token @customer.credits
+        .mdl-card__supporting-text Server Balance
+    .mdl-cell.mdl-cell--3-col
+      .customer-card.mdl-card.mdl-shadow--2dp
+        .mdl-card__title.mdl-card--expand
+          h2.mdl-card__title-text = number_to_token @customer.refundable_credits
+        .mdl-card__supporting-text Server Refundable Balance
+    .mdl-cell.mdl-cell--3-col
+      .customer-card.mdl-card.mdl-shadow--2dp
+        .mdl-card__title.mdl-card--expand
+          h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
+        .mdl-card__supporting-text Gtag Balance
+    .mdl-cell.mdl-cell--3-col
+      .customer-card.mdl-card.mdl-shadow--2dp
+        .mdl-card__title.mdl-card--expand
+          h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_refundable_balance
+        .mdl-card__supporting-text Gtag Refundable Balance
 
 - root = "admins/events/customers/sections/"
-= render(root + "credits", customer: @customer)
-
-
 .content-grid.mdl-grid
   = render(root + "ticket_assignments", customer: @customer) if @customer.tickets.any?
   = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?
