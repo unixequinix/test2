@@ -88,7 +88,7 @@ class Order < ActiveRecord::Base
 
   def max_credit_reached
     return unless customer
-    max_credits = customer.event.credit.max_purchasable.to_f
+    max_credits = customer.event.maximum_gtag_balance.to_f
     max_credits_reached = customer.orders.completed.map(&:credits).sum + credits > max_credits
     errors.add(:credits, I18n.t("errors.messages.max_credits_reached")) if max_credits_reached
   end

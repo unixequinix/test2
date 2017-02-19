@@ -30,6 +30,7 @@
 #  logo_content_type               :string
 #  logo_file_name                  :string
 #  logo_file_size                  :integer
+#  maximum_gtag_balance            :integer          default(300)
 #  mifare_classic_private_key_a    :string
 #  mifare_classic_private_key_b    :string
 #  mifare_classic_public_key       :string
@@ -110,7 +111,7 @@ class Event < ActiveRecord::Base
 
   validates :name, :support_email, :timezone, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
-  validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :maximum_gtag_balance, :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validate :end_date_after_start_date

@@ -113,11 +113,14 @@
               td.mdl-data-table__cell--non-numeric Initial Amount
               td = best_in_place @current_event.credit, :initial_amount, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), name: "event_credit_initial_amount"
             tr
-              td.mdl-data-table__cell--non-numeric Credit limit
-              td = best_in_place @current_event.credit, :max_purchasable, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
+              td.mdl-data-table__cell--non-numeric Max Purchasable
+              td = best_in_place @current_event.credit, :max_purchasable, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), name: "event_credit_max_purchasable"
             tr
               td.mdl-data-table__cell--non-numeric Min Purchasable
               td = best_in_place @current_event.credit, :min_purchasable, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), name: "event_credit_min_purchasable"
+            tr
+              td.mdl-data-table__cell--non-numeric Maximum Gtag balance
+              td = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event], name: "event_maximum_gtag_balance"
             tr
               td.mdl-data-table__cell--non-numeric Gtag deposit fee
               td = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], name: "event_gtag_deposit_fee"
