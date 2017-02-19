@@ -13,7 +13,7 @@ class EventStatsChannel < ApplicationCable::Channel
     if atts[:action].in?(%w(sale topup)) && atts[:status_code].zero?
       @data[:topups] += atts[:credits].abs if atts[:action].eql?("topup")
       @data[:sales] += atts[:credits].abs if atts[:action].eql?("sale")
-      @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
+      @data[:not_on_date] += 1 unless (@event.start_date..@event.end_date).cover? atts[:device_created_at].to_date
       @data[:refunds] += 1 if atts[:action].eql?("refund")
       @data[:fees] += atts[:credits].abs if atts[:action].ends_with?("_fee")
       @data[:box_office] += atts[:credits].abs if atts[:action].eql?("record_credit")
@@ -36,26 +36,29 @@ class EventStatsChannel < ApplicationCable::Channel
   def initial_stats(event) # rubocop:disable all
     @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
 
-    sales = event.transactions.credit.where(action: "sale")
+    transactions = event.transactions.where(device_created_at: event.start_date..event.end_date)
+    credit_transactions = transactions.credit
+
+    sales = credit_transactions.where(action: "sale")
+    @data[:not_on_date] = event.transactions.where.not(device_created_at: event.start_date..event.end_date).count
     @data[:sales] = sales.sum(:credits).abs
-    @data[:topups] = event.transactions.credit.where(action: "topup").sum(:credits).abs
-    @data[:num_trans] = event.transactions.count
-    @data[:num_credit_trans] = event.transactions.credit.count
-    @data[:num_money_trans] = event.transactions.money.count
-    @data[:num_access_trans] = event.transactions.access.count
-    @data[:num_credential_trans] = event.transactions.credential.count
-    @data[:refunds] = event.transactions.credit.where(action: "refund").count
-    @data[:box_office] = event.transactions.credit.where(action: "record_credit").count
-    @data[:fees] = event.transactions.credit.where("action LIKE '%_fee'").count
-    @data[:num_gtags] = event.gtags.count
+    @data[:topups] = credit_transactions.where(action: "topup").sum(:credits).abs
+    @data[:num_trans] = transactions.count
+    @data[:num_credit_trans] = credit_transactions.count
+    @data[:num_money_trans] = transactions.money.count
+    @data[:num_access_trans] = transactions.access.count
+    @data[:num_credential_trans] = transactions.credential.count
+    @data[:refunds] = credit_transactions.where(action: "refund").count
+    @data[:box_office] = credit_transactions.where(action: "record_credit").count
+    @data[:fees] = credit_transactions.where("action LIKE '%_fee'").count
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
 
     @data[:transactions_chart] = %w(credit money credential).map do |type|
-      { name: type, data: event.transactions.send(type).group_by_day(:device_created_at).count }
+      { name: type, data: transactions.send(type).group_by_day(:device_created_at).count }
     end
 
     @data[:credits_chart] = %w(sale topup).map do |action|
-      data = event.transactions.credit.where(action: action).group_by_day(:device_created_at).sum(:credits)
+      data = credit_transactions.where(action: action).group_by_day(:device_created_at).sum(:credits)
       data = data.collect { |k, v| [k, v.to_i.abs] }
       { name: action, data: Hash[data] }
     end

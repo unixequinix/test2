@@ -10,8 +10,8 @@ h1 style="display: block; width: 100%; text-align: center; color: #999"
           table.mdl-data-table.mdl-js-data-table.within-card
             tbody
               tr
-                td.mdl-data-table__cell--non-numeric Gtags
-                td = number_to_human data[:num_gtags]
+                td.mdl-data-table__cell--non-numeric Not on date
+                td = number_to_human data[:not_on_date]
               tr
                 td.mdl-data-table__cell--non-numeric Fees
                 td = number_to_currency data[:fees].abs, format: "%n %u", unit: data[:credit_name].to_s
