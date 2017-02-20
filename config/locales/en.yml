@@ -406,42 +406,13 @@ en:
       previous: "&lsaquo; Prev"
       truncate: "&hellip;"
 
-
-  date:
-    formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
-
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-
-    # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
-    # Used in date_select and datetime_select.
-    order:
-      - year
-      - month
-      - day
-
-  time:
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
-    am: "am"
-    pm: "pm"
-
 # Used in array.to_sentence.
   support:
     array:
       words_connector: ", "
       two_words_connector: " and "
       last_word_connector: ", and "
+
   number:
     # Used in NumberHelper.number_to_delimited()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
@@ -463,7 +434,7 @@ en:
       format:
         # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
         format: "%n %u"
-        unit: "$"
+        unit: "€"
         # These five are to override number.format and are optional
         separator: "."
         delimiter: ","
@@ -471,71 +442,11 @@ en:
         significant: false
         strip_insignificant_zeros: false
 
-    # Used in NumberHelper.number_to_percentage()
-    percentage:
-      format:
-        # These five are to override number.format and are optional
-        # separator:
-        delimiter: ""
-        # precision:
-        # significant: false
-        # strip_insignificant_zeros: false
-        format: "%n%"
-
-    # Used in NumberHelper.number_to_rounded()
-    precision:
-      format:
-        # These five are to override number.format and are optional
-        # separator:
-        delimiter: ""
-        # precision:
-        # significant: false
-        # strip_insignificant_zeros: false
-
-    # Used in NumberHelper.number_to_human_size() and NumberHelper.number_to_human()
     human:
-      format:
-        # These five are to override number.format and are optional
-        # separator:
-        delimiter: ""
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      # Used in number_to_human_size()
-      storage_units:
-        # Storage units output formatting.
-        # %u is the storage unit, %n is the number (default: 2 MB)
-        format: "%n %u"
-        units:
-          byte:
-            one:   "Byte"
-            other: "Bytes"
-          kb: "KB"
-          mb: "MB"
-          gb: "GB"
-          tb: "TB"
-          pb: "PB"
-          eb: "EB"
       # Used in NumberHelper.number_to_human()
       decimal_units:
         format: "%n %u"
-        # Decimal units output formatting
-        # By default we will only quantify some of the exponents
-        # but the commented ones might be defined or overridden
-        # by the user.
         units:
-          # femto: Quadrillionth
-          # pico: Trillionth
-          # nano: Billionth
-          # micro: Millionth
-          # mili: Thousandth
-          # centi: Hundredth
-          # deci: Tenth
-          unit: ""
-          # ten:
-          #   one: Ten
-          #   other: Tens
-          # hundred: Hundred
           thousand: K
           million: M
           billion: Bn
