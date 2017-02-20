@@ -26,6 +26,7 @@ class EventStatsChannel < ApplicationCable::Channel
 
     @data[:not_on_date] += 1 unless (@event.start_date..@event.end_date).cover? atts[:device_created_at].to_date
     @data[:num_trans] += 1
+    @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
     hc2 = find_or_create(@data[:transactions_chart], atts[:category])
     hc2[:data][atts[:device_created_at].to_date] = hc2[:data][atts[:device_created_at].to_date].to_i + 1
 
@@ -43,6 +44,7 @@ class EventStatsChannel < ApplicationCable::Channel
     @data[:sales] = sales.sum(:credits).abs
     @data[:topups] = credit_transactions.where(action: "topup").sum(:credits).abs
     @data[:num_trans] = transactions.count
+    @data[:num_gtags] = event.gtags.count
     @data[:refunds] = credit_transactions.where(action: "refund").count
     @data[:fees] = credit_transactions.where("action LIKE '%_fee'").count
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
