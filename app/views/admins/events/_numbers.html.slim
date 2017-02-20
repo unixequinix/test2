@@ -1,26 +1,10 @@
 h1 style="display: block; width: 100%; text-align: center; color: #999"
   = number_with_delimiter data[:num_trans]
-  .small Transactions processed
+  .small Transactions processed, #{data[:not_on_date]} not on date
 
 .mdl-cell.mdl-cell--12-col
   .mdl-grid
-    .mdl-cell.mdl-cell--4-col
-      .customer-card.mdl-card.mdl-shadow--2dp
-        .mdl-card__supporting-text
-          table.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Not on date
-                td = number_to_human data[:not_on_date]
-              tr
-                td.mdl-data-table__cell--non-numeric Fees
-                td = number_to_currency data[:fees].abs, format: "%n %u", unit: data[:credit_name].to_s
-              tr
-                td.mdl-data-table__cell--non-numeric Box office
-                td = number_to_currency data[:box_office], format: "%n %u", unit: data[:credit_name].to_s
-        .mdl-card__title.mdl-card--expand Other
-
-    .mdl-cell.mdl-cell--4-col
+    .mdl-cell.mdl-cell--6-col
       .customer-card.mdl-card.mdl-shadow--2dp
         .mdl-card__supporting-text
           table.mdl-data-table.mdl-js-data-table.within-card
@@ -34,23 +18,19 @@ h1 style="display: block; width: 100%; text-align: center; color: #999"
               tr
                 td.mdl-data-table__cell--non-numeric Refunds
                 td = number_to_currency data[:refunds].abs, format: "%n %u", unit: data[:credit_name].to_s
-        .mdl-card__title.mdl-card--expand Cash
+              tr
+                td.mdl-data-table__cell--non-numeric Fees
+                td = number_to_currency data[:fees].abs, format: "%n %u", unit: data[:credit_name].to_s
 
-    .mdl-cell.mdl-cell--4-col
+    .mdl-cell.mdl-cell--6-col
       .customer-card.mdl-card.mdl-shadow--2dp
         .mdl-card__supporting-text
           table.mdl-data-table.mdl-js-data-table.within-card
             tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Credit
-                td = number_to_human data[:num_credit_trans]
-              tr
-                td.mdl-data-table__cell--non-numeric Money
-                td = number_to_human data[:num_money_trans]
-              tr
-                td.mdl-data-table__cell--non-numeric Credential
-                td = number_to_human data[:num_credential_trans]
-        .mdl-card__title.mdl-card--expand Transactions
+              - data[:actions].to_a.sort_by { |h| h.last }.reverse.slice(0..3).each do |action, number|
+                tr
+                  td.mdl-data-table__cell--non-numeric = action.humanize
+                  td = number_to_human number
 
 .mdl-cell.mdl-cell--12-col
   .data-card-wide.mdl-card.mdl-shadow--2dp
