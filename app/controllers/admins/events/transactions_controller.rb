@@ -1,6 +1,6 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type
-  before_action :set_transactions, except: :show
+  before_action :set_transactions, except: [:show, :fix]
   before_action :set_transaction, only: [:show, :update, :fix]
 
   def index
