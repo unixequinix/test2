@@ -57,11 +57,11 @@
               td.mdl-data-table__cell--non-numeric Timezone
               td = @current_event.timezone
             tr
-              td.mdl-data-table__cell--non-numeric End date
-              td = l @current_event.end_date
-            tr
               td.mdl-data-table__cell--non-numeric Start date
               td = l @current_event.start_date
+            tr
+              td.mdl-data-table__cell--non-numeric End date
+              td = l @current_event.end_date
             tr
               td.mdl-data-table__cell--non-numeric Gtag Type
               td = best_in_place @current_event, :gtag_type, as: :select, collection: Gtag::DEFINITIONS.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event]
