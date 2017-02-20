@@ -1,4 +1,4 @@
-- colors = { to_check: "#E53A40", wrong_transactions: "#E53A40", in_use: "#fc913a", packed: "#56A902" }
+- colors = { to_check: "#E53A40", wrong_transactions: "#E53A40", in_use: "#fc913a", packed: "#56A902", initialized: "#56A902" }
 
 
 - if @assets.any?
@@ -13,7 +13,7 @@
     .mdl-layout-spacer
 
 
-- ["to_check", "wrong_transactions", "in_use", "packed"].each do |type|
+- ["to_check", "wrong_transactions", "in_use", "packed", "initialized"].each do |type|
   - next unless @assets[type]
   .content-grid.mdl-grid
     .mdl-layout-spacer
@@ -31,12 +31,12 @@
                 th Device Transactions
                 th Last device transaction
             tbody
-              - @assets[type].each do |device, info|
+              - @assets[type].sort_by { |h| h.last[:asset_tracker].to_s }.each do |device, info|
 
                 tr style="color: #{colors[info[:status].to_sym]}"
                   td.mdl-data-table__cell--non-numeric = info[:asset_tracker]
                   td.mdl-data-table__cell--non-numeric = device
-                  td.mdl-data-table__cell--non-numeric = info[:action].humanize
+                  td.mdl-data-table__cell--non-numeric = info[:action]&.humanize
                   td = info[:server_transactions]
                   td = info[:device_transactions]
                   td = info[:last_device_transaction]
