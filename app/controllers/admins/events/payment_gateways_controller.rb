@@ -29,10 +29,8 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def update
-    @gateway.name = permitted_params.delete(:name) if permitted_params[:name]
-
     respond_to do |format|
-      if @gateway.save
+      if @gateway.update(permitted_params)
         format.html { redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated") }
         format.json { render json: @gateway }
       else
