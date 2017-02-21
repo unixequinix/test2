@@ -1,15 +1,15 @@
 .mdl-cell.mdl-cell--12-col
   .mdl-grid
-    .mdl-cell.mdl-cell--6-col
-      h1 style="color: #999"
+    .mdl-cell.mdl-cell--5-col
+      h1 style="color: #999; text-align: right;"
         = number_with_delimiter data[:num_trans]
         .small Transactions processed, #{data[:not_on_date]} not on date
-
-    .mdl-cell.mdl-cell--6-col
-      h1 style="color: #999"
+    .mdl-cell.mdl-cell--1-col
+      h1 style="color: #999; text-align: center;" &nbsp; | &nbsp;
+    .mdl-cell.mdl-cell--5-col
+      h1 style="color: #999;  text-align: left;"
         = number_with_delimiter data[:num_gtags]
         .small Wristbands processed
-
 
 
 .mdl-cell.mdl-cell--12-col
