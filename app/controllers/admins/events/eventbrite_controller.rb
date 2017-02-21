@@ -51,6 +51,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   end
 
   def import_tickets
+    authorize @current_event, :eventbrite_import_tickets?
     eb_event = @current_event.eventbrite_event
     pages = Eventbrite::Order.all({ event_id: eb_event, expand: "attendees" }, @token).pagination.page_count
 
