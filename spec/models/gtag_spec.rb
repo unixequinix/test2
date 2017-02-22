@@ -57,7 +57,7 @@ RSpec.describe Gtag, type: :model do
   end
 
   describe ".recalculate_balance" do
-    before { create_list(:credit_transaction, 10, gtag: subject) }
+    before { create_list(:credit_transaction, 10, gtag: subject, transaction_origin: Transaction::ORIGINS[:device]) }
 
     it "changes the gtags credits" do
       expect { subject.recalculate_balance }.to change(subject, :credits).from(0.00)
@@ -77,7 +77,7 @@ RSpec.describe Gtag, type: :model do
   end
 
   describe ".solve_inconsistent" do
-    before { create_list(:credit_transaction, 10, gtag: subject, status_code: 0) }
+    before { create_list(:credit_transaction, 10, gtag: subject, status_code: 0, transaction_origin: Transaction::ORIGINS[:device]) }
 
     it "calls recalculate balance" do
       expect(subject).to receive(:recalculate_balance).once
