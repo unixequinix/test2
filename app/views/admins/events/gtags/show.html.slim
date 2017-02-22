@@ -40,7 +40,7 @@
             - if customer = @gtag.customer
               tr
                 td.mdl-data-table__cell--non-numeric Gtag Customer
-                td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, @gtag.customer)
+                td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, customer)
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
