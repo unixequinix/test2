@@ -21,9 +21,9 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     event_id = params[:eb_event_id]
     @current_event.update eventbrite_event: event_id
     # url = "http://25883980.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
-    url = admins_event_eventbrite_webhooks_path(@current_event)
+    url = admins_event_eventbrite_webhooks_url(@current_event)
     actions = "order.placed,order.refunded,order.updated"
-    Eventbrite::Webhook.create({ endpoint_path: url, event_id: event_id, actions: actions }, @token)
+    Eventbrite::Webhook.create({ endpoint_url: url, event_id: event_id, actions: actions }, @token)
     redirect_to admins_event_eventbrite_import_tickets_path(@current_event)
   end
 
@@ -51,8 +51,11 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   end
 
   def import_tickets
+    authorize @current_event, :eventbrite_import_tickets?
     eb_event = @current_event.eventbrite_event
     pages = Eventbrite::Order.all({ event_id: eb_event, expand: "attendees" }, @token).pagination.page_count
+
+    @current_event.companies.find_or_create_by!(name: "Eventbrite")
 
     pages.times do |page_number|
       orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number, expand: "attendees" }, @token).orders
