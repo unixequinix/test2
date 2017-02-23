@@ -1,8 +1,8 @@
 class Events::OrdersController < Events::EventsController
   def show
-    @payment_service = params[:payment_service]
-    @order = Order.includes(order_items: :catalog_item).find(params[:id])
+    @order = @current_event.orders.includes(order_items: :catalog_item).find(params[:id])
     @payment_gateways = @current_event.payment_gateways.topup
+    redirect_to @current_event, notice: "This order has already been finalised" unless @order.in_progress?
   end
 
   def new

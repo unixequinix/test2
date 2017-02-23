@@ -44,15 +44,21 @@
           .order__header
             .order__title
               span = "#{order.refund? ? "Refund" : "Sale"} ##{order.number}"
-              - if order.status.eql?("cancelled")
+              - if order.failed?
+                span.order__status.order__status--cancelled Failed (this order has to be repeated)
+              - elsif order.in_progress?
+                span.order__status.order__status--cancelled In progress (will not be applied)
+              - elsif order.cancelled?
                 span.order__status.order__status--cancelled Cancelled
-              - else
+              - elsif order.completed?
                 - if order.redeemed?
                   span.order__status.order__status--completed Completed
                 - else
                   span.order__status.order__status--tba Will be applied on site
             .order__info
-              - if @current_event.launched? && !order.redeemed? && !order.cancelled? && order.gateway.present? && !order.refund?
+              - if order.in_progress?
+                span.order__actions = link_to "Complete", event_order_path(@current_event, order)
+              - if @current_event.launched? && order.gateway.present? && !order.refund?
                 span.order__actions = link_to "Cancel", send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
           ul.items__list
             - order.order_items.each do |order_item|
