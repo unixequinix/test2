@@ -409,6 +409,9 @@ th:
       wirecard:
         icon: credit-card
         name: Credit card
+      mercadopago:
+        icon: credit-card
+        name: Credit card
     price: ราคา
     products: สินค้า
     total: ทั้งหมด

@@ -386,7 +386,7 @@ it:
     payment: Metodo di pagamento
     payment-buttons:
       braintree:
-        icon: Carta di credito
+        icon: credit-card
         name: Carta di credito
       ideal:
         icon: pf pf-ideal
@@ -398,17 +398,20 @@ it:
         icon: paypal
         name: PayPal
       redsys:
-        icon: Carta di credito
+        icon: credit-card
         name: Carta di credito
       sofort:
         icon: pf pf-sofort
         name: Sofort
       stripe:
-        icon: Carta di credito
+        icon: credit-card
         name: Carta di credito
       wirecard:
-        icon: Carta di credito
+        icon: credit-card
         name: Carta di credito
+      mercadopago:
+        icon: credit-card
+        name: Credit card
     price: Prezzo
     products: Prodotti
     total: Totale

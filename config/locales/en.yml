@@ -175,6 +175,9 @@ en:
       wirecard:
         icon: credit-card
         name: Credit card
+      mercadopago:
+        icon: credit-card
+        name: Credit card
     price: Price
     products: Products
     total: Total

@@ -411,6 +411,9 @@ es:
       wirecard:
         icon: pf pf-sofort
         name: Credit card
+      mercadopago:
+        icon: credit-card
+        name: Credit card
     price: Precio
     products: Productos
     total: Total
