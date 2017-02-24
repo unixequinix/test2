@@ -3,6 +3,7 @@ require "sidekiq/web"
 Rails.application.routes.default_url_options[:host] = Rails.application.secrets.host
 
 Rails.application.routes.draw do
+
   root "admins/events#index"
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
@@ -17,6 +18,11 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :admins do
+
+    authenticate :user, lambda { |u| u.admin? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
+
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do
@@ -131,8 +137,6 @@ Rails.application.routes.draw do
         end
       end
     end
-
-    mount Sidekiq::Web, at: "/sidekiq"
   end
 
   #----------------------------------------------------------
