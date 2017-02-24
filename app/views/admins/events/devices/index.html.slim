@@ -4,6 +4,11 @@
 - if @assets.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
+    .mdl-cell.mdl-cell--2-col
+      .customer-card.mdl-card.mdl-shadow--2dp
+        .mdl-card__title.mdl-card--expand
+          h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@assets.values.map(&:count).sum)
+        .mdl-card__supporting-text style="text-align: center; width: 100%;" All
     - @assets.keys.each do |key|
       .mdl-cell.mdl-cell--2-col
         .customer-card.mdl-card.mdl-shadow--2dp
@@ -13,31 +18,31 @@
     .mdl-layout-spacer
 
 
-- ["to_check", "wrong_transactions", "in_use", "packed", "initialized"].each do |type|
+- ["in_use", "to_check", "wrong_transactions", "packed"].each do |type|
   - next unless @assets[type]
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
-      .mdl-cell.mdl-cell--12-col.italic = type.humanize
-      .admin-card-wide.mdl-card.mdl-shadow--2dp
-        .table-responsive
-          table.mdl-data-table.mdl-js-data-table.within-card
-            thead
-              tr
-                th.mdl-data-table__cell--non-numeric Asset
-                th.mdl-data-table__cell--non-numeric Mac
-                th.mdl-data-table__cell--non-numeric Action
-                th Server Transactions
-                th Device Transactions
-                th Last device transaction
-            tbody
-              - @assets[type].sort_by { |h| h.last[:asset_tracker].to_s }.each do |device, info|
+    .mdl-cell.mdl-cell--12-col style="text-align: center; width: 100%; color: #{colors[type.to_sym]}"
+      h4 = type.humanize
 
-                tr style="color: #{colors[info[:status].to_sym]}"
-                  td.mdl-data-table__cell--non-numeric = info[:asset_tracker]
-                  td.mdl-data-table__cell--non-numeric = device
-                  td.mdl-data-table__cell--non-numeric = info[:action]&.humanize
-                  td = info[:server_transactions]
-                  td = info[:device_transactions]
-                  td = info[:last_device_transaction]
+    - @assets[type].sort_by { |h| (h.last[:last_device_transaction] - h.last[:server_transactions]).abs }.reverse.each do |device, info|
+      .mdl-cell.mdl-cell--2-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .content-grid.mdl-grid
+            .mdl-cell.mdl-cell--8-col.left
+              = link_to info[:asset_tracker] || "NONE", admins_event_device_path(@current_event, info[:device_id]) if info[:device_id]
+              .small= device
+            .mdl-cell.mdl-cell--4-col.right
+              .small= info[:action]&.humanize
+          .mdl-card__supporting-text
+            table.mdl-data-table.within-card
+              tbody style="color: #{colors[type.to_sym]}"
+                tr
+                  td.mdl-data-table__cell--non-numeric style="border: none" Server
+                  td style="border: none" = info[:server_transactions]
+                tr
+                  td.mdl-data-table__cell--non-numeric style="border: none" Device
+                  td style="border: none" = info[:last_device_transaction]
+
     .mdl-layout-spacer
+

@@ -11,6 +11,7 @@
 #
 # Indexes
 #
+#  index_device_transactions_on_columns   (device_created_at,device_uid,event_id) UNIQUE
 #  index_device_transactions_on_event_id  (event_id)
 #
 # Foreign Keys

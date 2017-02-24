@@ -2,7 +2,7 @@ class Api::V1::Events::DeviceTransactionsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :restrict_access_with_http
 
-  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def create # rubocop:disable Metrics/CyclomaticComplexity
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
 
@@ -10,9 +10,7 @@ class Api::V1::Events::DeviceTransactionsController < ApplicationController
       atts[:device_created_at_fixed] = atts[:device_created_at]
       att_errors = validate_params(atts.keys, index)
       errors[:atts] << att_errors && next if att_errors
-      new_atts = atts.slice(:device_created_at_fixed, :device_db_index, :device_uid, :event_id, :status_code, :action)
-      next if DeviceTransaction.find_by(new_atts.to_unsafe_h.symbolize_keys)
-      DeviceTransaction.create!(atts.permit!.slice(*DeviceTransaction.column_names))
+      DeviceTransactionCreator.perform_later(atts.permit!.to_h)
     end
 
     errors.delete_if { |_, v| v.compact.empty? }

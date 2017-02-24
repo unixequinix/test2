@@ -48,7 +48,7 @@ Rails.application.routes.draw do
         resources :orders, only: [:index, :show]
         resources :gtag_assignments, only: :destroy
         resources :ticket_types, except: :show
-        resources :devices, only: :index
+        resources :devices, only: [:index, :show]
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
@@ -260,7 +260,7 @@ end
 #                                            root GET      /                                                                                                 admins/events#index
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fa8df9f0490 @mutex=#<Monitor:0x007fa8df9f0468 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fa8df9f03c8>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fa88ed4d9b8 @mutex=#<Monitor:0x007fa88ed4d918 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fa88ed4d8c8>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -312,6 +312,7 @@ end
 #                                                 PUT      /admins/events/:event_id/ticket_types/:id(.:format)                                               admins/events/ticket_types#update
 #                                                 DELETE   /admins/events/:event_id/ticket_types/:id(.:format)                                               admins/events/ticket_types#destroy
 #                            admins_event_devices GET      /admins/events/:event_id/devices(.:format)                                                        admins/events/devices#index
+#                             admins_event_device GET      /admins/events/:event_id/devices/:id(.:format)                                                    admins/events/devices#show
 #                            admins_event_credits GET      /admins/events/:event_id/credits(.:format)                                                        admins/events/credits#index
 #                        edit_admins_event_credit GET      /admins/events/:event_id/credits/:id/edit(.:format)                                               admins/events/credits#edit
 #                             admins_event_credit GET      /admins/events/:event_id/credits/:id(.:format)                                                    admins/events/credits#show

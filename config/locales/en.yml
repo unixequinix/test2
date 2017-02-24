@@ -175,13 +175,16 @@ en:
       wirecard:
         icon: credit-card
         name: Credit card
+      mercadopago:
+        icon: credit-card
+        name: Credit card
     price: Price
     products: Products
     total: Total
     vat: VAT Included
     card_name: "card name"
     card_doc_type: "document type"
-    card_doc_number: "ducment number"
+    card_doc_number: "document number"
   passwords:
     edit:
       button: Change my password

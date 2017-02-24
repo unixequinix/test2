@@ -391,17 +391,20 @@ de:
     payment: Zahlungsmethode
     payment-buttons:
       braintree:
-        icon: Credit Card
+        icon: credit-card
         name: Kreditkarte
       paypal:
         icon: paypal
         name: PayPal
       redsys:
-        icon: Credit Card
+        icon: credit-card
         name: Kreditkarte
       stripe:
-        icon: Credit Card
+        icon: credit-card
         name: Kreditkarte
+      mercadopago:
+        icon: credit-card
+        name: Credit card
     price: Preis
     products: Produkte
     total: Summe

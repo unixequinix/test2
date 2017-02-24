@@ -60,6 +60,14 @@ class Order < ActiveRecord::Base
     status.eql?("cancelled")
   end
 
+  def failed?
+    status.eql?("failed")
+  end
+
+  def in_progress?
+    status.eql?("in_progress")
+  end
+
   def number
     id.to_s.rjust(12, "0")
   end
