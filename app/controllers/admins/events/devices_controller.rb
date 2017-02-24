@@ -11,10 +11,10 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
       init_transactions = device_transactions.select {|t| t.action.in?(["device_initialization"]) }.map { |t| t.number_of_transactions - t.device_db_index }.sum
 
       device_trans = pack_transactions - init_transactions
-
       case
         when last.action.eql?("device_initialization") then status = "in_use"
         when last.action.in?(["lock_device", "pack_device"]) && (device_trans == count) then status = "packed"
+        when (last.number_of_transactions - last.device_db_index == count) && device_transactions.map(&:device_db_index).count(1).eql?(1) then status = "packed"
         when last.action.in?(["lock_device", "pack_device"]) && (device_trans != count) then status = "wrong_transactions"
         else status = "to_check"
       end
