@@ -169,6 +169,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :gtag_deposit_fee,
                                   :topup_fee,
                                   :card_return_fee,
+                                  :token,
                                   credit_attributes: [:id, :name, :value])
   end
 end
