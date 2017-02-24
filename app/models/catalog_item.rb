@@ -2,14 +2,10 @@
 #
 # Table name: catalog_items
 #
-#  initial_amount  :integer
-#  max_purchasable :integer
 #  memory_length   :integer          default(1)
 #  memory_position :integer          indexed => [event_id]
-#  min_purchasable :integer
 #  mode            :string
 #  name            :string
-#  step            :integer
 #  type            :string           not null
 #  value           :decimal(8, 2)    default(1.0), not null
 #
@@ -35,7 +31,6 @@ class CatalogItem < ActiveRecord::Base
 
   validates :name, presence: true
   validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
-  validates :step, numericality: { greater_than: 0 }
 
   scope :accesses, -> { where(type: "Access") }
   scope :credits, -> { where(type: "Credit") }

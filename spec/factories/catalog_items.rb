@@ -28,9 +28,5 @@ FactoryGirl.define do
     event
     type "CatalogItem"
     sequence(:name) { |n| "Item #{n}" }
-    initial_amount 0
-    step 1
-    max_purchasable 1
-    min_purchasable 0
   end
 end

@@ -6,11 +6,6 @@ es:
     delete: Borrar
     edit: Editar
   admin:
-    accesses:
-      initial_amount: Cantidad inicial
-      max_purchasable: Compra máxima
-      min_purchasable: Compra mínima
-      step: Steps
     actions:
       back: Atrás
       delete_selected: Borrar seleccionados
@@ -44,11 +39,7 @@ es:
       sign_out: Cerrar Sesión
       ticket_types: Tipo de tickets de compañia
     catalog_item:
-      initial_amount: Cantidad Inicial
-      max_purchasable: Máximo Comprable
-      min_purchasable: Mínimo Comprable
       name: Nombre
-      step: Escala
     companies:
       name: Nombre
       token: Token de la compañia

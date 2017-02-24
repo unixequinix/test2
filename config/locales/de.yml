@@ -6,11 +6,6 @@ de:
     delete: Löschen
     edit: Bearbeiten
   admin:
-    accesses:
-      initial_amount: Initial Amount
-      max_purchasable: Maximum Purchasable
-      min_purchasable: Minimum Purchasable
-      step: Step
     actions:
       back: Zurück
       delete_selected: Löschen ausgewählt
@@ -44,11 +39,7 @@ de:
       sign_out: Abmeldung
       ticket_types: Firmenticketarten
     catalog_item:
-      initial_amount: Anfangsbetrag
-      max_purchasable: Max käuflich
-      min_purchasable: Min käuflich
       name: Name
-      step: Schritt
     companies:
       name: Name
       token: Firmenschlüssel

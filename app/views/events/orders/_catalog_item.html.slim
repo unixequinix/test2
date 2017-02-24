@@ -3,7 +3,7 @@
     p.product-name = catalog_item.name
     p.highlight-text = "#{catalog_item.price}"
   = select_tag "checkout_form[catalog_items][#{catalog_item.id}]",
-      options_for_select((catalog_item.min_purchasable..catalog_item.max_purchasable).step(catalog_item.step).to_a),
+      options_for_select((0..@current_event.maximum_gtag_balance).step(@current_event.credit_step).to_a),
       id: "amount-input-#{catalog_item.id}",
       class: "wrapper-customer-amount amount-input",
       data: { id: "#{catalog_item.id}", price: "#{catalog_item.price}" }

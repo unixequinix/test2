@@ -9,8 +9,8 @@ class SampleEvent # rubocop:disable all
                           private_zone_password: 'a',
                           fast_removal_password: 'a')
 
-    UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
-    @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
+    UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden")
+    @event.create_credit!(value: 1, name: "CRD")
     station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
     station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
     @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
@@ -54,7 +54,7 @@ class SampleEvent # rubocop:disable all
     ]
 
     accesses.each do |access|
-      @event.accesses.create!(name: access[:name], step: 1, min_purchasable: 0, max_purchasable: 1, initial_amount: 0, mode: access[:mode])
+      @event.accesses.create!(name: access[:name], mode: access[:mode])
     end
   end
 
@@ -81,12 +81,7 @@ class SampleEvent # rubocop:disable all
     ]
 
     packs.each do |pack|
-      p = Pack.new(event_id: @event.id,
-                   name: pack[:name],
-                   step: 1,
-                   min_purchasable: 0,
-                   max_purchasable: 1,
-                   initial_amount: 0)
+      p = Pack.new(event_id: @event.id, name: pack[:name])
       pack[:catalog_items].each do |ci|
         item = @event.catalog_items.find_by(name: ci[:name])
         p.pack_catalog_items.build(catalog_item: item, amount: ci[:amount]).save

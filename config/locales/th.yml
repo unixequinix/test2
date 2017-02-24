@@ -6,11 +6,6 @@ th:
     delete: ลบ
     edit: แก้ไข
   admin:
-    accesses:
-      initial_amount: Initial Amount
-      max_purchasable: Maximum Purchasable
-      min_purchasable: Minimum Purchasable
-      step: Step
     actions:
       back: Back
       delete_selected: Delete selected
@@ -44,11 +39,7 @@ th:
       sign_out: Sign out
       ticket_types: Ticket types
     catalog_item:
-      initial_amount: Initial amount
-      max_purchasable: Max purchasable
-      min_purchasable: Min purchasable
       name: Name
-      step: Step
     companies:
       name: Name
       token: Company token

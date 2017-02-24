@@ -165,9 +165,10 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :mifare_classic,
                                   :ultralight_ev1,
                                   :maximum_gtag_balance,
+                                  :credit_step,
                                   :gtag_deposit_fee,
                                   :topup_fee,
                                   :card_return_fee,
-                                  credit_attributes: [:id, :name, :step, :initial_amount, :max_purchasable, :min_purchasable, :value])
+                                  credit_attributes: [:id, :name, :value])
   end
 end

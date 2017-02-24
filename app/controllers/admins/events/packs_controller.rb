@@ -9,7 +9,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def new
-    @pack = @current_event.packs.new(step: 1, initial_amount: 0, max_purchasable: 300, min_purchasable: 1)
+    @pack = @current_event.packs.new
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
     @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
     authorize @pack
@@ -43,7 +43,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
 
     if @pack.update(permitted_params)
-      @pack.pack_catalog_items.find_by(catalog_item: @item).update(amount: flag)
+      @pack.pack_catalog_items.find_or_initialize_by(catalog_item: @item).update(amount: flag)
 
       # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
       @pack.pack_catalog_items.map(&:save)
@@ -81,12 +81,6 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:pack).permit(:name,
-                                 :initial_amount,
-                                 :step,
-                                 :max_purchasable,
-                                 :min_purchasable,
-                                 :alcohol_forbidden,
-                                 pack_catalog_items_attributes: [:id, :catalog_item_id, :amount, :_destroy])
+    params.require(:pack).permit(:name, :alcohol_forbidden, pack_catalog_items_attributes: [:id, :catalog_item_id, :amount, :_destroy])
   end
 end

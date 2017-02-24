@@ -97,7 +97,7 @@ FactoryGirl.define do
     end
 
     after :create do |event|
-      event.create_credit(value: 1, step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0, name: "CR")
+      event.create_credit(value: 1, name: "CRD")
     end
   end
 end
