@@ -170,6 +170,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :topup_fee,
                                   :card_return_fee,
                                   :token,
+                                  :owner_id,
                                   credit_attributes: [:id, :name, :value])
   end
 end
