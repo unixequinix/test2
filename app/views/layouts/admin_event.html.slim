@@ -72,6 +72,7 @@ html
             = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
               |  Live Reports (BETA)
+          - if current_user.admin?
             = link_to admins_sidekiq_web_path, class: "mdl-navigation__link", target: "_blank" do
               i.mdl-color-text--teal-200.material-icons cloud_queue
               |  Sidekiq
