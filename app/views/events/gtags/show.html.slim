@@ -9,14 +9,13 @@
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
     .mdl-cell.mdl-cell--12-col
-      h4 = @gtag.ticket_type.name
+      h4 = @gtag.ticket_type&.name
 
   .mdl-card__supporting-text
     ul.demo-list-three.mdl-list
       li.mdl-list__item.mdl-list__item--three-line
         span.mdl-list__item-primary-content
           .gtag_code
-            | gtag
             = @gtag.tag_uid
           - if @products.any?
             span Products:

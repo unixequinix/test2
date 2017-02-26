@@ -53,7 +53,9 @@
           li.mdl-list__item
             span.mdl-list__item-primary-content
               i.material-icons.mdl-list__item-icon local_play
-              = link_to "#{ticket.ticket_type.name}", event_ticket_path(@current_event, ticket)
+              = link_to "#{ticket.ticket.code}", event_ticket_path(@current_event, ticket)
+              - if ticket.ticket_type
+                | &nbsp; - #{ticket.ticket_type.name}
 
 .mdl-cell.mdl-cell--12-col
 .panel-card-wide.mdl-card.mdl-shadow--2dp
@@ -74,6 +76,8 @@
           span.mdl-list__item-primary-content
             i.material-icons.mdl-list__item-icon local_play
             = link_to "#{gtag.tag_uid}", event_gtag_path(@current_event, gtag)
+            - if gtag.ticket_type
+              | &nbsp; - #{gtag.ticket_type.name}
 
 - if @current_customer.orders.any?
   .mdl-cell.mdl-cell--12-col
