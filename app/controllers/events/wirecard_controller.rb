@@ -7,7 +7,7 @@ class Events::WirecardController < Events::PaymentsController
 
     if response.success?
       @order.complete!("wirecard", response.params.as_json)
-      finish_payment!(@order, "wirecard", "purchase")
+      finish_payment!(@order, "wirecard")
       redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("wirecard", response.params.as_json)
@@ -20,7 +20,7 @@ class Events::WirecardController < Events::PaymentsController
 
     if response.success?
       @order.cancel!(response.params.as_json)
-      finish_payment!(@order, "wirecard", "refund")
+      cancel_payment!(@order, "wirecard")
       redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
     else
       redirect_to customer_root_path(@current_event), alert: response.message

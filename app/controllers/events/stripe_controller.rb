@@ -7,7 +7,7 @@ class Events::StripeController < Events::PaymentsController
 
     if response.success?
       @order.complete!("stripe", response.params.as_json)
-      finish_payment!(@order, "stripe", "purchase")
+      finish_payment!(@order, "stripe")
       redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("stripe", response.params.as_json)
@@ -20,7 +20,7 @@ class Events::StripeController < Events::PaymentsController
 
     if response.success?
       @order.cancel!(response.params.as_json)
-      finish_payment!(@order, "stripe", "refund")
+      cancel_payment!(@order, "stripe")
       redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
     else
       redirect_to customer_root_path(@current_event), alert: response.message

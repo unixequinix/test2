@@ -32,7 +32,7 @@ class Events::PaypalController < Events::PaymentsController
 
     if response.success?
       @order.complete!("paypal", response.params.as_json)
-      finish_payment!(@order, "paypal", "purchase")
+      finish_payment!(@order, "paypal")
       redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("paypal", response.params.as_json)
@@ -46,7 +46,7 @@ class Events::PaypalController < Events::PaymentsController
 
     if response.success?
       @order.cancel!(response.params.as_json)
-      finish_payment!(@order, "paypal", "refund")
+      cancel_payment!(@order, "paypal")
       redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
     else
       redirect_to customer_root_path(@current_event), alert: response.message

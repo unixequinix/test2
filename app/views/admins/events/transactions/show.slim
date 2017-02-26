@@ -54,7 +54,7 @@
                   tr
                     td.mdl-data-table__cell--non-numeric Device uid
                     - device = Device.find_by_mac(@transaction.device_uid)
-                    - if device
+                    - if @transaction.device_uid && device
                       td = link_to(@transaction.device_uid, admins_device_path(device))
                     - else
                       td = @transaction.device_uid

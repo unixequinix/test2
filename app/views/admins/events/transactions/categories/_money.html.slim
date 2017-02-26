@@ -8,13 +8,13 @@
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
           tr
-            - if order = @transaction.order
+            - if @transaction.order
               td.mdl-data-table__cell--non-numeric Order
-              td = link_to order.number, admins_event_orders_path(@current_event, @transaction.order)
+              td = link_to @transaction.order.number, admins_event_orders_path(@current_event, @transaction.order)
 
-            - if class_name = @transaction.catalog_item&.class.to_s
+            - if class_name = @transaction.catalog_item&.class
               td.mdl-data-table__cell--non-numeric Type
-              td = link_to class_name.capitalize, send("edit_admins_event_#{class_name.downcase}_path", @current_event, @transaction.catalog_item)
+              td = link_to class_name.capitalize, send("edit_admins_event_#{class_name.to_s.downcase}_path", @current_event, @transaction.catalog_item)
           tr
             td.mdl-data-table__cell--non-numeric Catalog item ID
             td = @transaction.catalog_item_id

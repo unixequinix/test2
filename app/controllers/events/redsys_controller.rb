@@ -13,7 +13,7 @@ class Events::RedsysController < Events::PaymentsController
 
     if response.success?
       @order.complete!("redsys", response.params.as_json)
-      finish_payment!(@order, "redsys", "purchase")
+      finish_payment!(@order, "redsys")
       redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("redsys", response.params.as_json)

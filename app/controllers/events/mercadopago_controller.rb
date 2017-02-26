@@ -7,7 +7,7 @@ class Events::MercadopagoController < Events::PaymentsController
 
     if response.success?
       @order.complete!("mercadopago", response.params.as_json)
-      finish_payment!(@order, "mercadopago", "purchase")
+      finish_payment!(@order, "mercadopago")
       redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("mercadopago", response.params.as_json)
@@ -21,7 +21,7 @@ class Events::MercadopagoController < Events::PaymentsController
 
     if response.success?
       @order.cancel!(response.params.as_json)
-      finish_payment!(@order, "mercadopago", "refund")
+      cancel_payment!(@order, "mercadopago")
       redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
     else
       redirect_to customer_root_path(@current_event), alert: response.message

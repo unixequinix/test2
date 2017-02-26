@@ -6,10 +6,16 @@ class Events::PaymentsController < Events::EventsController
     @total = (@order.total.to_f * 100).round
   end
 
-  def finish_payment!(order, gateway, type)
+  def finish_payment!(order, gateway)
     customer = order.customer
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: order.total.to_f }
-    MoneyTransaction.write!(@current_event, "portal_#{type}", :portal, customer, customer, atts)
+    MoneyTransaction.write!(@current_event, "portal_purchase", :portal, customer, customer, atts)
+  end
+
+  def cancel_payment!(order, gateway)
+    customer = order.customer
+    atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: -order.total.to_f }
+    MoneyTransaction.write!(@current_event, "portal_cancellation", :portal, customer, customer, atts)
   end
 
   def check_order_status!
