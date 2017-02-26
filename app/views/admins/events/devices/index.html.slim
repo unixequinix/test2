@@ -20,29 +20,28 @@
 
 - ["in_use", "to_check", "wrong_transactions", "packed"].each do |type|
   - next unless @assets[type]
-  .content-grid.mdl-grid
-    .mdl-layout-spacer
-    .mdl-cell.mdl-cell--12-col style="text-align: center; width: 100%; color: #{colors[type.to_sym]}"
-      h4 = type.humanize
+  br
+  h4 style="text-align: center; width: 100%; color: #{colors[type.to_sym]}" = type.humanize
 
-    - @assets[type].sort_by { |h| (h.last[:last_device_transaction] - h.last[:server_transactions]).abs }.reverse.each do |device, info|
-      .mdl-cell.mdl-cell--2-col
-        .customer-card.mdl-card.mdl-shadow--2dp
-          .content-grid.mdl-grid
-            .mdl-cell.mdl-cell--8-col.left
-              = link_to info[:asset_tracker] || "NONE", admins_event_device_path(@current_event, info[:device_id]) if info[:device_id]
-              .small= device
-            .mdl-cell.mdl-cell--4-col.right
-              .small= info[:action]&.humanize
-          .mdl-card__supporting-text
-            table.mdl-data-table.within-card
-              tbody style="color: #{colors[type.to_sym]}"
-                tr
-                  td.mdl-data-table__cell--non-numeric style="border: none" Server
-                  td style="border: none" = info[:server_transactions]
-                tr
-                  td.mdl-data-table__cell--non-numeric style="border: none" Device
-                  td style="border: none" = info[:last_device_transaction]
+  .clearfix
+  - @assets[type].sort_by { |h| (h.last[:last_device_transaction] - h.last[:server_transactions]).abs }.reverse.each do |device, info|
+    .device-card.mdl-card.mdl-shadow--2dp style="float: left"
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--8-col.left
+          = link_to info[:asset_tracker] || "NONE", admins_event_device_path(@current_event, info[:device_id]) if info[:device_id]
+          .small= device
+        .mdl-cell.mdl-cell--4-col.right
+          .small= info[:action]&.humanize
 
-    .mdl-layout-spacer
+      .mdl-card__supporting-text
+        table.mdl-data-table.within-card
+          tbody style="color: #{colors[type.to_sym]}"
+            tr
+              td.mdl-data-table__cell--non-numeric style="border: none" Server
+              td style="border: none" = info[:server_transactions]
+            tr
+              td.mdl-data-table__cell--non-numeric style="border: none" Device
+              td style="border: none" = info[:last_device_transaction]
+  .clearfix
+
 

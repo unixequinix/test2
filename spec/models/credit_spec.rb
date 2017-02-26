@@ -32,16 +32,6 @@ RSpec.describe Credit, type: :model do
     expect(subject).to be_valid
   end
 
-  it "validates initial_amount against max_purchasable" do
-    subject.initial_amount = subject.max_purchasable + 1
-    expect(subject).not_to be_valid
-  end
-
-  it "validates max_purchasable against initial_amount" do
-    subject.max_purchasable = subject.initial_amount - 1
-    expect(subject).not_to be_valid
-  end
-
   describe ".credits" do
     it "returns 1" do
       expect(subject.credits).to eq(1)

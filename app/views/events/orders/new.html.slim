@@ -1,26 +1,29 @@
-.wrapper-store-module
-  h3.center-text
-    = @current_event.name
-    = t('checkout.store')
-  p.center-text = t('checkout.description')
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
 
-= form_tag event_orders_path(@current_event), method: :post, class: "wrapper-module form-module", id: "checkout-form" do |f|
-  - @catalog_items.each do |category, catalog_items|
-    .wrapper-module
-      h3.store-module-title = category.pluralize
-      - catalog_items.each do |catalog_item|
-        - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
-        = render partial, catalog_item: catalog_item
+= render 'events/shared/header'
 
-  .wrapper-store-module
-    .checkout-total
-      p.checkout-title = t('checkout.total')
-      .checkout-amount.top-up-amount [data-id="checkout"]
-        span [id="amount-total-checkout"] 0
-        span #{@current_event.currency}
-    = button_tag t('checkout.button'), class: "btn btn-action btn-action-checkout"
-
-.wrapper-module
-  = link_to customer_root_path, class: "btn btn-action-back " do
-    = fa_icon "chevron-left"
-    = t("actions.back")
+.mdl-cell.mdl-cell--12-col
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    h4.center-text
+      = @current_event.name
+      = t('checkout.store')
+    p.center-text = t('checkout.description')
+    = form_tag event_orders_path(@current_event), method: :post, class: "wrapper-module form-module", id: "checkout-form" do |f|
+      - @catalog_items.each do |category, catalog_items|
+        .wrapper-store
+          .store-module-title = category.pluralize
+          - catalog_items.each do |catalog_item|
+            - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
+            = render partial, catalog_item: catalog_item
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          .checkout-title = t('checkout.total')
+        .mdl-cell.mdl-cell--6-col
+          .checkout-amount [data-id="checkout"]
+            span [id="amount-total-checkout"] 0
+            span #{@current_event.currency}
+        = button_tag t('checkout.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

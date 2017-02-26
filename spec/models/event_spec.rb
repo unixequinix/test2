@@ -86,7 +86,7 @@ RSpec.describe Event, type: :model do
   describe ".credit_price" do
     it "returns the event credit value" do
       subject.save
-      subject.create_credit!(value: 1, step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0, name: "CR")
+      subject.create_credit!(value: 1, name: "CR")
       expect(subject.credit_price).to eq(subject.credit.value)
     end
   end

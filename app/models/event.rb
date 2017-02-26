@@ -8,6 +8,7 @@
 #  background_file_name            :string
 #  background_file_size            :integer
 #  birthdate_mandatory             :boolean
+#  credit_step                     :integer          default(1)
 #  currency                        :string           default("USD"), not null
 #  days_to_keep_backup             :integer          default(5)
 #  device_basic_db_content_type    :string
@@ -111,7 +112,8 @@ class Event < ActiveRecord::Base
 
   validates :name, :support_email, :timezone, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
-  validates :maximum_gtag_balance, :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validate :end_date_after_start_date
@@ -150,9 +152,9 @@ class Event < ActiveRecord::Base
   end
 
   def initial_setup!
-    create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
+    create_credit!(value: 1, name: "#{name} CRD")
     companies.create!(name: "Glownet", hidden: true)
-    user_flags.create!(name: "alcohol_forbidden", step: 1)
+    user_flags.create!(name: "alcohol_forbidden")
     station = stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
     station.station_catalog_items.create(catalog_item: credit, price: 1)
     stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"

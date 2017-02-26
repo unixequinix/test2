@@ -1,36 +1,3 @@
-// -------------------------------------------------------
-//
-// Main stylesheet
-//
-// -------------------------------------------------------
-
-@import "base_imports";
-
-@import "glownet/customer/lib/payment_font/paymentfont";
-
-@import "glownet/customer/base";
-@import "glownet/customer/animations";
-@import "glownet/customer/wrappers_sessions";
-@import "glownet/customer/wrappers_application";
-@import "glownet/customer/wrappers_purchases";
-@import "glownet/customer/header";
-@import "glownet/customer/template_theme";
-
-@import "glownet/customer/modules";
-@import "glownet/customer/buttons";
-@import "glownet/customer/sessions";
-@import "glownet/customer/checkout";
-
-@import "glownet/customer/notifications";
-@import "glownet/customer/forms";
-@import "glownet/customer/payments";
-
-@import "glownet/customer/template_variables";
-@import "glownet/customer/top-up";
-@import "glownet/customer/footer";
-
-@import "glownet/customer/configuration/typography";
-
-@media print {
-  @import "glownet/print";
-}
+@import "customer/portal";
+@import "customer/colors";
+@import "customer/notifications";

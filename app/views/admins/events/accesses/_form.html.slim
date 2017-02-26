@@ -6,24 +6,7 @@
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
   = simple_form_for [:admins, @current_event, access], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .form-inputs.short-input
-      = f.input :mode, collection: Access::MODES, include_blank: false, id: "mode_selector"
+      = f.input :mode, collection: Access::MODES.collect { |mode| [mode.humanize, mode] }, include_blank: false
       = f.input :name, autofocus: false, placeholder: true
-      #shop-fields
-        = f.input :step, placeholder: true
-        = f.input :initial_amount, placeholder: true
-        = f.input :max_purchasable, placeholder: true
-        = f.input :min_purchasable, placeholder: true
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
-
-javascript:
-  var changeSelect = function() {
-    var value = $("#access_mode").val();
-
-    if(value === "counter") {$("#shop-fields").show();}
-    else { $("#shop-fields").hide(); }
-  };
-
-  $("#access_mode").change(changeSelect);
-  $(document).on('page:load', changeSelect);
-  $(document).ready(changeSelect);

@@ -22,18 +22,6 @@
             td.mdl-data-table__cell--non-numeric Mode
             td = best_in_place @access, :mode, as: :select, collection: Access::MODES.map{ |mode| [mode, mode.humanize] }, url: [:admins, @current_event, @access]
           tr
-            td.mdl-data-table__cell--non-numeric Step
-            td = best_in_place @access, :step, url: [:admins, @current_event, @access]
-          tr
-            td.mdl-data-table__cell--non-numeric Initial Amount
-            td = best_in_place @access, :initial_amount, url: [:admins, @current_event, @access]
-          tr
-            td.mdl-data-table__cell--non-numeric Max Purchasable
-            td = best_in_place @access, :max_purchasable, url: [:admins, @current_event, @access]
-          tr
-            td.mdl-data-table__cell--non-numeric Miin Purchasable
-            td = best_in_place @access, :min_purchasable, url: [:admins, @current_event, @access]
-          tr
             td.mdl-data-table__cell--non-numeric Created At
             td = l @access.created_at
           tr

@@ -15,18 +15,6 @@
           tr
             td.mdl-data-table__cell--non-numeric Name
             td = @pack.name
-          tr
-            td.mdl-data-table__cell--non-numeric Step
-            td = @pack.step
-          tr
-            td.mdl-data-table__cell--non-numeric Initial amount
-            td = @pack.initial_amount
-          tr
-            td.mdl-data-table__cell--non-numeric Max purchasable
-            td = @pack.max_purchasable
-          tr
-            td.mdl-data-table__cell--non-numeric Min purchasable
-            td = @pack.min_purchasable
   .mdl-layout-spacer
 
 - if @pack.pack_catalog_items.any?

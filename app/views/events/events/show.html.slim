@@ -1,77 +1,115 @@
-.wrapper-module
-  h3 = t('dashboard.credits.header')
-  p.panel-amount-number
-    = number_with_precision(@current_customer.credits, precision: 2)
-    span.currency-symbol = @current_event.credit.name
-  - if @current_event.refunds? && @current_event.finished?
-    = link_to t('refunds.button'), new_event_refund_path(@current_event), class: "btn btn-action btn-action-dashboard btn-action-dashboard--refund"
-  - if @current_event.topups? && (@current_event.launched? || @current_event.started?)
-    = link_to t('dashboard.credits.button'), new_event_order_path(@current_event), class: "btn btn-action btn-action-dashboard"
-  ul.refundable-conversion-list
-    p.refundable-text.center-text.bold-text= "#{t('dashboard.credits.refundable')}:"
-    li.bold-text
-      = "#{@current_customer.refundable_credits}"
-      span.currency-symbol = @current_event.credit.name
+- content_for(:history) do
+  = link_to event_credits_history_path(@current_event, format: :pdf), class: "header-link" do
+    i#download.mdl-color-text--red.material-icons file_download
+    span.mdl-tooltip data-mdl-for="download" #{t('dashboard.credits_history.button')}
 
-.wrapper-module
-  h3 Tickets
-  = link_to t('dashboard.without_admissions.button'), new_event_ticket_assignment_path(@current_event), class: "btn btn-action btn-action-dashboard"
 
-  ul.customer-tickets-list
-    - @current_customer.tickets.each do |ticket|
-      li.customer-ticket
-        = link_to event_ticket_path(@current_event, ticket) do
-          p = ticket.ticket_type.name
-          p.ticket-id = ticket.code
-          = fa_icon "angle-right"
+= render 'events/shared/header'
 
-.wrapper-module
-  h3 = t('dashboard.gtag_registration.title')
-  = link_to t('dashboard.without_admissions.button'), new_event_gtag_assignment_path(@current_event), class: "btn btn-action btn-action-dashboard" unless @current_customer.active_gtag
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--8-col
+      h4 = t('dashboard.credits.header')
+    .mdl-cell.mdl-cell--4-col
+      .tools
+        - if @current_event.topups? && (@current_event.launched? || @current_event.started?)
+          .tool-item
+            = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
+              span.material-icons attach_money
+              span.mdl-tooltip data-mdl-for="topup" Top Up
+        - if @current_event.refunds? && @current_event.finished?
+          .tool-item
+            = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
+              span.material-icons replay
+              span.mdl-tooltip data-mdl-for="refund" Refund
+  .mdl-card__supporting-text
+    .content-grid.mdl-grid
+      .mdl-cell.mdl-cell--6-col
+        .panel-amount-number
+          span.amount = number_with_precision(@current_customer.global_credits, precision: 2)
+          span.currency-symbol = @current_event.credit.name
+      .mdl-cell.mdl-cell--6-col
+        .refundable-amount-number
+          = "#{t('dashboard.credits.refundable')}: "
+          = number_with_precision(@current_customer.global_refundable_credits, precision: 2)
+          span.currency-symbol = @current_event.credit.name
 
-  ul.customer-tickets-list
-    i.customer-ticket
-      p.ticket-id = @current_customer.active_gtag&.tag_uid
+- if @any_tickets
+  .mdl-cell.mdl-cell--12-col
+  .panel-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      .mdl-cell.mdl-cell--8-col
+        h4 Tickets
+      .mdl-cell.mdl-cell--4-col
+        .tools
+          .tool-item
+            = link_to new_event_ticket_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add" do
+              span.material-icons add
+              span.mdl-tooltip data-mdl-for="add" Add more
+    .mdl-card__supporting-text
+      ul.demo-list-icon.mdl-list
+        - @current_customer.tickets.each do |ticket|
+          li.mdl-list__item
+            span.mdl-list__item-primary-content
+              i.material-icons.mdl-list__item-icon local_play
+              = link_to "#{ticket.ticket_type.name}", event_ticket_path(@current_event, ticket)
 
+.mdl-cell.mdl-cell--12-col
+.simple-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--8-col
+      h4 = t('dashboard.gtag_registration.title')
+    .mdl-cell.mdl-cell--4-col
+      .tools
+        .tool-item
+          - if @current_customer.active_gtag
+            .gtag-number = @current_customer.active_gtag.tag_uid
+          - else
+            = link_to new_event_gtag_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "assign" do
+              span.material-icons add
+              span.mdl-tooltip data-mdl-for="assign" Assign
 
 - if @current_customer.orders.any?
-  .wrapper-module
-    h3 = t('dashboard.online_orders')
-    .orders-disclaimer Remember! Online purchases will be applied onsite at the event
-    ul.container-purchase-order
-      - @current_customer.orders.each do |order|
-        .order
-          .order__header
-            .order__title
-              span = "#{order.refund? ? "Refund" : "Sale"} ##{order.number}"
-              - if order.failed?
-                span.order__status.order__status--cancelled Failed (this order has to be repeated)
-              - elsif order.in_progress?
-                span.order__status.order__status--cancelled In progress (will not be applied)
-              - elsif order.cancelled?
-                span.order__status.order__status--cancelled Cancelled
-              - elsif order.completed?
-                - if order.redeemed?
-                  span.order__status.order__status--completed Completed
-                - else
-                  span.order__status.order__status--tba Will be applied on site
-            .order__info
-              - if order.in_progress?
-                span.order__actions = link_to "Complete", event_order_path(@current_event, order)
-              - if @current_event.launched? && order.gateway.present? && !order.refund?
-                span.order__actions = link_to "Cancel", send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
-          ul.items__list
-            - order.order_items.each do |order_item|
-              li.order-item
-                .order-item__item
-                  span.purchase-amount = order_item.amount
-                  |x
-                  span = order_item.catalog_item.name
-                .order-item__price
-                  - if order_item.amount.positive?
-                    = "#{order_item.total} #{@current_event.currency}"
-
-- if @current_event.finished?
-  .wrapper-module-centered
-    h3 = t('dashboard.credits_history.header')
-    = link_to t('dashboard.credits_history.button'), event_credits_history_path(@current_event, format: :pdf), class: "btn btn-action btn-action-empty-state btn-full-width"
+  .mdl-cell.mdl-cell--12-col
+  .panel-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      .mdl-cell.mdl-cell--12-col
+        h4 = t('dashboard.orders')
+        .orders-disclaimer Remember! Online purchases will be applied onsite at the event
+    .mdl-card__supporting-text
+      ul.container-purchase-order
+        - @current_customer.orders.each do |order|
+          .order
+            .order__header
+              .content-grid.mdl-grid
+                .mdl-cell.mdl-cell--10-col
+                  .order__title
+                    span.order__name = "#{order.refund? ? "Refund" : "Sale"} ##{order.number}"
+                    - if order.failed?
+                      span.order__status.order__status--cancelled Failed (this order has to be repeated)
+                    - elsif order.in_progress?
+                      span.order__status.order__status--cancelled In progress (will not be applied)
+                    - elsif order.cancelled?
+                      span.order__status.order__status--cancelled Cancelled
+                    - elsif order.completed?
+                      - if order.redeemed?
+                        span.order__status.order__status--completed Completed
+                      - else
+                        span.order__status.order__status--tba Will be applied on site
+                .mdl-cell.mdl-cell--2-col
+                  .order__info
+                    - if order.in_progress?
+                      span.order__actions = link_to "Complete", event_order_path(@current_event, order)
+                    - if @current_event.launched? && order.gateway.present? && !order.refund?
+                      span.order__actions = link_to "Cancel", send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
+            ul.items__list
+              - order.order_items.each do |order_item|
+                li.order-item
+                  .order-item__item
+                    span.purchase-amount = order_item.amount
+                    |x
+                    span = order_item.catalog_item.name
+                  .order-item__price
+                    - if order_item.amount.positive?
+                      = "#{order_item.total} #{@current_event.currency}"

@@ -1,0 +1,15 @@
+.success-message {
+  border-radius: 3px 3px 0 0;
+  background-color: $app_success;
+  color: white;
+  text-align: center;
+  padding: 4% 0;
+}
+
+.error-message {
+  border-radius: 3px 3px 0 0;
+  background-color: $error_red;
+  color: white;
+  text-align: center;
+  padding: 4% 0;
+}

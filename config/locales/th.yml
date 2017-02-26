@@ -5,229 +5,6 @@ th:
     check_news: กลับไปที่เว็บไซด์ของงาน
     delete: ลบ
     edit: แก้ไข
-  admin:
-    accesses:
-      initial_amount: Initial Amount
-      max_purchasable: Maximum Purchasable
-      min_purchasable: Minimum Purchasable
-      step: Step
-    actions:
-      back: Back
-      delete_selected: Delete selected
-      download: CSV
-      new: New
-      update: Update
-    admissions:
-      customer:
-        complete_name: Complete name
-        email: Email
-      state: State
-      states:
-        assigned: Is assigned now
-      ticket: Ticket
-    aside:
-      accesses: Accesses
-      admins: Admins
-      companies: Companies
-      credits: Credits
-      crm: CRM
-      customers: Customers
-      details: Details
-      event: Event
-      events: Events
-      gtag: GTags
-      inconsistencies: Inconsistencies
-      orders: Orders
-      payment_settings: Payment Settings
-      refunds: Refunds
-      setup: Setup
-      sign_out: Sign out
-      ticket_types: Ticket types
-    catalog_item:
-      initial_amount: Initial amount
-      max_purchasable: Max purchasable
-      min_purchasable: Min purchasable
-      name: Name
-      step: Step
-    companies:
-      name: Name
-      token: Company token
-    credits:
-      value: Value
-    customers:
-      email: Email
-      first_name: First name
-      gtag: Gtag
-      gtags: Gtags
-      last_name: Last name
-      ticket: Ticket
-      tickets: Tickets
-    defaults:
-      actions: Actions
-      all: Select
-      empty_item: No %{item}
-      item_not_found: No %{item} found
-      log_in: Log In
-    device_settings:
-      form:
-        private_zone_password: Private Zone Password
-    devices:
-      asset: Asset ID
-      imei: Imei
-      mac: MAC
-      model: Model
-      serial_number: Serial Number
-    event:
-      fieldests:
-        parameters: Parameters
-        security: Security
-      name: Name
-      token: Event token
-    general:
-      created_at: Created at
-      description: Description
-      id: ID
-      name: Name
-      updated_at: Updated at
-    gtags:
-      banned: Banned
-      customer: Customer
-      tag: Tag UID
-    order_items:
-      amount: Amount
-      catalog_item: Catalog item
-      customer: Customers
-      id: Id
-      redeemed: Redeemed
-    orders:
-      amount: Amount
-      completed: Completed at
-      created: Created at
-      customer: Customer
-      gateway: Gateway
-      items: Items
-      number: Number
-      product_name: Product name
-      product_price: Product price
-      state: State
-      total: Total
-    pack:
-      add_item: Add Item
-      instructions:
-        conditions:
-        - There aren't other kind of items in a pack, like accesses
-        - If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value
-        title: 'Atention. Credits in a pack will be refundable only if:'
-      number_catalog_items: Number of items
-    passwords:
-      change: Change my password
-      confirm: Confirm your new password
-      forgotten: Forgot your password?
-      new: New password
-      send_instructions: Send me reset password instructions
-    products:
-      is_alcohol: Is alcohol
-      name: Name
-      stations: Stations
-      vat: VAT %
-    purchasers:
-      email: Purchaser Email
-      first_name: Purchaser First name
-      last_name: Purchaser Last name
-    refunds:
-      amount: Amount
-      created_at: Created at
-      customer_email: Customer email
-      fee: Fee
-      id: Id
-      status: Status
-    sessions:
-      mail: user@domain.com
-    stations:
-      access_control_gate:
-        direction: Direction
-        name: Name
-      categories:
-        access_control: Access Control
-        bar: Bar
-        box_office: Box Office
-        check_in: Check-in
-        cs_accreditation: CS Accreditation
-        cs_gtag_balance_fix: CS Gtag Balance Fix
-        cs_topup_refund: CS Topup/Refund
-        customer_portal: Customer Portal
-        envelope_linker: Envelope Linker
-        exhibitor: Exhibitor
-        gtag_recycler: Gtag Recycler
-        hospitality_top_up: Hospitality top up
-        incident_report: Incident Report
-        operator_permissions: Operator permissions
-        staff_accreditation: Staff Accreditation
-        ticket_validation: Ticket Validation
-        top_up_refund: Top Up / Refund
-        touchpoint: Touchpoint
-        vendor: Vendor
-      items: Products
-      location: Location
-      name: Name
-      reporting_category: Reporting Category
-      station_catalog_item:
-        name: Name
-        price: Price
-        type: Type
-      station_product:
-        description: Description
-        is_alcohol: Is alcohol?
-        name: Name
-        price: Price
-      topup_credit:
-        amount: Amount
-        credit_value: Credit value
-        price: Price
-      type: Type
-    ticket_types:
-      catalog_item: Item
-      company_code: Company code
-      name: Name
-      number_of_tickets: Tickets
-    tickets:
-      banned: Banned
-      code: Code
-      customer: Assigned customer
-    transactions:
-      access: Access
-      action: Type
-      counters: Counters
-      credits: Credits
-      customer_id: Customer
-      customer_tag_uid: Customer Tag
-      device_created_at: Date
-      device_db_index: DB index
-      device_uid: Device
-      direction: Direction
-      event: Event
-      final_balance: Final Balance
-      final_refundable_balance: R Final Balance
-      final_value: Final Value
-      gtag_counter: Gtag Counter
-      id: ID
-      items_amount: Items Amount
-      operator_tag_uid: Operator Tag
-      payment_gateway: Gateway
-      payment_method: Method
-      price: Price
-      product: Product
-      quantity: Quantity
-      refundable_credits: R Balance
-      station: Station
-      station_id: Station
-      status_code: Status Code
-      status_message: Status Message
-      ticket: Ticket
-      total: Total
-      transaction_origin: Origin
-      type: Catalogable Type
-      unit_price: Unit price
   admissions:
     button: เริ่มการใช้งานในระบบ
     call_to_action: ใส่บัตรเข้างานของคุณในระบบ!
@@ -271,7 +48,13 @@ th:
       title: Sorry
   confirm:
     log_out: Do you want to end this session?
+  conditions:
+    action: ข้าพเจ้าตกลง
+    conjunction: และ
+    privacy_conditions: นโยบายความเป็นส่วนตัว
+    terms_of_use: ข้อตกลงการใช้งาน
   dashboard:
+    orders: Orders
     admissions:
       call_to_action: ต้องการยกเลิกบัตรเข้างาน?
       call_to_action_started: "'งานได้เริ่มแล้ว ไม่สามารถยกเลิกบัตรเข้างานได้"
@@ -293,6 +76,8 @@ th:
       ticket: Add ticket
     gtag_registration:
       title: หมายเลข Tag ของคุณ
+      card: Card
+      wristband: Wristband
     paypal:
       button: Sync with PayPal
     without_admissions:
@@ -366,7 +151,7 @@ th:
     use: ข้อตกลงการใช้งาน
   gtag_assignations:
     button: ตกลง
-    call_to_action: ระบุ Tag ของคุณ และไปต่อ!
+    call_to_action: ระบุ Card or Wristband ของคุณ และไปต่อ!
     description:
       card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
       simple: Assign the yellow highlighted numbers as appears in your Tag
@@ -411,7 +196,7 @@ th:
         name: Credit card
       mercadopago:
         icon: credit-card
-        name: Credit card
+        name: Mercadopago Credit card
     price: ราคา
     products: สินค้า
     total: ทั้งหมด

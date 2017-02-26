@@ -55,35 +55,15 @@ RSpec.describe Access, type: :model do
         event = create(:event)
         create(:access, event: event)
         access = create(:access, event: event)
-        expect(access.memory_position).to eq(2)
+        expect(access.memory_position).to eq(3)
       end
     end
   end
 
-  describe ".set_infinite_values" do
-    it "sets proper values for permanent subjects" do
-      access = build(:access, :permanent)
-      access.valid?
-      expect(access.min_purchasable).to eq(0)
-      expect(access.max_purchasable).to eq(1)
-      expect(access.step).to eq(1)
-      expect(access.initial_amount).to eq(0)
-    end
-  end
-
   describe ".set_memory_length" do
-    it "sets the subject memory_length to 2 if the max purchasable is bigger than 7" do
-      subject.max_purchasable = 10
+    it "sets the subject memory_length to 2 " do
       subject.save!
       expect(subject.memory_length).to eq(2)
-    end
-  end
-
-  describe ".min_max_congruency" do
-    it "returns an error if the min purchasable is bigger than max purchasable" do
-      subject.max_purchasable = 10
-      subject.min_purchasable = 20
-      expect(subject).not_to be_valid
     end
   end
 end

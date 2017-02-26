@@ -24,8 +24,9 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
+    return_url = current_user.owned_events.include?(@current_event) ? request.referer : admins_events_path
     respond_to do |format|
-      format.html { redirect_to (request.referer || admins_events_path), alert: t("alerts.not_authorized") }
+      format.html { redirect_to return_url, alert: t("alerts.not_authorized") }
       format.json { render json: { error: t("alerts.not_authorized") }, status: :unauthorized }
     end
   end

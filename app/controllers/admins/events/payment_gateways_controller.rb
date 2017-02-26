@@ -13,7 +13,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def create
-    # TODO: this is weird behaviour. But when mass alignment is done, a "string not matched" exception is show.
+    # TODO: this is weird behaviour. But when mass assignment is done, a "string not matched" exception is show.
     #       believed to be something to do with serialization of hash stored attributes.
     @gateway = @current_event.payment_gateways.new(name: permitted_params.delete(:name))
     @gateway.data = permitted_params

@@ -58,6 +58,6 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:access).permit(:name, :initial_amount, :step, :max_purchasable, :min_purchasable, :mode)
+    params.require(:access).permit(:name, :mode)
   end
 end

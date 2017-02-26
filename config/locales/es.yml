@@ -5,231 +5,6 @@ es:
     check_news: Volver
     delete: Borrar
     edit: Editar
-  admin:
-    accesses:
-      initial_amount: Cantidad inicial
-      max_purchasable: Compra máxima
-      min_purchasable: Compra mínima
-      step: Steps
-    actions:
-      back: Atrás
-      delete_selected: Borrar seleccionados
-      download: CSV
-      new: Nuevo
-      update: Actualizar
-    admissions:
-      customer:
-        complete_name: Nombre completo
-        email: Email
-      state: Estado
-      states:
-        assigned: Asignación actual
-      ticket: Ticket
-    aside:
-      accesses: Accesos
-      admins: Administradores
-      companies: Compañías
-      credits: Créditos
-      crm: CRM
-      customers: Perfiles de evento
-      details: Detalles
-      event: Evento
-      events: Eventos
-      gtag: GTags
-      inconsistencies: Inconsistencias de créditos
-      orders: Órdenes
-      payment_settings: Configuración de pagos
-      refunds: Devoluciones
-      setup: Setup
-      sign_out: Cerrar Sesión
-      ticket_types: Tipo de tickets de compañia
-    catalog_item:
-      initial_amount: Cantidad Inicial
-      max_purchasable: Máximo Comprable
-      min_purchasable: Mínimo Comprable
-      name: Nombre
-      step: Escala
-    companies:
-      name: Nombre
-      token: Token de la compañia
-    confirm:
-      delete: Estás seguro?
-    credits:
-      value: Valor
-    customers:
-      email: Email
-      first_name: Nombre
-      gtag: Gtags
-      last_name: Apellidos
-      ticket: Ticket
-      tickets: Tickets
-    defaults:
-      actions: Acciones
-      all: Seleccionar
-      empty_item: Sin %{item}
-      item_not_found: No se encontraron %{item}
-      log_in: Iniciar Sesión
-    device_settings:
-      form:
-        private_zone_password: Contraseña de la zona privada
-    devices:
-      asset: Asset ID
-      imei: Imei
-      mac: MAC
-      model: Model
-      serial_number: Serial Number
-    event:
-      fieldests:
-        parameters: Parámetros
-        security: Seguridad
-      name: Nombre
-      token: Token del evento
-    general:
-      created_at: Creado el
-      description: Descripción
-      id: ID
-      name: Nombre
-      updated_at: Actualizado el
-    gtags:
-      banned: Baneado
-      customer: Cliente
-      format: Formato
-      tag: Tag UID
-    order_items:
-      amount: Cantidad
-      catalog_item: Producto del catálogo
-      customer: Perfil de cliente
-      id: Id
-      redeemed: Canjeado
-    orders:
-      amount: Cantidad
-      completed: Completado en
-      created: Creado en
-      customer: Cliente
-      gateway: Pasarela
-      items: Items
-      number: Número
-      product_name: Producto
-      product_price: Precio del Producto
-      state: Estado
-      total: Total
-    pack:
-      add_item: Añadir Item
-      instructions:
-        conditions:
-        - Los créditos de un pack tendrán opción a devolución únicamente si no hay elementos otra naturaleza en el pack, como Accesos o Cupones
-        - Si un pack incluye créditos con un precio especial, los créditos con opción a devolución serán los equivalentes al precio pagado por los créditos multiplicado por el valor del crédito
-        title: Atención
-      number_catalog_items: Número de items
-    passwords:
-      change: Cambiar mi contraseña.
-      confirm: Confirma tu nueva contraseña.
-      forgotten: Olvidaste tu contraseña?
-      new: Nueva contraseña
-      send_instructions: Reenviar instrucciones
-    products:
-      is_alcohol: Es alcohol
-      name: Nombre
-      stations: Stations
-      vat: VAT %
-    purchasers:
-      email: Email comprador
-      first_name: Nombre comprador
-      last_name: Apellido comprador
-    refunds:
-      amount: Cantidad
-      created_at: Creado en
-      customer_email: Email del cliente
-      fee: Comisión
-      id: Id
-      status: Estado
-    sessions:
-      mail: user@domain.com
-    stations:
-      access_control_gate:
-        direction: Dirección
-        name: Nombre
-      categories:
-        access_control: Control de Acceso
-        bar: Bar
-        box_office: Oficina de venta
-        check_in: Acceso
-        cs_accreditation: AC Acreditación
-        cs_gtag_balance_fix: AC Corrección de saldo
-        cs_topup_refund: AC Recarga/Devolución
-        customer_portal: Portal de cliente
-        envelope_linker: Envelope Linker
-        exhibitor: Exibitor
-        gtag_recycler: Reciclaje de Gtags
-        hospitality_top_up: Hospitality top up
-        incident_report: Reporte de incidentes
-        operator_permissions: Permisos de operador
-        staff_accreditation: Acreditación del personal
-        ticket_validation: Validación de tickets
-        top_up_refund: Recargas / Devoluciones
-        touchpoint: Touchpoint
-        vendor: Vendedor
-      items: Productos
-      location: Lugar
-      name: Nombre
-      reporting_category: Reporting Category
-      station_catalog_item:
-        name: Nombre
-        price: Precio
-        type: Tipo
-      station_product:
-        description: Descripción
-        is_alcohol: "¿Es alcohol?"
-        name: Nombre
-        price: Precio
-      topup_credit:
-        amount: Cantidad
-        credit_value: Valor del crédito
-        price: Precio
-      type: Tipo
-    ticket_types:
-      catalog_item: Item
-      company_code: Código de la compañía
-      name: Nombre
-      number_of_tickets: Tickets
-    tickets:
-      banned: Baneado
-      code: Código
-      customer: Cliente asignado
-    transactions:
-      access: Accesso
-      action: Tipo
-      counters: Contadores
-      credits: Creditos
-      customer_id: Perfil
-      customer_tag_uid: Tag Cliente
-      device_created_at: Fecha
-      device_db_index: Indice de BD
-      device_uid: Dispositivo
-      direction: Dirección
-      event: Evento
-      final_balance: Saldo Final
-      final_refundable_balance: Saldo Final R
-      final_value: Valor final
-      gtag_counter: Contador del Gtag
-      id: ID
-      items_amount: Cantidad
-      operator_tag_uid: Tag Operador
-      payment_gateway: Pasarela
-      payment_method: Método
-      price: Precio
-      product: Producto
-      quantity: Cantidad
-      refundable_credits: Creditos R
-      station: Estación
-      station_id: Estación
-      status_code: Código de estado
-      status_message: Mensaje de estado
-      ticket: Ticket
-      total: Total
-      transaction_origin: Origen
-      type: Tipo
-      unit_price: Prefio unitario
   admissions:
     button: Activar
     call_to_action: "¡Activa tu Ticket del Evento!"
@@ -243,8 +18,8 @@ es:
     destroyed: Eliminado con éxito
     error: Revisar errores de formulario
     gtag:
-      already_assigned: Tag ya ha sido asignada a otro usuario
-      invalid: Tag no válida
+      already_assigned: Tarjeta o Pulsera ya ha sido asignada a otro usuario
+      invalid: Tarjeta o Pulsera no válida
     order_complete: Orden completada
     ticket_already_assigned: Ticket ya asignado
     ticket_assigned: Ticket asignado correctamente
@@ -258,7 +33,7 @@ es:
         subject: Solicitud de cambio de contraseña.
   checkout:
     button: Confirmar Orden
-    description: Los créditos que compras aquí serán añadidos automáticamente a tu Tag al entrar al evento.
+    description: Los créditos que compras aquí serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento.
     store: " tienda"
     total: Total
   claims:
@@ -273,7 +48,13 @@ es:
       title: Lo sentimos
   confirm:
     log_out: "¿Quieres finalizar la sesión?"
+  conditions:
+    action: Acepto
+    conjunction: y
+    privacy_conditions: la política de privacidad
+    terms_of_use: las condiciones de uso
   dashboard:
+    orders: Pedidos
     admissions:
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: El evento ya ha comenzado, no puedes cambiar tu ticket
@@ -295,18 +76,20 @@ es:
       ticket: Añadir ticket
     gtag_registration:
       title: ID de Pulsera/Tarjeta
+      card: Tarjeta
+      wristband: Pulsera
     paypal:
       button: Sincroniza con PayPal
     without_admissions:
       button: Añadir
     without_gtags:
-      add: Asigna tu Tag
-      button: Introducir Tag
+      add: Asigna tu Tarjeta o Pulsera
+      button: Introducir número de Tarjeta o Pulsera
     without_gtags_claiming_started:
       claim: Lo sentimos
       description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.
     without_gtags_disabled:
-      claim: El tiempo para solicitar tu devolución del saldo en tu Tag ha terminado
+      claim: El tiempo para solicitar tu devolución del saldo en tu Tarjeta o Pulsera ha terminado
       description: Si has contactado al soporte con alguna pregunta previamente,
       description2: no te preocupes, te ayudaremos con tu devolución.
     without_refunds:
@@ -328,7 +111,7 @@ es:
       order:
         completed:
           date: Fecha de compra
-          description: Todos los créditos que has comprado serán añadidos automáticamente a tu Tag al entrar al event. Tu Tag es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
+          description: Todos los créditos que has comprado serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al event. Tu Tarjeta o Pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
           greet: "¡Hola, %{name}!"
           order_number: Tu Compra
           subject: Compra Completada
@@ -368,11 +151,11 @@ es:
     use: Condiciones de uso
   gtag_assignations:
     button: Aceptar
-    call_to_action: "¡Introduce el código de tu Tag y continúa!"
+    call_to_action: "¡Introduce el código de tu Tarjeta o Pulsera y continúa!"
     description:
-      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu Tag
-      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu Tag.
-      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu Tag
+      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu Tarjeta o Pulsera
+      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu Tarjeta o Pulsera.
+      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu Tarjeta o Pulsera
     info:
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
   header:
@@ -389,31 +172,28 @@ es:
     payment-buttons:
       braintree:
         icon: credit-card
-        name: Tarjeta de crédito
+        name: Tarjeta de crédito vía Braintree
       ideal:
         icon: credit-card
-        name: Ideal
+        name: Tarjeta de crédito vía Ideal
       paypal:
-        icon: paypal
-        name: PayPal
-      paypal_nvp:
         icon: paypal
         name: PayPal
       redsys:
         icon: credit-card
-        name: Tarjeta de crédito
+        name: Tarjeta de crédito vía Redsys
       sofort:
         icon: pf pf-ideal
         name: Sofort
       stripe:
         icon: credit-card
-        name: Tarjeta de crédito
+        name: Tarjeta de crédito vía Stripe
       wirecard:
         icon: pf pf-sofort
-        name: Credit card
+        name: Tarjeta de crédito vía Wirecard
       mercadopago:
         icon: credit-card
-        name: Credit card
+        name: Tarjeta de crédito vía MercadoPago
     price: Precio
     products: Productos
     total: Total

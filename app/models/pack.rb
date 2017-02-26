@@ -2,14 +2,10 @@
 #
 # Table name: catalog_items
 #
-#  initial_amount  :integer
-#  max_purchasable :integer
 #  memory_length   :integer          default(1)
 #  memory_position :integer          indexed => [event_id]
-#  min_purchasable :integer
 #  mode            :string
 #  name            :string
-#  step            :integer
 #  type            :string           not null
 #  value           :decimal(8, 2)    default(1.0), not null
 #
@@ -32,12 +28,7 @@ class Pack < CatalogItem
   accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 
   scope :credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) }
-
-  validates :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :pack_catalog_items, associated: true
-
-  validate :valid_max_value, if: :infinite_item?
-  validate :valid_min_value, if: :infinite_item?
 
   def credits
     pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "Credit" }).sum(:amount)
@@ -55,15 +46,5 @@ class Pack < CatalogItem
 
   def infinite_item?
     catalog_items.accesses.any?(&:infinite?)
-  end
-
-  def valid_max_value
-    return if max_purchasable.between?(0, 1)
-    errors[:max_purchasable] << I18n.t("errors.messages.invalid_max_value_for_infinite")
-  end
-
-  def valid_min_value
-    return if min_purchasable.between?(0, 1)
-    errors[:min_purchasable] << I18n.t("errors.messages.invalid_min_value_for_infinite")
   end
 end

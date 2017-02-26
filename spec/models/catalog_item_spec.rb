@@ -32,11 +32,6 @@ RSpec.describe CatalogItem, type: :model do
     expect(subject).to be_valid
   end
 
-  it "validates step is greater than 1" do
-    subject.step = 0
-    expect(subject).not_to be_valid
-  end
-
   describe ".credits" do
     it "returns 0" do
       expect(subject.credits).to eq(0)

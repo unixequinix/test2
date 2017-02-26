@@ -5,229 +5,6 @@ it:
     check_news: Torna al sito del evento
     delete: Rimuovere
     edit: Modifica
-  admin:
-    accesses:
-      initial_amount: Initial Amount
-      max_purchasable: Maximum Purchasable
-      min_purchasable: Minimum Purchasable
-      step: Step
-    actions:
-      back: Back
-      delete_selected: Delete selected
-      download: CSV
-      new: New
-      update: Update
-    admissions:
-      customer:
-        complete_name: Complete name
-        email: Email
-      state: State
-      states:
-        assigned: Is assigned now
-      ticket: Ticket
-    aside:
-      accesses: Accesses
-      admins: Admins
-      companies: Companies
-      credits: Credits
-      crm: CRM
-      customers: Customers
-      details: Details
-      event: Event
-      events: Events
-      gtag: GTags
-      inconsistencies: Inconsistencies
-      orders: Orders
-      payment_settings: Payment Settings
-      refunds: Refunds
-      setup: Setup
-      sign_out: Sign out
-      ticket_types: Ticket types
-    catalog_item:
-      initial_amount: Initial amount
-      max_purchasable: Max purchasable
-      min_purchasable: Min purchasable
-      name: Name
-      step: Step
-    companies:
-      name: Name
-      token: Company token
-    credits:
-      value: Value
-    customers:
-      email: Email
-      first_name: First name
-      gtag: Gtags
-      last_name: Last name
-      ticket: Ticket
-      tickets: Tickets
-    defaults:
-      actions: Actions
-      all: Select
-      empty_item: No %{item}
-      item_not_found: No %{item} found
-      log_in: Log In
-    device_settings:
-      form:
-        private_zone_password: Private Zone Password
-    devices:
-      asset: Asset ID
-      imei: Imei
-      mac: MAC
-      model: Model
-      serial_number: Serial Number
-    event:
-      fieldests:
-        parameters: Parameters
-        security: Security
-      name: Name
-      token: Event token
-    general:
-      created_at: Created at
-      description: Description
-      id: ID
-      name: Name
-      updated_at: Updated at
-    gtags:
-      banned: Banned
-      customer: Customer
-      format: Format
-      tag: Tag UID
-    order_items:
-      amount: Amount
-      catalog_item: Catalog item
-      customer: Customers
-      id: Id
-      redeemed: Redeemed
-    orders:
-      amount: Amount
-      completed: Completed at
-      created: Created at
-      customer: Customer
-      gateway: Gateway
-      items: Items
-      number: Number
-      product_name: Product name
-      product_price: Product price
-      state: State
-      total: Total
-    pack:
-      add_item: Add Item
-      instructions:
-        conditions:
-        - There aren't other kind of items in a pack, like accesses
-        - If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value
-        title: Atention
-      number_catalog_items: Number of items
-    passwords:
-      change: Change my password
-      confirm: Confirm your new password
-      forgotten: Forgot your password?
-      new: New password
-      send_instructions: Send me reset password instructions
-    products:
-      is_alcohol: Is alcohol
-      name: Name
-      stations: Stations
-      vat: VAT %
-    purchasers:
-      email: Purchaser Email
-      first_name: Purchaser First name
-      last_name: Purchaser Last name
-    refunds:
-      amount: Amount
-      created_at: Created at
-      customer_email: Customer email
-      fee: Fee
-      id: Id
-      status: Status
-    sessions:
-      mail: user@domain.com
-    stations:
-      access_control_gate:
-        direction: Direction
-        name: Name
-      categories:
-        access_control: Access Control
-        bar: Bar
-        box_office: Box Office
-        check_in: Check-in
-        cs_accreditation: CS Accreditation
-        cs_gtag_balance_fix: CS Gtag Balance Fix
-        cs_topup_refund: CS Topup/Refund
-        customer_portal: Customer Portal
-        envelope_linker: Envelope Linker
-        exhibitor: Exhibitor
-        gtag_recycler: Gtag Recycler
-        hospitality_top_up: Hospitality top up
-        incident_report: Incident Report
-        operator_permissions: Operator permissions
-        staff_accreditation: Staff Accreditation
-        ticket_validation: Ticket Validation
-        top_up_refund: Top Up / Refund
-        touchpoint: Touchpoint
-        vendor: Vendor
-      items: Products
-      location: Location
-      name: Name
-      reporting_category: Reporting Category
-      station_catalog_item:
-        name: Name
-        price: Price
-        type: Type
-      station_product:
-        description: Description
-        is_alcohol: Is alcohol?
-        name: Name
-        price: Price
-      topup_credit:
-        amount: Amount
-        credit_value: Credit value
-        price: Price
-      type: Type
-    ticket_types:
-      catalog_item: Item
-      company_code: Company code
-      name: Name
-      number_of_tickets: Tickets
-    tickets:
-      banned: Banned
-      code: Code
-      customer: Assigned customer
-    transactions:
-      access: Access
-      action: Type
-      counters: Counters
-      credits: Credits
-      customer_id: Customer ID
-      customer_tag_uid: Customer Tag
-      device_created_at: Date
-      device_db_index: DB index
-      device_uid: Device UID
-      direction: Direction
-      event: Event
-      final_balance: Final Balance
-      final_refundable_balance: R Final Balance
-      final_value: Final Value
-      gtag_counter: Gtag Counter
-      id: ID
-      items_amount: Items Amount
-      operator_tag_uid: Operator Tag
-      payment_gateway: Gateway
-      payment_method: Method
-      price: Price
-      product: Product
-      quantity: Quantity
-      refundable_credits: R Balance
-      station: Station
-      station_id: Station
-      status_code: Status Code
-      status_message: Status Message
-      ticket: Ticket
-      total: Total
-      transaction_origin: Origin
-      type: Catalogable Type
-      unit_price: Unit price
   admissions:
     button: Attiva
     call_to_action: Attiva il ticket dell’ evento!
@@ -241,8 +18,8 @@ it:
     destroyed: Rimosso con successo
     error: Controlla il modulo per possibili errori
     gtag:
-      already_assigned: This Tag is already assigned
-      invalid: Questa PayCard non è valida Tag
+      already_assigned: This Paycard is already assigned
+      invalid: Questa PayCard non è valida Paycard
     order_complete: Ordine completato
     ticket_already_assigned: Ticket already assigned
     ticket_assigned: Ticket assigned successfully
@@ -256,7 +33,7 @@ it:
         subject: Ripristina le istruzioni di password
   checkout:
     button: Conferma Ordine
-    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo Tag una volta entrato all’ evento.
+    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo Paycard una volta entrato all’ evento.
     store: " store"
     total: Totale
   claims:
@@ -271,7 +48,13 @@ it:
       title: Ci scusiamo
   confirm:
     log_out: Desidera terminare la sessione?
+  conditions:
+    action: Accetto
+    conjunction: e
+    privacy_conditions: la informativa sulla privacy
+    terms_of_use: condizioni d'uso
   dashboard:
+    orders: Ordine
     admissions:
       call_to_action: Desidera eliminare questo ticket?
       call_to_action_started: L’evento è gia cominciato. Non è possibile cambiare il ticket.
@@ -289,17 +72,19 @@ it:
       description: Stiamo terminando la configuration dell’ event per assicurarvi la migliore esperienza. Perfavore, torna più tardi per vedette cost abbiamo preparation per te.
       title: Finalizzando dettagli!
     first_register:
-      gtag: Aggiungi Tag
+      gtag: Aggiungi Paycard
       ticket: Aggiungi ticket
     gtag_registration:
       title: Wristband/Card ID
+      card: Paycard
+      wristband: Polsino
     paypal:
       button: Sync con PayPal
     without_admissions:
       button: Attivare Ticket
     without_gtags:
-      add: Registra Tag
-      button: Registra Tag
+      add: Registra Paycard
+      button: Registra Paycard
     without_gtags_claiming_started:
       claim: Scusa
       description: Il periodo per richiedere un rimborso è chiuso, se hai qualsiasi domanda contattare il supporto.
@@ -326,7 +111,7 @@ it:
       order:
         completed:
           date: Data del acquisto
-          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo Tag una volta entrati nell’ evento. La tua Tag è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
+          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo Paycard una volta entrati nell’ evento. La tua Paycard è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
           greet: Ciao, %{name}!
           order_number: Il tuo ordine
           subject: Ordine completato
@@ -368,9 +153,9 @@ it:
     button: Registra
     call_to_action: Registra la tua Paycard e inizia!
     description:
-      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Tag
-      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo Tag
-      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Tag
+      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Paycard
+      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo Paycard
+      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Paycard
     info:
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
   header:
@@ -387,7 +172,7 @@ it:
     payment-buttons:
       braintree:
         icon: credit-card
-        name: Carta di credito
+        name: Carta di credito Braintree
       ideal:
         icon: pf pf-ideal
         name: Ideal
@@ -399,19 +184,19 @@ it:
         name: PayPal
       redsys:
         icon: credit-card
-        name: Carta di credito
+        name: Carta di credito Redsys
       sofort:
         icon: pf pf-sofort
         name: Sofort
       stripe:
         icon: credit-card
-        name: Carta di credito
+        name: Carta di credito Stripe
       wirecard:
         icon: credit-card
-        name: Carta di credito
+        name: Carta di credito Wirecard
       mercadopago:
         icon: credit-card
-        name: Credit card
+        name: Carta di credito MercadoPago
     price: Prezzo
     products: Prodotti
     total: Totale

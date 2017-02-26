@@ -1,20 +1,21 @@
-div
-  .product-amount
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--4-col
     .minus-button
-      = fa_icon "minus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "minus", step: "#{catalog_item.step}" }
-
-    .wrapper-credits-total
-      = number_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{catalog_item.initial_amount}", autocomplete: :off,
-        min: "#{catalog_item.min_purchasable}",
-        max: "#{catalog_item.max_purchasable}",
-        step: "#{catalog_item.step}",
+      = fa_icon "minus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "minus", step: "#{@current_event.credit_step}" }
+  .mdl-cell.mdl-cell--4-col
+    .total-credits
+      = text_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{@current_event.maximum_gtag_balance / 2}", autocomplete: :off,
+        min: "0",
+        max: "#{@current_event.maximum_gtag_balance}",
+        step: "#{@current_event.credit_step}",
         id: "amount-input-#{catalog_item.id}",
         class: "amount-input",
         data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
 
-      .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{(catalog_item.value * catalog_item.initial_amount)}
-        span #{@current_event.currency}
+    .top-up-amount [data-id="#{catalog_item.id}"]
+      span [id="amount-total-#{catalog_item.id}"] #{@current_event.maximum_gtag_balance / 2}
+      span #{@current_event.currency}
 
+  .mdl-cell.mdl-cell--4-col
     .plus-button
-      = fa_icon "plus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "plus", step: "#{catalog_item.step}" }
+      = fa_icon "plus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "plus", step: "#{@current_event.credit_step}" }

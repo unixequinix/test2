@@ -13,10 +13,6 @@ FactoryGirl.define do
   factory :pack do
     event
     sequence(:name) { |n| "Pack #{n}" }
-    initial_amount 0
-    step 1
-    max_purchasable 1
-    min_purchasable 0
 
     trait :with_credit do
       after :build do |pack|

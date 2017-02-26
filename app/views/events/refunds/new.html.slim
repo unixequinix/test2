@@ -1,27 +1,27 @@
-.wrapper-module
-  table.table-order
-    tr.table-head
-      th = t('refunds.products')
-      th
-      th = t('refunds.amount')
-    tr
-      td [colspan="2"] #{t('refunds.product_description')}
-      td.table-amount #{number_with_precision(@refund.total, precision: 2)} #{@current_event.credit.name}
-    tr
-      td [colspan="2"] #{t('refunds.fee')}
-      td.table-amount #{-number_with_precision(@refund.fee, precision: 2)} #{@current_event.credit.name}
-    tr.total-amount
-      td [colspan="2"]
-        = t('orders.total')
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
+
+= render 'events/shared/header'
+
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    h4 Refunds
+    table.table-order
+      tr.border-bottom
+        td #{t('refunds.product_description')}
+        td.table-amount #{number_with_precision(@refund.total, precision: 2)} #{@current_event.credit.name}
+      tr.border-bottom
+        td #{t('refunds.fee')}
+        td.table-amount #{-number_with_precision(@refund.fee, precision: 2)} #{@current_event.credit.name}
+      td
+        .total-text = t('orders.total')
         .vat-text = t('orders.vat')
-      td [colspan="3"] #{number_with_precision(@refund.money, precision: 2)} #{@current_event.currency}
+      td.total-amount #{number_with_precision(@refund.money, precision: 2)} #{@current_event.currency}
 
-  = simple_form_for [@current_event, @refund], class: "form" do |f|
-    = f.input :field_a, label: false, label: @refund_gateway.refund_field_a_name, input_html: { class: 'session-input' }
-    = f.input :field_b, label: false, label: @refund_gateway.refund_field_b_name, input_html: { class: 'session-input' }
-    = f.button :submit, t('refunds.button'),  class: "btn-action btn-edit-customer"
-
-.wrapper-module
-  = link_to customer_root_path, class: "btn btn-action-back " do
-    = fa_icon "chevron-left"
-    = t("actions.back")
+    = simple_form_for [@current_event, @refund], wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit} do |f|
+      = f.input :field_a, label: false, label: @refund_gateway.refund_field_a_name, input_html: { class: 'session-input' }
+      = f.input :field_b, label: false, label: @refund_gateway.refund_field_b_name, input_html: { class: 'session-input' }
+      = f.button :submit, t('refunds.button'),  class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"

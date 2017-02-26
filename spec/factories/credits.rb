@@ -14,11 +14,7 @@
 FactoryGirl.define do
   factory :credit do |_param|
     event
-    sequence(:name) { |n| "CRD #{n}" }
-    initial_amount 0
-    step 1
-    max_purchasable 1
-    min_purchasable 0
+    sequence(:name) { |n| "Credit #{n}" }
     value 1
   end
 end

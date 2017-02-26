@@ -1,11 +1,19 @@
-.wrapper-module-centered
-  h3 = t('admissions.call_to_action')
-  p = t('admissions.description')
-  = image_tag "img-bar-code.png", class: "img-ticket"
-  = form_for :ticket, url: event_ticket_assignments_path(@current_event) do |f|
-    = f.text_field :code, value: @code, placeholder: t('admissions.placeholders.ticket_code'), autofocus: true, class: "cb-ticket_field"
-    = submit_tag t('admissions.button'), class: "btn btn-action btn-action-primary cb-ticket_submit"
-.wrapper-module
-  = link_to customer_root_path, class: "btn btn-action-back" do
-    = fa_icon "chevron-left"
-    = t("actions.back")
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
+
+= render 'events/shared/header'
+
+.mdl-cell.mdl-cell--12-col
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    h4.center-text = t('admissions.call_to_action')
+    p.center-text = t('admissions.description')
+    .img-ticket
+      = image_tag "img-bar-code.png"
+    = form_for :ticket, url: event_ticket_assignments_path(@current_event)do |f|
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.text_field :code, value: @code, placeholder: t('admissions.placeholders.ticket_code'), autofocus: true, class: "mdl-textfield__input"
+      = submit_tag t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+
