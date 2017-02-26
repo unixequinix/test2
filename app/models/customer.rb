@@ -86,6 +86,17 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     "#{first_name} #{last_name}"
   end
 
+  def global_credits
+    transaction_credits = active_gtag&.transactions&.credit&.onsite&.where(action: "record_credit")&.map(&:credits)&.sum.to_f
+    active_gtag&.credits.to_f + orders.completed.map(&:credits).sum - transaction_credits
+  end
+
+  def global_refundable_credits
+    transaction_credits = active_gtag&.transactions&.credit&.onsite&.where(action: "record_credit")&.map(&:refundable_credits)&.sum.to_f
+    active_gtag&.refundable_credits.to_f + orders.completed.map(&:refundable_credits).sum - transaction_credits
+  end
+
+  # TODO: find out if these 5 methods below are needed anymore and remove if not
   def credits
     active_gtag&.credits.to_f - refunds.map(&:total).sum
   end
@@ -143,14 +154,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     last_name = auth.info&.last_name || auth.info.name.split(" ").second
 
     customer = find_by(provider: auth.provider, uid: auth.uid, event: event)
-    customer ||= event.customers.new(provider: auth.provider,
-                                     uid: auth.uid,
-                                     email: auth.info.email,
-                                     first_name: first_name,
-                                     last_name: last_name,
-                                     password: token,
-                                     password_confirmation: token,
-                                     agreed_on_registration: true)
+    customer ||= event.customers.new(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: first_name, last_name: last_name, password: token, password_confirmation: token, agreed_on_registration: true) # rubocop:disable Metrics/LineLength
 
     customer.save
     customer

@@ -36,12 +36,18 @@ en:
         subject: Reset password instructions
   checkout:
     button: Confirm Order
-    description: After you buy online credits here, they will automatically be applied to your Tag once you enter the event.
+    description: After you buy online credits here, they will be automatically applied to your Tag once you enter the event.
     store: " store"
     total: Total
   confirm:
     log_out: Do you want to end this session?
+  conditions:
+    action: I accept
+    conjunction: and
+    privacy_conditions: the privacy policy
+    terms_of_use: the terms of use
   dashboard:
+    orders: Orders
     admissions:
       call_to_action: Do you want to remove this ticket?
       call_to_action_started: The event just started so you cannot change the ticket
@@ -59,22 +65,24 @@ en:
       description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
       title: Ultimating details!
     first_register:
-      gtag: Add Tag
+      gtag: Add Card or Wristband
       ticket: Add ticket
     gtag_registration:
       title: Wristband/Card ID
+      card: Card
+      wristband: Wristband
     paypal:
       button: Pay with PayPal
     without_admissions:
       button: Add more
     without_gtags:
-      add: Assign Tag
-      button: Assign Tag
+      add: Assign Card or Wristband
+      button: Assign Card or Wristband
     without_gtags_claiming_started:
       claim: Sorry
       description: The refunds period is finished, If you have any question contact support.
     without_gtags_disabled:
-      claim: The period to apply for a refund of your Tag credits is closed
+      claim: The period to apply for a refund of your Card or Wristband credits is closed
       description: If you have previously contacted us with any support question,
       description2: do not worry, we will help you through with your refund.
   email:
@@ -88,7 +96,7 @@ en:
       order:
         completed:
           date: Purchase date
-          description: All your purchased Online Credits will automatically be applied to your Tag once you enter the event. Your Event Tag is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
+          description: All your purchased Online Credits will be automatically applied to your Card or Wristband once you enter the event. Your Event Card or Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           greet: Hello, %{name}!
           order_number: Your order
           subject: Order Completed
@@ -137,11 +145,11 @@ en:
     use: Terms of use
   gtag_assignations:
     button: Accept
-    call_to_action: Assign your Tag and go!
+    call_to_action: Assign your Card or Wristband and go!
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
-      simple: Assign the yellow highlighted numbers and letters as appears in your Tag
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
+      card: Assign the second row of numbers and letters (yellow highlighted) of your Card or Wristband
+      simple: Assign the yellow highlighted numbers and letters as appears in your Card or Wristband
+      standard: Assign the second row of numbers and letters (yellow highlighted) of your Card or Wristband
     info:
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
     placeholders:
@@ -168,16 +176,16 @@ en:
         name: PayPal
       redsys:
         icon: credit-card
-        name: Credit card
+        name: Redsys Credit card
       stripe:
         icon: credit-card
-        name: Credit card
+        name: Stripe Credit card
       wirecard:
         icon: credit-card
-        name: Credit card
+        name: Wirecard Credit card
       mercadopago:
         icon: credit-card
-        name: Credit card
+        name: Mercadopago Credit card
     price: Price
     products: Products
     total: Total

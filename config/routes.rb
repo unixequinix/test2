@@ -264,7 +264,7 @@ end
 #                                            root GET      /                                                                                                 admins/events#index
 #                                      admin_root GET      /admins(.:format)                                                                                 admins/events#index
 #                                   customer_root GET      /:event_id(.:format)                                                                              events/events#show
-#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007fd2aebd79b8 @mutex=#<Monitor:0x007fd2aebd7990 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007fd2aebd7940>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                                                          /cable                                                                                            #<ActionCable::Server::Base:0x007f82fdc3c788 @mutex=#<Monitor:0x007f82fdc3c760 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x007f82fdc3c710>>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #                                new_user_session GET      /users/sign_in(.:format)                                                                          admins/sessions#new
 #                                    user_session POST     /users/sign_in(.:format)                                                                          admins/sessions#create
 #                            destroy_user_session DELETE   /users/sign_out(.:format)                                                                         admins/sessions#destroy
@@ -276,6 +276,7 @@ end
 #                                                 PATCH    /users/:id(.:format)                                                                              users#update
 #                                                 PUT      /users/:id(.:format)                                                                              users#update
 #                                                 DELETE   /users/:id(.:format)                                                                              users#destroy
+#                              admins_sidekiq_web          /admins/sidekiq                                                                                   Sidekiq::Web
 #                                  admins_devices GET      /admins/devices(.:format)                                                                         admins/devices#index
 #                              edit_admins_device GET      /admins/devices/:id/edit(.:format)                                                                admins/devices#edit
 #                                   admins_device GET      /admins/devices/:id(.:format)                                                                     admins/devices#show
@@ -464,7 +465,6 @@ end
 #                                                 PATCH    /admins/events/:id(.:format)                                                                      admins/events#update
 #                                                 PUT      /admins/events/:id(.:format)                                                                      admins/events#update
 #                                                 DELETE   /admins/events/:id(.:format)                                                                      admins/events#destroy
-#                              admins_sidekiq_web          /admins/sidekiq                                                                                   Sidekiq::Web
 #            customer_facebook_omniauth_authorize GET|POST /customers/auth/facebook(.:format)                                                                events/omniauth_callbacks#passthru
 #             customer_facebook_omniauth_callback GET|POST /customers/auth/facebook/callback(.:format)                                                       events/omniauth_callbacks#facebook
 #       customer_google_oauth2_omniauth_authorize GET|POST /customers/auth/google_oauth2(.:format)                                                           events/omniauth_callbacks#passthru

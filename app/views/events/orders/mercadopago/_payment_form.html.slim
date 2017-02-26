@@ -1,42 +1,38 @@
+.content-grid.mdl-grid.wrapper-mercadopago
+  .mdl-cell.mdl-cell--12-col
+    .wrapper-payments-methods
+      = fa_icon "cc-visa"
+      = fa_icon "cc-mastercard"
+      = fa_icon "cc-amex"
 
-
-.wrapper-module
-  p.hint-text
-    = t('orders.card_info')
-  .wrapper-payments-methods
-    = fa_icon "cc-visa"
-    = fa_icon "cc-mastercard"
-    = fa_icon "cc-amex"
-
-  = javascript_include_tag "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"
-  = form_tag event_mercadopago_purchase_path(@current_event), method: :post, id: "pay", name: "pay", class: "basic-grey"
-    .control-group
-      .controls
-        = label_tag "Email", nil, required: true
-        = text_field_tag :email, current_customer.email, class: "input-block-level", id: "email", data: {checkout: "email"}
-
-      .controls
-        = label_tag t('orders.card_name'), nil, required: true
-        = text_field_tag :name, current_customer.full_name, class: "input-block-level", data: { checkout: "cardholderName" }, id: "cardholderName"
-      .controls
-        = select_tag :doc_type, nil, class: "input-block-level", data: { checkout: "docType" }, id: "docType"
-      .controls
-        = label_tag t('orders.card_doc_number'), nil, required: true
-        = text_field_tag :doc_number, nil, class: "input-block-level", data: { checkout: "docNumber" }, id: "docNumber"
-      .controls
-        = label_tag t('orders.card_number'), nil, required: true
-        = text_field_tag :number, nil, class: "input-block-level", data: {checkout: "cardNumber"}, id: "cardNumber"
-      .controls
-        = label_tag t('orders.card_code_verification'), nil, required: true
-        = text_field_tag :verification_value, nil, class: "input-block-level", id: "securityCode", data: {checkout: "securityCode"}
-
-      = label_tag t('orders.card_expiration_date'), nil, required: true, class: "expiration-label"
-      .wrapper-selects
-        = select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, class: "payment-expiration-year", id: "cardExpirationMonth", data: {checkout: "cardExpirationMonth"}
-        = select_tag :year, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, class: "payment-expiration-month", id: "cardExpirationYear", data: {checkout: "cardExpirationYear"}
-      = hidden_field_tag :order_id, @order.id
+    = javascript_include_tag "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"
+    = form_tag event_mercadopago_purchase_path(@current_event), method: :post, id: "pay", name: "pay"
+      .inputs
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag "Email", nil, class: "mdl-textfield__label"
+          = text_field_tag :email, current_customer.email, class: "mdl-textfield__input", id: "email", data: {checkout: "email"}
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_name'), nil, class: "mdl-textfield__label"
+          = text_field_tag :name, current_customer.full_name, class: "mdl-textfield__input", data: { checkout: "cardholderName" }, id: "cardholderName"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = select_tag :doc_type, nil, class: "mdl-textfield__input", data: { checkout: "docType" }, id: "docType"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_doc_number'), nil, class: "mdl-textfield__label"
+          = text_field_tag :doc_number, nil, class: "mdl-textfield__input", data: { checkout: "docNumber" }, id: "docNumber"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_number'), nil, class: "mdl-textfield__label"
+          = text_field_tag :number, nil, class: "mdl-textfield__input", data: {checkout: "cardNumber"}, id: "cardNumber"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_code_verification'), nil, class: "mdl-textfield__label"
+          = text_field_tag :verification_value, nil, class: "mdl-textfield__input", id: "securityCode", data: {checkout: "securityCode"}
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_expiration_date'), nil, class: "mdl-textfield__label"
+        .wrapper-selects
+          = select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, class: "payment-expiration-year mdl-textfield__input", id: "cardExpirationMonth", data: {checkout: "cardExpirationMonth"}
+          = select_tag :year, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, class: "payment-expiration-month mdl-textfield__input", id: "cardExpirationYear", data: {checkout: "cardExpirationYear"}
+          = hidden_field_tag :order_id, @order.id
       .actions
-        = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+        = submit_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
 = javascript_include_tag "specific/orders"
 

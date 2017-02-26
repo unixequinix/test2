@@ -1,28 +1,29 @@
-.wrapper-module
-  p.hint-text
-    = t('orders.card_info')
-  .wrapper-payments-methods
-    = fa_icon "cc-visa"
-    = fa_icon "cc-mastercard"
-    = fa_icon "cc-amex"
-  = form_tag event_wirecard_purchase_path(@current_event), id: "wirecard-payment-form", class: "basic-grey"
-    .control-group
-      .controls
-        = label_tag t('orders.first_name'), nil, required: true
-        = text_field_tag :first_name, nil, class: "input-block-level"
-      .controls
-        = label_tag t('orders.last_name'), nil, required: true
-        = text_field_tag :last_name, nil, class: "input-block-level"
-      .controls
-        = label_tag t('orders.card_number'), nil, required: true
-        = text_field_tag :number, nil, class: "input-block-level"
-      .controls
-        = label_tag t('orders.card_code_verification'), nil, required: true
-        = text_field_tag :verification_value, nil, class: "input-block-level"
-      = label_tag t('orders.card_expiration_date'), nil, required: true, class: "expiration-label"
-      .wrapper-selects
-        = select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, class: "payment-expiration-year"
-        = select_tag :year, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, class: "payment-expiration-month"
-      = hidden_field_tag :order_id, @order.id
+.content-grid.mdl-grid.wrapper-wirecard
+  .mdl-cell.mdl-cell--12-col
+    .wrapper-payments-methods
+      = fa_icon "cc-visa"
+      = fa_icon "cc-mastercard"
+      = fa_icon "cc-amex"
+
+    = form_tag event_wirecard_purchase_path(@current_event), id: "wirecard-payment-form"
+      .inputs
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.first_name'), nil, class: "mdl-textfield__label"
+          = text_field_tag :first_name, nil, class: "mdl-textfield__input"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.last_name'), nil, class: "mdl-textfield__label"
+          = text_field_tag :last_name, nil, class: "mdl-textfield__input"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_number'), nil, class: "mdl-textfield__label"
+          = text_field_tag :number, nil, class: "mdl-textfield__input"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_code_verification'), nil, class: "mdl-textfield__label"
+          = text_field_tag :verification_value, nil, class: "mdl-textfield__input"
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = label_tag t('orders.card_expiration_date'), nil, class: "mdl-textfield__label"
+        .wrapper-selects
+          = select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, class: "mdl-textfield__input"
+          = select_tag :year, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, class: "mdl-textfield__input"
+          = hidden_field_tag :order_id, @order.id
       .actions
-        = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+        = submit_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

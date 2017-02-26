@@ -1,20 +1,25 @@
-.wrapper-session.wrapper-module-centered.edit-customer-form
-  = simple_form_for resource, url: event_register_path(current_event), method: :patch, html: { autocomplete: "off" } do |f|
-    = f.error_notification
-    h3 = t('header.edit')
-    = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
-    = f.input :email, required: true, autocomplete: "off", input_html: { class: 'session-input', autocomplete: 'off' }, label: t("simple_form.labels.customer.new.email"), as: :string
-    = f.input :first_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
-    = f.input :last_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
-    = f.input :phone, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone_mandatory?
-    = f.input :address, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address_mandatory?
-    = f.input :city, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.address_mandatory?
-    = f.input :postcode, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.address_mandatory?
-    = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if current_event.address_mandatory?
-    = f.input :gender, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.gender"), collection: %w(male female).map { |f| [t("gender." + f), f] }, include_blank: false, input_html: { class: 'session-input' } if current_event.gender_mandatory?
-    = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: resource.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate_mandatory?
-    = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-customer"
-.wrapper-module
-  = link_to customer_root_path, class: "btn btn-action-back add-bottom" do
-    = fa_icon "chevron-left"
-    = t("actions.back")
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
+
+= render 'events/shared/header'
+
+.mdl-cell.mdl-cell--12-col
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    = simple_form_for resource, url: event_register_path(current_event), method: :patch, html: { autocomplete: "off" }, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit} do |f|
+      = f.error_notification
+      h4.center-text = t('header.edit')
+      = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
+      = f.input :email, required: true, autocomplete: "off", input_html: { class: 'session-input', autocomplete: 'off' }, label: t("simple_form.labels.customer.new.email"), as: :string
+      = f.input :first_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
+      = f.input :last_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
+      = f.input :phone, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone_mandatory?
+      = f.input :address, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address_mandatory?
+      = f.input :city, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.address_mandatory?
+      = f.input :postcode, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.address_mandatory?
+      = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if current_event.address_mandatory?
+      = f.input :gender, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.gender"), collection: %w(male female).map { |f| [t("gender." + f), f] }, include_blank: false, input_html: { class: 'session-input' } if current_event.gender_mandatory?
+      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: resource.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate_mandatory?
+      = f.button :submit, t('registration.edit.button'),  class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

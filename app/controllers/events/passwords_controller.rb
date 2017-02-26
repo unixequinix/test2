@@ -1,5 +1,5 @@
 class Events::PasswordsController < Devise::PasswordsController
-  layout "customer"
+  layout "welcome_customer"
   helper_method :current_event
 
   def after_resetting_password_path_for(_resource)

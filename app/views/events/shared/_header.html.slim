@@ -1,13 +1,23 @@
-header.header-desktop
-  .wrapper-breadcrumbs
-    a Home
-    span.separator >
-    a.current-breadcrumb Store
-  nav.header-nav
-    ul
-      - if customer_signed_in?
-        li = link_to fa_icon("home"), event_url(current_event), class: "btn-desktop-customer"
-        - if current_customer.provider.blank?
-          li = link_to fa_icon("lock"), event_change_password_path(current_event), class: "btn-desktop-customer"
-        li = link_to fa_icon("user"), event_account_path(current_event), class: "btn-desktop-customer"
-        li = link_to fa_icon("sign-out"), event_logout_path(current_event), method: :delete, class: "btn-desktop-customer", data: { confirm: (t("confirm.log_out")) }
+.content-grid.mdl-grid.header
+  .mdl-cell.mdl-cell--6-col.header-left
+    = yield(:back)
+  .mdl-cell.mdl-cell--6-col.header-right
+    - if customer_signed_in?
+      = link_to event_url(current_event), class: "header-link" do
+        i#home.mdl-color-text--red.material-icons home
+        span.mdl-tooltip data-mdl-for="home" Home
+      - if current_customer.provider.blank?
+        = link_to event_change_password_path(current_event), class: "header-link" do
+          i#pass.mdl-color-text--red.material-icons lock
+          span.mdl-tooltip data-mdl-for="pass" Change password
+      = link_to event_account_path(current_event), class: "header-link" do
+        i#account.mdl-color-text--red.material-icons supervisor_account
+        span.mdl-tooltip data-mdl-for="account" Edit account
+      - if current_event.finished?
+        = yield(:history)
+      = link_to event_logout_path(current_event), method: :delete, data: { confirm: (t("confirm.log_out")) }, class: "header-link" do
+        i#out.mdl-color-text--red.material-icons power_settings_new
+        span.mdl-tooltip data-mdl-for="out" Log out
+
+
+

@@ -1,40 +1,40 @@
-.container-event
-  .container-event-login
+.customer-card-wide.mdl-card.mdl-shadow--2dp.main
+  .mdl-card__supporting-text
     - if current_event.created?
       .wrapper-module-restriction
-        = image_tag "img-open-event.png", class: "event-state-image state-illustration"
-        h3 = t('dashboard.event_started.title')
-        p = t('dashboard.event_started.description')
+        = image_tag "img-open-event.png"
+        h4.center-text = t('dashboard.event_started.title')
+        p.center-text = t('dashboard.event_started.description')
 
     - elsif current_event.closed?
       .wrapper-module-restriction
         = image_tag "img-closed-event.png", class: "event-state-image state-illustration"
-        h3 = t('dashboard.without_gtags_claiming_started.claim')
-        p = t('dashboard.without_gtags_claiming_started.description')
+        h4.center-text = t('dashboard.without_gtags_claiming_started.claim')
+        p.center-text = t('dashboard.without_gtags_claiming_started.description')
 
     - else
       .social-login
-          = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
-            = fa_icon "facebook"
-            = "Sign in with Facebook"
-          = link_to customer_google_oauth2_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
-            = fa_icon "google"
-            = "Sign in with Google"
-          = link_to t('sessions.create_account.link'), event_register_path(current_event), class: "btn btn-action-register"
-      .traditional-login
-        = simple_form_for resource, url: event_login_path(current_event), method: :post do |f|
-          = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
-          .wrapper-session-login
-            = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
-            = fa_icon "envelope-o"
-          .wrapper-session-login
-            = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
-            = fa_icon "key"
-          = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
-        .wrapper-redirect-sessions.center-text
-          = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
+        .content-grid.mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
+              = fa_icon "facebook"
+              = "Sign in with Facebook"
+          .mdl-cell.mdl-cell--6-col
+            = link_to customer_google_oauth2_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
+              = fa_icon "google"
+              = "Sign in with Google"
 
-  .container-event-footer
-    = render 'events/shared/footer'
+      .traditional-login
+        .content-grid.mdl-grid
+          .mdl-cell.mdl-cell--12-col
+            = simple_form_for resource, url: event_login_path(current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit} do |f|
+              = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
+              = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
+              = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
+              = f.button :submit, t('links.buttons.sign_in'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
+            .wrapper-redirect-sessions
+              = link_to t('sessions.create_account.link'), event_register_path(current_event)
+              = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
+
 
 

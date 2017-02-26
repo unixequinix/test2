@@ -1,7 +1,7 @@
-.wrapper-module
+.wrapper-paypal.center-text
   = link_to event_paypal_setup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-paypal btn-full-width" do
+    .paypal-link Pay with Paypal
     = image_tag "img-paypal-logo.png"
-    = t("dashboard.paypal.button")
 
 javascript:
   $('.btn-action-add-paypal').click(function() {

@@ -5,225 +5,6 @@ de:
     check_news: Zurück zur Veranstaltungswebsite
     delete: Löschen
     edit: Bearbeiten
-  admin:
-    actions:
-      back: Zurück
-      delete_selected: Löschen ausgewählt
-      download: CSV
-      new: Neu
-      update: Aktualisieren
-    admissions:
-      customer:
-        complete_name: Vollständiger Name
-        email: Email
-      state: Status
-      states:
-        assigned: Ist jetzt angemeldet
-      ticket: Ticket
-    aside:
-      accesses: Zugänge
-      admins: Admins
-      companies: Firmen
-      credits: Guthaben
-      crm: CRM
-      customers: 'Kunden Veranstaltungscustomer '
-      details: Details
-      event: Veranstaltung
-      events: Events
-      gtag: GTags
-      inconsistencies: Inconsistencies
-      orders: Bestellungen
-      payment_settings: Zahlungseinstellungen
-      refunds: Erstattungen
-      setup: Einrichtung
-      sign_out: Abmeldung
-      ticket_types: Firmenticketarten
-    catalog_item:
-      name: Name
-    companies:
-      name: Name
-      token: Firmenschlüssel
-    confirm:
-      delete: Sind Sie sicher?
-    credits:
-      value: Wert
-    customers:
-      email: Email
-      first_name: Vorname
-      gtag: Gtags
-      last_name: Nachname
-      ticket: Ticket
-      tickets: Tickets
-    defaults:
-      actions: Aktionen
-      all: Auswahl
-      empty_item: Keinen %{item}
-      item_not_found: Keinen %{item} gefunden
-      log_in: Login
-    device_settings:
-      form:
-        private_zone_password: Privater Bereich Passwort
-    devices:
-      asset: Asset ID
-      imei: Imei
-      mac: MAC
-      model: Model
-      serial_number: Serial Number
-    event:
-      fieldests:
-        parameters: Parameter
-        security: Sicherheit
-      name: Name
-      token: Veranstaltungsschlüssel
-    general:
-      created_at: Created at
-      description: Description
-      id: ID
-      name: Name
-      updated_at: Updated at
-    gtags:
-      banned: Banned
-      customer: Kunde
-      format: Format
-      formats:
-        card: Card
-        wristband: Wristband
-      tag: Tag UID
-    order_items:
-      amount: Betrag
-      catalog_item: Katalogartikel
-      customer: Kunden Veranstaltungsprofil
-      id: ID
-      redeemed: Eingelöst
-    orders:
-      amount: Betrag
-      completed: Abgeschlossen am
-      created: Erstellt am
-      customer: Kunde
-      gateway: Gateway
-      items: Items
-      number: Nummer
-      product_name: Produktname
-      product_price: Produktpreis
-      state: Status
-      total: Summe
-    pack:
-      add_item: Add Item
-      instructions:
-        conditions:
-        - There aren't other kind of items in a pack, like accesses
-        - If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value
-        title: 'Atention. Credits in a pack will be refundable only if:'
-      number_catalog_items: Anzahl der Artikel
-    passwords:
-      change: Mein Passwort ändern
-      confirm: Neues Passwort bestätigen
-      forgotten: Passwort vergessen?
-      new: Neues Passwort
-      send_instructions: "'Bitte lass mir die Passwort-Instruktionen zukommen'"
-    products:
-      is_alcohol: alkoholisch
-      name: Name
-      stations: Stations
-      vat: VAT %
-    purchasers:
-      email: Käufer Email
-      first_name: Käufer Vorname
-      last_name: Käufer Nachname
-    refunds:
-      amount: Betrag
-      created_at: Erstellt bei
-      customer_email: Email des Kunden
-      fee: Gebühr
-      id: ID
-      status: Status
-    sessions:
-      mail: anwender@domain.com
-    stations:
-      access_control_gate:
-        direction: Richtung
-        name: Name
-      categories:
-        access_control: Zugangskontrolle
-        bar: Bar
-        box_office: Box Office
-        check_in: Check-in
-        cs_accreditation: CS Accreditation
-        cs_gtag_balance_fix: CS Gtag Balance Fix
-        cs_topup_refund: CS Topup/Refund
-        customer_portal: Kundenportal
-        envelope_linker: Envelope Linker
-        exhibitor: Aussteller
-        gtag_recycler: Gtag Recycler
-        hospitality_top_up: Bewirtung Top Up
-        incident_report: Vorfallsbericht
-        operator_permissions: Operator Berechtigungen
-        staff_accreditation: Personalakkreditierung
-        ticket_validation: Ticket Validation
-        top_up_refund: Top Up / Erstattung
-        touchpoint: Touchpoint
-        vendor: Vendor
-      items: Produkte
-      location: Ort
-      name: Name
-      reporting_category: Reporting Category
-      station_catalog_item:
-        name: Name
-        price: Preis
-        type: Type
-      station_product:
-        description: Beschreibung
-        is_alcohol: Is alcohol?
-        name: Name
-        price: Preis
-      topup_credit:
-        amount: Betrag
-        credit_value: Wert des Guthabens
-        price: Preis
-      type: Typ
-    ticket_types:
-      catalog_item: Item
-      company_code: Firmencode
-      name: Name
-      number_of_tickets: Tickets
-    tickets:
-      banned: Banned
-      code: Code
-      customer: Angemeldeter Kunde
-    transactions:
-      access: Access
-      action: Type
-      counters: Counters
-      credits: Credits
-      customer_id: Customer
-      customer_tag_uid: Customer Tag
-      device_created_at: Date
-      device_db_index: DB index
-      device_uid: Device
-      direction: Direction
-      event: Event
-      final_balance: Final Balance
-      final_refundable_balance: R Final Balance
-      final_value: Final Value
-      gtag_counter: Gtag Counter
-      id: ID
-      items_amount: Items Amount
-      operator_tag_uid: Operator Tag
-      payment_gateway: Gateway
-      payment_method: Method
-      price: Price
-      product: Product
-      quantity: Quantity
-      refundable_credits: R Balance
-      station: Station
-      station_id: Station
-      status_code: Status Code
-      status_message: Status Message
-      ticket: Ticket
-      total: Total
-      transaction_origin: Origin
-      type: Catalogable Type
-      unit_price: Unit price
   admissions:
     button: Aktivieren
     call_to_action: Aktivieren Sie Ihr Veranstaltungsticket!
@@ -267,7 +48,13 @@ de:
       title: Es tut uns leid
   confirm:
     log_out: Möchten Sie diese Sitzung beenden?
+  conditions:
+    action: Ich stimme den
+    conjunction: und den
+    privacy_conditions: Nutzungsbedingungen zu
+    terms_of_use: Datenschutzbedingungen
   dashboard:
+    orders: Bestellung
     admissions:
       call_to_action: Wollen Sie dieses Ticket entfernen?
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich.
@@ -289,6 +76,8 @@ de:
       wristband: Tag hinzufügen
     gtag_registration:
       title: Wristband/Card ID
+      card: Cashless-Pass
+      wristband: Bändchen
     paypal:
       button: Mit PayPal synchronisieren
     without_admissions:
@@ -362,7 +151,7 @@ de:
     use: Nutzungsbedingungen
   gtag_assignations:
     button: Registrieren
-    call_to_action: Tag anmelden und los!
+    call_to_action: Card or Wristband anmelden und los!
     description:
       card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
       simple: Assign the yellow highlighted numbers as appears in your Tag
@@ -383,19 +172,19 @@ de:
     payment-buttons:
       braintree:
         icon: credit-card
-        name: Kreditkarte
+        name: Kreditkarte Braintree
       paypal:
         icon: paypal
         name: PayPal
       redsys:
         icon: credit-card
-        name: Kreditkarte
+        name: Kreditkarte Redsys
       stripe:
         icon: credit-card
-        name: Kreditkarte
+        name: Kreditkarte Stripe
       mercadopago:
         icon: credit-card
-        name: Credit card
+        name: Kreditkarte MercadoPago
     price: Preis
     products: Produkte
     total: Summe

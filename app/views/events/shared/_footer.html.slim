@@ -1,21 +1,29 @@
 footer
-  nav.footer-nav
-    ul.container-language
-      - locales = Event::LOCALES.map(&:to_s)
-      - if locales.length >= 1
-        - locales.each_with_index do |locale, index|
-          li = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
-          - if (index + 1 < Event::LOCALES.length)
-            span.footer-separator
-    ul.terms-list
-      li
-        = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
-      li
-        = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
+  .content-grid.mdl-grid
+    .mdl-cell.mdl-cell--12-col
+      ul.container-language
+        - locales = Event::LOCALES.map(&:to_s)
+        - if locales.length >= 1
+          - locales.each_with_index do |locale, index|
+            li = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+            - if (index + 1 < Event::LOCALES.length)
+              span.footer-separator
+
+      ul.terms-list
+        li
+          = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+        span.footer-separator
+        li
+          = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
+
+      ul.copyright
+        li
+          = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
+            = t('footer.copyright')
+            = Date.current.year
 
 
-    ul.copyright
-      li
-        = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
-          = t('footer.copyright')
-          = Date.current.year
+
+
+
+

@@ -27,6 +27,11 @@ SimpleForm.setup do |config|
     b.use :input, class: 'mdl-switch__input', type: 'checkbox'
   end
 
+  config.wrappers :mdl_check, tag: 'div' do |b|
+    b.use :html5
+    b.use :input, class: 'mdl-switch__input', type: 'checkbox'
+  end
+
   config.wrappers :mdl_upload, tag: 'div', class: 'mdl-textfield mdl-js-textfield mdl-textfield--file' do |b|
     b.use :html5
     b.use :input, class: 'mdl-textfield__input'

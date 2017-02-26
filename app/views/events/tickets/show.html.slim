@@ -1,21 +1,30 @@
-.wrapper-module.credential-types
-  h3 = @ticket.ticket_type.name
-  ul
-    li.ticket-detail-module
-      ul
-        | Ticket
-        = @ticket.code
-    - if @products.any?
-      li.ticket-detail-module
-        ul
-          label Products
-          - @products.each do |product|
-            li= product.name
-  = link_to event_ticket_assignment_path(@current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-remove-ticket" do
-    = fa_icon("trash")
-    = t('actions.unnasign')
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
 
-.wrapper-module
-  = link_to customer_root_path, class: "btn btn-action-back" do
-    = fa_icon "chevron-left"
-    = t("actions.back")
+= render 'events/shared/header'
+
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--8-col
+      h4 = @ticket.ticket_type.name
+    .mdl-cell.mdl-cell--4-col
+      .tools
+        .tool-item
+          = link_to event_ticket_assignment_path(@current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored" do
+            span#unassign.material-icons delete_forever
+            span.mdl-tooltip data-mdl-for="unassign" Unassign Ticket
+
+  .mdl-card__supporting-text
+    ul.demo-list-three.mdl-list
+      li.mdl-list__item.mdl-list__item--three-line
+        span.mdl-list__item-primary-content
+          .ticket_code
+            | Ticket
+            = @ticket.code
+          - if @products.any?
+            span Products:
+            - @products.each do |product|
+              span.mdl-list__item-text-body = product.name
