@@ -103,6 +103,6 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format)
+    params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format, :active)
   end
 end
