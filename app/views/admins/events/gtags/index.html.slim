@@ -59,7 +59,7 @@
                   .table-action
                     = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{gtag.id}" delete
-                td data-label="Customer" = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
                 td data-label="Credits" = number_to_event_currency gtag.credits
                 td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
