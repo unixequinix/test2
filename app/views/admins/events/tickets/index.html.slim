@@ -27,7 +27,7 @@
     p = f.file_field :data, label: :import
     p
       | Download a
-      = link_to "sample CSV", sample_csv_admins_event_tickets_path(@current_event, format: "csv")
+      = link_to " sample CSV", sample_csv_admins_event_tickets_path(@current_event, format: "csv")
       |  template to see an example of the format required.
     .remodal__actions
       = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

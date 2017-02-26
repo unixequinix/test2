@@ -12,7 +12,7 @@
         i.material-icons pregnant_woman
         span Owner
       .form-inputs
-        = f.input :owner_id, as: :select, collection: User.where(role: "promoter", event_id: nil).collect { |u| [u.email, u.id] }, include_blank: true, placeholder: true
+        = f.input :owner_id, as: :select, collection: User.where(role: "promoter", event_id: nil).pluck(:email, :id), include_blank: true, placeholder: true
 
     .fieldset
       .section-header

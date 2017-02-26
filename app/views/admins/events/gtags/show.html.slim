@@ -30,6 +30,10 @@
             tr
               td.mdl-data-table__cell--non-numeric Tag UID
               td = @gtag.tag_uid
+            - if @gtag.ticket_type
+              tr
+                td.mdl-data-table__cell--non-numeric Ticket Type
+                td = link_to @gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, @gtag.ticket_type)
             tr
               td.mdl-data-table__cell--non-numeric Status
               td

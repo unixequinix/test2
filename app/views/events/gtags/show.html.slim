@@ -1,0 +1,24 @@
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
+
+= render 'events/shared/header'
+
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      h4 = @gtag.ticket_type.name
+
+  .mdl-card__supporting-text
+    ul.demo-list-three.mdl-list
+      li.mdl-list__item.mdl-list__item--three-line
+        span.mdl-list__item-primary-content
+          .gtag_code
+            | gtag
+            = @gtag.tag_uid
+          - if @products.any?
+            span Products:
+            - @products.each do |product|
+              span.mdl-list__item-text-body = product.name

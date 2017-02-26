@@ -6,9 +6,6 @@ class Gtag < ActiveRecord::Base
                   ultralight_ev1: { entitlement_limit: 40, credential_limit: 32 },
                   ultralight_c:   { entitlement_limit: 56, credential_limit: 32 } }.freeze
 
-  belongs_to :event
-  has_many :transactions, dependent: :restrict_with_error
-
   validates :tag_uid, uniqueness: { scope: :event_id }
   validates :tag_uid, presence: true
   validates :tag_uid, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }

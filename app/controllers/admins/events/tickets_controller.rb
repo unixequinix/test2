@@ -1,4 +1,4 @@
-class Admins::Events::TicketsController < Admins::Events::BaseController
+class Admins::Events::TicketsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv]
 
   def index
@@ -63,15 +63,19 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     file = params[:file][:data].tempfile.path
 
     begin
+      companies = []
+      CSV.foreach(file, headers: true, col_sep: ";") { |row| companies << row.field("company_name") }
+      companies = companies.compact.uniq.map { |name| @current_event.companies.find_or_create_by(name: name) }
+      companies = companies.map { |company| [company.name, company.id] }.to_h
+
+      ticket_types = []
+      CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << [row.field("ticket_type"), companies[row.field("company_name")]] }
+      ticket_types = ticket_types.compact.uniq.map { |name, company| @current_event.ticket_types.find_or_create_by(name: name, company_id: company) }
+      ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
+
       CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
-        c_name = row.field("company_name")
-        company = @current_event.companies.find_by("LOWER(name) = ?", c_name.downcase) || @current_event.companies.create!(name: c_name)
-
-        ticket_type_atts = { name: row.field("ticket_type"), company_code: row.field("company_code"), company: company }
-        ticket_type = @current_event.ticket_types.find_or_create_by!(ticket_type_atts)
-
-        ticket_atts = { code: row.field("reference"), ticket_type: ticket_type, purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") } # rubocop:disable Metrics/LineLength
-        @ticket = @current_event.tickets.find_or_create_by!(ticket_atts)
+        ticket_atts = { event_id: @current_event.id, code: row.field("reference"), ticket_type_id: ticket_types[row.field("ticket_type")], purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") } # rubocop:disable Metrics/LineLength
+        TicketCreator.perform_later(ticket_atts)
       end
     rescue
       return redirect_to(path, alert: t("admin.tickets.import.error"))
@@ -83,7 +87,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   def sample_csv
     authorize @current_event.tickets.new
     header = %w(ticket_type company_code company_name reference first_name last_name email)
-    data = [["VIP Night", "098", "Glownet Tickets", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet Tickets", "4433221100", "Arya", "Stark", "arya@stark.com"]] # rubocop:disable Metrics/LineLength
+    data = [["VIP Night", "098", "Glownet", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet", "4433221100", "Arya", "Stark", "arya@stark.com"]] # rubocop:disable Metrics/LineLength
 
     respond_to do |format|
       format.csv { send_data(CsvExporter.sample(header, data)) }
