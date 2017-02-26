@@ -18,7 +18,7 @@
                 = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
                 = link_to admins_event_gtag_assignment_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                   button#revoke.icon.material-icons delete
-              td data-label="Active" = gtag.active? ? fa_icon("check") : fa_icon("times")
-              td data-label="Banned" = gtag.banned? ? fa_icon("check") : fa_icon("times")
+              td data-label="Active" = best_in_place gtag, :active, best_in_place_checkbox([:admins, @current_event, gtag])
+              td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
 .mdl-layout-spacer
 

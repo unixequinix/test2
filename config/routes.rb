@@ -53,7 +53,7 @@ Rails.application.routes.draw do
         resources :refunds, only: [:index, :show]
         resources :orders, only: [:index, :show]
         resources :gtag_assignments, only: :destroy
-        resources :ticket_types, except: :show
+        resources :ticket_types
         resources :devices, only: [:index, :show]
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
@@ -175,6 +175,7 @@ Rails.application.routes.draw do
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :tickets, only: [:show]
+      resources :gtags, only: [:show]
       resources :orders, expect: :destroy
       get "credits_history", to: "credits_histories#history"
       get "privacy_policy", to: "static_pages#privacy_policy"

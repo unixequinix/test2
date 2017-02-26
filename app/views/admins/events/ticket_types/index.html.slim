@@ -16,32 +16,39 @@
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
-              th Company Name
+              th Company
               th Company Code
-              th Catalog Item
-              th Number of Tickets
+              th Item
+              th Tickets
+              th Gtags
               th Hidden
           tbody
             - @ticket_types.each do |ticket_type|
               tr class="#{'resource-hidden' if ticket_type.hidden?}"
                 td.mdl-data-table__cell--non-numeric data-label="Name"
                   = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
+                  .table-action
+                    = link_to admins_event_ticket_type_path(@current_event, ticket_type) do
+                      button.icon.material-icons id ="ticket_type_#{ticket_type.id}" info
                   - unless @current_event.started?
                     .table-action
                       = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
-                        button.icon.material-icons id ="edit_#{ticket_type}" edit
+                        button.icon.material-icons id ="edit_#{ticket_type.id}" edit
                     .table-action
                       = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                        button.icon.material-icons id ="delete_#{ticket_type}" delete
+                        button.icon.material-icons id ="delete_#{ticket_type.id}" delete
 
-                td data-label="Company Name" = ticket_type.company.name
+                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
                 td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
-                td data-label="Catalog Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.map { |item| [item.id, item.name] }, url: [:admins, @current_event, ticket_type]
-                td data-label="Number of Tickets" = ticket_type.tickets.count
+                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
+                td data-label="Tickets" = ticket_type.tickets.count
+                td data-label="Gtags" = ticket_type.gtags.count
                 td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
 
-              span.mdl-tooltip data-mdl-for="edit_#{ticket_type}" Edit
-              span.mdl-tooltip data-mdl-for="delete_#{ticket_type}" Delete
+              span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
+              span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{ticket_type.id}" Delete
+
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @ticket_types
   .mdl-layout-spacer
 

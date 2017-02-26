@@ -1,0 +1,53 @@
+- content_for(:actions) do
+  = link_to new_admins_event_ticket_type_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#add.icon.material-icons add
+    span.mdl-tooltip data-mdl-for="add"  Add
+  = link_to admins_event_ticket_type_path(@current_event, @ticket_type), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket_type?' }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#destroy.material-icons delete
+    span.mdl-tooltip data-mdl-for="destroy"  Delete
+  = link_to admins_event_ticket_types_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#undo.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo"  Back
+  = link_to edit_admins_event_ticket_type_path(@current_event, @ticket_type), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+    span#edit.material-icons edit
+    span.mdl-tooltip data-mdl-for="edit"  Edit
+
+- content_for(:title) do
+  .mdl-layout-title.header-item Ticket Type
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-fix
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Name
+              td = best_in_place @ticket_type, :name, url: [:admins, @current_event, @ticket_type]
+            tr
+              td.mdl-data-table__cell--non-numeric Company
+              td = best_in_place @ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, @ticket_type]
+            tr
+              td.mdl-data-table__cell--non-numeric Company Code
+              td = best_in_place @ticket_type, :company_code, url: [:admins, @current_event, @ticket_type]
+            tr
+              td.mdl-data-table__cell--non-numeric Catalog Item
+              td = best_in_place @ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, @ticket_type]
+            tr
+              td.mdl-data-table__cell--non-numeric Tickets
+              td = @ticket_type.tickets.count
+            tr
+              td.mdl-data-table__cell--non-numeric Gtags
+              td = @ticket_type.gtags.count
+            tr
+              td.mdl-data-table__cell--non-numeric Hidden
+              td = best_in_place @ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, @ticket_type])
+            tr
+              td.mdl-data-table__cell--non-numeric Created At
+              td = l @ticket_type.created_at
+            tr
+              td.mdl-data-table__cell--non-numeric Updated At
+              td = l @ticket_type.updated_at
+
+  .mdl-layout-spacer

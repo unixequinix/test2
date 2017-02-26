@@ -1,12 +1,6 @@
 class Ticket < ActiveRecord::Base
   include Credentiable
 
-  # Associations
-  belongs_to :event
-  belongs_to :ticket_type
-
-  has_many :transactions, dependent: :restrict_with_error
-
   validates :code, uniqueness: { scope: :event_id }, presence: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") } # rubocop:disable Metrics/LineLength
   validates :ticket_type_id, presence: true
 

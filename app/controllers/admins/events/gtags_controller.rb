@@ -1,5 +1,5 @@
 class Admins::Events::GtagsController < Admins::Events::BaseController
-  before_action :set_gtag, except: [:index, :new, :create]
+  before_action :set_gtag, only: [:show, :edit, :update]
 
   def index
     @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])
@@ -68,26 +68,33 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
   end
 
-  def import
+  def import # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    authorize @current_event.gtags.new
     path = admins_event_gtags_path(@current_event)
     redirect_to(path, alert: "File not supplied") && return unless params[:file]
     file = params[:file][:data].tempfile.path
+    company = @current_event.companies.find_or_create_by!(name: "Glownet")
+
+    ticket_types = []
+    CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << row.field("Type") }
+    ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by(name: name, company: company) }
+    ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
-        tag = @current_event.gtags.find_or_create_by(tag_uid: row.field("tag_uid"))
-        tag.update!(format: row.field("format"))
+        GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_types[row.field("Type")])
       end
     rescue
-      return redirect_to(path, alert: t("alerts.error"))
+      return redirect_to(path, alert: t("admin.tickets.import.error"))
     end
 
     redirect_to(path, notice: "Gtags successfully imported")
   end
 
   def sample_csv
-    header = %w(tag_uid format)
-    data = [%w(1218DECA31C9F92F card), %w(E6312A015028B0FB wristband), %w(A43FE1C5E9A622C2 wristband)]
+    authorize @current_event.gtags.new
+    header = %w(UID Type)
+    data = [%w(1218DECA31C9F92F VIP), %w(E6312A015028B0FB General), %w(A43FE1C5E9A622C2)]
 
     csv_file = CsvExporter.sample(header, data)
     respond_to do |format|
@@ -103,6 +110,6 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format)
+    params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format, :active)
   end
 end

@@ -111,7 +111,7 @@
               th Credits
           tbody
             tr
-              td.mdl-data-table__cell--non-numeric = link_to @catalog_item.name, url_for([:admins, @current_event, @catalog_item])
+              td.mdl-data-table__cell--non-numeric = link_to_unless @catalog_item.is_a?(UserFlag), @catalog_item.name.humanize, [:admins, @current_event, @catalog_item]
               td = number_to_token @catalog_item.credits
     .mdl-layout-spacer
 
