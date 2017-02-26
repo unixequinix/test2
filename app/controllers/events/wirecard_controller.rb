@@ -16,6 +16,7 @@ class Events::WirecardController < Events::PaymentsController
   end
 
   def refund
+    redirect_to(customer_root_path(@current_event), alert: "Order already cancelled") && return unless @order.completed?
     response = wirecard.refund(@total, @order.payment_data["GuWID"])
 
     if response.success?
