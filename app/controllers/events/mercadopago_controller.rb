@@ -17,6 +17,7 @@ class Events::MercadopagoController < Events::PaymentsController
   end
 
   def refund
+    redirect_to(customer_root_path(@current_event), alert: "Order already cancelled") && return unless @order.completed?
     response = mercadopago.refund(@total, @order.payment_data["id"], order_id: @order.id)
 
     if response.success?

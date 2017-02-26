@@ -17,12 +17,12 @@
           .tool-item
             = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
               span.material-icons attach_money
-              span.mdl-tooltip data-mdl-for="topup" Top Up
+              span.mdl-tooltip data-mdl-for="topup" = t("dashboard.topup")
         - if @current_event.refunds? && @current_event.finished?
           .tool-item
             = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
               span.material-icons replay
-              span.mdl-tooltip data-mdl-for="refund" Refund
+              span.mdl-tooltip data-mdl-for="refund" = t("dashboard.refund")
   .mdl-card__supporting-text
     .content-grid.mdl-grid
       .mdl-cell.mdl-cell--6-col
@@ -40,13 +40,13 @@
   .panel-card-wide.mdl-card.mdl-shadow--2dp
     .mdl-card__title
       .mdl-cell.mdl-cell--8-col
-        h4 Tickets
+        h4 = t('dashboard.ticket_registration.title')
       .mdl-cell.mdl-cell--4-col
         .tools
           .tool-item
             = link_to new_event_ticket_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add" do
               span.material-icons add
-              span.mdl-tooltip data-mdl-for="add" Add more
+              span.mdl-tooltip data-mdl-for="add" = t("dashboard.first_register.ticket")
     .mdl-card__supporting-text
       ul.demo-list-icon.mdl-list
         - @current_customer.tickets.each do |ticket|
@@ -68,15 +68,15 @@
           - else
             = link_to new_event_gtag_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "assign" do
               span.material-icons add
-              span.mdl-tooltip data-mdl-for="assign" Assign
+              span.mdl-tooltip data-mdl-for="assign" = t("dashboard.first_register.gtag")
 
 - if @current_customer.orders.any?
   .mdl-cell.mdl-cell--12-col
   .panel-card-wide.mdl-card.mdl-shadow--2dp
     .mdl-card__title
       .mdl-cell.mdl-cell--12-col
-        h4 = t('dashboard.orders')
-        .orders-disclaimer Remember! Online purchases will be applied onsite at the event
+        h4 = t('dashboard.orders.title')
+        .orders-disclaimer = t('dashboard.orders.disclaimer')
     .mdl-card__supporting-text
       ul.container-purchase-order
         - @current_customer.orders.each do |order|
@@ -85,24 +85,24 @@
               .content-grid.mdl-grid
                 .mdl-cell.mdl-cell--10-col
                   .order__title
-                    span.order__name = "#{order.refund? ? "Refund" : "Sale"} ##{order.number}"
+                    span.order__name = "#{order.refund? ? t("dashboard.refund") : t("dashboard.topup")} ##{order.number}"
                     - if order.failed?
-                      span.order__status.order__status--cancelled Failed (this order has to be repeated)
+                      span.order__status.order__status--cancelled = t("dashboard.orders.failed")
                     - elsif order.in_progress?
-                      span.order__status.order__status--cancelled In progress (will not be applied)
+                      span.order__status.order__status--cancelled = t("dashboard.orders.in_progress")
                     - elsif order.cancelled?
-                      span.order__status.order__status--cancelled Cancelled
+                      span.order__status.order__status--cancelled = t("dashboard.orders.cancelled")
                     - elsif order.completed?
                       - if order.redeemed?
-                        span.order__status.order__status--completed Completed
+                        span.order__status.order__status--completed = t("dashboard.orders.redeemed")
                       - else
-                        span.order__status.order__status--tba Will be applied on site
+                        span.order__status.order__status--tba = t("dashboard.orders.completed")
                 .mdl-cell.mdl-cell--2-col
                   .order__info
                     - if order.in_progress?
-                      span.order__actions = link_to "Complete", event_order_path(@current_event, order)
-                    - if @current_event.launched? && order.gateway.present? && !order.refund?
-                      span.order__actions = link_to "Cancel", send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
+                      = link_to t("dashboard.orders.complete"), event_order_path(@current_event, order)
+                    - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled?
+                      = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
             ul.items__list
               - order.order_items.each do |order_item|
                 li.order-item

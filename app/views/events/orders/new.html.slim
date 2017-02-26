@@ -1,7 +1,7 @@
 - content_for(:back) do
   = link_to customer_root_path, class: "header-link" do
     i#back.mdl-color-text--red.material-icons undo
-    span.mdl-tooltip data-mdl-for="back" Back
+    span.mdl-tooltip data-mdl-for="back" = t("actions.back")
 
 = render 'events/shared/header'
 
@@ -15,7 +15,7 @@
     = form_tag event_orders_path(@current_event), method: :post, class: "wrapper-module form-module", id: "checkout-form" do |f|
       - @catalog_items.each do |category, catalog_items|
         .wrapper-store
-          .store-module-title = category.pluralize
+          .store-module-title = t("dashboard.orders.#{category.pluralize.underscore}")
           - catalog_items.each do |catalog_item|
             - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
             = render partial, catalog_item: catalog_item

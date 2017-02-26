@@ -1,24 +1,3 @@
-# == Schema Information
-#
-# Table name: orders
-#
-#  completed_at :datetime
-#  gateway      :string
-#  payment_data :jsonb            not null
-#  refund_data  :jsonb            not null
-#  status       :string           default("in_progress"), not null
-#
-# Indexes
-#
-#  index_orders_on_customer_id  (customer_id)
-#  index_orders_on_event_id     (event_id)
-#
-# Foreign Keys
-#
-#  fk_rails_3dad120da9  (customer_id => customers.id)
-#  fk_rails_64bd9e45d4  (event_id => events.id)
-#
-
 class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 

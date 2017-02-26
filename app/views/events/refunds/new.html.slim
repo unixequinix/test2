@@ -1,7 +1,7 @@
 - content_for(:back) do
   = link_to customer_root_path, class: "header-link" do
     i#back.mdl-color-text--red.material-icons undo
-    span.mdl-tooltip data-mdl-for="back" Back
+    span.mdl-tooltip data-mdl-for="back" = t("actions.back")
 
 = render 'events/shared/header'
 

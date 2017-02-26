@@ -110,7 +110,6 @@ group :development do
   gem 'capistrano-faster-assets', '~> 1.0'
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
-  gem 'annotate'
   # gem 'i18n-tasks' # enable when needed
 end
 

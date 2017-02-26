@@ -1,7 +1,7 @@
 - content_for(:back) do
   = link_to customer_root_path, class: "header-link" do
     i#back.mdl-color-text--red.material-icons undo
-    span.mdl-tooltip data-mdl-for="back" Back
+    span.mdl-tooltip data-mdl-for="back" = t("actions.back")
 
 = render 'events/shared/header'
 
@@ -15,7 +15,7 @@
       = t('gtag_assignations.info.line_2')
     .content-grid.mdl-grid
       .mdl-cell.mdl-cell--6-col
-        p.tag-title.center-text = t('dashborad.gtag_registration.wristband')
+        p.tag-title.center-text = t('dashboard.gtag_registration.wristband')
         .img-ticket
           = image_tag "standard-gtag.png"
         = form_for :gtag_assignment_form, url: event_gtag_assignments_path(@current_event) do |f|
@@ -24,7 +24,7 @@
           = submit_tag t('gtag_assignations.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
       .mdl-cell.mdl-cell--6-col
-        p.tag-title.center-text = t('dashborad.gtag_registration.card')
+        p.tag-title.center-text = t('dashboard.gtag_registration.card')
         .img-ticket
           = image_tag "standard-card.png"
         = form_for :gtag_assignment_form, url: event_gtag_assignments_path(@current_event) do |f|

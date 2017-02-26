@@ -54,7 +54,20 @@ it:
     privacy_conditions: la informativa sulla privacy
     terms_of_use: condizioni d'uso
   dashboard:
-    orders: Ordine
+    topup: Top Up
+    refund: Refund
+    orders:
+      title: Ordine
+      credits: Credits
+      catalog_items: Other Items
+      disclaimer: Remember! Online purchases will be applied onsite at the event
+      complete: Complete
+      cancel: Cancel
+      failed: Failed (this order has to be repeated)
+      in_progress: In progress (will not be applied)
+      cancelled: Cancelled
+      completed: Will be applied on site
+      redeemed: Completed and applied
     admissions:
       call_to_action: Desidera eliminare questo ticket?
       call_to_action_started: L’evento è gia cominciato. Non è possibile cambiare il ticket.
@@ -74,17 +87,14 @@ it:
     first_register:
       gtag: Aggiungi Paycard
       ticket: Aggiungi ticket
+    ticket_registration:
+      title: Tickets
     gtag_registration:
       title: Wristband/Card ID
       card: Paycard
       wristband: Polsino
     paypal:
       button: Sync con PayPal
-    without_admissions:
-      button: Attivare Ticket
-    without_gtags:
-      add: Registra Paycard
-      button: Registra Paycard
     without_gtags_claiming_started:
       claim: Scusa
       description: Il periodo per richiedere un rimborso è chiuso, se hai qualsiasi domanda contattare il supporto.

@@ -41,6 +41,7 @@ class Events::PaypalController < Events::PaymentsController
   end
 
   def refund
+    redirect_to(customer_root_path(@current_event), alert: "Order already cancelled") && return unless @order.completed?
     payment_number = @order.payment_data["PaymentInfo"]["TransactionID"]
     response = paypal.refund(@total, payment_number, currency: @current_event.currency)
 

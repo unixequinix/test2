@@ -1,30 +1,3 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  access_token           :string           not null
-#  current_sign_in_at     :datetime
-#  current_sign_in_ip     :inet
-#  email                  :citext           default(""), not null, indexed
-#  encrypted_password     :string           default(""), not null
-#  last_sign_in_at        :datetime
-#  last_sign_in_ip        :inet
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string           indexed
-#  role                   :integer          default("support")
-#  sign_in_count          :integer          default(0), not null
-#
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_event_id              (event_id)
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_c310acab8d  (event_id => events.id)
-#
-
 class User < ActiveRecord::Base
   devise :database_authenticatable, :validatable, :trackable
 
