@@ -72,13 +72,13 @@
                 th Counter
                 th Station
                 th Device
-                th Customer Tag
+                th Customer
             tbody
               - @transactions.each do |transaction|
                 tr class="#{"danger" unless transaction.status_code.zero?}"
                   td.mdl-data-table__cell--non-numeric data-label="ID" = link_to transaction.action.humanize, admins_event_transaction_path(@current_event, transaction, type: @type)
                   td data-label="Origin" = transaction.transaction_origin.humanize
-                  td data-label="Counter" = transaction.gtag_counter || transaction.online_counter
+                  td data-label="Counter" = transaction.gtag_counter || transaction.counter
                   td data-label="Station" = transaction.station&.name
                   td data-label="Device"
                     - if transaction.device_uid.present?
@@ -86,7 +86,7 @@
                       = link_to(device.asset_tracker, admins_device_path(device)) if device
                   td data-label="Customer Tag"
                     - if transaction.customer
-                      = link_to transaction.customer_tag_uid, admins_event_customer_path(@current_event, transaction.customer)
+                      = link_to transaction.customer.full_name, admins_event_customer_path(@current_event, transaction.customer)
                     - elsif transaction.gtag
                       = link_to transaction.customer_tag_uid, admins_event_gtag_path(@current_event, transaction.gtag)
                     - else

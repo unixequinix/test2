@@ -17,10 +17,10 @@
            - customer.orders.each do |order|
             tr
               td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
-              td data-label="Gateway" = order.gateway
-              td data-label="State" = order.status
+              td data-label="Gateway" = order.gateway.humanize
+              td data-label="State" = order.status.humanize
               td data-label="Items" = order.order_items.count
-              td data-label="Total" = order.total.to_f
+              td data-label="Total" = number_to_event_currency order.total
 .mdl-layout-spacer
 
 
