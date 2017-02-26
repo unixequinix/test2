@@ -36,7 +36,7 @@ en:
         subject: Reset password instructions
   checkout:
     button: Confirm Order
-    description: After you buy online credits here, they will be automatically applied to your Tag once you enter the event.
+    description: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
     store: " store"
     total: Total
   confirm:
@@ -47,7 +47,20 @@ en:
     privacy_conditions: the privacy policy
     terms_of_use: the terms of use
   dashboard:
-    orders: Orders
+    topup: Top Up
+    refund: Refund
+    orders:
+      title: Orders
+      credits: Credits
+      catalog_items: Other Items
+      disclaimer: Remember! Online purchases will be applied onsite at the event
+      complete: Complete
+      cancel: Cancel
+      failed: Failed (this order has to be repeated)
+      in_progress: In progress (will not be applied)
+      cancelled: Cancelled
+      completed: Will be applied on site
+      redeemed: Completed and applied
     admissions:
       call_to_action: Do you want to remove this ticket?
       call_to_action_started: The event just started so you cannot change the ticket
@@ -67,17 +80,14 @@ en:
     first_register:
       gtag: Add Card or Wristband
       ticket: Add ticket
+    ticket_registration:
+      title: Tickets
     gtag_registration:
       title: Wristband/Card ID
       card: Card
       wristband: Wristband
     paypal:
       button: Pay with PayPal
-    without_admissions:
-      button: Add more
-    without_gtags:
-      add: Assign Card or Wristband
-      button: Assign Card or Wristband
     without_gtags_claiming_started:
       claim: Sorry
       description: The refunds period is finished, If you have any question contact support.

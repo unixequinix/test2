@@ -54,7 +54,20 @@ es:
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
   dashboard:
-    orders: Pedidos
+    topup: Recarga
+    refund: Crea Devolución
+    orders:
+      title: Pedidos
+      credits: Créditos
+      catalog_items: Otros artículos
+      disclaimer: Recuerda! Los pedidos online se aplicarán al entrar en el recinto
+      complete: Completar
+      cancel: Cancelar
+      failed: Fallido (este pedido tendrea que ser repetido)
+      in_progress: En progreso (no se aplicará en el recinto)
+      cancelled: Cancelado
+      completed: Se aplicará en el recinto
+      redeemed: Completado y aplicado
     admissions:
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: El evento ya ha comenzado, no puedes cambiar tu ticket
@@ -63,7 +76,7 @@ es:
       calculating_balance: Por favor escribenos a %{email} para procesar tu devolución.
       call_to_action_no_admission_html: Para poder recargar online,<br>deberás activar un Ticket primero
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
-      header: tu saldo
+      header: Tu saldo
       refundable: Reembolsable
     credits_history:
       button: Descargar transacciones
@@ -72,19 +85,16 @@ es:
       description: Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti.
       title: Últimos detalles!
     first_register:
-      gtag: Añadir Tag
+      gtag: Añadir Pulsera o Tarjeta
       ticket: Añadir ticket
+    ticket_registration:
+      title: Tickets
     gtag_registration:
       title: ID de Pulsera/Tarjeta
       card: Tarjeta
       wristband: Pulsera
     paypal:
       button: Sincroniza con PayPal
-    without_admissions:
-      button: Añadir
-    without_gtags:
-      add: Asigna tu Tarjeta o Pulsera
-      button: Introducir número de Tarjeta o Pulsera
     without_gtags_claiming_started:
       claim: Lo sentimos
       description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.

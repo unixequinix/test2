@@ -54,7 +54,20 @@ de:
     privacy_conditions: Nutzungsbedingungen zu
     terms_of_use: Datenschutzbedingungen
   dashboard:
-    orders: Bestellung
+    topup: Top Up
+    refund: Refund
+    orders:
+      title: Bestellung
+      credits: Credits
+      catalog_items: Other Items
+      disclaimer: Remember! Online purchases will be applied onsite at the event
+      complete: Complete
+      cancel: Cancel
+      failed: Failed (this order has to be repeated)
+      in_progress: In progress (will not be applied)
+      cancelled: Cancelled
+      completed: Will be applied on site
+      redeemed: Completed and applied
     admissions:
       call_to_action: Wollen Sie dieses Ticket entfernen?
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich.
@@ -74,17 +87,14 @@ de:
     first_register:
       ticket: Ticket hinzufügen
       wristband: Tag hinzufügen
+    ticket_registration:
+      title: Tickets
     gtag_registration:
       title: Wristband/Card ID
       card: Cashless-Pass
       wristband: Bändchen
     paypal:
       button: Mit PayPal synchronisieren
-    without_admissions:
-      button: Mehr hinzufügen
-    without_gtags:
-      add: Anmelden Tag
-      button: Anmelden Tag
     without_gtags_claiming_started:
       claim: Entschuldigung
       description: Der Zeitraum für Erstattungen ist vorbei. Bei Fragen wenden Sie sich bitte an den Support.

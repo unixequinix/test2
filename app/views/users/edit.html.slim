@@ -10,7 +10,7 @@
             .tool-item
               = link_to admins_events_path do
                 span#undo.material-icons undo
-                span.mdl-tooltip data-mdl-for="undo"  Back
+                span.mdl-tooltip data-mdl-for="undo" = t("actions.back")
 
       = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .field

@@ -54,7 +54,20 @@ th:
     privacy_conditions: นโยบายความเป็นส่วนตัว
     terms_of_use: ข้อตกลงการใช้งาน
   dashboard:
-    orders: Orders
+    topup: Top Up
+    refund: Refund
+    orders:
+      title: Orders
+      credits: Credits
+      catalog_items: Other Items
+      disclaimer: Remember! Online purchases will be applied onsite at the event
+      complete: Complete
+      cancel: Cancel
+      failed: Failed (this order has to be repeated)
+      in_progress: In progress (will not be applied)
+      cancelled: Cancelled
+      completed: Will be applied on site
+      redeemed: Completed and applied
     admissions:
       call_to_action: ต้องการยกเลิกบัตรเข้างาน?
       call_to_action_started: "'งานได้เริ่มแล้ว ไม่สามารถยกเลิกบัตรเข้างานได้"
@@ -74,17 +87,14 @@ th:
     first_register:
       gtag: Add Tag
       ticket: Add ticket
+    ticket_registration:
+      title: Tickets
     gtag_registration:
       title: หมายเลข Tag ของคุณ
       card: Card
       wristband: Wristband
     paypal:
       button: Sync with PayPal
-    without_admissions:
-      button: ใส่บัตรเข้างานในระบบ
-    without_gtags:
-      add: Assign Tag
-      button: Assign Tag
     without_gtags_claiming_started:
       claim: ขออภัย
       description: หมดเขตการขอรับเงินคืนแล้ว หากมีข้อสงสัย กรุณาติดต่อเรา

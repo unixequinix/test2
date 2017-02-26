@@ -1,7 +1,7 @@
 - content_for(:actions) do
   = link_to admins_event_stations_path(@current_event, group: @group), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
+    span.mdl-tooltip data-mdl-for="undo" = t("actions.back")
 
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
   = simple_form_for [:admins, @current_event, station], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
