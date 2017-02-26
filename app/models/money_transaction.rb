@@ -7,7 +7,7 @@ class MoneyTransaction < Transaction
   end
 
   def description
-    act = credits.positive? ? "Payment" : "Cancellation"
+    act = price.positive? ? "Payment" : "Cancellation"
     "#{act}: #{event.currency} #{format('%20.2f', price)}"
   end
 
