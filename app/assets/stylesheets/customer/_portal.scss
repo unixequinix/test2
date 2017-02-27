@@ -103,7 +103,10 @@ input:-webkit-autofill {
 }
 
 .login-header{
-  img{ width: 100%;}
+  text-align: center;
+  img{
+    max-height: 80px;
+  }
 }
 
 
