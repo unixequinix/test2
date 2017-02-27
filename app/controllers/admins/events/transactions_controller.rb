@@ -1,7 +1,7 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type
-  before_action :set_transactions, except: [:show, :fix]
-  before_action :set_transaction, only: [:show, :update, :fix]
+  before_action :set_transactions, except: [:show, :fix, :status_9, :status_0]
+  before_action :set_transaction, only: [:show, :update, :fix, :status_9, :status_0]
 
   def index
     @display = true
@@ -28,16 +28,16 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
     end
   end
 
-  def fix
-    find_atts = { device_created_at: @transaction.device_created_at, gtag_id: @transaction.gtag_id, type: "MoneyTransaction" }
-    money_t = @current_event.transactions.find_by(find_atts)
-
-    fix_atts = { status_code: 0, status_message: "FIX" }
-    @transaction.update!(fix_atts)
+  def status_9
+    @transaction.update(status_code: 9, status_message: "cancelled by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    money_t&.update(fix_atts)
+    redirect_to(:back, notice: "Transaction cancelled successfully")
+  end
 
-    redirect_to(:back, notice: "Transaction fixed successfully")
+  def status_0
+    @transaction.update(status_code: 0, status_message: "accepted by user #{current_user.email}")
+    @transaction.gtag&.recalculate_balance
+    redirect_to(:back, notice: "Transaction accepted successfully")
   end
 
   private
