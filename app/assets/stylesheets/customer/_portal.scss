@@ -1,5 +1,13 @@
 @import "colors";
 
+.fixed-background{
+  background: no-repeat center center fixed;
+  background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+}
+
 body {
   color: $color_text;
 }
@@ -40,10 +48,6 @@ input:-webkit-autofill {
   img{
     width: 60%;
   }
-}
-
-.fixed-background {
-  background-size: 100% 100%;
 }
 
 .customer-card-wide{
@@ -142,7 +146,6 @@ input:-webkit-autofill {
   transition: all .3s;
   display: block;
   width: 100%;
-  margin-bottom: 1.2rem;
 
 
   i {
@@ -168,6 +171,14 @@ input:-webkit-autofill {
 
     &:hover {
       background: lighten($google, 12%)
+    }
+  }
+
+  &--account {
+    background: #EF5350;
+
+    &:hover {
+      background: lighten(#EF5350, 12%)
     }
   }
 }
@@ -532,8 +543,11 @@ ul.container-payment-buttons{
   font-weight: 800;
 }
 
-
-
+.static_pages.terms_of_use,
+.static_pages.privacy_policy{
+  background-image: none !important;
+  background-color: #E0E0E0;
+}
 
 
 

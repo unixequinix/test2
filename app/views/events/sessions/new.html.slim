@@ -24,6 +24,10 @@
               = fa_icon "google"
               = "Sign in with Google"
 
+          .mdl-cell.mdl-cell--12-col
+            = link_to event_register_path(current_event), class: "social-btn social-btn--account" do
+              = t('sessions.create_account.link')
+
       .traditional-login
         .content-grid.mdl-grid
           .mdl-cell.mdl-cell--12-col
@@ -31,10 +35,14 @@
               = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
               = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
               = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
-              = f.button :submit, t('links.buttons.sign_in'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
-            .wrapper-redirect-sessions
-              = link_to t('sessions.create_account.link'), event_register_path(current_event)
-              = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
+              .content-grid.mdl-grid
+                .mdl-cell.mdl-cell--6-col
+                  = f.button :submit, t('links.buttons.sign_in'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                .mdl-cell.mdl-cell--6-col
+                  = link_to event_recover_password_path(current_event), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" do
+                    = t('sessions.create_account.lost_password')
+
+
 
 
 
