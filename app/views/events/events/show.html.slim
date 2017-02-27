@@ -88,7 +88,7 @@
         .orders-disclaimer = t('dashboard.orders.disclaimer')
     .mdl-card__supporting-text
       ul.container-purchase-order
-        - @current_customer.orders.each do |order|
+        - @current_customer.orders.order(created_at: :desc).each do |order|
           .order
             .order__header
               .content-grid.mdl-grid

@@ -1,6 +1,4 @@
 class Order < ActiveRecord::Base
-  default_scope { order(created_at: :desc) }
-
   belongs_to :event
   belongs_to :customer, touch: true
   has_many :order_items, dependent: :destroy
@@ -32,7 +30,7 @@ class Order < ActiveRecord::Base
   end
 
   def cancel!(payment)
-    update(status: "cancelled", refund_data: payment)
+    update!(status: "cancelled", refund_data: payment)
   end
 
   def cancelled?
@@ -75,6 +73,7 @@ class Order < ActiveRecord::Base
 
   def max_credit_reached
     return unless customer
+    return if cancelled?
     max_credits = customer.event.maximum_gtag_balance.to_f
     max_credits_reached = customer.orders.completed.map(&:credits).sum + credits > max_credits
     errors.add(:credits, I18n.t("errors.messages.max_credits_reached")) if max_credits_reached
