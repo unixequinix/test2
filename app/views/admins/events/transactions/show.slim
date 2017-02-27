@@ -18,10 +18,10 @@
                   td = "#{@transaction.event.name} (#{@transaction.event.id})"
                 tr
                   td.mdl-data-table__cell--non-numeric Transaction origin
-                  td = @transaction.transaction_origin
+                  td = @transaction.transaction_origin&.humanize
                 tr
                   td.mdl-data-table__cell--non-numeric Action
-                  td = @transaction.action.humanize
+                  td = @transaction.action&.humanize
                 tr
                   td.mdl-data-table__cell--non-numeric Gtag counter
                   td = @transaction.gtag_counter
@@ -33,7 +33,7 @@
                   td = @transaction.status_message
                 tr
                   td.mdl-data-table__cell--non-numeric Created in device at
-                  td = l Time.zone.parse(@transaction.device_created_at)
+                  td = l Time.zone.parse(@transaction.device_created_at) if @transaction.device_created_at
                 tr
                   td.mdl-data-table__cell--non-numeric Saved in server at
                   td = l @transaction.created_at
