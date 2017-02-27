@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   # Admin panel
   #----------------------------------------------------------
   devise_for :users, controllers: { sessions: "admins/sessions"}
+  devise_scope :user do
+    get "/admins/sign_in", to: "admins/sessions#new"
+  end
 
   resources :users
 

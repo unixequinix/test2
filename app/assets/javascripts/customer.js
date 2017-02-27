@@ -2,6 +2,9 @@
 //= require jquery_ujs
 //= require turbolinks
 
+//= require vendor/fastclick
+//= require vendor/fastclick_load
+
 //= require customer/placeholder-to-label
 //= require customer/nav-mobile
 //= require customer/top-up-buttons
