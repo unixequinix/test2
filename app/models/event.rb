@@ -32,6 +32,7 @@ class Event < ActiveRecord::Base
   LOCALES = [:en, :es, :it, :de, :th].freeze
 
   enum state: { created: 1, launched: 2, started: 3, finished: 4, closed: 5 }
+  enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }) # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: "/assets/background-default.jpg") # rubocop:disable Metrics/LineLength

@@ -12,21 +12,24 @@ es:
     placeholders:
       ticket_code: Código de Ticket
   alerts:
-    admissions: Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta con soporte.
     created: Creado con éxito
-    customer_without_transactions: El perfil no tiene transacciones de crédito
-    destroyed: Eliminado con éxito
-    error: Revisar errores de formulario
-    gtag:
-      already_assigned: Tarjeta o Pulsera ya ha sido asignada a otro usuario
-      invalid: Tarjeta o Pulsera no válida
-    order_complete: Orden completada
-    ticket_already_assigned: Ticket ya asignado
-    ticket_assigned: Ticket asignado correctamente
-    ticket_banned: Ticket no permitido
-    ticket_without_credential: El ticket que has introducido está aún siendo procesado por nuestro sistema y no puede ser asignado. Por favor, inténtalo más tarde o contacta con soporte
-    unassigned: Desactivado con éxito
-    updated: Actualizado con éxito
+    cancelled: Cancelado con éxito
+    credential:
+      already_assigned: "%{item} ya está assignada"
+      assigned: "%{item} assignado con éxito"
+      not_found: "%{item} no encontrado"
+      unassigned: "%{item} desasignado con éxito"
+    customer_without_transactions: The customer doesn't have credit transactions
+    destroyed: Destruido con éxito
+    error: El formulario contiene errores
+    only_letters_dnd_numbers: May only contain letters and numbers
+    order_complete: Pedido completado con éxito
+    updated: Succesfully updated
+    not_authorized: You are not authorized to perform this action
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
   auth:
     mailer:
       reset_password_instructions:
@@ -46,14 +49,18 @@ es:
     no_credit:
       description: No tienes crédito para realizar la devolución
       title: Lo sentimos
-  confirm:
-    log_out: "¿Quieres finalizar la sesión?"
   conditions:
     action: Acepto
     conjunction: y
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
   dashboard:
+    header:
+      home: Inicio
+      edit_account: Cambiar Perfil
+      change_password: Cambiar contraseña
+      log_out: Salir
+    confirm_log_out: "¿Quieres finalizar la sesión?"
     topup: Recarga
     refund: Crea Devolución
     orders:
@@ -85,12 +92,18 @@ es:
       description: Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti.
       title: Últimos detalles!
     first_register:
-      gtag: Añadir Pulsera o Tarjeta
+      gtag:
+        both: Añadir Pulsera o Tarjeta
+        card: Añadir Tarjeta
+        wristband: Añadir Pulsera
       ticket: Añadir ticket
     ticket_registration:
       title: Tickets
     gtag_registration:
-      title: ID de Pulsera/Tarjeta
+      title:
+        both: ID de Pulsera o Tarjeta
+        card: ID de Tarjeta
+        wristband: ID de Pulsera
       card: Tarjeta
       wristband: Pulsera
     paypal:
@@ -161,13 +174,14 @@ es:
     use: Condiciones de uso
   gtag_assignations:
     button: Aceptar
-    call_to_action: "¡Introduce el código de tu Tarjeta o Pulsera y continúa!"
+    call_to_action:
+      both: "¡Introduce el código de tu Tarjeta o Pulsera y continúa!"
+      card: "¡Introduce el código de tu Tarjeta y continúa!"
+      wristband: "¡Introduce el código de tu Pulsera y continúa!"
     description:
-      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu Tarjeta o Pulsera
-      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu Tarjeta o Pulsera.
-      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu Tarjeta o Pulsera
-    info:
-      line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
+      standard: Introduce la segunda fila de números y letras (resaltada en amarillo)
+    info: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
+    placeholder: 'e.j: BA6D7DC0'
   header:
     edit: Editar Perfil
   links:
@@ -175,6 +189,9 @@ es:
       sign_in: Inicia Sesión
     forgot: "¿Olvidaste tu contraseña?"
   orders:
+    cancel_confirmation: "Está seguro de que quiere cancelar el pago de %{price}?"
+    already_cancelled: Este pedido ya ha sido cancelado
+    already_finalised: Este pedido ya ha sido finalizado previamente
     button: Pagar
     card_info: Información de tarjeta
     order_review: Resumen de compra

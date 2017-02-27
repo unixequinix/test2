@@ -171,6 +171,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :card_return_fee,
                                   :token,
                                   :owner_id,
+                                  :gtag_format,
                                   credit_attributes: [:id, :name, :value])
   end
 end

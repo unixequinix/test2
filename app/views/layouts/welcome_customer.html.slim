@@ -24,10 +24,12 @@ html
             - if type.eql?("notice")
               .success-message.full-width
                 = fa_icon "check-circle"
+                | &nbsp;
                 = msg
             - else
               .error-message.full-width
                 = fa_icon "times-circle"
+                | &nbsp;
                 = msg
         = yield
         .mdl-cell.mdl-cell--5-col
