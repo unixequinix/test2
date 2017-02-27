@@ -50,9 +50,13 @@
                     td data-label="Device Created At" = l Time.zone.parse(transaction.device_created_at)
                     td data-label="Actions"
                       - if transaction.status_ok?
-                        = link_to fa_icon("ban"), status_9_admins_event_transaction_path(@current_event, transaction, type: transaction.category)
+                        = link_to status_9_admins_event_transaction_path(@current_event, transaction, type: transaction.category), class: "mdl-button mdl-button--icon" do
+                          span.icon.material-icons id= "cancel_tr_#{transaction.id}" close
                       - else
-                        = link_to fa_icon("check"), status_0_admins_event_transaction_path(@current_event, transaction, type: transaction.category)
+                        = link_to status_0_admins_event_transaction_path(@current_event, transaction, type: transaction.category), class: "mdl-button mdl-button--icon" do
+                          span.icon.material-icons id= "accept_tr_#{transaction.id}" check
+                  span.mdl-tooltip data-mdl-for="cancel_tr_#{transaction.id}" Invalidate
+                  span.mdl-tooltip data-mdl-for="accept_tr_#{transaction.id}" Accept
   .mdl-layout-spacer
 
 
