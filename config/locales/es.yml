@@ -36,7 +36,10 @@ es:
         subject: Solicitud de cambio de contraseña.
   checkout:
     button: Confirmar Orden
-    description: Los créditos que compras aquí serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento.
+    description:
+      both: Los créditos que compras aquí serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento.
+      card: Los créditos que compras aquí serán añadidos automáticamente a tu Tarjeta al entrar al evento.
+      wristband: Los créditos que compras aquí serán añadidos automáticamente a tu Pulsera al entrar al evento.
     store: " tienda"
     total: Total
   claims:
@@ -195,7 +198,7 @@ es:
     button: Pagar
     card_info: Información de tarjeta
     order_review: Resumen de compra
-    payment: Método de pago
+    payment: Detalles de Pago
     payment-buttons:
       braintree:
         icon: credit-card

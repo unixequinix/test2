@@ -46,7 +46,7 @@ class Order < ActiveRecord::Base
   end
 
   def number
-    id.to_s.rjust(12, "0")
+    id.to_s.rjust(7, "0")
   end
 
   def redeemed?

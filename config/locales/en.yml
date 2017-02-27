@@ -36,7 +36,10 @@ en:
         subject: Reset password instructions
   checkout:
     button: Confirm Order
-    description: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
+    description:
+      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
+      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
+      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " store"
     total: Total
   conditions:
@@ -191,7 +194,7 @@ en:
     first_name: First name
     last_name: Last name
     order_review: Order review
-    payment: Payment method
+    payment: Payment Details
     payment-buttons:
       paypal:
         icon: paypal

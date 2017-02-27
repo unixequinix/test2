@@ -8,10 +8,8 @@
 .mdl-cell.mdl-cell--12-col
 .customer-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__supporting-text
-    h4.center-text
-      = @current_event.name
-      = t('checkout.store')
-    p.center-text = t('checkout.description')
+    h4.center-text = t('checkout.store').upcase
+    p.center-text = t("checkout.description.#{@current_event.gtag_format}")
     = form_tag event_orders_path(@current_event), method: :post, class: "wrapper-module form-module", id: "checkout-form" do |f|
       - @catalog_items.each do |category, catalog_items|
         .wrapper-store
