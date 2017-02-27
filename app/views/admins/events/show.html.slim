@@ -158,6 +158,9 @@
         table.table-show.mdl-data-table.mdl-js-data-table.within-card
           tbody
             tr
+              td.mdl-data-table__cell--non-numeric Gtag formats used
+              td = @current_event.gtag_format.to_s.humanize
+            tr
               - if @current_event.logo?
                 td.mdl-data-table__cell--non-numeric
                   |Logo

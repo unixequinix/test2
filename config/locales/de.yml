@@ -12,21 +12,24 @@ de:
     placeholders:
       ticket_code: Veranstaltungsticket Codenummer
   alerts:
-    admissions: Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support.
-    created: Erfolgreich erstellt
+    created: Succesfully created
+    cancelled: Cancelled successfully
+    credential:
+      already_assigned: "%{item} already assigned"
+      assigned: "%{item} successfully assigned"
+      not_found: "%{item} not found"
+      unassigned: "%{item} successfully unassigned"
     customer_without_transactions: The customer doesn't have credit transactions
-    destroyed: Erfolgreich entfernt
-    error: Formfehler prüfen
-    gtag:
-      already_assigned: Dieser Tag ist bereits angemeldet
-      invalid: Die ist keinen gültiger Tag
-    order_complete: Bestellung abgeschlossen
-    ticket_already_assigned: Ticket bereits angemeldet
-    ticket_assigned: Ticket assigned successfully
-    ticket_banned: Ticket is blacklisted
-    ticket_without_credential: The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support
-    unassigned: Erfolgreich nicht zugeteilt
-    updated: Erfolgreich aktualisiert
+    destroyed: Succesfully deleted
+    error: The form contains errors
+    only_letters_end_numbers: May only contain letters and numbers
+    order_complete: Order Completed
+    updated: Succesfully updated
+    not_authorized: You are not authorized to perform this action
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
   auth:
     mailer:
       reset_password_instructions:
@@ -46,14 +49,18 @@ de:
     no_credit:
       description: Sie haben keinen erstattungsfähiges Guthaben
       title: Es tut uns leid
-  confirm:
-    log_out: Möchten Sie diese Sitzung beenden?
   conditions:
     action: Ich stimme den
     conjunction: und den
     privacy_conditions: Nutzungsbedingungen zu
     terms_of_use: Datenschutzbedingungen
   dashboard:
+    header:
+      home: Home
+      edit_account: Edit Account
+      change_password: Change Password
+      log_out: Log Out
+    confirm_log_out: Möchten Sie diese Sitzung beenden?
     topup: Top Up
     refund: Refund
     orders:
@@ -85,12 +92,18 @@ de:
       description: Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben.
       title: Letzte Details!
     first_register:
+      gtag:
+        both: Card or Wristband hinzufügen
+        card: Card hinzufügen
+        wristband: Wristband hinzufügen
       ticket: Ticket hinzufügen
-      wristband: Tag hinzufügen
     ticket_registration:
       title: Tickets
     gtag_registration:
-      title: Wristband/Card ID
+      title:
+        both: Wristband/Card ID
+        card: Card ID
+        wristband: Wristband ID
       card: Cashless-Pass
       wristband: Bändchen
     paypal:
@@ -161,13 +174,14 @@ de:
     use: Nutzungsbedingungen
   gtag_assignations:
     button: Registrieren
-    call_to_action: Card or Wristband anmelden und los!
+    call_to_action:
+      both: Card or Wristband anmelden und los!
+      card: Card anmelden und los!
+      wristband: Wristband anmelden und los!
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
-      simple: Assign the yellow highlighted numbers as appears in your Tag
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
-    info:
-      line_2: 'Symbole möglich: "0" - "9" und "A, B, C, D, E, F"'
+      standard: Assign the second row of numbers and letters (yellow highlighted)
+    info: 'Symbole möglich: "0" - "9" und "A, B, C, D, E, F"'
+    placeholder: 'e.g: BA6D7DC0'
   header:
     edit: Profil bearbeiten
   links:
@@ -175,6 +189,9 @@ de:
       sign_in: Login
     forgot: Passwort vergessen?
   orders:
+    cancel_confirmation: "Are you sure you want to cancel payment of %{price}?"
+    already_cancelled: Order already cancelled
+    already_finalised: This order has already been finalised
     button: Bezahlen
     card_info: Karteninformation
     order_review: Überprüfung der Bestellung

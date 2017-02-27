@@ -8,7 +8,7 @@ class Events::MercadopagoController < Events::PaymentsController
     if response.success?
       @order.complete!("mercadopago", response.params.as_json)
       finish_payment!(@order, "mercadopago")
-      redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
+      redirect_to customer_root_path(@current_event), notice: t("alerts.order_complete")
     else
       @order.fail!("mercadopago", response.params.as_json)
       flash.now[:alert] = response.message
@@ -17,13 +17,13 @@ class Events::MercadopagoController < Events::PaymentsController
   end
 
   def refund
-    redirect_to(customer_root_path(@current_event), alert: "Order already cancelled") && return unless @order.completed?
+    redirect_to(customer_root_path(@current_event), alert: t("orders.already_cancelled")) && return unless @order.completed?
     response = mercadopago.refund(@total, @order.payment_data["id"], order_id: @order.id)
 
     if response.success?
       @order.cancel!(response.params.as_json)
       cancel_payment!(@order, "mercadopago")
-      redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
+      redirect_to customer_root_path(@current_event), notice: t("alerts.cancelled")
     else
       redirect_to customer_root_path(@current_event), alert: response.message
     end

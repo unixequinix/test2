@@ -12,21 +12,24 @@ th:
     placeholders:
       ticket_code: หมายเลขบาร์โค้ดของงาน
   alerts:
-    admissions: Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support.
-    created: สร้างสำเร็จ
+    created: Succesfully created
+    cancelled: Cancelled successfully
+    credential:
+      already_assigned: "%{item} already assigned"
+      assigned: "%{item} successfully assigned"
+      not_found: "%{item} not found"
+      unassigned: "%{item} successfully unassigned"
     customer_without_transactions: The customer doesn't have credit transactions
-    destroyed: ทำลายสำเร็จ
-    error: ดูรายละเอียดของข้อผิดพลาด
-    gtag:
-      already_assigned: This Tag is already assigned
-      invalid: Tag ไม่ถูกต้อง
-    order_complete: รายการสำเร็จ
-    ticket_already_assigned: Ticket already assigned
-    ticket_assigned: Ticket assigned successfully
-    ticket_banned: Ticket is blacklisted
-    ticket_without_credential: The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support
-    unassigned: ยกเลิกสำเร็จ
-    updated: อัพเดทสำเร็จ
+    destroyed: Succesfully deleted
+    error: The form contains errors
+    only_letters_end_numbers: May only contain letters and numbers
+    order_complete: Order Completed
+    updated: Succesfully updated
+    not_authorized: You are not authorized to perform this action
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
   auth:
     mailer:
       reset_password_instructions:
@@ -46,14 +49,18 @@ th:
     no_credit:
       description: You don't have sufficient refundable balance
       title: Sorry
-  confirm:
-    log_out: Do you want to end this session?
   conditions:
     action: ข้าพเจ้าตกลง
     conjunction: และ
     privacy_conditions: นโยบายความเป็นส่วนตัว
     terms_of_use: ข้อตกลงการใช้งาน
   dashboard:
+    header:
+      home: Home
+      edit_account: Edit Account
+      change_password: Change Password
+      log_out: Log Out
+    confirm_log_out: Do you want to end this session?
     topup: Top Up
     refund: Refund
     orders:
@@ -85,12 +92,18 @@ th:
       description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
       title: Ultimating details!
     first_register:
-      gtag: Add Tag
+      gtag:
+        both: Add Card or Wristband
+        card: Add Card
+        wristband: Add Wristband
       ticket: Add ticket
     ticket_registration:
       title: Tickets
     gtag_registration:
-      title: หมายเลข Tag ของคุณ
+      title:
+        both: Wristband/Card ID
+        card: Card ID
+        wristband: Wristband ID
       card: Card
       wristband: Wristband
     paypal:
@@ -161,13 +174,14 @@ th:
     use: ข้อตกลงการใช้งาน
   gtag_assignations:
     button: ตกลง
-    call_to_action: ระบุ Card or Wristband ของคุณ และไปต่อ!
+    call_to_action:
+      both: Assign your Card or Wristband and go!
+      card: Assign your Card and go!
+      wristband: Assign your Wristband and go!
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
-      simple: Assign the yellow highlighted numbers as appears in your Tag
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
-    info:
-      line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
+      standard: Read the second row of numbers and letters (yellow highlighted)
+    info: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
+    placeholder: 'e.g: BA6D7DC0'
   header:
     edit: แก้ไขบัญชีผู้ใช้งาน
   links:
@@ -175,6 +189,9 @@ th:
       sign_in: เข้าระบบ
     forgot: ลืมรหัสผ่าน?
   orders:
+    cancel_confirmation: "Are you sure you want to cancel payment of %{price}?"
+    already_cancelled: Order already cancelled
+    already_finalised: This order has already been finalised
     button: ชำระเงิน
     card_info: Card Info
     order_review: Order review

@@ -21,6 +21,12 @@
         .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
           i.material-icons attach_file
           = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
+    .fieldset
+      .section-header
+        i.material-icons loyalty
+        span Gtag Format
+      .form-inputs
+        = f.input :gtag_format, as: :select, collection: Event.gtag_formats.keys, include_blank: false, placeholder: true
 
     .form-actions
       .col-sm-offset-3.col-sm-9

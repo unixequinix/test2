@@ -12,21 +12,24 @@ it:
     placeholders:
       ticket_code: Codice Numerico Biglietto
   alerts:
-    admissions: Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support.
-    created: Creato con successo
+    created: Succesfully created
+    cancelled: Cancelled successfully
+    credential:
+      already_assigned: "%{item} already assigned"
+      assigned: "%{item} successfully assigned"
+      not_found: "%{item} not found"
+      unassigned: "%{item} successfully unassigned"
     customer_without_transactions: The customer doesn't have credit transactions
-    destroyed: Rimosso con successo
-    error: Controlla il modulo per possibili errori
-    gtag:
-      already_assigned: This Paycard is already assigned
-      invalid: Questa PayCard non è valida Paycard
-    order_complete: Ordine completato
-    ticket_already_assigned: Ticket already assigned
-    ticket_assigned: Ticket assigned successfully
-    ticket_banned: Ticket is blacklisted
-    ticket_without_credential: The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support
-    unassigned: Annullato con successo
-    updated: Aggiornato con successo
+    destroyed: Succesfully deleted
+    error: The form contains errors
+    only_letters_end_numbers: May only contain letters and numbers
+    order_complete: Order Completed
+    updated: Succesfully updated
+    not_authorized: You are not authorized to perform this action
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
   auth:
     mailer:
       reset_password_instructions:
@@ -46,14 +49,18 @@ it:
     no_credit:
       description: Il suo saldo rimborsabile non e sufficiente
       title: Ci scusiamo
-  confirm:
-    log_out: Desidera terminare la sessione?
   conditions:
     action: Accetto
     conjunction: e
     privacy_conditions: la informativa sulla privacy
     terms_of_use: condizioni d'uso
   dashboard:
+    header:
+      home: Home
+      edit_account: Edit Account
+      change_password: Change Password
+      log_out: Log Out
+    confirm_log_out: Desidera terminare la sessione?
     topup: Top Up
     refund: Refund
     orders:
@@ -85,12 +92,18 @@ it:
       description: Stiamo terminando la configuration dell’ event per assicurarvi la migliore esperienza. Perfavore, torna più tardi per vedette cost abbiamo preparation per te.
       title: Finalizzando dettagli!
     first_register:
-      gtag: Aggiungi Paycard
+      gtag:
+        both: Aggiungi Paycard
+        card: Aggiungi Carta
+        wristband: Aggiungi Paycard
       ticket: Aggiungi ticket
     ticket_registration:
       title: Tickets
     gtag_registration:
-      title: Wristband/Card ID
+      title:
+        both: Wristband/Card ID
+        card: Card ID
+        wristband: Wristband ID
       card: Paycard
       wristband: Polsino
     paypal:
@@ -161,13 +174,14 @@ it:
     use: Condizioni d'uso
   gtag_assignations:
     button: Registra
-    call_to_action: Registra la tua Paycard e inizia!
+    call_to_action:
+      both: Registra la tua Paycard o Carta e inizia!
+      card: Registra la tua Carta e inizia!
+      wristband: Registra la tua Paycard e inizia!
     description:
-      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Paycard
-      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo Paycard
-      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Paycard
-    info:
-      line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
+      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra)
+    info: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
+    placeholder: 'e.g: BA6D7DC0'
   header:
     edit: Modifica profilo
   links:
@@ -175,6 +189,9 @@ it:
       sign_in: Log in
     forgot: Dimenticato la tua password?
   orders:
+    cancel_confirmation: "Are you sure you want to cancel payment of %{price}?"
+    already_cancelled: Order already cancelled
+    already_finalised: This order has already been finalised
     button: Paga
     card_info: Info Carta
     order_review: Rivedere Ordine

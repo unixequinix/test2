@@ -177,7 +177,7 @@ Rails.application.routes.draw do
       end
 
       resources :ticket_assignments, only: [:new, :create, :destroy]
-      resources :gtag_assignments, only: [:new, :create, :destroy]
+      resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
       resources :gtags, only: [:show]
       resources :orders, expect: :destroy

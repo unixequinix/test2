@@ -44,9 +44,9 @@
       .mdl-cell.mdl-cell--4-col
         .tools
           .tool-item
-            = link_to new_event_ticket_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add" do
+            = link_to new_event_ticket_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add_ticket" do
               span.material-icons add
-              span.mdl-tooltip data-mdl-for="add" = t("dashboard.first_register.ticket")
+              span.mdl-tooltip data-mdl-for="add_ticket" = t("dashboard.first_register.ticket")
     .mdl-card__supporting-text
       ul.demo-list-icon.mdl-list
         - @current_customer.tickets.each do |ticket|
@@ -61,14 +61,14 @@
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
     .mdl-cell.mdl-cell--8-col
-      h4 = t('dashboard.gtag_registration.title')
+      h4 = t("dashboard.gtag_registration.title.#{@current_event.gtag_format}")
     .mdl-cell.mdl-cell--4-col
       - unless @current_customer.active_gtag
         .tools
           .tool-item
-            = link_to new_event_gtag_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add" do
+            = link_to new_event_gtag_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add_gtag" do
               span.material-icons add
-              span.mdl-tooltip data-mdl-for="add" = t("dashboard.first_register.gtag")
+              span.mdl-tooltip data-mdl-for="add_gtag" = t("dashboard.first_register.gtag.#{@current_event.gtag_format}")
   .mdl-card__supporting-text
     ul.demo-list-icon.mdl-list
       - @current_customer.gtags.each do |gtag|
@@ -111,7 +111,7 @@
                     - if order.in_progress?
                       = link_to t("dashboard.orders.complete"), event_order_path(@current_event, order)
                     - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled?
-                      = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: "Are you sure?" }
+                      = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
             ul.items__list
               - order.order_items.each do |order_item|
                 li.order-item
