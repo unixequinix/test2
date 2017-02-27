@@ -36,7 +36,10 @@ th:
         subject: คำสั่งรีเซ็ตรหัสผ่าน
   checkout:
     button: ยืนยันการเติมเงิน
-    description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน Tag หลังจากเข้างาน
+    description:
+      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
+      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
+      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " store"
     total: ทั้งหมด
   claims:
@@ -195,7 +198,7 @@ th:
     button: ชำระเงิน
     card_info: Card Info
     order_review: Order review
-    payment: Payment method
+    payment: Payment Details
     payment-buttons:
       braintree:
         icon: credit-card

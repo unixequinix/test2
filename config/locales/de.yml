@@ -36,7 +36,10 @@ de:
         subject: Anleitung zur Passwort-Rücksetzung
   checkout:
     button: Bestellung bestätigen
-    description: Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein Tag übertragen, sobald Du die Veranstaltung betreten hast.
+    description:
+      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
+      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
+      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " shop"
     total: Summe
   claims:
@@ -195,7 +198,7 @@ de:
     button: Bezahlen
     card_info: Karteninformation
     order_review: Überprüfung der Bestellung
-    payment: Zahlungsmethode
+    payment: Payment Details
     payment-buttons:
       braintree:
         icon: credit-card

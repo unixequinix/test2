@@ -21,10 +21,15 @@
           .vat-text = t('orders.vat')
         td.total-amount #{@order.total_formatted} #{@current_event.currency}
 
-    - if @payment_gateways.size.positive?
+.mdl-cell.mdl-cell--12-col
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+
+    h4
       #payment-anchor = t('orders.payment')
 
-      ul.container-payment-buttons
+    ul.container-payment-buttons
+      - if @payment_gateways.size > 1
         - @payment_gateways.pluck(:name).each_with_index do |gateway, index|
           - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway)
           li

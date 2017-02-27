@@ -36,7 +36,10 @@ it:
         subject: Ripristina le istruzioni di password
   checkout:
     button: Conferma Ordine
-    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo Paycard una volta entrato all’ evento.
+    description:
+      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
+      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
+      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " store"
     total: Totale
   claims:
@@ -195,7 +198,7 @@ it:
     button: Paga
     card_info: Info Carta
     order_review: Rivedere Ordine
-    payment: Metodo di pagamento
+    payment: Payment Details
     payment-buttons:
       braintree:
         icon: credit-card
