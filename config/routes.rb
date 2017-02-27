@@ -84,7 +84,8 @@ Rails.application.routes.draw do
         end
         resources :transactions, only: [:index, :show, :update] do
           post :search, on: :collection
-          get :fix, on: :member
+          get :status_9, on: :member
+          get :status_0, on: :member
         end
         resources :payment_gateways, except: :show do
           member do

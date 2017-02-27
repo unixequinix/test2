@@ -2,7 +2,7 @@ class EventStatsChannel < ApplicationCable::Channel
   def subscribed
     @event = Event.find(params[:id])
     initial_stats(@event)
-    stream_for(@event, coder: ActiveSupport::JSON) { |data| transmit(render_stats(data["data"])) if atts["status_code"].zero? }
+    stream_for(@event, coder: ActiveSupport::JSON) { |data| transmit(render_stats(data["data"])) if data["data"]["status_code"].zero? }
     transmit render(@data)
   end
 
