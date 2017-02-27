@@ -49,10 +49,10 @@ RSpec.describe Order, type: :model do
   describe ".number" do
     it "returns always the same size of digits in the order number" do
       subject.id = 1
-      expect(subject.number.size).to eq(12)
+      expect(subject.number.size).to eq(7)
 
       subject.id = 122
-      expect(subject.number.size).to eq(12)
+      expect(subject.number.size).to eq(7)
     end
   end
 
