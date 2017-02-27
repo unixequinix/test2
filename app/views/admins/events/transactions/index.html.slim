@@ -6,14 +6,14 @@
     = link_to real_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
       span#real_inconsistencies.icon.material-icons report_problem
       span.mdl-tooltip data-mdl-for="real_inconsistencies" Real inconsistencies
-    - if policy(@current_event).missing?
-      = link_to missing_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-        span#missing_inconsistencies.icon.material-icons texture
-        span.mdl-tooltip data-mdl-for="missing_inconsistencies" Missing inconsistencies
-    - if policy(@current_event).resolvable?
-      = link_to resolvable_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-        span#resolvable_inconsistencies.icon.material-icons healing
-        span.mdl-tooltip data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
+  - if policy(@current_event).missing?
+    = link_to missing_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#missing_inconsistencies.icon.material-icons texture
+      span.mdl-tooltip data-mdl-for="missing_inconsistencies" Missing inconsistencies
+  - if policy(@current_event).resolvable?
+    = link_to resolvable_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#resolvable_inconsistencies.icon.material-icons healing
+      span.mdl-tooltip data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
 
 
 
@@ -75,9 +75,9 @@
                 th Customer
             tbody
               - @transactions.each do |transaction|
-                tr class="#{"danger" unless transaction.status_code.zero?}"
-                  td.mdl-data-table__cell--non-numeric data-label="ID" = link_to transaction.action.humanize, admins_event_transaction_path(@current_event, transaction, type: @type)
-                  td data-label="Origin" = transaction.transaction_origin.humanize
+                tr class="#{"danger" unless transaction.status_code.to_i.zero?}"
+                  td.mdl-data-table__cell--non-numeric data-label="ID" = link_to transaction.action&.humanize, admins_event_transaction_path(@current_event, transaction, type: @type)
+                  td data-label="Origin" = transaction.transaction_origin&.humanize
                   td data-label="Counter" = transaction.gtag_counter || transaction.counter
                   td data-label="Station" = transaction.station&.name
                   td data-label="Device"
