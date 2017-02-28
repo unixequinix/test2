@@ -53,7 +53,7 @@
           li.mdl-list__item
             span.mdl-list__item-primary-content
               i.material-icons.mdl-list__item-icon local_play
-              = link_to "#{ticket.ticket.code}", event_ticket_path(@current_event, ticket)
+              = link_to "#{ticket.code}", event_ticket_path(@current_event, ticket)
               - if ticket.ticket_type
                 | &nbsp; - #{ticket.ticket_type.name}
 
