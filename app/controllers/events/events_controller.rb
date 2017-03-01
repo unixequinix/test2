@@ -1,5 +1,5 @@
 class Events::EventsController < ApplicationController
-  layout "welcome_customer"
+  layout "customer"
   protect_from_forgery
   before_action :fetch_current_event
   before_action :authenticate_customer!

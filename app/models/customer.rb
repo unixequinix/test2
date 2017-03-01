@@ -74,7 +74,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def active_credentials
-    [active_gtag, tickets].flatten.compact
+    [active_gtag, tickets.where(banned: false)].flatten.compact
   end
 
   def active_credentials?

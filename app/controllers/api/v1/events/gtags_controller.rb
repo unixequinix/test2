@@ -24,7 +24,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
 
   private
 
-  def gtags_sql
+  def gtags_sql # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
       FROM (
@@ -32,8 +32,15 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
           gtags.tag_uid as reference,
           gtags.banned,
           gtags.updated_at,
+          ticket_types.catalog_item_id,
           customer_id as customer_id
         FROM gtags
+
+        INNER JOIN ticket_types
+          ON ticket_types.id = gtags.ticket_type_id
+          AND ticket_types.hidden = false
+          AND ticket_types.catalog_item_id IS NOT NULL
+
         WHERE
           gtags.event_id = #{@current_event.id} AND
           (customer_id is not NULL OR gtags.banned = TRUE)

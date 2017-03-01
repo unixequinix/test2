@@ -1,5 +1,5 @@
 class Events::RegistrationsController < Devise::RegistrationsController
-  layout "welcome_customer"
+  layout "customer"
   helper_method :current_event
   before_action :configure_permitted_parameters
   helper_method :current_customer

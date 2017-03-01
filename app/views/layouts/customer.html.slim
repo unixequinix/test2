@@ -1,0 +1,82 @@
+doctype html
+html
+  head
+    title = current_event.name
+    = stylesheet_link_tag 'customer', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'customer', 'data-turbolinks-track' => true
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+    link href="https://code.getmdl.io/1.2.1/material.blue_grey-red.min.css" rel="stylesheet"
+    script src="https://code.getmdl.io/1.2.1/material.min.js"
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
+    = csrf_meta_tags
+    = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css"
+
+
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{current_event.background.url})")
+    .content-grid.mdl-grid
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--5-col
+        .login-header
+          .content-grid.mdl-grid.header
+            .mdl-cell.mdl-cell--6-col.header-left
+              = yield(:back)
+            .mdl-cell.mdl-cell--6-col.header-right
+              - if customer_signed_in?
+                = link_to event_url(current_event), class: "header-link" do
+                  i#home.mdl-color-text--red.material-icons home
+                  span.mdl-tooltip data-mdl-for="home" = t("dashboard.header.home")
+                - if current_customer.provider.blank?
+                  = link_to event_change_password_path(current_event), class: "header-link" do
+                    i#pass.mdl-color-text--red.material-icons lock
+                    span.mdl-tooltip data-mdl-for="pass" = t("dashboard.header.change_password")
+                = link_to event_account_path(current_event), class: "header-link" do
+                  i#account.mdl-color-text--red.material-icons supervisor_account
+                  span.mdl-tooltip data-mdl-for="account" = t("dashboard.header.edit_account")
+                - if current_event.finished?
+                  = yield(:history)
+                = link_to event_logout_path(current_event), method: :delete, data: { confirm: (t("dashboard.confirm_log_out")) }, class: "header-link" do
+                  i#out.mdl-color-text--red.material-icons power_settings_new
+                  span.mdl-tooltip data-mdl-for="out" = t("dashboard.header.log_out")
+        - flash.each do |type, msg|
+          - if msg.present? && msg.is_a?(String)
+            - if type.eql?("notice")
+              .success-message.full-width
+                = fa_icon "check-circle"
+                | &nbsp;
+                = msg
+            - else
+              .error-message.full-width
+                = fa_icon "times-circle"
+                | &nbsp;
+                = msg
+        = yield
+        .mdl-cell.mdl-cell--5-col
+        .card
+          footer
+            .content-grid.mdl-grid
+              .mdl-cell.mdl-cell--12-col
+                ul.container-language
+                  - locales = Event::LOCALES.map(&:to_s)
+                  - if locales.length >= 1
+                    - locales.each_with_index do |locale, index|
+                      li = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+                      - if (index + 1 < Event::LOCALES.length)
+                        span.footer-separator
+
+                ul.terms-list
+                  li
+                    = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+                  span.footer-separator
+                  li
+                    = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
+
+                ul.copyright
+                  li
+                    = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
+                      = t('footer.copyright')
+                      = Date.current.year
+      .mdl-layout-spacer
+
+javascript:
+  componentHandler.upgradeDom();

@@ -3,9 +3,6 @@
     i#download.mdl-color-text--red.material-icons file_download
     span.mdl-tooltip data-mdl-for="download" #{t('dashboard.credits_history.button')}
 
-
-= render 'events/shared/header'
-
 .mdl-cell.mdl-cell--12-col
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
@@ -13,7 +10,7 @@
       h4 = t('dashboard.credits.header')
     .mdl-cell.mdl-cell--4-col
       .tools
-        - if @current_event.topups? && (@current_event.launched? || @current_event.started?)
+        - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
           .tool-item
             = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
               span.material-icons attach_money
@@ -53,7 +50,7 @@
           li.mdl-list__item
             span.mdl-list__item-primary-content
               i.material-icons.mdl-list__item-icon local_play
-              = link_to "#{ticket.ticket.code}", event_ticket_path(@current_event, ticket)
+              = link_to "#{ticket.code}", event_ticket_path(@current_event, ticket)
               - if ticket.ticket_type
                 | &nbsp; - #{ticket.ticket_type.name}
 

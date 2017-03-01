@@ -1,5 +1,5 @@
 class Events::SessionsController < Devise::SessionsController
-  layout "welcome_customer"
+  layout "customer"
   helper_method :current_event
 
   private
