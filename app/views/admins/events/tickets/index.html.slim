@@ -45,6 +45,7 @@
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Email
               th.mdl-data-table__cell--non-numeric Customer
+              th.mdl-data-table__cell--non-numeric Credential Type
               th Banned
               th Redeemed
           tbody
@@ -57,9 +58,10 @@
                       = link_to edit_admins_event_ticket_path(@current_event, ticket) do
                         button.icon.material-icons id ="edit_#{ticket.id}" edit
                 td.mdl-data-table__cell--non-numeric data-label="First Name" = ticket.full_name
-                td.mdl-data-table__cell--non-numeric data-label="Email"= ticket.purchaser_email
+                td.mdl-data-table__cell--non-numeric data-label="Email" = ticket.purchaser_email
                 td.mdl-data-table__cell--non-numeric data-label="Customer"= link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
-                td data-label="Banned"= best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
+                td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, ticket.ticket_type) if ticket.ticket_type
+                td data-label="Banned" = best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
                 td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])
               span.mdl-tooltip data-mdl-for="edit_#{ticket.id}" Edit
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @tickets

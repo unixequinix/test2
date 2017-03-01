@@ -43,7 +43,8 @@
           thead
             tr
               th.mdl-data-table__cell--non-numeric Tag UID
-              th Customer
+              th.mdl-data-table__cell--non-numeric Customer
+              th.mdl-data-table__cell--non-numeric Credential Type
               th Credits
               th Refundable Credits
               th Banned
@@ -59,7 +60,8 @@
                   .table-action
                     = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{gtag.id}" delete
-                td data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
                 td data-label="Credits" = number_to_event_currency gtag.credits
                 td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])

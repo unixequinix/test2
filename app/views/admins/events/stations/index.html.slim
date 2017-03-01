@@ -16,6 +16,7 @@
             tr
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Type
+              th.mdl-data-table__cell--non-numeric Location
               th Items
               th Hidden
 
@@ -38,6 +39,7 @@
                           button.icon.material-icons id ="delete_#{station.id}" delete
 
                 td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
+                td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
                 td data-label="Items" = station.all_station_items.size
                 td data-label="Hidden" = best_in_place station, :hidden, best_in_place_checkbox([:admins, @current_event, station])
 
