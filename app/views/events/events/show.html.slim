@@ -10,7 +10,7 @@
       h4 = t('dashboard.credits.header')
     .mdl-cell.mdl-cell--4-col
       .tools
-        - if @current_event.topups? && (@current_event.launched? || @current_event.started?)
+        - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
           .tool-item
             = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
               span.material-icons attach_money
