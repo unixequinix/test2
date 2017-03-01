@@ -3,7 +3,6 @@ class Events::StaticPagesController < Events::EventsController
   skip_before_action :authenticate_customer!
   before_action :render_with_locale
 
-
   private
 
   def render_with_locale
