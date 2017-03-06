@@ -53,13 +53,10 @@
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Touchpoint Update Orders
-                  td = best_in_place @current_event, :touchpoint_update_online_orders, best_in_place_checkbox([:admins, @current_event])
+                  td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
                 tr
                   td.mdl-data-table__cell--non-numeric Pos Update Orders
-                  td = best_in_place @current_event, :pos_update_online_orders, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Topup Initialize Gtag
-                  td = best_in_place @current_event, :topup_initialize_gtag, best_in_place_checkbox([:admins, @current_event])
+                  td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
 
 
           .mdl-card__title

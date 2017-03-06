@@ -185,6 +185,22 @@
                 td.italic No background found
             span.mdl-tooltip data-mdl-for="delete_background" Delete Background
             span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
-  - if policy(@current_event).destroy?
-    - if @current_event.created?
-      = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-button--icon" do
+  - if current_user.admin?
+    .mdl-cell.mdl-cell--6-col
+      .transaction-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title
+          .mdl-cell.mdl-cell--12-col
+            i.material-icons supervisor_account
+            | Admin
+        .mdl-card__supporting-text
+          table.table-show.mdl-data-table.mdl-js-data-table.within-card
+            tbody
+              tr
+                td.mdl-data-table__cell--non-numeric Reverse UID
+                td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
+              tr
+                td.mdl-data-table__cell--non-numeric All stations apply orders
+                td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
+              tr
+                td.mdl-data-table__cell--non-numeric All stations initialize gtags
+                td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])

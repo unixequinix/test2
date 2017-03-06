@@ -72,7 +72,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(reference banned customer)
+          gtag_keys = %w(reference redeemed banned catalog_item_id customer)
           customer_keys = %w(id credentials first_name last_name email orders)
           order_keys = %w(catalog_item_id amount status redeemed id)
           credential_keys = %w(reference type redeemed banned)
@@ -88,7 +88,9 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
           gtag = {
             reference: @gtag.tag_uid,
+            redeemed: @gtag.redeemed,
             banned: @gtag.banned,
+            catalog_item_id: @gtag.ticket_type&.catalog_item_id,
             customer: {
               id:  @gtag.customer.id,
               credentials: [{ reference: @gtag.tag_uid, type: "gtag", banned: @gtag.banned, redeemed: @gtag.redeemed }],

@@ -1,5 +1,5 @@
 class Api::V1::GtagSerializer < ActiveModel::Serializer
-  attributes :reference, :banned, :customer
+  attributes :reference, :redeemed, :banned, :catalog_item_id, :customer
 
   def catalog_item_id
     object.ticket_type&.catalog_item_id

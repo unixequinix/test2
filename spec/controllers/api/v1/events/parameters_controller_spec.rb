@@ -52,12 +52,12 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         expect(@body).to include("name" => "sync_time_server_date", "value" => event.sync_time_server_date)
       end
 
-      it "includes topup_initialize_gtag" do
-        expect(@body).to include("name" => "topup_initialize_gtag", "value" => event.topup_initialize_gtag)
+      it "includes stations_apply_orders" do
+        expect(@body).to include("name" => "stations_apply_orders", "value" => event.stations_apply_orders)
       end
 
-      it "includes pos_update_online_orders" do
-        expect(@body).to include("name" => "pos_update_online_orders", "value" => event.pos_update_online_orders)
+      it "includes stations_initialize_gtags" do
+        expect(@body).to include("name" => "stations_initialize_gtags", "value" => event.stations_initialize_gtags)
       end
 
       it "includes sync_time_basic_download" do
@@ -66,10 +66,6 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
 
       it "includes sync_time_event_parameters" do
         expect(@body).to include("name" => "sync_time_event_parameters", "value" => event.sync_time_event_parameters)
-      end
-
-      it "includes touchpoint_update_online_orders" do
-        expect(@body).to include("name" => "touchpoint_update_online_orders", "value" => event.touchpoint_update_online_orders)
       end
 
       it "includes gtag_deposit" do
