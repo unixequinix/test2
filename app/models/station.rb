@@ -19,14 +19,18 @@ class Station < ActiveRecord::Base
                    topup: [:top_up_refund, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix],
                    access: [:access_control, :ticket_validation] }.freeze
 
-  GROUPS = { access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
-             event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation], # rubocop:disable Metrics/LineLength
+  GROUPS = { access: [:ticket_validation, :check_in, :box_office, :staff_accreditation, :access_control],
+             event_management: [:incident_report, :exhibitor, :customer_service, :customer_portal, :operator_permissions, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation], # rubocop:disable Metrics/LineLength
              glownet: [:gtag_recycler, :envelope_linker],
              monetary: [:bar, :vendor, :top_up_refund],
              touchpoint: [:touchpoint] }.freeze
 
   def form
     ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first
+  end
+
+  def group
+    GROUPS.find { |_, value| value.include?(category.to_sym) }&.first.to_s
   end
 
   def unassigned_catalog_items

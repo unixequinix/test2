@@ -3,6 +3,5 @@ FactoryGirl.define do
     event
     sequence(:name) { |n| "Station #{n}" }
     category "customer_portal"
-    group "access"
   end
 end

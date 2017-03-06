@@ -63,9 +63,7 @@ Rails.application.routes.draw do
         resources :accesses
         resources :packs
         resources :ticket_assignments, only: :destroy
-        resources :companies, except: :show do
-          post :visibility, on: :member
-        end
+        resources :companies, except: :show
         resources :users
 
         # Eventbrite
@@ -129,16 +127,12 @@ Rails.application.routes.draw do
         end
         resources :stations do
           post :clone
-          post :visibility
           resources :station_items, only: [:create, :update, :destroy] do
             put :sort, on: :collection
-            post :visibility
             get :find_product, on: :collection
           end
         end
-        resources :ticket_types, except: :show do
-          post :visibility
-        end
+        resources :ticket_types, except: :show
       end
     end
   end

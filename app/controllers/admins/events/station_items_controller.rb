@@ -31,13 +31,6 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     end
   end
 
-  def visibility
-    @item = @klass.find(params[:station_item_id])
-    authorize @item
-    @item.toggle!(:hidden)
-    redirect_to [:admins, @current_event, @item.station], notice: t("alerts.updated")
-  end
-
   def destroy
     @item = @klass.find(params[:id])
     authorize @item

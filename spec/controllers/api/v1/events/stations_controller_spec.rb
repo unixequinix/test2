@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is a box office" do
         before do
-          @station = create(:station, event: event, group: "access", category: "box_office")
+          @station = create(:station, event: event, category: "box_office")
           access = create(:access, event: event)
           @station.station_catalog_items.create(price: rand(1.0...20.0).round(2), catalog_item_id: access.id)
         end
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is a point of sales" do
         before do
-          @station = create(:station, category: "vendor", event: event, group: "monetary")
+          @station = create(:station, category: "vendor", event: event)
           item = create(:product, event: event)
           @station.station_products.create(price: rand(1.0...20.0).round(2), product: item, position: 9)
         end
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       end
 
       context "when the station is a top_up_refund" do
-        before { @station = create(:station, category: "top_up_refund", event: event, group: "monetary") }
+        before { @station = create(:station, category: "top_up_refund", event: event) }
 
         it "returns all the pos stations" do
           get :index, params: { event_id: event.id }
@@ -90,7 +90,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is an access_control" do
         before do
           access = create(:access, event: event)
-          @station = create(:station, category: "access_control", group: "access", event: event)
+          @station = create(:station, category: "access_control", event: event)
           @station.access_control_gates.create(direction: "1", access: access)
           @station.access_control_gates.create(direction: "-1", access: access)
         end

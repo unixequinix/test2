@@ -9,13 +9,13 @@ RSpec.describe Station, type: :model do
 
   describe ".add_predefined_values" do
     it "adds default buttons when is a topup/refund station" do
-      station = build(:station, group: "monetary", category: "top_up_refund")
+      station = build(:station, category: "top_up_refund")
       expect { station.save! }.to change(TopupCredit, :count).by(6)
       expect(station.topup_credits.map(&:amount).sort).to eq([1, 5, 10, 20, 25, 50].sort)
     end
 
     it "adds default buttons when is a cs topup station" do
-      station = build(:station, group: "monetary", category: "cs_topup_refund")
+      station = build(:station, category: "cs_topup_refund")
       expect { station.save! }.to change(TopupCredit, :count).by(6)
       expect(station.topup_credits.map(&:amount).sort).to eq([0.01, 0.10, 0.50, 1, 5, 10].sort)
     end
@@ -23,11 +23,23 @@ RSpec.describe Station, type: :model do
 
   describe ".form" do
     it "returns the association of the given category" do
-      s1 = create(:station, group: "monetary", category: "vendor")
-      s2 = create(:station, group: "access", category: "box_office")
+      s1 = create(:station, category: "vendor")
+      s2 = create(:station, category: "box_office")
 
       expect(s1.form).to eq(:pos)
       expect(s2.form).to eq(:accreditation)
+    end
+  end
+
+  describe ".group" do
+    it "returns the group of the given category" do
+      stub_const("Station::GROUPS", foo: [:bar])
+      expect(build(:station, category: :bar).group).to eql("foo")
+    end
+
+    it "returns empty string if nothing found" do
+      stub_const("Station::GROUPS", foo: [:bar])
+      expect(build(:station, category: :meh).group).to eql("")
     end
   end
 
