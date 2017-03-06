@@ -45,10 +45,6 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     if @pack.update(permitted_params)
       @pack.pack_catalog_items.find_or_initialize_by(catalog_item: @item).update(amount: flag)
 
-      # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
-      @pack.pack_catalog_items.map(&:save)
-      @pack.pack_catalog_items.select(&:marked_for_destruction?).map(&:destroy)
-
       redirect_to [:admins, @current_event, @pack], notice: t("alerts.updated")
     else
       flash.now[:alert] = t("alerts.error")

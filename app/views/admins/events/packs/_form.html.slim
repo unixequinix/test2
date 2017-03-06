@@ -45,6 +45,7 @@ javascript:
       $(this).prev('input[type=hidden]').val('1');
       $(this).closest('fieldset').hide();
       return event.preventDefault();
+
     });
 
     return $('form').on('click', '.add_fields', function(event) {
