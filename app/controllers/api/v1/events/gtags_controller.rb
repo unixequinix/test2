@@ -33,7 +33,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
           gtags.banned,
           gtags.updated_at,
           ticket_types.catalog_item_id as catalog_item_id,
-          customer_id as customer_id
+          customer_id
         FROM gtags
 
         INNER JOIN ticket_types
@@ -43,7 +43,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
 
         WHERE
           gtags.event_id = #{@current_event.id} AND
-          (customer_id is not NULL OR gtags.banned = TRUE OR catalog_item_id is not NULL)
+          (gtags.customer_id is not NULL OR gtags.banned = TRUE OR ticket_types.catalog_item_id is not NULL)
           #{"AND gtags.updated_at > '#{@modified}'" if @modified}
       ) g
     SQL
