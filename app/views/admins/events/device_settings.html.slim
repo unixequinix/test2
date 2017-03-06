@@ -43,20 +43,27 @@
       .mdl-layout-spacer
       .mdl-cell.mdl-cell--6-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-card__title-text
-              i.material-icons shopping_cart
-              | Initialization
+          - if current_user.admin?
+            .mdl-card__title
+              .mdl-card__title-text
+                i.material-icons supervisor_account
+                | Admin Only
 
-          .mdl-card__supporting-text
-            table.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Touchpoint Update Orders
-                  td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Pos Update Orders
-                  td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Your Access Token
+                    td = @current_user.access_token
+                  tr
+                    td.mdl-data-table__cell--non-numeric Reverse UID
+                    td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric All stations apply orders
+                    td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric All stations initialize gtags
+                    td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
 
 
           .mdl-card__title
@@ -108,7 +115,3 @@
                   td.mdl-data-table__cell--non-numeric Sync Time Customers
                   td = best_in_place @current_event, :sync_time_customers, url: [:admins, @current_event]
       .mdl-layout-spacer
-
-
-.container-invisible
-  = current_user.access_token
