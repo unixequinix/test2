@@ -5,10 +5,6 @@
   = link_to new_admins_event_pack_path, class: "mdl-button mdl-button--icon" do
     span#add.icon.material-icons add
     span.mdl-tooltip data-mdl-for="add"  Add
-  span#bulk.icon.material-icons more_vert
-  span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
-  ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-    li.mdl-menu__item#delete_multiple data-type="pack" Delete selected
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -16,14 +12,14 @@
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @packs
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+        table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Items
           tbody
             - @packs.each do |pack|
-              tr data-event=@current_event.id data-pack=pack.id
+              tr
                 td.mdl-data-table__cell--non-numeric data-label="Name"
                   = link_to(pack.name, admins_event_pack_path(@current_event, pack))
                   .table-action

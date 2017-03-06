@@ -5,10 +5,6 @@
   = link_to new_admins_event_access_path, class: "mdl-button mdl-button--icon" do
     span#add_access.material-icons add
     span.mdl-tooltip data-mdl-for="add_access"  Add
-  span#bulk.icon.material-icons more_vert
-  span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
-  ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-    li.mdl-menu__item#delete_multiple data-type="access" Delete selected
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -17,14 +13,14 @@
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+        table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Mode
           tbody
             - @accesses.each do |access|
-              tr data-event=@current_event.id data-access=access.id
+              tr
                 td.mdl-data-table__cell--non-numeric data-label="Name"
                   = link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
                   - if @current_event.created?

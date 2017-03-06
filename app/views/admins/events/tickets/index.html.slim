@@ -15,10 +15,7 @@
   = link_to '#import-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#upload.icon.material-icons file_upload
     span.mdl-tooltip data-mdl-for="upload"  Import
-  span#bulk.icon.material-icons more_vert
-  span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
-  ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-    li.mdl-menu__item#delete_multiple data-type="ticket" Delete selected
+
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
@@ -38,7 +35,7 @@
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @tickets
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+        table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
               th.mdl-data-table__cell--non-numeric Code
@@ -50,7 +47,7 @@
               th Redeemed
           tbody
             - @tickets.each do |ticket|
-              tr data-event=@current_event.id data-ticket=ticket.id
+              tr
                 td.mdl-data-table__cell--non-numeric data-label="Code"
                   = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
                   - unless @current_event.started?
