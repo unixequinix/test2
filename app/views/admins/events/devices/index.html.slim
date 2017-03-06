@@ -1,4 +1,4 @@
-- colors = { to_check: "#E53A40", live: "#fc913a", locked: "#56A902"}
+- classes = { to_check: "bad_info", live: "neutral_info", locked: "good_info"}
 
 
 - if @assets.any?
@@ -20,8 +20,9 @@
 
 - ["live", "to_check", "locked"].each do |type|
   - next unless @assets[type]
+  - klass = classes[type.to_sym]
   br
-  h4 style="text-align: center; width: 100%; color: #{colors[type.to_sym]}" = type.humanize
+  h4 style="text-align: center; width: 100%;" class="#{klass}" = type.humanize
 
   .clearfix
   - @assets[type].sort_by { |h| h.last[:asset_tracker].to_s }.each do |device, info|
@@ -34,17 +35,17 @@
           .small= info[:action]&.humanize
 
       .mdl-card__supporting-text
-        .small style="color: #{colors[type.to_sym]};" = info[:msg]
+        .small class="#{klass}" = info[:msg]
         br
         table.small style="width: 100%;"
           - if info[:station]
             tr
               td Station
-              td style="color: #{colors[type.to_sym]};" = info[:station]
+              td class="#{klass}" = info[:station]
           - if info[:last_time_used]
             tr
               td Time
-              td style="color: #{colors[type.to_sym]};" = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
+              td class="#{klass}" = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
   .clearfix
 
 
