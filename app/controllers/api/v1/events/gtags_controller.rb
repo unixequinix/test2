@@ -31,6 +31,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
         SELECT
           gtags.tag_uid as reference,
           gtags.banned,
+          gtags.redeemed,
           gtags.updated_at,
           ticket_types.catalog_item_id as catalog_item_id,
           customer_id
