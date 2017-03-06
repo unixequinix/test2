@@ -17,7 +17,7 @@ class Station < ActiveRecord::Base
   ASSOCIATIONS = { accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
                    pos: [:bar, :vendor],
                    topup: [:top_up_refund, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix],
-                   access: [:access_control, :ticket_validation] }.freeze
+                   access: [:access_control] }.freeze
 
   GROUPS = { access: [:ticket_validation, :check_in, :box_office, :staff_accreditation, :access_control],
              event_management: [:incident_report, :exhibitor, :customer_service, :customer_portal, :operator_permissions, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation], # rubocop:disable Metrics/LineLength
@@ -26,10 +26,12 @@ class Station < ActiveRecord::Base
              touchpoint: [:touchpoint] }.freeze
 
   def form
-    ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first
+    return unless category
+    ASSOCIATIONS.find { |_, value| value.include?(category.to_sym) }&.first
   end
 
   def group
+    return unless category
     GROUPS.find { |_, value| value.include?(category.to_sym) }&.first.to_s
   end
 

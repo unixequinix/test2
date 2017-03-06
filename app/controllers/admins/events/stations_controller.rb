@@ -14,9 +14,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def new
-    @station = @current_event.stations.new(category: Station::GROUPS[params[:group].to_sym])
+    @station = @current_event.stations.new
     authorize @station
-    @group = @station.group
+    @group = params[:group]
   end
 
   def create

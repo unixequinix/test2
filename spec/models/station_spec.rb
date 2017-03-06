@@ -37,9 +37,12 @@ RSpec.describe Station, type: :model do
       expect(build(:station, category: :bar).group).to eql("foo")
     end
 
-    it "returns empty string if nothing found" do
-      stub_const("Station::GROUPS", foo: [:bar])
+    it "returns empty string if category is not found" do
       expect(build(:station, category: :meh).group).to eql("")
+    end
+
+    it "returns nil if category is nil" do
+      expect(build(:station, category: nil).group).to eql(nil)
     end
   end
 
