@@ -14,8 +14,6 @@
           = f.input :password, autocomplete: "off"
         .field
           = f.input :password_confirmation, autocomplete: "off"
-        .field
-          = f.input :role, collection: User.roles.keys - ["admin"], include_blank: false
         .form-actions
           = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer

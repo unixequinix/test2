@@ -49,6 +49,6 @@ class Admins::Events::UsersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :role)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
