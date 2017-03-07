@@ -12,9 +12,13 @@
         class: "amount-input",
         data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
 
-    .top-up-amount [data-id="#{catalog_item.id}"]
-      span [id="amount-total-#{catalog_item.id}"] #{@current_event.maximum_gtag_balance / 2}
-      span #{@current_event.currency}
+    - if @current_event.credit.value != 1
+      .top-up-amount [data-id="#{catalog_item.id}"]
+        span [id="amount-total-#{catalog_item.id}"] #{@current_event.maximum_gtag_balance / 2}
+        span = @current_event.currency
+    - else
+      .top-up-amount
+        span = @current_event.currency
 
   .mdl-cell.mdl-cell--4-col
     .plus-button
