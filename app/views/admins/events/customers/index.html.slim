@@ -5,10 +5,20 @@
   = search_form_for @q, url: admins_event_customers_path do |f|
     = f.search_field :email_or_first_name_or_last_name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
+
 - content_for(:actions) do
-  = link_to admins_event_customers_path(format: "csv"), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#download.icon.material-icons file_download
-    span.mdl-tooltip data-mdl-for="download" Download CSV
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_customers_path(format: "csv") do
+          button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_download
+            span.mdl-tooltip data-mdl-for="download" Download CSV
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
 
 .content-grid.mdl-grid
   .mdl-layout-spacer

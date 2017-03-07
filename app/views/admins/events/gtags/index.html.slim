@@ -6,15 +6,27 @@
     = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-    = link_to new_admins_event_gtag_path, class: "mdl-button mdl-button--icon" do
-      span#add.icon.material-icons add
-      span.mdl-tooltip data-mdl-for="add"  Add
-    = link_to admins_event_gtags_path(format: "csv"), class: "mdl-button mdl-button--icon" do
-      span#file_download.icon.material-icons file_download
-      span.mdl-tooltip data-mdl-for="file_download"  Download CSV
-    = link_to '#import-modal', class: "mdl-button mdl-button--icon" do
-      span#upload.icon.material-icons file_upload
-      span.mdl-tooltip data-mdl-for="upload"  Import
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_event_gtag_path do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip data-mdl-for="add" Add
+      li.floaty-list-item
+        = link_to admins_event_gtags_path(format: "csv") do
+          button#file_download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_download
+            span.mdl-tooltip data-mdl-for="file_download" Download CSV
+      li.floaty-list-item
+        = link_to '#import-modal' do
+          button#upload.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_upload
+            span.mdl-tooltip data-mdl-for="upload" Import
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"

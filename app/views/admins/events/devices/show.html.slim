@@ -2,8 +2,8 @@
   | Device #{@device.asset_tracker}
 
 
-.mdl-grid
-  .mdl-cell.mdl-cell--12-col
+.mdl-grid.light-grid
+  .mdl-cell.mdl-cell--10-col
     h1.middle style="color: #999"
       = number_with_delimiter @transactions.count
       .small Transactions currently in the server for this device
