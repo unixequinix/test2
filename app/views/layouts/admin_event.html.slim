@@ -28,9 +28,10 @@ html
             span.mdl-tooltip data-mdl-for="launch" Customer Portal
           |  &nbsp;&nbsp;
 
-          = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item" do
+          = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details" do
             = @current_event.name
             = " (CLOSED)" if @current_event.closed?
+            span.mdl-tooltip data-mdl-for="event_details" Event Dashboard
 
           .mdl-layout-spacer
 
@@ -47,10 +48,6 @@ html
             |  &nbsp;&nbsp;
 
           = yield(:actions)
-
-          = link_to [:admins, @current_event], class: "mdl-button mdl-button--icon" do
-            span#event_details.icon.material-icons info
-            span.mdl-tooltip data-mdl-for="event_details" Event Details
 
           = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
             span#out.icon.material-icons power_settings_new
