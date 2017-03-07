@@ -1,7 +1,7 @@
 - content_for(:title) do
   | Asset Tracker
 
-- classes = { to_check: "bad", live: "neutral", locked: "good"}
+- classes = { to_check: "bad", live: "neutral", locked: "good", unused: "neutral2"}
 
 - if @assets.any?
   .content-grid.mdl-grid
@@ -20,7 +20,7 @@
     .mdl-layout-spacer
 
 
-- ["live", "to_check", "locked"].each do |type|
+- %w(live to_check unused locked ).each do |type|
   - next unless @assets[type]
   - klass = classes[type.to_sym]
   br
@@ -37,17 +37,24 @@
           .small= info[:action]&.humanize
 
       .mdl-card__supporting-text
-        .small = info[:msg]
-        br
-        table.small style="width: 100%;"
-          - if info[:station]
-            tr
-              td Station
-              td = info[:station]
-          - if info[:last_time_used]
-            tr
-              td Time
-              td = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
+        - if info[:msg]
+          .small = info[:msg]
+          br
+        - if info[:station] || info[:operator] || info[:last_time_used]
+          b.small Last used
+          table.small style="width: 100%;"
+            - if info[:operator]
+              tr
+                td By
+                td.right = info[:operator]
+            - if info[:station]
+              tr
+                td At
+                td.right = info[:station]
+            - if info[:last_time_used]
+              tr
+                td On
+                td.right = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
   .clearfix
 
 

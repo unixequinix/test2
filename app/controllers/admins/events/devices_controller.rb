@@ -14,6 +14,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
 
       device_trans = pack_transactions - init_transactions
       case
+        when count.zero? then status = "unused"
         when last.action.eql?("device_initialization") then status = "live"
         when last.action.in?(pack_names) && (device_trans == count) then status = "locked"
         when (last.number_of_transactions - last.device_db_index == count) && device_transactions.map(&:device_db_index).count(1).eql?(1) then status = "locked"
@@ -24,14 +25,19 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
       @assets[uid] = @assets[uid].to_h
       device = Device.find_by(mac: uid)
       count_diff = device_trans - count
-      msg = count_diff.positive? ? "Device has #{count_diff.abs} transactions too many" : "Server has #{count_diff.abs} transactions too many"
-      msg = "Good to go!" if count_diff.zero?
+      msg = case
+              when count_diff.positive? then "+#{count_diff.abs} transactions in Device"
+              when count_diff.negative? then "+#{count_diff.abs} transactions in Server"
+              when count.zero? then "No transactions received at all"
+              when count_diff.zero? then nil
+      end
       @assets[uid].merge!(msg: msg,
                           count_diff: count_diff,
                           action: last&.action,
                           status: status,
                           asset_tracker: device&.asset_tracker,
                           device_id: device&.id,
+                          operator: last_onsite&.operator_tag_uid,
                           station: last_onsite&.station&.name,
                           last_time_used: last_onsite&.device_created_at)
     end
