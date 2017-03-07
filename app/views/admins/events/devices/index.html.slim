@@ -42,8 +42,8 @@
 
           .mdl-card__supporting-text
             - if info[:msg]
-              .small = info[:msg]
-              br
+              .small.bad_info style="padding-bottom: 5px" = info[:msg]
+
             - if info[:station] || info[:operator] || info[:last_time_used]
               b.small Last used
               table.small style="width: 100%;"
