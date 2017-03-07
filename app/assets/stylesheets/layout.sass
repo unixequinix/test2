@@ -13,6 +13,9 @@ a.mdl-navigation__link
 input:-webkit-autofill
   -webkit-box-shadow: 0 0 0px 1000px white inset
 
+.mdl-grid.light-grid
+  padding: 0 !important
+
 .material-icons
   display: inline-flex
   align-items: center
@@ -97,9 +100,6 @@ input:-webkit-autofill
 
 .mdl-checkbox__box-outline
   border: 1px solid $light_green !important
-
-#bulk
-  cursor: pointer
 
 .mdl-switch.mdl-js-switch
   width: 30%
@@ -314,3 +314,36 @@ label
 
 .container-invisible
   color: white
+
+
+//MENU BTN
+.floaty
+  position: absolute
+  right: 20px
+  bottom: 20px
+  z-index: 1000
+  ul
+    padding: 0
+
+.floaty-list
+  margin: 0 0 10px
+  padding: 0 0 0 6px
+  list-style: none
+  opacity: 0
+  transition: opacity .2s ease-out
+
+.show
+  opacity: 1
+
+.floaty-list-item
+  position: relative
+  width: 40px
+  height: 40px
+  margin: 10px auto
+  button
+    background-color: #80CBC4 !important
+
+.floaty-btn.on
+  transform: rotate(360deg)
+  transition: transform 100ms cubic-bezier(0.1,0.7,1.0,0.1)
+

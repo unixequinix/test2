@@ -4,7 +4,7 @@ class Pack < CatalogItem
   has_many :pack_catalog_items, dependent: :destroy, inverse_of: :pack
   has_many :catalog_items, through: :pack_catalog_items
 
-  accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
+  accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true, reject_if: proc { |att| att['amount'].blank? }
 
   scope :credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) }
   validates :pack_catalog_items, associated: true

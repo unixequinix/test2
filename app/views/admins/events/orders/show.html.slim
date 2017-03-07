@@ -1,7 +1,18 @@
+- content_for(:title) do
+  | Order #{@order.number}
+
 - content_for(:actions) do
-  = link_to admins_event_orders_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#undo.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_orders_path(@current_event) do
+          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -9,9 +20,6 @@
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
-          tr
-            td.mdl-data-table__cell--non-numeric Number
-            td = @order.number
           tr
             td.mdl-data-table__cell--non-numeric Customer
             td = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)
@@ -48,8 +56,8 @@
           - @order.order_items.each do |order_item|
             tr
               td.mdl-data-table__cell--non-numeric = order_item.catalog_item.name
-              td = order_item.amount
-              td = order_item.catalog_item.price
-              td = order_item.total
+              td = number_with_delimiter order_item.amount.to_i
+              td = number_to_event_currency order_item.catalog_item.price
+              td = number_to_event_currency order_item.total
               td = order_item.catalog_item.type
   .mdl-layout-spacer

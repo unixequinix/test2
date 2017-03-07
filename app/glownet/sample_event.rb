@@ -11,14 +11,14 @@ class SampleEvent # rubocop:disable all
 
     UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden")
     @event.create_credit!(value: 1, name: "CRD")
-    station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
+    station = @event.stations.create! name: "Customer Portal", category: "customer_portal"
     station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
-    @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
-    @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
-    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
-    @event.stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
-    @event.stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
-    @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
+    @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund"
+    @event.stations.create! name: "CS Accreditation", category: "cs_accreditation"
+    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up"
+    @event.stations.create! name: "Touchpoint", category: "touchpoint"
+    @event.stations.create! name: "Operator Permissions", category: "operator_permissions"
+    @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler"
 
     data = %w(customers accesses packs products ticket_types tickets
               checkin_stations box_office_stations access_control_stations staff_accreditation_stations
@@ -123,24 +123,24 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_checkin_stations
-    @event.stations.create!(name: "Checkin", group: "access", category: "check_in")
-    @event.stations.create!(name: "Dummy Checkin", group: "access", category: "ticket_validation")
+    @event.stations.create!(name: "Checkin", category: "check_in")
+    @event.stations.create!(name: "Dummy Checkin", category: "ticket_validation")
   end
 
   def self.create_access_control_stations
     accesses = %w(Day Night VIP)
     accesses.each do |access_name|
       item = @event.catalog_items.find_by(name: access_name)
-      station = @event.stations.create!(name: "#{access_name} IN", group: "access", category: "access_control")
+      station = @event.stations.create!(name: "#{access_name} IN", category: "access_control")
       station.access_control_gates.create(direction: 1, access: item)
 
-      station = @event.stations.create!(name: "#{access_name} OUT", group: "access", category: "access_control")
+      station = @event.stations.create!(name: "#{access_name} OUT", category: "access_control")
       station.access_control_gates.create(direction: -1, access: item)
     end
   end
 
   def self.create_box_office_stations
-    station = @event.stations.create!(name: "Box office", group: "access", category: "box_office")
+    station = @event.stations.create!(name: "Box office", category: "box_office")
 
     items = [
       { name: "Day", price: 20 },
@@ -159,7 +159,7 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_staff_accreditation_stations
-    station = @event.stations.create!(name: "Staff Accreditation", group: "access", category: "staff_accreditation")
+    station = @event.stations.create!(name: "Staff Accreditation", category: "staff_accreditation")
     items = ["Staff", "Glownet Staff"]
 
     items.each do |item_name|
@@ -181,7 +181,7 @@ class SampleEvent # rubocop:disable all
       { name: "Market 9", price: 25 },
       { name: "Market 10", price: 50 }
     ]
-    station = @event.stations.create!(name: "MARKET 1", group: "monetary", category: "vendor")
+    station = @event.stations.create!(name: "MARKET 1", category: "vendor")
 
     products.each.with_index do |p, index|
       product = Product.find_by(name: p[:name], event: @event)
@@ -202,7 +202,7 @@ class SampleEvent # rubocop:disable all
       { name: "Product 9", price: 9 },
       { name: "Product 10", price: 10 }
     ]
-    station = @event.stations.create!(name: "BAR 1", group: "monetary", category: "bar")
+    station = @event.stations.create!(name: "BAR 1", category: "bar")
 
     products.each do |p|
       product = Product.find_by(name: p[:name], event: @event)
@@ -211,6 +211,6 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_topup_stations
-    @event.stations.create!(name: "Topup/Refund", group: "monetary", category: "top_up_refund")
+    @event.stations.create!(name: "Topup/Refund", category: "top_up_refund")
   end
 end

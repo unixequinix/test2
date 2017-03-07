@@ -1,24 +1,32 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item Tickets
+  | Tickets
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_tickets_path do |f|
     = f.search_field :code_or_purchaser_email_or_purchaser_first_name_or_purchaser_last_name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-  = link_to new_admins_event_ticket_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#add.icon.material-icons add
-    span.mdl-tooltip data-mdl-for="add"  Add
-  = link_to admins_event_tickets_path(format: "csv"), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#download_csv.icon.material-icons file_download
-    span.mdl-tooltip data-mdl-for="download_csv"  Download CSV
-  = link_to '#import-modal', class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#upload.icon.material-icons file_upload
-    span.mdl-tooltip data-mdl-for="upload"  Import
-  span#bulk.icon.material-icons more_vert
-  span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
-  ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-    li.mdl-menu__item#delete_multiple data-type="ticket" Delete selected
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_event_ticket_path do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+      li.floaty-list-item
+        = link_to admins_event_tickets_path(format: "csv") do
+          button#download_csv.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_download
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download_csv" Download CSV
+      li.floaty-list-item
+        = link_to '#import-modal' do
+          button#upload.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_upload
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="upload" Import
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
@@ -38,18 +46,19 @@
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @tickets
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+        table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
               th.mdl-data-table__cell--non-numeric Code
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Email
               th.mdl-data-table__cell--non-numeric Customer
+              th.mdl-data-table__cell--non-numeric Credential Type
               th Banned
               th Redeemed
           tbody
             - @tickets.each do |ticket|
-              tr data-event=@current_event.id data-ticket=ticket.id
+              tr
                 td.mdl-data-table__cell--non-numeric data-label="Code"
                   = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
                   - unless @current_event.started?
@@ -57,9 +66,10 @@
                       = link_to edit_admins_event_ticket_path(@current_event, ticket) do
                         button.icon.material-icons id ="edit_#{ticket.id}" edit
                 td.mdl-data-table__cell--non-numeric data-label="First Name" = ticket.full_name
-                td.mdl-data-table__cell--non-numeric data-label="Email"= ticket.purchaser_email
+                td.mdl-data-table__cell--non-numeric data-label="Email" = ticket.purchaser_email
                 td.mdl-data-table__cell--non-numeric data-label="Customer"= link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
-                td data-label="Banned"= best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
+                td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, ticket.ticket_type) if ticket.ticket_type
+                td data-label="Banned" = best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
                 td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])
               span.mdl-tooltip data-mdl-for="edit_#{ticket.id}" Edit
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @tickets

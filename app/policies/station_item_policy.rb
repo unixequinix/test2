@@ -25,11 +25,7 @@ class StationItemPolicy < ApplicationPolicy
   end
 
   def destroy?
-    admin_and_promoter && record.station.event.created? && recrod.station.event.active?
-  end
-
-  def visibility?
-    admin_and_promoter && event_open
+    admin_and_promoter && record.station.event.created?
   end
 
   def sort?

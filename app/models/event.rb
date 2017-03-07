@@ -86,14 +86,14 @@ class Event < ActiveRecord::Base
     create_credit!(value: 1, name: "#{name} CRD")
     companies.create!(name: "Glownet", hidden: true)
     user_flags.create!(name: "alcohol_forbidden")
-    station = stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
+    station = stations.create! name: "Customer Portal", category: "customer_portal"
     station.station_catalog_items.create(catalog_item: credit, price: 1)
-    stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
-    stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
-    stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
-    stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
-    stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
-    stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
+    stations.create! name: "CS Topup/Refund", category: "cs_topup_refund"
+    stations.create! name: "CS Accreditation", category: "cs_accreditation"
+    stations.create! name: "Glownet Food", category: "hospitality_top_up"
+    stations.create! name: "Touchpoint", category: "touchpoint"
+    stations.create! name: "Operator Permissions", category: "operator_permissions"
+    stations.create! name: "Gtag Recycler", category: "gtag_recycler"
   end
 
   private

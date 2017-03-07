@@ -18,7 +18,6 @@ html
 
     = csrf_meta_tags
 
-
   body class=("#{controller_name} #{action_name}")
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
@@ -26,15 +25,16 @@ html
           = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank" do
             i#launch.material-icons launch
             span.mdl-tooltip data-mdl-for="launch" Customer Portal
-          |  &nbsp;&nbsp;
+          |  &nbsp; &nbsp;
 
-          = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item" do
+          = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details" do
             = @current_event.name
             = " (CLOSED)" if @current_event.closed?
+            span.mdl-tooltip data-mdl-for="event_details" Event Dashboard
 
           .mdl-layout-spacer
 
-          = yield(:title)
+          .mdl-layout-title.header-item= yield(:title)
 
           .mdl-layout-spacer
 
@@ -44,13 +44,7 @@ html
                 i.material-icons search
               .mdl-textfield__expandable-holder
                 = yield(:search)
-            |  &nbsp;&nbsp;
-
-          = yield(:actions)
-
-          = link_to [:admins, @current_event], class: "mdl-button mdl-button--icon" do
-            span#event_details.icon.material-icons info
-            span.mdl-tooltip data-mdl-for="event_details" Event Details
+            |  &nbsp; &nbsp;
 
           = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
             span#out.icon.material-icons power_settings_new
@@ -129,12 +123,28 @@ html
             i.mdl-color-text--teal-200.material-icons local_activity
             |  Management
 
-
-
       main.mdl-layout__content
         #notifications
           = render 'layouts/notifications'
         .page-content.remodal-bg
           = yield
+
+= yield(:actions)
+
+
+javascript:
+ var $btn = $('.floaty');
+
+ $btn.on('mouseenter click', function() {
+   $("#button").toggleClass('on');
+   $("#changeIcon").html("clear");
+   $("#actions-list").toggleClass('show');
+ });
+
+ $btn.on('mouseleave', function() {
+   $("#button").removeClass('on');
+   $("#changeIcon").html("build");
+   $("#actions-list").removeClass('show');
+ });
 
 

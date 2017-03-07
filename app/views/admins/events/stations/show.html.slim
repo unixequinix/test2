@@ -1,21 +1,36 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item #{@group.to_s.humanize} Station
+   = @station.name.to_s.humanize
 
 - content_for(:actions) do
-  = link_to admins_event_stations_path(group: @station.group), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#undo.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
-  - unless @station.category.eql?("customer_portal")
-    = link_to edit_admins_event_station_path(@current_event, @station), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-      span#edit.icon.material-icons edit
-      span.mdl-tooltip data-mdl-for="edit"  Edit
-    = link_to admins_event_station_clone_path(@current_event, @station), method: :post, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-      span#content_copy.icon.material-icons content_copy
-      span.mdl-tooltip data-mdl-for="content_copy" Clone
-    - unless @current_event.active?
-      = link_to admins_event_station_path(@current_event, @station), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-        span#delete.icon.material-icons delete
-        span.mdl-tooltip data-mdl-for="delete" Delete
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_stations_path(group: @station.group) do
+          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
+      - unless @station.category.eql?("customer_portal")
+        li.floaty-list-item
+          = link_to edit_admins_event_station_path(@current_event, @station) do
+            button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons edit
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+        li.floaty-list-item
+          = link_to admins_event_station_clone_path(@current_event, @station), method: :post do
+            button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons content_copy
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone
+        - unless @current_event.active?
+          li.floaty-list-item
+            = link_to admins_event_station_path(@current_event, @station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+              button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+                i.material-icons delete
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -29,8 +44,8 @@
                 table.mdl-data-table.mdl-js-data-table.within-card
                   tbody
                     tr
-                      td.mdl-data-table__cell--non-numeric Category
-                      td = @station.category
+                      td.mdl-data-table__cell--non-numeric Grouping
+                      td #{@station.category&.humanize} (#{@station.group&.humanize})
                     tr
                       td.mdl-data-table__cell--non-numeric Name
                       td = best_in_place @station, :name, url: [:admins, @current_event, @station]

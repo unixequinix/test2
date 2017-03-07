@@ -1,8 +1,9 @@
 class Admins::Events::OrdersController < Admins::Events::BaseController
   def index
-    @orders = @current_event.orders
+    @orders = @current_event.orders.order(id: :desc)
     authorize @orders
     @orders = @orders.page(params[:page])
+    @counts = @current_event.orders.group(:status).count
   end
 
   def show

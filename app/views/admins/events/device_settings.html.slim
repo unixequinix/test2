@@ -1,10 +1,19 @@
 - content_for(:actions) do
-  = link_to admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#undo.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_path(@current_event) do
+          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
-.content-grid.mdl-grid
-  .mdl-cell.mdl-cell--12-col
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
     .mdl-grid
       .mdl-cell.mdl-cell--12-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
@@ -37,29 +46,36 @@
                       = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
                         span.icon.material-icons file_download
                         | Download
+  .mdl-layout-spacer
 
-  .mdl-cell.mdl-cell--12-col
-    .mdl-grid
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-grid.light-grid
       .mdl-layout-spacer
       .mdl-cell.mdl-cell--6-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-card__title-text
-              i.material-icons shopping_cart
-              | Initialization
+          - if current_user.admin?
+            .mdl-card__title
+              .mdl-card__title-text
+                i.material-icons supervisor_account
+                | Admin Only
 
-          .mdl-card__supporting-text
-            table.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Touchpoint Update Orders
-                  td = best_in_place @current_event, :touchpoint_update_online_orders, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Pos Update Orders
-                  td = best_in_place @current_event, :pos_update_online_orders, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Topup Initialize Gtag
-                  td = best_in_place @current_event, :topup_initialize_gtag, best_in_place_checkbox([:admins, @current_event])
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Your Access Token
+                    td = @current_user.access_token
+                  tr
+                    td.mdl-data-table__cell--non-numeric Reverse UID
+                    td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric All stations apply orders
+                    td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric All stations initialize gtags
+                    td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
 
 
           .mdl-card__title
@@ -111,7 +127,4 @@
                   td.mdl-data-table__cell--non-numeric Sync Time Customers
                   td = best_in_place @current_event, :sync_time_customers, url: [:admins, @current_event]
       .mdl-layout-spacer
-
-
-.container-invisible
-  = current_user.access_token
+  .mdl-layout-spacer

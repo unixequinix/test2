@@ -5,7 +5,7 @@ class CatalogItem < ActiveRecord::Base
   has_many :station_catalog_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
   has_many :orders, through: :order_items
-  has_many :ticket_types, dependent: :restrict_with_error
+  has_many :ticket_types, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
 
   validates :name, presence: true

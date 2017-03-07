@@ -37,6 +37,7 @@ dump.rdb
 .ruby-gemset
 .idea/*
 *.sql
+*.csv
 
 # Ignore application configuration
 config/application.yml

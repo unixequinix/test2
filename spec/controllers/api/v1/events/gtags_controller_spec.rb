@@ -14,21 +14,23 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       before(:each) do
         db_gtags.each { |tag| tag.update!(customer: create(:customer, event: event)) }
         http_login(user.email, user.access_token)
-        get :index, params: { event_id: event.id }
       end
 
       it "returns a 200 status code" do
+        get :index, params: { event_id: event.id }
         expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
+        get :index, params: { event_id: event.id }
         JSON.parse(response.body).map do |gtag|
-          keys = %w(reference banned updated_at customer_id)
+          keys = %w(reference banned redeemed updated_at customer_id)
           expect(gtag.keys).to eq(keys)
         end
       end
 
       it "returns the correct data" do
+        get :index, params: { event_id: event.id }
         JSON.parse(response.body).each do |list_gtag|
           gtag = db_gtags[db_gtags.index { |tag| tag.tag_uid == list_gtag["reference"] }]
           expect(list_gtag["reference"]).to eq(gtag.tag_uid)
@@ -37,6 +39,34 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           updated_at = Time.zone.parse(list_gtag["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
           expect(updated_at).to eq(gtag.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
+      end
+
+      it "returns gtags if they have customer" do
+        gtag = create :gtag, customer: create(:customer, event: event), event: event
+        get :index, params: { event_id: event.id }
+        gtags = JSON.parse(response.body).map(&:symbolize_keys)
+        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+      end
+
+      it "returns gtags if they are banned" do
+        gtag = create :gtag, banned: true, event: event
+        get :index, params: { event_id: event.id }
+        gtags = JSON.parse(response.body).map(&:symbolize_keys)
+        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+      end
+
+      it "returns gtags if they have a ticket_type" do
+        gtag = create :gtag, event: event, ticket_type: create(:ticket_type, event: event)
+        get :index, params: { event_id: event.id }
+        gtags = JSON.parse(response.body).map(&:symbolize_keys)
+        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+      end
+
+      it "does not return gtags without ticket_type, banned or customer" do
+        gtag = create :gtag, event: event
+        get :index, params: { event_id: event.id }
+        gtags = JSON.parse(response.body).map(&:symbolize_keys)
+        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
       end
     end
 
@@ -72,7 +102,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(reference banned customer)
+          gtag_keys = %w(reference redeemed banned catalog_item_id customer)
           customer_keys = %w(id credentials first_name last_name email orders)
           order_keys = %w(catalog_item_id amount status redeemed id)
           credential_keys = %w(reference type redeemed banned)
@@ -88,7 +118,9 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
           gtag = {
             reference: @gtag.tag_uid,
+            redeemed: @gtag.redeemed,
             banned: @gtag.banned,
+            catalog_item_id: @gtag.ticket_type&.catalog_item_id,
             customer: {
               id:  @gtag.customer.id,
               credentials: [{ reference: @gtag.tag_uid, type: "gtag", banned: @gtag.banned, redeemed: @gtag.redeemed }],

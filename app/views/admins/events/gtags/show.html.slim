@@ -1,46 +1,54 @@
 - content_for(:actions) do
-  = link_to admins_event_gtag_path(@current_event, @gtag), method: :delete, data: { confirm: 'Are you sure you want to delete this gtag?' }, class: "btn btn-action btn-action-new btn-action-delete small" do
-    span#destroy.material-icons delete
-    span.mdl-tooltip data-mdl-for="destroy"  Delete
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_gtag_path(@current_event, @gtag), method: :delete, data: { confirm: 'Are you sure you want to delete this gtag?' } do
+          button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons delete
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
+      li.floaty-list-item
+        = link_to admins_event_gtags_path do
+          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
+      li.floaty-list-item
+        = link_to edit_admins_event_gtag_path(@current_event, @gtag) do
+          button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons edit
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+      li.floaty-list-item
+        = link_to recalculate_balance_admins_event_gtag_path(@current_event, @gtag) do
+          button#recalculate.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons repeat
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="recalculate" Recalculate Balance
+      - if @current_event.finished?
+        li.floaty-list-item
+          = link_to solve_inconsistent_admins_event_gtag_path(@current_event, type: @type) do
+            button#solve.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons priority_high
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="solve" Solve Inconsistency
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
-  = link_to admins_event_gtags_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#undo.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
-
-  = link_to edit_admins_event_gtag_path(@current_event, @gtag), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#edit.material-icons edit
-    span.mdl-tooltip data-mdl-for="edit"  Edit
-
-  = link_to recalculate_balance_admins_event_gtag_path(@current_event, @gtag), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#recalculate.material-icons repeat
-    span.mdl-tooltip data-mdl-for="recalculate" Recalculate Balance
-
-  - if @current_event.finished?
-    = link_to solve_inconsistent_admins_event_gtag_path(@current_event, type: @type), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-      span#solve.material-icons priority_high
-      span.mdl-tooltip data-mdl-for="solve" Solve Inconsistency
+- content_for(:title) do
+  | #{@gtag.tag_uid} &nbsp;
+  - if @gtag.valid_balance?
+    span.good_info CONSISTENT
+  - else
+    span.bad_info  INCONSISTENT
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--12-col
+  .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-fix
         table.mdl-data-table.mdl-js-data-table.within-card
-          tbody
-            tr
-              td.mdl-data-table__cell--non-numeric Tag UID
-              td = @gtag.tag_uid
             - if @gtag.ticket_type
               tr
                 td.mdl-data-table__cell--non-numeric Ticket Type
                 td = link_to @gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, @gtag.ticket_type)
-            tr
-              td.mdl-data-table__cell--non-numeric Status
-              td
-                - if @gtag.valid_balance?
-                  .label_notice CONSISTENT
-                - else
-                  .label_error INCONSISTENT
             - if customer = @gtag.customer
               tr
                 td.mdl-data-table__cell--non-numeric Gtag Customer
@@ -48,7 +56,7 @@
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
-  .mdl-cell.mdl-cell--12-col
+  .mdl-cell.mdl-cell--10-col
     .mdl-grid
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp

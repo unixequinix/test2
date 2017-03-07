@@ -3,7 +3,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def index
     @group = params[:group]
-    @stations = @current_event.stations.where(group: @group).order(hidden: :asc, name: :asc)
+    @stations = @current_event.stations.where(category: Station::GROUPS[@group.to_sym]).order(hidden: :asc, name: :asc)
     authorize @stations
   end
 
@@ -14,9 +14,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def new
-    @station = @current_event.stations.new(group: params[:group])
+    @station = @current_event.stations.new
     authorize @station
-    @group = @station.group
+    @group = params[:group]
   end
 
   def create
@@ -66,11 +66,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     render nothing: true
   end
 
-  def visibility
-    @station.update(hidden: !@station.hidden?)
-    redirect_to admins_event_stations_path(@current_event, group: @group), notice: t("alerts.updated")
-  end
-
   private
 
   def set_station
@@ -85,7 +80,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
                                     :location,
                                     :event_id,
                                     :category,
-                                    :group,
                                     :reporting_category,
                                     :address,
                                     :registration_num,

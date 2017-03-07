@@ -1,6 +1,6 @@
 class Admins::Events::TicketTypesController < Admins::Events::BaseController
-  before_action :set_ticket_type, except: [:index, :new, :create, :visibility]
-  before_action :set_catalog_items, except: [:destroy, :visibility]
+  before_action :set_ticket_type, except: [:index, :new, :create]
+  before_action :set_catalog_items, except: [:destroy]
 
   def index
     @ticket_types = @current_event.ticket_types.order([:company_id, :name])
@@ -43,13 +43,6 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     else
       redirect_to admins_event_ticket_types_path(@current_event, @ticket_type), alert: @ticket_type.errors.full_messages.to_sentence
     end
-  end
-
-  def visibility
-    @ticket_type = @current_event.ticket_types.find(params[:ticket_type_id])
-    authorize @ticket_type
-    @ticket_type.hidden? ? @ticket_type.show! : @ticket_type.hide!
-    redirect_to admins_event_ticket_types_path(@current_event), notice: t("alerts.updated")
   end
 
   private

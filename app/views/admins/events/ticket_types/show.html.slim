@@ -1,19 +1,33 @@
 - content_for(:actions) do
-  = link_to new_admins_event_ticket_type_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#add.icon.material-icons add
-    span.mdl-tooltip data-mdl-for="add"  Add
-  = link_to admins_event_ticket_type_path(@current_event, @ticket_type), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket_type?' }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#destroy.material-icons delete
-    span.mdl-tooltip data-mdl-for="destroy"  Delete
-  = link_to admins_event_ticket_types_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#undo.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
-  = link_to edit_admins_event_ticket_type_path(@current_event, @ticket_type), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#edit.material-icons edit
-    span.mdl-tooltip data-mdl-for="edit"  Edit
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_ticket_types_path do
+          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
+      li.floaty-list-item
+        = link_to new_admins_event_ticket_type_path do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+      li.floaty-list-item
+        = link_to admins_event_ticket_type_path(@current_event, @ticket_type), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket_type?' } do
+          button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons delete
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
+      li.floaty-list-item
+        = link_to edit_admins_event_ticket_type_path(@current_event, @ticket_type) do
+          button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons edit
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 - content_for(:title) do
-  .mdl-layout-title.header-item Ticket Type
+  = @ticket_type.company.name
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -43,11 +57,5 @@
             tr
               td.mdl-data-table__cell--non-numeric Hidden
               td = best_in_place @ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, @ticket_type])
-            tr
-              td.mdl-data-table__cell--non-numeric Created At
-              td = l @ticket_type.created_at
-            tr
-              td.mdl-data-table__cell--non-numeric Updated At
-              td = l @ticket_type.updated_at
 
   .mdl-layout-spacer

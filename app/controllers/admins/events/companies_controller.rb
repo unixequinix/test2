@@ -38,13 +38,6 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
     end
   end
 
-  def visibility
-    @company = @current_event.companies.find(params[:id])
-    authorize @company
-    @company.toggle!(:hidden)
-    redirect_to admins_event_companies_path(@current_event, @company), notice: t("alerts.updated")
-  end
-
   def destroy
     if @company.destroy
       redirect_to admins_event_companies_path, notice: t("alerts.destroyed")

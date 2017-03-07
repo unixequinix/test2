@@ -1,7 +1,8 @@
 require "spec_helper"
 
 RSpec.describe Refund, type: :model do
-  subject { build(:refund) }
+  let(:event) { build(:event, credit: build(:credit)) }
+  subject { build(:refund, event: event) }
 
   it "has a valid factory" do
     expect(subject).to be_valid
@@ -28,10 +29,26 @@ RSpec.describe Refund, type: :model do
   describe ".number" do
     it "returns always the same size of digits in the refund number" do
       subject.id = 1
-      expect(subject.number.size).to eq(12)
+      expect(subject.number.size).to eq(7)
 
       subject.id = 122
-      expect(subject.number.size).to eq(12)
+      expect(subject.number.size).to eq(7)
+    end
+  end
+
+  describe "money" do
+    before { allow(event.credit).to receive(:value).and_return(10) }
+
+    it "calculates amount" do
+      expect(subject.amount_money).to eql(subject.amount * 10)
+    end
+
+    it "calculates fee" do
+      expect(subject.fee_money).to eql(subject.fee * 10)
+    end
+
+    it "calculates total" do
+      expect(subject.total_money).to eql(subject.total * 10)
     end
   end
 

@@ -1,7 +1,18 @@
+- content_for(:title) do
+  | New GTag Assignment
+
 - content_for(:actions) do
-  = link_to [:admins, @current_event, @customer], class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#undo.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to [:admins, @current_event, @customer] do
+          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -19,7 +30,3 @@
           .col-sm-offset-3.col-sm-9
             = submit_tag "Accept", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer
-
-
-
-

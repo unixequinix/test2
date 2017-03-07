@@ -145,9 +145,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :iban_enabled,
                                   :private_zone_password,
                                   :fast_removal_password,
-                                  :touchpoint_update_online_orders,
-                                  :pos_update_online_orders,
-                                  :topup_initialize_gtag,
                                   :transaction_buffer,
                                   :days_to_keep_backup,
                                   :sync_time_event_parameters,
@@ -172,6 +169,8 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :token,
                                   :owner_id,
                                   :gtag_format,
+                                  :stations_initialize_gtags,
+                                  :stations_apply_orders,
                                   credit_attributes: [:id, :name, :value])
   end
 end

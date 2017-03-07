@@ -1,18 +1,31 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item Missing inconsistencies
+  | Missing inconsistencies
 
 - content_for(:actions) do
-  - if policy(@current_event).real?
-    = link_to real_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-      span#real_inconsistencies.icon.material-icons report_problem
-      span.mdl-tooltip data-mdl-for="real_inconsistencies" Real inconsistencies
-  - if policy(@current_event).missing?
-    = link_to missing_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-      span#missing_inconsistencies.icon.material-icons texture
-      span.mdl-tooltip data-mdl-for="missing_inconsistencies" Missing inconsistencies
-  - if policy(@current_event).resolvable?
-    = link_to resolvable_admins_event_inconsistencies_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-      span#resolvable_inconsistencies.icon.material-icons healing
-      span.mdl-tooltip data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
+  .floaty
+    ul.floaty-list#actions-list
+      - if policy(@current_event).real?
+        li.floaty-list-item
+          = link_to real_admins_event_inconsistencies_path(@current_event) do
+            button#real_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons report_problem
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="real_inconsistencies" Real inconsistencies
+      - if policy(@current_event).missing?
+        li.floaty-list-item
+          = link_to missing_admins_event_inconsistencies_path(@current_event) do
+            button#missing_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons texture
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="missing_inconsistencies" Missing inconsistencies
+      - if policy(@current_event).resolvable?
+        li.floaty-list-item
+          = link_to resolvable_admins_event_inconsistencies_path(@current_event) do
+            button#resolvable_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons healing
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
 
 = render 'list'

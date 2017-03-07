@@ -1,5 +1,5 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item Companies
+  | Companies
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_companies_path do |f|
@@ -8,7 +8,7 @@
 - content_for(:actions) do
   = link_to new_admins_event_company_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#add_company.icon.material-icons add
-    span.mdl-tooltip data-mdl-for="add_company"  Add
+    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add_company"  Add
 
 - if policy(@current_event).event_settings?
   .mdl-grid

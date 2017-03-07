@@ -17,8 +17,20 @@ class Refund < ActiveRecord::Base
     amount.to_f + fee.to_f
   end
 
+  def amount_money
+    amount * event.credit.value
+  end
+
+  def fee_money
+    fee * event.credit.value
+  end
+
+  def total_money
+    total * event.credit.value
+  end
+
   def number
-    id.to_s.rjust(12, "0")
+    id.to_s.rjust(7, "0")
   end
 
   def correct_iban_and_swift

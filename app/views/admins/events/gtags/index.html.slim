@@ -1,25 +1,32 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item Gtags
+  | Gtags
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_gtags_path do |f|
     = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-    = link_to new_admins_event_gtag_path, class: "mdl-button mdl-button--icon" do
-      span#add.icon.material-icons add
-      span.mdl-tooltip data-mdl-for="add"  Add
-    = link_to admins_event_gtags_path(format: "csv"), class: "mdl-button mdl-button--icon" do
-      span#file_download.icon.material-icons file_download
-      span.mdl-tooltip data-mdl-for="file_download"  Download CSV
-    = link_to '#import-modal', class: "mdl-button mdl-button--icon" do
-      span#upload.icon.material-icons file_upload
-      span.mdl-tooltip data-mdl-for="upload"  Import
-    span#bulk.icon.material-icons more_vert
-    span.mdl-tooltip data-mdl-for="bulk"  BULK ACTIONS
-    ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-      li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
-
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_event_gtag_path do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+      li.floaty-list-item
+        = link_to admins_event_gtags_path(format: "csv") do
+          button#file_download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_download
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="file_download" Download CSV
+      li.floaty-list-item
+        = link_to '#import-modal' do
+          button#upload.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_upload
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="upload" Import
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
@@ -39,18 +46,19 @@
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @gtags
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+        table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
               th.mdl-data-table__cell--non-numeric Tag UID
-              th Customer
+              th.mdl-data-table__cell--non-numeric Customer
+              th.mdl-data-table__cell--non-numeric Credential Type
               th Credits
               th Refundable Credits
               th Banned
               th Redeemed
           tbody
             - @gtags.each do |gtag|
-              tr data-event =@current_event.id data-gtag =gtag.id
+              tr
                 td.mdl-data-table__cell--non-numeric data-label="Tag UID"
                   = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
                   .table-action
@@ -59,7 +67,8 @@
                   .table-action
                     = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{gtag.id}" delete
-                td data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
                 td data-label="Credits" = number_to_event_currency gtag.credits
                 td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])

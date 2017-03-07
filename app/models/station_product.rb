@@ -1,7 +1,7 @@
 class StationProduct < ActiveRecord::Base
   attr_accessor :product_name
 
-  default_scope { order("position ASC") }
+  default_scope { order(position: :asc) }
 
   belongs_to :product
   belongs_to :station, touch: true
