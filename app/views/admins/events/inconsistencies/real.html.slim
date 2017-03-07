@@ -9,19 +9,19 @@
           = link_to real_admins_event_inconsistencies_path(@current_event) do
             button#real_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons report_problem
-              span.mdl-tooltip data-mdl-for="real_inconsistencies" Real inconsistencies
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="real_inconsistencies" Real inconsistencies
       - if policy(@current_event).missing?
         li.floaty-list-item
           = link_to missing_admins_event_inconsistencies_path(@current_event) do
             button#missing_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons texture
-              span.mdl-tooltip data-mdl-for="missing_inconsistencies" Missing inconsistencies
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="missing_inconsistencies" Missing inconsistencies
       - if policy(@current_event).resolvable?
         li.floaty-list-item
-          = link_to resolvable_admins_event_inconsistencies_path(@current_event do
+          = link_to resolvable_admins_event_inconsistencies_path(@current_event) do
             button#resolvable_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons healing
-              span.mdl-tooltip data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

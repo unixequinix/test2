@@ -9,12 +9,12 @@
           = link_to admins_event_eventbrite_disconnect_path(@current_event) do
             button#disconnect.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons phonelink_erase
-              span.mdl-tooltip data-mdl-for="disconnect" Disconnect
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="disconnect" Disconnect
         li.floaty-list-item
           = link_to admins_event_path(@current_event) do
             button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons undo
-              span.mdl-tooltip data-mdl-for="undo" Back
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
       ul.floaty-btn#button
         li
           button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

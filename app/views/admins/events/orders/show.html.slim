@@ -8,7 +8,7 @@
         = link_to admins_event_orders_path(@current_event) do
           button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons undo
-            span.mdl-tooltip data-mdl-for="undo" Back
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -56,8 +56,8 @@
           - @order.order_items.each do |order_item|
             tr
               td.mdl-data-table__cell--non-numeric = order_item.catalog_item.name
-              td = order_item.amount
-              td = order_item.catalog_item.price
-              td = order_item.total
+              td = number_with_delimiter order_item.amount.to_i
+              td = number_to_event_currency order_item.catalog_item.price
+              td = number_to_event_currency order_item.total
               td = order_item.catalog_item.type
   .mdl-layout-spacer

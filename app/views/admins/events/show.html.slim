@@ -7,51 +7,51 @@
             = link_to '#launch-modal' do
               button#launch_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
                 i.material-icons flight_takeoff
-                span.mdl-tooltip data-mdl-for="launch_link" Launch
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="launch_link" Launch
 
         - if @current_event.active?
           li.floaty-list-item
             = link_to '#close-modal' do
               button#close_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
                 i.material-icons flight_land
-                span.mdl-tooltip data-mdl-for="close_link" Close
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="close_link" Close
 
         li.floaty-list-item
           = link_to admins_event_eventbrite_path(@current_event) do
             button#eventbrite_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons gesture
-              span.mdl-tooltip data-mdl-for="eventbrite_setting" Eventbrite Settings
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Eventbrite Settings
 
         li.floaty-list-item
           = link_to admins_event_payment_gateways_path(@current_event) do
             button#payment_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons euro_symbol
-              span.mdl-tooltip data-mdl-for="payment_setting" Payment Settings
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="payment_setting" Payment Settings
 
         li.floaty-list-item
           = link_to device_settings_admins_event_path(@current_event) do
             button#device_settings.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons phonelink_setup
-              span.mdl-tooltip data-mdl-for="device_settings" Device Settings
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Device Settings
 
         li.floaty-list-item
           = link_to edit_admins_event_path(@current_event) do
             button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
-              span.mdl-tooltip data-mdl-for="edit" Settings
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Settings
 
         li.floaty-list-item
           = link_to edit_event_style_admins_event_path(@current_event) do
             button#edit_style.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons brush
-              span.mdl-tooltip data-mdl-for="edit_style" Style
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_style" Style
       - if policy(@current_event).destroy?
         - if @current_event.created?
           li.floaty-list-item
             = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
               button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
                 i.material-icons delete
-                span.mdl-tooltip data-mdl-for="delete" Delete Event
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete Event
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

@@ -1,13 +1,13 @@
 - content_for(:actions) do
   = link_to admins_event_accesses_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo"  Back
+    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo"  Back
   = link_to edit_admins_event_access_path(@current_event, @access), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#edit.icon.material-icons edit
-    span.mdl-tooltip data-mdl-for="edit"  Edit
+    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit"  Edit
   = link_to admins_event_access_path(@current_event, @access), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#destroy.icon.material-icons delete
-    span.mdl-tooltip data-mdl-for="destroy"  Delete
+    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="destroy"  Delete
 
 .content-grid.mdl-grid
   .mdl-layout-spacer

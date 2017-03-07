@@ -12,17 +12,17 @@
         = link_to new_admins_event_gtag_path do
           button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons add
-            span.mdl-tooltip data-mdl-for="add" Add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
       li.floaty-list-item
         = link_to admins_event_gtags_path(format: "csv") do
           button#file_download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
-            span.mdl-tooltip data-mdl-for="file_download" Download CSV
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="file_download" Download CSV
       li.floaty-list-item
         = link_to '#import-modal' do
           button#upload.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_upload
-            span.mdl-tooltip data-mdl-for="upload" Import
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="upload" Import
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

@@ -9,33 +9,33 @@
         = link_to admins_event_customers_path(format: "csv") do
           button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
-            span.mdl-tooltip data-mdl-for="download" Download CSV
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download CSV
       li.floaty-list-item
         = link_to new_admins_event_gtag_assignment_path(@current_event, @customer) do
           button#gtag.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons loyalty
-            span.mdl-tooltip data-mdl-for="gtag" Assign Gtag
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="gtag" Assign Gtag
       li.floaty-list-item
         = link_to new_admins_event_ticket_assignment_path(@current_event, @customer) do
           button#ticket.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons bookmark_border
-            span.mdl-tooltip data-mdl-for="ticket" Assign Ticket
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ticket" Assign Ticket
       li.floaty-list-item
         = link_to new_admins_event_ticket_assignment_path(@current_event, @customer) do
           button#credit_history.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
-            span.mdl-tooltip data-mdl-for="credit_history" Credit History
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="credit_history" Credit History
       - if @customer.provider.blank?
         li.floaty-list-item
           = link_to reset_password_admins_event_customer_path(@current_event, @customer) do
             button#pass.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons lock_open
-              span.mdl-tooltip data-mdl-for="pass" Reset Password
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="pass" Reset Password
       li.floaty-list-item
         = link_to admins_event_customers_path(@current_event) do
           button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons undo
-            span.mdl-tooltip data-mdl-for="undo" Back
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
