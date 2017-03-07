@@ -20,41 +20,46 @@
     .mdl-layout-spacer
 
 
-- %w(live to_check unused locked ).each do |type|
-  - next unless @assets[type]
-  - klass = classes[type.to_sym]
-  br
-  h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
 
-  .clearfix
-  - @assets[type].sort_by { |h| h.last[:asset_tracker].to_s }.each do |device, info|
-    .device-card.mdl-card.mdl-shadow--2dp style="float: left"
-      .content-grid.mdl-grid class="#{klass}_header"
-        .mdl-cell.mdl-cell--8-col.left
-          = link_to info[:asset_tracker] || "NONE", admins_event_device_path(@current_event, info[:device_id]) if info[:device_id]
-          .small= device
-        .mdl-cell.mdl-cell--4-col.right
-          .small= info[:action]&.humanize
+    - %w(live to_check unused locked ).each do |type|
+      - next unless @assets[type]
+      - klass = classes[type.to_sym]
+      br
+      h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
 
-      .mdl-card__supporting-text
-        - if info[:msg]
-          .small = info[:msg]
-          br
-        - if info[:station] || info[:operator] || info[:last_time_used]
-          b.small Last used
-          table.small style="width: 100%;"
-            - if info[:operator]
-              tr
-                td By
-                td.right = info[:operator]
-            - if info[:station]
-              tr
-                td At
-                td.right = info[:station]
-            - if info[:last_time_used]
-              tr
-                td On
-                td.right = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
-  .clearfix
+      .clearfix
+      - @assets[type].sort_by { |h| h.last[:asset_tracker].to_s }.each do |device, info|
+        .device-card.mdl-card.mdl-shadow--2dp style="float: left"
+          .content-grid.mdl-grid class="#{klass}_header"
+            .mdl-cell.mdl-cell--8-col.left
+              = link_to info[:asset_tracker] || "NONE", admins_event_device_path(@current_event, info[:device_id]) if info[:device_id]
+              .small= device
+            .mdl-cell.mdl-cell--4-col.right
+              .small= info[:action]&.humanize
+
+          .mdl-card__supporting-text
+            - if info[:msg]
+              .small = info[:msg]
+              br
+            - if info[:station] || info[:operator] || info[:last_time_used]
+              b.small Last used
+              table.small style="width: 100%;"
+                - if info[:operator]
+                  tr
+                    td By
+                    td.right = info[:operator]
+                - if info[:station]
+                  tr
+                    td At
+                    td.right = info[:station]
+                - if info[:last_time_used]
+                  tr
+                    td On
+                    td.right = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
+      .clearfix
+  .mdl-layout-spacer
 
 

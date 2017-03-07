@@ -25,7 +25,7 @@ html
           = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank" do
             i#launch.material-icons launch
             span.mdl-tooltip data-mdl-for="launch" Customer Portal
-          |  &nbsp;&nbsp;
+          |  &nbsp; &nbsp;
 
           = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details" do
             = @current_event.name
@@ -44,9 +44,7 @@ html
                 i.material-icons search
               .mdl-textfield__expandable-holder
                 = yield(:search)
-            |  &nbsp;&nbsp;
-
-          = yield(:actions)
+            |  &nbsp; &nbsp;
 
           = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
             span#out.icon.material-icons power_settings_new
