@@ -21,10 +21,4 @@
           tr
             td.mdl-data-table__cell--non-numeric Mode
             td = best_in_place @access, :mode, as: :select, collection: Access::MODES.map{ |mode| [mode, mode.humanize] }, url: [:admins, @current_event, @access]
-          tr
-            td.mdl-data-table__cell--non-numeric Created At
-            td = l @access.created_at
-          tr
-            td.mdl-data-table__cell--non-numeric Updated At
-            td = l @access.updated_at
   .mdl-layout-spacer

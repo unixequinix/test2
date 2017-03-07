@@ -1,5 +1,5 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item #{@type.to_s.humanize} Transactions
+  | #{@type.to_s.humanize} Transactions
 
 - content_for(:actions) do
   - if policy(@current_event).real?

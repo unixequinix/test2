@@ -13,7 +13,7 @@
     span.mdl-tooltip data-mdl-for="edit"  Edit
 
 - content_for(:title) do
-  .mdl-layout-title.header-item Ticket Type
+  = @ticket_type.company.name
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -43,11 +43,5 @@
             tr
               td.mdl-data-table__cell--non-numeric Hidden
               td = best_in_place @ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, @ticket_type])
-            tr
-              td.mdl-data-table__cell--non-numeric Created At
-              td = l @ticket_type.created_at
-            tr
-              td.mdl-data-table__cell--non-numeric Updated At
-              td = l @ticket_type.updated_at
 
   .mdl-layout-spacer

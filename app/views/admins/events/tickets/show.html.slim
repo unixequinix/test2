@@ -13,15 +13,7 @@
     span.mdl-tooltip data-mdl-for="edit"  Edit
 
 - content_for(:title) do
-  .mdl-layout-title.header-item Ticket
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--2-col style="text-align: center;"
-    #qrcode
-    br
-    p = @ticket.code
-  .mdl-layout-spacer
+  | Ticket #{@ticket.code}
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -42,12 +34,6 @@
             tr
               td.mdl-data-table__cell--non-numeric Redeemed
               td = best_in_place @ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, @ticket])
-            tr
-              td.mdl-data-table__cell--non-numeric Created At
-              td = l @ticket.created_at
-            tr
-              td.mdl-data-table__cell--non-numeric Updated At
-              td = l @ticket.updated_at
 
   .mdl-layout-spacer
 
@@ -114,6 +100,12 @@
               td.mdl-data-table__cell--non-numeric = link_to_unless @catalog_item.is_a?(UserFlag), @catalog_item.name.humanize, [:admins, @current_event, @catalog_item]
               td = number_to_token @catalog_item.credits
     .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--2-col style="text-align: center;"
+    #qrcode
+  .mdl-layout-spacer
 
 javascript:
   $('#qrcode').qrcode({render: 'image', text: '#{@ticket.reference}'});

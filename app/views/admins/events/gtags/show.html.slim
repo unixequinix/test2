@@ -20,27 +20,23 @@
       span#solve.material-icons priority_high
       span.mdl-tooltip data-mdl-for="solve" Solve Inconsistency
 
+- content_for(:title) do
+  | #{@gtag.tag_uid} &nbsp;
+  - if @gtag.valid_balance?
+    span.good_info CONSISTENT
+  - else
+    span.bad_info  INCONSISTENT
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-fix
         table.mdl-data-table.mdl-js-data-table.within-card
-          tbody
-            tr
-              td.mdl-data-table__cell--non-numeric Tag UID
-              td = @gtag.tag_uid
             - if @gtag.ticket_type
               tr
                 td.mdl-data-table__cell--non-numeric Ticket Type
                 td = link_to @gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, @gtag.ticket_type)
-            tr
-              td.mdl-data-table__cell--non-numeric Status
-              td
-                - if @gtag.valid_balance?
-                  .label_notice CONSISTENT
-                - else
-                  .label_error INCONSISTENT
             - if customer = @gtag.customer
               tr
                 td.mdl-data-table__cell--non-numeric Gtag Customer

@@ -1,11 +1,14 @@
 - if @current_event.eventbrite_event.present?
   - content_for(:title) do
-    .mdl-layout-title.header-item Connected to '#{@eb_event.name.text}'
+    | Connected to '#{@eb_event.name.text}'
 
   - content_for(:actions) do
     = link_to admins_event_eventbrite_disconnect_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
       span#disconnect.icon.material-icons phonelink_erase
       span.mdl-tooltip data-mdl-for="disconnect"  Disconnect
+    = link_to admins_event_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
+      span#undo.icon.material-icons undo
+      span.mdl-tooltip data-mdl-for="undo"  Back
 
   .content-grid.mdl-grid
     .mdl-layout-spacer
@@ -41,7 +44,7 @@
 
 - else
   - content_for(:title) do
-    .mdl-layout-title.header-item Connect Eventbrite and Glownet
+    | Connect Eventbrite and Glownet
 
   .content-grid.mdl-grid
     .mdl-layout-spacer

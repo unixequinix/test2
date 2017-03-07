@@ -1,3 +1,6 @@
+- content_for(:title) do
+  | Refund #{@refund.number}
+
 - content_for(:actions) do
   = link_to admins_event_refunds_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.icon.material-icons undo
@@ -22,11 +25,11 @@
             td.mdl-data-table__cell--non-numeric Created at
             td = l @refund.created_at
           tr
-            td.mdl-data-table__cell--non-numeric Amount
-            td = @refund.amount
+            td.mdl-data-table__cell--non-numeric Credits
+            td #{number_to_token @refund.amount} (Fee #{number_to_token @refund.fee}) = #{number_to_token @refund.total}
           tr
-            td.mdl-data-table__cell--non-numeric Fee
-            td = @refund.fee
+            td.mdl-data-table__cell--non-numeric Money
+            td #{number_to_event_currency @refund.amount_money} (Fee #{number_to_event_currency @refund.fee_money}) = #{number_to_event_currency @refund.total_money}
   .mdl-layout-spacer
 
 

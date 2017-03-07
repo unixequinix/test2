@@ -1,3 +1,6 @@
+- content_for(:title) do
+  | Order #{@order.number}
+
 - content_for(:actions) do
   = link_to admins_event_orders_path(@current_event), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.material-icons undo
@@ -9,9 +12,6 @@
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
-          tr
-            td.mdl-data-table__cell--non-numeric Number
-            td = @order.number
           tr
             td.mdl-data-table__cell--non-numeric Customer
             td = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)

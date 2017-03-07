@@ -1,3 +1,6 @@
+- content_for(:title) do
+  = @product.name
+
 - content_for(:actions) do
   = link_to edit_admins_event_product_path(@current_event, @product), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#edit.icon.material-icons edit
@@ -24,11 +27,5 @@
           tr
             td.mdl-data-table__cell--non-numeric Is alcohol?
             td = best_in_place @product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, @product])
-          tr
-            td.mdl-data-table__cell--non-numeric Created At
-            td = l @product.created_at
-          tr
-            td.mdl-data-table__cell--non-numeric Updated At
-            td = l @product.updated_at
   .mdl-layout-spacer
 

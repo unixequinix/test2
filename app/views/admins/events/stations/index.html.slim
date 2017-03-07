@@ -1,5 +1,5 @@
 - content_for(:title) do
-  .mdl-layout-title.header-item #{@group.humanize} Stations
+  | #{@group.humanize} Stations
 
 - content_for(:actions) do
   = link_to new_admins_event_station_path(group: @group), class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do

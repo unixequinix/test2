@@ -1,3 +1,6 @@
+- content_for(:title) do
+  | New Ticket Assignment
+
 - content_for(:actions) do
   = link_to [:admins, @current_event, @customer], class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
     span#undo.material-icons undo
