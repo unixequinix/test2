@@ -7,20 +7,16 @@ class EventbriteImporter < ActiveJob::Base
 
     event.tickets.where(code: barcodes).update_all(banned: true) && return unless order[:status].eql?("placed")
 
-    ticket_types = company.ticket_types
-    order[:attendees].each do |attendee|
-      attendee["barcodes"].each do |barcode|
-        ctt = ticket_types.find_or_initialize_by(company_code: attendee["ticket_class_id"])
-        ctt.name = attendee["ticket_class_name"]
-        ctt.save!
-        profile = attendee["profile"]
-
+    order[:attendees].each do |guest|
+      guest["barcodes"].each do |barcode|
+        profile = guest["profile"]
         begin
-          ticket = ctt.tickets.find_or_create_by!(code: barcode["barcode"], event: event)
-          ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
-        rescue ActiveRecord::RecordNotUnique
+          ctt = event.ticket_types.find_or_create_by!(company: company, company_code: guest["ticket_class_id"], name: guest["ticket_class_name"])
+          ticket = event.tickets.find_or_create_by!(code: barcode["barcode"], ticket_type: ctt, event: event)
+        rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
           retry
         end
+        ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
       end
     end
   end

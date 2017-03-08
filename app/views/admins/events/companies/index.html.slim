@@ -6,9 +6,17 @@
     = f.search_field :name_or_access_token_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-  = link_to new_admins_event_company_path, class: "mdl-button mdl-js-ripple-effect mdl-button--icon" do
-    span#add_company.icon.material-icons add
-    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add_company"  Add
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_event_company_path do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
 - if policy(@current_event).event_settings?
   .mdl-grid

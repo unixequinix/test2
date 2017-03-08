@@ -45,17 +45,18 @@
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-fix
         table.mdl-data-table.mdl-js-data-table.within-card
-            - if @gtag.ticket_type
-              tr
-                td.mdl-data-table__cell--non-numeric Ticket Type
-                td = link_to @gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, @gtag.ticket_type)
-            - if customer = @gtag.customer
-              tr
-                td.mdl-data-table__cell--non-numeric Gtag Customer
-                td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, customer)
+          - if @gtag.ticket_type
+            tr
+              td.mdl-data-table__cell--non-numeric Ticket Type
+              td = link_to @gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, @gtag.ticket_type)
+          - if customer = @gtag.customer
+            tr
+              td.mdl-data-table__cell--non-numeric Gtag Customer
+              td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, customer)
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
+  .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
       .mdl-cell.mdl-cell--3-col
@@ -86,6 +87,7 @@
           .mdl-card__supporting-text
             | Gtag Refundable
             .small = "(last transaction final r balance)"
+  .mdl-layout-spacer
 
 .content-grid.mdl-grid
   = render("admins/events/customers/sections/onsite_transactions", transactions: @transactions, title: "Onsite Transactions" ) if @transactions.present?

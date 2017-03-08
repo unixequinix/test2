@@ -11,12 +11,6 @@ class Events::EventsController < ApplicationController
     @any_tickets = TicketType.where.not(catalog_item: nil).where(hidden: false).includes(:tickets).merge(@current_event.tickets.where(banned: false)).any? # rubocop:disable Metrics/LineLength
   end
 
-  private
-
-  def write_locale_to_session
-    super(Event::LOCALES.map(&:to_s))
-  end
-
   def authenticate_customer!
     redirect_to(event_login_path(@current_event)) && return unless customer_signed_in?
     redirect_to(customer_root_path(current_customer.event)) && return unless current_customer.event == @current_event

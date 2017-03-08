@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
 
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.
-  def write_locale_to_session(available_locales)
+  def write_locale_to_session
     extracted_locale =  session[:locale] || locale_from_language_header || I18n.default_locale
-    return unless available_locales.map(&:to_s).include?(extracted_locale)
+    return unless I18n.available_locales.map(&:to_s).include?(extracted_locale)
 
     I18n.locale = extracted_locale
     session[:locale] = extracted_locale
@@ -24,10 +24,11 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    return_url = current_user.owned_events.include?(@current_event) ? request.referer : admins_events_path
+    return_url = admins_events_path
     respond_to do |format|
       format.html { redirect_to return_url, alert: t("alerts.not_authorized") }
       format.json { render json: { error: t("alerts.not_authorized") }, status: :unauthorized }
+      format.text { "User not authorized" }
     end
   end
 

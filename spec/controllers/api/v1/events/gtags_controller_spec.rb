@@ -24,7 +24,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       it "returns the necessary keys" do
         get :index, params: { event_id: event.id }
         JSON.parse(response.body).map do |gtag|
-          keys = %w(reference banned redeemed updated_at customer_id)
+          keys = %w(reference banned redeemed customer_id)
           expect(gtag.keys).to eq(keys)
         end
       end
@@ -36,8 +36,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           expect(list_gtag["reference"]).to eq(gtag.tag_uid)
           expect(list_gtag["banned"]).to eq(gtag.banned?)
           expect(list_gtag["customer_id"]).to eq(gtag.customer_id)
-          updated_at = Time.zone.parse(list_gtag["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
-          expect(updated_at).to eq(gtag.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
       end
 
