@@ -10,21 +10,21 @@
       .inputs
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag "Email", nil, class: "mdl-textfield__label"
-          = text_field_tag :email, current_customer.email, class: "mdl-textfield__input", id: "email", data: {checkout: "email"}, name: ""
+          = text_field_tag :email, current_customer.email, class: "mdl-textfield__input", id: "email", data: {checkout: "email"}, name: nil
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag t('orders.card_name'), nil, class: "mdl-textfield__label"
-          = text_field_tag :name, current_customer.full_name, class: "mdl-textfield__input", data: { checkout: "cardholderName" }, id: "cardholderName"
+          = text_field_tag :name, current_customer.full_name, class: "mdl-textfield__input", data: { checkout: "cardholderName" }, id: "cardholderName", name: nil
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = select_tag :doc_type, nil, class: "mdl-textfield__input", data: { checkout: "docType" }, id: "docType"
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag t('orders.card_doc_number'), nil, class: "mdl-textfield__label"
-          = text_field_tag :doc_number, nil, class: "mdl-textfield__input", data: { checkout: "docNumber" }, id: "docNumber"
+          = text_field_tag :doc_number, nil, class: "mdl-textfield__input", data: { checkout: "docNumber" }, id: "docNumber", name: nil
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag t('orders.card_number'), nil, class: "mdl-textfield__label"
-          = text_field_tag :number, nil, class: "mdl-textfield__input", data: {checkout: "cardNumber"}, id: "cardNumber"
+          = text_field_tag :number, nil, class: "mdl-textfield__input", data: {checkout: "cardNumber"}, id: "cardNumber", name: nil
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag t('orders.card_code_verification'), nil, class: "mdl-textfield__label"
-          = text_field_tag :verification_value, nil, class: "mdl-textfield__input", id: "securityCode", data: {checkout: "securityCode"}
+          = text_field_tag :verification_value, nil, class: "mdl-textfield__input", id: "securityCode", data: {checkout: "securityCode"}, name: nil
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag t('orders.card_expiration_date'), nil, class: "mdl-textfield__label"
         .wrapper-selects
