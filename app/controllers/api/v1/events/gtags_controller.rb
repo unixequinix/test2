@@ -4,7 +4,6 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   def index
     gtags = gtags_sql || []
     date = @current_event.gtags.maximum(:updated_at)&.httpdate
-    # byebug
 
     render_entity(gtags, date)
   end
