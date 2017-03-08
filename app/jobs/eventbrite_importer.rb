@@ -18,6 +18,8 @@ class EventbriteImporter < ActiveJob::Base
           ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
         rescue ActiveRecord::RecordNotUnique
           retry
+        rescue ActiveRecord::RecordInvalid
+          retry
         end
       end
     end
