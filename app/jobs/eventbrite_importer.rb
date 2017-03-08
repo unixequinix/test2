@@ -13,7 +13,7 @@ class EventbriteImporter < ActiveJob::Base
         profile = attendee["profile"]
 
         begin
-          ctt = ticket_types.find_or_initialize_by(company_code: attendee["ticket_class_id"], event: event, name: attendee["ticket_class_name"])
+          ctt = ticket_types.find_or_create_by(company_code: attendee["ticket_class_id"], event: event, name: attendee["ticket_class_name"])
         rescue ActiveRecord::RecordNotUnique
           retry
         end
