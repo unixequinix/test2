@@ -21,6 +21,7 @@ class EventbriteImporter < ActiveJob::Base
         ctt = TicketType.find_by(company: company, company_code: attendee["ticket_class_id"], event: event, name: attendee["ticket_class_name"])
         begin
           ticket = Ticket.find_or_initialize_by(code: barcode["barcode"], ticket_type: ctt, event: event)
+          next unless ticket.new_record?
           ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
         rescue ActiveRecord::RecordNotUnique
           retry
