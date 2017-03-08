@@ -10,7 +10,7 @@
       .inputs
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag "Email", nil, class: "mdl-textfield__label"
-          = text_field_tag :email, current_customer.email, class: "mdl-textfield__input", id: "email", data: {checkout: "email"}
+          = text_field_tag :email, current_customer.email, class: "mdl-textfield__input", id: "email", data: {checkout: "email"}, name: ""
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = label_tag t('orders.card_name'), nil, class: "mdl-textfield__label"
           = text_field_tag :name, current_customer.full_name, class: "mdl-textfield__input", data: { checkout: "cardholderName" }, id: "cardholderName"
