@@ -9,7 +9,7 @@ class EventbriteImporter < ActiveJob::Base
 
     order[:attendees].each do |attendee|
       begin
-        TicketType.find_or_create_by(company: company, company_code: attendee["ticket_class_id"], event: event, name: attendee["ticket_class_name"])
+        attendee[:ctt] = TicketType.find_or_create_by(company: company, company_code: attendee["ticket_class_id"], event: event, name: attendee["ticket_class_name"])
       rescue ActiveRecord::RecordNotUnique
         retry
       end
@@ -18,9 +18,8 @@ class EventbriteImporter < ActiveJob::Base
     order[:attendees].each do |attendee|
       attendee["barcodes"].each do |barcode|
         profile = attendee["profile"]
-        ctt = TicketType.find_by(company: company, company_code: attendee["ticket_class_id"], event: event, name: attendee["ticket_class_name"])
         begin
-          ticket = Ticket.find_or_initialize_by(code: barcode["barcode"], ticket_type: ctt, event: event)
+          ticket = Ticket.find_or_initialize_by(code: barcode["barcode"], ticket_type: attendee[:ctt], event: event)
           next unless ticket.new_record?
           ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
         rescue ActiveRecord::RecordNotUnique
