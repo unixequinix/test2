@@ -52,17 +52,21 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
     s3 = Aws::S3::Resource.new(region: 'eu-west-1', credentials: credentials)
     name = "gspot/event/#{@current_event.id}/backups/#{@device.mac}"
     bucket = s3.bucket(Rails.application.secrets.s3_bucket)
-    zip_file = Tempfile.new(["db_backups_#{@device.mac}__", ".zip"])
+    files = bucket.objects(prefix: name).collect(&:key)
 
-    Zip::File.open(zip_file.path, Zip::File::CREATE) do |zipfile|
-      bucket.objects(prefix: name).collect(&:key).each do |filename|
-        file = Tempfile.new(@device.mac)
-        bucket.object(filename).get(response_target: file.path)
-        zipfile.add(filename.split("/").last, file.path)
+    if files.any?
+      zip_file = Tempfile.new(["db_backups_#{@device.mac}__", ".zip"])
+      Zip::File.open(zip_file.path, Zip::File::CREATE) do |zipfile|
+        files.each do |filename|
+          file = Tempfile.new(@device.mac)
+          bucket.object(filename).get(response_target: file.path)
+          zipfile.add(filename.split("/").last, file.path)
+        end
       end
+      send_file zip_file.path
+    else
+      redirect_to request.referer, notice: "No backups Found"
     end
-
-    send_file zip_file.path
   end
 
   def show
