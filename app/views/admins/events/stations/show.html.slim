@@ -38,27 +38,27 @@
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @transactions.credit.where(action: "sale").sum(:credits).abs
+              h3.mdl-card__title-text = number_to_token @sales
             .mdl-card__supporting-text
               | Total Sales
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @transactions.credit.where(action: "sale_refund").sum(:credits).abs
+              h3.mdl-card__title-text = number_to_token @refunds
             .mdl-card__supporting-text
               | Sale Refunds
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @transactions.credit.where(action: "sale").sum(:credits).abs / @transactions.pluck(:operator_tag_uid).uniq.count
-            .mdl-card__supporting-text
-              | Avg Sale Per Operator
+              h3.mdl-card__title-text = number_to_token @sales - @refunds
+            .mdl-card__supporting-text Net Sales
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text #{@transactions.pluck(:operator_tag_uid).uniq.count} Operators
-            .mdl-card__supporting-text &nbsp;
-
+              h3.mdl-card__title-text = number_to_token @sales / @operators
+            .mdl-card__supporting-text
+              | Avg Sale Per Operator
+              .small = "(By #{@transactions.pluck(:operator_tag_uid).uniq.count} operators)"
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
