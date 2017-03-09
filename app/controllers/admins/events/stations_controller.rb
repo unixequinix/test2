@@ -11,6 +11,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     authorize @station
     @items = @station.all_station_items
     @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
+    @transactions = @current_event.transactions.where(station: @station).status_ok.credit
   end
 
   def new
