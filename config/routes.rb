@@ -57,7 +57,9 @@ Rails.application.routes.draw do
         resources :orders, only: [:index, :show]
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :devices, only: [:index, :show]
+        resources :devices, only: [:index, :show] do
+          get :download_db, on: :member
+        end
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses

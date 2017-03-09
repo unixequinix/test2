@@ -44,6 +44,27 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
     @assets = @assets.group_by { |a| a.last[:status] }
   end
 
+  def download_db
+    @device = Device.find(params[:id])
+    authorize @device
+    secrets = Rails.application.secrets
+    credentials = Aws::Credentials.new(secrets.s3_access_key_id, secrets.s3_secret_access_key)
+    s3 = Aws::S3::Resource.new(region: 'eu-west-1', credentials: credentials)
+    name = "gspot/event/#{@current_event.id}/backups/#{@device.mac}"
+    bucket = s3.bucket(Rails.application.secrets.s3_bucket)
+    zip_file = Tempfile.new(["db_backups_#{@device.mac}__", ".zip"])
+
+    Zip::File.open(zip_file.path, Zip::File::CREATE) do |zipfile|
+      bucket.objects(prefix: name).collect(&:key).each do |filename|
+        file = Tempfile.new(@device.mac)
+        bucket.object(filename).get(response_target: file.path)
+        zipfile.add(filename.split("/").last, file.path)
+      end
+    end
+
+    send_file zip_file.path
+  end
+
   def show
     @device = Device.find(params[:id])
     authorize(@device)
