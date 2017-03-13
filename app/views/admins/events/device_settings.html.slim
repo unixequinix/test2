@@ -68,9 +68,6 @@
                     td.mdl-data-table__cell--non-numeric Your Access Token
                     td = @current_user.access_token
                   tr
-                    td.mdl-data-table__cell--non-numeric Min App Version
-                    td = best_in_place @current_event, :app_version, url: [:admins, @current_event]
-                  tr
                     td.mdl-data-table__cell--non-numeric Reverse UID
                     td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
                   tr
