@@ -16,6 +16,7 @@ gem 'figaro'
 gem 'aws-sdk', '~> 2'
 gem 'thor', '0.19.1'
 gem 'redis', '~> 3.0' # Use Redis adapter to run Action Cable in production
+gem 'cookies_eu'
 # gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password
 
 # Database

@@ -16,6 +16,11 @@ html
   body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{current_event.background.url})")
     .content-grid.mdl-grid
       .mdl-layout-spacer
+      .mdl-cell.mdl-cell--5-col = render 'cookies_eu/consent_banner', link: event_privacy_policy_path, target: '_blank'
+      .mdl-layout-spacer
+
+    .content-grid.mdl-grid
+      .mdl-layout-spacer
       .mdl-cell.mdl-cell--5-col
         .login-header
           .content-grid.mdl-grid
@@ -58,6 +63,7 @@ html
               = link_to event_logout_path(current_event), method: :delete, data: { confirm: (t("dashboard.confirm_log_out")) }, class: "header-link" do
                 i#out.mdl-color-text--red.material-icons power_settings_new
                 span.mdl-tooltip data-mdl-for="out" = t("dashboard.header.log_out")
+
         = yield
 
         .mdl-cell.mdl-cell--5-col
