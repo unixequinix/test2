@@ -9,6 +9,7 @@ class Events::EventsController < ApplicationController
 
   def show
     @any_tickets = TicketType.where.not(catalog_item: nil).where(hidden: false).includes(:tickets).merge(@current_event.tickets.where(banned: false)).any? # rubocop:disable Metrics/LineLength
+    @any_gtags = @current_event.gtags.any?
   end
 
   def authenticate_customer!
