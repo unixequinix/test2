@@ -60,17 +60,20 @@
               | Avg Sale Per Operator
               .small = "(By #{@transactions.pluck(:operator_tag_uid).uniq.count} operators)"
 
+
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--11-col
     .mdl-grid
       .mdl-cell.mdl-cell--4-col
-        .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
           table.mdl-data-table.mdl-js-data-table.within-card
-            tbody
+            thead
               tr
-                td.mdl-data-table__cell--non-numeric Grouping
-                td #{@station.category&.humanize} (#{@station.group&.humanize})
+                th.mdl-data-table__cell--non-numeric Grouping
+                th #{@station.category&.humanize} (#{@station.group&.humanize})
+            tbody
               tr
                 td.mdl-data-table__cell--non-numeric Name
                 td = best_in_place @station, :name, url: [:admins, @current_event, @station]
@@ -91,6 +94,5 @@
                 td = best_in_place @station, :reporting_category, url: [:admins, @current_event, @station]
       .mdl-cell.mdl-cell--7-col
         = render(partial: "admins/events/station_items/#{@station.form}/form") if @station.form
-        br
         = render(partial: "admins/events/station_items/#{@station.form}/list") if @station.form
   .mdl-layout-spacer
