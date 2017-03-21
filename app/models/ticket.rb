@@ -1,7 +1,7 @@
 class Ticket < ActiveRecord::Base
   include Credentiable
 
-  validates :code, uniqueness: { scope: :event_id }, presence: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") } # rubocop:disable Metrics/LineLength
+  validates :code, uniqueness: { scope: :event_id }, presence: true
   validates :ticket_type_id, presence: true
 
   scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
