@@ -43,7 +43,7 @@
                         = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do
                           => icon
                           = transaction.description
-                      td.mdl-data-table__cell--non-numeric data-label="Station" = link_to (transaction.station&.name || transaction.station_id), admins_event_station_path(@current_event, transaction.station_id)
+                      td.mdl-data-table__cell--non-numeric data-label="Station" = link_to (transaction.station&.name || transaction.station_id), admins_event_station_path(@current_event, transaction.station_id) if transaction.station
                       td.mdl-data-table__cell--non-numeric data-label="Device UID" = transaction.device_uid
                       td data-label="Credits" = number_to_token transaction.credits
                       td data-label="Final Balance" = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
