@@ -61,6 +61,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
     path = admins_event_tickets_path(@current_event)
     redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
+    count = 0
 
     begin
       companies = []
@@ -76,12 +77,13 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
       CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
         ticket_atts = { event_id: @current_event.id, code: row.field("reference"), ticket_type_id: ticket_types[row.field("ticket_type")], purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") } # rubocop:disable Metrics/LineLength
         TicketCreator.perform_later(ticket_atts)
+        count += 1
       end
     rescue
-      return redirect_to(path, alert: t("admin.tickets.import.error"))
+      return redirect_to(path, alert: t("alerts.import.error"))
     end
 
-    redirect_to(path, notice: t("admin.tickets.import.success"))
+    redirect_to(path, notice: t("alerts.import.delayed", count: count, item: "Tickets"))
   end
 
   def sample_csv

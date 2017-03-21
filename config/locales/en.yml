@@ -26,6 +26,10 @@ en:
     order_complete: Order Completed
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
+    import:
+      delayed: "%{count} %{item} were delayed for import, please check in a few minutes"
+      success: "%{count} %{item} successfully imported"
+      error: There has been an error with the import process
     confirm_delete: |
       This action cannot be undone.
 
