@@ -43,6 +43,12 @@ html
               = yield(:search)
           |  &nbsp; &nbsp;
 
+        = yield(:navigation_actions)
+
+        = link_to admins_events_path, class: "mdl-button mdl-button--icon" do
+          span#events_link.icon.material-icons event_note
+          span.mdl-tooltip data-mdl-for="events_link" Events List
+
         = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
           span#out.icon.material-icons power_settings_new
           span.mdl-tooltip data-mdl-for="out"  Log out
@@ -50,9 +56,6 @@ html
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       .mdl-layout__drawer
         nav.mdl-navigation.global-nav
-          = link_to admins_events_path, class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons event_note
-            |  Events
           - if policy(@current_event).event_settings?
             = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
