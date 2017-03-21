@@ -16,8 +16,10 @@ de:
     cancelled: Cancelled successfully
     credential:
       already_assigned: "%{item} already assigned"
+      no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
+      blacklisted: "%{item} is Blacklisted"
       assigned: "%{item} successfully assigned"
-      not_found: "%{item} not found"
+      not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
       unassigned: "%{item} successfully unassigned"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Succesfully deleted
@@ -151,16 +153,6 @@ de:
         mail_link: Mein Passwort ändern
         title: Passwort zurücksetzen
       suscribe_on_you_tube: In YouTube abonnieren
-  errors:
-    messages:
-      catalog_item_dependent: Bestandteil kann nicht gelöscht werden, ist Teil eines Paketes or Station
-      end_date_after_start_date: must be after start date
-      greater_than_maximum: The minimum purchasable can't be greater than maximum purchasable
-      invalid_max_value_for_infinite: Der Maximum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde
-      invalid_min_value_for_infinite: 'Der Minimum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde '
-      max_credits_reached: Du hast das maximale Guthaben erreicht
-      ticket_type_dependent: Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen
-      topup_credit_count: Sie können in dem Topup höchstens 6 Buttons haben
   event:
     locales:
       de: GER
@@ -276,5 +268,3 @@ de:
           password_confirmation: Bestätigung des Passworts
           phone: Telefonnummer
           postcode: Postleitzahl
-  ticket_assignations:
-    button: Akzeptieren

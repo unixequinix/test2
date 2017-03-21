@@ -16,8 +16,10 @@ th:
     cancelled: Cancelled successfully
     credential:
       already_assigned: "%{item} already assigned"
+      no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
+      blacklisted: "%{item} is Blacklisted"
       assigned: "%{item} successfully assigned"
-      not_found: "%{item} not found"
+      not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
       unassigned: "%{item} successfully unassigned"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Succesfully deleted
@@ -151,16 +153,6 @@ th:
         mail_link: เปลี่ยนรหัสผ่าน
         title: ตั้งรหัสผ่านใหม่
       suscribe_on_you_tube: Subscribe on YouTube
-  errors:
-    messages:
-      catalog_item_dependent: Impossible to delete item, it is included in a pack or station
-      end_date_after_start_date: must be after start date
-      greater_than_maximum: Minimum purchasable can't be greater than maximum purchasable
-      invalid_max_value_for_infinite: The max value must be 1 or 0 if you have chosen infinite
-      invalid_min_value_for_infinite: The min value must be 1 or 0 if you have chosen infinite
-      max_credits_reached: You reached the maximun allowed balance
-      ticket_type_dependent: Impossible to delete the company, it has ticket types associated
-      topup_credit_count: You can't have more than 6 buttons in the topup
   event:
     locales:
       de: GER
@@ -441,5 +433,3 @@ th:
       line_9_2: 9.2 We reserve the right to withdraw linking permission without notice.
       line_9_3: 9.3 Where the Site contains links to other websites and resources provided by third parties, these links are provided for your information only. We have no control over the content of those websites or resources and we are not responsible or liable for them in anyway.
       title: 9.  Links to and from the Site
-  ticket_assignations:
-    button: Aceptar
