@@ -4,7 +4,7 @@ fieldset.wrapper-preevent-product
       = f.association :catalog_item, collection: @catalog_items_collection, include_blank: false, :input_html => { :class => 'mdl-textfield__input'}
     .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
       = f.input :amount, :input_html => { :class => 'mdl-textfield__input'}
-      = f.hidden_field :_destroy
+    = f.hidden_field :_destroy
     = link_to '#', class: "btn-remove-fields" do
       .material-icons close
 

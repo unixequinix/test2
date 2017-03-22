@@ -42,7 +42,7 @@ javascript:
 
   ready = function() {
     $('form').on('click', '.btn-remove-fields', function(event) {
-      $(this).prev('input[type=hidden]').val('1');
+      $(this).prev('input[type=hidden]').val('true');
       $(this).closest('fieldset').hide();
       return event.preventDefault();
 
