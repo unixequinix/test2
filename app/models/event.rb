@@ -31,6 +31,7 @@ class Event < ActiveRecord::Base
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
 
   enum state: { created: 1, launched: 2, started: 3, finished: 4, closed: 5 }
+  enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }) # rubocop:disable Metrics/LineLength

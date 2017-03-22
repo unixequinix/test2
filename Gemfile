@@ -97,6 +97,7 @@ gem 'wkhtmltopdf-binary'
 gem 'rfc-822'
 gem 'iban-tools'
 gem 'iso-swift', github: 'hugolantaume/iso-swift'
+gem 'bsb'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.

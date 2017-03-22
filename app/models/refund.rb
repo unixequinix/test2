@@ -1,9 +1,13 @@
 class Refund < ActiveRecord::Base
-  attr_accessor :validate_iban
+  attr_accessor :iban, :bsb
 
   belongs_to :event
   belongs_to :customer
-  validate :correct_iban_and_swift, if: :validate_iban
+
+  validates :field_a, length: { is: 6 }, bsb_number: true, if: :bsb
+  validates :field_b, length: { within: 6..10 }, if: :bsb
+  validate :correct_iban_and_swift, if: :iban
+
   validates :field_a, presence: true
   validates :field_b, presence: true
 

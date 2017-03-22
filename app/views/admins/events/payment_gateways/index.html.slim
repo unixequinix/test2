@@ -10,6 +10,17 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--6-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Bank Format for Refunds:
+            td = best_in_place @current_event, :bank_format, as: :select, collection: Event.bank_formats.keys.map{ |format| [format.to_sym, format.upcase] }, url: [:admins, @current_event]
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
       table.mdl-data-table.mdl-js-data-table.within-card
         thead
           tr

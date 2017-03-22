@@ -9,7 +9,7 @@ RSpec.describe Customer, type: :model do
       @station = create(:station, category: "customer_portal", event: event)
       @accesses = create_list(:access, 2, event: event)
       @items = @accesses.map do |item|
-        num = rand(100)
+        num = rand(10..100)
         @station.station_catalog_items.create!(catalog_item: item, price: num)
         [item.id, 11]
       end

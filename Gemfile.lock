@@ -138,6 +138,9 @@ GEM
     bourbon (4.3.3)
       sass (~> 3.4)
       thor (~> 0.19)
+    bsb (0.0.4)
+      activemodel
+      rest-client
     builder (3.2.3)
     byebug (9.0.6)
     capistrano (3.7.2)
@@ -578,6 +581,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   best_in_place
   bourbon
+  bsb
   byebug
   capistrano (~> 3.6)
   capistrano-faster-assets (~> 1.0)
