@@ -28,6 +28,7 @@ en:
     order_complete: Order Completed
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
+    max_credits_reached: have reached the maximum allowed balance
     import:
       delayed: "%{count} %{item} were delayed for import, please check in a few minutes"
       success: "%{count} %{item} successfully imported"

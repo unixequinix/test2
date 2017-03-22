@@ -28,6 +28,7 @@ it:
     order_complete: Order Completed
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
+    max_credits_reached: have reached the maximum allowed balance
     confirm_delete: |
       This action cannot be undone.
 

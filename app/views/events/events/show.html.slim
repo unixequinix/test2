@@ -108,7 +108,7 @@
                   .order__info
                     - if order.in_progress?
                       = link_to t("dashboard.orders.complete"), event_order_path(@current_event, order)
-                    - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled?
+                    - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account")
                       = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
             ul.items__list
               - order.order_items.each do |order_item|
