@@ -10,5 +10,8 @@ Rails.application.config.assets.version = '2.1'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
 
-assets = %w( .svg .eot .woff .ttf welcome_admin.css admin.css cable.js customer.css customer.js layout.css specific/events-form.js specific/orders.js)
+assets = %w( .svg .eot .woff .ttf welcome_admin.css admin.css cable.js customer.css customer.js layout.css)
 Rails.application.config.assets.precompile += assets
+
+specific = %w( specific/events-form.js specific/orders.js specific/intercom_logged_in.js specific/intercom_logged_out.js)
+Rails.application.config.assets.precompile += specific
