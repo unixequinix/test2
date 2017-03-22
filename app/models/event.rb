@@ -29,7 +29,6 @@ class Event < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
-  LOCALES = [:en, :es, :it, :de, :th].freeze
 
   enum state: { created: 1, launched: 2, started: 3, finished: 4, closed: 5 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
