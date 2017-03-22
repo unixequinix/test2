@@ -14,6 +14,9 @@
       = f.input :official_name, placeholder: true
       = f.input :address, placeholder: true
       = f.input :registration_num, placeholder: true
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
+        span.mdl-switch__label.form-label Hidden
+        = f.input :hidden, :input_html => { :id => 'hidden' }
       - if station.new_record?
         = f.input :category, collection: Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }.map { |g| [g.to_s.humanize, g] }, include_blank: false
     .form-actions

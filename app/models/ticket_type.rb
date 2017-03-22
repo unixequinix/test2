@@ -12,12 +12,4 @@ class TicketType < ActiveRecord::Base
 
   scope :for_devices, -> { where.not(catalog_item_id: nil) }
   scope :no_catalog_item, -> { where(catalog_item_id: nil) }
-
-  def hide!
-    update(hidden: true)
-  end
-
-  def show!
-    update(hidden: false)
-  end
 end

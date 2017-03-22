@@ -10,10 +10,9 @@
       = f.input :company_code
       = f.input :company_id, as: :select, collection: @current_event.companies.pluck(:name, :id), include_blank: false
       = f.association :catalog_item, collection: @catalog_items, label_method: lambda { |item| item.name }, include_blank: true
-      .file
-        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
-          span.mdl-switch__label.form-label Hidden
-          = f.input :hidden, :input_html => { :id => 'hidden' }
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
+        span.mdl-switch__label.form-label Hidden
+        = f.input :hidden, :input_html => { :id => 'hidden' }
 
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

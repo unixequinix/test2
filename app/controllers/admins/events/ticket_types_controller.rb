@@ -9,7 +9,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def new
-    @ticket_type = @current_event.ticket_types.new(hidden: true)
+    @ticket_type = @current_event.ticket_types
     authorize @ticket_type
   end
 

@@ -24,7 +24,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def create
-    @station = @current_event.stations.new(permitted_params.merge(hidden: true))
+    @station = @current_event.stations.new(permitted_params)
     authorize @station
     @group = @station.group
     if @station.save
