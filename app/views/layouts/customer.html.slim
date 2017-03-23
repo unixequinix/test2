@@ -41,20 +41,7 @@ html
                 = image_tag current_event.logo.url unless current_event.logo.blank?
             .mdl-layout-spacer
 
-        - flash.each do |type, msg|
-          - if msg.present? && msg.is_a?(String)
-            - if type.eql?("notice")
-              .success-message.full-width
-                = fa_icon "check-circle"
-                | &nbsp;
-                = msg
-            - else
-              .error-message.full-width
-                = fa_icon "times-circle"
-                | &nbsp;
-                = msg
-
-        .content-grid.mdl-grid.header
+        .content-grid.mdl-grid.header#common-header
           .mdl-cell.mdl-cell--6-col.header-left
             = yield(:back)
           .mdl-cell.mdl-cell--6-col.header-right
@@ -74,6 +61,19 @@ html
               = link_to event_logout_path(current_event), method: :delete, data: { confirm: (t("dashboard.confirm_log_out")) }, class: "header-link" do
                 i#out.mdl-color-text--red.material-icons power_settings_new
                 span.mdl-tooltip data-mdl-for="out" = t("dashboard.header.log_out")
+
+        - flash.each do |type, msg|
+          - if msg.present? && msg.is_a?(String)
+            - if type.eql?("notice")
+              .success-message.full-width
+                = fa_icon "check-circle"
+                | &nbsp;
+                = msg
+            - else
+              .error-message.full-width
+                = fa_icon "times-circle"
+                | &nbsp;
+                = msg
 
         = yield
 
