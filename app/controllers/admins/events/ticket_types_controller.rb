@@ -9,7 +9,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def new
-    @ticket_type = @current_event.ticket_types
+    @ticket_type = @current_event.ticket_types.new
     authorize @ticket_type
   end
 
