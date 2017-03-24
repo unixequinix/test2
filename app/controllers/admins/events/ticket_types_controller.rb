@@ -2,6 +2,11 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   before_action :set_ticket_type, except: [:index, :new, :create]
   before_action :set_catalog_items, except: [:destroy]
 
+  def unban
+    @ticket_type.tickets.update_all(banned: false)
+    redirect_to [:admins, @current_event, @ticket_type], notice: "All tickets successfully unbanned"
+  end
+
   def index
     @ticket_types = @current_event.ticket_types.order([:company_id, :name])
     authorize @ticket_types
