@@ -3,6 +3,26 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
+
+.remodal data-remodal-id="unban-all"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Very Important!
+  | After Unbanning
+  ul style="text-align: left"
+    li All tickets within this ticket type will be unbanned
+    li All other ticket types will remain unaffected
+    li If previously banned for other reasons, these tickets will also be unbanned
+    li &nbsp;
+    li This action cannot be undone!
+
+  h6 style="text-align: center" Still want to Unban All?
+  h4 style="text-align: center"
+    = link_to unban_admins_event_ticket_type_path(@current_event, @ticket_type), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container Yes
+    br
+    = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container NO
+
 - content_for(:actions) do
   .floaty
     ul.floaty-list#actions-list
@@ -21,6 +41,11 @@
           button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons edit
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+      li.floaty-list-item
+        = link_to '#unban-all' do
+          button#unban_all.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons not_interested
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unban_all" Unban All
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

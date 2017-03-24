@@ -36,8 +36,25 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
       Eventbrite::Webhook.delete(wh.id, @token)
     end
 
+    name = "Eventbrite - #{@current_event.eventbrite_event}"
+    @current_event.tickets.where(ticket_type: @current_event.companies.find_by(name: name).ticket_types).update_all(banned: true)
     @current_event.update! eventbrite_token: nil, eventbrite_event: nil
     redirect_to admins_event_path(@current_event), notice: "Successfully disconnected form Eventbrite"
+  end
+
+  def disconnect_event
+    authorize @current_event, :eventbrite_disconnect?
+    resp, token = Eventbrite.request(:get, "/webhooks", @token)
+    webhooks = Eventbrite::Util.convert_to_eventbrite_object(resp, token, Eventbrite::Webhook).webhooks
+
+    webhooks.select { |wh| wh.event_id == @current_event.eventbrite_event }.each do |wh|
+      Eventbrite::Webhook.delete(wh.id, @token)
+    end
+
+    name = "Eventbrite - #{@current_event.eventbrite_event}"
+    @current_event.tickets.where(ticket_type: @current_event.companies.find_by(name: name).ticket_types).update_all(banned: true)
+    @current_event.update! eventbrite_event: nil
+    redirect_to admins_event_eventbrite_path(@current_event), notice: "Successfully disconnected form Eventbrite Event"
   end
 
   def webhooks

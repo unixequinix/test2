@@ -72,6 +72,7 @@ Rails.application.routes.draw do
         get "eventbrite", to: "eventbrite#index"
         get "eventbrite/import_tickets", to: "eventbrite#import_tickets"
         get "eventbrite/disconnect", to: "eventbrite#disconnect"
+        get "eventbrite/disconnect_event", to: "eventbrite#disconnect_event"
         get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
         post "eventbrite/webhooks", to: "eventbrite#webhooks"
 
@@ -134,7 +135,9 @@ Rails.application.routes.draw do
             get :find_product, on: :collection
           end
         end
-        resources :ticket_types, except: :show
+        resources :ticket_types, except: :show do
+          get :unban, on: :member
+        end
       end
     end
   end

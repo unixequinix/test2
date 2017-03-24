@@ -2,7 +2,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
   before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv]
 
   def index
-    @q = @current_event.tickets.order(:code).ransack(params[:q])
+    @q = @current_event.tickets.order(created_at: :desc).ransack(params[:q])
     @tickets = @q.result
     authorize @tickets
     @tickets = @tickets.page(params[:page])

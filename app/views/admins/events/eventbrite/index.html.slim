@@ -3,14 +3,60 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
+- if @current_event.eventbrite_event.present?
+  .remodal data-remodal-id="disconnect-event-modal"
+    button.remodal-close data-remodal-action="close"
+    h3.remodal__title Very Important!
+    | After Disconnecting
+    ul style="text-align: left"
+      li All tickets from the event #{@eb_event.name.text} event will be banned
+      li You can reconnect at a later moment, but tickets will remain banned
+      li If you would like to unban them as well, you can do it form the ticket types page
+
+    h6 style="text-align: center" Still want to disconnect?
+    h4 style="text-align: center"
+      = link_to admins_event_eventbrite_disconnect_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container Yes
+      br
+      = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container NO
+
+
+.remodal data-remodal-id="disconnect-modal"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Very Important!
+  | After Disconnecting
+  ul style="text-align: left"
+    li All tickets from the currently connected event will be banned
+    li You can reconnect at a later moment, but tickets will remain banned
+    li If you would like to unban them as well, you can do it form the ticket types page
+
+  h6 style="text-align: center" Still want to disconnect?
+  h4 style="text-align: center"
+    = link_to admins_event_eventbrite_disconnect_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container Yes
+    br
+    = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container NO
+
 - content_for(:actions) do
   .floaty
     ul.floaty-list#actions-list
+      - if @current_event.eventbrite_event.present?
+        li.floaty-list-item
+          = link_to '#disconnect-event-modal' do
+            button#disconnect_event.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons perm_device_information
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="disconnect_event" Disconnect Event
       li.floaty-list-item
-        = link_to admins_event_eventbrite_disconnect_path(@current_event) do
+        = link_to '#disconnect-event-modal' do
           button#disconnect.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons phonelink_erase
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="disconnect" Disconnect
+
+
+
+
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

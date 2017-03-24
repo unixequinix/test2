@@ -1,5 +1,5 @@
 class EventbriteImporter < ActiveJob::Base
-  def perform(order, event_id) # rubocop:disable Metrics/MethodLength
+  def perform(order, event_id) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     order = JSON.parse(order).symbolize_keys
 
     begin
@@ -18,7 +18,12 @@ class EventbriteImporter < ActiveJob::Base
         begin
           ctt = TicketType.find_or_initialize_by(company: company, company_code: guest["ticket_class_id"], event_id: event_id)
           ctt.update(name: guest["ticket_class_name"])
-          ticket = Ticket.find_or_create_by(code: barcode["barcode"], ticket_type: ctt, event_id: event_id)
+        rescue ActiveRecord::RecordNotUnique
+          retry
+        end
+        begin
+          ticket = Ticket.find_or_initialize_by(code: barcode["barcode"], ticket_type: ctt, event_id: event_id)
+          ticket.update(created_at: barcode["created"])
         rescue ActiveRecord::RecordNotUnique
           retry
         end
