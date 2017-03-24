@@ -1,14 +1,18 @@
 class Events::EventsController < ApplicationController
+  include LanguageHelper
+
   layout "customer"
   protect_from_forgery
   before_action :fetch_current_event
   before_action :authenticate_customer!
-  before_action :write_locale_to_session
+  before_action :resolve_locale
+
   helper_method :current_event
   helper_method :current_customer
 
   def show
     @any_tickets = TicketType.where.not(catalog_item: nil).where(hidden: false).includes(:tickets).merge(@current_event.tickets.where(banned: false)).any? # rubocop:disable Metrics/LineLength
+    @any_gtags = @current_event.gtags.any?
   end
 
   def authenticate_customer!

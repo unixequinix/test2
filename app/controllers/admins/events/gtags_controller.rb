@@ -74,6 +74,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     redirect_to(path, alert: "File not supplied") && return unless params[:file]
     file = params[:file][:data].tempfile.path
     company = @current_event.companies.find_or_create_by!(name: "Glownet")
+    count = 0
 
     ticket_types = []
     CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << row.field("Type") }
@@ -83,12 +84,13 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
         GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_types[row.field("Type")])
+        count += 1
       end
     rescue
-      return redirect_to(path, alert: t("admin.tickets.import.error"))
+      return redirect_to(path, alert: t("alerts.import.error"))
     end
 
-    redirect_to(path, notice: "Gtags successfully imported")
+    redirect_to(path, notice: t("alerts.import.delayed", count: count, item: "GTags"))
   end
 
   def sample_csv

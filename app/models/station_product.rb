@@ -20,6 +20,11 @@ class StationProduct < ActiveRecord::Base
     :position
   end
 
+  def product_validations
+    errors.add(:product_name, :blank) if product_name.blank?
+    errors.add(:product_name, "Already present") if product_name && station.station_products.pluck(:product_id).include?(product_id)
+  end
+
   private
 
   def set_position

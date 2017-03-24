@@ -154,9 +154,6 @@
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
-                  td.mdl-data-table__cell--non-numeric IBAN enabled?
-                  td = best_in_place @current_event, :iban_enabled?, best_in_place_checkbox([:admins, @current_event])
-                tr
                   td.mdl-data-table__cell--non-numeric Phone Mandatory
                   td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])
                 tr

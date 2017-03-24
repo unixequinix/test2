@@ -11,6 +11,6 @@ class Api::V1::Events::BaseController < Api::BaseController
   private
 
   def set_modified
-    @modified = request.headers["If-Modified-Since"]&.to_datetime
+    @modified = request.headers["If-Modified-Since"]
   end
 end

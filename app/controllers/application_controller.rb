@@ -6,21 +6,6 @@ class ApplicationController < ActionController::Base
 
   attr_reader :current_event
 
-  # Get locale from user's browser and set it, unless it's present in session.
-  # Use default otherwise.
-  def write_locale_to_session
-    extracted_locale =  session[:locale] || locale_from_language_header || I18n.default_locale
-    return unless I18n.available_locales.map(&:to_s).include?(extracted_locale)
-
-    I18n.locale = extracted_locale
-    session[:locale] = extracted_locale
-  end
-
-  def locale_from_language_header
-    return if request.env["HTTP_ACCEPT_LANGUAGE"].nil?
-    request.env["HTTP_ACCEPT_LANGUAGE"].scan(/^[a-z]{2}/).first
-  end
-
   private
 
   def user_not_authorized

@@ -3,9 +3,8 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   def index
     customers = customers_sql || []
-    date = @current_event.customers.maximum(:updated_at)&.httpdate
-
-    render_entity(customers, date)
+    all_customers = @current_event.customers
+    fresh_when(all_customers.new, etag: all_customers, last_modified: all_customers.maximum(:updated_at), public: true) || render(json: customers)
   end
 
   def show

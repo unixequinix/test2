@@ -15,17 +15,20 @@ es:
     created: Creado con éxito
     cancelled: Cancelado con éxito
     credential:
-      already_assigned: "%{item} ya está assignada"
-      assigned: "%{item} assignado con éxito"
-      not_found: "%{item} no encontrado"
-      unassigned: "%{item} desasignado con éxito"
+      already_assigned: "El %{item} ya está asignado"
+      no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
+      blacklisted: "%{item} está en la Lista Negra"
+      assigned: "%{item} asignado correctamente"
+      not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
+      unassigned: "%{item} desasignado correctamente"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Destruido con éxito
     error: El formulario contiene errores
     only_letters_dnd_numbers: May only contain letters and numbers
     order_complete: Pedido completado con éxito
     updated: Succesfully updated
-    not_authorized: You are not authorized to perform this action
+    not_authorized: No estás autorizado a realizar esta acción
+    max_credits_reached: han alcanzado el límite permitido
     confirm_delete: |
       This action cannot be undone.
 
@@ -151,16 +154,6 @@ es:
         mail_link: Cambiar mi contraseña
         title: Cambiar contraseña
       suscribe_on_you_tube: Suscríbete en YouTube
-  errors:
-    messages:
-      catalog_item_dependent: Imposible eliminar item, ya que está inlcuido en al menos un pack o estación
-      end_date_after_start_date: debe ser posterior a la fecha de inicio
-      greater_than_maximum: El minimo de compra no puede ser mayor que el máximo de compra
-      invalid_max_value_for_infinite: El valor máximo debe ser 1 o 0 si has elegido infinito
-      invalid_min_value_for_infinite: El valor mínimo debe ser 1 o 0 si has elegido infinito
-      max_credits_reached: Has llegado al máximo de recarga
-      ticket_type_dependent: Imposible eliminar la compañia, tiene tipos de ticket asignados
-      topup_credit_count: No puedes tener más de 6 botones en el topup
   event:
     locales:
       de: GER
@@ -285,5 +278,3 @@ es:
           password_confirmation: Confirmación de contraseña
           phone: Número de Teléfono
           postcode: Código Postal
-  ticket_assignations:
-    button: Aceptar

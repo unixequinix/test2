@@ -1,6 +1,6 @@
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
   - @item ||= @station.station_products.new
-  = simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station), wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+  = simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station), wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit} do |f|
     = f.input :product_id, as: :hidden
     = f.input :station_id, as: :hidden, html: { value: @station.id }
 
@@ -13,6 +13,7 @@
 
     .form-actions
       = f.button :submit, "Add Product", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+br
 
 javascript:
     $("#station_product_product_name").keyup(function () {

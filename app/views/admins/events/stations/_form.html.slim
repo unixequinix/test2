@@ -1,16 +1,7 @@
-- content_for(:actions) do
-  .floaty
-    ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to admins_event_stations_path(@current_event, group: @group) do
-          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons undo
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
-
+- content_for(:navigation_actions) do
+  = link_to admins_event_stations_path(@current_event, group: @group), class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
 
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
   = simple_form_for [:admins, @current_event, station], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
@@ -23,6 +14,9 @@
       = f.input :official_name, placeholder: true
       = f.input :address, placeholder: true
       = f.input :registration_num, placeholder: true
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
+        span.mdl-switch__label.form-label Hidden
+        = f.input :hidden, :input_html => { :id => 'hidden' }
       - if station.new_record?
         = f.input :category, collection: Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }.map { |g| [g.to_s.humanize, g] }, include_blank: false
     .form-actions

@@ -1,5 +1,10 @@
 class Events::SessionsController < Devise::SessionsController
+  include LanguageHelper
+
+  before_action :resolve_locale
+
   layout "customer"
+
   helper_method :current_event
 
   private

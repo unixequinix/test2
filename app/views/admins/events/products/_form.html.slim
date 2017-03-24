@@ -1,15 +1,7 @@
-- content_for(:actions) do
-  .floaty
-    ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to [:admins, @current_event, product] do
-          button#undo.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons undo
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="undo" Back
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, product], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
 
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
   = simple_form_for [:admins, @current_event, product], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|

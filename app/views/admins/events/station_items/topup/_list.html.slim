@@ -16,7 +16,7 @@
                 button.icon.material-icons id ="delete_#{topup_credit.id}" delete
 
           td = number_to_token topup_credit.credit.value * topup_credit.amount
-          td = best_in_place topup_credit, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, topup_credit.station_id, topup_credit, item_type: "access_control_gate"))
+          td = best_in_place topup_credit, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, topup_credit.station_id, topup_credit, item_type: "topup_credit"))
 
 
 

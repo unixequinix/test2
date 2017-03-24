@@ -3,6 +3,10 @@ require "spec_helper"
 RSpec.describe OrderItem, type: :model do
   subject { build(:order_item) }
 
+  it "should be redeemed false by default" do
+    expect(OrderItem.new).not_to be_redeemed
+  end
+
   describe ".single_credits?" do
     it "returns true if the catalog_item is a credit" do
       subject.catalog_item = build(:credit)

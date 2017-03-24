@@ -142,7 +142,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :address_mandatory,
                                   :gender_mandatory,
                                   :birthdate_mandatory,
-                                  :iban_enabled,
+                                  :bank_format,
                                   :private_zone_password,
                                   :fast_removal_password,
                                   :transaction_buffer,

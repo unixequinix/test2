@@ -5,23 +5,23 @@ class Events::TicketAssignmentsController < Events::EventsController
     render(:new) && return unless can_assign?(@ticket)
 
     @ticket.assign_customer(current_customer, :portal, current_customer)
-    redirect_to(customer_root_path(@current_event), notice: "Ticket assigned successfully")
+    redirect_to(customer_root_path(@current_event), notice: t("alerts.credential.assigned", item: "Ticket"))
   end
 
   def destroy
     @ticket = @current_event.tickets.find(params[:id])
     @ticket.unassign_customer(:portal, current_customer)
-    redirect_to customer_root_path(@current_event), notice: "Previous assignation"
+    redirect_to customer_root_path(@current_event), notice: t("alerts.credential.unassigned", item: "Ticket")
   end
 
   private
 
   def can_assign?(ticket)
     flash.now[:error] = case
-                          when ticket.blank? then "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support." # rubocop:disable Metrics/LineLength
-                          when ticket.ticket_type&.catalog_item.nil? then "The ticket you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support" # rubocop:disable Metrics/LineLength
-                          when ticket.banned? then "Ticket is blacklisted"
-                          when ticket.customer then "Ticket already assigned"
+                          when ticket.blank? then t("alerts.credential.not_found", item: "Ticket")
+                          when ticket.ticket_type&.catalog_item.nil? then t("alerts.credential.no_item_assigned", item: "ticket")
+                          when ticket.banned? then t("alerts.credential.blacklisted", item: "Ticket")
+                          when ticket.customer then t("alerts.credential.already_assigned", item: "Ticket")
                         end
 
     flash.now[:error].nil?
