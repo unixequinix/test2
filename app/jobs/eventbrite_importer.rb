@@ -2,7 +2,14 @@ class EventbriteImporter < ActiveJob::Base
   def perform(order, event_id) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     order = JSON.parse(order).symbolize_keys
     event = Event.find(event_id)
-    company = event.companies.find_by(name: "Eventbrite")
+
+    begin
+      company = event.companies.find_or_create_by(name: "Eventbrite - #{order[:event_id]}")
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
+
+
     barcodes = order[:attendees].map { |attendee| attendee["barcodes"].map { |b| b["barcode"] } }.flatten
 
     event.tickets.where(code: barcodes).update_all(banned: true) && return unless order[:status].eql?("placed")
