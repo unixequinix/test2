@@ -11,8 +11,9 @@ class EventbriteImporter < ActiveJob::Base
       guest["barcodes"].each do |barcode|
         profile = guest["profile"]
         begin
-          ctt = event.ticket_types.find_or_create_by!(company: company, company_code: guest["ticket_class_id"], name: guest["ticket_class_name"])
-          ticket = event.tickets.find_or_create_by!(code: barcode["barcode"], ticket_type: ctt, event: event)
+          ctt = event.ticket_types.find_or_create_by(company: company, company_code: guest["ticket_class_id"])
+          ctt.update(name: guest["ticket_class_name"]) if ctt
+          ticket = event.tickets.find_or_create_by(code: barcode["barcode"], ticket_type: ctt, event: event)
         rescue ActiveRecord::RecordNotUnique
           retry
         end
