@@ -1,26 +1,24 @@
 class EventbriteImporter < ActiveJob::Base
   def perform(order, event_id) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     order = JSON.parse(order).symbolize_keys
-    event = Event.find(event_id)
 
     begin
-      company = event.companies.find_or_create_by(name: "Eventbrite - #{order[:event_id]}")
+      company = Company.find_or_create_by(name: "Eventbrite - #{order[:event_id]}", event_id: event_id)
     rescue ActiveRecord::RecordNotUnique
       retry
     end
 
-
     barcodes = order[:attendees].map { |attendee| attendee["barcodes"].map { |b| b["barcode"] } }.flatten
 
-    event.tickets.where(code: barcodes).update_all(banned: true) && return unless order[:status].eql?("placed")
+    Ticket.where(code: barcodes, event_id: event_id).update_all(banned: true) && return unless order[:status].eql?("placed")
 
     order[:attendees].each do |guest|
       guest["barcodes"].each do |barcode|
         profile = guest["profile"]
         begin
-          ctt = event.ticket_types.find_or_create_by(company: company, company_code: guest["ticket_class_id"])
-          ctt.update(name: guest["ticket_class_name"]) if ctt
-          ticket = event.tickets.find_or_create_by(code: barcode["barcode"], ticket_type: ctt, event: event)
+          ctt = TicketType.find_or_initialize_by(company: company, company_code: guest["ticket_class_id"], event_id: event_id)
+          ctt.update(name: guest["ticket_class_name"])
+          ticket = Ticket.find_or_create_by(code: barcode["barcode"], ticket_type: ctt, event_id: event_id)
         rescue ActiveRecord::RecordNotUnique
           retry
         end
