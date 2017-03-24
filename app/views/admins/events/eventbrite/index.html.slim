@@ -33,7 +33,7 @@
 
   h6 style="text-align: center" Still want to disconnect?
   h4 style="text-align: center"
-    = link_to admins_event_eventbrite_disconnect_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+    = link_to admins_event_eventbrite_disconnect_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
       span.mdl-button__ripple-container Yes
     br
     = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
