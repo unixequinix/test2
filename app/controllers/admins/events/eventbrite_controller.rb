@@ -73,7 +73,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     pages = Eventbrite::Order.all({ event_id: eb_event, expand: "attendees" }, @token).pagination.page_count
 
     pages.times do |page_number|
-      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number, expand: "attendees" }, @token).orders
+      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number + 1, expand: "attendees" }, @token).orders
       orders.each { |order| EventbriteImporter.perform_later(order.to_json, @current_event.id) }
     end
 
