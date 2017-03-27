@@ -20,8 +20,8 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     authorize @current_event, :eventbrite_connect?
     event_id = params[:eb_event_id]
     @current_event.update eventbrite_event: event_id
-    # url = "http://glownet.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
-    url = admins_event_eventbrite_webhooks_url(@current_event)
+    url = "http://glownet.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
+    # url = admins_event_eventbrite_webhooks_url(@current_event)
     actions = "order.placed,order.refunded,order.updated"
     Eventbrite::Webhook.create({ endpoint_url: url, event_id: event_id, actions: actions }, @token)
     redirect_to admins_event_eventbrite_import_tickets_path(@current_event)
@@ -70,10 +70,12 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   def import_tickets
     authorize @current_event, :eventbrite_import_tickets?
     eb_event = @current_event.eventbrite_event
-    pages = Eventbrite::Order.all({ event_id: eb_event, expand: "attendees" }, @token).pagination.page_count
+    first_call = Eventbrite::Order.all({ event_id: eb_event, page: 1, expand: "attendees" }, @token)
+    first_call.orders.each { |order| EventbriteImporter.perform_later(order.to_json, @current_event.id) }
 
-    pages.times do |page_number|
-      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number + 1, expand: "attendees" }, @token).orders
+    pages = first_call.pagination.page_count
+    (2..pages).to_a.each do |page_number|
+      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number, expand: "attendees" }, @token).orders
       orders.each { |order| EventbriteImporter.perform_later(order.to_json, @current_event.id) }
     end
 
