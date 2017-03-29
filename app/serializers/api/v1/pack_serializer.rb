@@ -10,6 +10,6 @@ class Api::V1::PackSerializer < ActiveModel::Serializer
   end
 
   def user_flags
-    object.catalog_items.user_flags.pluck(:id)
+    object.catalog_items.user_flags.where("amount > 0").pluck(:id)
   end
 end
