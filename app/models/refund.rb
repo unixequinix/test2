@@ -8,14 +8,23 @@ class Refund < ActiveRecord::Base
   validates :field_b, length: { within: 6..10 }, if: :bsb
   validate :correct_iban_and_swift, if: :iban
 
-  validates :field_a, presence: true
-  validates :field_b, presence: true
+  validates :field_a, :field_b, presence: true, if: -> { gateway.eql?("bank_account") }
 
   scope :query_for_csv, lambda { |event|
     joins(:customer)
       .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee, refunds.money,
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   }
+
+  def prepare(atts)
+    self.status = "completed"
+
+    return unless gateway.eql?("bank_account")
+    self.field_a = atts[:field_a]
+    self.field_b = atts[:field_b]
+    self.iban = true if event.iban?
+    self.bsb = true if event.bsb?
+  end
 
   def total
     amount.to_f + fee.to_f
@@ -35,6 +44,22 @@ class Refund < ActiveRecord::Base
 
   def number
     id.to_s.rjust(7, "0")
+  end
+
+  def execute_refund_of_orders
+    orders = customer.orders.completed.where(gateway: gateway).sort_by(&:total).reverse.to_a
+
+    reduce_orders(orders, amount_money).map do |order, amount|
+      response = order.online_refund(amount)
+      order.update!(status: "refunded", refund_data: response.params.as_json) if response.success?
+    end
+  end
+
+  def reduce_orders(orders, amount)
+    order = orders.shift
+    return [] unless order
+    return [[order, amount.to_f]] if order.total > amount
+    [[order, order.total.to_f]] + reduce_orders(orders, amount - order.total.to_f)
   end
 
   def correct_iban_and_swift

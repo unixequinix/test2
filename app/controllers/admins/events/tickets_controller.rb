@@ -1,5 +1,5 @@
 class Admins::Events::TicketsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
-  before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv]
+  before_action :set_ticket, except: %i(index new create import sample_csv)
 
   def index
     @q = @current_event.tickets.order(created_at: :desc).ransack(params[:q])

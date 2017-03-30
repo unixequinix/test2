@@ -3,14 +3,18 @@ commons: &commons
     - topup
 
 paypal:
-  <<: *commons
+  actions:
+    - topup
+    - refund
   config:
     - login
     - password
     - signature
 
 mercadopago:
-  <<: *commons
+  actions:
+    - topup
+    - refund
   config:
     - public_key
     - token
@@ -31,6 +35,3 @@ stripe:
 bank_account:
   actions:
     - refund
-  refund:
-    - fee
-    - minimum

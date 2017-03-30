@@ -2,7 +2,11 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   before_action :set_modified
 
   def index
-    customers = customers_sql || []
+    customers = if @current_event.id.eql?(59)
+                  []
+                else
+                  customers_sql || []
+                end
     all_customers = @current_event.customers
     fresh_when(all_customers.new, etag: all_customers, last_modified: all_customers.maximum(:updated_at), public: true) || render(json: customers)
   end

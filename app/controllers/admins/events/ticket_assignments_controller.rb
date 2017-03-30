@@ -1,5 +1,5 @@
 class Admins::Events::TicketAssignmentsController < Admins::Events::BaseController
-  before_action :set_customer, only: [:new, :create]
+  before_action :set_customer, only: %i(new create)
 
   def new
     authorize @customer, :new_credential?

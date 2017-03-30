@@ -9,7 +9,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     client = Rails.application.secrets.eventbrite_client_id
     atts = { response_type: :code, client_id: client, response_params: { event_slug: @current_event.slug } }.to_param
     url = "https://www.eventbrite.com/oauth/authorize?#{atts}"
-    redirect_to(url) && return unless @token.present?
+    redirect_to(url) && return if @token.blank?
 
     @eb_events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events
     @eb_event = @eb_events.select { |event| event.id.eql? @current_event.eventbrite_event }.first

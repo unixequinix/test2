@@ -1,5 +1,5 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
-  before_action :set_station, except: [:index, :new, :create]
+  before_action :set_station, except: %i(index new create)
 
   def index
     @group = params[:group]
@@ -49,7 +49,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def clone
-    @station = @station.deep_clone(include: [:station_catalog_items, :station_products, :topup_credits, :access_control_gates], validate: false)
+    @station = @station.deep_clone(include: %i(station_catalog_items station_products topup_credits access_control_gates), validate: false)
     @station.name = "#{@station.name} - #{rand(10_000)}"
     @station.save!
     redirect_to admins_event_station_path(@current_event, @station)

@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.4.0'
+ruby '2.4.1'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
@@ -135,7 +135,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
-  gem 'pry'
 end
 
 group :test do

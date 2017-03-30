@@ -1,5 +1,5 @@
 class Admins::Events::GtagsController < Admins::Events::BaseController
-  before_action :set_gtag, only: [:show, :edit, :update, :destroy, :solve_inconsistent, :recalculate_balance]
+  before_action :set_gtag, only: %i(show edit update destroy solve_inconsistent recalculate_balance)
 
   def index
     @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])

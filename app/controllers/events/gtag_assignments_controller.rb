@@ -1,5 +1,5 @@
 class Events::GtagAssignmentsController < Events::EventsController
-  before_action :check_has_not_gtag!, only: [:new, :create]
+  before_action :check_has_not_gtag!, only: %i(new create)
 
   def new
     @gtag = @current_event.gtags.new

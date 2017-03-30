@@ -69,8 +69,8 @@ es:
     confirm_log_out: "¿Quieres finalizar la sesión?"
     topup: Recarga
     refund: Crea Devolución
+    order: Pedido
     orders:
-      title: Pedidos
       credits: Créditos
       catalog_items: Otros artículos
       disclaimer: Recuerda! Los pedidos online se aplicarán al entrar en el recinto
@@ -193,6 +193,9 @@ es:
     order_review: Resumen de compra
     payment: Detalles de Pago
     payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
       braintree:
         icon: credit-card
         name: Tarjeta de crédito vía Braintree

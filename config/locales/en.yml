@@ -63,8 +63,8 @@ en:
     confirm_log_out: Do you want to end this session?
     topup: Top Up
     refund: Refund
+    order: Order
     orders:
-      title: Orders
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
@@ -193,6 +193,9 @@ en:
     order_review: Order review
     payment: Payment Details
     payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
       paypal:
         icon: paypal
         name: PayPal

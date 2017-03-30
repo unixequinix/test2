@@ -29,24 +29,24 @@
             th Refunds
         tbody
           - PaymentGateway::GATEWAYS.keys.each do |name|
-            - gw = @gateways.find_by(name: name)
+            - gateway = @gateways.find_by(name: name)
             tr
               td.mdl-data-table__cell--non-numeric
                 = name.to_s.humanize
-                - if gw
+                - if gateway
                   .table-action
-                    = link_to edit_admins_event_payment_gateway_path(@current_event, gw) do
+                    = link_to edit_admins_event_payment_gateway_path(@current_event, gateway) do
                       button.icon.material-icons id ="edit_#{name}" edit
                   .table-action
-                    = link_to admins_event_payment_gateway_path(@current_event, gw), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                    = link_to admins_event_payment_gateway_path(@current_event, gateway), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="add_#{name}" delete
 
                 - else
                   .table-action
                     = link_to new_admins_event_payment_gateway_path(@current_event, name: name) do
                       button.icon.material-icons id ="add_#{name}" add
-              td = best_in_place gw, :topup, best_in_place_checkbox([:admins, @current_event, gw]) if gw && !gw.name.eql?("bank_account")
-              td = best_in_place gw, :refund, best_in_place_checkbox([:admins, @current_event, gw]) if gw && gw.name.eql?("bank_account")
+              td = best_in_place gateway, :topup, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?("topup")
+              td = best_in_place gateway, :refund, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?("refund")
 
             span.mdl-tooltip data-mdl-for="edit_#{name}" Edit
             span.mdl-tooltip data-mdl-for="add_#{name}" Add

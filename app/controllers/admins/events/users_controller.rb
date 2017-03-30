@@ -1,8 +1,8 @@
 class Admins::Events::UsersController < Admins::Events::BaseController
-  before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :set_user, only: %i(edit update destroy)
 
   def index
-    @users = @current_event.users.order([:role, :email]).page(params[:page])
+    @users = @current_event.users.order(%i(role email)).page(params[:page])
     authorize @users
   end
 

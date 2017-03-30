@@ -4,7 +4,7 @@ dist: trusty
 language: ruby
 
 rvm:
-  - 2.4.0
+  - 2.4.1
 
 addons:
   postgresql: "9.5"
@@ -26,7 +26,6 @@ script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - RAILS_ENV=test bundle exec rake db:test:prepare
   - bundle exec rspec --fail-fast
-  - bundle exec rubocop
 
 matrix:
   fast_finish: true

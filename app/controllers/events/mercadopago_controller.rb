@@ -1,5 +1,5 @@
 class Events::MercadopagoController < Events::PaymentsController
-  before_action :set_order_details, only: [:purchase, :refund]
+  before_action :set_order_details, only: %i(purchase refund)
 
   def purchase
     atts = { card_token: params[:token], brand: params[:payment_method_id] }
@@ -36,7 +36,7 @@ class Events::MercadopagoController < Events::PaymentsController
   end
 
   def mercadopago
-    gateway = @current_event.payment_gateways.mercadopago
+    gateway = @current_event.payment_gateways.mercadopago.first
     ActiveMerchant::Billing::MercadopagoGateway.new(gateway.data.symbolize_keys)
   end
 end

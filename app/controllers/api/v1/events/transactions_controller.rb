@@ -27,6 +27,6 @@ class Api::V1::Events::TransactionsController < ApplicationController
     return [:category] unless category
     mandatory = Transaction.class_for_type(category).mandatory_fields
     missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
-    "Missing keys for position #{index}: #{missing}" unless missing.blank?
+    "Missing keys for position #{index}: #{missing}" if missing.present?
   end
 end

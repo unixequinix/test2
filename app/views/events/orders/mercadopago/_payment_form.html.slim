@@ -37,4 +37,4 @@
 = javascript_include_tag "specific/orders"
 
 javascript:
-  Mercadopago.setPublishableKey('#{@current_event.payment_gateways.mercadopago.public_key}');
+  Mercadopago.setPublishableKey('#{@current_event.payment_gateways.mercadopago.first.public_key}');

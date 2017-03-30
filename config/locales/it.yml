@@ -69,8 +69,8 @@ it:
     confirm_log_out: Desidera terminare la sessione?
     topup: Top Up
     refund: Refund
+    order: Ordine
     orders:
-      title: Ordine
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
@@ -193,6 +193,9 @@ it:
     order_review: Rivedere Ordine
     payment: Payment Details
     payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
       braintree:
         icon: credit-card
         name: Carta di credito Braintree

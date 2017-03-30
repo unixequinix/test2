@@ -18,6 +18,14 @@ RSpec.describe Order, type: :model do
     end
   end
 
+  describe ".refunded?" do
+    it "returns true if the gateway is refund" do
+      expect(subject).not_to be_refunded
+      subject.status = "refunded"
+      expect(subject).to be_refunded
+    end
+  end
+
   describe ".completed?" do
     it "returns true if the status is completed" do
       subject.status = "completed"

@@ -1,0 +1,3 @@
+= simple_form_for [@current_event, refund], wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit} do |f|
+  = f.input :gateway, :as => :hidden, :input_html => { :value => "paypal" }
+  = f.button :submit, t('refunds.button'),  class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"

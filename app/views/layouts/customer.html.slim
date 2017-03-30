@@ -77,6 +77,11 @@ html
 
         = yield
 
+        - if Rails.env.development?
+          .mdl-cell.mdl-cell--12-col
+          .panel-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__supporting-text = debug(params)
+
         .mdl-cell.mdl-cell--5-col
         .card
           footer
