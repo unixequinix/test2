@@ -3,7 +3,8 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   def index
     customers = customers_sql || []
-    fresh_when(@current_event.customers.new, etag: @current_event.customers, last_modified: @current_event.customers.maximum(:updated_at).to_time.httpdate, public: true) || render(json: customers)
+    last_modified = @current_event.customers.maximum(:updated_at).to_time.httpdate
+    fresh_when(@current_event.customers.new, etag: @current_event.customers, last_modified: last_modified, public: true) || render(json: customers)
   end
 
   def show
@@ -16,7 +17,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   private
 
   def customers_sql # rubocop:disable Metrics/MethodLength
-    ids = @modified.present? ? @current_event.reload.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
+    ids = @modified.present? ? @current_event.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
 
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
