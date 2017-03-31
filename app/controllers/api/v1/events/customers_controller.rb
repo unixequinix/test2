@@ -45,7 +45,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
             UNION
             SELECT customer_id, tag_uid as reference, 'gtag' as type
             FROM gtags
-            WHERE gtags.active = true and gtags.customer_id IN (#{ids.join(', ')})
+            WHERE gtags.active = true AND gtags.customer_id IN (#{ids.join(', ')})
           ) cr
           GROUP BY cr.customer_id
         ) cred
@@ -67,7 +67,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   
             INNER JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
             INNER JOIN orders ON orders.id = order_items.order_id
-            WHERE orders.status IN ('completed', 'cancelled')
+            WHERE orders.status IN ('completed', 'cancelled') AND orders.customer_id IN (#{ids.join(', ')})
           ) o
           GROUP BY o.customer_id
         ) ord
