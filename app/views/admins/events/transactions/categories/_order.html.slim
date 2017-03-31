@@ -15,7 +15,6 @@
               th Amount
               th Redeemed
           tbody
-            - transactions.each do |transaction|
             tr
               td = link_to order_item.order.customer_id, admins_event_customer_path(@current_event, order_item.order.customer.id)
               td = order_item.catalog_item.name
