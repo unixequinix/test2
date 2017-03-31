@@ -2,13 +2,8 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   before_action :set_modified
 
   def index
-    customers = if @current_event.id.eql?(59)
-                  []
-                else
-                  customers_sql || []
-                end
-    all_customers = @current_event.customers
-    fresh_when(all_customers.new, etag: all_customers, last_modified: all_customers.maximum(:updated_at), public: true) || render(json: customers)
+    customers = customers_sql || []
+    fresh_when(@current_event.customers.new, etag: @current_event.customers, last_modified: @current_event.customers.maximum(:updated_at).httpdate, public: true) || render(json: customers)
   end
 
   def show
@@ -21,6 +16,8 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   private
 
   def customers_sql # rubocop:disable Metrics/MethodLength
+    ids = @modified.present? ? @current_event.reload.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
+
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
       FROM (
@@ -36,7 +33,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
         FROM customers
 
-        LEFT OUTER JOIN (
+        INNER JOIN (
           SELECT cr.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) as credentials
 
           FROM (
@@ -51,7 +48,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
         ) cred
         ON customers.id = cred.customer_id
 
-        LEFT OUTER JOIN (
+        INNER JOIN (
           SELECT o.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) as orders
 
           FROM (
@@ -72,7 +69,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
           GROUP BY o.customer_id
         ) ord
         ON customers.id = ord.customer_id
-        WHERE customers.event_id = #{@current_event.id} #{"AND customers.updated_at > '#{@modified}'" if @modified}
+        WHERE customers.id IN (#{ids.join(', ')})
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)
