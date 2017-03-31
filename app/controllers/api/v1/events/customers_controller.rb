@@ -31,27 +31,29 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
           customers.email,
           cred.credentials,
           ord.orders
-
+  
         FROM customers
-
+  
         LEFT OUTER JOIN (
           SELECT cr.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) as credentials
-
+  
           FROM (
-            SELECT customer_id, code as reference, 'ticket' as type
+           SELECT customer_id, code as reference, 'ticket' as type
             FROM tickets
+            WHERE tickets.customer_id IN (#{ids.join(', ')})
+  
             UNION
             SELECT customer_id, tag_uid as reference, 'gtag' as type
             FROM gtags
-            WHERE gtags.active = true
+            WHERE gtags.active = true and gtags.customer_id IN (#{ids.join(', ')})
           ) cr
           GROUP BY cr.customer_id
         ) cred
         ON customers.id = cred.customer_id
-
+  
         LEFT OUTER JOIN (
           SELECT o.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) as orders
-
+  
           FROM (
             SELECT
               customer_id,
@@ -60,9 +62,9 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
               catalog_item_id,
               redeemed,
               orders.status
-
+  
             FROM order_items
-
+  
             INNER JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
             INNER JOIN orders ON orders.id = order_items.order_id
             WHERE orders.status IN ('completed', 'cancelled')
