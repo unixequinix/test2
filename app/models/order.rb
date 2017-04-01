@@ -78,14 +78,16 @@ class Order < ActiveRecord::Base
   end
 
   def online_refund(amount)
-    paypal = ActiveMerchant::Billing::PaypalExpressGateway.new(event.payment_gateways.paypal.first.data.symbolize_keys)
-    mercadopago = ActiveMerchant::Billing::MercadopagoGateway.new(event.payment_gateways.mercadopago.first.data.symbolize_keys)
-    stripe = ActiveMerchant::Billing::StripeGateway.new(event.payment_gateways.stripe.first.data.symbolize_keys)
-
     case gateway
-      when "paypal" then paypal.refund(amount * 100, payment_data["PaymentInfo"]["TransactionID"], currency: event.currency)
-      when "mercadopago" then mercadopago.refund(amount, payment_data["id"], order_id: id)
-      when "stripe" then stripe.refund(amount, payment_data["id"])
+      when "paypal" then
+        paypal = ActiveMerchant::Billing::PaypalExpressGateway.new(event.payment_gateways.paypal.first.data.symbolize_keys)
+        paypal.refund(amount * 100, payment_data["PaymentInfo"]["TransactionID"], currency: event.currency)
+      when "mercadopago" then
+        mercadopago = ActiveMerchant::Billing::MercadopagoGateway.new(event.payment_gateways.mercadopago.first.data.symbolize_keys)
+        mercadopago.refund(amount, payment_data["id"], order_id: id)
+      when "stripe" then
+        stripe = ActiveMerchant::Billing::StripeGateway.new(event.payment_gateways.stripe.first.data.symbolize_keys)
+        stripe.refund(amount, payment_data["id"])
     end
   end
 

@@ -17,7 +17,7 @@
         - if @current_event.refunds? && @current_event.finished? && !@current_customer.global_refundable_credits.zero?
           .tool-item
             = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
-              span.material-icons replay
+              span.material-icons money_off
               span.mdl-tooltip data-mdl-for="refund" = t("dashboard.refund")
   .mdl-card__supporting-text
     .content-grid.mdl-grid
