@@ -83,7 +83,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
-        GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_types[row.field("Type")])
+        GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_types[row.field("Type")], credits: row.field("Balance"))
         count += 1
       end
     rescue
@@ -95,8 +95,8 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def sample_csv
     authorize @current_event.gtags.new
-    header = %w(UID Type)
-    data = [%w(1218DECA31C9F92F VIP), %w(E6312A015028B0FB General), %w(A43FE1C5E9A622C2)]
+    header = %w(UID Balance Type)
+    data = [%w(1218DECA31C9F92F 22.5 VIP), %w(E6312A015028B0FB General), %w(A43FE1C5E9A622C2)]
 
     csv_file = CsvExporter.sample(header, data)
     respond_to do |format|
