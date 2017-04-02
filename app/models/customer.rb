@@ -90,11 +90,11 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
       item_id, amount = arr
-      next if amount.to_i.zero?
+      next if amount.to_f.zero?
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
-      total = amount.to_i * item.price
-      order.order_items.new(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
+      total = amount.to_f * item.price
+      order.order_items.new(catalog_item: item, amount: amount.to_f, total: total, counter: counter)
     end
     order
   end
