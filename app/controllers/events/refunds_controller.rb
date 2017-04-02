@@ -36,7 +36,7 @@ class Events::RefundsController < Events::EventsController
       fee = gateway.fee.to_f
       amount = current_customer.orders.completed.where(gateway: gateway.name).sum(&:credits) - fee.to_f
       amount = current_customer.global_refundable_credits - fee.to_f if gateway.name.eql?("bank_account")
-      amount = [amount, current_customer.global_refundable_credits - fee].min
+      amount = [amount, current_customer.global_refundable_credits - fee.to_f].min
       money = amount * @current_event.credit.value
       atts = { amount: amount, status: "started", fee: fee, money: money, gateway: gateway.name, event: @current_event }
 
