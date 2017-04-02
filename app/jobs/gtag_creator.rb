@@ -15,7 +15,7 @@ class GtagCreator < ActiveJob::Base
                refundable_credits: credits,
                credits: credits }
 
-    CreditTransaction.write!(Event.find(atts[:event_id]), "record_credit", :device, nil, nil, t_atts)
+    CreditTransaction.write!(Event.find(atts[:event_id]), "topup", :device, nil, nil, t_atts)
 
   rescue ActiveRecord::RecordNotUnique
     retry
