@@ -45,16 +45,6 @@ it:
       wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " store"
     total: Totale
-  claims:
-    credentiable_refund_disabled:
-      description: Your credential is not elegible for online refunds
-      title: Sorry
-    invalid_claim:
-      description: Perfavore contattateci tramite l’ email  %{email} per procedere al rimborso.
-      title: Stiamo lavorando sul suo rimborso
-    no_credit:
-      description: Il suo saldo rimborsabile non e sufficiente
-      title: Ci scusiamo
   conditions:
     action: Accetto
     conjunction: e

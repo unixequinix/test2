@@ -238,12 +238,11 @@ en:
     station: Station
     type: Type
   refunds:
+    title: Refunds
     amount: Amount
     button: Refund
-    credentiable_refund_disabled:
-      description: Your credential is not elegible for online refunds
-      title: Sorry
     fee: Refund fee
+    total_credits: Total credits
     product_description: Balance to be refunded
     products: Products
     success: Refund successfully claimed, soon you will receive your transfer

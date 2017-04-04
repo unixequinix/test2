@@ -45,16 +45,6 @@ de:
       wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " shop"
     total: Summe
-  claims:
-    credentiable_refund_disabled:
-      description: Your credential is not elegible for online refunds
-      title: Sorry
-    invalid_claim:
-      description: Please contact us at %{email} in order to process your refund.
-      title: Erstattung in Bearbeitung
-    no_credit:
-      description: Sie haben keinen erstattungsfähiges Guthaben
-      title: Es tut uns leid
   conditions:
     action: Ich stimme den
     conjunction: und den

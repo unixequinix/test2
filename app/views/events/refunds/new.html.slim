@@ -5,7 +5,7 @@
 
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__supporting-text
-    h4 Refunds
+    h4 = t('refunds.title')
     table.table-order
       tr.border-bottom
         td = t('refunds.product_description')
@@ -14,7 +14,7 @@
         td = t('refunds.fee')
         td.table-amount#refund_fee = number_to_token(@refunds.first.fee)
       tr.border-bottom
-        td Total Credits
+        td = t('refunds.total_credits')
         td.table-amount#refund_credits = number_to_token(@refunds.first.amount)
       tr.border-bottom
         td
