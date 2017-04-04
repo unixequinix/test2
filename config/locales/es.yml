@@ -58,7 +58,7 @@ es:
       log_out: Salir
     confirm_log_out: "¿Quieres finalizar la sesión?"
     topup: Recarga
-    refund: Crea Devolución
+    refund: Devolucion
     order: Pedido
     orders:
       credits: Créditos
