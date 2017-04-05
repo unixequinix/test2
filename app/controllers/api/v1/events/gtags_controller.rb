@@ -2,8 +2,6 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   before_action :set_modified
 
   def index
-    head(:not_modified, last_modified: @modified) && return if @current_event.id.eql?(59)
-
     gtags = gtags_sql || []
     date = @current_event.gtags.maximum(:updated_at)&.httpdate
     render_entity(gtags, date)
