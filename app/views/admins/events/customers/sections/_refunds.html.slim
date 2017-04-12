@@ -15,8 +15,9 @@
               th Fee
               th Money
               th Created at
+              th
           tbody
-             - customer.refunds.each do |refund|
+            - customer.refunds.each do |refund|
               tr
                 td.mdl-data-table__cell--non-numeric data-label="ID" = link_to refund.id, admins_event_refund_path(@current_event, refund)
                 td data-label="State" = refund.status.humanize
@@ -24,6 +25,10 @@
                 td data-label="Fee" = refund.fee
                 td data-label="Money" = refund.amount * @current_event.credit.value
                 td data-label="Created at" = l refund.created_at
+                td
+                  - if current_user.admin?
+                    = link_to [:admins, @current_event, refund], method: "delete", class: "mdl-button mdl-button--icon" do
+                      span.icon.material-icons close
   .mdl-layout-spacer
 
 
