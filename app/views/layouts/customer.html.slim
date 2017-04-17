@@ -64,16 +64,22 @@ html
 
         - flash.each do |type, msg|
           - if msg.present? && msg.is_a?(String)
-            - if type.eql?("notice")
-              .success-message.full-width
-                = fa_icon "check-circle"
-                | &nbsp;
-                = msg
-            - else
-              .error-message.full-width
-                = fa_icon "times-circle"
-                | &nbsp;
-                = msg
+            #flash-notice
+              - if type.eql?("notice")
+                .success-message.full-width
+                  = fa_icon "check-circle"
+                  | &nbsp;
+                  = msg
+
+              - else
+                .error-message.full-width
+                  = fa_icon "times-circle"
+                  | &nbsp;
+                  = msg
+              i.material-icons onClick="closer()" close
+              #flash-progress
+                #bar
+
 
         = yield
 
