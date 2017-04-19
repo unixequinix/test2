@@ -6,6 +6,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
   let(:customer) { create(:customer, event: event) }
   let(:item) { create(:access, event: event) }
   let(:db_customers) { event.customers }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   describe "GET index" do
     context "with authentication" do
@@ -17,7 +18,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
       before(:each) do
         http_login(user.email, user.access_token)
-        get :index, params: { event_id: event.id }
+        get :index, params: params
       end
 
       it "returns a 200 status code" do
@@ -49,7 +50,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
     context "without authentication" do
       it "has a 401 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_unauthorized
       end
     end

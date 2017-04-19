@@ -4,6 +4,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:user) { create(:user) }
   let(:db_gtags) { event.gtags }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   before do
     create(:gtag, event: event, customer: create(:customer, event: event))
@@ -17,12 +18,12 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
 
       it "returns a 200 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         JSON.parse(response.body).map do |gtag|
           keys = %w[reference banned redeemed customer_id]
           expect(gtag.keys).to eq(keys)
@@ -30,7 +31,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
 
       it "returns the correct data" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         JSON.parse(response.body).each do |list_gtag|
           gtag = db_gtags[db_gtags.index { |tag| tag.tag_uid == list_gtag["reference"] }]
           expect(list_gtag["reference"]).to eq(gtag.tag_uid)
@@ -41,28 +42,28 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       it "returns gtags if they have customer" do
         gtag = create :gtag, customer: create(:customer, event: event), event: event
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         gtags = JSON.parse(response.body).map(&:symbolize_keys)
         expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
       end
 
       it "returns gtags if they are banned" do
         gtag = create :gtag, banned: true, event: event
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         gtags = JSON.parse(response.body).map(&:symbolize_keys)
         expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
       end
 
       it "returns gtags if they have a ticket_type" do
         gtag = create :gtag, event: event, ticket_type: create(:ticket_type, event: event)
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         gtags = JSON.parse(response.body).map(&:symbolize_keys)
         expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
       end
 
       it "does not return gtags without ticket_type, banned or customer" do
         gtag = create :gtag, event: event
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         gtags = JSON.parse(response.body).map(&:symbolize_keys)
         expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
       end
@@ -70,7 +71,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_unauthorized
       end
     end
@@ -91,7 +92,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag exists" do
         before(:each) do
-          get :show, params: { event_id: event.id, id: @gtag.tag_uid }
+          get :show, params: params.merge(id: @gtag.tag_uid)
         end
 
         it "returns a 200 status code" do
@@ -138,7 +139,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag doesn't exist" do
         it "returns a 404 status code" do
-          get :show, params: { event_id: event.id, id: (Gtag.last.id + 10) }
+          get :show, params: params.merge(id: Gtag.last.id + 10)
           expect(response.status).to eq(404)
         end
       end
@@ -146,7 +147,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :show, params: { event_id: event.id, id: Gtag.last.id }
+        get :show, params: params.merge(id: Gtag.last.id)
         expect(response).to be_unauthorized
       end
     end

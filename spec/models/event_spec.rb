@@ -3,6 +3,45 @@ require "spec_helper"
 RSpec.describe Event, type: :model do
   subject { build(:event) }
 
+  describe ".valid_app_version?" do
+    before { subject.app_version = "1.0.0.0" }
+
+    it "returns true if version is higher" do
+      expect(subject.valid_app_version?("1.0.0.1")).to be_truthy
+    end
+
+    it "returns true if version matches" do
+      expect(subject.valid_app_version?("1.0.0.0")).to be_truthy
+    end
+
+    it "returns false if version is lower" do
+      expect(subject.valid_app_version?("0.9.9.9")).to be_falsey
+    end
+
+    it "handles 3 digit versions with valid app version" do
+      expect(subject.valid_app_version?("1.0.1")).to be_truthy
+    end
+
+    it "handles 3 digit versions with invalid app version" do
+      expect(subject.valid_app_version?("0.9.1")).to be_falsey
+    end
+
+    it "handles pre-release versions" do
+      expect(subject.valid_app_version?("1.0.1-beta")).to be_truthy
+    end
+
+    it "handles pre-release of the same version" do
+      expect(subject.valid_app_version?("1.0.0.0-DEBUG")).to be_truthy
+    end
+
+    it "always returns true if the app_version is all" do
+      subject.app_version = "all"
+      expect(subject.valid_app_version?("notaversion")).to be_truthy
+      expect(subject.valid_app_version?(nil)).to be_truthy
+      expect(subject.valid_app_version?([])).to be_truthy
+    end
+  end
+
   describe ".eventbrite?" do
     it "returns true if the event has eventbrite_token and eventbrite_event" do
       expect(subject).not_to be_eventbrite

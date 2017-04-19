@@ -1,4 +1,6 @@
 class Api::V1::Events::BackupsController < Api::V1::Events::BaseController
+  skip_before_action :restrict_app_version
+
   def create
     keys = %i[device_uid backup_created_at backup].any? { |i| params[i] }
 

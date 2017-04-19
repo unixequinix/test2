@@ -4,6 +4,7 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
   let(:event) { create(:event) }
   let(:user) { create(:user) }
   let(:db_ticket_types) { event.ticket_types }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   before do
     create(:ticket_type, event: event)
@@ -16,12 +17,12 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
       before { http_login(user.email, user.access_token) }
 
       it "returns a 200 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         ticket_type_keys = %w[id name company_id company_name ticket_type_ref catalog_item_id]
         JSON.parse(response.body).map { |ticket_type| expect(ticket_type.keys).to eq(ticket_type_keys) }
       end
@@ -29,7 +30,7 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
       context "with the 'If-Modified-Since' header" do
         it "returns only the modified ticket_types" do
           request.headers["If-Modified-Since"] = (@new_ticket_type.updated_at - 2.hours)
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           ticket_types = JSON.parse(response.body).map { |m| m["id"] }
           expect(ticket_types).to eq([@new_ticket_type.id])
         end
@@ -37,7 +38,7 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
 
       context "without the 'If-Modified-Since' header" do
         it "returns all the ticket_types" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           api_ticket_types = JSON.parse(response.body).map { |m| m["id"] }
           expect(api_ticket_types).to eq(db_ticket_types.map(&:id))
         end
@@ -46,7 +47,7 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
 
     context "when unauthenticated" do
       it "returns a 401 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_unauthorized
       end
     end

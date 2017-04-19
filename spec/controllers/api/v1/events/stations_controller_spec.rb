@@ -3,6 +3,7 @@ require "spec_helper"
 RSpec.describe Api::V1::Events::StationsController, type: :controller do
   let(:event) { create(:event) }
   let(:user) { create(:user) }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   describe "GET index" do
     context "with authentication" do
@@ -11,7 +12,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       end
 
       it "has a 200 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_ok
       end
 
@@ -23,13 +24,13 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         end
 
         it "returns all the box office stations" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
           expect(stations).to include(@station.station_event_id)
         end
 
         it "returns the catalog items for each box office" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           s = JSON.parse(response.body).first["stations"].first
           s_ws_items = s["catalog"].map { |m| m["catalog_item_id"] }
           s_db_items = @station.station_catalog_items.map { |m| m.catalog_item.id }
@@ -47,13 +48,13 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         end
 
         it "returns all the pos stations" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
           expect(stations).to eq([@station.station_event_id])
         end
 
         it "returns the catalog items for each pos" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           s = JSON.parse(response.body).first["stations"].first
           expect(s).to have_key("products")
 
@@ -69,13 +70,13 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         before { @station = create(:station, category: "top_up_refund", event: event) }
 
         it "returns all the pos stations" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
           expect(stations).to eq([@station.station_event_id])
         end
 
         it "returns the credits for each station" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           s = JSON.parse(response.body).first["stations"].first
           expect(s).to have_key("top_up_credits")
 
@@ -96,13 +97,13 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         end
 
         it "returns all the access control stations" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
           expect(stations).to eq([@station.station_event_id])
         end
 
         it "returns the entitlements for each station" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           s = JSON.parse(response.body).first["stations"].first
           expect(s).to have_key("entitlements")
 
@@ -118,7 +119,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
     end
     context "without authentication" do
       it "has a 401 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
 
         expect(response).to be_unauthorized
       end

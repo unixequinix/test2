@@ -4,6 +4,7 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
   let(:event) { create(:event) }
   let(:user) { create(:user) }
   let(:db_products) { event.products }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   before do
     create(:product, event: event)
@@ -15,12 +16,12 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
       before { http_login(user.email, user.access_token) }
 
       it "returns a 200 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         product_keys = %w[id name description is_alcohol]
         JSON.parse(response.body).map { |product| expect(product.keys).to eq(product_keys) }
       end
@@ -28,7 +29,7 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
       context "with the 'If-Modified-Since' header" do
         it "returns only the modified products" do
           request.headers["If-Modified-Since"] = (@new_product.updated_at - 2.hours)
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           products = JSON.parse(response.body).map { |m| m["id"] }
           expect(products).to eq([@new_product.id])
         end
@@ -36,7 +37,7 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
 
       context "without the 'If-Modified-Since' header" do
         it "returns all the products" do
-          get :index, params: { event_id: event.id }
+          get :index, params: params
           api_products = JSON.parse(response.body).map { |m| m["id"] }
           expect(api_products).to eq(db_products.map(&:id))
         end
@@ -45,7 +46,7 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
 
     context "when unauthenticated" do
       it "returns a 401 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_unauthorized
       end
     end
