@@ -56,6 +56,7 @@ class Event < ActiveRecord::Base
 
   def valid_app_version?(device_version)
     return true if app_version.eql?("all")
+    return false unless device_version
     Gem::Version.new(app_version) <= Gem::Version.new(device_version.delete("^0-9\."))
   end
 
