@@ -28,6 +28,7 @@ de:
     error: The form contains errors
     only_letters_end_numbers: May only contain letters and numbers
     order_complete: Order Completed
+    order_error: There was a problem with your order
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
     max_credits_reached: have reached the maximum allowed balance

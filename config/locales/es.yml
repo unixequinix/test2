@@ -28,6 +28,7 @@ es:
     error: El formulario contiene errores
     only_letters_dnd_numbers: May only contain letters and numbers
     order_complete: Pedido completado con éxito
+    order_error: Ha habido un problema con su pedido
     updated: Succesfully updated
     not_authorized: No estás autorizado a realizar esta acción
     max_credits_reached: han alcanzado el límite permitido

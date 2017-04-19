@@ -16,4 +16,4 @@
         span.mdl-tooltip data-mdl-for="done" = t("actions.back")
 
   .mdl-card__supporting-text
-    | Order ##{@order.number} has error #{params[:message]}
+    | #{t("dashboard.order")} ##{@order.number}: #{params[:message]}
