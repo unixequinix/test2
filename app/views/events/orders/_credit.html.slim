@@ -15,10 +15,10 @@
     - if @current_event.credit.value != 1
       .top-up-amount [data-id="#{catalog_item.id}"]
         span [id="amount-total-#{catalog_item.id}"] #{@current_event.maximum_gtag_balance / 2}
-        span = @current_event.currency
+        span = @current_event.credit.name
     - else
       .top-up-amount
-        span = @current_event.currency
+        span = @current_event.credit.name.pluralize
 
   .mdl-cell.mdl-cell--4-col
     .plus-button
