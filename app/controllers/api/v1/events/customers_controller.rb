@@ -18,7 +18,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   def customers_sql # rubocop:disable Metrics/MethodLength
     ids = @modified.present? ? @current_event.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
-    return {}.to_json unless ids.any?
+    return [].to_json unless ids.any?
 
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))

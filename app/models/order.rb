@@ -9,7 +9,6 @@ class Order < ActiveRecord::Base
   validate :max_credit_reached
 
   scope(:not_refund, -> { where.not(gateway: "refund") })
-
   scope(:in_progress, -> { where(status: "in_progress") })
   scope(:completed, -> { where(status: "completed") })
   scope(:refunded, -> { where(status: "refunded") })
