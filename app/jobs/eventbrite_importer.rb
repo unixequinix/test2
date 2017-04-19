@@ -1,5 +1,5 @@
 class EventbriteImporter < ActiveJob::Base
-  def perform(order, event_id) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def perform(order, event_id) # rubocop:disable Metrics/MethodLength
     order = JSON.parse(order).symbolize_keys
 
     begin

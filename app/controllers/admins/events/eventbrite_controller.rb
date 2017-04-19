@@ -9,7 +9,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     client = Rails.application.secrets.eventbrite_client_id
     atts = { response_type: :code, client_id: client, response_params: { event_slug: @current_event.slug } }.to_param
     url = "https://www.eventbrite.com/oauth/authorize?#{atts}"
-    redirect_to(url) && return unless @token.present?
+    redirect_to(url) && return if @token.blank?
 
     @eb_events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events
     @eb_event = @eb_events.select { |event| event.id.eql? @current_event.eventbrite_event }.first
@@ -70,10 +70,12 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   def import_tickets
     authorize @current_event, :eventbrite_import_tickets?
     eb_event = @current_event.eventbrite_event
-    pages = Eventbrite::Order.all({ event_id: eb_event, expand: "attendees" }, @token).pagination.page_count
+    first_call = Eventbrite::Order.all({ event_id: eb_event, page: 1, expand: "attendees" }, @token)
+    first_call.orders.each { |order| EventbriteImporter.perform_later(order.to_json, @current_event.id) }
 
-    pages.times do |page_number|
-      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number + 1, expand: "attendees" }, @token).orders
+    pages = first_call.pagination.page_count
+    (2..pages).to_a.each do |page_number|
+      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number, expand: "attendees" }, @token).orders
       orders.each { |order| EventbriteImporter.perform_later(order.to_json, @current_event.id) }
     end
 

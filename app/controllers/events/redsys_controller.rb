@@ -1,5 +1,5 @@
 class Events::RedsysController < Events::PaymentsController
-  before_action :set_order_details, only: [:setup_purchase, :purchase]
+  before_action :set_order_details, only: %i[setup_purchase purchase]
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(
@@ -24,7 +24,7 @@ class Events::RedsysController < Events::PaymentsController
   private
 
   def redsys
-    gateway = @current_event.payment_gateways.redsys
+    gateway = @current_event.payment_gateways.redsys.first
     ActiveMerchant::Billing::RedsysGateway.new(gateway.data.merge(signature_algorithm: "sha256").symbolize_keys)
   end
 end

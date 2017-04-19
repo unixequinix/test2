@@ -11,7 +11,7 @@ class CsvExporter
 
   def self.to_csv(objects, csv_options = {})
     items = [objects].flatten
-    column_names = items.first.attributes.keys
+    column_names = items.first&.attributes&.keys || []
     csv_file = CSV.generate(csv_options) do |csv|
       csv << column_names
       items.each do |item|

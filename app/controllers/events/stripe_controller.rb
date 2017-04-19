@@ -1,5 +1,5 @@
 class Events::StripeController < Events::PaymentsController
-  before_action :set_order_details, only: [:purchase, :refund]
+  before_action :set_order_details, only: %i[purchase refund]
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(permitted_params)
@@ -35,7 +35,7 @@ class Events::StripeController < Events::PaymentsController
   end
 
   def stripe
-    gateway = @current_event.payment_gateways.stripe
+    gateway = @current_event.payment_gateways.stripe.first
     ActiveMerchant::Billing::StripeGateway.new(gateway.data.symbolize_keys)
   end
 end

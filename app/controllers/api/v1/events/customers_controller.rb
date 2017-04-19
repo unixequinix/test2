@@ -2,9 +2,9 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   before_action :set_modified
 
   def index
-    customers = customers_sql || []
-    all_customers = @current_event.customers
-    fresh_when(all_customers.new, etag: all_customers, last_modified: all_customers.maximum(:updated_at), public: true) || render(json: customers)
+    last_modified = @current_event.customers.maximum(:updated_at)
+    fresh_when(@current_event.customers.new, etag: @current_event.customers, last_modified: last_modified, public: true) && return
+    render(json: customers_sql)
   end
 
   def show
@@ -17,6 +17,9 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   private
 
   def customers_sql # rubocop:disable Metrics/MethodLength
+    ids = @modified.present? ? @current_event.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
+    return {}.to_json unless ids.any?
+
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
       FROM (
@@ -36,12 +39,14 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
           SELECT cr.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) as credentials
 
           FROM (
-            SELECT customer_id, code as reference, 'ticket' as type
+           SELECT customer_id, code as reference, 'ticket' as type
             FROM tickets
+            WHERE tickets.customer_id IN (#{ids.join(', ')})
+
             UNION
             SELECT customer_id, tag_uid as reference, 'gtag' as type
             FROM gtags
-            WHERE gtags.active = true
+            WHERE gtags.active = true AND gtags.customer_id IN (#{ids.join(', ')})
           ) cr
           GROUP BY cr.customer_id
         ) cred
@@ -63,12 +68,12 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
             INNER JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
             INNER JOIN orders ON orders.id = order_items.order_id
-            WHERE orders.status IN ('completed', 'cancelled')
+            WHERE orders.status IN ('completed', 'cancelled') AND orders.customer_id IN (#{ids.join(', ')})
           ) o
           GROUP BY o.customer_id
         ) ord
         ON customers.id = ord.customer_id
-        WHERE customers.event_id = #{@current_event.id} #{"AND customers.updated_at > '#{@modified}'" if @modified}
+        WHERE customers.id IN (#{ids.join(', ')})
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)

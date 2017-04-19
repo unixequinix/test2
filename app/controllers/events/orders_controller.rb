@@ -1,6 +1,7 @@
 class Events::OrdersController < Events::EventsController
+  before_action :set_order, only: %i[show error success]
+
   def show
-    @order = @current_event.orders.includes(order_items: :catalog_item).find(params[:id])
     @payment_gateways = @current_event.payment_gateways.topup
     redirect_to @current_event, notice: t("orders.already_finalised") unless @order.in_progress?
   end
@@ -22,6 +23,10 @@ class Events::OrdersController < Events::EventsController
   end
 
   private
+
+  def set_order
+    @order = @current_event.orders.includes(order_items: :catalog_item).find(params[:id])
+  end
 
   def catalog_items_hash
     portal_items = @current_event.portal_station.station_catalog_items

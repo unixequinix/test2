@@ -45,16 +45,6 @@ de:
       wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " shop"
     total: Summe
-  claims:
-    credentiable_refund_disabled:
-      description: Your credential is not elegible for online refunds
-      title: Sorry
-    invalid_claim:
-      description: Please contact us at %{email} in order to process your refund.
-      title: Erstattung in Bearbeitung
-    no_credit:
-      description: Sie haben keinen erstattungsfähiges Guthaben
-      title: Es tut uns leid
   conditions:
     action: Ich stimme den
     conjunction: und den
@@ -69,8 +59,8 @@ de:
     confirm_log_out: Möchten Sie diese Sitzung beenden?
     topup: Top Up
     refund: Refund
+    order: Bestellung
     orders:
-      title: Bestellung
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
@@ -193,6 +183,9 @@ de:
     order_review: Überprüfung der Bestellung
     payment: Payment Details
     payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
       braintree:
         icon: credit-card
         name: Kreditkarte Braintree

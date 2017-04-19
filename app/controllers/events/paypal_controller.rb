@@ -1,5 +1,5 @@
 class Events::PaypalController < Events::PaymentsController
-  before_action :set_order_details, only: [:setup_purchase, :purchase, :refund]
+  before_action :set_order_details, only: %i[setup_purchase purchase refund]
 
   def setup_purchase # rubocop:disable Metrics/MethodLength
     items = @order.order_items.map do |oi|
@@ -57,7 +57,7 @@ class Events::PaypalController < Events::PaymentsController
   private
 
   def paypal
-    gateway = @current_event.payment_gateways.paypal
+    gateway = @current_event.payment_gateways.paypal.first
     ActiveMerchant::Billing::PaypalExpressGateway.new(gateway.data.symbolize_keys)
   end
 end

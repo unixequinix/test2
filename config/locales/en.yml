@@ -26,6 +26,7 @@ en:
     error: The form contains errors
     only_letters_end_numbers: May only contain letters and numbers
     order_complete: Order Completed
+    order_error: There was a problem with your order
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
     max_credits_reached: have reached the maximum allowed balance
@@ -42,7 +43,7 @@ en:
       reset_password_instructions:
         subject: Reset password instructions
   checkout:
-    button: Confirm Order
+    button: Checkout
     description:
       both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
       card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
@@ -63,8 +64,8 @@ en:
     confirm_log_out: Do you want to end this session?
     topup: Top Up
     refund: Refund
+    order: Order
     orders:
-      title: Orders
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
@@ -193,6 +194,9 @@ en:
     order_review: Order review
     payment: Payment Details
     payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
       paypal:
         icon: paypal
         name: PayPal
@@ -208,6 +212,9 @@ en:
       mercadopago:
         icon: credit-card
         name: Mercadopago Credit card
+      vouchup:
+        icon: globe
+        name: Rest of payment methods
     price: Price
     products: Products
     total: Total
@@ -235,12 +242,11 @@ en:
     station: Station
     type: Type
   refunds:
+    title: Refunds
     amount: Amount
     button: Refund
-    credentiable_refund_disabled:
-      description: Your credential is not elegible for online refunds
-      title: Sorry
     fee: Refund fee
+    total_credits: Total credits
     product_description: Balance to be refunded
     products: Products
     success: Refund successfully claimed, soon you will receive your transfer

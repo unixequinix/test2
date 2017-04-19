@@ -4,8 +4,8 @@ class AccessControlGate < ActiveRecord::Base
 
   validates :direction, :access_id, presence: true
 
-  scope :in, -> { where(direction: "1") }
-  scope :out, -> { where(direction: "-1") }
+  scope(:in, -> { where(direction: "1") })
+  scope(:out, -> { where(direction: "-1") })
 
   def self.policy_class
     StationItemPolicy

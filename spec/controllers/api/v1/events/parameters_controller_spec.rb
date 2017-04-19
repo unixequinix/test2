@@ -3,12 +3,13 @@ require "spec_helper"
 RSpec.describe Api::V1::Events::ParametersController, type: :controller do
   let(:user) { create(:user) }
   let(:event) { create(:event, gtag_type: "ultralight_c", ultralight_c_private_key: "ab") }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   describe "GET index" do
     describe "common parameters" do
       before do
         http_login(user.email, user.access_token)
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         @body = JSON.parse(response.body)
       end
 
@@ -91,14 +92,14 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
       end
 
       it "should include ultralight_c_private_key if gtag_type is ultralight_c" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         @body = JSON.parse(response.body)
         expect(@body).to include("name" => "ultralight_c_private_key", "value" => event.ultralight_c_private_key)
       end
 
       it "should include all mifare keys if gtag_type is mifare_classic" do
         event.update!(gtag_type: "mifare_classic")
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         @body = JSON.parse(response.body)
         expect(@body).to include("name" => "mifare_classic_private_key_a", "value" => event.mifare_classic_private_key_a)
         expect(@body).to include("name" => "mifare_classic_private_key_b", "value" => event.mifare_classic_private_key_b)

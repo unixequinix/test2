@@ -13,6 +13,13 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     authorize @refund
   end
 
+  def destroy
+    skip_authorization # TODO: remove after loolla
+    @refund = @current_event.refunds.find(params[:id])
+    @refund.destroy
+    redirect_to :back, notice: t('alerts.destroyed')
+  end
+
   private
 
   def permitted_params

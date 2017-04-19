@@ -1,9 +1,5 @@
 class Api::V1::GtagSerializer < ActiveModel::Serializer
-  attributes :reference, :redeemed, :banned, :catalog_item_id, :customer
-
-  def catalog_item_id
-    object.ticket_type&.catalog_item_id
-  end
+  attributes :reference, :redeemed, :banned, :customer
 
   def customer
     Api::V1::CustomerSerializer.new(object.customer).as_json if object.customer

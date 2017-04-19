@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :owner, class_name: 'User'
 
-  scope :with_state, ->(state) { where state: state }
+  scope(:with_state, ->(state) { where state: state })
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -41,7 +41,7 @@ class Event < ActiveRecord::Base
 
   before_create :generate_tokens
 
-  validates :name, :support_email, :timezone, presence: true
+  validates :name, :app_version, :support_email, :timezone, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
   validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
@@ -53,6 +53,11 @@ class Event < ActiveRecord::Base
 
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
+
+  def valid_app_version?(device_version)
+    return true if app_version.eql?("all")
+    Gem::Version.new(app_version) <= Gem::Version.new(device_version.delete("^0-9\."))
+  end
 
   def topups?
     payment_gateways.map(&:topup).any?
@@ -79,7 +84,7 @@ class Event < ActiveRecord::Base
   end
 
   def active?
-    state.in? %w(launched started finished)
+    state.in? %w[launched started finished]
   end
 
   def initial_setup!

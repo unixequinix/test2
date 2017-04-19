@@ -9,5 +9,6 @@
 //= require customer/nav-mobile
 //= require customer/top-up-buttons
 //= require customer/show-payment-method
+//= require customer/flash-notice
 
 //= require cookies_eu

@@ -5,6 +5,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:event) { create(:event) }
   let(:user) { create(:user) }
   let(:db_tickets) { event.tickets }
+  let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   before do
     create_list(:ticket, 2, event: event, customer: create(:customer, event: event))
@@ -14,7 +15,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "with authentication" do
       before(:each) do
         http_login(user.email, user.access_token)
-        get :index, params: { event_id: event.id }
+        get :index, params: params
       end
 
       it "returns a 200 status code" do
@@ -23,7 +24,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w(reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id)
+          keys = %w[reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id]
           expect(ticket.keys).to eq(keys)
         end
       end
@@ -43,7 +44,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :index, params: { event_id: event.id }
+        get :index, params: params
         expect(response).to be_unauthorized
       end
     end
@@ -65,7 +66,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       describe "when ticket exists" do
         before(:each) do
-          get :show, params: { event_id: event.id, id: @ticket.code }
+          get :show, params: params.merge(id: @ticket.code)
         end
 
         it "returns a 200 status code" do
@@ -74,10 +75,10 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(reference redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email)
-          c_keys = %w(id credentials first_name last_name email orders)
-          order_keys = %w(catalog_item_id amount status redeemed id)
-          credential_keys = %w(reference type redeemed banned)
+          ticket_keys = %w[reference redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email]
+          c_keys = %w[id first_name last_name email orders credentials]
+          order_keys = %w[catalog_item_id amount status redeemed id]
+          credential_keys = %w[reference type redeemed banned]
 
           expect(ticket.keys).to eq(ticket_keys)
           expect(ticket["customer"].keys).to eq(c_keys)
@@ -116,7 +117,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       describe "when ticket doesn't exist" do
         it "returns a 404 status code" do
-          get :show, params: { event_id: event.id, id: (db_tickets.last.id + 10) }
+          get :show, params: params.merge(id: db_tickets.last.id + 10)
           expect(response.status).to eq(404)
         end
       end
@@ -124,7 +125,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :show, params: { event_id: event.id, id: db_tickets.last.id }
+        get :show, params: params.merge(id: db_tickets.last.id)
         expect(response).to be_unauthorized
       end
     end

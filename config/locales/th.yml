@@ -45,16 +45,6 @@ th:
       wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
     store: " store"
     total: ทั้งหมด
-  claims:
-    credentiable_refund_disabled:
-      description: Your credential is not elegible for online refunds
-      title: Sorry
-    invalid_claim:
-      description: Please contact us at %{email} in order to process your refund.
-      title: Working in your refund
-    no_credit:
-      description: You don't have sufficient refundable balance
-      title: Sorry
   conditions:
     action: ข้าพเจ้าตกลง
     conjunction: และ
@@ -69,8 +59,8 @@ th:
     confirm_log_out: Do you want to end this session?
     topup: Top Up
     refund: Refund
+    title: Order
     orders:
-      title: Orders
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
@@ -193,6 +183,9 @@ th:
     order_review: Order review
     payment: Payment Details
     payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
       braintree:
         icon: credit-card
         name: Credit card

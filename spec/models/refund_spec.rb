@@ -8,14 +8,18 @@ RSpec.describe Refund, type: :model do
     expect(subject).to be_valid
   end
 
-  it "validates field_a" do
-    subject.field_a = nil
-    expect(subject).not_to be_valid
-  end
+  describe "bank_account" do
+    before { subject.gateway = "bank_account" }
 
-  it "validates field_b" do
-    subject.field_b = nil
-    expect(subject).not_to be_valid
+    it "validates field_a" do
+      subject.field_a = nil
+      expect(subject).not_to be_valid
+    end
+
+    it "validates field_b" do
+      subject.field_b = nil
+      expect(subject).not_to be_valid
+    end
   end
 
   describe ".total" do
@@ -55,7 +59,7 @@ RSpec.describe Refund, type: :model do
   describe ".correct_iban_and_swift" do
     it "works with a valid iban" do
       subject.field_a = "ES80 2310 0001 1800 0001 2345"
-      expect { subject.correct_iban_and_swift }.not_to change { subject.errors[:field_a] }
+      expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:field_a] })
     end
 
     it "checks iban length" do
@@ -75,7 +79,7 @@ RSpec.describe Refund, type: :model do
 
     it "works with a valid swift code" do
       subject.field_b = "BBVAESMMREL"
-      expect { subject.correct_iban_and_swift }.not_to change { subject.errors[:field_b] }
+      expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:field_b] })
     end
   end
 end

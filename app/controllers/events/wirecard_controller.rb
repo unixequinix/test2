@@ -1,5 +1,5 @@
 class Events::WirecardController < Events::PaymentsController
-  before_action :set_order_details, only: [:purchase, :refund]
+  before_action :set_order_details, only: %i[purchase refund]
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(permitted_params)
@@ -35,7 +35,7 @@ class Events::WirecardController < Events::PaymentsController
   end
 
   def wirecard
-    gateway = @current_event.payment_gateways.wirecard
+    gateway = @current_event.payment_gateways.wirecard.first
     ActiveMerchant::Billing::WirecardGateway.new(gateway.data.symbolize_keys)
   end
 end

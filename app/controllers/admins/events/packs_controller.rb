@@ -1,6 +1,6 @@
 class Admins::Events::PacksController < Admins::Events::BaseController
-  before_action :set_pack, except: [:index, :new, :create]
-  before_action :set_catalog_items, except: [:index, :destroy]
+  before_action :set_pack, except: %i[index new create]
+  before_action :set_catalog_items, except: %i[index destroy]
 
   def index
     @packs = @current_event.packs.includes(:catalog_items)
@@ -81,6 +81,6 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:pack).permit(:name, :alcohol_forbidden, pack_catalog_items_attributes: [:id, :catalog_item_id, :amount, :_destroy])
+    params.require(:pack).permit(:name, :alcohol_forbidden, pack_catalog_items_attributes: %i[id catalog_item_id amount _destroy])
   end
 end

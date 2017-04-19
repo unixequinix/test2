@@ -8,7 +8,7 @@ class Access < CatalogItem
   validates :memory_length, :mode, presence: true
   validate :validate_memory_position
 
-  scope :infinite, -> { where(mode: [PERMANENT, PERMANENT_STRICT]) }
+  scope(:infinite, -> { where(mode: [PERMANENT, PERMANENT_STRICT]) })
 
   COUNTER = "counter".freeze
   PERMANENT = "permanent".freeze

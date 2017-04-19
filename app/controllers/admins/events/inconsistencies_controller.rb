@@ -1,13 +1,13 @@
 class Admins::Events::InconsistenciesController < Admins::Events::BaseController
   def missing
     authorize @current_event
-    @gtags = inconsistencies(@current_event).select { |gtag| !gtag.real }
+    @gtags = inconsistencies(@current_event).reject(&:real)
     calculate_totals
   end
 
   def resolvable
     authorize @current_event
-    @gtags = inconsistencies(@current_event, false).select { |gtag| !gtag.real } - inconsistencies(@current_event).select { |gtag| !gtag.real }
+    @gtags = inconsistencies(@current_event, false).reject(&:real) - inconsistencies(@current_event).reject(&:real)
     @gtags = @gtags.select { |tag| !tag.real && !tag.inconsistency.zero? }
     calculate_totals
   end

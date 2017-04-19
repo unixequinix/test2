@@ -1,5 +1,5 @@
 class Admins::Events::CompaniesController < Admins::Events::BaseController
-  before_action :set_company, except: [:index, :new, :create]
+  before_action :set_company, except: %i[index new create]
 
   def index
     @q = @current_event.companies.order(:name).ransack(params[:q])

@@ -3,7 +3,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
   before_action :restrict_access_with_http
   before_action :fetch_current_event
 
-  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     render(status: 403, json: :unauthorized) && return unless current_event.active?
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
@@ -27,6 +27,6 @@ class Api::V1::Events::TransactionsController < ApplicationController
     return [:category] unless category
     mandatory = Transaction.class_for_type(category).mandatory_fields
     missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
-    "Missing keys for position #{index}: #{missing}" unless missing.blank?
+    "Missing keys for position #{index}: #{missing}" if missing.present?
   end
 end

@@ -7,23 +7,24 @@
   = simple_form_for [:admins, @current_event, @gateway], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .field
       = hidden_field_tag "payment_gateway[name]", @gateway.name
-      - if @config_atts
-        .section-header
-          i.material-icons info_outline
-          span #{@gateway.name.humanize} settings
-        .form-inputs.short-input
-          - @config_atts.each do |att|
-            = f.input att
 
-      - if @refund_atts
-        .section-header
-          i.material-icons info_outline
-          span Refund Settings
-        .form-inputs.short-input
-          = f.input :refund_field_a_name
-          = f.input :refund_field_b_name
-          - @refund_atts.each do |att|
-            = f.input att
+    - if @config_atts
+      .section-header
+        i.material-icons info_outline
+        span #{@gateway.name.humanize} settings
+      .form-inputs.short-input
+        - @config_atts.each do |att|
+          = f.input att
+
+    .section-header
+      i.material-icons info_outline
+      span Refund Settings
+    .form-inputs.short-input
+      - if @gateway.bank_account?
+        = f.input :refund_field_a_name
+        = f.input :refund_field_b_name
+      = f.input :fee
+      = f.input :minimum
 
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

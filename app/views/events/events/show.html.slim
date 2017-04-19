@@ -3,7 +3,6 @@
     i#download.mdl-color-text--red.material-icons file_download
     span.mdl-tooltip data-mdl-for="download" #{t('dashboard.credits_history.button')}
 
-.mdl-cell.mdl-cell--12-col
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
     .mdl-cell.mdl-cell--8-col
@@ -13,12 +12,12 @@
         - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
           .tool-item
             = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
-              span.material-icons attach_money
+              span.material-icons add_shopping_cart
               span.mdl-tooltip data-mdl-for="topup" = t("dashboard.topup")
-        - if @current_event.refunds? && @current_event.finished?
+        - if @current_event.refunds? && @current_event.finished? && !@current_customer.global_refundable_credits.zero?
           .tool-item
             = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
-              span.material-icons replay
+              span.material-icons money_off
               span.mdl-tooltip data-mdl-for="refund" = t("dashboard.refund")
   .mdl-card__supporting-text
     .content-grid.mdl-grid
@@ -44,6 +43,7 @@
             = link_to new_event_ticket_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add_ticket" do
               span.material-icons add
               span.mdl-tooltip data-mdl-for="add_ticket" = t("dashboard.first_register.ticket")
+
     .mdl-card__supporting-text
       ul.demo-list-icon.mdl-list
         - @current_customer.tickets.each do |ticket|
@@ -77,28 +77,30 @@
               - if gtag.ticket_type
                 | &nbsp; - #{gtag.ticket_type.name}
 
-- if @current_customer.orders.any?
+- if @orders.any?
   .mdl-cell.mdl-cell--12-col
   .panel-card-wide.mdl-card.mdl-shadow--2dp
     .mdl-card__title
       .mdl-cell.mdl-cell--12-col
-        h4 = t('dashboard.orders.title')
+        h4 = pluralize @orders.count, t('dashboard.order')
         .orders-disclaimer = t('dashboard.orders.disclaimer')
     .mdl-card__supporting-text
       ul.container-purchase-order
-        - @current_customer.orders.order(created_at: :desc).each do |order|
+        - @orders.each do |order|
           .order
             .order__header
               .content-grid.mdl-grid
                 .mdl-cell.mdl-cell--10-col
                   .order__title
-                    span.order__name = "#{order.refund? ? t("dashboard.refund") : t("dashboard.topup")} ##{order.number}"
+                    span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize})
                     - if order.failed?
                       span.order__status.order__status--cancelled = t("dashboard.orders.failed")
                     - elsif order.in_progress?
                       span.order__status.order__status--cancelled = t("dashboard.orders.in_progress")
                     - elsif order.cancelled?
                       span.order__status.order__status--cancelled = t("dashboard.orders.cancelled")
+                    - elsif order.refunded?
+                      span.order__status.order__status--cancelled Refunded
                     - elsif order.completed?
                       - if order.redeemed?
                         span.order__status.order__status--completed = t("dashboard.orders.redeemed")
@@ -106,10 +108,11 @@
                         span.order__status.order__status--tba = t("dashboard.orders.completed")
                 .mdl-cell.mdl-cell--2-col
                   .order__info
-                    - if order.in_progress?
-                      = link_to t("dashboard.orders.complete"), event_order_path(@current_event, order)
-                    - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account")
-                      = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
+                    - if @current_event.topups?
+                      - if order.in_progress?
+                        = link_to t("dashboard.orders.complete"), event_order_path(@current_event, order)
+                      - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account")
+                        = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
             ul.items__list
               - order.order_items.each do |order_item|
                 li.order-item
@@ -120,3 +123,31 @@
                   .order-item__price
                     - if order_item.amount.positive?
                       = "#{order_item.total} #{@current_event.currency}"
+
+
+
+- if @refunds.any?
+  .mdl-cell.mdl-cell--12-col
+  .panel-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      .mdl-cell.mdl-cell--12-col
+        h4 = pluralize @refunds.count, t('dashboard.refund')
+    .mdl-card__supporting-text
+      ul.container-purchase-order
+        - @refunds.each do |refund|
+          .order
+            .order__header
+              .content-grid.mdl-grid
+                .mdl-cell.mdl-cell--12-col
+                  .refund__title
+                    span.order__name #{t("dashboard.refund")} ##{refund.number}
+                    span.order__status.order__status--tba #{refund.status.humanize} by #{refund.gateway&.humanize}
+
+
+            ul.items__list
+              li.order-item
+                .order-item__item
+                  span.purchase-amount = refund.total
+                  |x
+                  span = @current_event.credit.name
+                .order-item__price = number_to_event_currency refund.total_money

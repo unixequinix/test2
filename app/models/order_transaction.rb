@@ -4,7 +4,7 @@ class OrderTransaction < Transaction
   belongs_to :catalog_item
 
   def self.mandatory_fields
-    super + %w(catalog_item_id)
+    super + %w[catalog_item_id]
   end
 
   def self.policy_class

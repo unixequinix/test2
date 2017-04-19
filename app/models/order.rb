@@ -8,13 +8,21 @@ class Order < ActiveRecord::Base
   validates :number, :status, presence: true
   validate :max_credit_reached
 
-  scope :in_progress, -> { where(status: "in_progress") }
-  scope :completed, -> { where(status: "completed") }
-  scope :cancelled, -> { where(status: "cancelled") }
-  scope :failed, -> { where(status: "failed") }
+  scope(:not_refund, -> { where.not(gateway: "refund") })
+
+  scope(:in_progress, -> { where(status: "in_progress") })
+  scope(:completed, -> { where(status: "completed") })
+  scope(:refunded, -> { where(status: "refunded") })
+  scope(:cancelled, -> { where(status: "cancelled") })
+  scope(:failed, -> { where(status: "failed") })
+  scope(:oartial, -> { where(status: "failed") })
 
   def refund?
     gateway.eql?("refund")
+  end
+
+  def refunded?
+    status.eql?("refunded")
   end
 
   def complete!(gateway, payment)
@@ -67,6 +75,20 @@ class Order < ActiveRecord::Base
 
   def refundable_credits
     order_items.map(&:refundable_credits).sum
+  end
+
+  def online_refund(amount)
+    case gateway
+      when "paypal" then
+        paypal = ActiveMerchant::Billing::PaypalExpressGateway.new(event.payment_gateways.paypal.first.data.symbolize_keys)
+        paypal.refund(amount * 100, payment_data["PaymentInfo"]["TransactionID"], currency: event.currency)
+      when "mercadopago" then
+        mercadopago = ActiveMerchant::Billing::MercadopagoGateway.new(event.payment_gateways.mercadopago.first.data.symbolize_keys)
+        mercadopago.refund(amount * 100, payment_data["id"], order_id: id)
+      when "stripe" then
+        stripe = ActiveMerchant::Billing::StripeGateway.new(event.payment_gateways.stripe.first.data.symbolize_keys)
+        stripe.refund(amount, payment_data["id"])
+    end
   end
 
   private

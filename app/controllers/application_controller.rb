@@ -22,6 +22,10 @@ class ApplicationController < ActionController::Base
     @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])
   end
 
+  def restrict_app_version
+    head(:upgrade_required, body: @current_event.app_version) unless @current_event.valid_app_version?(params[:app_version])
+  end
+
   def restrict_access_with_http
     skip_authorization
     skip_policy_scope

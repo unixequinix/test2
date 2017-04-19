@@ -6,7 +6,7 @@ class TopupCredit < ActiveRecord::Base
   validates :amount, :credit_id, presence: true
   validate :valid_topup_credit, on: :create
 
-  scope :visible, -> { where(hidden: [false, nil]) }
+  scope(:visible, -> { where(hidden: [false, nil]) })
 
   def self.policy_class
     StationItemPolicy

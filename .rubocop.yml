@@ -47,7 +47,7 @@ Style/MultilineMethodCallIndentation:
   EnforcedStyle: aligned
 
 Metrics/AbcSize:
-  Max: 30
+  Max: 40
 
 Metrics/MethodLength:
   Max: 15

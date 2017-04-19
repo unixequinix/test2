@@ -83,7 +83,7 @@ RSpec.describe Customer, type: :model do
     end
 
     describe "the email" do
-      %w(customer.foo.com customer@test _@test.).each do |wrong_mail|
+      %w[customer.foo.com customer@test _@test.].each do |wrong_mail|
         it "is invalid if resembles #{wrong_mail}" do
           customer.email = wrong_mail
         end

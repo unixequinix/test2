@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
-        resources :refunds, only: [:index, :show]
+        resources :refunds, only: [:index, :show, :destroy]
         resources :orders, only: [:index, :show]
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
@@ -179,15 +179,25 @@ Rails.application.routes.draw do
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
       resources :gtags, only: [:show]
-      resources :orders, expect: :destroy
-      get "credits_history", to: "credits_histories#history"
-      get "privacy_policy", to: "static_pages#privacy_policy"
-      get "terms_of_use", to: "static_pages#terms_of_use"
+      resources :orders, expect: :destroy do
+        get :success, on: :member
+        get :error, on: :member
+      end
+
+      get :credits_history, to: "credits_histories#history"
+      get :privacy_policy, to: "static_pages#privacy_policy"
+      get :terms_of_use, to: "static_pages#terms_of_use"
 
       # Paypal
       get :paypal_setup_purchase, to: "paypal#setup_purchase"
       get :paypal_purchase, to: "paypal#purchase"
       post :paypal_refund, to: "paypal#refund"
+      
+      # Vouchup
+      get :vouchup_purchase, to: "vouchup#purchase"
+      post :vouchup_success, to: "vouchup#success"
+      post :vouchup_error, to: "vouchup#error"
+      post :vouchup_refund, to: "vouchup#refund"
 
       # Redsys
       post :redsys_purchase, to: "redsys#purchase"
@@ -197,7 +207,7 @@ Rails.application.routes.draw do
       post :stripe_purchase, to: "stripe#purchase"
       post :stripe_refund, to: "stripe#refund"
 
-      # Stripe
+      # Mercadopago
       post :mercadopago_purchase, to: "mercadopago#purchase"
       post :mercadopago_refund, to: "mercadopago#refund"
 
@@ -214,6 +224,31 @@ Rails.application.routes.draw do
   # API
   #----------------------------------------------------------
   namespace :api, defaults: { format: "json" } do
+
+    # V2
+    #---------------
+    namespace :v2 do
+      resources :events, only: [:show] do
+        scope module: "events" do
+          resources :customers
+          resources :devices
+          resources :companies
+          resources :gtags
+          resources :accesses
+          resources :products
+          resources :orders
+          resources :refunds
+          resources :stations
+          resources :tickets
+          resources :ticket_types do
+            get :tickets, on: :member
+          end
+        end
+      end
+    end
+
+    # V1
+    #---------------
     namespace :v1 do
       resources :devices, only: [:create]
       resources :events, only: :index do

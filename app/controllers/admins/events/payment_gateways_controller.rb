@@ -1,10 +1,10 @@
 class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
-  before_action :set_gateway, only: [:edit, :update, :destroy, :topup, :refund]
-  before_action :set_attributes, only: [:new, :edit, :update]
+  before_action :set_gateway, only: %i[edit update destroy topup refund]
+  before_action :set_attributes, only: %i[new edit update]
 
   def index
     @gateways = @current_event.payment_gateways
-    authorize @gateways
+    authorize @current_event.payment_gateways.new
   end
 
   def new
@@ -57,7 +57,6 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
     name = @gateway&.name || params[:name]
     settings = PaymentGateway::GATEWAYS[name]
     @config_atts = settings["config"]
-    @refund_atts = settings["refund"]
   end
 
   def permitted_params # rubocop:disable Metrics/MethodLength

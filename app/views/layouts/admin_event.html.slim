@@ -127,8 +127,17 @@ html
       main.mdl-layout__content
         #notifications
           = render 'layouts/notifications'
+
         .page-content.remodal-bg
           = yield
+
+          - if Rails.env.development?
+            .content-grid.mdl-grid
+              .mdl-layout-spacer
+              .mdl-cell.mdl-cell--10-col
+                .admin-card-wide.mdl-card.mdl-shadow--2dp
+                  div style="padding: 10px 20px" = debug(params)
+              .mdl-layout-spacer
 
 = yield(:actions)
 

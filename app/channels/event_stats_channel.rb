@@ -50,11 +50,11 @@ class EventStatsChannel < ApplicationCable::Channel
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
     @data[:actions] = credit_transactions.group(:action).count
 
-    @data[:transactions_chart] = %w(credit money credential).map do |type|
+    @data[:transactions_chart] = %w[credit money credential].map do |type|
       { name: type, data: transactions.send(type).group_by_day(:device_created_at).count }
     end
 
-    @data[:credits_chart] = %w(sale topup).map do |action|
+    @data[:credits_chart] = %w[sale topup].map do |action|
       data = credit_transactions.where(action: action).group_by_day(:device_created_at).sum(:credits)
       data = data.collect { |k, v| [k, v.to_i.abs] }
       { name: action, data: Hash[data] }

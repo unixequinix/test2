@@ -23,6 +23,6 @@ class Api::V1::Events::DeviceTransactionsController < ApplicationController
   def validate_params(keys, index)
     mandatory = DeviceTransaction.mandatory_fields
     missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
-    "Missing keys for position #{index}: #{missing}" unless missing.blank?
+    "Missing keys for position #{index}: #{missing}" if missing.present?
   end
 end

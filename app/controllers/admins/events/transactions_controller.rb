@@ -1,7 +1,7 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type
-  before_action :set_transactions, except: [:show, :fix, :status_9, :status_0]
-  before_action :set_transaction, only: [:show, :update, :fix, :status_9, :status_0]
+  before_action :set_transactions, except: %i[show fix status_9 status_0]
+  before_action :set_transaction, only: %i[show update fix status_9 status_0]
 
   def index
     @display = true

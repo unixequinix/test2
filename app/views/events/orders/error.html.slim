@@ -1,0 +1,8 @@
+
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      h4 = t('alerts.order_error')
+  .mdl-card__supporting-text
+    | Order ##{@order.number} has error #{params[:message]}

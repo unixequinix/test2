@@ -10,7 +10,7 @@ FactoryGirl.define do
     sequence(:items_amount)
     sequence(:price)
     payment_gateway { [nil, "braintree", "stripe"].sample }
-    payment_method { %w(bank_account epg).sample }
+    payment_method { %w[bank_account epg].sample }
   end
 
   factory :credit_transaction do
