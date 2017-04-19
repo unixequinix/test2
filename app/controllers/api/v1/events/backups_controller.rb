@@ -1,6 +1,6 @@
 class Api::V1::Events::BackupsController < Api::V1::Events::BaseController
   def create
-    keys = %i(device_uid backup_created_at backup).any? { |i| params[i] }
+    keys = %i[device_uid backup_created_at backup].any? { |i| params[i] }
 
     secrets = Rails.application.secrets
     credentials = Aws::Credentials.new(secrets.s3_access_key_id, secrets.s3_secret_access_key)

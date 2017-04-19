@@ -1,5 +1,5 @@
 class Admins::Events::ProductsController < Admins::Events::BaseController
-  before_action :set_product, only: %i(show edit update destroy)
+  before_action :set_product, only: %i[show edit update destroy]
 
   def index
     @q = @current_event.products.ransack(params[:q])
@@ -46,7 +46,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
 
   def sample_csv
     authorize @current_event.products.new
-    header = %w(name description is_alcohol)
+    header = %w[name description is_alcohol]
     data = [["Beer", "Franziskaner beer", "true"], ["Hotdog", "Hotdog with onion", "false"]]
 
     csv_file = CsvExporter.sample(header, data)
@@ -55,7 +55,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     end
   end
 
-  def import # rubocop:disable Metrics/AbcSize
+  def import
     authorize @current_event.products.new
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_event_products_path(@current_event), alert: alert) && return unless params[:file]

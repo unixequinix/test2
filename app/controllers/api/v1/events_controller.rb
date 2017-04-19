@@ -1,6 +1,6 @@
 class Api::V1::EventsController < Api::BaseController
   def index
-    @events = params[:filter].to_s.eql?("active") ? Event.where(state: %w(started launched)) : Event.all
+    @events = params[:filter].to_s.eql?("active") ? Event.where(state: %w[started launched]) : Event.all
 
     device_atts = { imei: params[:imei], mac: params[:mac], serial_number: params[:serial_number] }
     begin

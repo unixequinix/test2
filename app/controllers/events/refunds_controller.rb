@@ -1,5 +1,5 @@
 class Events::RefundsController < Events::EventsController
-  before_action :set_refund, only: %i(new create)
+  before_action :set_refund, only: %i[new create]
 
   def new
     redirect_to event_path(@current_event), notice: "No refund options available" if @refunds.empty?

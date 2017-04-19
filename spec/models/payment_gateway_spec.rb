@@ -3,10 +3,6 @@ require "spec_helper"
 RSpec.describe PaymentGateway, type: :model do
   subject { create(:payment_gateway) }
 
-  it "should be valid" do
-    expect(subject).to be_valid
-  end
-
   it "should have refund action if bank_account" do
     subject.name = "bank_account"
     expect(subject.actions).to include("refund")

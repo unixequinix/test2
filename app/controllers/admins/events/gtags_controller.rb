@@ -1,5 +1,5 @@
 class Admins::Events::GtagsController < Admins::Events::BaseController
-  before_action :set_gtag, only: %i(show edit update destroy solve_inconsistent recalculate_balance)
+  before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance]
 
   def index
     @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])
@@ -68,7 +68,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
   end
 
-  def import # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def import # rubocop:disable Metrics/MethodLength
     authorize @current_event.gtags.new
     path = admins_event_gtags_path(@current_event)
     redirect_to(path, alert: "File not supplied") && return unless params[:file]
@@ -83,7 +83,9 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
-        GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_types[row.field("Type")], credits: row.field("Balance"))
+        ticket_type = ticket_types[row.field("Type")]
+        credits = row.field("Balance")
+        GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_type, credits: credits)
         count += 1
       end
     rescue
@@ -95,8 +97,8 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def sample_csv
     authorize @current_event.gtags.new
-    header = %w(UID Balance Type)
-    data = [%w(1218DECA31C9F92F 22.5 VIP), %w(E6312A015028B0FB General), %w(A43FE1C5E9A622C2)]
+    header = %w[UID Balance Type]
+    data = [%w[1218DECA31C9F92F 22.5 VIP], %w[E6312A015028B0FB General], %w[A43FE1C5E9A622C2]]
 
     csv_file = CsvExporter.sample(header, data)
     respond_to do |format|

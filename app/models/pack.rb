@@ -6,7 +6,7 @@ class Pack < CatalogItem
 
   accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true, reject_if: proc { |att| att['amount'].blank? }
 
-  scope :credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) }
+  scope(:credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) })
   validates :pack_catalog_items, associated: true
 
   def credits

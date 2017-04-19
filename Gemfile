@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.4.0'
+ruby '2.4.1'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
@@ -11,10 +11,8 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 gem 'rails', '~> 5.0.2' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
-gem 'globalize', github: 'globalize/globalize'
 gem 'figaro'
 gem 'aws-sdk', '~> 2'
-gem 'thor', '0.19.1'
 gem 'redis', '~> 3.0' # Use Redis adapter to run Action Cable in production
 gem 'cookies_eu'
 gem 'http-accept' # parsers for dealing with HTTP Accept, Accept-Language...
@@ -49,17 +47,16 @@ gem 'omniauth-google-oauth2'
 gem 'pundit'
 
 # Design
-gem 'bourbon'
-gem 'neat'
 gem 'font-awesome-rails'
 gem 'chartkick'
 gem 'groupdate'
 
 # APIs
 gem 'jbuilder', '~> 2.5'
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
-gem 'rack-cors', require: 'rack/cors'
+gem 'active_model_serializers'
+gem 'rack-cors'
 gem 'eventbrite', github: 'envoy/eventbrite'
+gem 'rack-attack'
 
 # SEO
 gem 'friendly_id'
@@ -85,9 +82,6 @@ gem 'activemerchant', github: "aspgems/active_merchant"
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
 gem 'sidekiq-failures'
-
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', group: :doc
 
 # PDF Generation
 gem 'wicked_pdf'

@@ -1,10 +1,10 @@
 class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
-  before_action :set_gateway, only: %i(edit update destroy topup refund)
-  before_action :set_attributes, only: %i(new edit update)
+  before_action :set_gateway, only: %i[edit update destroy topup refund]
+  before_action :set_attributes, only: %i[new edit update]
 
   def index
     @gateways = @current_event.payment_gateways
-    authorize @gateways
+    authorize @current_event.payment_gateways.new
   end
 
   def new

@@ -3,7 +3,7 @@ class MoneyTransaction < Transaction
   belongs_to :order
 
   def self.mandatory_fields
-    super + %w(catalog_item_id items_amount price payment_method)
+    super + %w[catalog_item_id items_amount price payment_method]
   end
 
   def description

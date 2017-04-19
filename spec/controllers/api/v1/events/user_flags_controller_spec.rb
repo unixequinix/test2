@@ -21,7 +21,7 @@ RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: { event_id: event.id }
-        user_flag_keys = %w(id name)
+        user_flag_keys = %w[id name]
         JSON.parse(response.body).map { |user_flag| expect(user_flag.keys).to eq(user_flag_keys) }
       end
 

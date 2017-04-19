@@ -1,5 +1,5 @@
 class Events::MercadopagoController < Events::PaymentsController
-  before_action :set_order_details, only: %i(purchase refund)
+  before_action :set_order_details, only: %i[purchase refund]
 
   def purchase
     atts = { card_token: params[:token], brand: params[:payment_method_id] }

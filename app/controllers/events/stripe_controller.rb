@@ -1,5 +1,5 @@
 class Events::StripeController < Events::PaymentsController
-  before_action :set_order_details, only: %i(purchase refund)
+  before_action :set_order_details, only: %i[purchase refund]
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(permitted_params)

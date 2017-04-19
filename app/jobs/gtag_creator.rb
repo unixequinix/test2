@@ -16,7 +16,6 @@ class GtagCreator < ActiveJob::Base
                credits: credits }
 
     CreditTransaction.write!(Event.find(atts[:event_id]), "topup", :device, nil, nil, t_atts)
-
   rescue ActiveRecord::RecordNotUnique
     retry
   end

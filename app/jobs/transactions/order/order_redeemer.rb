@@ -1,5 +1,5 @@
 class Transactions::Order::OrderRedeemer < Transactions::Base
-  TRIGGERS = %w(order_redeemed).freeze
+  TRIGGERS = %w[order_redeemed].freeze
 
   def perform(atts)
     gtag = Gtag.find(atts[:gtag_id])

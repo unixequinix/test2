@@ -1,5 +1,5 @@
 class Events::PaypalController < Events::PaymentsController
-  before_action :set_order_details, only: %i(setup_purchase purchase refund)
+  before_action :set_order_details, only: %i[setup_purchase purchase refund]
 
   def setup_purchase # rubocop:disable Metrics/MethodLength
     items = @order.order_items.map do |oi|

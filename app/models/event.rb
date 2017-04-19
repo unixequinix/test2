@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :owner, class_name: 'User'
 
-  scope :with_state, ->(state) { where state: state }
+  scope(:with_state, ->(state) { where state: state })
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -79,7 +79,7 @@ class Event < ActiveRecord::Base
   end
 
   def active?
-    state.in? %w(launched started finished)
+    state.in? %w[launched started finished]
   end
 
   def initial_setup!

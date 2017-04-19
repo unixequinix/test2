@@ -1,5 +1,5 @@
 class Admins::Events::AccessesController < Admins::Events::BaseController
-  before_action :set_access, except: %i(index new create)
+  before_action :set_access, except: %i[index new create]
 
   def index
     @accesses = @current_event.accesses.page(params[:page])

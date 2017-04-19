@@ -24,7 +24,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       it "returns the necessary keys" do
         get :index, params: { event_id: event.id }
         JSON.parse(response.body).map do |gtag|
-          keys = %w(reference banned redeemed customer_id)
+          keys = %w[reference banned redeemed customer_id]
           expect(gtag.keys).to eq(keys)
         end
       end
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         gtag = create :gtag, event: event, ticket_type: create(:ticket_type, event: event)
         get :index, params: { event_id: event.id }
         gtags = JSON.parse(response.body).map(&:symbolize_keys)
-        #expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
       end
 
       it "does not return gtags without ticket_type, banned or customer" do
@@ -100,10 +100,10 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(reference redeemed banned customer)
-          customer_keys = %w(id credentials first_name last_name email orders)
-          order_keys = %w(catalog_item_id amount status redeemed id)
-          credential_keys = %w(reference type redeemed banned)
+          gtag_keys = %w[reference redeemed banned customer]
+          customer_keys = %w[id first_name last_name email orders credentials]
+          order_keys = %w[catalog_item_id amount status redeemed id]
+          credential_keys = %w[reference type redeemed banned]
 
           expect(gtag.keys).to eq(gtag_keys)
           expect(gtag["customer"].keys).to eq(customer_keys)

@@ -1,5 +1,5 @@
 class Events::PaymentsController < Events::EventsController
-  before_action :check_order_status!, only: %i(purchase setup_purchase)
+  before_action :check_order_status!, only: %i[purchase setup_purchase]
 
   def set_order_details
     @order = @current_event.orders.find(params[:order_id])

@@ -11,7 +11,7 @@ RSpec.describe MoneyTransaction, type: :model do
   end
 
   describe ".mandatory_fields" do
-    %w(catalog_item_id items_amount price payment_method).each do |field|
+    %w[catalog_item_id items_amount price payment_method].each do |field|
       it "includes the mandatory field '#{field}'" do
         expect(MoneyTransaction.mandatory_fields).to include(field)
       end

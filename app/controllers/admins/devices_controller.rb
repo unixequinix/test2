@@ -1,6 +1,6 @@
 class Admins::DevicesController < Admins::BaseController
-  before_action :set_devices, only: %i(index search)
-  before_action :set_device, only: %i(show edit update destroy)
+  before_action :set_devices, only: %i[index search]
+  before_action :set_device, only: %i[show edit update destroy]
 
   def index
     @devices = Device.all.page(params[:page])

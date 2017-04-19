@@ -14,15 +14,15 @@ class Station < ActiveRecord::Base
   after_create :add_predefined_values
   before_create :add_station_event_id
 
-  ASSOCIATIONS = { accreditation:  %i(customer_portal box_office staff_accreditation cs_accreditation),
-                   pos: %i(bar vendor),
-                   topup: %i(top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix),
+  ASSOCIATIONS = { accreditation:  %i[customer_portal box_office staff_accreditation cs_accreditation],
+                   pos: %i[bar vendor],
+                   topup: %i[top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
                    access: [:access_control] }.freeze
 
-  GROUPS = { access: %i(ticket_validation check_in box_office staff_accreditation access_control),
-             event_management: %i(incident_report exhibitor customer_service customer_portal operator_permissions hospitality_top_up cs_topup_refund cs_gtag_balance_fix cs_accreditation), # rubocop:disable Metrics/LineLength
-             glownet: %i(gtag_recycler envelope_linker),
-             monetary: %i(bar vendor top_up_refund),
+  GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
+             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions hospitality_top_up cs_topup_refund cs_gtag_balance_fix cs_accreditation], # rubocop:disable Metrics/LineLength
+             glownet: %i[gtag_recycler envelope_linker],
+             monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze
 
   def form

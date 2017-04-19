@@ -2,7 +2,7 @@ class PackCatalogItem < ActiveRecord::Base
   belongs_to :pack, inverse_of: :pack_catalog_items
   belongs_to :catalog_item
 
-  validates :amount, numericality: { less_than_or_equal_to: ->(item) { item.pack.event.maximum_gtag_balance } }
+  validates :amount, numericality: { less_than_or_equal_to: (->(item) { item.pack.event.maximum_gtag_balance }) }
 
   validate :limit_amount, if: :infinite?
   validate :packception

@@ -1,11 +1,11 @@
 class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   devise :database_authenticatable, :registerable, :recoverable, :validatable, :omniauthable,
-         authentication_keys: %i(email event_id), reset_password_keys: %i(email event_id),
-         omniauth_providers: %i(facebook google_oauth2)
+         authentication_keys: %i[email event_id], reset_password_keys: %i[email event_id],
+         omniauth_providers: %i[facebook google_oauth2]
 
   belongs_to :event
 
-  has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag"
+  has_one(:active_gtag, -> { where(active: true) }, class_name: "Gtag")
 
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
@@ -17,24 +17,24 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :email, uniqueness: { scope: [:event_id] }
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
-  validates :agreed_event_condition, acceptance: { accept: true }, if: -> { event&.agreed_event_condition? }
-  validates :phone, presence: true, if: -> { custom_validation("phone") }
-  validates :birthdate, presence: true, if: -> { custom_validation("birthdate") }
-  validates :phone, presence: true, if: -> { custom_validation("phone") }
-  validates :postcode, presence: true, if: -> { custom_validation("address") }
-  validates :address, presence: true, if: -> { custom_validation("address") }
-  validates :city, presence: true, if: -> { custom_validation("address") }
-  validates :country, presence: true, if: -> { custom_validation("address") }
-  validates :gender, presence: true, if: -> { custom_validation("gender") }
+  validates(:agreed_event_condition, acceptance: { accept: true }, if: -> { event&.agreed_event_condition? })
+  validates(:phone, presence: true, if: -> { custom_validation("phone") })
+  validates(:birthdate, presence: true, if: -> { custom_validation("birthdate") })
+  validates(:phone, presence: true, if: -> { custom_validation("phone") })
+  validates(:postcode, presence: true, if: -> { custom_validation("address") })
+  validates(:address, presence: true, if: -> { custom_validation("address") })
+  validates(:city, presence: true, if: -> { custom_validation("address") })
+  validates(:country, presence: true, if: -> { custom_validation("address") })
+  validates(:gender, presence: true, if: -> { custom_validation("gender") })
 
-  scope :query_for_csv, lambda { |event|
+  scope(:query_for_csv, lambda { |event|
     where(event: event)
       .joins("LEFT OUTER JOIN gtags ON gtags.customer_id = customers.id")
       .joins("LEFT OUTER JOIN tickets ON tickets.customer_id = customers.id")
       .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits as credits, gtags.refundable_credits as refundable_credits, email, first_name, last_name") # rubocop:disable Metrics/LineLength
       .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.refundable_credits")
       .order("first_name ASC")
-  }
+  })
 
   delegate :valid_balance?, to: :active_gtag
 
@@ -48,12 +48,12 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def global_credits
     transaction_credits = active_gtag&.transactions&.credit&.onsite&.status_ok&.where(action: "record_credit")&.map(&:credits)&.sum.to_f
-    active_gtag&.credits.to_f + orders.where(status: %w(completed refunded)).map(&:credits).sum - transaction_credits
+    active_gtag&.credits.to_f + orders.where(status: %w[completed refunded]).map(&:credits).sum - transaction_credits
   end
 
   def global_refundable_credits
     transaction_credits = active_gtag&.transactions&.credit&.onsite&.status_ok&.where(action: "record_credit")&.map(&:refundable_credits)&.sum.to_f
-    active_gtag&.refundable_credits.to_f + orders.where(status: %w(completed refunded)).map(&:refundable_credits).sum - transaction_credits
+    active_gtag&.refundable_credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - transaction_credits
   end
 
   # TODO: find out if these 5 methods below are needed anymore and remove if not

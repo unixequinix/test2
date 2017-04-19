@@ -1,0 +1,16 @@
+
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      h4 = t('alerts.order_error')
+  .mdl-card__supporting-text
+    ul.container-purchase-order
+      - @errors.each do |error|
+        .order
+          .order__header
+            .content-grid.mdl-grid
+              .mdl-cell.mdl-cell--12-col
+                .refund__title
+                  span.order__name ##{error[:order].number}
+                  span.order__status.order__status--tba #{error["code"]}: #{error["message"].humanize}

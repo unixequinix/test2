@@ -8,14 +8,14 @@ class Order < ActiveRecord::Base
   validates :number, :status, presence: true
   validate :max_credit_reached
 
-  scope :not_refund, -> { where.not(gateway: "refund") }
+  scope(:not_refund, -> { where.not(gateway: "refund") })
 
-  scope :in_progress, -> { where(status: "in_progress") }
-  scope :completed, -> { where(status: "completed") }
-  scope :refunded, -> { where(status: "refunded") }
-  scope :cancelled, -> { where(status: "cancelled") }
-  scope :failed, -> { where(status: "failed") }
-  scope :oartial, -> { where(status: "failed") }
+  scope(:in_progress, -> { where(status: "in_progress") })
+  scope(:completed, -> { where(status: "completed") })
+  scope(:refunded, -> { where(status: "refunded") })
+  scope(:cancelled, -> { where(status: "cancelled") })
+  scope(:failed, -> { where(status: "failed") })
+  scope(:oartial, -> { where(status: "failed") })
 
   def refund?
     gateway.eql?("refund")

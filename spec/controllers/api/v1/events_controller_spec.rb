@@ -34,7 +34,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         get :index
         @body = JSON.parse(response.body)
         @body.map do |event|
-          expect(event.keys).to eq(%w(id name start_date end_date staging_start staging_end))
+          expect(event.keys).to eq(%w[id name start_date end_date staging_start staging_end])
         end
       end
 

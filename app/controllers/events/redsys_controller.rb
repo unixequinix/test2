@@ -1,5 +1,5 @@
 class Events::RedsysController < Events::PaymentsController
-  before_action :set_order_details, only: %i(setup_purchase purchase)
+  before_action :set_order_details, only: %i[setup_purchase purchase]
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(

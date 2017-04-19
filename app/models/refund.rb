@@ -8,13 +8,13 @@ class Refund < ActiveRecord::Base
   validates :field_b, length: { within: 6..10 }, if: :bsb
   validate :correct_iban_and_swift, if: :iban
 
-  validates :field_a, :field_b, presence: true, if: -> { gateway.eql?("bank_account") }
+  validates(:field_a, :field_b, presence: true, if: -> { gateway.eql?("bank_account") })
 
-  scope :query_for_csv, lambda { |event|
+  scope(:query_for_csv, lambda { |event|
     joins(:customer)
       .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee, refunds.money,
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
-  }
+  })
 
   def prepare(atts)
     self.status = "completed"

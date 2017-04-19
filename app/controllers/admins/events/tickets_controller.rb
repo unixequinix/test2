@@ -1,5 +1,5 @@
 class Admins::Events::TicketsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
-  before_action :set_ticket, except: %i(index new create import sample_csv)
+  before_action :set_ticket, except: %i[index new create import sample_csv]
 
   def index
     @q = @current_event.tickets.order(created_at: :desc).ransack(params[:q])
@@ -88,7 +88,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
 
   def sample_csv
     authorize @current_event.tickets.new
-    header = %w(ticket_type company_code company_name reference first_name last_name email)
+    header = %w[ticket_type company_code company_name reference first_name last_name email]
     data = [["VIP Night", "098", "Glownet", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet", "4433221100", "Arya", "Stark", "arya@stark.com"]] # rubocop:disable Metrics/LineLength
 
     respond_to do |format|

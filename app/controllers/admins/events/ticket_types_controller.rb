@@ -1,5 +1,5 @@
 class Admins::Events::TicketTypesController < Admins::Events::BaseController
-  before_action :set_ticket_type, except: %i(index new create)
+  before_action :set_ticket_type, except: %i[index new create]
   before_action :set_catalog_items, except: [:destroy]
 
   def unban
@@ -8,7 +8,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def index
-    @ticket_types = @current_event.ticket_types.order(%i(company_id name))
+    @ticket_types = @current_event.ticket_types.order(%i[company_id name])
     authorize @ticket_types
     @ticket_types = @ticket_types.page(params[:page])
   end

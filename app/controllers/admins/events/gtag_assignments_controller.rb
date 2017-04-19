@@ -1,11 +1,11 @@
 class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
-  before_action :set_customer, only: %i(new create)
+  before_action :set_customer, only: %i[new create]
 
   def new
     authorize @customer, :new_credential?
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     authorize @customer, :create_credential?
 
     @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)

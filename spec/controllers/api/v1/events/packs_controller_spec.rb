@@ -21,7 +21,7 @@ RSpec.describe Api::V1::Events::PacksController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: { event_id: event.id }
-        pack_keys = %w(id name accesses credits user_flags)
+        pack_keys = %w[id name accesses credits user_flags]
         JSON.parse(response.body).map { |pack| expect(pack.keys).to eq(pack_keys) }
       end
 

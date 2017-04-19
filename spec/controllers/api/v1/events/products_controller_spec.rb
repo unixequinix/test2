@@ -21,7 +21,7 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: { event_id: event.id }
-        product_keys = %w(id name description is_alcohol)
+        product_keys = %w[id name description is_alcohol]
         JSON.parse(response.body).map { |product| expect(product.keys).to eq(product_keys) }
       end
 

@@ -21,7 +21,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: { event_id: event.id }
-        access_keys = %w(id name mode memory_length position)
+        access_keys = %w[id name mode memory_length position]
         JSON.parse(response.body).map { |access| expect(access.keys).to eq(access_keys) }
       end
 

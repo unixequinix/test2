@@ -2,7 +2,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   layout "admin_event"
 
   def index
-    params[:status] ||= %i(launched started finished)
+    params[:status] ||= %i[launched started finished]
     @status = params[:status]
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result
@@ -171,6 +171,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :gtag_format,
                                   :stations_initialize_gtags,
                                   :stations_apply_orders,
-                                  credit_attributes: %i(id name value))
+                                  credit_attributes: %i[id name value])
   end
 end
