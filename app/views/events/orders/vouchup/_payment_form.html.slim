@@ -1,8 +1,8 @@
 .wrapper-paypal.center-text
-  = link_to event_vouchup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-paypal btn-full-width" do
-    = button_tag "Checkout", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+  = link_to event_vouchup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-vouchup btn-full-width" do
+    = button_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
 javascript:
-  $('.btn-action-add-paypal').click(function() {
-    $(this).addClass('btn-action-add-paypal--disabled')
+  $('.btn-action-add-vouchup').click(function() {
+    $(this).addClass('btn-action-add-vouchup--disabled')
   });

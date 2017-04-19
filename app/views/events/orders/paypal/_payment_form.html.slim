@@ -1,6 +1,6 @@
 .wrapper-paypal.center-text
   = link_to event_paypal_setup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-paypal btn-full-width" do
-    = image_tag "img-paypal-logo.png"
+    = button_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
 javascript:
   $('.btn-action-add-paypal').click(function() {

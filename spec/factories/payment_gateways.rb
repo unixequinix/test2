@@ -4,5 +4,6 @@ FactoryGirl.define do
     name "bank_account"
     fee 0
     minimum 0
+    data '{}'
   end
 end

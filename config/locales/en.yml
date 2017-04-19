@@ -43,7 +43,7 @@ en:
       reset_password_instructions:
         subject: Reset password instructions
   checkout:
-    button: Confirm Order
+    button: Checkout
     description:
       both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
       card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
@@ -212,6 +212,9 @@ en:
       mercadopago:
         icon: credit-card
         name: Mercadopago Credit card
+      vouchup:
+        icon: globe
+        name: Rest of payment methods
     price: Price
     products: Products
     total: Total
