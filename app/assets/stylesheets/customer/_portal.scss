@@ -279,12 +279,13 @@ footer {
 }
 
 .total-credits{
+  border-bottom: 0.8px solid gray;
   input{
     border: none;
     font-size: 20px;
     text-align: center;
     width: 50%;
-    border-bottom: 0.8px solid gray;
+
   }
 }
 
