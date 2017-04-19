@@ -18,7 +18,7 @@
         span  #{@current_event.currency}
     - else
       .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 4).round}
+        span [id="amount-total-#{catalog_item.id}"] #{((@current_event.maximum_gtag_balance / 4) * catalog_item.value).round}
         span  #{@current_event.currency}
 
 
