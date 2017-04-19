@@ -4,7 +4,7 @@
       = fa_icon "minus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "minus", step: "#{@current_event.credit_step}" }
   .mdl-cell.mdl-cell--4-col
     .total-credits
-      = text_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{@current_event.maximum_gtag_balance / 2}", autocomplete: :off,
+      = text_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{(@current_event.maximum_gtag_balance / 4).round}", autocomplete: :off,
         min: "0",
         max: "#{@current_event.maximum_gtag_balance}",
         step: "#{@current_event.credit_step}",
@@ -18,7 +18,7 @@
         span  #{@current_event.currency}
     - else
       .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 2) * catalog_item.value}
+        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 4).round}
         span  #{@current_event.currency}
 
 
