@@ -93,13 +93,7 @@
                 .mdl-cell.mdl-cell--10-col
                   .order__title
                     span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize})
-                    - if order.failed?
-                      span.order__status.order__status--cancelled = t("dashboard.orders.failed")
-                    - elsif order.in_progress?
-                      span.order__status.order__status--cancelled = t("dashboard.orders.in_progress")
-                    - elsif order.cancelled?
-                      span.order__status.order__status--cancelled = t("dashboard.orders.cancelled")
-                    - elsif order.refunded?
+                    - if order.refunded?
                       span.order__status.order__status--cancelled Refunded
                     - elsif order.completed?
                       - if order.redeemed?
@@ -108,11 +102,8 @@
                         span.order__status.order__status--tba = t("dashboard.orders.completed")
                 .mdl-cell.mdl-cell--2-col
                   .order__info
-                    - if @current_event.topups?
-                      - if order.in_progress?
-                        = link_to t("dashboard.orders.complete"), event_order_path(@current_event, order)
-                      - if @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account")
-                        = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
+                    - if @current_event.topups? && @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account")
+                      = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
             ul.items__list
               - order.order_items.each do |order_item|
                 li.order-item
