@@ -12,13 +12,13 @@
         class: "amount-input",
         data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
       - if @current_event.credit.value == 1
-        span #{@current_event.currency}/#{@current_event.credit.name.pluralize}
+        span  #{@current_event.currency}/#{@current_event.credit.name.pluralize}
       - else
         span = @current_event.credit.name.pluralize
 
     - unless @current_event.credit.value == 1
       .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 4) * catalog_item.value}
+        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 4.00) * catalog_item.value}
         span  #{@current_event.currency}
 
 
