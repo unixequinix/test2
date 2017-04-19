@@ -5,6 +5,8 @@ it:
     check_news: Torna al sito del evento
     delete: Rimuovere
     edit: Modifica
+    complete: Completa
+    repeat: Repeat
   admissions:
     button: Attiva
     call_to_action: Attiva il ticket dell’ evento!
@@ -61,15 +63,16 @@ it:
     refund: Refund
     order: Ordine
     orders:
+      success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
       complete: Complete
       cancel: Cancel
-      failed: Failed (this order has to be repeated)
+      failed: This order WILL NOT be applied onsite
       in_progress: In progress (will not be applied)
       cancelled: Cancelled
-      completed: Will be applied on site
+      completed: has been completed and will be applied on site
       redeemed: Completed and applied
     admissions:
       call_to_action: Desidera eliminare questo ticket?

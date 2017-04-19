@@ -5,6 +5,8 @@ th:
     check_news: กลับไปที่เว็บไซด์ของงาน
     delete: ลบ
     edit: แก้ไข
+    complete: Complete
+    repeat: Repeat
   admissions:
     button: เริ่มการใช้งานในระบบ
     call_to_action: ใส่บัตรเข้างานของคุณในระบบ!
@@ -61,15 +63,16 @@ th:
     refund: Refund
     title: Order
     orders:
+      success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
       complete: Complete
       cancel: Cancel
-      failed: Failed (this order has to be repeated)
+      failed: This order WILL NOT be applied onsite
       in_progress: In progress (will not be applied)
       cancelled: Cancelled
-      completed: Will be applied on site
+      completed: has been completed and will be applied on site
       redeemed: Completed and applied
     admissions:
       call_to_action: ต้องการยกเลิกบัตรเข้างาน?

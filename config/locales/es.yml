@@ -5,6 +5,8 @@ es:
     check_news: Volver
     delete: Borrar
     edit: Editar
+    complete: Finalizar
+    repeat: Repetir
   admissions:
     button: Activar
     call_to_action: "¡Activa tu Ticket del Evento!"
@@ -61,15 +63,16 @@ es:
     refund: Devolucion
     order: Pedido
     orders:
+      success_title: Enhorabuena!
       credits: Créditos
       catalog_items: Otros artículos
       disclaimer: Recuerda! Los pedidos online se aplicarán al entrar en el recinto
       complete: Completar
       cancel: Cancelar
-      failed: Fallido (este pedido tendrea que ser repetido)
+      failed: Este pedido NO se aplicará en el recinto
       in_progress: En progreso (no se aplicará en el recinto)
       cancelled: Cancelado
-      completed: Se aplicará en el recinto
+      completed: ha sido completado y se aplicará en el recinto
       redeemed: Completado y aplicado
     admissions:
       call_to_action: "¿Quiéres borrar el ticket?"

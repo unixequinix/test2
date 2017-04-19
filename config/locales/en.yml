@@ -5,6 +5,8 @@ en:
     check_news: Home
     delete: Delete
     edit: Edit
+    complete: Complete
+    repeat: Repeat
   admissions:
     button: Activate
     call_to_action: Activate your Event Ticket!
@@ -25,7 +27,7 @@ en:
     destroyed: Succesfully deleted
     error: The form contains errors
     only_letters_end_numbers: May only contain letters and numbers
-    order_complete: Order Completed
+    order_complete: Your Order has been completed successfully!
     order_error: There was a problem with your order
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
@@ -66,15 +68,16 @@ en:
     refund: Refund
     order: Order
     orders:
+      success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
       complete: Complete
       cancel: Cancel
-      failed: Failed (this order has to be repeated)
+      failed: This order WILL NOT be applied onsite
       in_progress: In progress (will not be applied)
       cancelled: Cancelled
-      completed: Will be applied on site
+      completed: has been completed and will be applied on site
       redeemed: Completed and applied
     admissions:
       call_to_action: Do you want to remove this ticket?

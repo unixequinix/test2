@@ -33,10 +33,10 @@ class Events::PaypalController < Events::PaymentsController
     if response.success?
       @order.complete!("paypal", response.params.as_json)
       finish_payment!(@order, "paypal")
-      redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
+      redirect_to success_event_order_path(@current_event, @order)
     else
       @order.fail!("paypal", response.params.as_json)
-      redirect_to event_order_path(@current_event, @order, gateway: "paypal"), alert: response.message
+      redirect_to error_event_order_path(@current_event, @order, message: response.message)
     end
   end
 

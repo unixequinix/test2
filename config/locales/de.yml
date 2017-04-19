@@ -5,6 +5,8 @@ de:
     check_news: Zurück zur Veranstaltungswebsite
     delete: Löschen
     edit: Bearbeiten
+    complete: Komplett
+    repeat: Repeat
   admissions:
     button: Aktivieren
     call_to_action: Aktivieren Sie Ihr Veranstaltungsticket!
@@ -61,15 +63,16 @@ de:
     refund: Refund
     order: Bestellung
     orders:
+      success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
       complete: Complete
       cancel: Cancel
-      failed: Failed (this order has to be repeated)
+      failed: This order WILL NOT be applied onsite
       in_progress: In progress (will not be applied)
       cancelled: Cancelled
-      completed: Will be applied on site
+      completed: has been completed and will be applied on site
       redeemed: Completed and applied
     admissions:
       call_to_action: Wollen Sie dieses Ticket entfernen?
