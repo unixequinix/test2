@@ -47,6 +47,7 @@ class Event < ActiveRecord::Base
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }, length: { is: 32 }
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
@@ -111,10 +112,6 @@ class Event < ActiveRecord::Base
 
   def generate_tokens
     self.token = SecureRandom.hex(6).upcase
-    self.ultralight_c_private_key = SecureRandom.hex(16)
-    self.ultralight_ev1_private_key = SecureRandom.hex(16)
-    self.mifare_classic_public_key = SecureRandom.hex(6)
-    self.mifare_classic_private_key_a = SecureRandom.hex(6)
-    self.mifare_classic_private_key_b = SecureRandom.hex(6)
+    self.gtag_key = SecureRandom.hex(16).upcase
   end
 end
