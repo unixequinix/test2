@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_app_version
-    head(:upgrade_required, body: @current_event.app_version) unless @current_event.valid_app_version?(params[:app_version])
+    head(:upgrade_required, app_version: @current_event.app_version) unless @current_event.valid_app_version?(params[:app_version])
   end
 
   def restrict_access_with_http
