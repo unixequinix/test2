@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }, length: { is: 32 }, unless: -> { :new_record? }
+  validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }, length: { is: 32 }, unless: -> { :new_record? } # rubocop:disable Metrics/LineLength
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
