@@ -1,6 +1,6 @@
 class PaymentGateway < ActiveRecord::Base
   belongs_to :event
-  store_accessor :data, %i[login password signature public_key token secret_key terminal destination fee minimum]
+  store_accessor :data, %i[login password signature public_key token secret_key terminal destination]
 
   GATEWAYS = YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml')).reject! { |k, _v| k.eql?("commons") }
 
