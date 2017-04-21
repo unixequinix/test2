@@ -5,7 +5,7 @@ class Events::RefundsController < Events::EventsController
     redirect_to event_path(@current_event), notice: "No refund options available" if @refunds.empty?
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     @refund = @refunds.find { |refund| refund.gateway.eql? permitted_params[:gateway] }
     @refund.prepare(permitted_params)
 
