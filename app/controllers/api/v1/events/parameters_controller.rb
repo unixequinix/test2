@@ -9,7 +9,7 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
               initial_topup_fee topup_fee maximum_gtag_balance stations_apply_orders stations_initialize_gtags]
 
     body = cols.map { |col| { name: col, value: @current_event.send(col) } }
-    value = Rails.env.production? || Rails.env.demo? ? @current_event.gtag_key : "11111111111111111111111111111111"
+    value = Rails.env.production? || Rails.env.demo? || Rails.env.hotfix? ? @current_event.gtag_key : "11111111111111111111111111111111"
     body << { name: "gtag_key", value: value }
 
     render_entity(body.as_json, @current_event.updated_at&.httpdate)
