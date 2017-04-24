@@ -92,7 +92,7 @@
               .content-grid.mdl-grid
                 .mdl-cell.mdl-cell--10-col
                   .order__title
-                    span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize})
+                    span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
                     - if order.refunded?
                       span.order__status.order__status--cancelled Refunded
                     - elsif order.completed?
