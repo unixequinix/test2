@@ -9,6 +9,6 @@ class Events::VouchupController < Events::PaymentsController
       error_url: event_vouchup_error_url(@current_event)
     }.to_param
 
-    redirect_to "https://vouch-up.com/pay?#{atts}"
+    redirect_to "https://vouch-up.com/pay/#{@current_event.slug}/#{@order.id}?#{atts}"
   end
 end
