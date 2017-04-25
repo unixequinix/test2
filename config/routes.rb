@@ -182,6 +182,7 @@ Rails.application.routes.draw do
       resources :orders, expect: :destroy do
         get :success, on: :member
         get :error, on: :member
+        get :abstract_error, on: :collection
       end
 
       get :credits_history, to: "credits_histories#history"
