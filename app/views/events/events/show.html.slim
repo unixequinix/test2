@@ -90,7 +90,7 @@
           .order
             .order__header
               .content-grid.mdl-grid
-                .mdl-cell.mdl-cell--10-col
+                .mdl-cell.mdl-cell--12-col
                   .order__title
                     span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
                     - if order.refunded?
@@ -100,10 +100,7 @@
                         span.order__status.order__status--completed = t("dashboard.orders.redeemed")
                       - else
                         span.order__status.order__status--tba = t("dashboard.orders.completed")
-                .mdl-cell.mdl-cell--2-col
-                  .order__info
-                    - if @current_event.topups? && @current_event.launched? && order.can_cancel?
-                      = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
+
             ul.items__list
               - order.order_items.each do |order_item|
                 li.order-item

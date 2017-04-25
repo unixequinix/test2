@@ -24,10 +24,6 @@ class Order < ActiveRecord::Base
     status.eql?("refunded")
   end
 
-  def can_cancel?
-    gateway.present? && !refund? && !cancelled? && !gateway.eql?("bank_account") && !gateway.eql?("paypal")
-  end
-
   def complete!(gateway, payment)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
   end
