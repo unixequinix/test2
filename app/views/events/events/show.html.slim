@@ -102,7 +102,7 @@
                         span.order__status.order__status--tba = t("dashboard.orders.completed")
                 .mdl-cell.mdl-cell--2-col
                   .order__info
-                    - if @current_event.topups? && @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account") && !order.gateway.eql?("vouchup")
+                    - if @current_event.topups? && @current_event.launched? && order.gateway.present? && !order.refund? && !order.cancelled? && !order.gateway.eql?("bank_account") && !order.gateway.eql?("paypal")
                       = link_to t("dashboard.orders.cancel"), send("event_#{order.gateway}_refund_path", @current_event, order_id: order.id), method: :post, data: { confirm: t("orders.cancel_confirmation", price: number_to_event_currency(order.total)) }
             ul.items__list
               - order.order_items.each do |order_item|
