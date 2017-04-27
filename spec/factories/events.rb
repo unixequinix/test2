@@ -7,7 +7,6 @@ FactoryGirl.define do
     support_email "support@glownet.com"
     currency "EUR"
     gtag_type "ultralight_c"
-    gtag_key { SecureRandom.hex(16).upcase }
 
     # Event states
 

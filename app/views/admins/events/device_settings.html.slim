@@ -60,9 +60,6 @@
                     td.mdl-data-table__cell--non-numeric Your Access Token
                     td = @current_user.access_token
                   tr
-                    td.mdl-data-table__cell--non-numeric Gtag Key
-                    td =  best_in_place @current_event, :gtag_key, url: [:admins, @current_event]
-                  tr
                     td.mdl-data-table__cell--non-numeric Min App Version
                     td = best_in_place @current_event, :app_version, url: [:admins, @current_event]
                   tr

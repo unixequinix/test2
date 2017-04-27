@@ -2,8 +2,9 @@ class Gtag < ActiveRecord::Base
   include Credentiable
 
   # Gtag limits
-  DEFINITIONS = { ultralight_c: { entitlement_limit: 56, credential_limit: 32 },
-                  mifare_plus:  { entitlement_limit: 56, credential_limit: 32 } }.freeze
+  DEFINITIONS = { mifare_classic: { entitlement_limit: 15, credential_limit: 15 },
+                  ultralight_ev1: { entitlement_limit: 40, credential_limit: 32 },
+                  ultralight_c:   { entitlement_limit: 56, credential_limit: 32 } }.freeze
 
   validates :tag_uid, uniqueness: { scope: :event_id }
   validates :tag_uid, presence: true

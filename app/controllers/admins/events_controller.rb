@@ -172,7 +172,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :stations_initialize_gtags,
                                   :stations_apply_orders,
                                   :app_version,
-                                  :gtag_key,
                                   credit_attributes: %i[id name value])
   end
 end
