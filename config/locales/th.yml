@@ -84,6 +84,7 @@ th:
       call_to_action_no_admission_html: เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน
       call_to_action_started: ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว
       header: เครดิตที่ยังคงเหลืออยู่ของคุณ
+      header_invalid: Tu saldo necesita ser validado por nuestro personal y no puede ser mostrado. Por favor, vuelve mas tarde o contacta con soporte.
       refundable: Refundable
     credits_history:
       button: Download Transactions

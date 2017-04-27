@@ -88,6 +88,7 @@ en:
       call_to_action_no_admission_html: To buy your Online Top-up,<br>please activate a Event Ticket first
       call_to_action_started: The event just started so you cannot topup anymore
       header: Your balance
+      header_invalid: Your balance has yet to be validated by our staff and cannot be shown, please come back later or contact support.
       refundable: Refundable
     credits_history:
       button: Download Transactions

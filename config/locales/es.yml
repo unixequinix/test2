@@ -84,6 +84,7 @@ es:
       call_to_action_no_admission_html: Para poder recargar online,<br>deberás activar un Ticket primero
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
       header: Tu saldo
+      header_invalid: Tu saldo necesita ser validado por nuestro personal y no puede ser mostrado. Por favor, vuelve mas tarde o contacta con soporte.
       refundable: Reembolsable
     credits_history:
       button: Descargar transacciones

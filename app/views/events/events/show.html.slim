@@ -5,31 +5,43 @@
 
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
-    .mdl-cell.mdl-cell--8-col
-      h4 = t('dashboard.credits.header')
-    .mdl-cell.mdl-cell--4-col
-      .tools
-        - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
-          .tool-item
-            = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
-              span.material-icons add_shopping_cart
-              span.mdl-tooltip data-mdl-for="topup" = t("dashboard.topup")
-        - if @current_event.refunds? && @current_event.finished? && !@current_customer.global_refundable_credits.zero?
-          .tool-item
-            = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
-              span.material-icons money_off
-              span.mdl-tooltip data-mdl-for="refund" = t("dashboard.refund")
-  .mdl-card__supporting-text
-    .content-grid.mdl-grid
-      .mdl-cell.mdl-cell--6-col
-        .panel-amount-number
-          span.amount = number_with_precision(@current_customer.global_credits, precision: 2)
-          span.currency-symbol = @current_event.credit.name
-      .mdl-cell.mdl-cell--6-col
-        .refundable-amount-number
-          = "#{t('dashboard.credits.refundable')}: "
-          = number_with_precision(@current_customer.global_refundable_credits, precision: 2)
-          span.currency-symbol = @current_event.credit.name
+    - if current_customer.valid_balance?
+      .mdl-cell.mdl-cell--8-col
+        h4 = t('dashboard.credits.header')
+      .mdl-cell.mdl-cell--4-col
+        .tools
+          - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
+            .tool-item
+              = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
+                span.material-icons add_shopping_cart
+                span.mdl-tooltip data-mdl-for="topup" = t("dashboard.topup")
+          - if @current_event.refunds? && @current_event.finished? && !@current_customer.global_refundable_credits.zero?
+            .tool-item
+              = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
+                span.material-icons money_off
+                span.mdl-tooltip data-mdl-for="refund" = t("dashboard.refund")
+    - else
+      .mdl-cell.mdl-cell--12-col
+        h4 = t('dashboard.credits.header_invalid')
+
+  - if current_customer.valid_balance?
+    .mdl-card__supporting-text
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          .panel-amount-number
+            span.amount = number_with_precision(@current_customer.global_credits, precision: 2)
+            span.currency-symbol = @current_event.credit.name
+        .mdl-cell.mdl-cell--6-col
+          .refundable-amount-number
+            = "#{t('dashboard.credits.refundable')}: "
+            = number_with_precision(@current_customer.global_refundable_credits, precision: 2)
+            span.currency-symbol = @current_event.credit.name
+  - else
+    .mdl-card__supporting-text
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--12-col
+          = mail_to @current_event.support_email, @current_event.support_email, subject: "Invalid balance for Tag '#{current_customer.active_gtag.tag_uid}'"
+
 
 - if @any_tickets
   .mdl-cell.mdl-cell--12-col

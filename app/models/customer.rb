@@ -36,10 +36,12 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       .order("first_name ASC")
   })
 
-  delegate :valid_balance?, to: :active_gtag
-
   def refunding?
     refunds.any? { |r| r.status.eql?("in_progress") || r.status.eql?("started") }
+  end
+
+  def valid_balance?
+    active_gtag.present? ? active_gtag&.valid_balance? : true
   end
 
   def full_name

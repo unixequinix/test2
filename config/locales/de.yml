@@ -84,6 +84,7 @@ de:
       call_to_action_no_admission_html: Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich.
       header: Dein Guthaben
+      header_invalid: Your balance has yet to be validated by our staff and cannot be shown, please come back later or contact support.
       refundable: Erstattungsfähig
     credits_history:
       button: Download Transactions

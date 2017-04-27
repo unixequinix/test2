@@ -84,6 +84,7 @@ it:
       call_to_action_no_admission_html: Per acquistare la tua Ricarica Online, <br>perfavore attivare Ticket dell’Evento
       call_to_action_started: L’evento è gia cominciato. Non è più possibile effettuare ricariche online
       header: Il tuo saldo
+      header_invalid: Tu saldo necesita ser validado por nuestro personal y no puede ser mostrado. Por favor, vuelve mas tarde o contacta con soporte.
       refundable: Rimborsabile
     credits_history:
       button: Scarica transazioni
