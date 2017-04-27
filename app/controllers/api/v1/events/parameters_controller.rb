@@ -10,6 +10,7 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
 
     value = Rails.env.production? || Rails.env.demo? || Rails.env.hotfix? ? @current_event.ultralight_c_private_key : "11111111111111111111111111111111" # rubocop:disable Metrics/LineLength
     body << { name: "ultralight_c_private_key", value: value } if @current_event.gtag_type.eql?("ultralight_c")
+    body << { name: "gtag_key", value: value }
 
     render_entity(body.as_json, @current_event.updated_at&.httpdate)
   end
