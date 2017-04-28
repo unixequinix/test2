@@ -551,5 +551,12 @@ ul.container-payment-buttons{
   #common-header{
     display: none;
   }
+
+  .call-to-action{
+    text-align: center;
+    font-size: 20px;
+    padding: 40px 50px;
+    border-bottom: 1px solid $input-grey;
+  }
 }
 
