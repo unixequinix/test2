@@ -14,7 +14,6 @@ class Order < ActiveRecord::Base
   scope(:refunded, -> { where(status: "refunded") })
   scope(:cancelled, -> { where(status: "cancelled") })
   scope(:failed, -> { where(status: "failed") })
-  scope(:oartial, -> { where(status: "failed") })
 
   def refund?
     gateway.eql?("refund")

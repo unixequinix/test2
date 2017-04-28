@@ -18,6 +18,7 @@ es:
     cancelled: Cancelado con éxito
     credential:
       already_assigned: "El %{item} ya está asignado"
+      without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
       no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
       blacklisted: "%{item} está en la Lista Negra"
       assigned: "%{item} asignado correctamente"
