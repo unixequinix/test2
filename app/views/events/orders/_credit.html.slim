@@ -4,21 +4,23 @@
       = fa_icon "minus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "minus", step: "#{@current_event.credit_step}" }
   .mdl-cell.mdl-cell--4-col
     .total-credits
-      = text_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{@current_event.maximum_gtag_balance / 2}", autocomplete: :off,
+      = text_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{(@current_event.maximum_gtag_balance / 10).round}", autocomplete: :off,
         min: "0",
         max: "#{@current_event.maximum_gtag_balance}",
         step: "#{@current_event.credit_step}",
         id: "amount-input-#{catalog_item.id}",
         class: "amount-input",
         data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
+      - if @current_event.credit.value == 1
+        span  #{@current_event.currency}/#{@current_event.credit.name.pluralize}
+      - else
+        span = @current_event.credit.name.pluralize
 
-    - if @current_event.credit.value != 1
+    - unless @current_event.credit.value == 1
       .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{@current_event.maximum_gtag_balance / 2}
-        span = @current_event.currency
-    - else
-      .top-up-amount
-        span = @current_event.currency
+        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 10.00) * catalog_item.value}
+        span  #{@current_event.currency}
+
 
   .mdl-cell.mdl-cell--4-col
     .plus-button

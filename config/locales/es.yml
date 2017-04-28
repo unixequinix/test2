@@ -5,6 +5,8 @@ es:
     check_news: Volver
     delete: Borrar
     edit: Editar
+    complete: Finalizar
+    repeat: Repetir
   admissions:
     button: Activar
     call_to_action: "¡Activa tu Ticket del Evento!"
@@ -26,6 +28,7 @@ es:
     error: El formulario contiene errores
     only_letters_dnd_numbers: May only contain letters and numbers
     order_complete: Pedido completado con éxito
+    order_error: Ha habido un problema con su pedido
     updated: Succesfully updated
     not_authorized: No estás autorizado a realizar esta acción
     max_credits_reached: han alcanzado el límite permitido
@@ -61,15 +64,16 @@ es:
     refund: Devolucion
     order: Pedido
     orders:
+      success_title: Enhorabuena!
       credits: Créditos
       catalog_items: Otros artículos
       disclaimer: Recuerda! Los pedidos online se aplicarán al entrar en el recinto
       complete: Completar
       cancel: Cancelar
-      failed: Fallido (este pedido tendrea que ser repetido)
+      failed: Este pedido NO se aplicará en el recinto
       in_progress: En progreso (no se aplicará en el recinto)
       cancelled: Cancelado
-      completed: Se aplicará en el recinto
+      completed: ha sido completado y se aplicará en el recinto
       redeemed: Completado y aplicado
     admissions:
       call_to_action: "¿Quiéres borrar el ticket?"
@@ -80,6 +84,7 @@ es:
       call_to_action_no_admission_html: Para poder recargar online,<br>deberás activar un Ticket primero
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
       header: Tu saldo
+      header_invalid: Tu saldo necesita ser validado por nuestro personal y no puede ser mostrado. Por favor, vuelve mas tarde o contacta con soporte.
       refundable: Reembolsable
     credits_history:
       button: Descargar transacciones

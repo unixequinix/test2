@@ -1,4 +1,3 @@
-
 .mdl-cell.mdl-cell--12-col
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
@@ -15,5 +14,4 @@
         span.material-icons undo
         span.mdl-tooltip data-mdl-for="done" = t("actions.back")
 
-  .mdl-card__supporting-text
-    | #{t("dashboard.order")} ##{@order.number}: #{params[:message]}
+  .mdl-card__supporting-text = params[:message]

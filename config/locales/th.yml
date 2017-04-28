@@ -5,6 +5,8 @@ th:
     check_news: กลับไปที่เว็บไซด์ของงาน
     delete: ลบ
     edit: แก้ไข
+    complete: Complete
+    repeat: Repeat
   admissions:
     button: เริ่มการใช้งานในระบบ
     call_to_action: ใส่บัตรเข้างานของคุณในระบบ!
@@ -26,6 +28,7 @@ th:
     error: The form contains errors
     only_letters_end_numbers: May only contain letters and numbers
     order_complete: Order Completed
+    order_error: There was a problem with your order
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
     max_credits_reached: have reached the maximum allowed balance
@@ -61,15 +64,16 @@ th:
     refund: Refund
     title: Order
     orders:
+      success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
       complete: Complete
       cancel: Cancel
-      failed: Failed (this order has to be repeated)
+      failed: This order WILL NOT be applied onsite
       in_progress: In progress (will not be applied)
       cancelled: Cancelled
-      completed: Will be applied on site
+      completed: has been completed and will be applied on site
       redeemed: Completed and applied
     admissions:
       call_to_action: ต้องการยกเลิกบัตรเข้างาน?
@@ -80,6 +84,7 @@ th:
       call_to_action_no_admission_html: เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน
       call_to_action_started: ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว
       header: เครดิตที่ยังคงเหลืออยู่ของคุณ
+      header_invalid: Tu saldo necesita ser validado por nuestro personal y no puede ser mostrado. Por favor, vuelve mas tarde o contacta con soporte.
       refundable: Refundable
     credits_history:
       button: Download Transactions

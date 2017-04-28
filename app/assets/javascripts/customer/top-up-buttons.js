@@ -29,7 +29,7 @@ function topUpButton() {
           amount = $this.data('operation') == "plus" ? parseInt(input.val())+step : parseInt(input.val())-step;
 
       if (amount >= min && amount <= max) {
-        input.val(amount);
+        input.val((amount));
         total.text((amount * price));
       }
       calculateTotalCheckout();

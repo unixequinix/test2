@@ -278,13 +278,17 @@ footer {
   text-align: center;
 }
 
+.top-up-amount{
+  padding-left: 50px;
+}
+
 .total-credits{
+  border-bottom: 0.8px solid gray;
   input{
     border: none;
     font-size: 20px;
-    text-align: center;
+    text-align: right;
     width: 50%;
-    border-bottom: 0.8px solid gray;
   }
 }
 

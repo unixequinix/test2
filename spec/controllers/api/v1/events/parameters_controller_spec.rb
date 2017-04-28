@@ -94,7 +94,7 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
       it "should include ultralight_c_private_key if gtag_type is ultralight_c" do
         get :index, params: params
         @body = JSON.parse(response.body)
-        expect(@body).to include("name" => "ultralight_c_private_key", "value" => event.ultralight_c_private_key)
+        expect(@body).to include("name" => "ultralight_c_private_key", "value" => "11111111111111111111111111111111")
       end
 
       it "should include all mifare keys if gtag_type is mifare_classic" do

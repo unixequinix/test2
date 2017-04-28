@@ -3,11 +3,11 @@ class MoneyTransaction < Transaction
   belongs_to :order
 
   def self.mandatory_fields
-    super + %w[catalog_item_id items_amount price payment_method]
+    super + %w[items_amount price payment_method]
   end
 
   def description
-    act = price.positive? ? "Payment" : "Cancellation"
+    act = action.gsub("online_", "").gsub("onsite_", "").gsub("portal_", "").gsub("box_office_", "").humanize
     "#{act}: #{event.currency} #{format('%20.2f', price)}"
   end
 

@@ -5,6 +5,8 @@ de:
     check_news: Zurück zur Veranstaltungswebsite
     delete: Löschen
     edit: Bearbeiten
+    complete: Komplett
+    repeat: Repeat
   admissions:
     button: Aktivieren
     call_to_action: Aktivieren Sie Ihr Veranstaltungsticket!
@@ -26,6 +28,7 @@ de:
     error: The form contains errors
     only_letters_end_numbers: May only contain letters and numbers
     order_complete: Order Completed
+    order_error: There was a problem with your order
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
     max_credits_reached: have reached the maximum allowed balance
@@ -61,15 +64,16 @@ de:
     refund: Refund
     order: Bestellung
     orders:
+      success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
       disclaimer: Remember! Online purchases will be applied onsite at the event
       complete: Complete
       cancel: Cancel
-      failed: Failed (this order has to be repeated)
+      failed: This order WILL NOT be applied onsite
       in_progress: In progress (will not be applied)
       cancelled: Cancelled
-      completed: Will be applied on site
+      completed: has been completed and will be applied on site
       redeemed: Completed and applied
     admissions:
       call_to_action: Wollen Sie dieses Ticket entfernen?
@@ -80,6 +84,7 @@ de:
       call_to_action_no_admission_html: Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich.
       header: Dein Guthaben
+      header_invalid: Your balance has yet to be validated by our staff and cannot be shown, please come back later or contact support.
       refundable: Erstattungsfähig
     credits_history:
       button: Download Transactions
