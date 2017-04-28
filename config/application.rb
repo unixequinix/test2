@@ -16,7 +16,7 @@ module GlownetWeb
 
     I18n.config.enforce_available_locales = true
     config.i18n.default_locale = :en
-    config.i18n.available_locales = [:en, :es, :de, :it, :th]
+    config.i18n.available_locales = [:en, :es, :de, :it]
     config.i18n.fallbacks = true
     config.time_zone = "Madrid"
     config.encoding = "utf-8"
