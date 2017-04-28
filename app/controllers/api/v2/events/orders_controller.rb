@@ -51,7 +51,5 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
   # Only allow a trusted parameter "white list" through.
   def order_params
     params.require(:order).permit(:status, :completed_at, :gateway, :customer_id, :payment_data, :refund_data)
-    order_params[:payment_data] = JSON.parse(order_params[:payment_data])
-    order_params[:refund_data] = JSON.parse(order_params[:refund_data])
   end
 end
