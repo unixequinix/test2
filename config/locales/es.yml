@@ -18,6 +18,7 @@ es:
     cancelled: Cancelado con éxito
     credential:
       already_assigned: "El %{item} ya está asignado"
+      without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
       no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
       blacklisted: "%{item} está en la Lista Negra"
       assigned: "%{item} asignado correctamente"
@@ -155,8 +156,6 @@ es:
       en: ENG
       es: ESP
       it: ITA
-      pt: PT
-      th: THA
     subject_support: Necesito ayuda para %{event}
   footer:
     copyright: "© Glownet"
@@ -255,6 +254,7 @@ es:
       or: o
       title: Regístrate
   sessions:
+    call_to_action: Regístrate con tu red social favorita o crea una cuenta con nosotros.
     create_account:
       link: "¡Crea una!"
       lost_password: Contraseña perdida

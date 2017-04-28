@@ -12,7 +12,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
 
     errors = []
     errors << t("alerts.alerts.not_found", item: "Ticket") if @ticket.blank?
-    errors << t("alerts.credentail.without_credential") if @ticket&.ticket_type&.catalog_item.nil?
+    errors << t("alerts.credentail.without_credential", item: "Ticket") if @ticket&.ticket_type&.catalog_item.nil?
     errors << t("alerts.credentail.already_assigned", item: "Ticket") if @ticket&.customer
 
     if errors.any?

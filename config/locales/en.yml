@@ -18,6 +18,7 @@ en:
     cancelled: Cancelled successfully
     credential:
       already_assigned: "%{item} already assigned"
+      without_credential: "%{item} is empty and cannot be assigned. Please try later"
       no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
       blacklisted: "%{item} is Blacklisted"
       assigned: "%{item} successfully assigned"
@@ -160,8 +161,6 @@ en:
       en: ENG
       es: ESP
       it: ITA
-      pt: PT
-      th: THA
     subject_support: Need help for %{event}
   footer:
     copyright: "© Glownet"
@@ -263,6 +262,7 @@ en:
       or: or
       title: Get started
   sessions:
+    call_to_action: Sing in with your favourite Social profile or simply create an account!
     create_account:
       link: Create an account
       lost_password: Lost password?

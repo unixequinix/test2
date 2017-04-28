@@ -7,7 +7,7 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
     sequence(:phone) { |n| "1-800-#{n}" }
-    country { %w[EN ES TH IT].sample }
+    country { %w[EN ES IT].sample }
     gender { %w[male female].sample }
     birthdate { (13..70).to_a.sample.years.ago }
     postcode { "12345" }
