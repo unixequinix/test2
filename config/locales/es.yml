@@ -43,10 +43,7 @@ es:
         subject: Solicitud de cambio de contraseña.
   checkout:
     button: Confirmar Orden
-    description:
-      both: Los créditos que compras aquí serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento.
-      card: Los créditos que compras aquí serán añadidos automáticamente a tu Tarjeta al entrar al evento.
-      wristband: Los créditos que compras aquí serán añadidos automáticamente a tu Pulsera al entrar al evento.
+    description: Comprar online es una buena forma de ahorrar tiempo. Evita las colas en el evento seleccionando aqui lo que deseas comprar.
     store: " tienda"
     total: Total
   conditions:
@@ -68,7 +65,7 @@ es:
       success_title: Enhorabuena!
       credits: Créditos
       catalog_items: Otros artículos
-      disclaimer: Recuerda! Los pedidos online se aplicarán al entrar en el recinto
+      disclaimer: Los pedidos online se aplicarán al entrar en el recinto. Solo tienes que llegar al evento y empezar a usar tus créditos de inmediato!
       complete: Completar
       cancel: Cancelar
       failed: Este pedido NO se aplicará en el recinto

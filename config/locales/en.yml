@@ -47,10 +47,7 @@ en:
         subject: Reset password instructions
   checkout:
     button: Checkout
-    description:
-      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
-      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
-      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
+    description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
     store: " store"
     total: Total
   conditions:
@@ -69,17 +66,12 @@ en:
     refund: Refund
     order: Order
     orders:
-      success_title: Ka-ching! Time to use those tokens to treat yourself!
+      success_title: "Ka-ching! Time to use those %{credit_name} to treat yourself!"
       credits: Credits
       catalog_items: Other Items
-      disclaimer: Remember! Online purchases will be applied onsite at the event
+      disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
       complete: Complete
       cancel: Cancel
-      failed: This order WILL NOT be applied onsite
-      in_progress: In progress (will not be applied)
-      cancelled: Cancelled
-      completed: has been completed and will be applied on site
-      redeemed: Completed and applied
     admissions:
       call_to_action: Do you want to remove this ticket?
       call_to_action_started: The event just started so you cannot change the ticket

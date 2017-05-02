@@ -43,10 +43,7 @@ it:
         subject: Ripristina le istruzioni di password
   checkout:
     button: Conferma Ordine
-    description:
-      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
-      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
-      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
+    description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
     store: " store"
     total: Totale
   conditions:
@@ -68,7 +65,7 @@ it:
       success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
-      disclaimer: Remember! Online purchases will be applied onsite at the event
+      disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
       complete: Complete
       cancel: Cancel
       failed: This order WILL NOT be applied onsite
