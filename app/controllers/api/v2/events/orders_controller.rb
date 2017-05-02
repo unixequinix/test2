@@ -1,5 +1,19 @@
 class Api::V2::Events::OrdersController < Api::V2::BaseController
-  before_action :set_order, only: %i[show update destroy]
+  before_action :set_order, only: %i[show update destroy complete]
+
+  # PATCH/PUT /orders/1
+  def complete
+    if @order.completed?
+      @order.errors.add(:status, "is already completed")
+      render json: @order.errors, status: :unprocessable_entity
+    else
+      atts = { payment_method: @order.gateway, payment_gateway: @order.gateway, order_id: @order.id, price: @order.total.to_f }
+      MoneyTransaction.write!(@current_event, "portal_purchase", :portal, customer, customer, atts)
+      @order.complete!(order_params[:gateway], order_params[:payment_data])
+      OrderMailer.completed_order_email(@order).deliver_later
+      render json: @order
+    end
+  end
 
   # GET /orders
   def index

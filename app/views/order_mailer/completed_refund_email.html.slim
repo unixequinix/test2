@@ -1,0 +1,107 @@
+- content_for :title
+  = t('email.customer.refund.completed.title')
+center
+  table#backgroundTable[border="0" cellpadding="0" cellspacing="0" height="100%" width="100%"]
+    tr
+      td[align="center" valign="top"]
+        table#templatePreheader[border="0" cellpadding="10" cellspacing="0" width="600"]
+          tr
+            td.preheaderContent[valign="top"]
+              table[border="0" cellpadding="10" cellspacing="0" width="100%"]
+                tr
+                  td[valign="top"]
+                    div[mc:edit="std_preheader_content"]
+                      = t('email.customer.communication', event_name: @event.name)
+
+        table#templateContainer[border="0" cellpadding="0" cellspacing="0" width="600"]
+          tr
+            td[align="center" valign="top"]
+              table#templateHeader[border="0" cellpadding="0" cellspacing="0" width="600"]
+                tr
+                  td.headerContent
+                    = image_tag @event.logo.url(:email), id: "headerImage"
+          tr
+            td[align="center" valign="top"]
+              table#templateBody[border="0" cellpadding="0" cellspacing="0" width="600"]
+                tr
+                  td.bodyContent[valign="top"]
+                    table[border="0" cellpadding="20" cellspacing="0" width="100%"]
+                      tr
+                        td[valign="top"]
+                          div[mc:edit="std_content00" style="text-align: center;"]
+                            h1[style="text-align: center;"] = t('email.customer.refund.completed.greet', name: @name)
+                            p = t('email.customer.refund.completed.thanks')
+                            p = t('email.customer.refund.completed.success')
+
+          tr
+            //Order id and date
+            td colspan="2"
+              table width="100%" style="padding: 10px 5px; border: 1px solid #c2c2c2;"
+                tr
+                  td cellpadding="0" cellspacing="0" style="text-align: left; font-size: 18px;"
+                    span style="text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold; text-align: right;" = "#{t('email.customer.refund.completed.order_number')}: "
+                    //ORDER NAME
+                    span style="text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold;" #{@refund.number}
+                  td cellpadding="0" cellspacing="0" style=" padding: 0 10px; text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold; text-align: right;" #{t('email.customer.refund.completed.date')}: #{l @refund.updated_at}
+          tr
+            td colspan="2" style="padding:24px 0; text-align: center;"
+              //Resume table
+              table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+                tr style="border: 1px solid #C2C2C2;"
+                  //Products
+                  th style=" padding: 5px 10px; background-color: #f2f2f2; color: #616161; font-size: 14px;"  = t('orders.products')
+                  //Products
+                  th style="width: 30%; padding:5px 20px; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;"  = t('orders.price')
+                tr style="border: 1px solid #C2C2C2;"
+                  //Product quantity
+                  td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = t('refunds.product_description')
+                   //Product price
+                  td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = @refund.total
+
+                - if @refund.fee > 0
+                  tr style="border: 1px solid #C2C2C2;"
+                    //Product quantity
+                    td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = t('refunds.fee')
+                     //Product price
+                    td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = @refund.fee
+                tr
+                  //Product total
+                  td width="75%"
+                  td width="25%"
+                    table width="100%"
+                      tr
+                        td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle;"  = t('orders.total')
+                        td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@refund.money} #{@event.currency}"
+          tr
+            td[align="center" valign="top"]
+              table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]
+                tr
+                  td.footerContent[valign="top"]
+                    table[border="0" cellpadding="10" cellspacing="0" width="100%"]
+                      tr
+                        td#footer[valign="top" width="100%"]
+                          div[mc:edit="std_footer"]
+                            p
+                              strong
+                                = t('email.customer.footer_glownet')
+                                = mail_to "support@glownet.com"
+                            p
+                              strong
+                                = t('email.customer.footer_organizer')
+                                = mail_to @event.support_email
+                      tr
+                        td#social[colspan="2" valign="middle"]
+                          div[mc:edit="std_social"]
+                            = link_to t('email.customer.our_company'), "https://www.linkedin.com/company/glownet?trk=prof-exp-company-name"
+                            span.separator style="padding-right: 5px;"  |
+                            = link_to t('email.customer.follow_on_twitter'), "https://twitter.com/GlownetHQ"
+                            span.separator style="padding-right: 5px;"  |
+                            = link_to t('email.customer.like_on_facebook'), "https://www.facebook.com/glowneteventtechnology"
+                            span.separator style="padding-right: 5px;"  |
+                            = link_to t('email.customer.suscribe_on_you_tube'), "https://www.youtube.com/channel/UCruCrMlIVUrQxF64Ijqsqig"
+                      tr
+                        td#footer[valign="top" width="100%"]
+                          div[mc:edit="std_footer"]
+                            p
+                              = t('email.customer.footer_copy', year: Time.zone.now.year)
+        br
