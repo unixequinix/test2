@@ -7,7 +7,7 @@ class OrderMailer < ApplicationMailer
 
     apply_locale(customer)
     headers["X-No-Spam"] = "True"
-    mail(to: customer.email, reply_to: @event.support_email, subject: t("email.customer.refund.completed.subject"))
+    mail(to: customer.email, reply_to: @event.support_email, subject: t("email.refund.completed.subject"))
   end
 
   def completed_order_email(order)
@@ -19,6 +19,6 @@ class OrderMailer < ApplicationMailer
     apply_locale(customer)
     headers["X-No-Spam"] = "True"
     headers["In-Reply-To"] = @event.support_email
-    mail(to: customer.email, reply_to: @event.support_email, subject: t("email.customer.order.completed.subject"))
+    mail(to: customer.email, reply_to: @event.support_email, subject: t("email.order.completed.subject", event: @event.name))
   end
 end

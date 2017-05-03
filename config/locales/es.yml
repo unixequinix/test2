@@ -9,7 +9,7 @@ es:
     repeat: Repetir
   admissions:
     button: Activar
-    call_to_action: "¡Activa tu Ticket del Evento!"
+    call_to_action: ¡Activa tu Ticket del Evento!
     description: Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento.
     placeholders:
       ticket_code: Código de Ticket
@@ -44,7 +44,7 @@ es:
   checkout:
     button: Confirmar Orden
     description: Comprar online es una buena forma de ahorrar tiempo. Evita las colas en el evento seleccionando aqui lo que deseas comprar.
-    store: " tienda"
+    store: tienda
     total: Total
   conditions:
     action: Acepto
@@ -57,7 +57,7 @@ es:
       edit_account: Cambiar Perfil
       change_password: Cambiar contraseña
       log_out: Salir
-    confirm_log_out: "¿Quieres finalizar la sesión?"
+    confirm_log_out: ¿Quieres finalizar la sesión?
     topup: Recarga
     refund: Devolucion
     order: Pedido
@@ -74,7 +74,7 @@ es:
       completed: ha sido completado y se aplicará en el recinto
       redeemed: Completado y aplicado
     admissions:
-      call_to_action: "¿Quiéres borrar el ticket?"
+      call_to_action: ¿Quiéres borrar el ticket?
       call_to_action_started: El evento ya ha comenzado, no puedes cambiar tu ticket
     credits:
       button: Recarga
@@ -117,36 +117,25 @@ es:
     without_refunds:
       call_to_action: Proceder a la devolución
   email:
-    admin:
-      reset_password:
-        greet: "¡Hola, %{email}!"
-        mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
-        mail_ignore: Si no lo has solicitado, por favor ignora este correo. Tu contraseña no sufrirá cambios hasta que se proceda al enlace proporcionado y se cree una nueva contraseña.
-        mail_link: Cambiar mi contraseña.
-    customer:
-      communication: Este es un mensaje automático de %{event_name}
-      follow_on_twitter: Síguenos en Twitter
-      footer_copy: Copyright Glownet © %{year} Todos los derechos reservados.
-      footer_glownet: 'Estaremos encantados de ayudarte con el uso del portal si nos escribes a '
-      footer_organizer: "¿Tienes alguna pregunta para el organizador? Contacta con él en "
-      like_on_facebook: Dale a me gusta en Facebook
-      order:
-        completed:
-          date: Fecha de compra
-          description: Todos los créditos que has comprado serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al event. Tu Tarjeta o Pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
-          greet: "¡Hola, %{name}!"
-          order_number: Tu Compra
-          subject: Compra Completada
-          success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
-          thanks: Gracias por tu compra.
-          title: Notificación de Compra
-      our_company: Sobre Glownet
-      reset_password:
-        greet: "¡Hola, %{name}!"
-        mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
-        mail_link: Cambiar mi contraseña
-        title: Cambiar contraseña
-      suscribe_on_you_tube: Suscríbete en YouTube
+    communication: Este es un mensaje automático de %{event_name}, las respuestas no serán leídas.
+    follow_on_twitter: Síguenos en Twitter
+    footer_glownet: Estaremos encantados de ayudarte con el uso del portal si nos escribes a
+    footer_organizer: ¿Tienes alguna pregunta para el organizador? Contacta con él en
+    like_on_facebook: Dale a me gusta en Facebook
+    order:
+      completed:
+        description: Todos los productos que has comprado serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento. Tu Tarjeta o Pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
+        greet: ¡Gracias por tu compra, %{name}!
+        order_number: Número de pedido
+        subject: Compra en %{event}
+        success: 'Aquí tienes los detalles de tu compra:'
+    our_company: Sobre Glownet
+    reset_password:
+      greet: ¡Hola, %{name}!
+      mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
+      mail_link: Cambiar mi contraseña
+      title: Cambiar contraseña
+    suscribe_on_you_tube: Suscríbete en YouTube
   event:
     locales:
       de: GER
@@ -162,9 +151,9 @@ es:
   gtag_assignations:
     button: Aceptar
     call_to_action:
-      both: "¡Introduce el código de tu Tarjeta o Pulsera y continúa!"
-      card: "¡Introduce el código de tu Tarjeta y continúa!"
-      wristband: "¡Introduce el código de tu Pulsera y continúa!"
+      both: ¡Introduce el código de tu Tarjeta o Pulsera y continúa!
+      card: ¡Introduce el código de tu Tarjeta y continúa!
+      wristband: ¡Introduce el código de tu Pulsera y continúa!
     description:
       standard: Introduce la segunda fila de números y letras (resaltada en amarillo)
     info: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
@@ -174,7 +163,7 @@ es:
   links:
     buttons:
       sign_in: Inicia Sesión
-    forgot: "¿Olvidaste tu contraseña?"
+    forgot: ¿Olvidaste tu contraseña?
   orders:
     cancel_confirmation: "Está seguro de que quiere cancelar el pago de %{price}?"
     already_cancelled: Este pedido ya ha sido cancelado

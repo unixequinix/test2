@@ -1,10 +1,7 @@
-doctype transitional
 html
   head
     meta[http-equiv="Content-Type" content="text/html; charset=UTF-8"]
     meta[property="og:title" content="#{yield :title}"]
-    title
-      = yield :title
     css:
       /* Client-specific Styles */
       #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" button. */
@@ -12,10 +9,10 @@ html
       body{-webkit-text-size-adjust:none;} /* Prevent Webkit platforms from changing default text sizes. */
 
       /* Reset Styles */
-      body{margin:0; padding:0;}
+      body{margin:0; padding:0; font-family: Arial, sans-serif;}
       img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
       table td{border-collapse:collapse;}
-      #backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important;}
+      #backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important; background-repeat: no-repeat; background-size: 100% 100%;  background-image:url(#{yield(:background)});}
 
       /* Template Styles */
 
@@ -47,10 +44,10 @@ html
       * @style heading 1
       */
       h1, .h1{
-        /*@editable*/ color: #212738;
+        /*@editable*/ color: #505050;
         display:block;
         /*@editable*/ font-family:Arial;
-        /*@editable*/ font-size:34px;
+        /*@editable*/ font-size:25px;
         /*@editable*/ font-weight:bold;
         /*@editable*/ line-height:100%;
         margin-top:0;
@@ -67,10 +64,10 @@ html
       * @style heading 2
       */
       h2, .h2{
-        /*@editable*/ color:#202020;
+        /*@editable*/ color:#505050;
         display:block;
         /*@editable*/ font-family:Arial;
-        /*@editable*/ font-size:30px;
+        /*@editable*/ font-size:20px;
         /*@editable*/ font-weight:bold;
         /*@editable*/ line-height:100%;
         margin-top:0;
@@ -87,10 +84,10 @@ html
       * @style heading 3
       */
       h3, .h3{
-        /*@editable*/ color:#202020;
+        /*@editable*/ color:#505050;
         display:block;
         /*@editable*/ font-family:Arial;
-        /*@editable*/ font-size:26px;
+        /*@editable*/ font-size:18px;
         /*@editable*/ font-weight:bold;
         /*@editable*/ line-height:100%;
         margin-top:0;
@@ -107,10 +104,10 @@ html
       * @style heading 4
       */
       h4, .h4{
-        /*@editable*/ color:#202020;
+        /*@editable*/ color:#505050;
         display:block;
         /*@editable*/ font-family:Arial;
-        /*@editable*/ font-size:22px;
+        /*@editable*/ font-size:15px;
         /*@editable*/ font-weight:bold;
         /*@editable*/ line-height:100%;
         margin-top:0;
@@ -129,7 +126,7 @@ html
       * @theme page
       */
       #templatePreheader{
-        /*@editable*/ background-color:#FAFAFA;
+        /*@editable*/ background-color:#ffffff;
       }
 
       /**
@@ -165,7 +162,7 @@ html
       * @theme header
       */
       #templateHeader{
-        /*@editable*/ background-color:#FFFFFF;
+        /*@editable*/ background-color:none;
         /*@editable*/ border-bottom:0;
       }
 
@@ -200,6 +197,7 @@ html
         height:auto;
         max-height:120px !important;
         margin-top:1em;
+        margin-bottom:1em;
         max-width:600px !important;
       }
 
@@ -338,5 +336,5 @@ html
         max-width:190px;
       }
 
-  body[leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0"]
+  body
     = yield
