@@ -1,18 +1,18 @@
 ---
 de:
   actions:
-    back: Zurück
-    check_news: Zurück zur Veranstaltungswebsite
-    delete: Löschen
-    edit: Bearbeiten
-    complete: Komplett
+    back: Back
+    check_news: Home
+    delete: Delete
+    edit: Edit
+    complete: Complete
     repeat: Repeat
   admissions:
-    button: Aktivieren
-    call_to_action: Aktivieren Sie Ihr Veranstaltungsticket!
-    description: Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes.
+    button: Activate
+    call_to_action: Activate your Event Ticket!
+    description: Please enter the code that is printed on your event ticket just below the barcode.
     placeholders:
-      ticket_code: Veranstaltungsticket Codenummer
+      ticket_code: Event Ticket Code Number
   alerts:
     created: Succesfully created
     cancelled: Cancelled successfully
@@ -28,11 +28,15 @@ de:
     destroyed: Succesfully deleted
     error: The form contains errors
     only_letters_end_numbers: May only contain letters and numbers
-    order_complete: Order Completed
+    order_complete: Your Order has been completed successfully!
     order_error: There was a problem with your order
     updated: Succesfully updated
     not_authorized: You are not authorized to perform this action
     max_credits_reached: have reached the maximum allowed balance
+    import:
+      delayed: "%{count} %{item} were delayed for import, please check in a few minutes"
+      success: "%{count} %{item} successfully imported"
+      error: There has been an error with the import process
     confirm_delete: |
       This action cannot be undone.
 
@@ -40,62 +44,57 @@ de:
   auth:
     mailer:
       reset_password_instructions:
-        subject: Anleitung zur Passwort-Rücksetzung
+        subject: Reset password instructions
   checkout:
-    button: Bestellung bestätigen
+    button: Checkout
     description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
-    store: " shop"
-    total: Summe
+    store: " store"
+    total: Total
   conditions:
-    action: Ich stimme den
-    conjunction: und den
-    privacy_conditions: Nutzungsbedingungen zu
-    terms_of_use: Datenschutzbedingungen
+    action: I accept
+    conjunction: and
+    privacy_conditions: the privacy policy
+    terms_of_use: the terms of use
   dashboard:
     header:
       home: Home
       edit_account: Edit Account
       change_password: Change Password
       log_out: Log Out
-    confirm_log_out: Möchten Sie diese Sitzung beenden?
+    confirm_log_out: Do you want to end this session?
     topup: Top Up
     refund: Refund
-    order: Bestellung
+    order: Order
     orders:
-      success_title: Congratulations!
+      success_title: "Ka-ching! Time to use those %{credit_name} to treat yourself!"
       credits: Credits
       catalog_items: Other Items
       disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
       complete: Complete
       cancel: Cancel
-      failed: This order WILL NOT be applied onsite
-      in_progress: In progress (will not be applied)
-      cancelled: Cancelled
-      completed: has been completed and will be applied on site
-      redeemed: Completed and applied
     admissions:
-      call_to_action: Wollen Sie dieses Ticket entfernen?
-      call_to_action_started: Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich.
+      call_to_action: Do you want to remove this ticket?
+      call_to_action_started: The event just started so you cannot change the ticket
     credits:
       button: Top-up
-      calculating_balance: We are validating your final balance. Please return in 48 hours to proceed with your refund.
-      call_to_action_no_admission_html: Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren
-      call_to_action_started: Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich.
-      header: Dein Guthaben
+      calculating_balance: Please contact us at %{email} in order to process your refund.
+      call_to_action_no_admission_html: To buy your Online Top-up,<br>please activate a Event Ticket first
+      call_to_action_started: The event just started so you cannot topup anymore
+      header: Your balance
       header_invalid: Your balance has yet to be validated by our staff and cannot be shown, please come back later or contact support.
-      refundable: Erstattungsfähig
+      refundable: Refundable
     credits_history:
       button: Download Transactions
       header: Transaction history
     event_started:
-      description: Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben.
-      title: Letzte Details!
+      description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
+      title: Ultimating details!
     first_register:
       gtag:
-        both: Card or Wristband hinzufügen
-        card: Card hinzufügen
-        wristband: Wristband hinzufügen
-      ticket: Ticket hinzufügen
+        both: Add Card or Wristband
+        card: Add Card
+        wristband: Add Wristband
+      ticket: Add ticket
     ticket_registration:
       title: Tickets
     gtag_registration:
@@ -103,19 +102,17 @@ de:
         both: Wristband/Card ID
         card: Card ID
         wristband: Wristband ID
-      card: Cashless-Pass
-      wristband: Bändchen
+      card: Card
+      wristband: Wristband
     paypal:
-      button: Mit PayPal synchronisieren
+      button: Pay with PayPal
     without_gtags_claiming_started:
-      claim: Entschuldigung
-      description: Der Zeitraum für Erstattungen ist vorbei. Bei Fragen wenden Sie sich bitte an den Support.
+      claim: Sorry
+      description: The refunds period is finished, If you have any question contact support.
     without_gtags_disabled:
-      claim: Der Zeitraum, in der eine Erstattung Ihres Tag Guthabens beantragt werden konnte, ist vorbei.
-      description: Wenn Sie zu einem früheren Zeitpunkt eine Supportanfrage an uns gerichtet haben,
-      description2: keinene Sorge, wir helfen Ihnen mit Ihrer Erstattung weiter.
-    without_refunds:
-      call_to_action: Weiter zur Erstattung
+      claim: The period to apply for a refund of your Card or Wristband credits is closed
+      description: If you have previously contacted us with any support question,
+      description2: do not worry, we will help you through with your refund.
   email:
     communication: This is an automated communication from %{event_name}. Replies will not be read.
     follow_on_twitter: Follow on Twitter
@@ -151,68 +148,79 @@ de:
       en: ENG
       es: ESP
       it: ITA
-    subject_support: Hilfe benötigt für %{event}
+    subject_support: Need help for %{event}
   footer:
-    copyright: "© Copyright Glownet"
-    privacy: Datenschutzbestimmungen
+    copyright: "© Glownet"
+    privacy: Privacy policy
     support: Support
-    use: Nutzungsbedingungen
+    use: Terms of use
   gtag_assignations:
-    button: Registrieren
+    button: Accept
     call_to_action:
-      both: Card or Wristband anmelden und los!
-      card: Card anmelden und los!
-      wristband: Wristband anmelden und los!
+      both: Assign your Card or Wristband and go!
+      card: Assign your Card and go!
+      wristband: Assign your Wristband and go!
     description:
-      standard: Assign the second row of numbers and letters (yellow highlighted)
-    info: 'Symbole möglich: "0" - "9" und "A, B, C, D, E, F"'
+      standard: Read the second row of numbers and letters (yellow highlighted)
+    info: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
     placeholder: 'e.g: BA6D7DC0'
   header:
-    edit: Profil bearbeiten
+    edit: Edit Customer
   links:
     buttons:
       sign_in: Login
-    forgot: Passwort vergessen?
+    forgot: Forgot your password?
   orders:
     cancel_confirmation: "Are you sure you want to cancel payment of %{price}?"
     already_cancelled: Order already cancelled
     already_finalised: This order has already been finalised
-    button: Bezahlen
-    card_info: Karteninformation
-    order_review: Überprüfung der Bestellung
+    button: Pay
+    card_code_verification: Card code verification (CCV)
+    card_expiration_date: Card expiration date
+    card_info: Card info
+    card_number: Card number
+    first_name: First name
+    last_name: Last name
+    order_review: Order review
     payment: Payment Details
     payment-buttons:
       bank_account:
         icon: credit-card
         name: Bank Account
-      braintree:
-        icon: credit-card
-        name: Kreditkarte Braintree
       paypal:
         icon: paypal
         name: PayPal
       redsys:
         icon: credit-card
-        name: Kreditkarte Redsys
+        name: Redsys Credit card
       stripe:
         icon: credit-card
-        name: Kreditkarte Stripe
+        name: Stripe Credit card
+      wirecard:
+        icon: credit-card
+        name: Wirecard Credit card
       mercadopago:
         icon: credit-card
-        name: Kreditkarte MercadoPago
-    price: Preis
-    products: Produkte
-    total: Summe
-    vat: inklusive MwSt
+        name: Mercadopago Credit card
+      vouchup:
+        icon: globe
+        name: Rest of payment methods
+    price: Price
+    products: Products
+    total: Total
+    vat: VAT Included
+    card_name: "card name"
+    card_doc_type: "document type"
+    card_doc_number: "document number"
   passwords:
     edit:
-      button: Mein Passwort ändern
-      header: Neues Passwort
-      password: 'Neues Passwort '
-      password_confirmation: Neues Passwort bestätigen
+      button: Change my password
+      header: New password
+      password: New password
+      password_confirmation: Confirm your new password
     new:
-      button: Bitte lass mir die Passwort-Instruktionen zukommen
-      title: Passwort vergessen?
+      button: Send me password instructions
+      title: Forgot your password?
   pdf:
     actions:
       refund: Refund
@@ -223,42 +231,51 @@ de:
     pdf_title: Transaction history
     station: Station
     type: Type
+  refunds:
+    title: Refunds
+    amount: Amount
+    button: Refund
+    fee: Refund fee
+    total_credits: Total credits
+    product_description: Balance to be refunded
+    products: Products
+    success: Refund successfully claimed, soon you will receive your transfer
   registration:
     edit:
-      button: Aktualisierung
-      password_hint: Einfach frei lassen, wenn Sie dies nicht ändern wollen.
+      button: Update
+      password_hint: Leave it blank if you don't want to change it
     new:
-      button: Registrieren
-      or: oder
-      title: Jetzt Registrieren
+      button: Sign up
+      or: or
+      title: Get started
   sessions:
     call_to_action: Sing in with your favourite Social profile or simply create an account!
     create_account:
-      link: Neu Registrieren!
-      lost_password: Passwort vergessen?
+      link: Create an account
+      lost_password: Lost password?
     first_register:
       description_without_credentiable: Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later.
-      welcome: Willkommen!
+      welcome: Welcome!
     log_in:
-      link: Logge Dich hier ein
-      title: Du hast bereits ein account?
+      link: Log in here
+      title: Already have an account?
     placeholder:
-      email: z.B. spitzname@mail.com
-      password: z.B. · · · · · ·
+      email: e.g. nickname@mail.com
+      password: e.g. · · · · · ·
   simple_form:
-    labels:
-      customer:
-        new:
-          address: Adresse
-          birthdate: Geburtsdatum
-          city: Stadt
-          country: Land
-          current_password: Aktuelles Passwort
-          email: Email
-          first_name: Vorname
-          gender: Geschlecht
-          last_name: Nachname
-          password: Passwort
-          password_confirmation: Bestätigung des Passworts
-          phone: Telefonnummer
-          postcode: Postleitzahl
+      labels:
+        customer:
+          new:
+            address: Address
+            birthdate: Birthdate
+            city: City
+            country: Country
+            current_password: Current Password
+            email: Email
+            first_name: First Name
+            gender: Gender
+            last_name: Surname
+            password: Password
+            password_confirmation: password confirmation
+            phone: Telefone number
+            postcode: Postcode
