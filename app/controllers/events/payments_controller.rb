@@ -1,6 +1,6 @@
 class Events::PaymentsController < Events::EventsController
   before_action :check_order_status!, only: %i[purchase setup_purchase]
-
+  
   def set_order_details
     @order = @current_event.orders.find(params[:order_id])
     @total = (@order.total.to_f * 100).round
@@ -10,6 +10,7 @@ class Events::PaymentsController < Events::EventsController
     customer = order.customer
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: order.total.to_f }
     MoneyTransaction.write!(@current_event, "portal_purchase", :portal, customer, customer, atts)
+    OrderMailer.completed_order_email(order).deliver_later
   end
 
   def cancel_payment!(order, gateway)
