@@ -43,10 +43,7 @@ it:
         subject: Ripristina le istruzioni di password
   checkout:
     button: Conferma Ordine
-    description:
-      both: After you buy online credits here, they will be automatically applied to your Wristband or Card once you enter the event.
-      card: After you buy online credits here, they will be automatically applied to your Card once you enter the event.
-      wristband: After you buy online credits here, they will be automatically applied to your Wristband once you enter the event.
+    description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
     store: " store"
     total: Totale
   conditions:
@@ -68,7 +65,7 @@ it:
       success_title: Congratulations!
       credits: Credits
       catalog_items: Other Items
-      disclaimer: Remember! Online purchases will be applied onsite at the event
+      disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
       complete: Complete
       cancel: Cancel
       failed: This order WILL NOT be applied onsite
@@ -120,36 +117,34 @@ it:
     without_refunds:
       call_to_action: Procedere al rimborso
   email:
-    admin:
-      reset_password:
-        greet: Ciao %{email}!
-        mail_body: Qualcuno ha richiesto un link per cambiare il tuo password. Per cambiare la tua password clicca sul link sopra.
-        mail_ignore: Se non l'hai richiesto, ignora questo email. Il tuo password non cambierà finche clicchi sul link sopra e crei una nuova.
-        mail_link: Cambia il mio password
-    customer:
-      communication: Questo è un messaggio automatico da %{event_name}
-      follow_on_twitter: Seguici su Twitter
-      footer_copy: Copyright Glownet © %{year} Tutti i diritti riservati.
-      footer_glownet: 'Saremo lieti di assistervi nell’ utilizzo di questo portale. Scriveteci a '
-      footer_organizer: Avete domande per Movement Entertainment? Mettetevi in contatto direttamente cashless@movement.it
-      like_on_facebook: Mi piace su Facebook
-      order:
-        completed:
-          date: Data del acquisto
-          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo Paycard una volta entrati nell’ evento. La tua Paycard è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
-          greet: Ciao, %{name}!
-          order_number: Il tuo ordine
-          subject: Ordine completato
-          success: 'Il tuo ordine è stato ricevuto. I dettagli sono in basso:'
-          thanks: Grazie per la tua ricarica.
-          title: Notifica di ordine
-      our_company: Più su Glownet
-      reset_password:
-        greet: Ciao, %{name}!
-        mail_body: Qualcuno ha richiesto un link per cambiare il tuo password. Per cambiare la tua password clicca sul link in basso.
-        mail_link: Cambia il mio password
-        title: Reset password
-      suscribe_on_you_tube: Abbonati su YouTube
+    communication: This is an automated communication from %{event_name}. Replies will not be read.
+    follow_on_twitter: Follow on Twitter
+    footer_glownet: We are happy to assist you with the use of event portal if you message us at
+    footer_organizer: Have a question for the event organiser? Contact them directly at
+    like_on_facebook: Like on Facebook
+    order:
+      completed:
+        description: All your purchases will be automatically applied to your Card or Wristband once you enter the event. Your Event Card or Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
+        greet: Thank you for your purchase, %{name}!
+        order_number: Order Number
+        subject: Purchase at %{event}
+        success: 'Here are your order details:'
+    our_company: Learn more about Glownet
+    refund:
+      completed:
+        date: Transaction date
+        greet: Hello, %{name}!
+        order_number: Refund number
+        subject: Refund confirmation
+        success: 'Here are the details of your refund:'
+        thanks: You successfully completed the application for online refund process.
+        title: Refund confirmation
+    reset_password:
+      greet: Hello, %{name}!
+      mail_body: We have received a request to change your password. Click the link below to change it.
+      mail_link: Change my password
+      title: Reset password
+    suscribe_on_you_tube: Subscribe on YouTube
   event:
     locales:
       de: GER

@@ -120,7 +120,7 @@
                   td.mdl-data-table__cell--non-numeric Currency
                   td = best_in_place @current_event, :currency, url: [:admins, @current_event]
                 tr
-                  td.mdl-data-table__cell--non-numeric Credit Name
+                  td.mdl-data-table__cell--non-numeric Credit Name (Singular form)
                   td = best_in_place @current_event.credit, :name, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
                 tr
                   td.mdl-data-table__cell--non-numeric Maximum Gtag Balance

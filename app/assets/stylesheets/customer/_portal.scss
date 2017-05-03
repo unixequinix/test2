@@ -109,7 +109,7 @@ input:-webkit-autofill {
 .login-header{
   text-align: center;
   img{
-    max-height: 80px;
+    width: 400px;
   }
 }
 
@@ -203,9 +203,19 @@ input:-webkit-autofill {
   }
 }
 
-.ticket_code{
+.ticket_code, .ticket_label{
   font-weight: 600;
+  font-size: 15px;
+  display: inline-block;
+}
+
+.ticket_code{
   color: $mdl_red;
+  padding-left: 10px;
+}
+
+.ticket_label{
+  color: black;
 }
 
 .tag-title{

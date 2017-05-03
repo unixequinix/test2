@@ -12,7 +12,8 @@ module ApplicationHelper
   end
 
   def number_to_token(number)
-    number_to_currency number, unit: @current_event.credit.name, format: "%n %u"
+    unit = number > 1 ? @current_event.credit.name.pluralize : @current_event.credit.name
+    number_to_currency number, unit: unit, format: "%n %u"
   end
 
   def title

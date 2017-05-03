@@ -6,11 +6,11 @@
 .customer-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__supporting-text
     h4.center-text = t('checkout.store').upcase
-    p.center-text = t("checkout.description.#{@current_event.gtag_format}")
+    p.center-text = t("checkout.description")
     = form_tag event_orders_path(@current_event), method: :post, class: "wrapper-module form-module", id: "checkout-form" do |f|
       - @catalog_items.each do |category, catalog_items|
         .wrapper-store
-          .store-module-title = t("dashboard.orders.#{category.pluralize.underscore}")
+          .store-module-title = t("dashboard.orders.#{category.pluralize.humanize}")
           - catalog_items.each do |catalog_item|
             - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
             = render partial, catalog_item: catalog_item
@@ -21,5 +21,5 @@
         .mdl-cell.mdl-cell--6-col
           .checkout-amount [data-id="checkout"]
             span [id="amount-total-checkout"] 0
-            span #{@current_event.currency}
+            span  #{@current_event.currency}
         = button_tag t('checkout.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

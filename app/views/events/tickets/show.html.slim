@@ -15,13 +15,10 @@
             span.mdl-tooltip data-mdl-for="unassign" Unassign Ticket
 
   .mdl-card__supporting-text
-    ul.demo-list-three.mdl-list
-      li.mdl-list__item.mdl-list__item--three-line
-        span.mdl-list__item-primary-content
-          .ticket_code
-            | Ticket
-            = @ticket.code
-          - if @products.any?
-            span Products:
-            - @products.each do |product|
-              span.mdl-list__item-text-body = product.name
+    .ticket_label Ticket:
+    .ticket_code = @ticket.code
+    br
+    - if @products.any?
+      br
+      span.ticket_label Includes:
+      span.ticket_code = @products.map(&:name).to_sentence

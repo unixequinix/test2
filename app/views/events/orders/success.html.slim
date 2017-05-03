@@ -3,7 +3,8 @@
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
     .mdl-cell.mdl-cell--10-col
-      h4 = t('dashboard.orders.success_title')
+      h4 = t('dashboard.orders.success_title', credit_name: @current_event.credit.name.pluralize)
+      .orders-disclaimer = t('dashboard.orders.disclaimer')
     .mdl-cell.mdl-cell--2-col
       = link_to @current_event, class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "done" do
         span.material-icons done

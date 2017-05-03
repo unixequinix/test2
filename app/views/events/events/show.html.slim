@@ -29,13 +29,11 @@
       .content-grid.mdl-grid
         .mdl-cell.mdl-cell--6-col
           .panel-amount-number
-            span.amount = number_with_precision(@current_customer.global_credits, precision: 2)
-            span.currency-symbol = @current_event.credit.name
+            span.amount = number_to_token(@current_customer.global_credits)
         .mdl-cell.mdl-cell--6-col
           .refundable-amount-number
             = "#{t('dashboard.credits.refundable')}: "
-            = number_with_precision(@current_customer.global_refundable_credits, precision: 2)
-            span.currency-symbol = @current_event.credit.name
+            = number_to_token(@current_customer.global_refundable_credits)
   - else
     .mdl-card__supporting-text
       .content-grid.mdl-grid
@@ -105,26 +103,14 @@
                 .mdl-cell.mdl-cell--12-col
                   .order__title
                     span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
-                    - if order.refunded?
-                      span.order__status.order__status--cancelled Refunded
-                    - elsif order.completed?
-                      - if order.redeemed?
-                        span.order__status.order__status--completed = t("dashboard.orders.redeemed")
-                      - else
-                        span.order__status.order__status--tba = t("dashboard.orders.completed")
 
             ul.items__list
               - order.order_items.each do |order_item|
                 li.order-item
                   .order-item__item
-                    span.purchase-amount = order_item.amount
-                    |x
+                    span.purchase-amount #{order_item.amount.to_i} x
                     span = order_item.catalog_item.name
-                  .order-item__price
-                    - if order_item.amount.positive?
-                      = "#{order_item.total} #{@current_event.currency}"
-
-
+                  .order-item__price = number_to_event_currency(order_item.total) if order_item.amount.positive?
 
 - if @refunds.any?
   .mdl-cell.mdl-cell--12-col
@@ -147,7 +133,6 @@
             ul.items__list
               li.order-item
                 .order-item__item
-                  span.purchase-amount = refund.total
-                  |x
+                  span.purchase-amount #{refund.total} x
                   span = @current_event.credit.name
                 .order-item__price = number_to_event_currency refund.total_money
