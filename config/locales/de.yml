@@ -262,3 +262,20 @@ de:
     placeholder:
       email: e.g. nickname@mail.com
       password: e.g. · · · · · ·
+  simple_form:
+      labels:
+        customer:
+          new:
+            address: Address
+            birthdate: Birthdate
+            city: City
+            country: Country
+            current_password: Current Password
+            email: Email
+            first_name: First Name
+            gender: Gender
+            last_name: Surname
+            password: Password
+            password_confirmation: password confirmation
+            phone: Telefone number
+            postcode: Postcode
