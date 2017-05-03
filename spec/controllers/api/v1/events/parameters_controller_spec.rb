@@ -96,15 +96,6 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         @body = JSON.parse(response.body)
         expect(@body).to include("name" => "ultralight_c_private_key", "value" => "11111111111111111111111111111111")
       end
-
-      it "should include all mifare keys if gtag_type is mifare_classic" do
-        event.update!(gtag_type: "mifare_classic")
-        get :index, params: params
-        @body = JSON.parse(response.body)
-        expect(@body).to include("name" => "mifare_classic_private_key_a", "value" => event.mifare_classic_private_key_a)
-        expect(@body).to include("name" => "mifare_classic_private_key_b", "value" => event.mifare_classic_private_key_b)
-        expect(@body).to include("name" => "mifare_classic_public_key", "value" => event.mifare_classic_public_key)
-      end
     end
   end
 end
