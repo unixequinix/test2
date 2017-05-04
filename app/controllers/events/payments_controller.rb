@@ -1,6 +1,6 @@
 class Events::PaymentsController < Events::EventsController
   before_action :check_order_status!, only: %i[purchase setup_purchase]
-  
+
   def set_order_details
     @order = @current_event.orders.find(params[:order_id])
     @total = (@order.total.to_f * 100).round
