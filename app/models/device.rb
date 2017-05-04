@@ -1,7 +1,6 @@
 class Device < ActiveRecord::Base
-  before_validation :upcase_asset_tracker!
+  has_many :device_registrations
+  has_many :events, through: :device_registrations
 
-  def upcase_asset_tracker!
-    asset_tracker&.upcase!
-  end
+  attr_accessor :msg, :count_diff, :action, :status, :operator, :station, :last_time_used
 end

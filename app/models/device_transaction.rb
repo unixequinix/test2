@@ -1,7 +1,8 @@
 class DeviceTransaction < ActiveRecord::Base
   belongs_to :event
+  belongs_to :device
 
-  def self.mandatory_fields
-    %w[event_id action device_uid device_db_index device_created_at initialization_type]
-  end
+  validates :action, :device_uid, :initialization_type, :number_of_transactions, presence: true
+  validates :number_of_transactions, numericality: true
+  # validates :battery, numericality: { greater_than: 0 }, if: -> { battery.present? }
 end

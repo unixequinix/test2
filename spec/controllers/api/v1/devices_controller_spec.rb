@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Api::V1::DevicesController, type: :controller do
   let(:user) { create(:user) }
   let(:device) { build(:device) }
-  let(:params) { { imei: device.imei, mac: device.mac, serial_number: device.serial_number } }
+  let(:params) { { mac: device.mac } }
 
   describe "POST create" do
     before do

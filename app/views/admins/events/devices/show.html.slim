@@ -47,11 +47,11 @@
               th Total server transactions
           tbody
             - @device_transactions.each.with_index do |transaction, index|
-              tr class="#{"danger" unless transaction.status_code.zero?}"
-                td.mdl-data-table__cell--non-numeric = Time.parse(transaction.device_created_at).to_s(:short)
-                td = transaction.device_db_index
+              tr
+                td.mdl-data-table__cell--non-numeric = transaction.created_at.to_s(:short)
+                td = transaction.counter
                 td = transaction.action.humanize
-                td = transaction.number_of_transactions - transaction.device_db_index
-                td = @transactions.where(device_created_at: (@device_transactions[index - 1].device_created_at)..transaction.device_created_at).count unless index.zero?
-                td = @transactions.where("device_created_at <= '#{transaction.device_created_at}'").count
+                td = transaction.number_of_transactions
+                td = @transactions.where("device_created_at >= ? AND device_created_at <= ?", @device_transactions[index - 1].created_at, transaction.created_at).count unless index.zero?
+                td = @transactions.where("device_created_at <= ?", transaction.created_at.to_formatted_s(:transactions)).count
   .mdl-layout-spacer

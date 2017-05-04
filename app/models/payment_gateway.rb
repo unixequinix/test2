@@ -8,7 +8,8 @@ class PaymentGateway < ActiveRecord::Base
 
   validates(:refund_field_a_name, :refund_field_b_name, presence: true, if: -> { refund? && bank_account? })
   validates(:fee, :minimum, numericality: { greater_than_or_equal_to: 0 }, if: -> { refund? })
-  validates(:login, :password, :signature, presence: true, if: -> { paypal? || wirecard? })
+
+  validates(:login, :password, :signature, presence: true, if: -> { paypal? })
   validates(:public_key, :token, presence: true, if: -> { mercadopago? })
   validates(:login, presence: true, if: -> { stripe? })
 
