@@ -58,6 +58,14 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     active_gtag&.refundable_credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - transaction_credits
   end
 
+  def global_money
+    global_credits * event.credit.value
+  end
+
+  def global_refundable_money
+    global_refundable_credits * event.credit.value
+  end
+
   # TODO: find out if these 5 methods below are needed anymore and remove if not
   def credits
     active_gtag&.credits.to_f - refunds.map(&:total).sum
