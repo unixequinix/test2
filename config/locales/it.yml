@@ -244,7 +244,7 @@ it:
       or: o
       title: Iscriviti
   sessions:
-    call_to_action: Sing in with your favourite Social profile or simply create an account!
+    call_to_action: Sign in with your favourite Social profile or simply create an account!
     create_account:
       link: Creane uno!
       lost_password: Lost password?
