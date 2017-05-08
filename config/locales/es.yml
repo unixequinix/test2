@@ -37,10 +37,6 @@ es:
       This action cannot be undone.
 
       Are you sure you want to continue?
-  auth:
-    mailer:
-      reset_password_instructions:
-        subject: Solicitud de cambio de contraseña.
   checkout:
     button: Confirmar Orden
     description: Comprar online es una buena forma de ahorrar tiempo. Evita las colas en el evento seleccionando aqui lo que deseas comprar.
@@ -130,11 +126,24 @@ es:
         subject: Compra en %{event}
         success: 'Aquí tienes los detalles de tu compra:'
     our_company: Sobre Glownet
+    refund:
+      completed:
+        greet: Hola %{name},
+        order_number: Devolución número
+        subject: COnfirmación de devolución
+        success: 'Aqui tienes el desglose de tu devolución:'
+        thanks: Su devolución ha sido recibida con éxito.
     reset_password:
       greet: ¡Hola, %{name}!
       mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
       mail_link: Cambiar mi contraseña
-      title: Cambiar contraseña
+      subject: Solicitud de cambio de contraseña.
+    welcome:
+      subject: Confirmación del registro en %{event_name}
+      greet: Hola, %{name},
+      mail_body: Gracias por registrarte con nosotros.
+      mail_body2: Para beneficiarte de todas las ventajas del portal online lo primeor que debes hacer es registrar tu ticket, pulsera o tarjeta
+      event_url: "Para tu comodidad, aquí tienes la url del evento:"
     suscribe_on_you_tube: Suscríbete en YouTube
   event:
     locales:

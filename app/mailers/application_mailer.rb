@@ -1,8 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
-  include AbstractController::Callbacks
   layout "customer_mail"
 
-  default from: Rails.application.secrets.from_email,
+  default from: 'Glownet <no-reply@glownet.com>',
           content_type: "multipart/mixed",
           parts_order: %w[multipart/alternative text/html text/enriched text/plain application/pdf]
 

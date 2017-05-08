@@ -1,5 +1,5 @@
 class OrderMailer < ApplicationMailer
-  def completed_refund_email(refund)
+  def completed_refund(refund)
     customer = refund.customer
     @refund = refund
     @name = customer.full_name
@@ -10,7 +10,7 @@ class OrderMailer < ApplicationMailer
     mail(to: customer.email, reply_to: @event.support_email, subject: t("email.refund.completed.subject"))
   end
 
-  def completed_order_email(order)
+  def completed_order(order)
     customer = order.customer
     @name = customer.full_name
     @order = order

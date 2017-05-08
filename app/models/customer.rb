@@ -1,6 +1,9 @@
 class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   devise :database_authenticatable, :registerable, :recoverable, :validatable, :omniauthable,
-         authentication_keys: %i[email event_id], reset_password_keys: %i[email event_id],
+         authentication_keys: %i[email event_id],
+         reset_password_keys: %i[email event_id],
+         reset_password_within: 1.day,
+         sign_in_after_reset_password: true,
          omniauth_providers: %i[facebook google_oauth2]
 
   belongs_to :event

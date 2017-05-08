@@ -41,10 +41,6 @@ en:
       This action cannot be undone.
 
       Are you sure you want to continue?
-  auth:
-    mailer:
-      reset_password_instructions:
-        subject: Reset password instructions
   checkout:
     button: Checkout
     description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
@@ -129,18 +125,22 @@ en:
     our_company: Learn more about Glownet
     refund:
       completed:
-        date: Transaction date
         greet: Hello, %{name}!
         order_number: Refund number
         subject: Refund confirmation
         success: 'Here are the details of your refund:'
         thanks: You successfully completed the application for the online refund process.
-        title: Refund confirmation
     reset_password:
       greet: Hello, %{name}!
       mail_body: We have received a request to change your password. Click the link below to change it.
       mail_link: Change my password
-      title: Reset password
+      subject: Reset password instructions
+    welcome:
+      subject: Registration confirmation for %{event_name}
+      greet: Hello, %{name}!
+      mail_body: Thank you for registering with us.
+      mail_body2: To be able to enjoy the benefits of this online portal, the first thing you will need to do is assign your ticket, card or wristband.
+      event_url: "For your convenience, here is the event url:"
     suscribe_on_you_tube: Subscribe on YouTube
   event:
     locales:

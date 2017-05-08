@@ -1,108 +1,35 @@
-- content_for(:background) do
-  = @event.background.url
+tr
+  //Order id and date
+  td.bodyContent colspan="2"
+    table cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+      tr
+        td colspan="2" = t('email.refund.completed.success')
+      tr
+        td cellpadding="0" cellspacing="0" style="text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold;" #{t('email.refund.completed.order_number')}: ##{@refund.number}
+        td cellpadding="0" cellspacing="0" style="text-align: right; color: #2c2c2c; font-size: 12px; font-weight: bold;" = l @refund.created_at
 
-table#backgroundTable[border="0" cellpadding="0" cellspacing="0" height="100%" width="100%"]
-  tr
-    td[align="center" valign="top"]
-      table#templatePreheader[border="0" cellpadding="10" cellspacing="0" width="100%"]
-        tr
-          td.preheaderContent[valign="top"]
-            table[border="0" cellpadding="10" cellspacing="0" width="100%"]
-              tr
-                td[valign="top"]
-                  div[mc:edit="std_preheader_content"]
-                    = t('email.communication', event_name: @event.name)
+tr
+  td colspan="2"
+    //Resume table
+    table align="center" border="0" cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+      tr style="border: 1px solid #C2C2C2;"
+        //Products
+        th style=" padding: 5px 10px; background-color: #f2f2f2; color: #616161; font-size: 14px;" = t('orders.products')
+        //Products
+        th style="width: 30%; padding:5px 20px; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;" = t('orders.price')
+      tr style="border: 1px solid #C2C2C2;"
+        //Product quantity
+        td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.product_description')
+        //Product price
+        td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.total, unit: @event.currency, format: "%u %n"
 
-      table[border="0" cellpadding="0" cellspacing="0" width="600"]
-        tr
-          td[align="center" valign="top"]
-            table#templateHeader[border="0" cellpadding="0" cellspacing="0" width="600"]
-              tr
-                td.headerContent
-                  = image_tag @event.logo.url(:email), id: "headerImage"
-        tr
-          td[align="center" valign="top"]
-            table#templateBody[border="0" cellpadding="0" cellspacing="0" width="600"]
-              tr
-                td.bodyContent[valign="top"]
-                  table[border="0" cellpadding="20" cellspacing="0" width="100%"]
-                    tr
-                      td[valign="top"]
-                        div[mc:edit="std_content00"]
-                          h3.h3 = t('email.refund.completed.greet', name: @name)
-                          p = t('email.refund.completed.thanks')
-                          p = t('email.refund.completed.success')
-
-
-        tr
-          td &nbsp;
-
-        tr
-          //Order id and date
-          td.bodyContent colspan="2"
-            table cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
-              tr
-                td colspan="2" = t('email.refund.completed.success')
-              tr
-                td cellpadding="0" cellspacing="0" style="text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold;" #{t('email.refund.completed.order_number')}: ##{@refund.number}
-                td cellpadding="0" cellspacing="0" style="text-align: right; color: #2c2c2c; font-size: 12px; font-weight: bold;" = l @refund.created_at
-
-        tr
-          td colspan="2"
-            //Resume table
-            table align="center" border="0" cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
-              tr style="border: 1px solid #C2C2C2;"
-                //Products
-                th style=" padding: 5px 10px; background-color: #f2f2f2; color: #616161; font-size: 14px;" = t('orders.products')
-                //Products
-                th style="width: 30%; padding:5px 20px; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;" = t('orders.price')
-              tr style="border: 1px solid #C2C2C2;"
-                //Product quantity
-                td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.product_description')
-                //Product price
-                td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.total, unit: @event.currency, format: "%u %n"
-
-              - if @refund.fee > 0
-                tr style="border: 1px solid #C2C2C2;"
-                  //Product quantity
-                  td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.fee')
-                  //Product price
-                  td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.fee * -1, unit: @event.currency, format: "%u %n"
-              tr
-                // Refund total
-                td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
-                td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.money, unit: @event.currency, format: "%u %n"
-
-        tr
-          td &nbsp;
-
-        tr
-          td.bodyContent[align="center" valign="top"]
-            table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]
-              tr
-                td.footerContent[valign="top"]
-                  table[border="0" cellpadding="10" cellspacing="0" width="100%"]
-                    tr
-                      td#footer[valign="top" width="100%"]
-                        div[mc:edit="std_footer"]
-                          p
-                            strong
-                              = t('email.footer_glownet')
-                              | &nbsp;
-                              = mail_to "support@glownet.com"
-                          p
-                            strong
-                              = t('email.footer_organizer')
-                              | &nbsp;
-                              = mail_to @event.support_email
-                    tr
-                      td#social[colspan="2" valign="middle"]
-                        div[mc:edit="std_social"]
-                          = link_to t('email.our_company'), "https://www.linkedin.com/company/glownet?trk=prof-exp-company-name"
-                          span.separator style="padding-right: 5px;"  |
-                          = link_to t('email.follow_on_twitter'), "https://twitter.com/GlownetHQ"
-                          span.separator style="padding-right: 5px;"  |
-                          = link_to t('email.like_on_facebook'), "https://www.facebook.com/glowneteventtechnology"
-                          span.separator style="padding-right: 5px;"  |
-                          = link_to t('email.suscribe_on_you_tube'), "https://www.youtube.com/channel/UCruCrMlIVUrQxF64Ijqsqig"
-      br
+      - if @refund.fee > 0
+        tr style="border: 1px solid #C2C2C2;"
+          //Product quantity
+          td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.fee')
+          //Product price
+          td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.fee * -1, unit: @event.currency, format: "%u %n"
+      tr
+        // Refund total
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.money, unit: @event.currency, format: "%u %n"
