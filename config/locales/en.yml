@@ -249,7 +249,7 @@ en:
       or: or
       title: Get started
   sessions:
-    call_to_action: Sing in with your favourite Social profile or simply create an account!
+    call_to_action: Sign in with your favourite Social profile or simply create an account!
     create_account:
       link: Create an account
       lost_password: Lost password?
