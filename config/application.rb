@@ -14,7 +14,7 @@ module GlownetWeb
 
     Figaro.load
 
-    config.action_mailer.preview_path = "#{Rails.root}/app/mailer_previews"
+    config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
 
     I18n.config.enforce_available_locales = true
     config.i18n.default_locale = :en

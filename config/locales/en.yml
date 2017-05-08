@@ -116,7 +116,7 @@ en:
   email:
     communication: This is an automated communication from %{event_name}. Replies will not be read.
     follow_on_twitter: Follow on Twitter
-    footer_glownet: We are happy to assist you with the use of event portal if you message us at
+    footer_glownet: Have a question about the online portal? Message us at
     footer_organizer: Have a question for the event organiser? Contact them directly at
     like_on_facebook: Like on Facebook
     order:
@@ -134,7 +134,7 @@ en:
         order_number: Refund number
         subject: Refund confirmation
         success: 'Here are the details of your refund:'
-        thanks: You successfully completed the application for online refund process.
+        thanks: You successfully completed the application for the online refund process.
         title: Refund confirmation
     reset_password:
       greet: Hello, %{name}!

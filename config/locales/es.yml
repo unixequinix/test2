@@ -119,7 +119,7 @@ es:
   email:
     communication: Este es un mensaje automático de %{event_name}, las respuestas no serán leídas.
     follow_on_twitter: Síguenos en Twitter
-    footer_glownet: Estaremos encantados de ayudarte con el uso del portal si nos escribes a
+    footer_glownet: Tienes alguna pregunta sobre el portal online? Mándanos un mensaje a
     footer_organizer: ¿Tienes alguna pregunta para el organizador? Contacta con él en
     like_on_facebook: Dale a me gusta en Facebook
     order:
