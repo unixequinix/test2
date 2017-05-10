@@ -2,7 +2,7 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
   def create
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
 
-    params[:_json].each_with_index do |atts, _index|
+    params[:_json].permit!.to_h.each_with_index do |atts, _index|
       atts[:device_created_at_fixed] = atts[:device_created_at]
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1
       device = @current_event.devices.find_or_create_by!(mac: atts[:device_uid])
