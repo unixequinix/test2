@@ -40,7 +40,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def category
-    type.gsub("Transaction", "").downcase
+    type.gsub("Transaction", "").underscore
   end
 
   def self.class_for_type(type)

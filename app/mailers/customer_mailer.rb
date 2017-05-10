@@ -1,19 +1,30 @@
 class CustomerMailer < Devise::Mailer
-  include Rails.application.routes.url_helpers
+  helper :application
+  include Devise::Controllers::UrlHelpers
+
   layout "customer_mail"
 
-  default from: Rails.application.secrets.from_email,
+  default template_path: 'customer_mailer',
+          from: 'Glownet <no-reply@glownet.com>',
           content_type: "multipart/mixed",
           parts_order: %w[multipart/alternative text/html text/enriched text/plain application/pdf]
 
+  def welcome(record)
+    @event = record.event
+    @name = record.full_name
+
+    headers["X-No-Spam"] = "True"
+    I18n.locale = record.locale
+    mail(to: record.email, reply_to: @event.support_email, subject: t("email.welcome.subject", event_name: @event.name))
+  end
+
   def reset_password_instructions(record, token, _opts = {})
     @event = record.event
-    @name = "#{record.first_name} #{record.last_name}"
+    @name = record.full_name
     @token = token
 
     headers["X-No-Spam"] = "True"
     I18n.locale = record.locale
-    subject = t("auth.mailer.reset_password_instructions.subject")
-    mail(to: record.email, reply_to: @event.support_email, subject: subject)
+    mail(to: record.email, reply_to: @event.support_email, subject: t("email.reset_password.subject"))
   end
 end

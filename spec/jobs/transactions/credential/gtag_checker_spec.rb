@@ -12,10 +12,4 @@ RSpec.describe Transactions::Credential::GtagChecker, type: :job do
       expect(worker.class::TRIGGERS).to include("gtag_checkin")
     end
   end
-
-  it "assigns the customer to the gtag specified" do
-    gtag.update!(customer_id: nil)
-    worker.perform(atts)
-    expect(gtag.reload.customer_id).to eq(customer.id)
-  end
 end

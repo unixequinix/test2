@@ -4,6 +4,12 @@ class Events::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
   helper_method :current_customer
 
+  def create
+    super do |resource|
+      CustomerMailer.welcome(resource).deliver_later
+    end
+  end
+
   private
 
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize

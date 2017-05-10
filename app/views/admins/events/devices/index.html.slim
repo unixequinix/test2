@@ -1,16 +1,16 @@
 - content_for(:title) do
-  | Asset Tracker - #{number_with_delimiter(@assets.values.map(&:count).sum)}
+  | Asset Tracker - #{number_with_delimiter(@devices.values.map(&:count).sum)}
 
 - classes = { to_check: "bad", live: "neutral", locked: "good", unused: "neutral2"}
 
-- if @assets.any?
+- if @devices.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    - @assets.keys.each do |key|
+    - @devices.keys.each do |key|
       .mdl-cell.mdl-cell--2-col
         .customer-card.mdl-card.mdl-shadow--2dp class="#{classes[key.to_sym]}_header"
           .mdl-card__title.mdl-card--expand
-            h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@assets[key]&.size || 0)
+            h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@devices[key]&.size || 0)
           .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
     .mdl-layout-spacer
 
@@ -20,40 +20,40 @@
   .mdl-cell.mdl-cell--10-col
 
     - %w(live to_check unused locked ).each do |type|
-      - next unless @assets[type]
+      - next unless @devices[type]
       - klass = classes[type.to_sym]
       br
       h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
 
       .clearfix
-      - @assets[type].sort_by { |h| h.last[:asset_tracker].to_s }.each do |device, info|
+      - @devices[type].sort_by { |device| device.asset_tracker.to_s }.each do |device|
         .device-card.mdl-card.mdl-shadow--2dp style="float: left"
           .content-grid.mdl-grid class="#{klass}_header"
             .mdl-cell.mdl-cell--8-col.left
-              = link_to info[:asset_tracker] || "NONE", admins_event_device_path(@current_event, info[:device_id]) if info[:device_id]
-              .small= device
+              = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
+              .small= device.mac
             .mdl-cell.mdl-cell--4-col.right
-              .small= info[:action]&.humanize
+              .small= device.action&.humanize
 
           .mdl-card__supporting-text
-            - if info[:msg]
-              .small.bad_info style="padding-bottom: 5px" = info[:msg]
+            - if device.msg
+              .small.bad_info style="padding-bottom: 5px" = device.msg
 
-            - if info[:station] || info[:operator] || info[:last_time_used]
+            - if device.station || device.operator || device.last_time_used
               b.small Last used
               table.small style="width: 100%;"
-                - if info[:operator]
+                - if device.operator
                   tr
                     td By
-                    td.right = info[:operator]
-                - if info[:station]
+                    td.right = device.operator
+                - if device.station
                   tr
                     td At
-                    td.right = info[:station]
-                - if info[:last_time_used]
+                    td.right = device.station
+                - if device.last_time_used
                   tr
                     td On
-                    td.right = Time.zone.parse(info[:last_time_used]).to_formatted_s(:short)
+                    td.right = Time.zone.parse(device.last_time_used).to_formatted_s(:short)
       .clearfix
   .mdl-layout-spacer
 

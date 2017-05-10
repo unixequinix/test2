@@ -1,6 +1,9 @@
 class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   devise :database_authenticatable, :registerable, :recoverable, :validatable, :omniauthable,
-         authentication_keys: %i[email event_id], reset_password_keys: %i[email event_id],
+         authentication_keys: %i[email event_id],
+         reset_password_keys: %i[email event_id],
+         reset_password_within: 1.day,
+         sign_in_after_reset_password: true,
          omniauth_providers: %i[facebook google_oauth2]
 
   belongs_to :event
@@ -56,6 +59,14 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def global_refundable_credits
     transaction_credits = active_gtag&.transactions&.credit&.onsite&.status_ok&.where(action: "record_credit")&.map(&:refundable_credits)&.sum.to_f
     active_gtag&.refundable_credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - transaction_credits
+  end
+
+  def global_money
+    global_credits * event.credit.value
+  end
+
+  def global_refundable_money
+    global_refundable_credits * event.credit.value
   end
 
   # TODO: find out if these 5 methods below are needed anymore and remove if not

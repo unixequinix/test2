@@ -231,7 +231,7 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :events, only: [:show] do
         scope module: "events" do
-          resources :customers
+          resources :customers, :constraints => { :id => /.*/ }
           resources :devices
           resources :companies
           resources :gtags

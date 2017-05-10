@@ -159,8 +159,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :initial_topup_fee,
                                   :topup_fee,
                                   :ultralight_c,
-                                  :mifare_classic,
-                                  :ultralight_ev1,
                                   :maximum_gtag_balance,
                                   :credit_step,
                                   :gtag_deposit_fee,

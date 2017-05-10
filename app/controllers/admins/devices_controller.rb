@@ -46,6 +46,6 @@ class Admins::DevicesController < Admins::BaseController
   end
 
   def permitted_params
-    params.require(:device).permit(:device_model, :asset_tracker)
+    params.require(:device).permit(:mac, :asset_tracker)
   end
 end

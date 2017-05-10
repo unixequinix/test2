@@ -50,6 +50,6 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def device_params
-    params.require(:device).permit(:device_model, :imei, :mac, :serial_number, :asset_tracker)
+    params.require(:device).permit(:mac, :asset_tracker)
   end
 end

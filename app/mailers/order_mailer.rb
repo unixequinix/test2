@@ -1,16 +1,16 @@
 class OrderMailer < ApplicationMailer
-  def completed_refund_email(refund, event)
+  def completed_refund(refund)
     customer = refund.customer
     @refund = refund
     @name = customer.full_name
-    @event = event
+    @event = refund.event
 
     apply_locale(customer)
     headers["X-No-Spam"] = "True"
     mail(to: customer.email, reply_to: @event.support_email, subject: t("email.refund.completed.subject"))
   end
 
-  def completed_order_email(order)
+  def completed_order(order)
     customer = order.customer
     @name = customer.full_name
     @order = order

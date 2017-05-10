@@ -10,6 +10,7 @@ class Events::PaymentsController < Events::EventsController
     customer = order.customer
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: order.total.to_f }
     MoneyTransaction.write!(@current_event, "portal_purchase", :portal, customer, customer, atts)
+    OrderMailer.completed_order(order).deliver_later
   end
 
   def cancel_payment!(order, gateway)

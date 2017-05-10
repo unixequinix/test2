@@ -110,6 +110,9 @@ input:-webkit-autofill {
   text-align: center;
   img{
     width: 400px;
+    @media(max-width: 1325px) {
+      width: 30vw;
+    }
   }
 }
 

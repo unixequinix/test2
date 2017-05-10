@@ -12,7 +12,7 @@ html
       body{margin:0; padding:0; font-family: Arial, sans-serif;}
       img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
       table td{border-collapse:collapse;}
-      #backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important; background-repeat: no-repeat; background-size: 100% 100%;  background-image:url(#{yield(:background)});}
+      #backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important; background-repeat: no-repeat; background-size: 100% 100%;  background-image:url(#{@event.background.url});}
 
       /* Template Styles */
 
@@ -226,6 +226,10 @@ html
         /*@editable*/ text-align:left;
       }
 
+      .bodyContent {
+        border: 1px solid grey;
+      }
+
       /**
       * @tab Body
       * @section body link
@@ -291,12 +295,12 @@ html
       * @theme footer
       */
       #social{
-        /*@editable*/ background-color:#FAFAFA;
         /*@editable*/ border:0;
       }
 
       #social a {
         color: #212738;
+        text-decoration: none;
       }
 
       .separator {
@@ -337,4 +341,61 @@ html
       }
 
   body
-    = yield
+    table#backgroundTable[border="0" cellpadding="0" cellspacing="0" height="100%" width="100%"]
+      tr
+        td[align="center" valign="top"]
+          table#templatePreheader[border="0" cellpadding="10" cellspacing="0" width="100%"]
+            tr
+              td.preheaderContent[valign="top"]
+                table[border="0" cellpadding="10" cellspacing="0" width="100%"]
+                  tr
+                    td[valign="top"]
+                      div[mc:edit= "std_preheader_content"]
+                        = t('email.communication', event_name: @event.name)
+
+          table[border="0" cellpadding="0" cellspacing="0" width="600"]
+            tr
+              td[align="center" valign="top"]
+                table#templateHeader[border="0" cellpadding="0" cellspacing="0" width="600"]
+                  tr
+                    td.headerContent
+                      = image_tag @event.logo.url(:email), id: "headerImage"
+
+            tr
+              td &nbsp;
+
+            = yield
+
+            tr
+              td &nbsp;
+
+            tr
+              td.bodyContent[align="center" valign="top"]
+                table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]
+                  tr
+                    td.footerContent[valign="top"]
+                      table[border="0" cellpadding="10" cellspacing="0" width="100%"]
+                        tr
+                          td#footer[valign="top" width="100%"]
+                            div[mc:edit= "std_footer"]
+                              p
+                                strong
+                                  = t('email.footer_glownet')
+                                  | &nbsp;
+                                  = mail_to "support@glownet.com"
+                              p
+                                strong
+                                  = t('email.footer_organizer')
+                                  | &nbsp;
+                                  = mail_to @event.support_email
+                        tr
+                          td#social[colspan="2" valign="middle"]
+                            div[mc:edit= "std_social"]
+                              = link_to t('email.our_company'), "https://www.linkedin.com/company/glownet?trk=prof-exp-company-name"
+                              span.separator style="padding-right: 5px;"  |
+                              = link_to t('email.follow_on_twitter'), "https://twitter.com/GlownetHQ"
+                              span.separator style="padding-right: 5px;"  |
+                              = link_to t('email.like_on_facebook'), "https://www.facebook.com/glowneteventtechnology"
+                              span.separator style="padding-right: 5px;"  |
+                              = link_to t('email.suscribe_on_you_tube'), "https://www.youtube.com/channel/UCruCrMlIVUrQxF64Ijqsqig"
+          br

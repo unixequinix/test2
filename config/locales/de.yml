@@ -41,10 +41,6 @@ de:
       This action cannot be undone.
 
       Are you sure you want to continue?
-  auth:
-    mailer:
-      reset_password_instructions:
-        subject: Reset password instructions
   checkout:
     button: Checkout
     description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
@@ -104,6 +100,7 @@ de:
         wristband: Wristband ID
       card: Card
       wristband: Wristband
+      no_items: No items included
     paypal:
       button: Pay with PayPal
     without_gtags_claiming_started:
@@ -116,7 +113,7 @@ de:
   email:
     communication: This is an automated communication from %{event_name}. Replies will not be read.
     follow_on_twitter: Follow on Twitter
-    footer_glownet: We are happy to assist you with the use of event portal if you message us at
+    footer_glownet: Have a question about the online portal? Message us at
     footer_organizer: Have a question for the event organiser? Contact them directly at
     like_on_facebook: Like on Facebook
     order:
@@ -129,18 +126,22 @@ de:
     our_company: Learn more about Glownet
     refund:
       completed:
-        date: Transaction date
         greet: Hello, %{name}!
         order_number: Refund number
         subject: Refund confirmation
         success: 'Here are the details of your refund:'
-        thanks: You successfully completed the application for online refund process.
-        title: Refund confirmation
+        thanks: You successfully completed the application for the online refund process.
     reset_password:
       greet: Hello, %{name}!
       mail_body: We have received a request to change your password. Click the link below to change it.
       mail_link: Change my password
-      title: Reset password
+      subject: Reset password instructions
+    welcome:
+      subject: Registration confirmation for %{event_name}
+      greet: Hello, %{name}!
+      mail_body: Thank you for registering with us.
+      mail_body2: To be able to enjoy the benefits of this online portal, the first thing you will need to do is assign your ticket, card or wristband.
+      event_url: "For your convenience, here is the event url:"
     suscribe_on_you_tube: Subscribe on YouTube
   event:
     locales:
@@ -253,9 +254,6 @@ de:
     create_account:
       link: Create an account
       lost_password: Lost password?
-    first_register:
-      description_without_credentiable: Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later.
-      welcome: Welcome!
     log_in:
       link: Log in here
       title: Already have an account?

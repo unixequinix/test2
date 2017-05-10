@@ -18,7 +18,15 @@
     .ticket_label Ticket:
     .ticket_code = @ticket.code
     br
-    - if @products.any?
+    - if @item
       br
-      span.ticket_label Includes:
-      span.ticket_code = @products.map(&:name).to_sentence
+      span.ticket_label Includes: &nbsp;
+
+
+      - if @item.is_a?(Pack)
+        ul
+          - @item.pack_catalog_items.each do |p_item|
+            - next if p_item.amount.zero?
+            li #{p_item.amount.to_i} x #{p_item.catalog_item.name}
+      - else
+        span = @item.name

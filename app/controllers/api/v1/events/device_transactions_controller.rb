@@ -1,28 +1,20 @@
-class Api::V1::Events::DeviceTransactionsController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :restrict_access_with_http
+class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseController
+  def create
+    counter = @current_event.device_transactions.where(device_uid: permitted_params[:device_uid]).count + 1
+    device = @current_event.devices.find_or_create_by!(mac: permitted_params[:device_uid])
+    transaction = @current_event.device_transactions.new(permitted_params.merge(counter: counter, device: device))
 
-  def create # rubocop:disable Metrics/CyclomaticComplexity
-    render(status: :bad_request, json: :bad_request) && return unless params[:_json]
-    errors = { atts: [] }
-
-    params[:_json].each_with_index do |atts, index|
-      atts[:device_created_at_fixed] = atts[:device_created_at]
-      att_errors = validate_params(atts.keys, index)
-      errors[:atts] << att_errors && next if att_errors
-      DeviceTransactionCreator.perform_later(atts.permit!.to_h)
+    if transaction.save
+      render(status: :created, json: :created)
+    else
+      render json: transaction.errors, status: :unprocessable_entity
     end
-
-    errors.delete_if { |_, v| v.compact.empty? }
-    render(status: :unprocessable_entity, json: { errors: errors }) && return if errors.any?
-    render(status: :created, json: :created)
   end
 
   private
 
-  def validate_params(keys, index)
-    mandatory = DeviceTransaction.mandatory_fields
-    missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
-    "Missing keys for position #{index}: #{missing}" if missing.present?
+  def permitted_params
+    # params.permit!.to_h[:_json].first.slice(:action, :device_uid, :initialization_type, :number_of_transactions, :battery)
+    params.require(:device_transaction).permit(:action, :device_uid, :initialization_type, :number_of_transactions, :battery)
   end
 end
