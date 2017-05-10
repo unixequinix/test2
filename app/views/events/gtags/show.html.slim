@@ -6,15 +6,21 @@
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
     .mdl-cell.mdl-cell--12-col
-      h4 = @gtag.ticket_type&.name
+      h4 = @gtag.tag_uid
 
-  .mdl-card__supporting-text
-    ul.demo-list-three.mdl-list
-      li.mdl-list__item.mdl-list__item--three-line
-        span.mdl-list__item-primary-content
-          .gtag_code
-            = @gtag.tag_uid
-          - if @products.any?
-            span Products:
-            - @products.each do |product|
-              span.mdl-list__item-text-body = product.name
+  - if @item
+    - if @item.is_a?(Pack)
+      .mdl-card__supporting-text
+        h5 = @gtag.ticket_type.name
+      .mdl-card__supporting-text
+        span.ticket_label Includes: &nbsp;
+        ul
+          - @item.pack_catalog_items.each do |p_item|
+            - next if p_item.amount.zero?
+            li #{p_item.amount.to_i} x #{p_item.catalog_item.name}
+    - else
+      .mdl-card__supporting-text
+        h5 = @item.name
+  - else
+    .mdl-card__supporting-text
+      h5.ticket_code = t("dashboard.gtag_registration.no_items")

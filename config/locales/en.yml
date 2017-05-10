@@ -100,6 +100,7 @@ en:
         wristband: Wristband ID
       card: Card
       wristband: Wristband
+      no_items: No items included
     paypal:
       button: Pay with PayPal
     without_gtags_claiming_started:
@@ -253,9 +254,6 @@ en:
     create_account:
       link: Create an account
       lost_password: Lost password?
-    first_register:
-      description_without_credentiable: Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later.
-      welcome: Welcome!
     log_in:
       link: Log in here
       title: Already have an account?

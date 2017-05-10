@@ -101,6 +101,7 @@ es:
         wristband: ID de Pulsera
       card: Tarjeta
       wristband: Pulsera
+      no_items: No contiene ningún producto asociado
     paypal:
       button: Sincroniza con PayPal
     without_gtags_claiming_started:
@@ -253,9 +254,6 @@ es:
     create_account:
       link: "¡Crea una!"
       lost_password: Contraseña perdida
-    first_register:
-      description_without_credentiable: Gracias por registrarte! En cuanto comience el evento podrás ver más información dentro de tu cuenta. Por favor, vuelve más tarde.
-      welcome: "¡¡Bienvenido!!"
     log_in:
       link: Inicia sesión
       title: Ya tienes cuenta?

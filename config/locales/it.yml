@@ -101,6 +101,7 @@ it:
         wristband: Wristband ID
       card: Paycard
       wristband: Polsino
+      no_items: No items included
     paypal:
       button: Sync con PayPal
     without_gtags_claiming_started:
@@ -248,9 +249,6 @@ it:
     create_account:
       link: Creane uno!
       lost_password: Lost password?
-    first_register:
-      description_without_credentiable: Grazie per esserti iscritto. Quando inizia l’evento potrai vedere ulteriori informazioni sul tuo account. Torna a trovarci più tardi.
-      welcome: Benvenuto!
     log_in:
       link: Accedi qui
       title: Hai gia un account?
