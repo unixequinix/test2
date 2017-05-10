@@ -19,7 +19,7 @@ class Events::RefundsController < Events::EventsController
       # Create negative online order (to be replaced by tasks/transactions or start downloading refunds)
       current_customer.build_order([[@current_event.credit.id, -@refund.total]]).complete!("refund", {}.as_json)
 
-      CustomerMailer.completed_refund(@refund, @current_event).deliver_later
+      OrderMailer.completed_refund(@refund).deliver_later
       redirect_to customer_root_path(@current_event), notice: t("refunds.success")
     else
       @payment_gateways = @current_event.payment_gateways.refund
