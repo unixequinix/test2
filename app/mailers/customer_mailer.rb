@@ -9,7 +9,6 @@ class CustomerMailer < Devise::Mailer
           content_type: "multipart/mixed",
           parts_order: %w[multipart/alternative text/html text/enriched text/plain application/pdf]
 
-
   def welcome(record)
     @event = record.event
     @name = record.full_name
