@@ -6,7 +6,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
   def create
     super do |resource|
-      CustomerMailer.welcome(resource).deliver_later
+      CustomerMailer.welcome(resource).deliver_later if resource.id
     end
   end
 
