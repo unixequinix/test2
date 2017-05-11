@@ -41,28 +41,22 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
                       json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) AS credentials
 
                     FROM (
-                           SELECT
-                             customer_id,
-                             code     AS reference,
-                             'ticket' AS type
-                           FROM tickets
-                           WHERE tickets.customer_id IN
-                                 (#{ids.join(', ')})
-
-                           UNION ALL
-                           SELECT
-                             customer_id,
-                             tag_uid AS reference,
-                             'gtag'  AS type
+                           /*SELECT*/
+                           /*  customer_id,*/
+                           /*  code     AS reference,*/
+                           /*  'ticket' AS type*/
+                           /*FROM tickets*/
+                           /*WHERE tickets.customer_id IN (#{ids.join(', ')})*/
+                           /*UNION ALL*/
+                           SELECT customer_id, tag_uid AS reference, 'gtag'  AS type
                            FROM gtags
-                           WHERE gtags.active = TRUE AND gtags.customer_id IN
-                                                         (#{ids.join(', ')})
+                           WHERE gtags.active = TRUE AND gtags.customer_id IN (#{ids.join(', ')})
                          ) cr
                     GROUP BY cr.customer_id
                   ) cred ON customers.id = cred.customer_id
         LEFT JOIN (
                     SELECT
-                      o.customer_id                                              AS customer_id,
+                      o.customer_id AS customer_id,
                       json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
                     FROM (
                            SELECT
@@ -72,13 +66,9 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
                              catalog_item_id,
                              redeemed,
                              orders.status
-
                            FROM order_items
-
                              JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
-                             JOIN orders ON orders.id = order_items.order_id
-                                            AND orders.status IN ('completed', 'cancelled') AND
-                                            orders.customer_id IN (#{ids.join(', ')})
+                             JOIN orders ON orders.id = order_items.order_id AND orders.status IN ('completed', 'cancelled') AND orders.customer_id IN (#{ids.join(', ')})
                          ) o
                     GROUP BY o.customer_id
                   ) ord
