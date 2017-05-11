@@ -6,6 +6,6 @@ class Events::LocaleController < Events::EventsController
     update_locale(params[:id])
     current_customer&.update(locale: params[:id])
 
-    redirect_to(request.referer)
+    redirect_to(request.referer || customer_root_path(current_event))
   end
 end
