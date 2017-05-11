@@ -20,7 +20,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
     authorize @refund
 
     if @refund.save
-      render json: @refund, status: :created, location: @refund
+      render json: @refund, status: :created, location: [:admins, @current_event, @refund]
     else
       render json: @refund.errors, status: :unprocessable_entity
     end

@@ -20,7 +20,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
     authorize @product
 
     if @product.save
-      render json: @product, status: :created, location: @product
+      render json: @product, status: :created, location: [:admins, @current_event, @product]
     else
       render json: @product.errors, status: :unprocessable_entity
     end

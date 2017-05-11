@@ -20,7 +20,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     authorize @gtag
 
     if @gtag.save
-      render json: @gtag, status: :created, location: @gtag
+      render json: @gtag, status: :created, location: [:admins, @current_event, @gtag]
     else
       render json: @gtag.errors, status: :unprocessable_entity
     end

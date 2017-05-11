@@ -20,7 +20,7 @@ class Api::V2::Events::PackController < Api::V2::BaseController
     authorize @pack
 
     if @pack.save
-      render json: @pack, status: :created, location: @pack
+      render json: @pack, status: :created, location: [:admins, @current_event, @pack]
     else
       render json: @pack.errors, status: :unprocessable_entity
     end
