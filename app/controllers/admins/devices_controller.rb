@@ -1,13 +1,10 @@
 class Admins::DevicesController < Admins::BaseController
-  before_action :set_devices, only: %i[index search]
   before_action :set_device, only: %i[show edit update destroy]
 
   def index
-    @devices = Device.all.page(params[:page])
-  end
-
-  def search
-    @devices = Device.all.page(params[:page])
+    @q = Device.ransack(params[:q])
+    @devices = @q.result.includes(:events)
+    @devices = @devices.page(params[:page])
   end
 
   def show
@@ -39,10 +36,6 @@ class Admins::DevicesController < Admins::BaseController
 
   def set_device
     @device = Device.find(params[:id])
-  end
-
-  def set_devices
-    @devices = params[:filter].nil? ? Device.all : Device.where("substr(asset_tracker, 1, 1) = ?", params[:filter])
   end
 
   def permitted_params

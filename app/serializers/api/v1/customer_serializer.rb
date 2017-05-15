@@ -7,6 +7,6 @@ class Api::V1::CustomerSerializer < ActiveModel::Serializer
   end
 
   def credentials
-    object.active_credentials.map { |obj| Api::V1::CredentialSerializer.new(obj) }
+    object.active_gtag ? [Api::V1::CredentialSerializer.new(object.active_gtag)] : []
   end
 end

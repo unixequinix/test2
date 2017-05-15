@@ -20,7 +20,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     authorize @customer
 
     if @customer.save
-      render json: @customer, serializer: Api::V2::Full::CustomerSerializer, status: :created, location: @customer
+      render json: @customer, serializer: Api::V2::Full::CustomerSerializer, status: :created, location: [:admins, @current_event, @customer]
     else
       render json: @customer.errors, status: :unprocessable_entity
     end

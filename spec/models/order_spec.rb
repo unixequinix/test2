@@ -1,7 +1,8 @@
 require "spec_helper"
 
 RSpec.describe Order, type: :model do
-  subject { build(:order) }
+  let(:event) { build(:event) }
+  subject { build(:order, event: event, customer: build(:customer, event: event)) }
 
   describe ".complete!" do
     it "marks the order as completed" do
@@ -64,18 +65,6 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".redeemed?" do
-    it "returns true if all the order_items are redeemed" do
-      subject.order_items << build(:order_item, :with_access)
-      subject.order_items.first.update(redeemed: false)
-      subject.save
-      expect(subject).not_to be_redeemed
-      subject.order_items.first.update(redeemed: true)
-      subject.reload
-      expect(subject).to be_redeemed
-    end
-  end
-
   describe ".total_formatted" do
     it "returns the total formated" do
       allow(subject).to receive(:total).and_return(5)
@@ -83,39 +72,52 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".total" do
-    it "returns the sum of the order_items total" do
-      subject.order_items << build(:order_item, :with_access, total: 10)
-      subject.order_items << build(:order_item, :with_access, total: 23)
-      expect(subject.total).to eq(33)
-    end
-  end
+  describe "order_item dependent methods" do
+    before do
+      @access = build(:order_item, :with_access, redeemed: false, total: 10, order: subject)
+      @credit = build(:order_item, :with_credit, total: 20, order: subject)
 
-  describe ".credits" do
-    it "returns the sum of the order_items credits" do
-      subject.order_items << build(:order_item, :with_credit, amount: 10)
-      subject.order_items << build(:order_item, :with_credit, amount: 23)
-      expect(subject.credits).to eq(33)
+      allow(subject).to receive(:order_items).and_return([@access, @credit])
     end
-  end
 
-  describe ".refundable_credits" do
-    it "returns the sum of the order_items refundable credits" do
-      item1 = build(:order_item, :with_credit)
-      allow(item1).to receive(:refundable_credits).and_return(10)
-      item2 = build(:order_item, :with_credit)
-      allow(item2).to receive(:refundable_credits).and_return(23)
-      subject.order_items << item1
-      subject.order_items << item2
-      expect(subject.refundable_credits).to eq(33)
+    describe ".redeemed?" do
+      it "returns true if all the order_items are redeemed" do
+        allow(subject).to receive(:order_items).and_return([@access])
+        expect(subject).not_to be_redeemed
+        @access.update(redeemed: true)
+        expect(subject).to be_redeemed
+      end
     end
-  end
 
-  describe ".max_credit_reached" do
-    it "adds an error if the credits exceeds the maximum allowed" do
-      expect(subject).to be_valid
-      subject.order_items << build(:order_item, :with_credit, amount: 100_000)
-      expect(subject).not_to be_valid
+    describe ".total" do
+      it "returns the sum of the order_items total" do
+        expect(subject.total).to eq(@access.total + @credit.total)
+      end
+    end
+
+    describe ".credits" do
+      it "returns the sum of the order_items credits" do
+        allow(@access).to receive(:credits).and_return(10)
+        allow(@credit).to receive(:credits).and_return(23)
+        expect(subject.credits).to eq(33)
+      end
+    end
+
+    describe ".refundable_credits" do
+      it "returns the sum of the order_items refundable credits" do
+        allow(@access).to receive(:refundable_credits).and_return(10)
+        allow(@credit).to receive(:refundable_credits).and_return(23)
+
+        expect(subject.refundable_credits).to eq(33)
+      end
+    end
+
+    describe ".max_credit_reached" do
+      it "adds an error if the credits exceeds the maximum allowed" do
+        expect(subject).to be_valid
+        subject.order_items << build(:order_item, :with_credit, amount: 100_000, order: subject)
+        expect(subject).not_to be_valid
+      end
     end
   end
 end

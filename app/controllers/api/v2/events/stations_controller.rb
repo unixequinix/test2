@@ -20,7 +20,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
     authorize @station
 
     if @station.save
-      render json: @station, status: :created, location: @station
+      render json: @station, status: :created, location: [:admins, @current_event, @station]
     else
       render json: @station.errors, status: :unprocessable_entity
     end

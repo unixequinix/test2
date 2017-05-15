@@ -19,7 +19,7 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-
+- any_orders = @current_event.orders.completed.any?
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
@@ -34,6 +34,8 @@
               th Last name
               th Tickets
               th Gtags
+              - if any_orders
+                th Orders
           tbody
             - @customers.each do |customer|
               tr [id="customer-#{customer.id}"]
@@ -41,11 +43,18 @@
                 td data-label="First name" = customer.first_name
                 td data-label="Last name" = customer.last_name
                 td data-label="Tickets"
-                  - if customer.tickets.any?
-                    - customer.tickets.each do |ticket|
-                      = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+                  -  if customer.tickets.any?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
                 td data-label="Gtags"
-                  - if gtag = customer.active_gtag
-                    = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
+                  - if customer.active_gtag.present?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
+                - if any_orders
+                  td data-label="Orders"
+                    = customer.orders.size
+
     .mdl-cell.mdl-cell--12-col = paginate @customers
   .mdl-layout-spacer

@@ -20,7 +20,7 @@ class Api::V2::Events::CompaniesController < Api::V2::BaseController
     authorize @company
 
     if @company.save
-      render json: @company, status: :created, location: @company
+      render json: @company, status: :created, location: [:admins, @current_event, @company]
     else
       render json: @company.errors, status: :unprocessable_entity
     end

@@ -3,7 +3,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
 
   def index
     @q = @current_event.customers.ransack(params[:q])
-    @customers = @q.result
+    @customers = @q.result.includes(:orders, :active_gtag, :tickets)
     authorize @customers
     @customers = @customers.page(params[:page])
 

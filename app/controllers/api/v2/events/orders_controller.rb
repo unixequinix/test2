@@ -34,7 +34,7 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
     authorize @order
 
     if @order.save
-      render json: @order, status: :created, location: @order
+      render json: @order, status: :created, location: [:admins, @current_event, @order]
     else
       render json: @order.errors, status: :unprocessable_entity
     end

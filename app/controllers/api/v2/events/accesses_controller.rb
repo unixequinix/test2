@@ -20,7 +20,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
     authorize @accesse
 
     if @access.save
-      render json: @access, status: :created, location: @access
+      render json: @access, status: :created, location: [:admins, @current_event, @access]
     else
       render json: @access.errors, status: :unprocessable_entity
     end
