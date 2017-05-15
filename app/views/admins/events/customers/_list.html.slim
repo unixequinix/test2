@@ -26,12 +26,15 @@
             td data-label="Last name" = customer.last_name
             td data-label="Tickets"
               - if customer.tickets.any?
-                - customer.tickets.each do |ticket|
-                  = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+                i.material-icons done
+              - else
+                i.material-icons clear
             td data-label="Gtags"
-              - if gtag = customer.active_gtag
-                = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
-            - if event.orders.completed.any?
+              - if customer.active_gtag.present?
+                i.material-icons done
+              - else
+                i.material-icons clear
+            - if any_orders
               td data-label="Orders"
-                = customer.orders.count
+                = customer.orders.size
 
