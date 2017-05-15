@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :order do
     customer
+    event
 
     trait :with_different_items do
       after :build do |order|
