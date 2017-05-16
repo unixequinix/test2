@@ -50,6 +50,6 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :phone, :postcode, :address, :city, :country, :gender)
+    params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :phone, :postcode, :address, :city, :country, :gender, :password, :password_confirmation, :agreed_on_registration)
   end
 end
