@@ -1,20 +1,29 @@
 require "spec_helper"
 
 RSpec.describe Gtag, type: :model do
-  subject { create(:gtag) }
+  let(:event) { create(:event) }
+  let(:customer) { create(:customer, event: event) }
+  subject { create(:gtag, event: event, customer: customer) }
 
   it "has a valid factory" do
     expect(subject).to be_valid
   end
 
   it "simplifies looking for a customer with .assigned?" do
-    expect(subject).not_to be_assigned
-    subject.customer = build(:customer)
     expect(subject).to be_assigned
+    subject.customer = nil
+    expect(subject).not_to be_assigned
+  end
+
+  it "can look for checkin ticket and assign it to its customer" do
+    ticket = create(:ticket, event: event)
+    create(:credential_transaction, action: "ticket_checkin", status_code: 0, gtag: subject, event: event, ticket: ticket)
+
+    subject.assign_ticket
+    expect(customer.tickets).to include(ticket)
   end
 
   describe ".refundable_money" do
-    let(:event) { subject.event }
     let(:credit) { event.credit }
 
     before do

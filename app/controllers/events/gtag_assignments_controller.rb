@@ -1,10 +1,6 @@
 class Events::GtagAssignmentsController < Events::EventsController
   before_action :check_has_not_gtag!, only: %i[new create]
 
-  def new
-    @gtag = @current_event.gtags.new
-  end
-
   def create
     @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip)
 
@@ -13,6 +9,7 @@ class Events::GtagAssignmentsController < Events::EventsController
     render(:new) && return if flash.now[:error].present?
 
     @gtag.assign_customer(current_customer, :portal, current_customer)
+    @gtag.assign_ticket
     redirect_to event_path(@current_event), notice: t("alerts.credential.assigned", item: "Tag")
   end
 

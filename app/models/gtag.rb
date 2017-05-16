@@ -13,6 +13,12 @@ class Gtag < ActiveRecord::Base
 
   alias_attribute :reference, :tag_uid
 
+  def assign_ticket
+    return unless customer
+    ticket = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", gtag_id: id)&.ticket
+    customer.tickets << ticket if ticket
+  end
+
   def recalculate_balance
     ts = transactions.onsite.credit.where(status_code: 0).order(:gtag_counter, :device_created_at)
     self.credits = ts.sum(:credits)
