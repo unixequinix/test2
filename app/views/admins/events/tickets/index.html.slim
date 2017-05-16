@@ -64,7 +64,6 @@
                     .table-action
                       = link_to edit_admins_event_ticket_path(@current_event, ticket) do
                         button.icon.material-icons id ="edit_#{ticket.id}" edit
-                td.mdl-data-table__cell--non-numeric data-label="First Name" = ticket.full_name
                 td.mdl-data-table__cell--non-numeric data-label="Email" = ticket.purchaser_email
                 td.mdl-data-table__cell--non-numeric data-label="Customer"= link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
                 td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, ticket.ticket_type) if ticket.ticket_type
