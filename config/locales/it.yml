@@ -186,33 +186,9 @@ it:
       bank_account:
         icon: credit-card
         name: Bank Account
-      braintree:
-        icon: credit-card
-        name: Carta di credito Braintree
-      ideal:
-        icon: pf pf-ideal
-        name: Ideal
       paypal:
         icon: paypal
         name: PayPal
-      paypal_nvp:
-        icon: paypal
-        name: PayPal
-      redsys:
-        icon: credit-card
-        name: Carta di credito Redsys
-      sofort:
-        icon: pf pf-sofort
-        name: Sofort
-      stripe:
-        icon: credit-card
-        name: Carta di credito Stripe
-      wirecard:
-        icon: credit-card
-        name: Carta di credito Wirecard
-      mercadopago:
-        icon: credit-card
-        name: Carta di credito MercadoPago
     price: Prezzo
     products: Prodotti
     total: Totale

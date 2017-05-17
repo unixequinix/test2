@@ -10,6 +10,12 @@ class Ticket < ActiveRecord::Base
   alias_attribute :reference, :code
   alias_attribute :ticket_reference, :code
 
+  def assign_gtag
+    return unless customer
+    gtag = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", ticket_id: id)&.gtag
+    customer.update(active_gtag: gtag) if gtag
+  end
+
   def full_name
     "#{purchaser_first_name} #{purchaser_last_name}"
   end

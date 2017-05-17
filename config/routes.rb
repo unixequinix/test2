@@ -200,22 +200,6 @@ Rails.application.routes.draw do
       post :vouchup_error, to: "vouchup#error"
       post :vouchup_refund, to: "vouchup#refund"
 
-      # Redsys
-      post :redsys_purchase, to: "redsys#purchase"
-      post :redsys_refund, to: "redsys#refund"
-
-      # Stripe
-      post :stripe_purchase, to: "stripe#purchase"
-      post :stripe_refund, to: "stripe#refund"
-
-      # Mercadopago
-      post :mercadopago_purchase, to: "mercadopago#purchase"
-      post :mercadopago_refund, to: "mercadopago#refund"
-
-      # Wirecard
-      post :wirecard_purchase, to: "wirecard#purchase"
-      post :wirecard_refund, to: "wirecard#refund"
-
       # Bank Account
       resources :refunds
     end

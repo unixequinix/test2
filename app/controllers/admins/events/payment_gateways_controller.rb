@@ -55,8 +55,8 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
 
   def set_attributes
     name = @gateway&.name || params[:name]
-    settings = PaymentGateway::GATEWAYS[name]
-    @config_atts = settings["config"]
+    settings = PaymentGateway::GATEWAYS[name.to_sym]
+    @config_atts = settings[:config]
   end
 
   def permitted_params # rubocop:disable Metrics/MethodLength

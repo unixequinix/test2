@@ -5,6 +5,7 @@ class Events::TicketAssignmentsController < Events::EventsController
     render(:new) && return unless can_assign?(@ticket)
 
     @ticket.assign_customer(current_customer, :portal, current_customer)
+    @ticket.assign_gtag
     redirect_to(customer_root_path(@current_event), notice: t("alerts.credential.assigned", item: "Ticket"))
   end
 

@@ -39,14 +39,14 @@
                       button.icon.material-icons id ="edit_#{name}" edit
                   .table-action
                     = link_to admins_event_payment_gateway_path(@current_event, gateway), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="add_#{name}" delete
+                      button.icon.material-icons id ="delete_#{name}" delete
 
                 - else
                   .table-action
                     = link_to new_admins_event_payment_gateway_path(@current_event, name: name) do
                       button.icon.material-icons id ="add_#{name}" add
-              td = best_in_place gateway, :topup, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?("topup")
-              td = best_in_place gateway, :refund, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?("refund")
+              td = best_in_place gateway, :topup, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?(:topup)
+              td = best_in_place gateway, :refund, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?(:refund)
 
             span.mdl-tooltip data-mdl-for="edit_#{name}" Edit
             span.mdl-tooltip data-mdl-for="add_#{name}" Add

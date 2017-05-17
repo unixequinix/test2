@@ -7,8 +7,8 @@ class Admins::Events::BaseController < Admins::BaseController
 
   private
 
-  def use_time_zone(&block)
-    Time.use_zone(current_event.timezone, &block)
+  def use_time_zone
+    Time.use_zone(current_event.timezone) { yield }
   end
 
   def after_sign_out_path_for(resource)

@@ -95,6 +95,7 @@ class Event < ActiveRecord::Base
     create_credit!(value: 1, name: "#{name} CRD")
     companies.create!(name: "Glownet", hidden: true)
     user_flags.create!(name: "alcohol_forbidden")
+    user_flags.create!(name: "banned")
     station = stations.create! name: "Customer Portal", category: "customer_portal"
     station.station_catalog_items.create(catalog_item: credit, price: 1)
     stations.create! name: "CS Topup/Refund", category: "cs_topup_refund"

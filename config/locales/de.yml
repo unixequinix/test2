@@ -191,18 +191,6 @@ de:
       paypal:
         icon: paypal
         name: PayPal
-      redsys:
-        icon: credit-card
-        name: Redsys Credit card
-      stripe:
-        icon: credit-card
-        name: Stripe Credit card
-      wirecard:
-        icon: credit-card
-        name: Wirecard Credit card
-      mercadopago:
-        icon: credit-card
-        name: Mercadopago Credit card
       vouchup:
         icon: globe
         name: Rest of payment methods
