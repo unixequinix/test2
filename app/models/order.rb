@@ -1,4 +1,4 @@
-class Order < ActiveRecord::Base
+class Order < ApplicationRecord
   belongs_to :event
   belongs_to :customer, touch: true
   has_many :order_items, dependent: :destroy

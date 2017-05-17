@@ -1,4 +1,4 @@
-class DeviceRegistration < ActiveRecord::Base
+class DeviceRegistration < ApplicationRecord
   belongs_to :device
   belongs_to :event
 end

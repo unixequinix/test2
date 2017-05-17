@@ -1,6 +1,6 @@
 class EventPolicy < ApplicationPolicy
   def show?
-    admin_and_promoter || (user.support? && user.event.eql?(record))
+    user.admin? || user.registration_for(record).present?
   end
 
   def stats?
@@ -8,7 +8,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin?
+    true
   end
 
   def sample_event?
@@ -16,7 +16,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    true
   end
 
   def edit?
@@ -103,8 +103,7 @@ class EventPolicy < ApplicationPolicy
     def resolve
       case
         when user.admin? then scope.all.order(:name)
-        when user.promoter? then scope.where(owner: user).order(:name)
-        when user.support? then scope.where(id: user.event&.id).order(:name)
+        else user.events.order(:name)
       end
     end
   end
@@ -116,6 +115,6 @@ class EventPolicy < ApplicationPolicy
   end
 
   def admin_and_promoter
-    user.admin? || (user.promoter? && user.owned_events.include?(record))
+    user.admin? || (user.registration_for(record).promoter? && user.registration_for(record).accepted?)
   end
 end

@@ -28,13 +28,15 @@ html
           button#hdrbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
             i.material-icons more_vert
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"
-            = link_to edit_user_path(current_user) do
-              li.mdl-menu__item Edit Profile
-            = link_to admins_devices_path do
-              li.mdl-menu__item Devices
+            = link_to user_path(current_user) do
+              li.mdl-menu__item Profile (#{current_user.event_registrations.unscoped.unanswered.count})
             = link_to admins_events_path do
               li.mdl-menu__item Events
             - if current_user.admin?
+              = link_to admins_users_path do
+                li.mdl-menu__item Users
+              = link_to admins_devices_path do
+                li.mdl-menu__item Devices
               = link_to admins_sidekiq_web_path, target: "_blank" do
                 li.mdl-menu__item Sidekiq
             = link_to destroy_user_session_path, method: :delete do

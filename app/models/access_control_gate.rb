@@ -1,4 +1,4 @@
-class AccessControlGate < ActiveRecord::Base
+class AccessControlGate < ApplicationRecord
   belongs_to :access
   belongs_to :station, touch: true
 

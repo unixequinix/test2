@@ -1,5 +1,6 @@
 class Admins::SessionsController < Devise::SessionsController
   layout "welcome_admin"
+  before_action :skip_authorization
 
   private
 

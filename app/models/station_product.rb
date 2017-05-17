@@ -1,4 +1,4 @@
-class StationProduct < ActiveRecord::Base
+class StationProduct < ApplicationRecord
   attr_accessor :product_name
 
   default_scope { order(position: :asc) }

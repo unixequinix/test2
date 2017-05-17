@@ -1,5 +1,6 @@
 class Admins::DevicesController < Admins::BaseController
   before_action :set_device, only: %i[show edit update destroy]
+  before_action :authorize!
 
   def index
     @q = Device.ransack(params[:q])
@@ -33,6 +34,10 @@ class Admins::DevicesController < Admins::BaseController
   end
 
   private
+
+  def authorize!
+    raise Pundit::NotAuthorizedError, "you are not authorized" unless current_user.admin?
+  end
 
   def set_device
     @device = Device.find(params[:id])

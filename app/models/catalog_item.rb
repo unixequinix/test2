@@ -1,4 +1,4 @@
-class CatalogItem < ActiveRecord::Base
+class CatalogItem < ApplicationRecord
   belongs_to :event
   has_many :pack_catalog_items, dependent: :destroy
   has_many :packs, through: :pack_catalog_items

@@ -1,4 +1,4 @@
-class Refund < ActiveRecord::Base
+class Refund < ApplicationRecord
   attr_accessor :iban, :bsb
 
   belongs_to :event

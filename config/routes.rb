@@ -18,13 +18,15 @@ Rails.application.routes.draw do
     get "/admins/sign_in", to: "admins/sessions#new"
   end
 
-  resources :users
+  resources :users, except: :index
 
   namespace :admins do
 
     authenticate :user, lambda { |u| u.admin? } do
       mount Sidekiq::Web => '/sidekiq'
     end
+
+    resources :users, only: [:index, :update, :destroy, :show]
 
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
@@ -66,7 +68,9 @@ Rails.application.routes.draw do
         resources :packs
         resources :ticket_assignments, only: :destroy
         resources :companies, except: :show
-        resources :users
+        resources :event_registrations do
+          get :accept, on: :member
+        end
 
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"

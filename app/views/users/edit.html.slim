@@ -1,31 +1,11 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
-
-  .mdl-cell.mdl-cell--10-col
-    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-
-      .mdl-card__title
-        .mdl-cell.mdl-cell--12-col
-          .tools
-            .tool-item
-              = link_to admins_events_path do
-                span#undo.material-icons undo
-                span.mdl-tooltip data-mdl-for="undo" = t("actions.back")
-
-      = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
-        .field
-          = f.input :email, placeholder: true
-        .form-actions
-          = f.button :submit, "Update email", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
-
-  .mdl-layout-spacer
-.content-grid.mdl-grid
-  .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
       = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .field
           = f.input :password, autocomplete: "off", required: true
+        .field
           = f.input :password_confirmation, autocomplete: "off", required: true
         .form-actions
           = f.button :submit, "Reset password", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit", value: "Change Password"

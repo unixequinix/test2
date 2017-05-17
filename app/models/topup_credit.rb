@@ -1,4 +1,4 @@
-class TopupCredit < ActiveRecord::Base
+class TopupCredit < ApplicationRecord
   belongs_to :credit
   belongs_to :station, touch: true
 

@@ -26,11 +26,11 @@
                 = link_to sample_event_admins_events_path do
                   span#add-fake.icon.material-icons add_box
                   span.mdl-tooltip data-mdl-for="add-fake" Sample event
-            - if current_user.admin?
-              .tool-item
-                = link_to new_admins_event_path do
-                  span#add.icon.material-icons add
-                  span.mdl-tooltip data-mdl-for="add"  Add
+
+            .tool-item
+              = link_to new_admins_event_path do
+                span#add.icon.material-icons add
+                span.mdl-tooltip data-mdl-for="add"  Add
 
       table.mdl-data-table.mdl-js-data-table.within-card
         thead

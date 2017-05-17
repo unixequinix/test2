@@ -57,7 +57,7 @@ html
       .mdl-layout__drawer
         nav.mdl-navigation.global-nav
           - if policy(@current_event).event_settings?
-            = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do
+            = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
               |  Users
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do

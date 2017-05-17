@@ -1,4 +1,4 @@
-class Gtag < ActiveRecord::Base
+class Gtag < ApplicationRecord
   include Credentiable
 
   # Gtag limits

@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   has_many :device_registrations, dependent: :destroy
   has_many :devices, through: :device_registrations
   has_many :transactions, dependent: :restrict_with_error
@@ -17,13 +17,12 @@ class Event < ActiveRecord::Base
   has_many :customers, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
-  has_many :users, dependent: :destroy
+  has_many :event_registrations
+  has_many :users, through: :event_registrations
 
   has_one :credit, dependent: :destroy
 
   accepts_nested_attributes_for :credit
-
-  belongs_to :owner, class_name: 'User'
 
   scope(:with_state, ->(state) { where state: state })
 

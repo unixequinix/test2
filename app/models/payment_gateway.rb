@@ -1,4 +1,4 @@
-class PaymentGateway < ActiveRecord::Base
+class PaymentGateway < ApplicationRecord
   belongs_to :event
   store_accessor :data, %i[login password signature]
 
