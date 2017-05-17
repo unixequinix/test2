@@ -1,27 +1,41 @@
 .content-grid.mdl-grid
-  .mdl-cell.mdl-cell--4-col
-    .minus-button
-      = fa_icon "minus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "minus", step: "#{@current_event.credit_step}" }
-  .mdl-cell.mdl-cell--4-col
-    .total-credits
-      = text_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{(@current_event.maximum_gtag_balance / 10).round}", autocomplete: :off,
-        min: "0",
-        max: "#{@current_event.maximum_gtag_balance}",
-        step: "#{@current_event.credit_step}",
-        id: "amount-input-#{catalog_item.id}",
-        class: "amount-input",
-        data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
-      - if @current_event.credit.value == 1
-        span  #{@current_event.currency}/#{@current_event.credit.name.pluralize}
-      - else
-        span = @current_event.credit.name.pluralize
+  .mdl-cell.mdl-cell--12-col
+    .range data-value="#{(@current_event.maximum_gtag_balance / 10).round}"
+      .label style="left: 10%"
+        .value
+          =(@current_event.maximum_gtag_balance / 10).round
+        #credits = @current_event.credit.name.pluralize
+        .drop
+      .input-box
+        input#input-range max="#{@current_event.maximum_gtag_balance}" min="0" type="range" step="#{@current_event.credit_step}" value="#{(@current_event.maximum_gtag_balance / 10).round}"
+          = hidden_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{(@current_event.maximum_gtag_balance / 10).round}", autocomplete: :off,
+            id: "amount-input-#{catalog_item.id}",
+            class: "amount-input",
+            data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
 
-    - unless @current_event.credit.value == 1
-      .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{(@current_event.maximum_gtag_balance / 10.00) * catalog_item.value}
-        span  #{@current_event.currency}
+        .top-up-amount [data-id="#{catalog_item.id}"]
+          span#show-money [data-price="#{catalog_item.value}" value="#{(@current_event.maximum_gtag_balance / 10.00) * catalog_item.value}"] #{(@current_event.maximum_gtag_balance / 10.00) * catalog_item.value}
+          span  #{@current_event.currency}
+
+javascript:
+  var input = $('#input-range');
+  var field = $("#amount-input-#{catalog_item.id}");
+
+  input.bind('input', function(){
+  	getRangeValue(input);
+  }).bind('change', function(){
+  	getRangeValue(input);	/* IE */
+  });
+
+  function getRangeValue(e){
+  	var value = $(e).val();
+    var percent = value /' #{@current_event.maximum_gtag_balance}' * 100;
+  	$('.value').text(value);
+  	$('.range').attr('data-value', value);
+  	input.attr('value', value);
+    field.attr('value', value);
+    $('.label').css('left',percent + '%');
+  }
 
 
-  .mdl-cell.mdl-cell--4-col
-    .plus-button
-      = fa_icon "plus", class: "amount-button", data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}", operation: "plus", step: "#{@current_event.credit_step}" }
+
