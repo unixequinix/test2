@@ -1,8 +1,12 @@
 class PaymentGateway < ActiveRecord::Base
   belongs_to :event
-  store_accessor :data, %i[login password signature public_key token secret_key terminal destination]
+  store_accessor :data, %i[login password signature]
 
-  GATEWAYS = YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml')).reject! { |k, _v| k.eql?("commons") }
+  GATEWAYS = {
+    paypal: { actions: %i[topup refund], config: %i[login password signature] },
+    vouchup: { actions: %i[topup refund], config: [] },
+    bank_account: { actions: %i[refund] }
+  }.freeze
 
   validates :name, uniqueness: { scope: :event_id }
 
@@ -10,8 +14,6 @@ class PaymentGateway < ActiveRecord::Base
   validates(:fee, :minimum, numericality: { greater_than_or_equal_to: 0 }, if: -> { refund? })
 
   validates(:login, :password, :signature, presence: true, if: -> { paypal? })
-  validates(:public_key, :token, presence: true, if: -> { mercadopago? })
-  validates(:login, presence: true, if: -> { stripe? })
 
   enum name: { paypal: 0, redsys: 1, stripe: 2, wirecard: 3, bank_account: 4, mercadopago: 5, vouchup: 6 }
 
@@ -19,6 +21,6 @@ class PaymentGateway < ActiveRecord::Base
   scope(:refund, -> { where(refund: true) })
 
   def actions
-    GATEWAYS[name] && GATEWAYS[name]["actions"] || []
+    GATEWAYS[name.to_sym] && GATEWAYS[name.to_sym][:actions] || []
   end
 end

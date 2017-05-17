@@ -80,12 +80,6 @@ class Order < ActiveRecord::Base
       when "paypal" then
         paypal = ActiveMerchant::Billing::PaypalExpressGateway.new(event.payment_gateways.paypal.first.data.symbolize_keys)
         paypal.refund(amount * 100, payment_data["PaymentInfo"]["TransactionID"], currency: event.currency)
-      when "mercadopago" then
-        mercadopago = ActiveMerchant::Billing::MercadopagoGateway.new(event.payment_gateways.mercadopago.first.data.symbolize_keys)
-        mercadopago.refund(amount * 100, payment_data["id"], order_id: id)
-      when "stripe" then
-        stripe = ActiveMerchant::Billing::StripeGateway.new(event.payment_gateways.stripe.first.data.symbolize_keys)
-        stripe.refund(amount, payment_data["id"])
     end
   end
 

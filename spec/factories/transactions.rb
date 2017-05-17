@@ -9,7 +9,7 @@ FactoryGirl.define do
     status_message "OK"
     sequence(:items_amount)
     sequence(:price)
-    payment_gateway { [nil, "braintree", "stripe"].sample }
+    payment_gateway "paypal"
     payment_method { %w[bank_account epg].sample }
   end
 

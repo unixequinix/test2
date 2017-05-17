@@ -440,13 +440,6 @@ ul.items__list{
   };
 }
 
-.wrapper-mercadopago,
-.wrapper-wirecard,
-.wrapper-stripe,
-.wrapper-redsys{
-  border-top: 0.8px solid $input_grey;
-}
-
 
 .btn-payment-trigger {
   display: inline-block;
@@ -484,8 +477,7 @@ ul.container-payment-buttons{
   padding: 0;
 }
 
-#pay,
-#redsys-payment-form{
+#pay{
   .inputs{
     margin-bottom: 5%;
   }
