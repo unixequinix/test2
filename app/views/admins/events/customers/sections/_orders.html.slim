@@ -14,6 +14,7 @@
               th State
               th Items
               th Total
+              th Redeemed
           tbody
              - customer.orders.each do |order|
               tr
@@ -22,6 +23,11 @@
                 td data-label="State" = order.status.humanize
                 td data-label="Items" = order.order_items.count
                 td data-label="Total" = number_to_event_currency order.total
+                td data-label="Redeemed"
+                  - if order.redeemed?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
   .mdl-layout-spacer
 
 
