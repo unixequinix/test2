@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
   let(:event) { create(:event) }
   let(:worker) { Transactions::Order::OrderRedeemer }
-  let(:customer) { create(:customer) }
+  let(:customer) { create(:customer, event: event) }
   let(:gtag) { create(:gtag, tag_uid: "FOOBARBAZ", event: event, customer: customer) }
   let(:catalog_item) { event.credit }
   let(:order) { create(:order, customer: customer) }
