@@ -3,7 +3,11 @@ class Admins::UsersController < Admins::BaseController
   before_action :authorize!
 
   def index
-    @users = User.all.order(:email).page(params[:per_page])
+    @q = policy_scope(User).ransack(params[:q])
+    @users = @q.result
+    @users = User.all.order(:email).page(params[:per_page]) if params[:q].blank?
+    @users = @users.page(params[:page])
+    render layout: "admin"
   end
 
   def update

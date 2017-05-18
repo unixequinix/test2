@@ -1,3 +1,8 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item
+    | User &nbsp;
+    = @user.email
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col

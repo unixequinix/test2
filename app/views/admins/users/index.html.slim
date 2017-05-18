@@ -1,5 +1,9 @@
 - content_for(:title) do
-  | Users
+  .mdl-layout-title.header-item Users
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_users_path do |f|
+    = f.search_field :email_or_username_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
   .floaty
@@ -20,28 +24,29 @@
     .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @users
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      table.mdl-data-table.mdl-js-data-table.within-card
-        thead
-          tr
-            th.mdl-data-table__cell--non-numeric Username
-            th.mdl-data-table__cell--non-numeric Email
-            th.mdl-data-table__cell--non-numeric Username
-            th.mdl-data-table__cell--non-numeric Role
-            th.mdl-data-table__cell--non-numeric Events
-            th.mdl-data-table__cell--non-numeric Last Event
-        tbody
-          - @users.each do |user|
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
             tr
-              td.mdl-data-table__cell--non-numeric = link_to user.username, [:admins, @current_event, user]
-              td.mdl-data-table__cell--non-numeric
-                = link_to user.email, [:admins, @current_event, user]
-                .table-action
-                  = link_to admins_users_path(@current_event, user), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                    button.material-icons delete
-              td.mdl-data-table__cell--non-numeric = best_in_place user, :username, url: [:admins, user]
-              td.mdl-data-table__cell--non-numeric = best_in_place user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, user]
-              td.mdl-data-table__cell--non-numeric = user.events.count
-              td.mdl-data-table__cell--non-numeric = link_to "#{user.events.last.name} (#{user.event_registrations.find_by(event: user.events.last).role})", [:admins, user.events.last] if user.events.last
+              th.mdl-data-table__cell--non-numeric Username
+              th.mdl-data-table__cell--non-numeric Email
+              th.mdl-data-table__cell--non-numeric Username
+              th.mdl-data-table__cell--non-numeric Role
+              th.mdl-data-table__cell--non-numeric Events
+              th.mdl-data-table__cell--non-numeric Last Event
+          tbody
+            - @users.each do |user|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Username" = link_to user.username, [:admins, @current_event, user]
+                td.mdl-data-table__cell--non-numeric data-label="Email"
+                  = link_to user.email, [:admins, @current_event, user]
+                  .table-action
+                    = link_to admins_users_path(@current_event, user), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.material-icons delete
+                td.mdl-data-table__cell--non-numeric data-label="Username" = best_in_place user, :username, url: [:admins, user]
+                td.mdl-data-table__cell--non-numeric data-label="Role" = best_in_place user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, user]
+                td.mdl-data-table__cell--non-numeric data-label="Events" = user.events.count
+                td.mdl-data-table__cell--non-numeric data-label="Last Event" = link_to "#{user.events.last.name} (#{user.event_registrations.find_by(event: user.events.last).role})", [:admins, user.events.last] if user.events.last
 
     = paginate @users
   .mdl-layout-spacer

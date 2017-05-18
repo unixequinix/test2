@@ -19,6 +19,7 @@
 
     .mdl-data-table td:last-of-type{
       padding-right: 0;
+      overflow: visible;
     }
 
     .mdl-data-table td {
@@ -97,5 +98,13 @@
     width: 100%;
     height: auto;
   }
+
+  #event-list{
+    text-align: center;
+  }
+  #event-list a{
+    display: block;
+  }
+
 }
 
