@@ -70,6 +70,7 @@ Rails.application.routes.draw do
         resources :companies, except: :show
         resources :event_registrations do
           get :accept, on: :member
+          get :resend, on: :member
         end
 
         # Eventbrite

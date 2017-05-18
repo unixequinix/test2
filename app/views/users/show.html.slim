@@ -31,7 +31,7 @@
               td = link_to "Edit", edit_user_path(@user)
   .mdl-layout-spacer
 
-- if @user.event_registrations.unscoped.unanswered.any?
+- if @user.event_registrations.not_accepted.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--8-col
@@ -48,7 +48,7 @@
               th Since
               th Accepted
           tbody
-            - @user.event_registrations.unscoped.unanswered.each do |registration|
+            - @user.event_registrations.not_accepted.each do |registration|
               tr
                 td.mdl-data-table__cell--non-numeric = link_to registration.event.name, admins_event_path(registration.event), class: "no_link"
                 td.mdl-data-table__cell--non-numeric = registration.event.state
@@ -63,7 +63,7 @@
 
     .mdl-layout-spacer
 
-- if @user.events.any?
+- if @user.event_registrations.accepted.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--8-col

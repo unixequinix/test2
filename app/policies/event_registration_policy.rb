@@ -1,4 +1,8 @@
 class EventRegistrationPolicy < ApplicationPolicy
+  def resend?
+    true
+  end
+
   def accept?
     true
   end

@@ -1,5 +1,5 @@
 class Admins::Events::EventRegistrationsController < Admins::Events::BaseController
-  before_action :set_registration, only: %i[edit update destroy accept]
+  before_action :set_registration, except: %i[new create index]
 
   def index
     @registrations = EventRegistration.where(event: @current_event).order(%i[role]).page(params[:page])
@@ -37,6 +37,11 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
         format.json { render json: { errors: @registration.errors }, status: :unprocessable_entity }
       end
     end
+  end
+
+  def resend
+    UserMailer.invite_to_event(@registration).deliver_now
+    redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{@registration.email}'"
   end
 
   def accept
