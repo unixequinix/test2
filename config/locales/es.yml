@@ -78,7 +78,10 @@ es:
       call_to_action_no_admission_html: Para poder recargar online,<br>deberás activar un Ticket primero
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
       header: Tu saldo
-      header_invalid: Tu saldo necesita ser validado por nuestro personal y no puede ser mostrado. Por favor, vuelve mas tarde o contacta con soporte.
+      header_invalid: Estamos recolectando todas tus compras de los dispositivos. Tu balance final se mostrará mas tarde.
+      body_invalid: Aun así, puedes comprobar tu balance en cualquier dispositivo de punto de ventas, recarga o cualquier otra estacion. Si queres, puedes contactar con nosotros con el icono de intercom abajo a al derecha, o mandarnos un email a
+      body_credits: Tu última transacción fue un '%{action}' en '%{station}' con fecha '%{time}'
+      body_balance: Tu balance en ese momento era
       refundable: Reembolsable
     credits_history:
       button: Descargar transacciones
