@@ -41,7 +41,10 @@ html
             span.nav-title PROFILE
             = link_to user_path(current_user), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons account_circle
-              |  My Profile
+              - if current_user.event_registrations.unscoped.unanswered.count != 0
+                span.mdl-badge data-badge="#{current_user.event_registrations.unscoped.unanswered.count}"  My Profile
+              - else
+                |  My profile
             = link_to edit_user_path(current_user), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons create
               |  Password
