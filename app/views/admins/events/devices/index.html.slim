@@ -29,39 +29,43 @@
       - @devices[type].sort_by { |device| device.asset_tracker.to_s }.each do |device|
         .device-card.mdl-card.mdl-shadow--2dp style="float: left"
           .content-grid.mdl-grid class="#{klass}_header"
-            .mdl-cell.mdl-cell--8-col.left
-              span style="padding: 0 5px"
-                - if device.live
-                  i.material-icons class="#locked_info" wifi
-                - else
-                  i.material-icons class="#to_check_info" signal_wifi_off
-
+            .mdl-cell.mdl-cell--6-col.left
               = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
               .small = device.mac
 
-            .mdl-cell.mdl-cell--4-col.right
-              .small
-                | #{device.number_of_transactions}/#{device.server_transactions}
+            .mdl-cell.mdl-cell--6-col.right
+              .small #{device.number_of_transactions}/#{device.server_transactions}
+              - if device.msg
+                .small.bad_info style="padding-bottom: 5px" = device.msg
 
           .mdl-card__supporting-text
-            - if device.msg
-              .small.bad_info style="padding-bottom: 5px" = device.msg
+            .small.right
+              - if device.live
+                i.material-icons style="color: #9ecf68" wifi
+              - else
+                span style="color: #e26465" #{time_ago_in_words device.live_time if device.live_time} ago
+                i.material-icons style="color: #e26465" signal_wifi_off
+
 
             - if device.station || device.operator || device.last_time_used
-              b.small Last used
+              br
               table.small style="width: 100%;"
                 - if device.operator
                   tr
-                    td By
+                    td
+                      b By
                     td.right = device.operator
                 - if device.station
                   tr
-                    td At
+                    td
+                      b At
                     td.right = device.station
                 - if device.last_time_used
                   tr
-                    td On
+                    td
+                      b On
                     td.right = Time.zone.parse(device.last_time_used).to_formatted_s(:short)
+
       .clearfix
   .mdl-layout-spacer
 

@@ -21,7 +21,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
         case
           when (count != last_transactions_count) then
             count_diff = last_transactions_count - count
-            device.msg = "+#{count_diff.abs} transactions in #{count_diff.positive? ? 'Device' : 'Server'}"
+            device.msg = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
             "to_check"
           when count.zero? && last_transactions_count.zero? then "unused"
           when last_action.eql?("device_initialization") then "live"
@@ -32,8 +32,10 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
        "unused"
       end
 
-      device.live = last.created_at > 5.minute.ago if last
       device.live = last_onsite.created_at > 5.minute.ago if last_onsite
+      device.live = last.created_at > 5.minute.ago if last
+      device.live_time = last_onsite.created_at if last_onsite
+      device.live_time = last.created_at if last
       device.number_of_transactions = last&.number_of_transactions.to_i
       device.server_transactions = count
       device.status = status
