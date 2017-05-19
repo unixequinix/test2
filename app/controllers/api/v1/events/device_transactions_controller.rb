@@ -3,7 +3,8 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
     permitted_params.each do |atts|
       next if atts.empty?
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1
-      device = @current_event.devices.find_or_create_by!(mac: atts[:device_uid])
+      device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
+      @current_event.devices << device
       @current_event.device_transactions.create!(atts.merge(counter: counter, device: device))
     end
 

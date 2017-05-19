@@ -1,7 +1,7 @@
 - content_for(:title) do
   | Asset Tracker - #{number_with_delimiter(@devices.values.map(&:count).sum)}
 
-- classes = { to_check: "bad", live: "neutral", locked: "good", unused: "neutral2"}
+- classes = { to_check: "bad", live: "neutral", locked: "good", unused: "neutral2", no_idea: "bad"}
 
 - if @devices.any?
   .content-grid.mdl-grid
@@ -19,7 +19,7 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
 
-    - %w(live to_check unused locked ).each do |type|
+    - %w(to_check live unused locked no_idea ).each do |type|
       - next unless @devices[type]
       - klass = classes[type.to_sym]
       br
@@ -31,9 +31,10 @@
           .content-grid.mdl-grid class="#{klass}_header"
             .mdl-cell.mdl-cell--8-col.left
               = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
-              .small= device.mac
+              .small = device.mac
             .mdl-cell.mdl-cell--4-col.right
-              .small= device.action&.humanize
+              .small
+                | #{device.number_of_transactions}/#{device.server_transactions}
 
           .mdl-card__supporting-text
             - if device.msg

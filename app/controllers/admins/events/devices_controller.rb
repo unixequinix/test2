@@ -6,33 +6,34 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
 
     @devices = @current_event.devices.each do |device|
       device_transactions = @current_event.device_transactions.where(device: device)
-
-      count = @current_event.transactions.onsite.where(device_uid: device.mac).count
-      last_onsite = @current_event.transactions.onsite.where(device_uid: device.mac).order(:created_at).last
       last = device_transactions.order(:created_at).last
-      pack_transactions = device_transactions.select {|t| t.action.in?(pack_names) }.sum(&:number_of_transactions)
-      init_transactions = device_transactions.select {|t| t.action.in?(["device_initialization"]) }.sum(&:number_of_transactions)
 
-      device_trans = pack_transactions - init_transactions
-      case
-        when count.zero? && last&.number_of_transactions.to_i.zero? then status = "unused"
-        when last&.action&.downcase&.eql?("device_initialization") then status = "live"
-        when last&.action&.downcase&.in?(pack_names) && (device_trans == count) then status = "locked"
-        when (last&.number_of_transactions == count) then status = "locked"
-        when last&.action&.downcase&.in?(pack_names) && (device_trans != count) then status = "to_check"
-        else status = "to_check"
-      end
+      ts = @current_event.transactions.onsite.where(device_uid: device.mac)
+      ts = ts.where("device_created_at <= ?", last.created_at.to_formatted_s(:transactions)) if last
+      count = ts.count
+      last_onsite = ts.order(:device_created_at).last
 
-      count_diff = device_trans - count
-      msg = case
-              when count_diff.positive? then "+#{count_diff.abs} transactions in Device"
-              when count_diff.negative? then "+#{count_diff.abs} transactions in Server"
-              when count.zero? then "No transactions received at all"
-              when count_diff.zero? then nil
-      end
-      device.msg = msg
-      device.count_diff = count_diff
-      device.action = last&.action
+
+      status = if last
+        last_action = device_transactions.where.not(action: "DEVICE_REPORT").order(:created_at).last.action.downcase
+        device.action = last_action
+        last_transactions_count = last.number_of_transactions.to_i
+        case
+          when (count != last_transactions_count) then
+            count_diff = last_transactions_count - count
+            device.msg = "+#{count_diff.abs} transactions in #{count_diff.positive? ? 'Device' : 'Server'}"
+            "to_check"
+          when count.zero? && last_transactions_count.zero? then "unused"
+          when last_action.eql?("device_initialization") then "live"
+          when last_action.in?(pack_names) then "locked"
+          else "no_idea"
+        end
+      else
+       "unused"
+               end
+
+      device.number_of_transactions = last&.number_of_transactions.to_i
+      device.server_transactions = count
       device.status = status
       device.operator = last_onsite&.operator_tag_uid
       device.station = last_onsite&.station&.name
