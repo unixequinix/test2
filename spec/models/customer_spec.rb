@@ -65,6 +65,53 @@ RSpec.describe Customer, type: :model do
     end
   end
 
+  describe "balance" do
+    let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
+
+    describe ".global_credits" do
+      it "takes into account the gtag balance" do
+        transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale")
+        gtag.recalculate_balance
+        expect(customer.global_credits).to eq(transactions.map(&:credits).sum)
+      end
+
+      it "does not take into account record_credit transactions" do
+        sale_transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale").map(&:credits).sum
+        create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "record_credit")
+        gtag.recalculate_balance
+        expect(customer.global_credits).to eq(sale_transactions)
+      end
+
+      it "takes into account orders completed" do
+        orders = create_list(:order, 3, customer: customer, status: "completed").map(&:credits).sum
+        expect(customer.global_credits).to eq(orders)
+      end
+
+      it "takes into account the refunds made" do
+      end
+    end
+
+    describe ".global_refundable_credits" do
+      it "takes into account the gtag balance" do
+        transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale")
+        gtag.recalculate_balance
+        expect(customer.global_refundable_credits).to eq(transactions.map(&:refundable_credits).sum)
+      end
+
+      it "does not take into account record_credit transactions" do
+        sale_transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale").map(&:refundable_credits).sum
+        create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "record_credit")
+        gtag.recalculate_balance
+        expect(customer.global_refundable_credits).to eq(sale_transactions)
+      end
+
+      it "takes into account orders completed" do
+        orders = create_list(:order, 3, customer: customer, status: "completed").map(&:credits).sum
+        expect(customer.global_refundable_credits).to eq(orders)
+      end
+    end
+  end
+
   describe ".full_name" do
     it "return the first_name and last_name together" do
       allow(customer).to receive(:first_name).and_return("Glownet")

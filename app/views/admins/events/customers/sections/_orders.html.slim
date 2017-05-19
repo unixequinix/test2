@@ -14,14 +14,22 @@
               th State
               th Items
               th Total
+              th Completed
+              th Redeemed
           tbody
-             - customer.orders.each do |order|
+            - customer.orders.order(:status, :id).each do |order|
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
                 td data-label="Gateway" = order.gateway.to_s.humanize
                 td data-label="State" = order.status.humanize
                 td data-label="Items" = order.order_items.count
                 td data-label="Total" = number_to_event_currency order.total
+                td data-label="Completed" = l order.completed_at if order.completed_at
+                td data-label="Redeemed"
+                  - if order.redeemed?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
   .mdl-layout-spacer
 
 

@@ -29,6 +29,13 @@
 - content_for(:title) do
   | Ticket #{@ticket.code}
 
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--2-col style="text-align: center;"
+    #qrcode
+  .mdl-layout-spacer
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col
@@ -114,12 +121,6 @@
               td.mdl-data-table__cell--non-numeric = link_to_unless @catalog_item.is_a?(UserFlag), @catalog_item.name.humanize, [:admins, @current_event, @catalog_item]
               td = number_to_token @catalog_item.credits
     .mdl-layout-spacer
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--2-col style="text-align: center;"
-    #qrcode
-  .mdl-layout-spacer
 
 javascript:
   $('#qrcode').qrcode({render: 'image', text: '#{@ticket.reference}'});

@@ -3,20 +3,24 @@
     .mdl-card__title
       h2.mdl-card__title-text
         i.material-icons add_shopping_cart
-        |Order
-        = @transaction.order_item_counter
+        | Order #{@transaction.order&.number || @transaction.order_item_counter}
     .mdl-card__supporting-text
-      - if order_item = OrderItem.find_by(order: @transaction.customer&.orders, counter: @transaction.order_item_counter)
+      - if @transaction.order
         table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
-              th Customer
-              th Catalog Item
+              th.mdl-data-table__cell--non-numeric Customer
               th Amount
+              th Catalog Item
               th Redeemed
           tbody
-            tr
-              td = link_to order_item.order.customer_id, admins_event_customer_path(@current_event, order_item.order.customer.id)
-              td = order_item.catalog_item.name
-              td = order_item.amount
-              td = order_item.redeemed
+            - @transaction.order.order_items.each do |order_item|
+              tr
+                td.mdl-data-table__cell--non-numeric = link_to order_item.order.customer&.full_name, admins_event_customer_path(@current_event, order_item.order.customer.id)
+                td = order_item.amount
+                td = order_item.catalog_item.name
+                td
+                  - if order_item.redeemed?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear

@@ -39,19 +39,22 @@
               span.search-toggle.icon.material-icons search
               span.mdl-tooltip data-mdl-for="search-toggle"  Search
               .search-toggle Advanced Search
+
       = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, method: :post}  do |f|
-        .container-search style="display: #{@display || 'none'}"
+        .container-search
           .form-inputs
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.select :type, Transaction::TYPES.map { |t| [t.humanize, t] }, class: "mdl-textfield__input", include_blank: true
+              = f.select :type, options_for_select(Transaction::TYPES.map(&:camelcase), selected: @type), class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.select :transaction_origin, Transaction::ORIGINS.values.map { |t| [t.humanize, t] }, include_blank: true, class: "mdl-textfield__input"
+              = f.select :transaction_origin_eq, Transaction::ORIGINS.values.map { |t| [t.humanize, t] }, include_blank: true, class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.search_field :action_cont, placeholder: "Action", class: "mdl-textfield__input"
+              = f.select :action_eq, @current_event.transactions.select(:action).distinct.pluck(:action).sort.map { |t| [t.humanize, t] }, class: "mdl-textfield__input", include_blank: true
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :customer_tag_uid_cont, placeholder: "Customer tag", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :operator_tag_uid_cont, placeholder: "Operator tag", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :ticket_code_cont, placeholder: "Ticket code", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :device_uid_cont, placeholder: "Device UID", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label

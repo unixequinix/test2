@@ -18,10 +18,18 @@
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--2-col
     h1.middle style="color: #999"
-      = number_with_delimiter @transactions.count
-      .small Transactions currently in the server for this device
+      = number_to_percentage @registration.battery, precision: 0
+      .small Battery
+  .mdl-cell.mdl-cell--2-col
+    h1.middle style="color: #999"
+      = number_with_delimiter @registration.number_of_transactions
+      .small Device Transactions
+  .mdl-cell.mdl-cell--2-col
+    h1.middle style="color: #999"
+      = number_with_delimiter @registration.server_transactions
+      .small Server Transactions
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
@@ -43,7 +51,6 @@
               th DB Index
               th Action
               th Device transactions
-              th New server transactions
               th Total server transactions
           tbody
             - @device_transactions.each.with_index do |transaction, index|
@@ -52,6 +59,5 @@
                 td = transaction.counter
                 td = transaction.action.humanize
                 td = transaction.number_of_transactions
-                td = @transactions.where("device_created_at >= ? AND device_created_at <= ?", @device_transactions[index - 1].created_at, transaction.created_at).count unless index.zero?
-                td = @transactions.where("device_created_at <= ?", transaction.created_at&.to_formatted_s(:transactions)).count
+                td = transaction.server_transactions
   .mdl-layout-spacer

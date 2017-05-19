@@ -3,6 +3,9 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_ticket_type_path(@current_event, @ticket_type) do |f|
+    = f.search_field :code_or_purchaser_email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 .remodal data-remodal-id="unban-all"
   button.remodal-close data-remodal-action="close"
@@ -84,3 +87,5 @@
               td = best_in_place @ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, @ticket_type])
 
   .mdl-layout-spacer
+
+= render "admins/events/tickets/list", tickets: @tickets

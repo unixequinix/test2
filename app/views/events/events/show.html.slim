@@ -43,7 +43,7 @@
           - last_t = @current_customer.active_gtag.transactions.credit.last if @current_customer.active_gtag
           - if last_t
             p = t('dashboard.credits.body_credits', action: last_t.action.humanize, station: last_t.station&.name, time: time_ago_in_words(Time.zone.parse(last_t.device_created_at)))
-            p  #{t('dashboard.credits.body_balance')} #{number_to_token last_t.credits}
+            p  #{t('dashboard.credits.body_balance')} #{number_to_token last_t.final_balance}
           p = t('dashboard.credits.body_invalid')
           = mail_to @current_event.support_email, @current_event.support_email, subject: "Invalid balance for Tag '#{current_customer.active_gtag.tag_uid}'"
 
