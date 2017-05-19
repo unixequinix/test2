@@ -24,12 +24,12 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
             device.msg = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
             "to_check"
           when last_action.in?(pack_names) then "locked"
-          when count.zero? && last_transactions_count.zero? then "unused"
+          when count.zero? && last_transactions_count.zero? then "staged"
           when last_action.eql?("device_initialization") then "live"
           else "no_idea"
         end
       else
-       "unused"
+       "staged"
       end
 
       device.live = last_onsite.created_at > 5.minute.ago if last_onsite

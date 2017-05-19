@@ -1,7 +1,7 @@
 - content_for(:title) do
   | Asset Tracker - #{number_with_delimiter(@devices.values.map(&:count).sum)}
 
-- classes = { to_check: "bad", live: "neutral", locked: "good", unused: "neutral2", no_idea: "bad"}
+- classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "bad"}
 
 - if @devices.any?
   .content-grid.mdl-grid
@@ -19,7 +19,7 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
 
-    - %w(to_check live unused locked no_idea ).each do |type|
+    - %w(to_check live staged locked no_idea ).each do |type|
       - next unless @devices[type]
       - klass = classes[type.to_sym]
       br
