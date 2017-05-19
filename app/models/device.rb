@@ -4,5 +4,5 @@ class Device < ActiveRecord::Base
 
   validates :mac, uniqueness: true
 
-  attr_accessor :msg, :action, :status, :operator, :station, :last_time_used, :server_transactions, :number_of_transactions
+  attr_accessor :msg, :action, :status, :operator, :station, :last_time_used, :server_transactions, :number_of_transactions, :live
 end

@@ -30,8 +30,9 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
         end
       else
        "unused"
-               end
+      end
 
+      device.live = last&.created_at < 1.minute if last
       device.number_of_transactions = last&.number_of_transactions.to_i
       device.server_transactions = count
       device.status = status
