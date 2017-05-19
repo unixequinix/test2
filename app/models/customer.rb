@@ -52,13 +52,17 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def global_credits
-    transaction_credits = active_gtag&.transactions&.credit&.onsite&.status_ok&.where(action: "record_credit")&.map(&:credits)&.sum.to_f
-    active_gtag&.credits.to_f + orders.where(status: %w[completed refunded]).map(&:credits).sum - transaction_credits
+    # TODO: This method will need to take into account refunds when we stop creating negative online orders
+    transactions_balance = event.transactions.credit.onsite.status_ok.where(gtag: gtags, action: "record_credit").sum(:credits)
+    redeemed_credits = gtags.any? ? transactions_balance : 0.00
+    active_gtag&.credits.to_f + orders.where(status: %w[completed refunded]).map(&:credits).sum - redeemed_credits
   end
 
   def global_refundable_credits
-    transaction_credits = active_gtag&.transactions&.credit&.onsite&.status_ok&.where(action: "record_credit")&.map(&:refundable_credits)&.sum.to_f
-    active_gtag&.refundable_credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - transaction_credits
+    # TODO: This method will need to take into account refunds when we stop creating negative online orders
+    transactions_balance = event.transactions.credit.onsite.status_ok.where(gtag: gtags, action: "record_credit").sum(:refundable_credits)
+    redeemed_credits = gtags.any? ? transactions_balance : 0.00
+    active_gtag&.credits.to_f + orders.where(status: %w[completed refunded]).map(&:credits).sum - redeemed_credits
   end
 
   def global_money
@@ -67,19 +71,6 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def global_refundable_money
     global_refundable_credits * event.credit.value
-  end
-
-  # TODO: find out if these 5 methods below are needed anymore and remove if not
-  def credits
-    active_gtag&.credits.to_f - refunds.map(&:total).sum
-  end
-
-  def refundable_credits
-    active_gtag&.refundable_credits.to_f - refunds.map(&:total).sum
-  end
-
-  def refundable_money
-    (active_gtag&.refundable_credits.to_f * event.credit.value) - refunds.map(&:money).sum
   end
 
   def credentials

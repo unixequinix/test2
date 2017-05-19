@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :money_transaction do
     sequence(:action) { |n| "action #{n}" }
+    transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
     operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
@@ -15,6 +16,7 @@ FactoryGirl.define do
 
   factory :credit_transaction do
     sequence(:action) { |n| "action #{n}" }
+    transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
     operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
@@ -29,6 +31,7 @@ FactoryGirl.define do
 
   factory :credential_transaction do
     sequence(:action) { |n| "action #{n}" }
+    transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
     operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
@@ -39,6 +42,7 @@ FactoryGirl.define do
 
   factory :access_transaction do
     sequence(:action) { |n| "action #{n}" }
+    transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
     operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
@@ -50,6 +54,7 @@ FactoryGirl.define do
 
   factory :order_transaction do
     sequence(:action) { |n| "action #{n}" }
+    transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
     operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
@@ -60,6 +65,7 @@ FactoryGirl.define do
 
   factory :transaction do
     sequence(:action) { |n| "action #{n}" }
+    transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
     operator_tag_uid { SecureRandom.urlsafe_base64.upcase }

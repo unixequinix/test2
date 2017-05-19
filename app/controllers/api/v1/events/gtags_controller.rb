@@ -28,7 +28,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
         FROM (
           SELECT
-            gtags.tag_uid as reference,
+            upper(gtags.tag_uid) as reference,
             gtags.banned,
             gtags.redeemed,
             ticket_types.catalog_item_id as catalog_item_id,

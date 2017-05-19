@@ -83,10 +83,6 @@ class Event < ActiveRecord::Base
     stations.find_by(category: "customer_portal")
   end
 
-  def total_refundable_money
-    customers.sum(:refundable_credits) * credit_price
-  end
-
   def active?
     state.in? %w[launched started finished]
   end
