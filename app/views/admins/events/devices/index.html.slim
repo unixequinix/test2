@@ -39,7 +39,15 @@
                 .small.bad_info style="padding-bottom: 5px" = device.msg
 
           .mdl-card__supporting-text
-            .small.right
+            .small style="float: left"
+              - if device.battery > 30
+                span style="color: #9ecf68" #{device.battery}
+                i.material-icons style="color: #9ecf68" battery_full
+              - else
+                span style="color: #e26465" #{device.battery}
+                i.material-icons style="color: #e26465" battery_alert
+
+            .small style="float: right"
               - if device.live
                 i.material-icons style="color: #9ecf68" wifi
               - else

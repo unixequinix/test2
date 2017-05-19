@@ -15,7 +15,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
 
 
       status = if last
-        last_action = device_transactions.where.not(action: "DEVICE_REPORT").order(:created_at).last.action.downcase
+        last_action = device_transactions.where.not(action: "DEVICE_REPORT").order(:created_at).last&.action&.downcase&.to_s
         device.action = last_action
         last_transactions_count = last.number_of_transactions.to_i
         case
@@ -36,6 +36,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
       device.live = last.created_at > 5.minute.ago if last
       device.live_time = last_onsite.created_at if last_onsite
       device.live_time = last.created_at if last
+      device.battery = last&.battery.to_i
       device.number_of_transactions = last&.number_of_transactions.to_i
       device.server_transactions = count
       device.status = status
