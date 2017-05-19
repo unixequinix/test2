@@ -2,10 +2,17 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
   def create
     permitted_params.each do |atts|
       next if atts.empty?
+      action = atts[:action].downcase
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1
+      server_count = @current_event.transactions.where(device_uid: atts[:device_uid]).count
+      device_count = atts[:number_of_transactions]
+
       device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
-      @current_event.devices << device unless @current_event.devices.include?(device)
-      @current_event.device_transactions.create!(atts.merge(counter: counter, device: device))
+      registration = @current_event.device_registrations.find_or_create_by!(device: device)
+      registration.update!(battery: atts[:battery], number_of_transactions: device_count, server_transactions: server_count, action: action)
+
+      t_atts = atts.merge(counter: counter, device: device, server_transactions: server_count)
+      @current_event.device_transactions.create!(t_atts) if action.in?(DeviceTransaction::ACTIONS)
     end
 
     render(status: :created, json: :created)

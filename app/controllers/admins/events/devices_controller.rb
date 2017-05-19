@@ -6,40 +6,32 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
 
     @devices = @current_event.devices.each do |device|
       device_transactions = @current_event.device_transactions.where(device: device)
-      last = device_transactions.order(:created_at).last
+      registration = device.device_registrations.find_by(event: @current_event)
+      count = registration.server_transactions
+      last_onsite = @current_event.transactions.onsite.where(device_uid: device.mac).order(:device_created_at).last
 
-      ts = @current_event.transactions.onsite.where(device_uid: device.mac)
-      ts = ts.where("device_created_at <= ?", last.created_at.to_formatted_s(:transactions)) if last
-      count = ts.count
-      last_onsite = ts.order(:device_created_at).last
-
-
-      status = if last
-        last_action = device_transactions.where.not(action: "DEVICE_REPORT").order(:created_at).last&.action&.downcase&.to_s
-        device.action = last_action
-        last_transactions_count = last.number_of_transactions.to_i
-        case
-          when (count != last_transactions_count) then
-            count_diff = last_transactions_count - count
-            device.msg = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
-            "to_check"
-          when last_action.in?(pack_names) then "locked"
-          when count.zero? && last_transactions_count.zero? then "staged"
-          when last_action.eql?("device_initialization") then "live"
-          else "no_idea"
-        end
-      else
-       "staged"
+      last_action = device_transactions.order(:created_at).last&.action&.downcase&.to_s
+      device.action = last_action
+      last_transactions_count = registration.number_of_transactions.to_i
+      device.status = case
+        when (count != last_transactions_count) then
+          count_diff = last_transactions_count - count
+          device.msg = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
+          "to_check"
+        when last_action.in?(pack_names) then "locked"
+        when count.zero? && last_transactions_count.zero? then "staged"
+        when last_action.eql?("device_initialization") then "live"
+        else "no_idea"
       end
 
+
       device.live = last_onsite.created_at > 5.minute.ago if last_onsite
-      device.live = last.created_at > 5.minute.ago if last
+      device.live = registration.updated_at > 5.minute.ago
       device.live_time = last_onsite.created_at if last_onsite
-      device.live_time = last.created_at if last
-      device.battery = last&.battery.to_i
-      device.number_of_transactions = last&.number_of_transactions.to_i
-      device.server_transactions = count
-      device.status = status
+      device.live_time = registration.updated_at
+      device.battery = registration.battery.to_i
+      device.number_of_transactions = registration.number_of_transactions.to_i
+      device.server_transactions = registration.server_transactions.to_i
       device.operator = last_onsite&.operator_tag_uid
       device.station = last_onsite&.station&.name
       device.last_time_used = last_onsite&.device_created_at
@@ -75,6 +67,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
     @device = @current_event.devices.find(params[:id])
     authorize(@device)
     @transactions = @current_event.transactions.where(device_uid: @device.mac)
+    @registration = @device.device_registrations.find_by(event: @current_event)
     @device_transactions = @current_event.device_transactions.where(device_uid: @device.mac).order(:created_at)
   end
 end

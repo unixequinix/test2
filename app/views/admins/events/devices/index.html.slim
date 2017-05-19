@@ -72,7 +72,7 @@
                   tr
                     td
                       b On
-                    td.right = Time.zone.parse(device.last_time_used).to_formatted_s(:short)
+                    td.right = Time.parse(device.last_time_used).to_formatted_s(:short)
 
       .clearfix
   .mdl-layout-spacer
