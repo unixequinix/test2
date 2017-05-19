@@ -41,17 +41,17 @@
           .mdl-card__supporting-text
             .small style="float: left"
               - if device.battery > 30
-                span style="color: #9ecf68" #{device.battery}
                 i.material-icons style="color: #9ecf68" battery_full
+                span style="color: #9ecf68; padding: 0 10px 0 0" #{device.battery} %
               - else
-                span style="color: #e26465" #{device.battery}
                 i.material-icons style="color: #e26465" battery_alert
+                span style="color: #e26465; padding: 0 10px 0 0" #{device.battery} %
 
             .small style="float: right"
               - if device.live
                 i.material-icons style="color: #9ecf68" wifi
               - else
-                span style="color: #e26465" #{time_ago_in_words device.live_time if device.live_time} ago
+                span style="color: #e26465; padding: 0 10px 0 0" #{time_ago_in_words device.live_time if device.live_time} ago
                 i.material-icons style="color: #e26465" signal_wifi_off
 
 

@@ -23,9 +23,9 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
             count_diff = last_transactions_count - count
             device.msg = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
             "to_check"
+          when last_action.in?(pack_names) then "locked"
           when count.zero? && last_transactions_count.zero? then "unused"
           when last_action.eql?("device_initialization") then "live"
-          when last_action.in?(pack_names) then "locked"
           else "no_idea"
         end
       else
