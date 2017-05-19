@@ -1,11 +1,7 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
-  before_action :set_type
+  before_action :set_type, except: :index
   before_action :set_transactions, except: %i[show fix status_9 status_0]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
-
-  def index
-    @display = true
-  end
 
   def search
     authorize @transactions
@@ -49,6 +45,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
 
   def set_type
     @type = params[:type] || (params[:q] && params[:q][:type])
+    @type.camelcase
   end
 
   def set_transactions

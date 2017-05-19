@@ -13,6 +13,12 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     @ticket_types = @ticket_types.page(params[:page])
   end
 
+  def show
+    @q = @ticket_type.tickets.order(created_at: :desc).ransack(params[:q])
+    @tickets = @q.result
+    @tickets = @tickets.page(params[:page])
+  end
+
   def new
     @ticket_type = @current_event.ticket_types.new
     authorize @ticket_type
