@@ -4,7 +4,7 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
       next if atts.empty?
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1
       device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
-      @current_event.devices << device unless @current_event.devices.includes?(device)
+      @current_event.devices << device unless @current_event.devices.include?(device)
       @current_event.device_transactions.create!(atts.merge(counter: counter, device: device))
     end
 
