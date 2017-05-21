@@ -6,6 +6,7 @@ class Events::GtagAssignmentsController < Events::EventsController
 
     flash.now[:error] = t("alerts.credential.not_found", item: "Tag") if @gtag.nil?
     flash.now[:error] = t("alerts.credential.already_assigned", item: "Tag") if @gtag&.customer
+    flash.now[:error] = t("alerts.credential.blacklisted", item: "Tag") if @gtag&.banned?
     render(:new) && return if flash.now[:error].present?
 
     @gtag.assign_customer(current_customer, :portal, current_customer)
