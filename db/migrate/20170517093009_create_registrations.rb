@@ -7,6 +7,6 @@ class CreateRegistrations < ActiveRecord::Migration[5.0]
       t.references :event, index: true
       t.references :user, index: true
       t.index [:event_id, :user_id], unique: true
-    end
+    end unless table_exists?(:event_registrations)
   end
 end
