@@ -4,7 +4,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
 
   def index
-    @transactions = params[:q] ? @current_event.transactions :  @current_event.transactions.none
+    @transactions = params[:q] ? @current_event.transactions : @current_event.transactions.none
     authorize @transactions
     @q = @transactions.search(params[:q])
     @transactions = @q.result.page(params[:page]).includes(:customer, :station)
