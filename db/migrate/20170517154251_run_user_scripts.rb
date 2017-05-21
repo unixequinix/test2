@@ -11,7 +11,7 @@ class RunUserScripts < ActiveRecord::Migration[5.0]
     end
 
     User.all.each do |user|
-      user.update!(username: user.email.split("@").first)
+      user.update!(username: user.email.split("@").first + rand(1000).to_s)
     end
   end
 end
