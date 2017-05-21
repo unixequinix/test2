@@ -51,6 +51,17 @@
   table-layout: auto
   white-space: normal
 
+.ellipsis
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+  max-width: 0
+
+.ellipsis:hover
+  text-overflow: clip
+  white-space: normal
+  word-break: break-all
+
 .mdl-button.within-card
   min-width: none !important
   padding: 0 !important
