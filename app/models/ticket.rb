@@ -1,4 +1,4 @@
-class Ticket < ActiveRecord::Base
+class Ticket < ApplicationRecord
   include Credentiable
 
   validates :code, uniqueness: { scope: :event_id }, presence: true

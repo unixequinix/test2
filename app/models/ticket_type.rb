@@ -1,4 +1,4 @@
-class TicketType < ActiveRecord::Base
+class TicketType < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :gtags, dependent: :destroy
 

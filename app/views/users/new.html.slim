@@ -6,6 +6,8 @@
       .mdl-card__supporting-text
         = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
           .field
+            = f.input :username, placeholder: true
+          .field
             = f.input :email, placeholder: true
           .field
             = f.input :password, autocomplete: "off"

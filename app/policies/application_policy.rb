@@ -8,10 +8,7 @@ class ApplicationPolicy
   end
 
   def index?
-    current_event_id = record.scope_for_create["event_id"]
-    user.admin? ||
-      (user.promoter? && user.owned_events.pluck(:id).include?(current_event_id)) ||
-      (user.support? && user.event_id.eql?(current_event_id))
+    user.admin? || user.event_ids.include?(record.scope_for_create["event_id"])
   end
 
   def show?
@@ -63,10 +60,10 @@ class ApplicationPolicy
   end
 
   def admin_and_promoter
-    user.admin? || (user.promoter? && user.owned_events.include?(record.event))
+    user.admin? || (user.registration_for(record.event).promoter? && user.registration_for(record.event).accepted?)
   end
 
   def admin_promoter_and_support
-    admin_and_promoter || (user.support? && user.event.eql?(record.event))
+    user.admin? || (user.registration_for(record.event).support? && user.registration_for(record.event).accepted?)
   end
 end

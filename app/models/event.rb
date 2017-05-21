@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   has_many :device_registrations, dependent: :destroy
   has_many :devices, through: :device_registrations
   has_many :transactions, dependent: :restrict_with_error
@@ -17,13 +17,12 @@ class Event < ActiveRecord::Base
   has_many :customers, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
-  has_many :users, dependent: :destroy
+  has_many :event_registrations
+  has_many :users, through: :event_registrations
 
   has_one :credit, dependent: :destroy
 
   accepts_nested_attributes_for :credit
-
-  belongs_to :owner, class_name: 'User'
 
   scope(:with_state, ->(state) { where state: state })
 
@@ -36,7 +35,7 @@ class Event < ActiveRecord::Base
   enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
-  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }) # rubocop:disable Metrics/LineLength
+  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }, default_url: "/assets/glownet-event-logo.png") # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: "/assets/background-default.jpg") # rubocop:disable Metrics/LineLength
   has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
   has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength

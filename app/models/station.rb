@@ -1,4 +1,4 @@
-class Station < ActiveRecord::Base
+class Station < ApplicationRecord
   belongs_to :event
 
   has_many :transactions, dependent: :restrict_with_error

@@ -6,6 +6,7 @@ function calculateTotalCheckout () {
     calculatedTotal += product.data('price') * product.val();
   });
   $('#amount-total-checkout').text(calculatedTotal);
+  $('#show-money').text(calculatedTotal);
 }
 
 function topUpButton() {
@@ -45,7 +46,16 @@ function topUpButton() {
       total.text((amount * price));
       calculateTotalCheckout();
     });
+
+    $('#input-range').bind('input', function(){
+    	calculateTotalCheckout();
+    }).bind('change', function(){
+    	calculateTotalCheckout();	/* IE */
+    });
   }
 }
 
 $(document).on('turbolinks:load', topUpButton);
+
+
+

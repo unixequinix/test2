@@ -120,20 +120,16 @@ de:
     footer_organizer: Have a question for the event organiser? Contact them directly at
     like_on_facebook: Like on Facebook
     order:
-      completed:
-        description: All your purchases will be automatically applied to your Card or Wristband once you enter the event. Your Event Card or Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
-        greet: Thank you for your purchase, %{name}!
-        order_number: Order Number
-        subject: Purchase at %{event}
-        success: 'Here are your order details:'
+      description: All your purchases will be automatically applied to your Card or Wristband once you enter the event. Your Event Card or Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
+      greet: Thank you for your purchase, %{name}!
+      order_number: Order Number
+      subject: Purchase at %{event}
+      success: 'Here are your order details:'
     our_company: Learn more about Glownet
     refund:
-      completed:
-        greet: Hello, %{name}!
-        order_number: Refund number
-        subject: Refund confirmation
-        success: 'Here are the details of your refund:'
-        thanks: You successfully completed the application for the online refund process.
+      subject: Refund at %{event}
+      refund_number: Refund number
+      success: Your refund has been successfully processed
     reset_password:
       greet: Hello, %{name}!
       mail_body: We have received a request to change your password. Click the link below to change it.

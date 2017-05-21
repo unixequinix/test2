@@ -33,10 +33,11 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def create
-    @event = Event.new(permitted_params.merge(owner: current_user))
+    @event = Event.new(permitted_params)
     authorize(@event)
 
     if @event.save
+      @event.event_registrations.create!(user: current_user, email: current_user.email, role: :promoter, accepted: true)
       @event.initial_setup!
       redirect_to admins_event_path(@event), notice: t("alerts.created")
     else

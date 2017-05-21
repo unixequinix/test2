@@ -109,7 +109,7 @@
               .content-grid.mdl-grid
                 .mdl-cell.mdl-cell--12-col
                   .order__title
-                    span.order__name #{t("dashboard.topup")} ##{order.number} (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
+                    span.order__name #{order.total.positive? ? t("dashboard.topup") : t("dashboard.refund")} ##{order.number} (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
 
             ul.items__list
               - order.order_items.each do |order_item|
@@ -117,7 +117,7 @@
                   .order-item__item
                     span.purchase-amount #{order_item.amount.to_i} x
                     span = order_item.catalog_item.name
-                  .order-item__price = number_to_event_currency(order_item.total) if order_item.amount.positive?
+                  .order-item__price = number_to_event_currency(order_item.total)
 
 - if @refunds.any?
   .mdl-cell.mdl-cell--12-col

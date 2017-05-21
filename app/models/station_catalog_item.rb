@@ -1,4 +1,4 @@
-class StationCatalogItem < ActiveRecord::Base
+class StationCatalogItem < ApplicationRecord
   belongs_to :catalog_item
   belongs_to :station, touch: true
 

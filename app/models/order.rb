@@ -1,4 +1,4 @@
-class Order < ActiveRecord::Base
+class Order < ApplicationRecord
   belongs_to :event
   belongs_to :customer, touch: true
   has_many :order_items, dependent: :destroy
@@ -25,6 +25,9 @@ class Order < ActiveRecord::Base
 
   def complete!(gateway, payment)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
+    atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total.to_f }
+    MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
+    OrderMailer.completed_order(self).deliver_later
   end
 
   def completed?

@@ -39,10 +39,10 @@ class StationItemPolicy < ApplicationPolicy
   end
 
   def admin_and_promoter
-    user.admin? || (user.promoter? && user.owned_events.include?(record.station.event))
+    user.admin? || (user.registration_for(record.station.event).promoter? && user.registration_for(record.station.event).accepted?)
   end
 
   def admin_promoter_and_support
-    admin_and_promoter || (user.support? && user.event.eql?(record.station.event))
+    user.admin? || (user.registration_for(record.station.event).support? && user.registration_for(record.station.event).accepted?)
   end
 end

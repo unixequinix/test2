@@ -1,4 +1,4 @@
-class PackCatalogItem < ActiveRecord::Base
+class PackCatalogItem < ApplicationRecord
   belongs_to :pack, inverse_of: :pack_catalog_items
   belongs_to :catalog_item
 

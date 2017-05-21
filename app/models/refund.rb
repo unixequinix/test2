@@ -1,4 +1,4 @@
-class Refund < ActiveRecord::Base
+class Refund < ApplicationRecord
   attr_accessor :iban, :bsb
 
   belongs_to :event
@@ -15,6 +15,20 @@ class Refund < ActiveRecord::Base
       .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee, refunds.money,
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   })
+
+  def complete!(refund_data = {}.as_json)
+    execute_refund_of_orders unless gateway.eql?("bank_account")
+    update!(status: "completed")
+
+    atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
+    MoneyTransaction.write!(event, "refund", :portal, customer, customer, atts)
+
+    # Create negative online order (to be replaced by tasks/transactions or start downloading refunds)
+    order = customer.build_order([[event.credit.id, -total]])
+    order.update!(status: "refunded", gateway: gateway, completed_at: Time.zone.now, payment_data: refund_data)
+
+    OrderMailer.completed_refund(self).deliver_later
+  end
 
   def prepare(atts)
     self.status = "completed"

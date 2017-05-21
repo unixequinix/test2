@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Devices
+
 - content_for(:search) do
   = search_form_for @q, url: admins_devices_path do |f|
     = f.search_field :asset_tracker_or_mac_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"

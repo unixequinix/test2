@@ -1,4 +1,4 @@
-class Device < ActiveRecord::Base
+class Device < ApplicationRecord
   has_many :device_registrations
   has_many :events, through: :device_registrations
 
