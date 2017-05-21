@@ -17,7 +17,7 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
       if @user
         redirect_to admins_event_event_registrations_path, notice: t("alerts.created")
       else
-        UserMailer.invite_to_event(@registration).deliver_now
+        UserMailer.invite_to_event(@registration).deliver_later
         redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{email}', when accepted, it will be added to your users"
       end
     else
@@ -40,7 +40,7 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
   end
 
   def resend
-    UserMailer.invite_to_event(@registration).deliver_now
+    UserMailer.invite_to_event(@registration).deliver_later
     redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{@registration.email}'"
   end
 

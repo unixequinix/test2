@@ -32,7 +32,6 @@ class Events::PaypalController < Events::PaymentsController
 
     if response.success?
       @order.complete!("paypal", response.params.as_json)
-      finish_payment!(@order, "paypal")
       redirect_to success_event_order_path(@current_event, @order)
     else
       @order.fail!("paypal", response.params.as_json)

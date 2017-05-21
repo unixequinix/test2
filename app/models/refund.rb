@@ -24,7 +24,8 @@ class Refund < ApplicationRecord
     MoneyTransaction.write!(event, "refund", :portal, customer, customer, atts)
 
     # Create negative online order (to be replaced by tasks/transactions or start downloading refunds)
-    customer.build_order([[event.credit.id, amount_money]]).complete!("refund", refund_data)
+    order = customer.build_order([[event.credit.id, -total]])
+    order.update!(status: "refunded", gateway: gateway, completed_at: Time.zone.now, payment_data: refund_data)
 
     OrderMailer.completed_refund(self).deliver_later
   end
