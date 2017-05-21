@@ -226,10 +226,12 @@ Rails.application.routes.draw do
           resources :gtags
           resources :accesses
           resources :products
-          resources :refunds
           resources :stations
           resources :tickets
 
+          resources :refunds do
+            put :complete, on: :member
+          end
           resources :orders do
             put :complete, on: :member
           end
