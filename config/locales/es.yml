@@ -123,20 +123,16 @@ es:
     footer_organizer: ¿Tienes alguna pregunta para el organizador? Contacta con él en
     like_on_facebook: Dale a me gusta en Facebook
     order:
-      completed:
-        description: Todos los productos que has comprado serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento. Tu Tarjeta o Pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
-        greet: ¡Gracias por tu compra, %{name}!
-        order_number: Número de pedido
-        subject: Compra en %{event}
-        success: 'Aquí tienes los detalles de tu compra:'
+      description: Todos los productos que has comprado serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento. Tu Tarjeta o Pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
+      greet: ¡Gracias por tu compra, %{name}!
+      order_number: Número de pedido
+      subject: Compra en %{event}
+      success: 'Aquí tienes los detalles de tu compra:'
     our_company: Sobre Glownet
     refund:
-      completed:
-        greet: Hola %{name},
-        order_number: Devolución número
-        subject: COnfirmación de devolución
-        success: 'Aqui tienes el desglose de tu devolución:'
-        thanks: Su devolución ha sido recibida con éxito.
+      subject: Devolución de fondos de %{event}
+      refund_number: Número de devolución
+      success: Tu devolución ha sido procesada con éxito
     reset_password:
       greet: ¡Hola, %{name}!
       mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'

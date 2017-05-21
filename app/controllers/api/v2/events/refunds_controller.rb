@@ -1,5 +1,16 @@
 class Api::V2::Events::RefundsController < Api::V2::BaseController
-  before_action :set_refund, only: %i[show update destroy]
+  before_action :set_refund, only: %i[show update destroy complete]
+
+  # PATCH/PUT /refunds/1
+  def complete
+    if @refund.completed?
+      @refund.errors.add(:status, "is already completed")
+      render json: @refund.errors, status: :unprocessable_entity
+    else
+      @refund.complete!(refund_params[:refund_data])
+      render json: @refund
+    end
+  end
 
   # GET /refunds
   def index
@@ -50,6 +61,6 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def refund_params
-    params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :money, :customer_id)
+    params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :customer_id)
   end
 end

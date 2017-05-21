@@ -16,6 +16,19 @@ class Refund < ApplicationRecord
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   })
 
+  def complete!(refund_data = {}.as_json)
+    execute_refund_of_orders unless gateway.eql?("bank_account")
+    update!(status: "completed")
+
+    atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
+    MoneyTransaction.write!(event, "refund", :portal, customer, customer, atts)
+
+    # Create negative online order (to be replaced by tasks/transactions or start downloading refunds)
+    customer.build_order([[event.credit.id, amount_money]]).complete!("refund", refund_data)
+
+    OrderMailer.completed_refund(self).deliver_later
+  end
+
   def prepare(atts)
     self.status = "completed"
 
