@@ -1,4 +1,12 @@
 class OrderPolicy < ApplicationPolicy
+  def new?
+    user.admin?
+  end
+
+  def create?
+    user.admin?
+  end
+
   def stats?
     admin_and_promoter
   end

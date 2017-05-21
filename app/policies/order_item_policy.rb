@@ -1,5 +1,5 @@
 class OrderItemPolicy < ApplicationPolicy
   def update?
-    admin?
+    user.admin?
   end
 end

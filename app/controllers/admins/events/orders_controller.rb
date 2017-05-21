@@ -14,6 +14,27 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     end
   end
 
+  def new
+    @customer = @current_event.customers.find(params[:customer_id])
+    @order = @current_event.orders.new(customer: @customer)
+    authorize @order
+  end
+
+  def create
+    @customer = @current_event.customers.find(permitted_params[:customer_id])
+    @order = @customer.build_order([[@current_event.credit.id, permitted_params[:credits]]])
+    authorize @order
+
+    if @order.save
+      @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
+      OrderTransaction.write!(@current_event, "order_created", :admin, @customer, current_user, order_id: @order.id)
+      redirect_to [:admins, @current_event, @customer], notice: t("alerts.created")
+    else
+      flash.now[:alert] = t("alerts.error")
+      render :new
+    end
+  end
+
   def show
     authorize @order
   end
@@ -25,6 +46,6 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:order).permit(:status)
+    params.require(:order).permit(:status, :customer_id, :credits)
   end
 end

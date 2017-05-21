@@ -103,7 +103,7 @@ html
             |  Products
           - unless @current_event.created?
             = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons add_shopping_cart
+              i.mdl-color-text--teal-200.material-icons shopping_cart
               |  Orders
             = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons undo

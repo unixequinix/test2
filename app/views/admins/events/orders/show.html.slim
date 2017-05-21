@@ -54,4 +54,5 @@
               td = number_to_event_currency order_item.total
               td = order_item.catalog_item.type
               td = best_in_place order_item, :redeemed, best_in_place_checkbox([:admins, @current_event, @order, order_item])
+            span.mdl-tooltip data-mdl-for="best_in_place_order_item_#{order_item.id}_redeemed" Change Redeemed
   .mdl-layout-spacer
