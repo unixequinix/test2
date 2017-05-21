@@ -1,4 +1,6 @@
 class Admins::Events::OrdersController < Admins::Events::BaseController
+  before_action :set_order, only: %i[show]
+
   def index
     @orders = @current_event.orders.order(id: :desc)
     authorize @orders
@@ -13,7 +15,16 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
   end
 
   def show
-    @order = @current_event.orders.includes(catalog_items: :event).find(params[:id])
     authorize @order
+  end
+
+  private
+
+  def set_order
+    @order = @current_event.orders.includes(catalog_items: :event).find(params[:id])
+  end
+
+  def permitted_params
+    params.require(:order).permit(:status)
   end
 end

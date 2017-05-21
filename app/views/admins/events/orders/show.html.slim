@@ -44,6 +44,7 @@
             th Product Price
             th Total
             th Product Type
+            th Redeemed
         tbody
           - @order.order_items.each do |order_item|
             tr
@@ -52,4 +53,5 @@
               td = number_to_event_currency order_item.catalog_item.price
               td = number_to_event_currency order_item.total
               td = order_item.catalog_item.type
+              td = best_in_place order_item, :redeemed, best_in_place_checkbox([:admins, @current_event, @order, order_item])
   .mdl-layout-spacer

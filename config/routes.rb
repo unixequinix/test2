@@ -56,7 +56,9 @@ Rails.application.routes.draw do
 
       scope module: "events" do
         resources :refunds, only: [:index, :show, :destroy]
-        resources :orders, only: [:index, :show]
+        resources :orders, only: [:index, :show] do
+          resources :order_items, only: :update
+        end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
         resources :devices, only: [:index, :show] do
