@@ -80,7 +80,7 @@ en:
       header_invalid: We are currently retrieving all your purchases. Your final balance will be shown shortly.
       body_invalid: However, if you want to know your current, up-to-date balance, it can be checked at any device. Any Point of Sale, Topup or any other station. You can also contact us through the intercom icon at the bottom right. Or email us at
       body_credits: Your last recorded transaction was a '%{action}' at '%{station}' %{time} ago
-      body_balance: Your balance at the time was
+      body_balance: Your onsite balance at the time was
       refundable: Refundable
     credits_history:
       button: Download Transactions
