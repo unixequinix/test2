@@ -43,12 +43,15 @@
       = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, method: :post}  do |f|
         .container-search
           .form-inputs
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.select :type, options_for_select(Transaction::TYPES.map(&:camelcase), selected: @type), class: "mdl-textfield__input"
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            label.mdl-textfield.mdl-js-textfield for='q_transaction_origin_eq'
               = f.select :transaction_origin_eq, Transaction::ORIGINS.values.map { |t| [t.humanize, t] }, include_blank: true, class: "mdl-textfield__input"
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              span.mdl-label.form-label Origin
+            label.mdl-textfield.mdl-js-textfield for='q_action_eq'
               = f.select :action_eq, @current_event.transactions.select(:action).distinct.pluck(:action).sort.map { |t| [t.humanize, t] }, class: "mdl-textfield__input", include_blank: true
+              span.mdl-label.form-label Action
+            label.mdl-textfield.mdl-js-textfield for='q_station_name_eq'
+              = f.select :station_name_eq, @current_event.stations.pluck(:name).sort.map {|s| [s.humanize, s]}, include_blank: true
+              span.mdl-label.form-label Station
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :customer_tag_uid_cont, placeholder: "Customer tag", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
@@ -60,8 +63,6 @@
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :device_created_at_cont, placeholder: "Created at", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.search_field :station_name_cont, placeholder: "Station", class: "mdl-textfield__input"
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :status_code_eq, placeholder: "Status Code", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :status_message_cont, placeholder: "Status Message", class: "mdl-textfield__input"
@@ -70,10 +71,10 @@
             .mdl-button.mdl-js-button.mdl-button--raised.search-toggle Close
   .mdl-layout-spacer
 
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    - if @type
+- if @transactions.any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
       .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @transactions
       .admin-card-wide.mdl-card.mdl-shadow--2dp
         .table-responsive
@@ -86,6 +87,7 @@
                 th Station
                 th Device
                 th Customer
+                th At
             tbody
               - @transactions.each do |transaction|
                 tr class="#{"danger" unless transaction.status_code.to_i.zero?}"
@@ -104,8 +106,10 @@
                       = link_to transaction.customer_tag_uid, admins_event_gtag_path(@current_event, transaction.gtag)
                     - else
                       = transaction.customer_tag_uid
-      .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
-  .mdl-layout-spacer
+                  td data-label="At" = l Time.parse(transaction.device_created_at)
+
+        .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
+    .mdl-layout-spacer
 
 
 

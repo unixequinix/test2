@@ -1,7 +1,14 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type, except: :index
-  before_action :set_transactions, except: %i[show fix status_9 status_0]
+  before_action :set_transactions, except: %i[index show fix status_9 status_0]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
+
+  def index
+    @transactions = params[:q] ? @current_event.transactions :  @current_event.transactions.none
+    authorize @transactions
+    @q = @transactions.search(params[:q])
+    @transactions = @q.result.page(params[:page]).includes(:customer, :station)
+  end
 
   def search
     authorize @transactions
@@ -45,7 +52,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
 
   def set_type
     @type = params[:type] || (params[:q] && params[:q][:type])
-    @type.camelcase
+    @type&.camelcase
   end
 
   def set_transactions
