@@ -16,9 +16,10 @@
       .tools
         - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
           .tool-item
-            = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
-              span.material-icons add_shopping_cart
-              span.mdl-tooltip data-mdl-for="topup" = t("dashboard.topup")
+            = link_to new_event_order_path(@current_event) do
+              .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored#topup
+                span.material-icons add_shopping_cart
+              .credit-tooltip = t("dashboard.topup")
         - if @current_event.refunds? && @current_event.finished? && !@current_customer.global_refundable_credits.zero? && current_customer.valid_balance?
           .tool-item
             = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do

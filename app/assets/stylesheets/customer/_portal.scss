@@ -565,3 +565,14 @@ ul.container-payment-buttons{
   }
 }
 
+.credit-tooltip{
+  color: rgb(255,82,82);
+  font-weight: 600;
+  padding: 8px;
+  text-align: right;
+  max-width: 170px;
+  font-size: 12px;
+  text-transform: uppercase;
+  transform-origin: top center;
+  line-height: 14px;
+}
