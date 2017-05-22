@@ -63,7 +63,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     # TODO: This method will need to take into account refunds when we stop creating negative online orders
     transactions_balance = event.transactions.credit.onsite.status_ok.where(gtag: gtags, action: "record_credit").sum(:refundable_credits)
     redeemed_credits = gtags.any? ? transactions_balance : 0.00
-    active_gtag&.credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - redeemed_credits
+    active_gtag&.refundable_credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - redeemed_credits
   end
 
   def global_money
