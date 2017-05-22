@@ -1,4 +1,8 @@
 class CustomerPolicy < ApplicationPolicy
+  def refunds?
+    admin_promoter_and_support
+  end
+
   def reset_password?
     admin_promoter_and_support && event_open
   end
