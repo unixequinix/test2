@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :validatable, :trackable
 
-  has_many :event_registrations
+  has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations
 
   before_create :generate_access_token
