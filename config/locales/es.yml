@@ -147,10 +147,8 @@ es:
     suscribe_on_you_tube: Suscríbete en YouTube
   event:
     locales:
-      de: GER
       en: ENG
       es: ESP
-      it: ITA
     subject_support: Necesito ayuda para %{event}
   footer:
     copyright: "© Glownet"
