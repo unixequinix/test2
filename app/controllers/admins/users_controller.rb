@@ -1,5 +1,5 @@
 class Admins::UsersController < Admins::BaseController
-  before_action :set_user, only: %i[update destroy show]
+  before_action :set_user, only: %i[update destroy show destroy]
   before_action :authorize!
 
   def index
@@ -22,6 +22,18 @@ class Admins::UsersController < Admins::BaseController
     end
   end
 
+  def destroy
+    respond_to do |format|
+      if @user.destroy
+        format.html { redirect_to admins_users_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
+      else
+        format.html { redirect_to @user, alert: @user.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @user.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def authorize!
@@ -30,6 +42,7 @@ class Admins::UsersController < Admins::BaseController
 
   def set_user
     @user = User.find(params[:id])
+    authorize @user
   end
 
   def permitted_params

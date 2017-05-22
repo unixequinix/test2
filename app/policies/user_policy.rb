@@ -12,6 +12,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    admin_and_promoter
+    user.admin?
   end
 end

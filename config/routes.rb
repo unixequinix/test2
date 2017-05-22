@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     get "/admins/sign_in", to: "admins/sessions#new"
   end
 
-  resources :users, except: :index
+  resources :users, except: [:index, :destroy]
 
   namespace :admins do
 

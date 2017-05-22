@@ -39,7 +39,7 @@
                 td.mdl-data-table__cell--non-numeric data-label="Email"
                   = link_to user.email, [:admins, user]
                   .table-action
-                    = link_to admins_users_path(@current_event, user), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                    = link_to [:admins, user], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.material-icons delete
                 td.mdl-data-table__cell--non-numeric data-label="Username" = best_in_place user, :username, ur: [:admins, user]
                 td.mdl-data-table__cell--non-numeric data-label="Role" = best_in_place user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, user]
