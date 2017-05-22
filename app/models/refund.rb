@@ -40,6 +40,10 @@ class Refund < ApplicationRecord
     self.bsb = true if event.bsb?
   end
 
+  def completed?
+    status.casecmp("completed").zero?
+  end
+
   def total
     amount.to_f + fee.to_f
   end
