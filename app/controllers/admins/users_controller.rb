@@ -5,7 +5,7 @@ class Admins::UsersController < Admins::BaseController
   def index
     @q = policy_scope(User).ransack(params[:q])
     @users = @q.result
-    @users = User.all.order(:email).page(params[:per_page]) if params[:q].blank?
+    @users = User.all.order(:role, :email).page(params[:per_page]) if params[:q].blank?
     @users = @users.page(params[:page])
     render layout: "admin"
   end
