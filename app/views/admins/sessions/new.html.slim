@@ -6,7 +6,7 @@
       .mdl-card__supporting-text
         = simple_form_for(@user, url: new_user_session_path, method: :post, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_boolean}) do |f|
           .form-inputs
-            = f.input :email, autofocus: true
+            = f.input :login, autofocus: true
             = f.input :password
 
             = f.button :submit, "Log in", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
