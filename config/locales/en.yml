@@ -250,7 +250,7 @@ en:
     am: am
     pm: pm
     formats:
-      default: "%Y-%m-%d %H:%M"
+      default: "%d/%h/%y %H:%M"
       long: "%a, %d %b %Y %H:%M:%S"
       short: "%d %b %H:%M"
       zone_description: "%:z %Z"
