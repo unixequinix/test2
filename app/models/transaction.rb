@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   belongs_to :event
   belongs_to :station
-  belongs_to :customer
+  belongs_to :customer, optional: true
   belongs_to :gtag
 
   scope(:credit, -> { where(type: "CreditTransaction") })

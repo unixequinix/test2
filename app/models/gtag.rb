@@ -1,6 +1,8 @@
 class Gtag < ApplicationRecord
   include Credentiable
 
+  belongs_to :ticket_type, optional: true
+
   # Gtag limits
   DEFINITIONS = { ultralight_c:   { entitlement_limit: 56, credential_limit: 32 } }.freeze
 

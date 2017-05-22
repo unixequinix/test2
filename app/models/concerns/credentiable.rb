@@ -4,7 +4,6 @@ module Credentiable
   included do
     belongs_to :event
     belongs_to :customer
-    belongs_to :ticket_type
 
     has_many :transactions, dependent: :restrict_with_error
   end

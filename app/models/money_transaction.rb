@@ -1,6 +1,6 @@
 class MoneyTransaction < Transaction
-  belongs_to :catalog_item
-  belongs_to :order
+  belongs_to :catalog_item, optional: true
+  belongs_to :order, optional: true
 
   def self.mandatory_fields
     super + %w[items_amount price payment_method]
