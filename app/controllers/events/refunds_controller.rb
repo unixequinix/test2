@@ -10,6 +10,7 @@ class Events::RefundsController < Events::EventsController
     @refund.prepare(permitted_params)
 
     if @refund.save
+      @refund.execute_refund_of_orders unless @refund.gateway.eql?("bank_account")
       @refund.complete!
       redirect_to customer_root_path(@current_event), notice: t("refunds.success")
     else

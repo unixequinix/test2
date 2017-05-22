@@ -7,7 +7,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
       @refund.errors.add(:status, "is already completed")
       render json: @refund.errors, status: :unprocessable_entity
     else
-      @refund.complete!(refund_params[:refund_data])
+      @refund.complete!(params[:refund_data])
       render json: @refund
     end
   end

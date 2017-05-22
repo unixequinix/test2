@@ -17,7 +17,6 @@ class Refund < ApplicationRecord
   })
 
   def complete!(refund_data = {}.as_json)
-    execute_refund_of_orders unless gateway.eql?("bank_account")
     update!(status: "completed")
 
     atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
