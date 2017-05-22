@@ -53,7 +53,7 @@ class Refund < ApplicationRecord
   end
 
   def fee_money
-    fee * event.credit.value
+    fee.to_f * event.credit.value
   end
 
   def total_money
