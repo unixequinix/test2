@@ -1,4 +1,4 @@
-class AddSearchIndexesToTransactions < ActiveRecord::Migration
+class AddSearchIndexesToTransactions < ActiveRecord::Migration[5.0]
   def change
     add_index(:transactions, :device_uid, using: :btree) unless index_exists?(:transactions, :device_uid)
     add_index(:transactions, :device_db_index, using: :btree) unless index_exists?(:transactions, :device_db_index)

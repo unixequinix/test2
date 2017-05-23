@@ -1,4 +1,4 @@
-class UniteSettingsInEvent < ActiveRecord::Migration
+class UniteSettingsInEvent < ActiveRecord::Migration[5.0]
   def change
     add_column :events, :city_mandatory, :boolean unless column_exists?(:events, :city_mandatory, :boolean)
     add_column :events, :phone_mandatory, :boolean unless column_exists?(:events, :phone_mandatory, :boolean)

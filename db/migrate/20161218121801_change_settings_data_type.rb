@@ -1,4 +1,4 @@
-class ChangeSettingsDataType < ActiveRecord::Migration
+class ChangeSettingsDataType < ActiveRecord::Migration[5.0]
   def change
     change_column(:events, :registration_settings, :jsonb, null: false, default: '{}') if column_exists?(:events, :registration_settings)
     change_column(:events, :gtag_settings, :jsonb, null: false, default: '{}') if column_exists?(:events, :gtag_settings)
