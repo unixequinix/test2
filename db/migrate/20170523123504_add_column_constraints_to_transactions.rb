@@ -1,5 +1,6 @@
 class AddColumnConstraintsToTransactions < ActiveRecord::Migration[5.1]
   def change
+    Transaction.where(action: nil).delete_all
     change_column_null :transactions, :event_id, false
     change_column_null :transactions, :action, false
     change_column_null :transactions, :transaction_origin, false
