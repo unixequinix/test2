@@ -21,7 +21,7 @@ tr
         //Product quantity
         td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.product_description')
         //Product price
-        td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_toakn @refund.total, unit: @event.credit.name, format: "%u %n"
+        td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.total, unit: @event.credit.name, format: "%u %n"
 
       - if @refund.fee.to_f > 0
         tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
