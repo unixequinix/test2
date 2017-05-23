@@ -6,9 +6,10 @@ class Refund < ApplicationRecord
 
   validates :field_a, length: { is: 6 }, bsb_number: true, if: :bsb
   validates :field_b, length: { within: 6..10 }, if: :bsb
-  validate :correct_iban_and_swift, if: :iban
+  validates :fee, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :field_a, :field_b, presence: true, if: (-> { gateway.eql?("bank_account") })
 
-  validates(:field_a, :field_b, presence: true, if: -> { gateway.eql?("bank_account") })
+  validate :correct_iban_and_swift, if: :iban
 
   scope(:query_for_csv, lambda { |event|
     joins(:customer)
@@ -45,7 +46,7 @@ class Refund < ApplicationRecord
   end
 
   def total
-    amount.to_f + fee.to_f
+    amount.to_f + fee
   end
 
   def amount_money
@@ -53,7 +54,7 @@ class Refund < ApplicationRecord
   end
 
   def fee_money
-    fee.to_f * event.credit.value
+    fee * event.credit.value
   end
 
   def total_money

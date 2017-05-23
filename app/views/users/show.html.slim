@@ -10,16 +10,16 @@
           tbody
             tr
               td.mdl-data-table__cell--non-numeric Username
-              td = best_in_place @user, :username, url: [:admins, @user]
+              td = best_in_place @user, :username, url: [@user]
             tr
               td.mdl-data-table__cell--non-numeric Email
-              td = best_in_place @user, :email, url: [:admins, @user]
+              td = best_in_place @user, :email, url: [@user]
             tr
               td.mdl-data-table__cell--non-numeric Access token
-              td = best_in_place @user, :access_token, url: [:admins, @user]
+              td = best_in_place @user, :access_token, url: [@user]
             tr
               td.mdl-data-table__cell--non-numeric Role
-              td = best_in_place @user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @user]
+              td = best_in_place @user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [@user]
             tr
               td.mdl-data-table__cell--non-numeric Last Logged in
               td = l @user.last_sign_in_at

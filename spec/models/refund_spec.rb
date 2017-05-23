@@ -48,7 +48,7 @@ RSpec.describe Refund, type: :model do
     end
 
     it "calculates fee" do
-      expect(subject.fee_money.to_f).to eql(subject.fee.to_f * 10)
+      expect(subject.fee_money).to eql(subject.fee * 10)
     end
 
     it "calculates total" do
