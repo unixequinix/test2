@@ -52,11 +52,11 @@ class Transaction < ApplicationRecord
   end
 
   def status_ok?
-    status_code.to_i.zero?
+    status_code.zero?
   end
 
   def status_not_ok?
-    !status_code.to_i.zero?
+    !status_code.zero?
   end
 
   def self.mandatory_fields

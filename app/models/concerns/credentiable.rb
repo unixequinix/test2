@@ -16,19 +16,19 @@ module Credentiable
     update_attribute(:banned, false)
   end
 
-  def assign_customer(new_customer, origin, operator)
+  def assign_customer(new_customer, operator, origin = :portal)
     update!(customer: new_customer)
     new_customer.touch
-    write_assignation_transaction("assigned", origin, operator)
+    write_assignation_transaction("assigned", operator, origin)
   end
 
-  def unassign_customer(origin, operator)
+  def unassign_customer(operator = nil, origin = :portal)
     customer&.touch
-    write_assignation_transaction("unassigned", origin, operator)
+    write_assignation_transaction("unassigned", operator, origin)
     update!(customer: nil)
   end
 
-  def write_assignation_transaction(action, origin, operator)
+  def write_assignation_transaction(action, operator, origin = :portal)
     action = "#{model_name.element}_#{action}"
     CredentialTransaction.write!(event, action, origin, customer, operator, assignation_atts)
   end

@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Transactions::Base, type: :job do
   let(:base)  { Transactions::Base }
   let(:event) { create(:event) }
-  let(:gtag)  { create(:gtag, tag_uid: "AAAAA") }
+  let(:gtag)  { create(:gtag, tag_uid: "AAAAA", event: event) }
   let(:customer) { create(:customer, event: event) }
   let(:params) do
     {
@@ -56,22 +56,15 @@ RSpec.describe Transactions::Base, type: :job do
   end
 
   context "when tag_uid is present in DB" do
-    before { params[:customer_tag_uid] = gtag.tag_uid }
-
-    it "creates a Gtag if not present in event" do
-      expect { base.perform_now(params) }.to change(Gtag, :count).by(1)
-    end
-
-    it "does not create a Gtag if present in event" do
+    it "does not create a Gtag" do
       event.gtags << gtag
       expect { base.perform_now(params) }.not_to change(Gtag, :count)
     end
   end
 
   context "when tag_uid is not present in DB" do
-    before { params[:customer_tag_uid] = "1234567890" }
-
     it "creates a Gtag for the event" do
+      params[:customer_tag_uid] = "1234567890"
       expect { base.perform_now(params) }.to change(Gtag, :count).by(1)
     end
   end

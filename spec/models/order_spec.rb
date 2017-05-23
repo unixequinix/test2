@@ -6,7 +6,7 @@ RSpec.describe Order, type: :model do
 
   describe ".complete!" do
     it "marks the order as completed" do
-      subject.complete!("paypal", {})
+      subject.complete!("paypal", {}.to_json)
       expect(subject).to be_completed
     end
   end
@@ -36,14 +36,14 @@ RSpec.describe Order, type: :model do
 
   describe ".fail!" do
     it "marks the order as faild" do
-      subject.fail!("paypal", {})
+      subject.fail!("paypal", {}.to_json)
       expect(subject.status).to eq("failed")
     end
   end
 
   describe ".cancel!" do
     it "marks the order as canceld" do
-      subject.cancel!({})
+      subject.cancel!({}.to_json)
       expect(subject.status).to eq("cancelled")
     end
   end

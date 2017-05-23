@@ -26,7 +26,7 @@
       h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
 
       .clearfix
-      - @devices[type].sort_by { |device| device.battery.to_i }.each do |device|
+      - @devices[type].sort_by { |device| device.battery }.each do |device|
         .device-card.mdl-card.mdl-shadow--2dp style="float: left"
           .content-grid.mdl-grid class="#{klass}_header"
             .mdl-cell.mdl-cell--6-col.left

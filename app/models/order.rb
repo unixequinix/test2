@@ -1,11 +1,14 @@
 class Order < ApplicationRecord
   belongs_to :event
   belongs_to :customer, touch: true
+
   has_many :order_items, dependent: :destroy
   has_many :catalog_items, through: :order_items
+
   accepts_nested_attributes_for :order_items
 
-  validates :number, :status, presence: true
+  validates :number, :status, :refund_data, :payment_data, presence: true
+
   validate :max_credit_reached
 
   scope(:not_refund, -> { where.not(gateway: "refund") })
@@ -25,7 +28,7 @@ class Order < ApplicationRecord
 
   def complete!(gateway, payment)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
-    atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total.to_f }
+    atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
     MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
     OrderMailer.completed_order(self).deliver_later
   end
@@ -91,7 +94,7 @@ class Order < ApplicationRecord
   def max_credit_reached
     return unless customer
     return if cancelled?
-    max_credits_reached = customer.global_credits + credits > event.maximum_gtag_balance.to_f
+    max_credits_reached = customer.global_credits + credits > event.maximum_gtag_balance
     errors.add(:credits, I18n.t("alerts.max_credits_reached")) if max_credits_reached
   end
 end

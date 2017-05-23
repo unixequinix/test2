@@ -46,7 +46,7 @@ class Refund < ApplicationRecord
   end
 
   def total
-    amount.to_f + fee
+    amount + fee
   end
 
   def amount_money
@@ -77,8 +77,8 @@ class Refund < ApplicationRecord
   def reduce_orders(orders, amount)
     order = orders.shift
     return [] unless order
-    return [[order, amount.to_f]] if order.total > amount
-    [[order, order.total.to_f]] + reduce_orders(orders, amount - order.total.to_f)
+    return [[order, amount]] if order.total > amount
+    [[order, order.total]] + reduce_orders(orders, amount - order.total)
   end
 
   def correct_iban_and_swift

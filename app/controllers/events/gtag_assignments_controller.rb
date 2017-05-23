@@ -9,7 +9,7 @@ class Events::GtagAssignmentsController < Events::EventsController
     flash.now[:error] = t("alerts.credential.blacklisted", item: "Tag") if @gtag&.banned?
     render(:new) && return if flash.now[:error].present?
 
-    @gtag.assign_customer(current_customer, :portal, current_customer)
+    @gtag.assign_customer(current_customer, current_customer)
     @gtag.assign_ticket
     redirect_to event_path(@current_event), notice: t("alerts.credential.assigned", item: "Tag")
   end

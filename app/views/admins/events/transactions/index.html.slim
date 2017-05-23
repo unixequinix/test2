@@ -90,7 +90,7 @@
                 th At
             tbody
               - @transactions.each do |transaction|
-                tr class="#{"danger" unless transaction.status_code.to_i.zero?}"
+                tr class="#{"danger" unless transaction.status_code.zero?}"
                   td.mdl-data-table__cell--non-numeric data-label="ID" = link_to transaction.action&.humanize, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
                   td data-label="Origin" = transaction.transaction_origin&.humanize
                   td data-label="Counter" = transaction.gtag_counter || transaction.counter

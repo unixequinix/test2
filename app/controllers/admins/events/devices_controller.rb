@@ -12,7 +12,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
 
       last_action = device_transactions.order(:created_at).last&.action&.downcase&.to_s
       device.action = last_action
-      last_transactions_count = registration.number_of_transactions.to_i
+      last_transactions_count = registration.number_of_transactions
       device.status = case
         when (count != last_transactions_count) then
           count_diff = last_transactions_count - count
@@ -29,9 +29,9 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
       device.live = registration.updated_at > 5.minute.ago
       device.live_time = last_onsite.created_at if last_onsite
       device.live_time = registration.updated_at
-      device.battery = registration.battery.to_i
-      device.number_of_transactions = registration.number_of_transactions.to_i
-      device.server_transactions = registration.server_transactions.to_i
+      device.battery = registration.battery
+      device.number_of_transactions = registration.number_of_transactions
+      device.server_transactions = registration.server_transactions
       device.operator = last_onsite&.operator_tag_uid
       device.station = last_onsite&.station&.name
       device.last_time_used = last_onsite&.device_created_at

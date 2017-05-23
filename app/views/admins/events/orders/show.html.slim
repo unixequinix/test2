@@ -49,7 +49,7 @@
           - @order.order_items.each do |order_item|
             tr
               td.mdl-data-table__cell--non-numeric = order_item.catalog_item.name
-              td = number_with_delimiter order_item.amount.to_i
+              td = number_with_delimiter order_item.amount
               td = number_to_event_currency order_item.catalog_item.price
               td = number_to_event_currency order_item.total
               td = order_item.catalog_item.type

@@ -8,22 +8,22 @@ shared_examples_for "credentiable" do
 
   describe ".assign_customer" do
     it "assigns the customer to the #{described_class}" do
-      expect { subject.assign_customer(customer, :test, nil) }.to change(subject, :customer).from(nil).to(customer)
+      expect { subject.assign_customer(customer, nil) }.to change(subject, :customer).from(nil).to(customer)
     end
 
     it "touches the customer updated_at" do
       customer.update_columns(updated_at: 100.years.ago)
-      expect { subject.assign_customer(customer, :test, nil) }.to change(customer, :updated_at)
+      expect { subject.assign_customer(customer, nil) }.to change(customer, :updated_at)
     end
 
     it "touches the customer updated_at" do
       customer.update_columns(updated_at: 100.years.ago)
-      expect { subject.assign_customer(customer, :test, nil) }.to change(customer, :updated_at)
+      expect { subject.assign_customer(customer, nil) }.to change(customer, :updated_at)
     end
 
     it "writes the transaction" do
-      expect(subject).to receive(:write_assignation_transaction).with("assigned", :test, nil)
-      subject.assign_customer(customer, :test, nil)
+      expect(subject).to receive(:write_assignation_transaction).with("assigned", nil, :portal)
+      subject.assign_customer(customer, nil)
     end
   end
 
@@ -31,22 +31,22 @@ shared_examples_for "credentiable" do
     before { subject.update!(customer: customer) }
 
     it "unassigns the customer" do
-      expect { subject.unassign_customer(:test, nil) }.to change(subject, :customer).from(customer).to(nil)
+      expect { subject.unassign_customer }.to change(subject, :customer).from(customer).to(nil)
     end
 
     it "touches the customer updated_at" do
       customer.update_columns(updated_at: 100.years.ago)
-      expect { subject.unassign_customer(:test, nil) }.to change(customer, :updated_at)
+      expect { subject.unassign_customer }.to change(customer, :updated_at)
     end
 
     it "touches the customer updated_at" do
       customer.update_columns(updated_at: 100.years.ago)
-      expect { subject.unassign_customer(:test, nil) }.to change(customer, :updated_at)
+      expect { subject.unassign_customer }.to change(customer, :updated_at)
     end
 
     it "writes the transaction" do
-      expect(subject).to receive(:write_assignation_transaction).with("unassigned", :test, nil)
-      subject.unassign_customer(:test, nil)
+      expect(subject).to receive(:write_assignation_transaction).with("unassigned", nil, :portal)
+      subject.unassign_customer
     end
   end
 
@@ -54,18 +54,18 @@ shared_examples_for "credentiable" do
     before { subject.update!(customer: customer) }
 
     it "writes a credential transaction" do
-      expect { subject.write_assignation_transaction("assigned", :test, nil) }.to change(CredentialTransaction, :count).by(1)
+      expect { subject.write_assignation_transaction("assigned", nil) }.to change(CredentialTransaction, :count).by(1)
     end
 
     it "resolves the action to #{described_class}_action" do
-      transaction = subject.write_assignation_transaction("assigned", :test, nil)
+      transaction = subject.write_assignation_transaction("assigned", nil)
       expect(transaction.action).to eq("#{model.to_s.underscore}_assigned")
     end
 
     it "call CredentialTransaction.write! method" do
       action = "#{model.to_s.underscore}_assigned"
-      expect(CredentialTransaction).to receive(:write!).with(subject.event, action, :test, customer, nil, subject.assignation_atts)
-      subject.write_assignation_transaction("assigned", :test, nil)
+      expect(CredentialTransaction).to receive(:write!).with(subject.event, action, :portal, customer, nil, subject.assignation_atts)
+      subject.write_assignation_transaction("assigned", nil)
     end
   end
 end

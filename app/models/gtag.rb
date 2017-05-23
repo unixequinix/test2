@@ -10,6 +10,8 @@ class Gtag < ApplicationRecord
   validates :tag_uid, presence: true
   validates :tag_uid, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }
 
+  validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
+
   scope(:query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, format") })
   scope(:banned, -> { where(banned: true) })
 
@@ -25,8 +27,8 @@ class Gtag < ApplicationRecord
     ts = transactions.onsite.credit.where(status_code: 0).order(:gtag_counter, :device_created_at)
     self.credits = ts.sum(:credits)
     self.refundable_credits = ts.sum(:refundable_credits)
-    self.final_balance = ts.last&.final_balance.to_f
-    self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
+    self.final_balance = ts.last&.final_balance
+    self.final_refundable_balance = ts.last&.final_refundable_balance
 
     save if changed?
   end

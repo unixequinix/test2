@@ -7,8 +7,7 @@ class Station < ApplicationRecord
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
 
-  validates :name, presence: true
-  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
+  validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }
 
   after_create :add_predefined_values
