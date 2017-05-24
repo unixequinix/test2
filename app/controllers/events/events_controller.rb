@@ -18,7 +18,7 @@ class Events::EventsController < ApplicationController
   end
 
   def authenticate_customer!
-    redirect_to(event_login_path(@current_event)) && return unless customer_signed_in?
+    redirect_to(event_login_path(current_event)) && return unless customer_signed_in?
     redirect_to(customer_root_path(current_customer.event)) && return unless current_customer.event == @current_event
     super
   end
