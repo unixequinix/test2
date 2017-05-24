@@ -1,7 +1,14 @@
 class Admins::Events::RefundsController < Admins::Events::BaseController
   def index
-    @refunds = @current_event.refunds.page(params[:page])
+    @refunds = @current_event.refunds.includes(:customer).page(params[:page])
     authorize @refunds
+
+    @graph = %w[started completed].map do |action|
+      data = @current_event.refunds.where(status: action).group_by_day(:created_at).sum(:amount)
+      data = data.collect { |k, v| [k, v.to_i.abs] }
+      { name: action, data: Hash[data] }
+    end
+
     respond_to do |format|
       format.html
       format.csv { send_data(CsvExporter.to_csv(Refund.query_for_csv(@current_event))) }
