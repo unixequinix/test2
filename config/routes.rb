@@ -90,7 +90,7 @@ Rails.application.routes.draw do
             get :resolvable
           end
         end
-        resources :transactions, only: [:index, :show, :update] do
+        resources :transactions, only: [:index, :show, :update, :destroy] do
           post :search, on: :collection
           get :status_9, on: :member
           get :status_0, on: :member

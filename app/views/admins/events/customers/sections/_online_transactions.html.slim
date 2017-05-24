@@ -13,6 +13,7 @@
               th.mdl-data-table__cell--non-numeric Action
               th Transaction origin
               th Created
+              th
 
           tbody
             - transactions.each do |transaction|
@@ -21,6 +22,10 @@
                 td.mdl-data-table__cell--non-numeric data-label="Action" = link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
                 td data-label="Transaction origin" = transaction.transaction_origin.humanize
                 td data-label="Device created at" = l Time.zone.parse(transaction.device_created_at)
+                td
+                  - if current_user.admin?
+                    = link_to admins_event_transaction_path(@current_event, transaction), method: "delete", class: "mdl-button mdl-button--icon" do
+                      span.icon.material-icons close
 
   .mdl-layout-spacer
 

@@ -1,6 +1,6 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type, except: :index
-  before_action :set_transactions, except: %i[index show fix status_9 status_0]
+  before_action :set_transactions, except: %i[index show fix status_9 status_0 destroy]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
 
   def index
@@ -41,6 +41,13 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
     @transaction.update(status_code: 0, status_message: "accepted by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
     redirect_to(:back, notice: "Transaction accepted successfully")
+  end
+
+  def destroy
+    skip_authorization # TODO: remove after loolla
+    @transaction = @current_event.transactions.find(params[:id])
+    @transaction.destroy
+    redirect_to request.referer, notice: t('alerts.destroyed')
   end
 
   private
