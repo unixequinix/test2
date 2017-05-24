@@ -1,6 +1,11 @@
 class AddColumnConstraintsToEvents < ActiveRecord::Migration[5.1]
   def change
     Event.where(transaction_buffer: nil).update_all(transaction_buffer: 100)
+    Event.where(days_to_keep_backup: nil).update_all(days_to_keep_backup: 5)
+    Event.where(sync_time_customers: nil).update_all(sync_time_customers: 5)
+    Event.where(sync_time_server_date: nil).update_all(sync_time_server_date: 5)
+    Event.where(sync_time_basic_download: nil).update_all(sync_time_basic_download: 5)
+    Event.where(sync_time_event_parameters: nil).update_all(sync_time_event_parameters: 5)
     change_column_null :events, :gtag_type, false
     change_column_null :events, :maximum_gtag_balance, false
     change_column_null :events, :fast_removal_password, false
