@@ -16,6 +16,8 @@ class AddColumnConstraintsToForeignKeys < ActiveRecord::Migration[5.1]
     change_column_null :device_transactions, :event_id, false
     change_column_null :device_transactions, :device_id, false
 
+    EventRegistration.where(user_id: nil).delete_all
+    EventRegistration.where(event_id: nil).delete_all
     change_column_null :event_registrations, :event_id, false
     change_column_null :event_registrations, :user_id, false
 
