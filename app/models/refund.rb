@@ -18,6 +18,7 @@ class Refund < ApplicationRecord
   })
 
   def complete!(refund_data = {}.to_json)
+    return false if completed?
     update!(status: "completed")
 
     atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
