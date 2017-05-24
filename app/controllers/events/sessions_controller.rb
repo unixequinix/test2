@@ -14,7 +14,7 @@ class Events::SessionsController < Devise::SessionsController
   end
 
   def after_sign_out_path_for(_resource)
-    customer_root_path(current_event)
+    event_login_path(current_event)
   end
 
   def current_event
