@@ -1,5 +1,6 @@
 class AddColumnConstraintsToEvents < ActiveRecord::Migration[5.1]
   def change
+    Event.where(transaction_buffer: nil).update_all(transaction_buffer: 100)
     change_column_null :events, :gtag_type, false
     change_column_null :events, :maximum_gtag_balance, false
     change_column_null :events, :fast_removal_password, false
