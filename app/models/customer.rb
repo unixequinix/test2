@@ -1,5 +1,6 @@
 class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
-  devise :database_authenticatable, :registerable, :recoverable, :validatable, :omniauthable,
+  devise :database_authenticatable, :registerable, :recoverable, :omniauthable,
+         request_keys: %i[event_id],
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
          reset_password_within: 1.day,
@@ -20,15 +21,15 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :email, uniqueness: { scope: [:event_id] }
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
-  validates(:agreed_event_condition, acceptance: { accept: true }, if: -> { event&.agreed_event_condition? })
-  validates(:phone, presence: true, if: -> { custom_validation("phone") })
-  validates(:birthdate, presence: true, if: -> { custom_validation("birthdate") })
-  validates(:phone, presence: true, if: -> { custom_validation("phone") })
-  validates(:postcode, presence: true, if: -> { custom_validation("address") })
-  validates(:address, presence: true, if: -> { custom_validation("address") })
-  validates(:city, presence: true, if: -> { custom_validation("address") })
-  validates(:country, presence: true, if: -> { custom_validation("address") })
-  validates(:gender, presence: true, if: -> { custom_validation("gender") })
+  validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? })
+  validates :phone, presence: true, if: (-> { custom_validation("phone") })
+  validates :birthdate, presence: true, if: (-> { custom_validation("birthdate") })
+  validates :phone, presence: true, if: (-> { custom_validation("phone") })
+  validates :postcode, presence: true, if: (-> { custom_validation("address") })
+  validates :address, presence: true, if: (-> { custom_validation("address") })
+  validates :city, presence: true, if: (-> { custom_validation("address") })
+  validates :country, presence: true, if: (-> { custom_validation("address") })
+  validates :gender, presence: true, if: (-> { custom_validation("gender") })
 
   scope(:query_for_csv, lambda { |event|
     where(event: event)
