@@ -32,6 +32,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
             gtags.banned,
             gtags.redeemed,
             ticket_types.catalog_item_id as catalog_item_id,
+            gtags.ticket_type_id,
             customer_id
           FROM gtags
 

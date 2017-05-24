@@ -17,8 +17,7 @@ class Refund < ApplicationRecord
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   })
 
-  def complete!(refund_data = {}.as_json)
-    refund_data ||= {}.as_json
+  def complete!(refund_data = {}.to_json)
     update!(status: "completed")
 
     atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
@@ -42,7 +41,7 @@ class Refund < ApplicationRecord
   end
 
   def completed?
-    status.casecmp("completed").zero?
+    status.eql?("completed")
   end
 
   def total
@@ -70,7 +69,7 @@ class Refund < ApplicationRecord
 
     reduce_orders(orders, amount_money).map do |order, amount|
       response = order.online_refund(amount)
-      order.update!(status: "refunded", refund_data: response.params.as_json) if response.success?
+      order.update!(status: "refunded", refund_data: response.params.to_json) if response.success?
     end
   end
 
