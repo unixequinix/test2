@@ -12,7 +12,7 @@ class AddColumnConstraintsToEvents < ActiveRecord::Migration[5.1]
     Event.where(gtag_deposit_fee: nil).update_all(gtag_deposit_fee: 1)
     Event.where(credit_step: nil).update_all(credit_step: 1)
     Event.where(gtag_format: nil).update_all(gtag_format: 1)
-    Event.where(bank_format: nil).update_all(bank_format: "nothing")
+    Event.where(bank_format: nil).update_all(bank_format: 0)
     Event.where(app_version: nil).update_all(app_version: "all")
     Event.where(timezone: nil).update_all(timezone: "Madrid")
     Event.where(start_date: nil).update_all(start_date: Date.today - 100)
