@@ -10,15 +10,17 @@
           thead
             tr
               th.mdl-data-table__cell--non-numeric Counters
-              th Device created at
+              th.mdl-data-table__cell--non-numeric Action
               th Transaction origin
-              th Action
+              th Created
+
           tbody
-             - transactions.each do |transaction|
+            - transactions.each do |transaction|
               tr class="#{"danger" unless transaction.status_code.zero?}"
                 td.mdl-data-table__cell--non-numeric data-label="Counters" = transaction.counter
-                td data-label="Device created at" = l Time.zone.parse(transaction.device_created_at)
+                td.mdl-data-table__cell--non-numeric data-label="Action" = link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
                 td data-label="Transaction origin" = transaction.transaction_origin.humanize
-                td data-label="Action" = link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
+                td data-label="Device created at" = l Time.zone.parse(transaction.device_created_at)
+
   .mdl-layout-spacer
 

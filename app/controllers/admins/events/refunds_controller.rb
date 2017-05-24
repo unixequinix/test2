@@ -24,7 +24,7 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     skip_authorization # TODO: remove after loolla
     @refund = @current_event.refunds.find(params[:id])
     @refund.destroy
-    redirect_to :back, notice: t('alerts.destroyed')
+    redirect_to request.referer, notice: t('alerts.destroyed')
   end
 
   private

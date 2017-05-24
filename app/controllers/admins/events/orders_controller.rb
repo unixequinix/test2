@@ -39,6 +39,13 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     authorize @order
   end
 
+  def destroy # TODO: remove after loolla
+    skip_authorization
+    @order = @current_event.orders.find(params[:id])
+    @order.destroy
+    redirect_to request.referer, notice: t('alerts.destroyed')
+  end
+
   private
 
   def set_order
