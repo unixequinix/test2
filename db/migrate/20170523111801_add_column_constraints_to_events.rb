@@ -6,6 +6,19 @@ class AddColumnConstraintsToEvents < ActiveRecord::Migration[5.1]
     Event.where(sync_time_server_date: nil).update_all(sync_time_server_date: 5)
     Event.where(sync_time_basic_download: nil).update_all(sync_time_basic_download: 5)
     Event.where(sync_time_event_parameters: nil).update_all(sync_time_event_parameters: 5)
+    Event.where(gtag_key: nil).update_all(gtag_key: "FOOBARBAZ")
+    Event.where(topup_fee: nil).update_all(topup_fee: 1)
+    Event.where(initial_topup_fee: nil).update_all(initial_topup_fee: 1)
+    Event.where(gtag_deposit_fee: nil).update_all(gtag_deposit_fee: 1)
+    Event.where(credit_step: nil).update_all(credit_step: 1)
+    Event.where(gtag_format: nil).update_all(gtag_format: 1)
+    Event.where(bank_format: nil).update_all(bank_format: "nothing")
+    Event.where(app_version: nil).update_all(app_version: "all")
+    Event.where(timezone: nil).update_all(timezone: "Madrid")
+    Event.where(start_date: nil).update_all(start_date: Date.today - 100)
+    Event.where(end_date: nil).update_all(end_date: Date.today - 100)
+    Event.where(token: nil).update_all(token: "FOOBARBAZ#{rand(1456789)}")
+
     change_column_null :events, :gtag_type, false
     change_column_null :events, :maximum_gtag_balance, false
     change_column_null :events, :fast_removal_password, false
