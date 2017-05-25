@@ -33,8 +33,9 @@
                     i.material-icons clear
                 td
                   - if current_user.admin?
-                    = link_to [:admins, @current_event, order], method: "delete", class: "mdl-button mdl-button--icon" do
-                      span.icon.material-icons close
+                    = link_to [:admins, @current_event, order], method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
+                      span.icon.material-icons id="delete_order_#{order.id}" delete_forever
+              span.mdl-tooltip data-mdl-for="delete_order_#{order.id}" Delete
   .mdl-layout-spacer
 
 

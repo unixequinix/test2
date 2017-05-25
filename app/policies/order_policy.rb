@@ -14,4 +14,8 @@ class OrderPolicy < ApplicationPolicy
   def complete?
     admin_and_promoter
   end
+
+  def destroy?
+    user.admin?
+  end
 end

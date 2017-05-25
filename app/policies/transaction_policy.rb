@@ -14,4 +14,8 @@ class TransactionPolicy < ApplicationPolicy
   def search?
     admin_promoter_and_support
   end
+
+  def destroy?
+    user.admin?
+  end
 end

@@ -44,10 +44,10 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def destroy
-    skip_authorization # TODO: remove after loolla
     @transaction = @current_event.transactions.find(params[:id])
-    @transaction.destroy
-    redirect_to request.referer, notice: t('alerts.destroyed')
+    authorize @transaction
+    message = @transaction.destroy ? { notice: t('alerts.destroyed') } : { alert: @transaction.errors.full_messages.join(",") }
+    redirect_to request.referer, message
   end
 
   private

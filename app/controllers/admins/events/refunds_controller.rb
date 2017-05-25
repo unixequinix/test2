@@ -1,4 +1,6 @@
 class Admins::Events::RefundsController < Admins::Events::BaseController
+  before_action :set_refund, only: %i[show destroy]
+
   def index
     @refunds = @current_event.refunds.includes(:customer).page(params[:page])
     authorize @refunds
@@ -15,19 +17,17 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     end
   end
 
-  def show
-    @refund = @current_event.refunds.find(params[:id])
-    authorize @refund
-  end
-
   def destroy
-    skip_authorization # TODO: remove after loolla
-    @refund = @current_event.refunds.find(params[:id])
-    @refund.destroy
-    redirect_to request.referer, notice: t('alerts.destroyed')
+    message = @refund.destroy ? { notice: t('alerts.destroyed') } : { alert: @refund.errors.full_messages.join(",") }
+    redirect_to request.referer, message
   end
 
   private
+
+  def set_refund
+    @refund = @current_event.refunds.find(params[:id])
+    authorize @refund
+  end
 
   def permitted_params
     params.require(:refund).permit(:state)

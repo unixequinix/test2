@@ -1,5 +1,5 @@
 class Admins::Events::OrdersController < Admins::Events::BaseController
-  before_action :set_order, only: %i[show]
+  before_action :set_order, only: %i[show destroy]
 
   def index
     @orders = @current_event.orders.order(id: :desc)
@@ -35,21 +35,16 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     end
   end
 
-  def show
-    authorize @order
-  end
-
-  def destroy # TODO: remove after loolla
-    skip_authorization
-    @order = @current_event.orders.find(params[:id])
-    @order.destroy
-    redirect_to request.referer, notice: t('alerts.destroyed')
+  def destroy
+    message = @order.destroy ? { notice: t('alerts.destroyed') } : { alert: @order.errors.full_messages.join(",") }
+    redirect_to request.referer, message
   end
 
   private
 
   def set_order
     @order = @current_event.orders.includes(catalog_items: :event).find(params[:id])
+    authorize @order
   end
 
   def permitted_params

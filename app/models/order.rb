@@ -4,6 +4,7 @@ class Order < ApplicationRecord
 
   has_many :order_items, dependent: :destroy
   has_many :catalog_items, through: :order_items
+  has_many :transactions, dependent: :restrict_with_error
 
   accepts_nested_attributes_for :order_items
 
