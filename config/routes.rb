@@ -232,6 +232,8 @@ Rails.application.routes.draw do
           resources :products
           resources :stations do
             resources :products
+            post :add_product, on: :member
+            post :remove_product, on: :member
           end
           resources :tickets
 
