@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Transactions::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
-  let(:ticket_code) { "TC8B106BA990BDC56" }
+  let(:ticket_code) { "TE469A2F95B47623C" }
   let(:ticket) { create(:ticket, code: "TICKETCODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "FFF123FFF", event: event) }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
