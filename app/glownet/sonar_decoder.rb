@@ -1,5 +1,5 @@
 class SonarDecoder
-  PREFIX = "2016".freeze
+  PREFIX = "2017".freeze
 
   def self.perform(ticket_code)
     return nil if ticket_code.blank?
@@ -10,7 +10,7 @@ class SonarDecoder
 
   def self.decode(ticket_code)
     ticket_code = [reverse_hex(ticket_code.to_s[1..-1])].pack("H*")
-    cipher = OpenSSL::Cipher.new("BF-CBC").decrypt
+    cipher = OpenSSL::Cipher.new("bf").decrypt
     cipher.key = key
     cipher.iv = key.slice((key.length / 2)..key.length)
 
