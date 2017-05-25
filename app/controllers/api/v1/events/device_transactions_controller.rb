@@ -9,7 +9,7 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
 
       device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
       registration = @current_event.device_registrations.find_or_create_by!(device: device)
-      registration.update!(battery: atts[:battery], number_of_transactions: device_count, server_transactions: server_count, action: action)
+      registration.update!(battery: atts[:battery].to_f, number_of_transactions: device_count, server_transactions: server_count, action: action)
 
       t_atts = atts.merge(counter: counter, device: device, server_transactions: server_count)
       @current_event.device_transactions.create!(t_atts) if action.in?(DeviceTransaction::ACTIONS)
