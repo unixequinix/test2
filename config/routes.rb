@@ -230,7 +230,9 @@ Rails.application.routes.draw do
           resources :gtags
           resources :accesses
           resources :products
-          resources :stations
+          resources :stations do
+            resources :products
+          end
           resources :tickets
 
           resources :refunds do

@@ -4,6 +4,7 @@ class Station < ApplicationRecord
   has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy
   has_many :station_products, dependent: :destroy
+  has_many :products, through: :station_products
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
 
