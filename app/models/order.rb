@@ -8,7 +8,7 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :order_items
 
-  validates :number, :status, :refund_data, :payment_data, presence: true
+  validates :number, :status, presence: true
 
   validate :max_credit_reached
 
