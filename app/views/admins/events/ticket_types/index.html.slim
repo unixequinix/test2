@@ -30,11 +30,18 @@
               th Tickets
               th Gtags
               th Hidden
+              th
           tbody
             - @ticket_types.each do |ticket_type|
               tr class="#{'resource-hidden' if ticket_type.hidden?}"
-                td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
+                td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
+                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
+                td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
+                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
+                td data-label="Tickets" = ticket_type.tickets.count
+                td data-label="Gtags" = ticket_type.gtags.count
+                td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
+                td.table-actions
                   .table-action
                     = link_to admins_event_ticket_type_path(@current_event, ticket_type) do
                       button.icon.material-icons id ="ticket_type_#{ticket_type.id}" info
@@ -44,14 +51,7 @@
                         button.icon.material-icons id ="edit_#{ticket_type.id}" edit
                     .table-action
                       = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                        button.icon.material-icons id ="delete_#{ticket_type.id}" delete
-
-                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
-                td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
-                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
-                td data-label="Tickets" = ticket_type.tickets.count
-                td data-label="Gtags" = ticket_type.gtags.count
-                td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
+                        button.icon.material-icons id ="delete_#{ticket_type.id}" delete_forever
 
               span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
               span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit

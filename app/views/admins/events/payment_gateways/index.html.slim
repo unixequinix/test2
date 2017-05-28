@@ -27,27 +27,27 @@
             th.mdl-data-table__cell--non-numeric Gateway
             th Topups
             th Refunds
+            th
         tbody
           - PaymentGateway::GATEWAYS.keys.each do |name|
             - gateway = @gateways.find_by(name: name)
             tr
-              td.mdl-data-table__cell--non-numeric
-                = name.to_s.humanize
+              td.mdl-data-table__cell--non-numeric= name.to_s.humanize
+              td = best_in_place gateway, :topup, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?(:topup)
+              td = best_in_place gateway, :refund, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?(:refund)
+              td.table-actions
                 - if gateway
                   .table-action
                     = link_to edit_admins_event_payment_gateway_path(@current_event, gateway) do
                       button.icon.material-icons id ="edit_#{name}" edit
                   .table-action
                     = link_to admins_event_payment_gateway_path(@current_event, gateway), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{name}" delete
+                      button.icon.material-icons id ="delete_#{name}" delete_forever
 
                 - else
                   .table-action
                     = link_to new_admins_event_payment_gateway_path(@current_event, name: name) do
                       button.icon.material-icons id ="add_#{name}" add
-              td = best_in_place gateway, :topup, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?(:topup)
-              td = best_in_place gateway, :refund, best_in_place_checkbox([:admins, @current_event, gateway]) if gateway&.actions&.include?(:refund)
-
             span.mdl-tooltip data-mdl-for="edit_#{name}" Edit
             span.mdl-tooltip data-mdl-for="add_#{name}" Add
             span.mdl-tooltip data-mdl-for="delete_#{name}" Delete

@@ -6,7 +6,7 @@
       = simple_form_for [:admins, @event], html: { multipart: true }, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .fieldset
           .section-header
-            i.material-icons info
+            i.material-icons info_outline
             span Event Info
           .form-inputs
             = f.input :name, placeholder: true

@@ -39,22 +39,22 @@
             th.mdl-data-table__cell--non-numeric Invitation sent to
             th.mdl-data-table__cell--non-numeric User email
             th.mdl-data-table__cell--non-numeric Role
-            - if policy(@registrations.new).destroy?
-              th
+            th
         tbody
           - @registrations.each do |registration|
             tr
-              td.mdl-data-table__cell--non-numeric
-                = registration.email
+              td.mdl-data-table__cell--non-numeric = registration.email
+              td.mdl-data-table__cell--non-numeric = registration.user&.email
+              td.mdl-data-table__cell--non-numeric = best_in_place registration, :role, as: :select, collection: EventRegistration.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event, registration]
+              td.table-actions
                 .table-action
                   = link_to resend_admins_event_event_registration_path(@current_event, registration) do
                     button.icon.material-icons id ="resend_#{registration.id}" autorenew
-              td.mdl-data-table__cell--non-numeric = registration.user&.email
-              td.mdl-data-table__cell--non-numeric = best_in_place registration, :role, as: :select, collection: EventRegistration.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event, registration]
-              - if policy(registration).destroy?
-                td
-                  = link_to admins_event_event_registration_path(@current_event, registration), method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
-                    span.icon.material-icons id="delete_registration_#{registration.id}" delete_forever
+                - if policy(registration).destroy?
+                  .table-action
+                    = link_to admins_event_event_registration_path(@current_event, registration), method: "delete", data: { confirm: t("alerts.confirm_delete") } do
+                      span.icon.material-icons id="delete_registration_#{registration.id}" delete_forever
+
             - if policy(registration).destroy?
               span.mdl-tooltip data-mdl-for="delete_registration_#{registration.id}" Delete
             span.mdl-tooltip data-mdl-for="resend_#{registration.id}" Resend

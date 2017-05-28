@@ -38,20 +38,21 @@
               th.mdl-data-table__cell--non-numeric Access Token
               th Ticket types
               th Hidden
+              th
           tbody
             - @companies.each do |company|
               tr data-event = @current_event.id data-company = company.id class="#{'resource-hidden' if company.hidden? }"
-                td.mdl-data-table__cell--non-numeric data-label="Tag UID"
-                  = best_in_place company, :name, url: [:admins, @current_event, company]
+                td.mdl-data-table__cell--non-numeric data-label="Tag UID"= best_in_place company, :name, url: [:admins, @current_event, company]
+                td.mdl-data-table__cell--non-numeric data-label="Access Token" = best_in_place company, :access_token, url: [:admins, @current_event, company]
+                td data-label="Ticket_types" = company.ticket_types.count
+                td data-label="Hidden" = best_in_place company, :hidden, best_in_place_checkbox([:admins, @current_event, company])
+                td.table-actions
                   .table-action
                     = link_to edit_admins_event_company_path(@current_event, company) do
                       button.icon.material-icons id ="edit_#{company.id}" edit
                   .table-action
                     = link_to admins_event_company_path(@current_event, company), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{company.id}" delete
-                td.mdl-data-table__cell--non-numeric data-label="Access Token" = best_in_place company, :access_token, url: [:admins, @current_event, company]
-                td data-label="Ticket_types" = company.ticket_types.count
-                td data-label="Hidden" = best_in_place company, :hidden, best_in_place_checkbox([:admins, @current_event, company])
+                      button.icon.material-icons id ="delete_#{company.id}" delete_forever
 
               span.mdl-tooltip data-mdl-for="edit_#{company.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{company.id}" Delete
