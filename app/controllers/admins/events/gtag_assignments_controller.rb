@@ -25,7 +25,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     authorize @gtag.customer, :destroy_credential?
     @gtag.unassign_customer(current_user, :admin)
     flash[:notice] = t("alerts.credential.unassigned", item: "Gtag")
-    redirect_to :back
+    redirect_to request.referer
   end
 
   private

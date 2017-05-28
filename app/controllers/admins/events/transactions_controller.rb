@@ -34,13 +34,13 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   def status_9
     @transaction.update(status_code: 9, status_message: "cancelled by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    redirect_to(:back, notice: "Transaction cancelled successfully")
+    redirect_to(request.referer, notice: "Transaction cancelled successfully")
   end
 
   def status_0
     @transaction.update(status_code: 0, status_message: "accepted by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    redirect_to(:back, notice: "Transaction accepted successfully")
+    redirect_to(request.referer, notice: "Transaction accepted successfully")
   end
 
   def destroy

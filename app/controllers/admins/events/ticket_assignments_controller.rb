@@ -29,7 +29,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     authorize @ticket.customer, :destroy_credential?
     @ticket.unassign_customer(:admin, current_user)
     flash[:notice] = t("alerts.credential.unassigned", item: "Ticket")
-    redirect_to :back
+    redirect_to request.referer
   end
 
   private
