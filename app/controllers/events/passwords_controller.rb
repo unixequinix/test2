@@ -3,11 +3,12 @@ class Events::PasswordsController < Devise::PasswordsController
 
   helper_method :current_event
 
+  private
+
   def after_resetting_password_path_for(_resource)
     customer_root_path(current_event)
   end
 
-  # The path used after sending reset password instructions
   def after_sending_reset_password_instructions_path_for(_resource_name)
     customer_root_path(current_event)
   end

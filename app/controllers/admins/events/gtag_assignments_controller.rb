@@ -7,15 +7,10 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   def create
     authorize @customer, :create_credential?
+    @gtag = @current_event.gtags.find_or_create_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
 
-    @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
-
-    errors = []
-    errors << t("alerts.credential.not_found", item: "Gtag") if @gtag.blank?
-    errors << t("alerts.credential.already_assigned", item: "Gtag") if @gtag&.customer
-
-    if errors.any?
-      flash.now[:errors] = errors.to_sentence
+    if @gtag.customer
+      flash.now[:errors] = t("alerts.credential.already_assigned", item: "Gtag")
       render(:new)
     else
       @gtag.update(active: permitted_params[:active].present?)

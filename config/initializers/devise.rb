@@ -1,6 +1,4 @@
 Devise.setup do |config|
-  Devise::SessionsController.layout "welcome_admin"
-
   # Mailer config
   config.mailer_sender = 'noreply@glownet.com'
   config.mailer = 'CustomerMailer'

@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
-  devise_for :users, controllers: { sessions: "admins/sessions"}
+  devise_for :users, controllers: { sessions: "admins/sessions", passwords: "passwords"}
+
   devise_scope :user do
     get "/admins/sign_in", to: "admins/sessions#new"
   end
@@ -71,7 +72,6 @@ Rails.application.routes.draw do
         resources :ticket_assignments, only: :destroy
         resources :companies, except: :show
         resources :event_registrations do
-          get :accept, on: :member
           get :resend, on: :member
         end
 

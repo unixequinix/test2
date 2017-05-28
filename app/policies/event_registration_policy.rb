@@ -3,10 +3,6 @@ class EventRegistrationPolicy < ApplicationPolicy
     true
   end
 
-  def accept?
-    true
-  end
-
   def destroy?
     admin_and_promoter
   end

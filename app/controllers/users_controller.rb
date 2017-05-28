@@ -7,7 +7,8 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    @user = User.new(email: params[:email])
+    @email_disabled = true if params[:email].present?
   end
 
   def create
@@ -17,6 +18,7 @@ class UsersController < ApplicationController
       sign_in(@user, scope: :user)
       redirect_to admins_events_path, notice: t("alerts.created")
     else
+      @email_disabled = true if params[:email_disabled]
       render :new
     end
   end
@@ -42,6 +44,6 @@ class UsersController < ApplicationController
   private
 
   def permitted_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :accepted)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
 end

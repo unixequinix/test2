@@ -3,12 +3,15 @@ class Gtag < ApplicationRecord
 
   belongs_to :ticket_type, optional: true
 
+  before_save :upcase_tag_uid
+
   # Gtag limits
   DEFINITIONS = { ultralight_c:   { entitlement_limit: 56, credential_limit: 32 } }.freeze
 
-  validates :tag_uid, uniqueness: { scope: :event_id }
-  validates :tag_uid, presence: true
-  validates :tag_uid, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }
+  validates :tag_uid, uniqueness: { scope: :event_id },
+                      presence: true,
+                      format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") },
+                      length: { is: 16 }
 
   validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
 
@@ -61,5 +64,11 @@ class Gtag < ApplicationRecord
 
   def assignation_atts
     { customer_tag_uid: tag_uid }
+  end
+
+  private
+
+  def upcase_tag_uid
+    self.tag_uid = tag_uid.upcase
   end
 end

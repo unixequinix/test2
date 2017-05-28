@@ -115,6 +115,6 @@ class EventPolicy < ApplicationPolicy
   end
 
   def admin_and_promoter
-    user.admin? || (user.registration_for(record)&.promoter? && user.registration_for(record)&.accepted?)
+    user.admin? || (user.registration_for(record)&.promoter? && user.registration_for(record).present?)
   end
 end

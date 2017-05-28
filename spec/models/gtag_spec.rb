@@ -9,6 +9,12 @@ RSpec.describe Gtag, type: :model do
     expect(subject).to be_valid
   end
 
+  it "upcases uid on save" do
+    subject.tag_uid = "aaaaaaaaaaaaaaaa"
+    subject.save
+    expect(subject.tag_uid).to eql("AAAAAAAAAAAAAAAA")
+  end
+
   it "simplifies looking for a customer with .assigned?" do
     expect(subject).to be_assigned
     subject.customer = nil

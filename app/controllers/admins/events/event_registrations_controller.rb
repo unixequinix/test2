@@ -2,7 +2,7 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
   before_action :set_registration, except: %i[new create index]
 
   def index
-    @registrations = EventRegistration.where(event: @current_event).order(%i[role]).page(params[:page])
+    @registrations = EventRegistration.where(event: @current_event).includes(:user).order(%i[role]).page(params[:page])
     @registration = @current_event.event_registrations.new
     authorize @registrations
   end
@@ -17,7 +17,7 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
       if @user
         redirect_to admins_event_event_registrations_path, notice: t("alerts.created")
       else
-        UserMailer.invite_to_event(@registration).deliver_later
+        UserMailer.invite_to_event(@registration).deliver_now
         redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{email}', when accepted, it will be added to your users"
       end
     else
@@ -40,23 +40,14 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
   end
 
   def resend
-    UserMailer.invite_to_event(@registration).deliver_later
+    UserMailer.invite_to_event(@registration).deliver_now
     redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{@registration.email}'"
-  end
-
-  def accept
-    if @registration.update(accepted: true)
-      redirect_to user_path(@registration.user), notice: t("alerts.updated")
-    else
-      flash.now[:alert] = t("alerts.error")
-      render :edit
-    end
   end
 
   def destroy
     respond_to do |format|
       if @registration.destroy
-        format.html { redirect_to admins_event_event_registrations_path, notice: t("alerts.destroyed") }
+        format.html { redirect_to request.referer, notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
         format.html { redirect_to [:admins, @current_event, @registration], alert: @registration.errors.full_messages.to_sentence }
@@ -73,6 +64,6 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
   end
 
   def permitted_params
-    params.require(:event_registration).permit(:email, :role, :accepted)
+    params.require(:event_registration).permit(:email, :role)
   end
 end

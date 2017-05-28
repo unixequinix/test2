@@ -14,4 +14,4 @@ tr
 
                 p If you accept the invitation, please register first with us following the link below.
 
-                p style="text-align: center"= link_to "Create an Account", new_user_url, { :style => "color: #ff0090; font-size: 18px; text-decoration: none;" }
+                p style="text-align: center"= link_to "Create an Account", new_user_url(email: @registration.email), { :style => "color: #ff0090; font-size: 18px; text-decoration: none;" }

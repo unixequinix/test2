@@ -41,10 +41,7 @@ html
             span.nav-title PROFILE
             = link_to user_path(current_user), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons account_circle
-              - if current_user.event_registrations.not_accepted.count != 0
-                span.mdl-badge data-badge="#{current_user.event_registrations.not_accepted.count}"  My Profile
-              - else
-                |  My profile
+              span.mdl-badge data-badge="#{current_user.event_registrations.count}"  My Profile
             = link_to edit_user_path(current_user), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons create
               |  Password

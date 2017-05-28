@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :gtag do
     event
-    sequence(:tag_uid) { |n| "TAGUID#{n}" }
+    tag_uid { SecureRandom.hex(8).upcase }
   end
 end

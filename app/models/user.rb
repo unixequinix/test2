@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :validatable, :trackable, authentication_keys: [:login]
+  devise :database_authenticatable, :recoverable, :validatable, :trackable, authentication_keys: [:login]
 
   has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations
@@ -12,6 +12,10 @@ class User < ApplicationRecord
   enum role: { admin: 0, promoter: 1 }
 
   attr_accessor :login
+
+  def devise_mailer
+    UserMailer
+  end
 
   def registration_for(event)
     event_registrations.find_by(event: event)
