@@ -3,7 +3,7 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
     permitted_params.each do |atts|
       next if atts.empty?
       server_count = @current_event.transactions.where(device_uid: atts[:device_uid]).count
-      new_atts = atts.slice(:action, :battery, :app_version, :number_of_transactions).merge(server_transactions: server_count)
+      new_atts = atts.slice(:action, :battery, :number_of_transactions).merge(server_transactions: server_count, app_version: params[:app_version])
 
       device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
       registration = @current_event.device_registrations.find_or_create_by!(device: device)
