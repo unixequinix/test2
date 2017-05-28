@@ -32,7 +32,7 @@
             .mdl-cell.mdl-cell--6-col.left
               = link_to admins_event_device_path(@current_event, device) do
                 = device.asset_tracker || "NONE"
-                .small = " - #{device.app_version}" if device.app_version.present?
+                span.small = " - #{device.app_version}"
               .small = device.mac
 
             .mdl-cell.mdl-cell--6-col.right
