@@ -32,7 +32,7 @@
             .mdl-cell.mdl-cell--6-col.left
               = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
               .small = device.mac
-              .small = " - #{device.app_version}" if device.app_version
+              .small = device.app_version if device.app_version
 
             .mdl-cell.mdl-cell--6-col.right
               .small #{device.number_of_transactions}/#{device.server_transactions}
