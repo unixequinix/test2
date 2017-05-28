@@ -11,7 +11,7 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
 
       next unless atts[:action].downcase.in?(DeviceTransaction::ACTIONS)
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1
-      t_atts = atts.merge(counter: counter, device: device)
+      t_atts = atts.merge(counter: counter, device: device, server_transactions: server_count)
       @current_event.device_transactions.create!(t_atts)
     end
 
