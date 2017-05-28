@@ -28,7 +28,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @orders
+    = render "layouts/pagination", objects: @orders
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -49,7 +49,7 @@
                 - if @current_event.payment_gateways.count > 1
                   td data-label="Gateway" = order.gateway&.humanize
                 td data-label="State" class="#{"good_info" if order.completed?} #{"bad_info" if order.status.in?(%w(cancelled failed))}" = order.status&.humanize
-    .mdl-cell.mdl-cell--12-col = paginate @orders
+    = render "layouts/pagination", objects: @orders
   .mdl-layout-spacer
 
 

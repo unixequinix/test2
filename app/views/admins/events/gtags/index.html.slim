@@ -43,7 +43,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @gtags
+    = render "layouts/pagination", objects: @gtags
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -77,7 +77,7 @@
 
               span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
-    .mdl-cell.mdl-cell--12-col.italic.small = paginate @gtags
+    = render "layouts/pagination", objects: @gtags
   .mdl-layout-spacer
 
 

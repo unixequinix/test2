@@ -8,7 +8,7 @@ class MoneyTransaction < Transaction
 
   def description
     act = action.gsub("online_", "").gsub("onsite_", "").gsub("portal_", "").gsub("box_office_", "").humanize
-    "#{act}: #{event.currency} #{format('%20.2f', price)}"
+    "Money #{act}: #{event.currency} #{format('%20.2f', price)}"
   end
 
   def self.policy_class

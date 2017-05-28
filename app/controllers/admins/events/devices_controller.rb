@@ -34,7 +34,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
   def show
     @device = @current_event.devices.find(params[:id])
     authorize(@device)
-    @transactions = @current_event.transactions.where(device_uid: @device.mac)
+    @transactions = @current_event.transactions.where(device_uid: @device.mac).includes(:gtag, :station).order(:device_db_index).page(params[:page])
     @registration = @device.device_registrations.find_by(event: @current_event)
     @device_transactions = @current_event.device_transactions.where(device_uid: @device.mac).order(:created_at)
   end

@@ -30,7 +30,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @registrations
+    = render "layouts/pagination", objects: @registrations
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       table.mdl-data-table.mdl-js-data-table.within-card
@@ -63,5 +63,5 @@
               span.mdl-tooltip data-mdl-for="delete_registration_#{registration.id}" Delete
             span.mdl-tooltip data-mdl-for="resend_#{registration.id}" Resend
 
-    = paginate @registrations
+    = render "layouts/pagination", objects: @registrations
   .mdl-layout-spacer

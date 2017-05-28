@@ -48,7 +48,7 @@ class Transaction < ApplicationRecord
   end
 
   def description
-    "#{category.humanize} : #{action.humanize}"
+    "#{category.humanize}: #{action.humanize}"
   end
 
   def status_ok?

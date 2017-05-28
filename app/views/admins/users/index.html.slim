@@ -21,7 +21,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @users
+    = render "layouts/pagination", objects: @users
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
@@ -47,5 +47,5 @@
                     = link_to [:admins, user], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.material-icons delete
 
-    = paginate @users
+    = render "layouts/pagination", objects: @users
   .mdl-layout-spacer

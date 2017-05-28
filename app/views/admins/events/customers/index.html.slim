@@ -23,7 +23,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @customers
+    = render "layouts/pagination", objects: @customers
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -56,5 +56,5 @@
                   td data-label="Orders"
                     = customer.orders.size
 
-    .mdl-cell.mdl-cell--12-col = paginate @customers
+    = render "layouts/pagination", objects: @customers
   .mdl-layout-spacer

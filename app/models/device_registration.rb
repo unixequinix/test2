@@ -4,6 +4,7 @@ class DeviceRegistration < ApplicationRecord
 
   attr_accessor :operator, :station, :last_time_used
 
+  # REFACTOR: into 2 methods
   def status
     last_onsite = event.transactions.onsite.where(device_uid: device.mac).order(:device_created_at).last
     self.operator = last_onsite&.operator_tag_uid

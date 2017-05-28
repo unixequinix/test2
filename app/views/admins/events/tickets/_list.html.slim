@@ -1,7 +1,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info tickets
+    = render "layouts/pagination", objects: tickets
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -31,5 +31,5 @@
                         button.icon.material-icons id ="edit_#{ticket.id}" edit
 
               span.mdl-tooltip data-mdl-for="edit_#{ticket.id}" Edit
-    .mdl-cell.mdl-cell--12-col.italic.small = paginate tickets
+    = render "layouts/pagination", objects: tickets
   .mdl-layout-spacer

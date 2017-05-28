@@ -75,7 +75,9 @@
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
-      .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @transactions
+      .mdl-cell.mdl-cell--12-col.italic.small.right
+        .pagination_right = page_entries_info @transactions
+        .pagination_left = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
       .admin-card-wide.mdl-card.mdl-shadow--2dp
         .table-responsive
           table.mdl-data-table.mdl-js-data-table.within-card
@@ -108,7 +110,7 @@
                       = transaction.customer_tag_uid
                   td data-label="At" = l Time.parse(transaction.device_created_at)
 
-        .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
+      .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
     .mdl-layout-spacer
 
 
