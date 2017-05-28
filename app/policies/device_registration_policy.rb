@@ -1,0 +1,2 @@
+class DeviceRegistrationPolicy < ApplicationPolicy
+end

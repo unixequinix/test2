@@ -1,82 +1,88 @@
 - content_for(:title) do
-  | Asset Tracker - #{number_with_delimiter(@devices.values.map(&:count).sum)}
+  | Asset Tracker - #{number_with_delimiter(@current_event.device_registrations.count)}
 
 - classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "bad"}
 
-- if @devices.any?
+- if @registrations.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    - @devices.keys.each do |key|
+    - @registrations.keys.each do |key|
       .mdl-cell.mdl-cell--2-col
         .customer-card.mdl-card.mdl-shadow--2dp class="#{classes[key.to_sym]}_header"
           .mdl-card__title.mdl-card--expand
-            h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@devices[key]&.size || 0)
+            h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@registrations[key]&.size || 0)
           .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
     .mdl-layout-spacer
 
 
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
 
-    - %w(to_check live staged locked no_idea ).each do |type|
-      - next unless @devices[type]
-      - klass = classes[type.to_sym]
-      br
-      h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
+- %w(to_check live staged locked no_idea ).each do |type|
+  - next unless @registrations[type]
+  - klass = classes[type.to_sym]
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"
+        h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
 
-      .clearfix
-      - @devices[type].sort_by { |device| device.battery }.each do |device|
-        .device-card.mdl-card.mdl-shadow--2dp style="float: left"
-          .content-grid.mdl-grid class="#{klass}_header"
-            .mdl-cell.mdl-cell--6-col.left
-              = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
-              .small = device.mac
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Device
+              th.mdl-data-table__cell--non-numeric Transactions
+              th Battery
+              th Connectivity
               - if current_user.admin?
-                .small = device.app_version if device.app_version
+                th.mdl-data-table__cell--non-numeric Version
+              th colspan="3" Last used
+          tbody
+            - @registrations[type].sort_by { |registration| registration.battery }.each do |registration|
+              - device = registration.device
+              tr
+                td.mdl-data-table__cell--non-numeric
+                  h6
+                    = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
+                    .small = device.mac
+                td.mdl-data-table__cell--non-numeric
+                  | #{registration.number_of_transactions} in Device
+                  br
+                  | #{registration.server_transactions} in Server
 
-            .mdl-cell.mdl-cell--6-col.right
-              .small #{device.number_of_transactions}/#{device.server_transactions}
-              - if device.msg
-                .small.bad_info style="padding-bottom: 5px" = device.msg
+                  - if type.eql?("to_check")
+                    - count_diff = registration.number_of_transactions - registration.server_transactions
+                    .small.bad_info = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
+                td
+                  - if registration.battery > 30
+                    i.material-icons style="color: #9ecf68" battery_full
+                    span style="color: #9ecf68;" #{registration.battery} %
+                  - else
+                    i.material-icons style="color: #e26465" battery_alert
+                    span style="color: #e26465;" #{registration.battery} %
+                td
+                  - if registration.updated_at > 5.minutes.ago
+                    i.material-icons style="color: #9ecf68" wifi
+                  - else
+                    span style="color: #e26465; padding-right: 10px;" #{time_ago_in_words registration.updated_at if registration.updated_at} ago
+                    i.material-icons style="color: #e26465" signal_wifi_off
 
-          .mdl-card__supporting-text style="margin: 0; width: 100%"
-            .small style="float: left"
-              - if device.battery > 30
-                i.material-icons style="color: #9ecf68" battery_full
-                span style="color: #9ecf68; padding: 0 10px 0 0" #{device.battery} %
-              - else
-                i.material-icons style="color: #e26465" battery_alert
-                span style="color: #e26465; padding: 0 10px 0 0" #{device.battery} %
+                - if current_user.admin?
+                  td.mdl-data-table__cell--non-numeric = registration.app_version if registration.app_version
 
-            .small style="float: right"
-              - if device.live
-                i.material-icons style="color: #9ecf68" wifi
-              - else
-                span style="color: #e26465; padding: 0 10px 0 0" #{time_ago_in_words device.live_time if device.live_time} ago
-                i.material-icons style="color: #e26465" signal_wifi_off
+                td
+                  - if registration.operator
+                    .small
+                      span = registration.operator
+                      | &nbsp;
+                      icon.material-icons style="color: #009688; font-size: 20px" person
+                  - if registration.station
+                    .small
+                      span = registration.station
+                      | &nbsp;
+                      icon.material-icons style="color: #009688; font-size: 20px" home
+                  - if registration.last_time_used
+                    .small
+                      span = Time.parse(registration.last_time_used).to_formatted_s(:short)
+                      | &nbsp;
+                      icon.material-icons style="color: #009688; font-size: 20px" alarm
 
-
-            - if device.station || device.operator || device.last_time_used
-              br
-              table.small style="width: 100%;"
-                - if device.operator
-                  tr
-                    td
-                      b By
-                    td.right = device.operator
-                - if device.station
-                  tr
-                    td
-                      b At
-                    td.right = device.station
-                - if device.last_time_used
-                  tr
-                    td
-                      b On
-                    td.right = Time.parse(device.last_time_used).to_formatted_s(:short)
-
-      .clearfix
-  .mdl-layout-spacer
-
-
+    .mdl-layout-spacer
