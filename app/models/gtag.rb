@@ -11,7 +11,7 @@ class Gtag < ApplicationRecord
   validates :tag_uid, uniqueness: { scope: :event_id },
                       presence: true,
                       format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") },
-                      length: { is: 16 }
+                      length: { is: 14 }
 
   validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
 
@@ -30,10 +30,22 @@ class Gtag < ApplicationRecord
     ts = transactions.onsite.credit.where(status_code: 0).order(:gtag_counter, :device_created_at)
     self.credits = ts.sum(:credits)
     self.refundable_credits = ts.sum(:refundable_credits)
-    self.final_balance = ts.last&.final_balance
-    self.final_refundable_balance = ts.last&.final_refundable_balance
+    self.final_balance = ts.last&.final_balance.to_f
+    self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
 
     save if changed?
+  end
+
+  # TODO: RMEOVE AFTER LENTE
+  def recalculate_balance_lente_kabinet
+    return unless event_id.eql?(84)
+    ts = transactions.onsite.credit.where(status_code: 0).order(:device_created_at)
+    self.credits = ts.sum(:credits)
+    self.refundable_credits = ts.sum(:refundable_credits)
+    self.final_balance = ts.last&.final_balance.to_f
+    self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
+
+    save! if changed?
   end
 
   def solve_inconsistent

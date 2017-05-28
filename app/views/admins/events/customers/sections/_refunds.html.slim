@@ -28,7 +28,7 @@
                 td
                   - if current_user.admin?
                     = link_to [:admins, @current_event, refund], method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
-                      span.icon.material-icons id="delete_refund_#{refund.id}" delete_forever
+                      button.icon.material-icons id="delete_refund_#{refund.id}" delete_forever
               span.mdl-tooltip data-mdl-for="delete_refund_#{refund.id}" Delete
   .mdl-layout-spacer
 

@@ -36,16 +36,20 @@
       table.mdl-data-table.mdl-js-data-table.within-card
         thead
           tr
-            th.mdl-data-table__cell--non-numeric Invitation sent to
-            th.mdl-data-table__cell--non-numeric User email
+            th.mdl-data-table__cell--non-numeric User
             th.mdl-data-table__cell--non-numeric Role
+            th Accepted
             th
         tbody
           - @registrations.each do |registration|
             tr
-              td.mdl-data-table__cell--non-numeric = registration.email
-              td.mdl-data-table__cell--non-numeric = registration.user&.email
+              td.mdl-data-table__cell--non-numeric = registration.user&.username || registration.email
               td.mdl-data-table__cell--non-numeric = best_in_place registration, :role, as: :select, collection: EventRegistration.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event, registration]
+              td
+                - if registration.user
+                  i.material-icons done
+                - else
+                  i.material-icons clear
               td.table-actions
                 .table-action
                   = link_to resend_admins_event_event_registration_path(@current_event, registration) do
@@ -53,7 +57,7 @@
                 - if policy(registration).destroy?
                   .table-action
                     = link_to admins_event_event_registration_path(@current_event, registration), method: "delete", data: { confirm: t("alerts.confirm_delete") } do
-                      span.icon.material-icons id="delete_registration_#{registration.id}" delete_forever
+                      button.icon.material-icons id="delete_registration_#{registration.id}" delete_forever
 
             - if policy(registration).destroy?
               span.mdl-tooltip data-mdl-for="delete_registration_#{registration.id}" Delete

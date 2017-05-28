@@ -1,35 +1,35 @@
 class StationItemPolicy < ApplicationPolicy
   def index?
-    admin_promoter_and_support
+    all_allowed
   end
 
   def show?
-    admin_promoter_and_support
+    all_allowed
     scope.where(id: record.id).exists?
   end
 
   def create?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def new?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def update?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def edit?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def destroy?
-    admin_and_promoter && record.station.event.created?
+    admin_or_promoter && record.station.event.created?
   end
 
   def sort?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   private
@@ -38,11 +38,12 @@ class StationItemPolicy < ApplicationPolicy
     !record.station.event.closed?
   end
 
-  def admin_and_promoter
-    user.admin? || (user.registration_for(record.station.event)&.promoter? && user.registration_for(record.station.event).present?)
+  def admin_or_promoter
+    registration = user.registration_for(record.station.event)
+    user.admin? || registration&.promoter?
   end
 
-  def admin_promoter_and_support
-    user.admin? || (user.registration_for(record.station.event)&.support? && user.registration_for(record.station.event).present?)
+  def all_allowed
+    user.registration_for(record.station.event).present?
   end
 end

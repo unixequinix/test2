@@ -1,10 +1,10 @@
 class RefundPolicy < ApplicationPolicy
   def stats?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def complete?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def destroy?

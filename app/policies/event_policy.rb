@@ -4,7 +4,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def stats?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def new?
@@ -20,75 +20,75 @@ class EventPolicy < ApplicationPolicy
   end
 
   def edit?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def edit_event_style?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def device_settings?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def launch?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def close?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def update?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def event_charts?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def remove_logo?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def remove_background?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def remove_db?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def event_settings?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def eventbrite_index?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def eventbrite_connect?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def eventbrite_disconnect?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def eventbrite_import_tickets?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def missing?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def resolvable?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def real?
-    admin_and_promoter
+    admin_or_promoter
   end
 
   def inconsistencies?
@@ -114,7 +114,8 @@ class EventPolicy < ApplicationPolicy
     !record.closed?
   end
 
-  def admin_and_promoter
-    user.admin? || (user.registration_for(record)&.promoter? && user.registration_for(record).present?)
+  def admin_or_promoter
+    registration = user.registration_for(record)
+    user.admin? || registration&.promoter?
   end
 end

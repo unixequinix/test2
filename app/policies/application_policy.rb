@@ -12,28 +12,28 @@ class ApplicationPolicy
   end
 
   def show?
-    admin_promoter_and_support
+    all_allowed
     scope.where(id: record.id).exists?
   end
 
   def create?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def new?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def update?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def edit?
-    admin_and_promoter && event_open
+    admin_or_promoter && event_open
   end
 
   def destroy?
-    admin_and_promoter && record.event.created?
+    admin_or_promoter && record.event.created?
   end
 
   def scope
@@ -59,13 +59,12 @@ class ApplicationPolicy
     !record.event.closed?
   end
 
-  def admin_and_promoter
+  def admin_or_promoter
     registration = user.registration_for(record.event)
     user.admin? || registration&.promoter?
   end
 
-  def admin_promoter_and_support
-    registration = user.registration_for(record.event)
-    user.admin? || registration&.support?
+  def all_allowed
+    user.registration_for(record.event).present?
   end
 end

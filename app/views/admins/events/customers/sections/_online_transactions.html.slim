@@ -25,7 +25,7 @@
                 td
                   - if current_user.admin?
                     = link_to admins_event_transaction_path(@current_event, transaction), method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
-                      span.icon.material-icons id="delete_transaction_#{transaction.id}" delete_forever
+                      button.icon.material-icons id="delete_transaction_#{transaction.id}" delete_forever
               span.mdl-tooltip data-mdl-for="delete_transaction_#{transaction.id}" Delete
 
   .mdl-layout-spacer

@@ -51,10 +51,10 @@
                         - if policy(transaction).status_9? ||  policy(transaction).status_0?
                           - if transaction.status_ok?
                             = link_to status_9_admins_event_transaction_path(@current_event, transaction, type: transaction.category), class: "mdl-button mdl-button--icon" do
-                              span.icon.material-icons id="cancel_tr_#{transaction.id}" close
+                              button.icon.material-icons id="cancel_tr_#{transaction.id}" close
                           - else
                             = link_to status_0_admins_event_transaction_path(@current_event, transaction, type: transaction.category), class: "mdl-button mdl-button--icon" do
-                              span.icon.material-icons id="accept_tr_#{transaction.id}" check
+                              button.icon.material-icons id="accept_tr_#{transaction.id}" check
                     span.mdl-tooltip data-mdl-for="cancel_tr_#{transaction.id}" Invalidate
                     span.mdl-tooltip data-mdl-for="accept_tr_#{transaction.id}" Accept
     .mdl-layout-spacer

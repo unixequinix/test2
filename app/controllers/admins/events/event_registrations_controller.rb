@@ -1,5 +1,5 @@
 class Admins::Events::EventRegistrationsController < Admins::Events::BaseController
-  before_action :set_registration, except: %i[new create index]
+  before_action :set_registration, only: %i[update resend destroy]
 
   def index
     @registrations = EventRegistration.where(event: @current_event).includes(:user).order(%i[role]).page(params[:page])
@@ -50,7 +50,7 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
         format.html { redirect_to request.referer, notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
-        format.html { redirect_to [:admins, @current_event, @registration], alert: @registration.errors.full_messages.to_sentence }
+        format.html { redirect_to admins_event_event_registrations_path, alert: @registration.errors.full_messages.to_sentence }
         format.json { render json: { errors: @registration.errors }, status: :unprocessable_entity }
       end
     end

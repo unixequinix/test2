@@ -10,9 +10,9 @@ RSpec.describe Gtag, type: :model do
   end
 
   it "upcases uid on save" do
-    subject.tag_uid = "aaaaaaaaaaaaaaaa"
+    subject.tag_uid = "aaaaaaaaaaaaaa"
     subject.save
-    expect(subject.tag_uid).to eql("AAAAAAAAAAAAAAAA")
+    expect(subject.tag_uid).to eql("AAAAAAAAAAAAAA")
   end
 
   it "simplifies looking for a customer with .assigned?" do

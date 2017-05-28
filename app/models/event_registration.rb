@@ -4,5 +4,5 @@ class EventRegistration < ApplicationRecord
 
   validates :email, format: Devise.email_regexp
 
-  enum role: { promoter: 1, support: 2, vendor: 3 }
+  enum role: { promoter: 1, support: 2 }
 end

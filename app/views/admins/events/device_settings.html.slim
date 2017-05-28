@@ -21,10 +21,10 @@
                     td = number_to_human_size(@current_event.device_full_db_file_size)
                     td.database__actions
                       = link_to remove_db_admins_event_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
-                        span.icon.material-icons clear
+                        button.icon.material-icons clear
                         | Clear cache
                       = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "#{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-                        span.icon.material-icons file_download
+                        button.icon.material-icons file_download
                         | Download
 
                   tr
@@ -33,10 +33,10 @@
                     td = number_to_human_size(@current_event.device_basic_db_file_size)
                     td.database__actions
                       = link_to remove_db_admins_event_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
-                        span.icon.material-icons clear
+                        button.icon.material-icons clear
                         | Clear cache
                       = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-                        span.icon.material-icons file_download
+                        button.icon.material-icons file_download
                         | Download
   .mdl-layout-spacer
 

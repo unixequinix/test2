@@ -71,7 +71,7 @@ Rails.application.routes.draw do
         resources :packs
         resources :ticket_assignments, only: :destroy
         resources :companies, except: :show
-        resources :event_registrations do
+        resources :event_registrations, except: :show  do
           get :resend, on: :member
         end
 
