@@ -36,18 +36,6 @@ class Gtag < ApplicationRecord
     save if changed?
   end
 
-  # TODO: RMEOVE AFTER LENTE
-  def recalculate_balance_lente_kabinet
-    return unless event_id.eql?(84)
-    ts = transactions.onsite.credit.where(status_code: 0).order(:device_created_at)
-    self.credits = ts.sum(:credits)
-    self.refundable_credits = ts.sum(:refundable_credits)
-    self.final_balance = ts.last&.final_balance.to_f
-    self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
-
-    save! if changed?
-  end
-
   def solve_inconsistent
     ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
     transaction = transactions.credit.find_by(gtag_counter: 0)
