@@ -30,9 +30,9 @@
         .device-card.mdl-card.mdl-shadow--2dp style="float: left"
           .content-grid.mdl-grid class="#{klass}_header"
             .mdl-cell.mdl-cell--6-col.left
-              | #{link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)}
-              - if device.app_version
-                .small (#{device.app_version})
+              = link_to admins_event_device_path(@current_event, device) do
+                = device.asset_tracker || "NONE"
+                .small = " - #{device.app_version}" if device.app_version.present?
               .small = device.mac
 
             .mdl-cell.mdl-cell--6-col.right
