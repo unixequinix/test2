@@ -26,15 +26,6 @@
         h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
 
         table.mdl-data-table.mdl-js-data-table.within-card
-          thead
-            tr
-              th.mdl-data-table__cell--non-numeric Device
-              th.mdl-data-table__cell--non-numeric Transactions
-              th Battery
-              th Connectivity
-              - if current_user.admin?
-                th.mdl-data-table__cell--non-numeric Version
-              th colspan="3" Last used
           tbody
             - @registrations[type].sort_by { |registration| registration.battery }.each do |registration|
               - device = registration.device
@@ -43,6 +34,8 @@
                   h6
                     = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
                     .small = device.mac
+                - if current_user.admin?
+                  td.mdl-data-table__cell--non-numeric = registration.app_version if registration.app_version
                 td.mdl-data-table__cell--non-numeric
                   | #{registration.number_of_transactions} in Device
                   br
@@ -64,9 +57,6 @@
                   - else
                     span style="color: #e26465; padding-right: 10px;" #{time_ago_in_words registration.updated_at if registration.updated_at} ago
                     i.material-icons style="color: #e26465" signal_wifi_off
-
-                - if current_user.admin?
-                  td.mdl-data-table__cell--non-numeric = registration.app_version if registration.app_version
 
                 td
                   - if registration.operator
