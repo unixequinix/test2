@@ -24,7 +24,7 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
         else "no_idea"
       end
 
-
+      device.app_version = registration.app_version
       device.live = last_onsite.created_at > 5.minute.ago if last_onsite
       device.live = registration.updated_at > 5.minute.ago
       device.live_time = last_onsite.created_at if last_onsite
