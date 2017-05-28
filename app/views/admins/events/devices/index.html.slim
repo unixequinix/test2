@@ -31,9 +31,8 @@
               - device = registration.device
               tr
                 td.mdl-data-table__cell--non-numeric
-                  h6
-                    = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
-                    .small = device.mac
+                  span style="font-size: 1.3em" = link_to device.asset_tracker || "NONE", admins_event_device_path(@current_event, device)
+                  .small = device.mac
                 - if current_user.admin?
                   td.mdl-data-table__cell--non-numeric = registration.app_version if registration.app_version
                 td.mdl-data-table__cell--non-numeric
