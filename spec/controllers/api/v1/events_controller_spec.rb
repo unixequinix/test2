@@ -12,17 +12,6 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         http_login(user.email, user.access_token)
       end
 
-      it "returns a 202 status code if the device doesn't have a asset_tracker_id" do
-        get :index, params: { mac: device.mac }
-        expect(response.status).to eq(202)
-      end
-
-      it "returns a 200 status code if the device has asset_tracker_id" do
-        device.update!(asset_tracker: "H20")
-        get :index, params: { mac: device.mac }
-        expect(response).to be_ok
-      end
-
       it "returns all the events" do
         get :index, params: { mac: device.mac }
         @body = JSON.parse(response.body)
