@@ -47,50 +47,53 @@
         .mdl-cell.mdl-cell--6-col
           p.right
             i = "#{pluralize(@device_transactions.count, "device transaction")} total"
-      .table-responsive
-        table.mdl-data-table.mdl-js-data-table.within-card
-          thead
-            tr
-              th.mdl-data-table__cell--non-numeric Created At
-              th DB Index
-              th Action
-              th Device transactions
-              th Total server transactions
-          tbody
-            - @device_transactions.each.with_index do |transaction, index|
+
+      - if @device_transactions.any?
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card
+            thead
               tr
-                td.mdl-data-table__cell--non-numeric = transaction.created_at&.to_formatted_s(:short)
-                td = transaction.counter
-                td = transaction.action.humanize
-                td = transaction.number_of_transactions
-                td = transaction.server_transactions
+                th.mdl-data-table__cell--non-numeric Created At
+                th DB Index
+                th Action
+                th Device transactions
+                th Total server transactions
+            tbody
+              - @device_transactions.each.with_index do |transaction, index|
+                tr
+                  td.mdl-data-table__cell--non-numeric = transaction.created_at&.to_formatted_s(:short)
+                  td = transaction.counter
+                  td = transaction.action.humanize
+                  td = transaction.number_of_transactions
+                  td = transaction.server_transactions
   .mdl-layout-spacer
 
-.mdl-grid.light-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    = render "layouts/pagination", objects: @transactions
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .table-responsive
-        table.mdl-data-table.mdl-js-data-table.within-card
-          thead
-            tr
-              th.mdl-data-table__cell--non-numeric Counter
-              th.mdl-data-table__cell--non-numeric Type
-              th.mdl-data-table__cell--non-numeric GTag
-              th.mdl-data-table__cell--non-numeric Station
-              th Created
+- if @transactions.any?
+  .mdl-grid.light-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      = render "layouts/pagination", objects: @transactions
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Counter
+                th.mdl-data-table__cell--non-numeric Type
+                th.mdl-data-table__cell--non-numeric GTag
+                th.mdl-data-table__cell--non-numeric Station
+                th Created
 
-          tbody
-            - @transactions.each do |transaction|
-              tr class="#{"danger" unless transaction.status_code.zero?}"
-                td.mdl-data-table__cell--non-numeric data-label="Counter" = transaction.device_db_index
-                td.mdl-data-table__cell--non-numeric data-label="Action" =  link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
-                td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.gtag.tag_uid, [:admins, @current_event, transaction.gtag]
-                td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.station.name, [:admins, @current_event, transaction.station] if transaction.station
-                td data-label="Device created at" = l Time.zone.parse(transaction.device_created_at)
+            tbody
+              - @transactions.each do |transaction|
+                tr class="#{"danger" unless transaction.status_code.zero?}"
+                  td.mdl-data-table__cell--non-numeric data-label="Counter" = transaction.device_db_index
+                  td.mdl-data-table__cell--non-numeric data-label="Action" =  link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
+                  td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.gtag.tag_uid, [:admins, @current_event, transaction.gtag]
+                  td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.station.name, [:admins, @current_event, transaction.station] if transaction.station
+                  td data-label="Device created at" = l Time.zone.parse(transaction.device_created_at)
 
-              span.mdl-tooltip data-mdl-for="delete_transaction_#{transaction.id}" Delete
+                span.mdl-tooltip data-mdl-for="delete_transaction_#{transaction.id}" Delete
 
-    = render "layouts/pagination", objects: @transactions
-  .mdl-layout-spacer
+      = render "layouts/pagination", objects: @transactions
+    .mdl-layout-spacer
