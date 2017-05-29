@@ -1,12 +1,15 @@
 class Events::GtagAssignmentsController < Events::EventsController
   before_action :check_has_not_gtag!, only: %i[new create]
 
-  def create
-    @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip)
+  def create # rubocop:disable Metrics/CyclomaticComplexity
+    @code = permitted_params[:tag_uid].strip
+    @gtag = @current_event.gtags.find_by(tag_uid: @code)
+    recycle_present = @current_event.transactions.where(action: "gtag_recycle", gtag: @gtag).any?
 
     flash.now[:error] = t("alerts.credential.not_found", item: "Tag") if @gtag.nil?
     flash.now[:error] = t("alerts.credential.already_assigned", item: "Tag") if @gtag&.customer
     flash.now[:error] = t("alerts.credential.blacklisted", item: "Tag") if @gtag&.banned?
+    flash.now[:error] = t("alerts.credential.invalid", item: "Tag") if recycle_present
     render(:new) && return if flash.now[:error].present?
 
     @gtag.assign_customer(current_customer, current_customer)

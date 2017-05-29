@@ -24,6 +24,7 @@ en:
       assigned: "%{item} successfully assigned"
       not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
       unassigned: "%{item} successfully unassigned"
+      invalid: "There seems to be a problem with this %{item}. Please contact customer support at support@glownet.com or through Intercom"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Succesfully deleted
     error: The form contains errors

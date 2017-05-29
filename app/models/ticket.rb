@@ -15,7 +15,7 @@ class Ticket < ApplicationRecord
   def assign_gtag
     return unless customer
     gtag = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", ticket_id: id)&.gtag
-    customer.update(active_gtag: gtag) if gtag
+    customer.update(active_gtag: gtag) if gtag&.customer_id.blank?
   end
 
   def full_name

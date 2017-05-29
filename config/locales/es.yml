@@ -24,6 +24,7 @@ es:
       assigned: "%{item} asignado correctamente"
       not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
       unassigned: "%{item} desasignado correctamente"
+      invalid: "Parace que hay un problema con este %{item}. Por favor, contacta con soporte en support@glownet.com o a través de Intercom"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Destruido con éxito
     error: El formulario contiene errores
