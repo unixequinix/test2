@@ -60,11 +60,10 @@ class ApplicationPolicy
   end
 
   def admin_or_promoter
-    registration = user.registration_for(record.event)
-    user.admin? || registration&.promoter?
+    user.admin? || user.registration_for(record.event)&.promoter?
   end
 
   def all_allowed
-    user.registration_for(record.event).present?
+    user.admin? || user.registration_for(record.event).present?
   end
 end

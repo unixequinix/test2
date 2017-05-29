@@ -31,11 +31,10 @@ class DevicePolicy < ApplicationPolicy
   private
 
   def admin_or_promoter
-    registration = user.registration_for(user.event_ids & record.event_ids)
-    user.admin? || registration&.promoter?
+    user.admin? || user.registration_for(user.event_ids & record.event_ids)&.promoter?
   end
 
   def all_allowed
-    user.registration_for(user.event_ids & record.event_ids).present?
+    user.admin? || user.registration_for(user.event_ids & record.event_ids).present?
   end
 end
