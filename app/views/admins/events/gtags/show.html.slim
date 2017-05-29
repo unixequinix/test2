@@ -9,7 +9,7 @@
       li.floaty-list-item
         = link_to admins_event_gtag_path(@current_event, @gtag), method: :delete, data: { confirm: 'Are you sure you want to delete this gtag?' } do
           button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons delete
+            i.material-icons delete_forever
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
       li.floaty-list-item
         = link_to edit_admins_event_gtag_path(@current_event, @gtag) do
@@ -21,12 +21,11 @@
           button#recalculate.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons repeat
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="recalculate" Recalculate Balance
-      - if @current_event.finished?
-        li.floaty-list-item
-          = link_to solve_inconsistent_admins_event_gtag_path(@current_event, type: @type) do
-            button#solve.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons priority_high
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="solve" Solve Inconsistency
+      li.floaty-list-item
+        = link_to solve_inconsistent_admins_event_gtag_path(@current_event, type: @type) do
+          button#solve.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons priority_high
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="solve" Solve Inconsistency
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

@@ -1,0 +1,115 @@
+- if @current_event.created?
+  .remodal data-remodal-id="launch-modal"
+    button.remodal-close data-remodal-action="close"
+    h3.remodal__title Very Important!
+    | After launch
+    ul style="text-align: left"
+      li Nothing will be allowed to be deleted
+      li
+        | The credit value will not be allowed to change
+        b style="text-align: center" &nbsp; (Current value is #{@current_event.credit.full_description})
+      - ticket_types = @current_event.ticket_types.no_catalog_item.size
+      - unless ticket_types.zero?
+        li There are #{ticket_types} ticket types missing a catalog item and will not be downloaded to the devices. This can be fixed later.
+
+      li
+        The following services will be allowed to open
+        ul style="text-align: left"
+          li The customer portal located #{link_to 'here', customer_root_path(@current_event), target: "_blank" }
+          li All APIs
+          li Online topups
+          li Online refunds
+
+      li
+        b This action cannot be undone
+
+    h6 style="text-align: center" Still want to launch?
+    h4 style="text-align: center"
+      = link_to launch_admins_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container Yes
+      br
+      = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container NO
+
+
+- if @current_event.launched?
+  .remodal data-remodal-id="close-modal"
+    button.remodal-close data-remodal-action="close"
+    h3.remodal__title Very Important!
+    | After closing
+    ul style="text-align: left"
+      li No event data will be allowed to change.
+      li All payment gateway information will be immediately deleted
+      li The customer portal will close
+      li Devices will be not be allowed to download event data or upload transactions
+      li The Ticketing API will be disabled for all companies
+      li
+        b This action cannot be undone
+
+    h6 style="text-align: center" Still want to close?
+
+    h4 style="text-align: center"
+      = link_to close_admins_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container Yes
+      br
+      = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container NO
+
+- content_for(:actions) do
+  .floaty
+    ul.floaty-list#actions-list
+      - if policy(@current_event).edit?
+        - if @current_event.created?
+          li.floaty-list-item
+            = link_to '#launch-modal' do
+              button#launch_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+                i.material-icons flight_takeoff
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="launch_link" Launch
+
+        - if @current_event.launched?
+          li.floaty-list-item
+            = link_to '#close-modal' do
+              button#close_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+                i.material-icons flight_land
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="close_link" Close
+
+        li.floaty-list-item
+          = link_to admins_event_eventbrite_path(@current_event) do
+            button#eventbrite_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons gesture
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Eventbrite Settings
+
+        li.floaty-list-item
+          = link_to admins_event_payment_gateways_path(@current_event) do
+            button#payment_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons euro_symbol
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="payment_setting" Payment Settings
+
+        li.floaty-list-item
+          = link_to device_settings_admins_event_path(@current_event) do
+            button#device_settings.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons phonelink_setup
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Device Settings
+
+        li.floaty-list-item
+          = link_to edit_admins_event_path(@current_event) do
+            button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons edit
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Settings
+
+        li.floaty-list-item
+          = link_to edit_event_style_admins_event_path(@current_event) do
+            button#edit_style.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons brush
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_style" Style
+      - if policy(@current_event).destroy?
+        - if @current_event.created?
+          li.floaty-list-item
+            = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+              button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+                i.material-icons delete_forever
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete Event
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build

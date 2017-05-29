@@ -1,5 +1,5 @@
 class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseController
-  def create
+  def create # rubocop:disable Metrics/MethodLength
     permitted_params.each do |atts|
       next if atts.empty?
       action = atts[:action].downcase
@@ -10,6 +10,8 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
       device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
       registration = @current_event.device_registrations.find_or_create_by!(device: device)
       registration.update!(new_atts)
+
+      Alert.propagate(@current_event, "has no name", :low, device) if device.asset_tracker.blank?
 
       next unless action.in?(DeviceTransaction::ACTIONS)
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1

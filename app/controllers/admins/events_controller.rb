@@ -2,11 +2,10 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   layout "admin_event"
 
   def index
-    params[:status] ||= %i[launched started finished]
-    @status = params[:status]
+    @status = params[:status] || "launched"
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result
-    @events = @events.with_state(params[:status]) if params[:status] != "all" && params[:q].blank?
+    @events = @events.with_state(@status) if @status != "all" && params[:q].blank?
     @events = @events.page(params[:page])
     render layout: "admin"
   end
@@ -96,13 +95,17 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def remove_logo
     authorize @current_event
     @current_event.logo.destroy
-    redirect_to admins_event_path(@current_event), notice: t("alerts.destroyed")
+    @current_event.logo.clear
+    @current_event.save
+    redirect_to request.referer, notice: t("alerts.destroyed")
   end
 
   def remove_background
     authorize @current_event
     @current_event.background.destroy
-    redirect_to admins_event_path(@current_event), notice: t("alerts.destroyed")
+    @current_event.background.clear
+    @current_event.save
+    redirect_to request.referer, notice: t("alerts.destroyed")
   end
 
   def destroy

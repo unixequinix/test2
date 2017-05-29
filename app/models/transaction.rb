@@ -1,4 +1,6 @@
 class Transaction < ApplicationRecord
+  include Alertable
+
   belongs_to :event
   belongs_to :station
   belongs_to :customer, optional: true
@@ -21,6 +23,8 @@ class Transaction < ApplicationRecord
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
+
+  alias_attribute :name, :description
 
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone

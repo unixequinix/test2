@@ -28,6 +28,12 @@ module Credentiable
     update!(customer: nil)
   end
 
+  def claim_credential(obj)
+    return if obj.blank? || customer == obj.customer
+    message = "tried to assign to customer #{customer.id} but it is already assigned to #{obj.customer_id}"
+    obj.customer_id.blank? ? obj.update(customer: customer) : Alert.propagate(event, message, :medium, obj)
+  end
+
   def write_assignation_transaction(action, operator, origin = :portal)
     action = "#{model_name.element}_#{action}"
     CredentialTransaction.write!(event, action, origin, customer, operator, assignation_atts)

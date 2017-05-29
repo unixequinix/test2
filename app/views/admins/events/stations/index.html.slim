@@ -46,7 +46,7 @@
                       = link_to admins_event_station_clone_path(@current_event, station), method: :post do
                         button.icon.material-icons id ="copy_#{station.id}" content_copy
 
-                    - unless @current_event.active?
+                    - unless @current_event.launched?
                       .table-action
                         = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                           button.icon.material-icons id ="delete_#{station.id}" delete_forever

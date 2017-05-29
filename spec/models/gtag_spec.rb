@@ -64,6 +64,18 @@ RSpec.describe Gtag, type: :model do
     it "changes the gtags final_refundable_balance" do
       expect { subject.recalculate_balance }.to change(subject, :final_refundable_balance).from(0.00)
     end
+
+    it "creates an alert if final_balance is negative" do
+      allow(subject).to receive(:final_balance).and_return(-10)
+      expect(Alert).to receive(:propagate).once
+      subject.recalculate_balance
+    end
+
+    it "creates an alert if final_refundable_balance is negative" do
+      allow(subject).to receive(:final_refundable_balance).and_return(-10)
+      expect(Alert).to receive(:propagate).once
+      subject.recalculate_balance
+    end
   end
 
   describe ".solve_inconsistent" do

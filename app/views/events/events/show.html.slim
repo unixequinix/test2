@@ -18,16 +18,16 @@
         - if @current_event.topups? && @current_event.open_topups? && current_customer.active_credentials.any?
           .tool-item
             = link_to new_event_order_path(@current_event) do
+              .credit-tooltip = t("dashboard.topup")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons add_shopping_cart
-              .credit-tooltip = t("dashboard.topup")
 
         - if @current_event.refunds? && @current_event.open_refunds? && !@current_customer.global_refundable_credits.zero? && current_customer.valid_balance?
           .tool-item
             = link_to new_event_refund_path(@current_event) do
+              .credit-tooltip = t("dashboard.refund")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons money_off
-              .credit-tooltip = t("dashboard.refund")
 
 
   - if current_customer.valid_balance?
@@ -63,9 +63,9 @@
           .tools
             .tool-item
               = link_to new_event_ticket_assignment_path(@current_event) do
+                .credit-tooltip = t("dashboard.first_register.ticket")
                 .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                   span.material-icons add
-                .credit-tooltip = t("dashboard.first_register.ticket")
 
     - if @current_customer.tickets.any?
       .mdl-card__supporting-text
@@ -90,9 +90,9 @@
           .tools
             .tool-item
               = link_to new_event_gtag_assignment_path(@current_event) do
+                .credit-tooltip = t("dashboard.first_register.gtag.#{@current_event.gtag_format}")
                 .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                   span.material-icons add
-                .credit-tooltip = t("dashboard.first_register.gtag.#{@current_event.gtag_format}")
 
     - if @current_customer.gtags.any?
       .mdl-card__supporting-text

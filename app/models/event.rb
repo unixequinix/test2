@@ -31,11 +31,11 @@ class Event < ApplicationRecord
 
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
 
-  enum state: { created: 1, launched: 2, started: 3, finished: 4, closed: 5 }
+  enum state: { created: 1, launched: 2, closed: 3 }
   enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
-  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }, default_url: "/assets/glownet-event-logo.png") # rubocop:disable Metrics/LineLength
+  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50", panel: "200x" }, default_url: "/assets/glownet-event-logo.png") # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: "/assets/background-default.jpg") # rubocop:disable Metrics/LineLength
   has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
   has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
@@ -80,10 +80,6 @@ class Event < ApplicationRecord
 
   def portal_station
     stations.find_by(category: "customer_portal")
-  end
-
-  def active?
-    state.in? %w[launched started finished]
   end
 
   def initial_setup!

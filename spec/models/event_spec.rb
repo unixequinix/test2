@@ -59,20 +59,4 @@ RSpec.describe Event, type: :model do
       expect(subject.credit_price).to eq(subject.credit.value)
     end
   end
-
-  describe ".active?" do
-    it "returns true if the event is launched, started or finished" do
-      subject.state = "closed"
-      expect(subject).not_to be_active
-      subject.state = "created"
-      expect(subject).not_to be_active
-
-      subject.state = "launched"
-      expect(subject).to be_active
-      subject.state = "started"
-      expect(subject).to be_active
-      subject.state = "finished"
-      expect(subject).to be_active
-    end
-  end
 end

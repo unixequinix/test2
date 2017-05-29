@@ -45,7 +45,7 @@
                   .table-action
                     = link_to admins_event_ticket_type_path(@current_event, ticket_type) do
                       button.icon.material-icons id ="ticket_type_#{ticket_type.id}" info
-                  - unless @current_event.started?
+                  - if @current_event.created?
                     .table-action
                       = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
                         button.icon.material-icons id ="edit_#{ticket_type.id}" edit

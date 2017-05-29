@@ -13,72 +13,76 @@ html
     meta content="width=device-width, initial-scale=1.0" name="viewport" /
     = csrf_meta_tags
 
-    body class=("#{controller_name} #{action_name}")
-      .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
-        header.mdl-layout__header
-          .mdl-layout__header-row
-            = yield(:title)
-            .mdl-layout-spacer
-            .mdl-layout-title.header-item
-            .mdl-layout-spacer
+  body class=("#{controller_name} #{action_name}")
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          .event_name_header= yield(:title)
+          .mdl-layout-spacer
+          .mdl-layout-title.header-item
+          .mdl-layout-spacer
 
-            - if @q
-              .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
-                label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
-                  i.material-icons search
-                .mdl-textfield__expandable-holder
-                  = yield(:search)
-            = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
-              span#out.icon.material-icons power_settings_new
-              span.mdl-tooltip data-mdl-for="out"  Log out
+          - if @q
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+              label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
+                i.material-icons search
+              .mdl-textfield__expandable-holder
+                = yield(:search)
+          = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
+            span#out.icon.material-icons power_settings_new
+            span.mdl-tooltip data-mdl-for="out"  Log out
 
-        .mdl-layout__drawer
+      .mdl-layout__drawer
+        #event_logo= image_tag asset_path('glownet-event-logo.png')
+        nav.mdl-navigation.global-nav
+          = link_to admins_events_path, class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Events
+        nav.mdl-navigation.global-nav
+          span.nav-title PROFILE
+          = link_to admins_alerts_path, class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons add_alert
+            span.mdl-badge data-badge="#{current_user.alerts.unresolved.count}" Alerts
+          = link_to user_path(current_user), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons account_circle
+            | My Profile
+          = link_to edit_user_path(current_user), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons create
+            |  Password
+        - if current_user.admin?
           nav.mdl-navigation.global-nav
-            = link_to admins_events_path, class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons stars
-              |  Events
-          nav.mdl-navigation.global-nav
-            span.nav-title PROFILE
-            = link_to user_path(current_user), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons account_circle
-              span.mdl-badge data-badge="#{current_user.event_registrations.count}"  My Profile
-            = link_to edit_user_path(current_user), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons create
-              |  Password
-          - if current_user.admin?
-            nav.mdl-navigation.global-nav
-              span.nav-title ADMIN
-              = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
-                i.mdl-color-text--teal-200.material-icons markunread_mailbox
-                |  Sidekiq
-              = link_to admins_users_path, class: "mdl-navigation__link" do
-                i.mdl-color-text--teal-200.material-icons people
-                |  Users
-              = link_to admins_devices_path, class: "mdl-navigation__link" do
-                i.mdl-color-text--teal-200.material-icons settings_cell
-                |  Devices
+            span.nav-title ADMIN
+            = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons markunread_mailbox
+              |  Sidekiq
+            = link_to admins_users_path, class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons people
+              |  Users
+            = link_to admins_devices_path, class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons settings_cell
+              |  Devices
 
-        main.mdl-layout__content
-          #notifications
-            = render 'layouts/notifications'
-          .page-content
-            = yield
+      main.mdl-layout__content
+        #notifications
+          = render 'layouts/notifications'
+        .page-content
+          = yield
 
-= yield(:actions)
+    = yield(:actions)
 
 
-javascript:
- var $btn = $('.floaty');
+    javascript:
+     var $btn = $('.floaty');
 
- $btn.on('mouseenter click', function() {
-   $("#button").toggleClass('on');
-   $("#changeIcon").html("clear");
-   $("#actions-list").toggleClass('show');
- });
+     $btn.on('mouseenter click', function() {
+       $("#button").toggleClass('on');
+       $("#changeIcon").html("clear");
+       $("#actions-list").toggleClass('show');
+     });
 
- $btn.on('mouseleave', function() {
-   $("#button").removeClass('on');
-   $("#changeIcon").html("build");
-   $("#actions-list").removeClass('show');
- });
+     $btn.on('mouseleave', function() {
+       $("#button").removeClass('on');
+       $("#changeIcon").html("build");
+       $("#actions-list").removeClass('show');
+     });
 

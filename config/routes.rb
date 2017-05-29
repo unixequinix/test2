@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
 
     resources :users, only: [:index, :update, :destroy, :show]
-
+    resources :alerts, only: [:index, :create, :update, :destroy]
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do

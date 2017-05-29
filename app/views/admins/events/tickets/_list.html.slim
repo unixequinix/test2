@@ -13,7 +13,7 @@
               th.mdl-data-table__cell--non-numeric Credential Type
               th Banned
               th Redeemed
-              - unless @current_event.started?
+              - if @current_event.created?
                 th
           tbody
             - tickets.each do |ticket|
@@ -25,7 +25,7 @@
                 td data-label="Banned" = best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
                 td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])
                 td.table-action
-                  - unless @current_event.started?
+                  - if @current_event.created?
                     .table-action
                       = link_to edit_admins_event_ticket_path(@current_event, ticket) do
                         button.icon.material-icons id ="edit_#{ticket.id}" edit

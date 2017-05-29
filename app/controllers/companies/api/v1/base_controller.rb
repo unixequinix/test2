@@ -8,7 +8,7 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     authenticate_or_request_with_http_basic do |event_token, company_token|
       @current_event = Event.find_by(token: event_token)
       @company = @current_event&.companies&.find_by(access_token: company_token)
-      @current_event && @company && @current_event.active? || render(status: 403, json: :unauthorized)
+      @current_event && @company && @current_event.launched? || render(status: 403, json: :unauthorized)
     end
   end
 

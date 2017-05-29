@@ -45,7 +45,7 @@
                 td.table-actions
                   .table-action
                     = link_to [:admins, user], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.material-icons delete
+                      button.material-icons delete_forever
 
     = render "layouts/pagination", objects: @users
   .mdl-layout-spacer

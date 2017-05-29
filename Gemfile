@@ -31,7 +31,7 @@ gem 'json', '~> 1.8.5' # TODO: remove after deploy of JSON v3
 # Assets
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'slim'
+gem 'slim-rails'
 gem 'simple_form'
 gem 'paperclip'
 gem 'best_in_place'

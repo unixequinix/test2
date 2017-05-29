@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations
+  has_many :alerts, dependent: :destroy
 
   before_create :generate_access_token
 

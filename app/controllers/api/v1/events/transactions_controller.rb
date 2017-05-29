@@ -4,7 +4,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
   before_action :fetch_current_event
 
   def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    render(status: 403, json: :unauthorized) && return unless current_event.active?
+    render(status: 403, json: :unauthorized) && return unless current_event.launched?
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
 

@@ -5,7 +5,7 @@
         th.mdl-data-table__cell--non-numeric Name
         th Direction
         th Hidden
-        - unless @current_event.active?
+        - unless @current_event.launched?
           th
 
     tbody
@@ -14,7 +14,7 @@
           td = gate.access.name
           td = gate.direction == "1" ? "In" : "Out"
           td = best_in_place gate, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, gate.station_id, gate, item_type: "access_control_gate"))
-          - unless @current_event.active?
+          - unless @current_event.launched?
             td.table-actions
               .table-action
                 = link_to admins_event_station_station_item_path(@current_event, @station, gate, item_type: "access_control_gate"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do

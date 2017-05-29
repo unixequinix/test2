@@ -1,0 +1,50 @@
+- classes = { high: "bad", medium: "neutral", low: "neutral2"}
+
+- content_for(:title) do
+  .mdl-layout-title.header-item Alerts
+
+- content_for(:actions) do
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_alerts_path(resolved: @resolved.!) do
+          button#all.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="all"
+              - if @resolved
+                | See New
+              - else
+                | See All
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+- @alerts.each do |priority, alerts|
+  - klass = classes[priority.to_sym]
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"
+        h4 style="text-align: center; width: 100%;" class="#{klass}_info" = priority.humanize
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card
+            thead
+              tr class="#{klass}_info"
+                th.mdl-data-table__cell--non-numeric Event
+                th.mdl-data-table__cell--non-numeric Body
+                th Resolved?
+            tbody
+              - alerts.each do |alert|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, alert.event]
+                  td.mdl-data-table__cell--non-numeric style="width: 70%" data-label="Body" #{link_to alert.subject.name, [:admins, alert.event, alert.subject]} #{alert.body}
+                  td.table-actions data-label="Resolved"
+                    = best_in_place alert, :resolved, best_in_place_checkbox([:admins, alert])
+                    .table-action
+                      = link_to admins_alert_path(alert), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons delete_forever
+
+    .mdl-layout-spacer
+
+

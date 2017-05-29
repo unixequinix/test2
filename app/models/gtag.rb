@@ -1,5 +1,6 @@
 class Gtag < ApplicationRecord
   include Credentiable
+  include Alertable
 
   belongs_to :ticket_type, optional: true
 
@@ -20,10 +21,14 @@ class Gtag < ApplicationRecord
 
   alias_attribute :reference, :tag_uid
 
+  def name
+    "Gtag: #{tag_uid}"
+  end
+
   def assign_ticket
     return unless customer
     ticket = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", gtag_id: id)&.ticket
-    customer.tickets << ticket if ticket.present? && ticket.customer_id.blank?
+    claim_credential(ticket)
   end
 
   def recalculate_balance
@@ -32,6 +37,8 @@ class Gtag < ApplicationRecord
     self.refundable_credits = ts.sum(:refundable_credits)
     self.final_balance = ts.last&.final_balance.to_f
     self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
+
+    Alert.propagate(event, "has negative balance", :high, self) if final_balance.negative? || final_refundable_balance.negative?
 
     save if changed?
   end

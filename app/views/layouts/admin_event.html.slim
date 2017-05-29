@@ -22,11 +22,16 @@ html
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
         .mdl-layout__header-row
-          h6.event_name_header
-            = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details" do
+          .event_name_header
+            = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank", id: "customer_portal_link" do
+              i.mdl-color-text--teal-200.material-icons launch
+              span.mdl-tooltip data-mdl-for="customer_portal_link" Customer Portal
+            | &nbsp; &nbsp;
+            = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details_link" do
               = @current_event.name
               = " (#{@current_event.state.humanize})"
-              span.mdl-tooltip data-mdl-for="event_details" Event Dashboard
+              span.mdl-tooltip data-mdl-for="event_details_link" Event Dashboard
+
           .mdl-layout-spacer
           .mdl-layout-title.header-item= yield(:title)
           .mdl-layout-spacer
@@ -40,8 +45,8 @@ html
           = yield(:navigation_actions)
 
           = link_to admins_events_path, class: "mdl-button mdl-button--icon" do
-            span#events_link.icon.material-icons event_note
-            span.mdl-tooltip data-mdl-for="events_link" Events List
+            span#events_link.icon.material-icons home
+            span.mdl-tooltip data-mdl-for="events_link" Home
 
           = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
             span#out.icon.material-icons power_settings_new
@@ -49,11 +54,7 @@ html
 
 
       .mdl-layout__drawer
-        nav.mdl-navigation.global-nav
-          = link_to customer_root_path(@current_event), class: "mdl-navigation__link", target: "_blank" do
-            i.mdl-color-text--teal-200.material-icons launch
-            | Customer Portal
-
+        #event_logo= image_tag @current_event.logo.url(:panel)
         nav.mdl-navigation.global-nav
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons people_outline

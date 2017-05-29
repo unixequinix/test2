@@ -4,9 +4,10 @@ class Transactions::Credential::TicketChecker < Transactions::Base
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
     ticket = assign_ticket(t, atts)
-    ticket.update!(redeemed: true)
+    ticket.redeemed? ? Alert.propagate(event, "has been redeemed twice", :high, ticket) : ticket.update!(redeemed: true)
+
     return unless atts[:customer_id] && atts[:gtag_id]
-    Gtag.find_by(id: atts[:gtag_id], customer_id: nil)&.update!(customer_id: atts[:customer_id])
+    ticket.claim_credential(Gtag.find_by(id: atts[:gtag_id]))
   end
 
   def assign_ticket(transaction, atts) # rubocop:disable Metrics/MethodLength
