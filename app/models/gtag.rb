@@ -23,7 +23,7 @@ class Gtag < ApplicationRecord
   def assign_ticket
     return unless customer
     ticket = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", gtag_id: id)&.ticket
-    customer.tickets << ticket if ticket&.customer_id.blank?
+    customer.tickets << ticket if ticket.present? && ticket.customer_id.blank?
   end
 
   def recalculate_balance
