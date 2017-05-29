@@ -95,7 +95,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
       item_id, amount = arr
-      amount = amount.to_i
+      amount = amount.to_f
       next if amount.zero?
 
       item = event.catalog_items.find(item_id)

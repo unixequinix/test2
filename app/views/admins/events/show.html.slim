@@ -1,3 +1,6 @@
+- content_for(:title) do
+  .info-container = render "admins/events/status", event: @current_event
+
 - content_for(:actions) do
   .floaty
     ul.floaty-list#actions-list
@@ -56,13 +59,6 @@
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
-
-.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .info-container = render "admins/events/status", event: @current_event
-  .mdl-layout-spacer
-
 
 .mdl-grid.light-grid
   .mdl-layout-spacer

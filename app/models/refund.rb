@@ -32,8 +32,6 @@ class Refund < ApplicationRecord
   end
 
   def prepare(atts)
-    self.status = "completed"
-
     return unless gateway.eql?("bank_account")
     self.field_a = atts[:field_a]
     self.field_b = atts[:field_b]
