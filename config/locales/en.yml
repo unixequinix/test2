@@ -107,13 +107,9 @@ en:
       no_items: No items included
     paypal:
       button: Pay with PayPal
-    without_gtags_claiming_started:
+    portal_closed:
       claim: Sorry
-      description: The refunds period is finished, If you have any question contact support.
-    without_gtags_disabled:
-      claim: The period to apply for a refund of your Card or Wristband credits is closed
-      description: If you have previously contacted us with any support question,
-      description2: do not worry, we will help you through with your refund.
+      description: The customer portal for this event is closed, If you have any question contact support.
   email:
     communication: This is an automated communication from %{event_name}. Replies will not be read.
     follow_on_twitter: Follow on Twitter

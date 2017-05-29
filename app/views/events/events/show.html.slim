@@ -14,17 +14,20 @@
 
     .mdl-cell.mdl-cell--4-col
       .tools
-        - if @current_event.topups? && (@current_event.launched? || @current_event.started?) && current_customer.active_credentials.any?
+
+        - if @current_event.topups? && @current_event.open_topups? && current_customer.active_credentials.any?
           .tool-item
             = link_to new_event_order_path(@current_event) do
-              .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored#topup
+              .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons add_shopping_cart
               .credit-tooltip = t("dashboard.topup")
-        - if @current_event.refunds? && @current_event.finished? && !@current_customer.global_refundable_credits.zero? && current_customer.valid_balance?
+
+        - if @current_event.refunds? && @current_event.open_refunds? && !@current_customer.global_refundable_credits.zero? && current_customer.valid_balance?
           .tool-item
-            = link_to new_event_refund_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "refund" do
-              span.material-icons money_off
-              span.mdl-tooltip data-mdl-for="refund" = t("dashboard.refund")
+            = link_to new_event_refund_path(@current_event) do
+              .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+                span.material-icons money_off
+              .credit-tooltip = t("dashboard.refund")
 
 
   - if current_customer.valid_balance?
@@ -48,52 +51,59 @@
           p = t('dashboard.credits.body_invalid')
           = mail_to @current_event.support_email, @current_event.support_email, subject: "Invalid balance for Customer '#{current_customer.email}'"
 
-
-- if @any_tickets
+- if @current_event.open_tickets? || @current_customer.tickets.any?
   .mdl-cell.mdl-cell--12-col
   .panel-card-wide.mdl-card.mdl-shadow--2dp
     .mdl-card__title
       .mdl-cell.mdl-cell--8-col
         h4 = t('dashboard.ticket_registration.title')
-      .mdl-cell.mdl-cell--4-col
-        .tools
-          .tool-item
-            = link_to new_event_ticket_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add_ticket" do
-              span.material-icons add
-              span.mdl-tooltip data-mdl-for="add_ticket" = t("dashboard.first_register.ticket")
 
-    .mdl-card__supporting-text
-      ul.demo-list-icon.mdl-list
-        - @current_customer.tickets.each do |ticket|
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-icon local_play
-              = link_to "#{ticket.code}", event_ticket_path(@current_event, ticket)
-              - if ticket.ticket_type
-                | &nbsp; - #{ticket.ticket_type.name}
+      - if @current_event.open_tickets?
+        .mdl-cell.mdl-cell--4-col
+          .tools
+            .tool-item
+              = link_to new_event_ticket_assignment_path(@current_event) do
+                .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+                  span.material-icons add
+                .credit-tooltip = t("dashboard.first_register.ticket")
 
-- if @any_gtags
+    - if @current_customer.tickets.any?
+      .mdl-card__supporting-text
+        ul.demo-list-icon.mdl-list
+          - @current_customer.tickets.each do |ticket|
+            li.mdl-list__item
+              span.mdl-list__item-primary-content
+                i.material-icons.mdl-list__item-icon local_play
+                = link_to "#{ticket.code}", event_ticket_path(@current_event, ticket)
+                - if ticket.ticket_type
+                  | &nbsp; - #{ticket.ticket_type.name}
+
+- if @current_event.open_gtags? || @current_customer.gtags.any?
   .mdl-cell.mdl-cell--12-col
   .panel-card-wide.mdl-card.mdl-shadow--2dp
     .mdl-card__title
       .mdl-cell.mdl-cell--8-col
         h4 = t("dashboard.gtag_registration.title.#{@current_event.gtag_format}")
       .mdl-cell.mdl-cell--4-col
-        - unless @current_customer.active_gtag
+
+        - if @current_event.open_gtags? && @current_customer.active_gtag.blank?
           .tools
             .tool-item
-              = link_to new_event_gtag_assignment_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "add_gtag" do
-                span.material-icons add
-                span.mdl-tooltip data-mdl-for="add_gtag" = t("dashboard.first_register.gtag.#{@current_event.gtag_format}")
-    .mdl-card__supporting-text
-      ul.demo-list-icon.mdl-list
-        - @current_customer.gtags.each do |gtag|
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-icon local_play
-              = link_to "#{gtag.tag_uid}", event_gtag_path(@current_event, gtag)
-              - if gtag.ticket_type
-                | &nbsp; - #{gtag.ticket_type.name}
+              = link_to new_event_gtag_assignment_path(@current_event) do
+                .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+                  span.material-icons add
+                .credit-tooltip = t("dashboard.first_register.gtag.#{@current_event.gtag_format}")
+
+    - if @current_customer.gtags.any?
+      .mdl-card__supporting-text
+        ul.demo-list-icon.mdl-list
+          - @current_customer.gtags.each do |gtag|
+            li.mdl-list__item
+              span.mdl-list__item-primary-content
+                i.material-icons.mdl-list__item-icon local_play
+                = link_to "#{gtag.tag_uid}", event_gtag_path(@current_event, gtag)
+                - if gtag.ticket_type
+                  | &nbsp; - #{gtag.ticket_type.name}
 
 - if @orders.any?
   .mdl-cell.mdl-cell--12-col

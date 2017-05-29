@@ -144,7 +144,7 @@
           .mdl-card__title
             .mdl-cell.mdl-cell--12-col
               i.material-icons build
-              | Features (editable)
+              | Customer Mandatory Fields
 
           .mdl-card__supporting-text
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
@@ -166,44 +166,28 @@
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-cell.mdl-cell--4-col
-              i.material-icons insert_photo
-              | Style
-            .mdl-cell.mdl-cell--8-col
-              .tools
-                .tool-item
-                  = link_to edit_event_style_admins_event_path(@current_event) do
-                    span#edit5.material-icons brush
-                    span.mdl-tooltip data-mdl-for="edit5" Edit Style
+              i.material-icons line_style
+              | Event Controls
 
           .mdl-card__supporting-text
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
-                  td.mdl-data-table__cell--non-numeric Gtag formats used
-                  td = @current_event.gtag_format.to_s.humanize
+                  td.mdl-data-table__cell--non-numeric Devices API
+                  td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
                 tr
-                  - if @current_event.logo?
-                    td.mdl-data-table__cell--non-numeric
-                      |Logo
-                      .table-action
-                        = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
-                          button#delete_logo.icon.material-icons delete
-                    td = image_tag @current_event.logo.url, class: "event-img-preview"
-                  - else
-                    td.mdl-data-table__cell--non-numeric Logo
-                    td.italic No logo found
-
+                  td.mdl-data-table__cell--non-numeric Customer Portal
+                  td = best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])
                 tr
-                  - if @current_event.background?
-                    td.mdl-data-table__cell--non-numeric
-                      | Background
-                      .table-action
-                        = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
-                          button#delete_background.icon.material-icons delete
-                    td = image_tag @current_event.background.url, class: "event-img-preview" if @current_event.background?
-                  - else
-                    td.mdl-data-table__cell--non-numeric Background
-                    td.italic No background found
-                span.mdl-tooltip data-mdl-for="delete_background" Delete Background
-                span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
+                  td.mdl-data-table__cell--non-numeric Online Refunds
+                  td = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Online Topups
+                  td = best_in_place @current_event, :open_topups, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Ticket Assignation
+                  td = best_in_place @current_event, :open_tickets, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric GTag Assignation
+                  td = best_in_place @current_event, :open_gtags, best_in_place_checkbox([:admins, @current_event])
   .mdl-layout-spacer

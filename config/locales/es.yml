@@ -108,15 +108,9 @@ es:
       no_items: No contiene ningún producto asociado
     paypal:
       button: Sincroniza con PayPal
-    without_gtags_claiming_started:
+    portal_closed:
       claim: Lo sentimos
-      description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.
-    without_gtags_disabled:
-      claim: El tiempo para solicitar tu devolución del saldo en tu Tarjeta o Pulsera ha terminado
-      description: Si has contactado al soporte con alguna pregunta previamente,
-      description2: no te preocupes, te ayudaremos con tu devolución.
-    without_refunds:
-      call_to_action: Proceder a la devolución
+      description: El portal de cliente para este evento está cerrado, ponte en contacto con soporte si tienes alguna duda.
   email:
     communication: Este es un mensaje automático de %{event_name}, las respuestas no serán leídas.
     follow_on_twitter: Síguenos en Twitter

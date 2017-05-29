@@ -6,11 +6,11 @@
         h4.center-text = t('dashboard.event_started.title')
         p.center-text = t('dashboard.event_started.description')
 
-    - elsif current_event.closed?
+    - elsif current_event.closed? || !current_event.open_portal?
       .wrapper-module-restriction
         = image_tag "img-closed-event.png", class: "event-state-image state-illustration"
-        h4.center-text = t('dashboard.without_gtags_claiming_started.claim')
-        p.center-text = t('dashboard.without_gtags_claiming_started.description')
+        h4.center-text = t('dashboard.portal_closed.claim')
+        p.center-text = t('dashboard.portal_closed.description')
 
     - else
       .call-to-action = t("sessions.call_to_action")
