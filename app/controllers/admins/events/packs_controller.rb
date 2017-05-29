@@ -77,7 +77,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def set_catalog_items
-    @catalog_items_collection = @current_event.catalog_items.not_user_flags.not_packs
+    @catalog_items_collection = @current_event.catalog_items.not_user_flags.not_packs.group_by { |item| item.type.underscore.humanize.pluralize }
   end
 
   def permitted_params
