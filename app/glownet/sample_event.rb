@@ -7,7 +7,13 @@ class SampleEvent # rubocop:disable all
                           support_email: "support@glownet.com",
                           currency: "EUR",
                           private_zone_password: 'a',
-                          fast_removal_password: 'a')
+                          fast_removal_password: 'a',
+                          open_api: true,
+                          open_portal: true,
+                          open_refunds: true,
+                          open_topups: true,
+                          open_tickets: true,
+                          open_gtags: true)
 
     UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden")
     @event.create_credit!(value: 1, name: "CRD")
