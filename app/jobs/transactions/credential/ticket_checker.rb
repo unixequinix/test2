@@ -6,7 +6,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
     ticket = assign_ticket(t, atts)
     ticket.update!(redeemed: true)
     return unless atts[:customer_id] && atts[:gtag_id]
-    Gtag.find(atts[:gtag_id]).update!(customer_id: atts[:customer_id])
+    Gtag.find_by(id: atts[:gtag_id], customer_id: nil)&.update!(customer_id: atts[:customer_id])
   end
 
   def assign_ticket(transaction, atts) # rubocop:disable Metrics/MethodLength
