@@ -8,7 +8,8 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def index
-    @ticket_types = @current_event.ticket_types.order(%i[company_id name])
+    @q = @current_event.ticket_types.order(%i[company_id name]).ransack(params[:q])
+    @ticket_types = @q.result
     authorize @ticket_types
     @ticket_types = @ticket_types.page(params[:page])
   end
@@ -59,7 +60,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   private
 
   def set_catalog_items
-    @catalog_items = @current_event.catalog_items
+    @catalog_items = @current_event.catalog_items.group_by { |item| item.type.underscore.humanize.pluralize }
   end
 
   def set_ticket_type

@@ -42,7 +42,10 @@ html
           span.nav-title PROFILE
           = link_to admins_alerts_path, class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons add_alert
-            span.mdl-badge data-badge="#{current_user.alerts.unresolved.count}" Alerts
+            - if current_user.alerts.unresolved.any?
+              span.mdl-badge data-badge="#{current_user.alerts.unresolved.count}" Alerts
+            - else
+              | Alerts
           = link_to user_path(current_user), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons account_circle
             | My Profile

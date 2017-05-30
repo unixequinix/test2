@@ -75,7 +75,7 @@
               td = best_in_place @ticket_type, :company_code, url: [:admins, @current_event, @ticket_type]
             tr
               td.mdl-data-table__cell--non-numeric Catalog Item
-              td = best_in_place @ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, @ticket_type]
+              td = best_in_place @ticket_type, :catalog_item_id, as: :select, collection: @current_event.catalog_items.order(:type).map{|i| [i.id, i.name.humanize]}, url: [:admins, @current_event, @ticket_type]
             tr
               td.mdl-data-table__cell--non-numeric Tickets
               td = @ticket_type.tickets.count

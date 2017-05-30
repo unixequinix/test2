@@ -1,6 +1,10 @@
 - content_for(:title) do
   | Ticket Types
 
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_ticket_types_path do |f|
+    = f.search_field :name_or_company_name_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
 - content_for(:actions) do
   .floaty
     ul.floaty-list#actions-list
@@ -37,7 +41,7 @@
                 td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
                 td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
                 td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
-                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
+                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @current_event.catalog_items.order(:type).map{|i| [i.id, i.name.humanize]}, url: [:admins, @current_event, ticket_type]
                 td data-label="Tickets" = ticket_type.tickets.count
                 td data-label="Gtags" = ticket_type.gtags.count
                 td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
@@ -45,13 +49,12 @@
                   .table-action
                     = link_to admins_event_ticket_type_path(@current_event, ticket_type) do
                       button.icon.material-icons id ="ticket_type_#{ticket_type.id}" info
-                  - if @current_event.created?
-                    .table-action
-                      = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
-                        button.icon.material-icons id ="edit_#{ticket_type.id}" edit
-                    .table-action
-                      = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                        button.icon.material-icons id ="delete_#{ticket_type.id}" delete_forever
+                  .table-action
+                    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
+                      button.icon.material-icons id ="edit_#{ticket_type.id}" edit
+                  .table-action
+                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{ticket_type.id}" delete_forever
 
               span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
               span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit
