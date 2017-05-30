@@ -77,6 +77,38 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
+  def resolve_time # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    start_date = Time.use_zone(@current_event.timezone) { @current_event.start_date }
+    end_date = Time.use_zone(@current_event.timezone) { @current_event.end_date }
+    time_range = (start_date.to_formatted_s(:transactions)..end_date.to_formatted_s(:transactions))
+    bad_ts = @current_event.transactions.onsite.where(action: %w[sale sale_refund]).order(:device_db_index).where.not(device_created_at: time_range)
+    bad_ts_id = bad_ts.pluck(:id)
+
+    @current_event.devices.where(mac: bad_ts.pluck(:device_uid).uniq).each do |device|
+      device_ts = @current_event.transactions.where(device_uid: device.mac).order(:device_db_index)
+      diff = nil
+
+      device_ts.each.with_index do |bad_t, index|
+        if bad_ts_id.include?(bad_t.id)
+          last_good = index.zero? ? device_ts[index] : device_ts[index - 1]
+          bad_t.update!(device_created_at: start_date.to_formatted_s(:transactions)) if bad_t == last_good
+
+          bad_date = Time.use_zone(@current_event.timezone) { Time.zone.parse(bad_t.device_created_at) }
+          good_date = Time.use_zone(@current_event.timezone) { Time.zone.parse(last_good.device_created_at) }
+
+          diff = (good_date - bad_date) if diff.nil?
+
+          result = (bad_date + diff + 60).to_formatted_s(:transactions)
+          bad_t.update!(device_created_at: result)
+        else
+          diff = nil
+        end
+      end
+    end
+
+    redirect_to request.referer, notice: "All timing issues solved"
+  end
+
   def update
     authorize @current_event
     respond_to do |format|

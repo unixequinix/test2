@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
     resources :events do
       get :sample_event, on: :collection
+      get :resolve_time, on: :member
 
       member do
         get :edit_event_style

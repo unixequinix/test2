@@ -59,6 +59,12 @@
   .floaty
     ul.floaty-list#actions-list
       - if policy(@current_event).edit?
+        - if current_user.admin?
+          li.floaty-list-item
+            = link_to resolve_time_admins_event_path(@current_event) do
+              button#time_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+                i.material-icons watch_later
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="time_link" Solve Timing Issues
         - if @current_event.created?
           li.floaty-list-item
             = link_to '#launch-modal' do
@@ -102,6 +108,7 @@
             button#edit_style.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons brush
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_style" Style
+
       - if policy(@current_event).destroy?
         - if @current_event.created?
           li.floaty-list-item

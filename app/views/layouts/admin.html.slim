@@ -43,7 +43,7 @@ html
           = link_to admins_alerts_path, class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons add_alert
             - if current_user.alerts.unresolved.any?
-              span.mdl-badge data-badge="#{current_user.alerts.unresolved.count}" Alerts
+              span.mdl-badge data-badge="#{current_user.alerts.unresolved.count.zero?}" Alerts
             - else
               | Alerts
           = link_to user_path(current_user), class: "mdl-navigation__link" do
