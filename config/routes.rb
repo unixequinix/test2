@@ -68,6 +68,7 @@ Rails.application.routes.draw do
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
+        resources :operator_permissions
         resources :packs
         resources :ticket_assignments, only: :destroy
         resources :companies, except: :show
@@ -258,6 +259,7 @@ Rails.application.routes.draw do
         scope module: "events" do
           resource :database, only: [:create, :show]
           resources :accesses, only: :index
+          resources :operator_permissions, only: :index
           resources :auto_top_ups, only: :create
           resources :backups, only: :create
           resources :ticket_types, only: :index

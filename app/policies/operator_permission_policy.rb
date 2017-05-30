@@ -1,0 +1,2 @@
+class OperatorPermissionPolicy < ApplicationPolicy
+end

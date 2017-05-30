@@ -32,8 +32,15 @@
               th Amount
           tbody
             - @pack.pack_catalog_items.order(:catalog_item_id).each do |pci|
-              tr
-                td.mdl-data-table__cell--non-numeric = pci.catalog_item.name.humanize
-                td = pci.catalog_item.type
-                td = pci.amount
+              - if pci.catalog_item.is_a?(UserFlag)
+                tr
+                  td.mdl-data-table__cell--non-numeric = pci.catalog_item.name.humanize
+                  td = pci.catalog_item.type
+                  td
+                    i.material-icons done
+              - else
+                tr
+                  td.mdl-data-table__cell--non-numeric = pci.catalog_item.name.humanize
+                  td = pci.catalog_item.type
+                  td = pci.amount
     .mdl-layout-spacer

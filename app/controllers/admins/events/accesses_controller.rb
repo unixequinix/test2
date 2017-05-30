@@ -19,7 +19,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       flash[:notice] = t("alerts.created")
       redirect_to admins_event_accesses_path
     else
-      flash.now[:alert] = @access.errors.full_messages.join(". ")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
@@ -31,7 +31,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
         format.html { redirect_to admins_event_accesses_path }
         format.json { render json: @access }
       else
-        flash.now[:alert] = @access.errors.full_messages.join(". ")
+        flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
         format.json { render json: { errors: @access.errors }, status: :unprocessable_entity }
       end

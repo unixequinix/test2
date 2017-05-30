@@ -31,7 +31,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     if @ticket_type.save
       redirect_to admins_event_ticket_types_path, notice: t("alerts.created")
     else
-      flash.now[:alert] = @ticket_type.errors.full_messages.join(". ")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end

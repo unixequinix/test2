@@ -1,0 +1,13 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, permission], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, permission], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs.short-input
+      = f.input :role, collection: OperatorPermission.roles.keys.map{ |key| [key.humanize, key] }, include_blank: false
+      = f.input :group, collection: OperatorPermission.groups.keys.map{ |key| [key.humanize, key] }, include_blank: true
+      = f.input :station_id, collection: @current_event.stations.collect { |station| [station.name.humanize, station.id] }, include_blank: true
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

@@ -13,6 +13,7 @@ class Event < ApplicationRecord
   has_many :device_transactions, dependent: :destroy
   has_many :user_flags, dependent: :destroy
   has_many :accesses, dependent: :destroy
+  has_many :operator_permissions, dependent: :destroy
   has_many :packs, dependent: :destroy
   has_many :customers, dependent: :destroy
   has_many :orders, dependent: :destroy

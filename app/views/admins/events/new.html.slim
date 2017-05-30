@@ -9,13 +9,10 @@
             i.material-icons info_outline
             span Event Info
           .form-inputs
-            = f.input :name, placeholder: true
+            = f.input :name, placeholder: true, autofocus: true
             = f.input :start_date, as: :datetime
             = f.input :end_date, as: :datetime
         .form-actions
           .col-sm-offset-3.col-sm-9
             = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer
-
-
-

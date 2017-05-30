@@ -12,6 +12,7 @@ class CatalogItem < ApplicationRecord
   validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
 
   scope(:accesses, -> { where(type: "Access") })
+  scope(:operator_permissions, -> { where(type: "OperatorPermission") })
   scope(:credits, -> { where(type: "Credit") })
   scope(:packs, -> { where(type: "Pack") })
   scope(:not_packs, -> { where.not(type: "Pack") })
