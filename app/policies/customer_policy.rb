@@ -3,6 +3,10 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed
   end
 
+  def transactions?
+    all_allowed
+  end
+
   def reset_password?
     all_allowed && event_open
   end

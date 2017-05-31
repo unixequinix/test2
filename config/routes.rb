@@ -226,6 +226,7 @@ Rails.application.routes.draw do
         scope module: "events" do
           resources :customers, :constraints => { :id => /.*/ } do
             get :refunds, on: :member
+            get :transactions, on: :member
           end
           resources :devices
           resources :companies
