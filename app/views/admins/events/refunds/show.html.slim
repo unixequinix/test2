@@ -30,6 +30,12 @@
           tr
             td.mdl-data-table__cell--non-numeric Money
             td #{number_to_event_currency @refund.amount_money} (Fee #{number_to_event_currency @refund.fee_money}) = #{number_to_event_currency @refund.total_money}
+          tr
+            td.mdl-data-table__cell--non-numeric = @current_event.payment_gateways.find_by(name: @refund.gateway)&.refund_field_a_name.upcase || "Field A"
+            td = best_in_place @refund, :field_a, url: [:admins, @current_event, @refund]
+          tr
+            td.mdl-data-table__cell--non-numeric = @current_event.payment_gateways.find_by(name: @refund.gateway)&.refund_field_b_name.upcase || "Field B"
+            td = best_in_place @refund, :field_b, url: [:admins, @current_event, @refund]
   .mdl-layout-spacer
 
 

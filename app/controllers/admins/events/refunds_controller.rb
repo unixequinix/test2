@@ -1,5 +1,5 @@
 class Admins::Events::RefundsController < Admins::Events::BaseController
-  before_action :set_refund, only: %i[show destroy]
+  before_action :set_refund, only: %i[show destroy update]
 
   def index
     @refunds = @current_event.refunds.includes(:customer).page(params[:page])
@@ -17,6 +17,18 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @refund.update(permitted_params)
+        format.html { redirect_to [:admins, @current_event, @refund], notice: t("alerts.updated") }
+        format.json { render status: :ok, json: @refund }
+      else
+        format.html { render :edit }
+        format.json { render json: { errors: @refund.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     message = @refund.destroy ? { notice: t('alerts.destroyed') } : { alert: @refund.errors.full_messages.join(",") }
     redirect_to request.referer, message
@@ -30,6 +42,6 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:refund).permit(:state)
+    params.require(:refund).permit(:state, :field_a, :field_b)
   end
 end
