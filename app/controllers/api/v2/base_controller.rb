@@ -29,7 +29,8 @@ module Api::V2
 
     def verify_event
       @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])
-      render json: { error: 'Event not found' }, status: :bad_request unless @current_event
+      render json: { error: "Event '#{params[:event_id]}' not found" }, status: :bad_request unless @current_event
+      render json: { error: "Event '#{@current_event.name}' does not have the API open" }, status: :unauthorized unless @current_event.open_api?
     end
   end
 end
