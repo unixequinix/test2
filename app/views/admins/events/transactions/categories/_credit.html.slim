@@ -19,6 +19,9 @@
           tr
             td.mdl-data-table__cell--non-numeric Final refundable balance
             td = @transaction.final_refundable_balance
+          tr
+            td.mdl-data-table__cell--non-numeric Other Amount
+            td = @transaction.other_amount_credits
 
 - if @transaction.sale_items.present?
   .mdl-cell.mdl-cell--12-col
