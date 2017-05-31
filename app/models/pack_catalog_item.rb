@@ -1,5 +1,5 @@
 class PackCatalogItem < ApplicationRecord
-  belongs_to :pack, inverse_of: :pack_catalog_items
+  belongs_to :pack, inverse_of: :pack_catalog_items, touch: true
   belongs_to :catalog_item
 
   validates :amount, numericality: { less_than_or_equal_to: (->(item) { item.pack.event.maximum_gtag_balance }) }

@@ -28,10 +28,10 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
 
       context "with the 'If-Modified-Since' header" do
         it "returns only the modified accesses" do
-          request.headers["If-Modified-Since"] = (@new_access.updated_at - 2.hours)
+          request.headers["If-Modified-Since"] = (@new_access.updated_at - 2.hours).to_formatted_s(:transactions)
           get :index, params: params
           accesses = JSON.parse(response.body).map { |m| m["id"] }
-          expect(accesses).to eq([@new_access.id])
+          expect(accesses).to include(@new_access.id)
         end
       end
 

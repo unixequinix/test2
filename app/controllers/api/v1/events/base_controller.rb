@@ -18,6 +18,6 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def set_modified
-    @modified = request.headers["If-Modified-Since"]
+    @modified = Time.zone.parse(request.headers["If-Modified-Since"]) if request.headers["If-Modified-Since"]
   end
 end
