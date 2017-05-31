@@ -274,7 +274,7 @@ Rails.application.routes.draw do
           resources :transactions, only: :create
           resources :device_transactions, only: :create
           resources :user_flags, only: :index
-          resources :tickets, only: [:index, :show] do
+          resources :tickets, only: [:index, :show], :constraints => { :id => /.*/ } do
             get :banned, on: :collection
           end
           resources :gtags, only: [:index, :show] do

@@ -73,6 +73,17 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           expect(response).to be_ok
         end
 
+        it "works with id" do
+          get :show, params: params.merge(id: @ticket.id)
+          expect(response).to be_ok
+        end
+
+        it "works with code including email addresses" do
+          ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer, code: "foo2@hoeho.bar.com")
+          get :show, params: params.merge(id: ticket.code)
+          expect(response).to be_ok
+        end
+
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
           ticket_keys = %w[reference redeemed banned catalog_item_id ticket_type_id customer purchaser_first_name purchaser_last_name purchaser_email]
