@@ -41,6 +41,11 @@
               .mdl-tooltip data-mdl-for="delete_background" Delete Background
           = image_tag @current_event.background.url, width: "100%"
 
+        .mdl-cell.mdl-cell--10-col
+          .form-actions
+            .col-sm-offset-3.col-sm-9
+              = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
     .mdl-cell.mdl-cell--5-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
 

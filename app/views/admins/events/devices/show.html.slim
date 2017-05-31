@@ -30,10 +30,6 @@
     h1.middle style="color: #999"
       = number_with_delimiter @registration.server_transactions
       .small Server Transactions
-  .mdl-cell.mdl-cell--2-col
-    h1.middle style="color: #999"
-      = number_with_delimiter @registration.app_version || "N/A"
-      .small App Version
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
@@ -44,6 +40,7 @@
         .mdl-cell.mdl-cell--12-col
           p.left
             i Device MAC: #{@device.mac}
+            .small = @registration.app_version
         .mdl-cell.mdl-cell--6-col
           p.right
             i = "#{pluralize(@device_transactions.count, "device transaction")} total"
