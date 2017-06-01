@@ -67,7 +67,7 @@ html
               i.mdl-color-text--teal-200.material-icons person
               |  Users
           - if policy(Device.none).index?
-            = link_to admins_event_devices_path(@current_event), class: "mdl-navigation__link" do
+            = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons bug_report
               |  Asset Tracker
           - if policy(@current_event).event_charts? && !@current_event.created?

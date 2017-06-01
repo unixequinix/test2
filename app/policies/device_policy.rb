@@ -24,10 +24,6 @@ class DevicePolicy < ApplicationPolicy
     user.admin?
   end
 
-  def download_db?
-    user.admin?
-  end
-
   private
 
   def admin_or_promoter

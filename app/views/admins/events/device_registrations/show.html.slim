@@ -6,7 +6,7 @@
     .floaty
       ul.floaty-list#actions-list
         li.floaty-list-item
-          = link_to download_db_admins_event_device_path(@current_event, @device) do
+          = link_to download_db_admins_event_device_registration_path(@current_event, @device) do
             button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons cloud_download
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download DB Backups

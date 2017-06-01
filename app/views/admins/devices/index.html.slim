@@ -26,7 +26,7 @@
                 td.mdl-data-table__cell--non-numeric data-label="Asset" = link_to (device.asset_tracker.present? ? device.asset_tracker : "NONE"), admins_device_path(device)
                 td data-label="Mac" = device.mac
                 td data-label="Events" = device.events.size
-                td.mdl-data-table__cell--non-numeric data-label="Last Event Used" = link_to device.events.last.name, admins_event_device_path(device.events.last, device) if device.events.last
+                td.mdl-data-table__cell--non-numeric data-label="Last Event Used" = link_to device.events.last.name, [:admins, device.device_registrations.event.last, device.device_registrations.last] if device.events.last
                 td.table-actions
                   .table-action
                     = link_to edit_admins_device_path(device) do

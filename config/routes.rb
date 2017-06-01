@@ -41,9 +41,9 @@ Rails.application.routes.draw do
 
     resources :events do
       get :sample_event, on: :collection
-      get :resolve_time, on: :member
 
       member do
+        get :resolve_time
         get :edit_event_style
         get :device_settings
         delete :remove_db
@@ -63,8 +63,9 @@ Rails.application.routes.draw do
         end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :devices, only: [:index, :show] do
+        resources :device_registrations, only: [:index, :show] do
           get :download_db, on: :member
+          get :resolve_time, on: :member
         end
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
