@@ -10,7 +10,7 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
     value = Rails.env.production? || Rails.env.demo? || Rails.env.hotfix? ? @current_event.gtag_key : "11111111111111111111111111111111"
     body << { name: "ultralight_c_private_key", value: value } if @current_event.gtag_type.eql?("ultralight_c")
     body << { name: "gtag_key", value: value }
-    body << { name: "cypher_enabled", value: true } if @current_event.name.downcase.tr("ó", "o").include?("sonar")
+    body << { name: "cypher_enabled", value: @current_event.name.downcase.tr("ó", "o").include?("sonar") }
 
     render_entity(body.as_json, @current_event.updated_at&.httpdate)
   end
