@@ -15,17 +15,17 @@
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
+                  td.mdl-data-table__cell--non-numeric Slug
+                  td = @current_event.slug
+                tr
                   td.mdl-data-table__cell--non-numeric Timezone
-                  td = @current_event.timezone
+                  td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "#{zone.name} #{zone.formatted_offset}"] }, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Start date
-                  td = l @current_event.start_date
+                  td = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
                 tr
                   td.mdl-data-table__cell--non-numeric End date
-                  td = l @current_event.end_date
-                tr
-                  td.mdl-data-table__cell--non-numeric Gtag Type
-                  td = best_in_place @current_event, :gtag_type, as: :select, collection: Gtag::DEFINITIONS.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
                 tr
                   td.mdl-data-table__cell--non-numeric Support email
                   td = best_in_place @current_event, :support_email, url: [:admins, @current_event]

@@ -57,6 +57,14 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
 
+  def formatted_start_date
+    start_date.to_formatted_s(:best_in_place)
+  end
+
+  def formatted_end_date
+    end_date.to_formatted_s(:best_in_place)
+  end
+
   def transactions_with_bad_time
     time_range = (start_date.to_formatted_s(:transactions)..end_date.to_formatted_s(:transactions))
     transactions.onsite.where(action: %w[sale sale_refund]).order(:device_db_index).where.not(device_created_at: time_range)
@@ -116,7 +124,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank? || end_date >= start_date
-    errors.add(:end_date, t("errors.messages.end_date_after_start_date"))
+    errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
   end
 
   def generate_tokens

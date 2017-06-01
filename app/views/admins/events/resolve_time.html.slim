@@ -7,15 +7,16 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--3-col
     h5.middle style="color: #999"
-      | #{l @current_event.start_date.in_time_zone(@current_event.timezone)} #{@current_event.timezone}
+      = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
       .small Start date
   .mdl-cell.mdl-cell--3-col
     h5.middle style="color: #999"
-      | #{l @current_event.end_date.in_time_zone(@current_event.timezone)} #{@current_event.timezone}
+      = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
       .small End date
-  .mdl-cell.mdl-cell--3-col
-    h5.middle style="color: #999"
-      = link_to "Resolve all", do_resolve_time_admins_event_path(@current_event), data: { confirm: t("alerts.confirm_delete") }
+  - if @bad_transactions.any?
+    .mdl-cell.mdl-cell--3-col
+      h5.middle style="color: #999"
+        = link_to "Resolve all", do_resolve_time_admins_event_path(@current_event), data: { confirm: t("alerts.confirm_delete") }
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
