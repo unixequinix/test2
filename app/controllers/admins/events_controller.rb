@@ -1,5 +1,6 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   before_action :authorize_event, except: %i[index create new sample_event stats]
+  around_action :use_time_zone
 
   layout "admin_event"
 
@@ -110,6 +111,10 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   private
+
+  def use_time_zone
+    Time.use_zone(@current_event.timezone) { yield }
+  end
 
   def authorize_event
     authorize(@current_event)
