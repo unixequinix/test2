@@ -10,6 +10,7 @@
             span Event Info
           .form-inputs
             = f.input :name, placeholder: true, autofocus: true
+            = f.input :timezone, as: :time_zone, include_blank: false
             = f.input :start_date, as: :datetime
             = f.input :end_date, as: :datetime
         .form-actions

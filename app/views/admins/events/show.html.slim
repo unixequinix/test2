@@ -19,7 +19,7 @@
                   td = @current_event.slug
                 tr
                   td.mdl-data-table__cell--non-numeric Timezone
-                  td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "#{zone.name} #{zone.formatted_offset}"] }, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "(GMT#{zone.formatted_offset}) #{zone.name}"] }, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Start date
                   td = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
