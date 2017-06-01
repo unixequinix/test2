@@ -5,14 +5,17 @@
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--4-col
-    h4.middle style="color: #999"
+  .mdl-cell.mdl-cell--3-col
+    h5.middle style="color: #999"
       | #{l @current_event.start_date.in_time_zone(@current_event.timezone)} #{@current_event.timezone}
       .small Start date
-  .mdl-cell.mdl-cell--4-col
-    h4.middle style="color: #999"
+  .mdl-cell.mdl-cell--3-col
+    h5.middle style="color: #999"
       | #{l @current_event.end_date.in_time_zone(@current_event.timezone)} #{@current_event.timezone}
       .small End date
+  .mdl-cell.mdl-cell--3-col
+    h5.middle style="color: #999"
+      = link_to "Resolve all", do_resolve_time_admins_event_path(@current_event), data: { confirm: t("alerts.confirm_delete") }
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

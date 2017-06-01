@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
       member do
         get :resolve_time
+        get :do_resolve_time
         get :edit_event_style
         get :device_settings
         delete :remove_db
