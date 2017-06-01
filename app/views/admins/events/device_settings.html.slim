@@ -59,9 +59,6 @@
               table.mdl-data-table.mdl-js-data-table.within-card
                 tbody
                   tr
-                    td.mdl-data-table__cell--non-numeric Your Access Token
-                    td = @current_user.access_token
-                  tr
                     td.mdl-data-table__cell--non-numeric Min App Version
                     td = best_in_place @current_event, :app_version, url: [:admins, @current_event]
                   tr
