@@ -16,6 +16,6 @@ class OperatorPermission < CatalogItem
   enum group: { glownet: 0, checkin: 1, box_office: 2, banking: 3, vendors: 4, bars: 5, management: 6 }
 
   def name
-    station ? "#{role.humanize} permission for #{station.name}" : "#{role.humanize} permission for #{group.humanize}"
+    station ? "#{role&.humanize} permission for #{station&.name}" : "#{role&.humanize} permission for #{group&.humanize}"
   end
 end
