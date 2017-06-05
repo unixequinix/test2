@@ -33,13 +33,19 @@
                 td.mdl-data-table__cell--non-numeric data-label="Items" = pack.pack_catalog_items.map { |pci| pci.catalog_item.name.humanize }.to_sentence
                 td.table-actions
                   .table-action
+                    = link_to clone_admins_event_pack_path(@current_event, pack), method: :post do
+                      button.icon.material-icons id ="clone_#{pack.id}" content_copy
+                  .table-action
                     = link_to edit_admins_event_pack_path(@current_event, pack) do
                       button.icon.material-icons id ="edit_#{pack.id}" edit
                   .table-action
                     = link_to admins_event_pack_path(@current_event, pack), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{pack.id}" delete_forever
+
+              span.mdl-tooltip data-mdl-for="clone_#{pack.id}" Clone
               span.mdl-tooltip data-mdl-for="edit_#{pack.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{pack.id}" Delete
+
     = render "layouts/pagination", objects: @packs
   .mdl-layout-spacer
 

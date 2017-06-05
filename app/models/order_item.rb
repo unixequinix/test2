@@ -8,10 +8,6 @@ class OrderItem < ApplicationRecord
     catalog_item.is_a?(Credit)
   end
 
-  def pack_with_credits?
-    catalog_item.is_a?(Pack) && catalog_item.credits.positive?
-  end
-
   def credits
     amount * catalog_item.credits
   end

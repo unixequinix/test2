@@ -72,7 +72,9 @@ Rails.application.routes.draw do
         resources :catalog_items, only: :update
         resources :accesses
         resources :operator_permissions
-        resources :packs
+        resources :packs do
+          post :clone, on: :member
+        end
         resources :ticket_assignments, only: :destroy
         resources :companies, except: :show
         resources :event_registrations, except: :show  do

@@ -50,9 +50,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def clone
     @station = @station.deep_clone(include: %i[station_catalog_items station_products topup_credits access_control_gates], validate: false)
-    @station.name = "#{@station.name} - #{rand(10_000)}"
+    @station.name = "#{@station.name} - #{@current_event.stations.where(name: @station.name).count}"
     @station.save!
-    redirect_to admins_event_station_path(@current_event, @station)
+    redirect_to [:admins, @current_event, @station], notice: t("alerts.created")
   end
 
   def destroy

@@ -69,6 +69,12 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     end
   end
 
+  def clone
+    @pack = @pack.deep_clone(include: :pack_catalog_items, validate: false)
+    @pack.update!(name: "#{@pack.name} - #{@current_event.packs.count}")
+    redirect_to [:edit, :admins, @current_event, @pack], notice: t("alerts.created")
+  end
+
   private
 
   def set_pack

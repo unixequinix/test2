@@ -14,6 +14,11 @@
           button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons edit
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+      li.floaty-list-item
+        = link_to clone_admins_event_pack_path(@current_event, @pack), method: :post do
+          button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons content_copy
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
