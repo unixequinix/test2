@@ -25,10 +25,19 @@ class Gtag < ApplicationRecord
     "Gtag: #{tag_uid}"
   end
 
-  def assign_ticket
+  def assign_ticket_from_checkin
     return unless customer
     ticket = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", gtag_id: id)&.ticket
     claim_credential(ticket)
+  end
+
+  def assign_replaced_gtags
+    return unless customer
+    references = event.transactions.credential.status_ok.where(action: "gtag_replacement", gtag_id: id).pluck(:reference)
+    references += event.transactions.credential.status_ok.where(action: "gtag_replacement", reference: tag_uid).pluck(:customer_tag_uid)
+    references.delete(tag_uid)
+
+    event.gtags.where(tag_uid: references).find_each { |gtag| claim_credential(gtag) }
   end
 
   def recalculate_balance

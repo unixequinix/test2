@@ -21,6 +21,7 @@ es:
       without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
       no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
       blacklisted: "%{item} está en la Lista Negra"
+      inactive: "%{item} no está activa, esto quiere decir que ha sido reemplazada por otra. Debe introducir el credencial nuevo"
       assigned: "%{item} asignado correctamente"
       not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
       unassigned: "%{item} desasignado correctamente"

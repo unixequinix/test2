@@ -25,7 +25,7 @@ RSpec.describe Gtag, type: :model do
     ticket = create(:ticket, event: event)
     create(:credential_transaction, action: "ticket_checkin", status_code: 0, gtag: subject, event: event, ticket: ticket)
 
-    subject.assign_ticket
+    subject.assign_ticket_from_checkin
     expect(customer.tickets).to include(ticket)
   end
 

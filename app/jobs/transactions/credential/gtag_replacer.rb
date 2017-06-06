@@ -6,7 +6,7 @@ class Transactions::Credential::GtagReplacer < Transactions::Base
     new_gtag = event.gtags.find(atts[:gtag_id])
 
     begin
-      old_gtag = Gtag.find_or_create_by(tag_uid: atts[:reference], event_id: event.id)
+      old_gtag = Gtag.find_or_create_by(tag_uid: atts[:ticket_code], event_id: event.id)
     rescue ActiveRecord::RecordNotUnique
       retry
     end

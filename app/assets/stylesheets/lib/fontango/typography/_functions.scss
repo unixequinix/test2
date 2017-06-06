@@ -114,7 +114,6 @@
 }
 
 // Get a size value given the number of modules
-// TODO define a list of base_lh in typography-setup based on breakpoints and retrieve it here
 // with an extra param: $breakpoint: $bp1
 @function modules($modules_count) {
   $base_lh: $base_line_height_size/$base_font_size;
