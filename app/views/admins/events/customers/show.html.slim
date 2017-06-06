@@ -76,7 +76,9 @@
 - root = "admins/events/customers/sections/"
 = render(root + "ticket_assignments", customer: @customer) if @customer.tickets.any?
 = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?
-= render(root + "online_transactions", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
-= render(root + "onsite_transactions", transactions: @onsite_transactions, title: "Onsite Transactions" ) if @onsite_transactions.present?
 = render(root + "refunds", customer: @customer) if @customer.refunds.present?
 = render(root + "orders", customer: @customer) if @customer.orders.any?
+hr
+= render(root + "online_transactions", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
+- @customer.gtags.order(active: :desc, id: :asc).each do |gtag|
+  = render(root + "onsite_transactions", transactions: gtag.transactions, title: "Tag #{gtag.tag_uid} Transactions (#{gtag.active? ? 'ACTIVE' : 'INACTIVE'})" )

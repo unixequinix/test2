@@ -15,7 +15,6 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
 
   def show
     @online_transactions = @customer.transactions.includes(:event).online
-    @onsite_transactions = @customer.active_gtag.transactions.onsite.includes(:event) if @customer.active_gtag
   end
 
   def reset_password
