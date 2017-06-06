@@ -33,7 +33,7 @@ class Gtag < ApplicationRecord
 
   def assign_replaced_gtags
     return unless customer
-    references = event.transactions.credential.status_ok.where(action: "gtag_replacement", gtag_id: id).pluck(:reference)
+    references = event.transactions.credential.status_ok.where(action: "gtag_replacement", gtag_id: id).pluck(:ticket_code)
     references += event.transactions.credential.status_ok.where(action: "gtag_replacement", ticket_code: tag_uid).pluck(:customer_tag_uid)
     references.delete(tag_uid)
 
