@@ -106,7 +106,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def initial_setup!
-    create_credit!(value: 1, name: "#{name} CRD")
+    create_credit!(value: 1, name: "CRD")
     companies.create!(name: "Glownet", hidden: true)
     user_flags.create!(name: "alcohol_forbidden")
     user_flags.create!(name: "banned")

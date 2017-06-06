@@ -1,52 +1,17 @@
 class SampleEvent # rubocop:disable all
   # rubocop:disable all
   def self.run
-    @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}",
-                          start_date: Time.zone.now,
-                          end_date: Time.zone.now + 4.days,
-                          support_email: "support@glownet.com",
-                          currency: "EUR",
-                          private_zone_password: 'a',
-                          fast_removal_password: 'a',
-                          open_api: true,
-                          open_portal: true,
-                          open_refunds: true,
-                          open_topups: true,
-                          open_tickets: true,
-                          open_gtags: true)
+    @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}", start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
+    @event.initial_setup!
 
-    UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden")
-    @event.create_credit!(value: 1, name: "CRD")
-    station = @event.stations.create! name: "Customer Portal", category: "customer_portal"
-    station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
-    @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund"
-    @event.stations.create! name: "CS Accreditation", category: "cs_accreditation"
-    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up"
-    @event.stations.create! name: "Touchpoint", category: "touchpoint"
-    @event.stations.create! name: "Operator Permissions", category: "operator_permissions"
-    @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler"
-
-    data = %w(customers accesses packs products ticket_types tickets
-              checkin_stations box_office_stations access_control_stations staff_accreditation_stations
-              vendor_stations bar_stations topup_stations)
-
+    data = %w(customers accesses packs products ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations)
     data.each { |d| eval("create_#{d}") }
 
     @event
   end
 
   def self.create_customers
-    @event.customers.create!(first_name: "Vicentest",
-                             last_name: "Test",
-                             email: "test@test.com",
-                             agreed_on_registration: true,
-                             phone: "512 2301 440",
-                             country: "ES",
-                             gender: "male",
-                             birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
-                             postcode: "28012",
-                             password: "test",
-                             password_confirmation: "test")
+    @event.customers.create!(first_name: "Vicentest", last_name: "Test", email: "test@test.com", agreed_on_registration: true, phone: "512 2301 440", country: "ES", gender: "male", birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)), postcode: "28012", password: "test", password_confirmation: "test")
   end
 
   def self.create_accesses
@@ -90,7 +55,7 @@ class SampleEvent # rubocop:disable all
       p = Pack.new(event_id: @event.id, name: pack[:name])
       pack[:catalog_items].each do |ci|
         item = @event.catalog_items.find_by(name: ci[:name])
-        p.pack_catalog_items.build(catalog_item: item, amount: ci[:amount]).save
+        p.pack_catalog_items.build(catalog_item_id: item.id, amount: ci[:amount])
       end
 
       p.save! # Because association validation in pack model
