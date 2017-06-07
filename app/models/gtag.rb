@@ -11,13 +11,13 @@ class Gtag < ApplicationRecord
 
   validates :tag_uid, uniqueness: { scope: :event_id },
                       presence: true,
-                      format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") },
+                      format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_nd_numbers") },
                       length: { is: 14 }
 
   validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
 
-  scope(:query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, format") })
-  scope(:banned, -> { where(banned: true) })
+  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits refundable_credits final_balance final_refundable_balance]) })
+  scope :banned, (-> { where(banned: true) })
 
   alias_attribute :reference, :tag_uid
 
