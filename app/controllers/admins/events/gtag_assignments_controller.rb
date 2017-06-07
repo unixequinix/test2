@@ -3,11 +3,14 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   def new
     authorize @customer, :new_credential?
+    @gtag = @customer.gtags.new(active: true)
   end
 
   def create
     authorize @customer, :create_credential?
-    @gtag = @current_event.gtags.find_or_create_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
+    @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: permitted_params[:tag_uid].strip)
+
+    render(:new) && return unless @gtag.valid?
 
     if @gtag.customer
       flash.now[:errors] = t("alerts.credential.already_assigned", item: "Gtag")
@@ -35,6 +38,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.permit(:tag_uid, :active).merge(event_id: @current_event.id)
+    params.require(:gtag).permit(:tag_uid, :ticket_type_id, :active, :event_id)
   end
 end
