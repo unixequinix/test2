@@ -3,11 +3,27 @@ class EventRegistrationPolicy < ApplicationPolicy
     true
   end
 
-  def accept?
-    true
+  def show?
+    false
+  end
+
+  def create?
+    admin_or_promoter
+  end
+
+  def new?
+    admin_or_promoter
+  end
+
+  def update?
+    admin_or_promoter
+  end
+
+  def edit?
+    admin_or_promoter
   end
 
   def destroy?
-    admin_and_promoter
+    admin_or_promoter
   end
 end

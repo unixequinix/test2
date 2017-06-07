@@ -4,4 +4,8 @@ class UserMailerPreview < ActionMailer::Preview
     registration = EventRegistration.first || EventRegistration.new(event: event)
     UserMailer.invite_to_event(registration)
   end
+
+  def reset_password_instructions
+    UserMailer.reset_password_instructions(User.first, "faketoken", {})
+  end
 end

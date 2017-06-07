@@ -1,22 +1,43 @@
 class Gtag < ApplicationRecord
   include Credentiable
+  include Alertable
+
+  belongs_to :ticket_type, optional: true
+
+  before_save :upcase_tag_uid
 
   # Gtag limits
   DEFINITIONS = { ultralight_c:   { entitlement_limit: 56, credential_limit: 32 } }.freeze
 
-  validates :tag_uid, uniqueness: { scope: :event_id }
-  validates :tag_uid, presence: true
-  validates :tag_uid, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_end_numbers") }
+  validates :tag_uid, uniqueness: { scope: :event_id },
+                      presence: true,
+                      format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_nd_numbers") },
+                      length: { is: 14 }
 
-  scope(:query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, format") })
-  scope(:banned, -> { where(banned: true) })
+  validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
+
+  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits refundable_credits final_balance final_refundable_balance]) })
+  scope :banned, (-> { where(banned: true) })
 
   alias_attribute :reference, :tag_uid
 
-  def assign_ticket
+  def name
+    "Gtag: #{tag_uid}"
+  end
+
+  def assign_ticket_from_checkin
     return unless customer
     ticket = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", gtag_id: id)&.ticket
-    customer.tickets << ticket if ticket
+    claim_credential(ticket)
+  end
+
+  def assign_replaced_gtags
+    return unless customer
+    references = event.transactions.credential.status_ok.where(action: "gtag_replacement", gtag_id: id).pluck(:ticket_code)
+    references += event.transactions.credential.status_ok.where(action: "gtag_replacement", ticket_code: tag_uid).pluck(:customer_tag_uid)
+    references.delete(tag_uid)
+
+    event.gtags.where(tag_uid: references).find_each { |gtag| claim_credential(gtag) }
   end
 
   def recalculate_balance
@@ -25,6 +46,8 @@ class Gtag < ApplicationRecord
     self.refundable_credits = ts.sum(:refundable_credits)
     self.final_balance = ts.last&.final_balance.to_f
     self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
+
+    Alert.propagate(event, "has negative balance", :high, self) if final_balance.negative? || final_refundable_balance.negative?
 
     save if changed?
   end
@@ -57,5 +80,11 @@ class Gtag < ApplicationRecord
 
   def assignation_atts
     { customer_tag_uid: tag_uid }
+  end
+
+  private
+
+  def upcase_tag_uid
+    self.tag_uid = tag_uid.upcase
   end
 end

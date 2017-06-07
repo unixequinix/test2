@@ -7,19 +7,15 @@
 
 .good_header
   background-color: #d0e7bc !important
-  margin: 0 !important
 
 .bad_header
   background-color: #ffb2b2 !important
-  margin: 0 !important
 
 .neutral_header
   background-color: #fedebd !important
-  margin: 0 !important
 
 .neutral2_header
   background-color: #b8cce8 !important
-  margin: 0 !important
 
 .good_info
   color: #9ecf68 !important
@@ -79,9 +75,13 @@
   &:hover
     font-style: italic
 
+  .material-icons
+    color: $green
+
+
 .filters
   &__item
-    margin-right: 0.5rem
+    padding: 0 5px
     color: $grayAsh
     transition: color 0.2s
     text-decoration: none
@@ -192,3 +192,15 @@
       td:first-of-type
         width: 48px !important
 
+.group-select, .station-select
+  position: relative
+  #hidden-group, #hidden-station
+    width: 200%
+    color: #757575
+    font-size: 12px
+    position: absolute
+    top: 20px
+    display: none
+
+.collapse-link-closed
+  cursor: pointer

@@ -21,9 +21,11 @@ es:
       without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
       no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
       blacklisted: "%{item} está en la Lista Negra"
+      inactive: "%{item} no está activa, esto quiere decir que ha sido reemplazada por otra. Debe introducir el credencial nuevo"
       assigned: "%{item} asignado correctamente"
       not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
       unassigned: "%{item} desasignado correctamente"
+      invalid: "Parace que hay un problema con este %{item}. Por favor, contacta con soporte en support@glownet.com o a través de Intercom"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Destruido con éxito
     error: El formulario contiene errores
@@ -81,7 +83,7 @@ es:
       header_invalid: Estamos recolectando todas tus compras de los dispositivos. Tu balance final se mostrará mas tarde.
       body_invalid: Aun así, puedes comprobar tu balance en cualquier dispositivo de punto de ventas, recarga o cualquier otra estacion. Si queres, puedes contactar con nosotros con el icono de intercom abajo a al derecha, o mandarnos un email a
       body_credits: Tu última transacción fue un '%{action}' en '%{station}' hace '%{time}'
-      body_balance: Tu balance en ese momento era
+      body_balance: Tu balance en el evento en ese momento era
       refundable: Reembolsable
     credits_history:
       button: Descargar transacciones
@@ -107,15 +109,9 @@ es:
       no_items: No contiene ningún producto asociado
     paypal:
       button: Sincroniza con PayPal
-    without_gtags_claiming_started:
+    portal_closed:
       claim: Lo sentimos
-      description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.
-    without_gtags_disabled:
-      claim: El tiempo para solicitar tu devolución del saldo en tu Tarjeta o Pulsera ha terminado
-      description: Si has contactado al soporte con alguna pregunta previamente,
-      description2: no te preocupes, te ayudaremos con tu devolución.
-    without_refunds:
-      call_to_action: Proceder a la devolución
+      description: El portal de cliente para este evento está cerrado, ponte en contacto con soporte si tienes alguna duda.
   email:
     communication: Este es un mensaje automático de %{event_name}, las respuestas no serán leídas.
     follow_on_twitter: Síguenos en Twitter
@@ -147,10 +143,9 @@ es:
     suscribe_on_you_tube: Suscríbete en YouTube
   event:
     locales:
-      de: GER
       en: ENG
       es: ESP
-      it: ITA
+      de: DEU
     subject_support: Necesito ayuda para %{event}
   footer:
     copyright: "© Glownet"

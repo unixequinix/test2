@@ -1,5 +1,5 @@
 class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
-  devise :database_authenticatable, :registerable, :recoverable, :validatable, :omniauthable,
+  devise :database_authenticatable, :registerable, :recoverable, :omniauthable,
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
          reset_password_within: 1.day,
@@ -20,15 +20,15 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :email, uniqueness: { scope: [:event_id] }
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
-  validates(:agreed_event_condition, acceptance: { accept: true }, if: -> { event&.agreed_event_condition? })
-  validates(:phone, presence: true, if: -> { custom_validation("phone") })
-  validates(:birthdate, presence: true, if: -> { custom_validation("birthdate") })
-  validates(:phone, presence: true, if: -> { custom_validation("phone") })
-  validates(:postcode, presence: true, if: -> { custom_validation("address") })
-  validates(:address, presence: true, if: -> { custom_validation("address") })
-  validates(:city, presence: true, if: -> { custom_validation("address") })
-  validates(:country, presence: true, if: -> { custom_validation("address") })
-  validates(:gender, presence: true, if: -> { custom_validation("gender") })
+  validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? })
+  validates :phone, presence: true, if: (-> { custom_validation("phone") })
+  validates :birthdate, presence: true, if: (-> { custom_validation("birthdate") })
+  validates :phone, presence: true, if: (-> { custom_validation("phone") })
+  validates :postcode, presence: true, if: (-> { custom_validation("address") })
+  validates :address, presence: true, if: (-> { custom_validation("address") })
+  validates :city, presence: true, if: (-> { custom_validation("address") })
+  validates :country, presence: true, if: (-> { custom_validation("address") })
+  validates :gender, presence: true, if: (-> { custom_validation("gender") })
 
   scope(:query_for_csv, lambda { |event|
     where(event: event)
@@ -44,7 +44,8 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def valid_balance?
-    active_gtag.present? ? active_gtag&.valid_balance? : true
+    positive = !global_credits.negative? && !global_refundable_credits.negative?
+    (active_gtag.blank? && positive) || (active_gtag&.valid_balance? && positive)
   end
 
   def full_name
@@ -62,7 +63,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     # TODO: This method will need to take into account refunds when we stop creating negative online orders
     transactions_balance = event.transactions.credit.onsite.status_ok.where(gtag: gtags, action: "record_credit").sum(:refundable_credits)
     redeemed_credits = gtags.any? ? transactions_balance : 0.00
-    active_gtag&.credits.to_f + orders.where(status: %w[completed refunded]).map(&:credits).sum - redeemed_credits
+    active_gtag&.refundable_credits.to_f + orders.where(status: %w[completed refunded]).map(&:refundable_credits).sum - redeemed_credits
   end
 
   def global_money
@@ -94,11 +95,13 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
       item_id, amount = arr
-      next if amount.to_f.zero?
+      amount = amount.to_f
+      next if amount.zero?
+
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
-      total = amount.to_f * item.price
-      order.order_items.new(catalog_item: item, amount: amount.to_f, total: total, counter: counter)
+      total = amount * item.price
+      order.order_items.new(catalog_item: item, amount: amount, total: total, counter: counter)
     end
     order
   end

@@ -1,7 +1,9 @@
 class Transaction < ApplicationRecord
+  include Alertable
+
   belongs_to :event
   belongs_to :station
-  belongs_to :customer
+  belongs_to :customer, optional: true
   belongs_to :gtag
 
   scope(:credit, -> { where(type: "CreditTransaction") })
@@ -21,6 +23,8 @@ class Transaction < ApplicationRecord
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
+
+  alias_attribute :name, :description
 
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone
@@ -48,15 +52,15 @@ class Transaction < ApplicationRecord
   end
 
   def description
-    "#{category.humanize} : #{action.humanize}"
+    "#{category.humanize}: #{action.humanize}"
   end
 
   def status_ok?
-    status_code.to_i.zero?
+    status_code.zero?
   end
 
   def status_not_ok?
-    !status_code.to_i.zero?
+    !status_code.zero?
   end
 
   def self.mandatory_fields

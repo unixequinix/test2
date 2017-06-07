@@ -61,6 +61,6 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def refund_params
-    params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :customer_id, :gateway)
+    params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :customer_id, :gateway, :refund_data)
   end
 end

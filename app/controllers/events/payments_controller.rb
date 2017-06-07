@@ -3,12 +3,12 @@ class Events::PaymentsController < Events::EventsController
 
   def set_order_details
     @order = @current_event.orders.find(params[:order_id])
-    @total = (@order.total.to_f * 100).round
+    @total = (@order.total * 100).round
   end
 
   def cancel_payment!(order, gateway)
     customer = order.customer
-    atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: -order.total.to_f }
+    atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: -order.total }
     MoneyTransaction.write!(@current_event, "portal_cancellation", :portal, customer, customer, atts)
   end
 

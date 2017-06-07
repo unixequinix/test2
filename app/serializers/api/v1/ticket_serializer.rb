@@ -1,5 +1,5 @@
 class Api::V1::TicketSerializer < ActiveModel::Serializer
-  attributes :reference, :redeemed, :banned, :catalog_item_id, :customer, :purchaser_first_name, :purchaser_last_name, :purchaser_email
+  attributes :reference, :redeemed, :banned, :catalog_item_id, :ticket_type_id, :customer, :purchaser_first_name, :purchaser_last_name, :purchaser_email # rubocop:disable Metrics/LineLength
 
   def catalog_item_id
     object.ticket_type&.catalog_item_id

@@ -1,7 +1,8 @@
 require "spec_helper"
 
 RSpec.describe PackCatalogItem, type: :model do
-  subject { build(:pack_catalog_item) }
+  let(:pack) { create(:pack, :with_credit) }
+  subject { create(:pack_catalog_item, pack: pack) }
 
   it "has a valid factory" do
     expect(subject).to be_valid

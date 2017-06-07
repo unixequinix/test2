@@ -56,8 +56,7 @@ html
               = link_to event_account_path(current_event), class: "header-link" do
                 i#account.mdl-color-text--red.material-icons supervisor_account
                 span.mdl-tooltip data-mdl-for="account" = t("dashboard.header.edit_account")
-              - if current_event.finished?
-                = yield(:history)
+              = yield(:history)
               = link_to event_logout_path(current_event), method: :delete, data: { confirm: (t("dashboard.confirm_log_out")) }, class: "header-link" do
                 i#out.mdl-color-text--red.material-icons power_settings_new
                 span.mdl-tooltip data-mdl-for="out" = t("dashboard.header.log_out")

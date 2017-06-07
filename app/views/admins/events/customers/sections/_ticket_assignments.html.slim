@@ -3,7 +3,7 @@
   .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
-        .mdl-cell.mdl-cell--4-col Admissions
+        .mdl-cell.mdl-cell--4-col Tickets
         .mdl-cell.mdl-cell--8-col
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -19,7 +19,7 @@
                 td.mdl-data-table__cell--non-numeric data-label="Ticket"
                   = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
                   = link_to admins_event_ticket_assignment_path(@current_event, ticket), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                    button#revoke.icon.material-icons delete
+                    button#revoke.icon.material-icons delete_forever
                 td data-label="Ticket Item" = link_to ticket.ticket_type.catalog_item.name, [:admins, @current_event, ticket.ticket_type.catalog_item]
                 td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])
                 td data-label="Banned" = best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])

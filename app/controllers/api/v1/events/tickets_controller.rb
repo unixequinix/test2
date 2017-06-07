@@ -9,7 +9,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   end
 
   def show
-    ticket = @current_event.tickets.find_by(code: params[:id])
+    ticket = @current_event.tickets.find_by(code: params[:id]) || @current_event.tickets.find_by(id: params[:id])
 
     render(json: :not_found, status: :not_found) && return unless ticket
     render(json: ticket, serializer: Api::V1::TicketSerializer)
@@ -37,6 +37,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
           tickets.banned,
           tickets.updated_at,
           ticket_types.catalog_item_id,
+          tickets.ticket_type_id,
           customer_id
 
         FROM tickets

@@ -2,13 +2,13 @@ require "spec_helper"
 
 RSpec.describe SonarDecoder, type: :domain_logic do
   let(:decoder) { SonarDecoder }
-  let(:ticket_code) { "TC8B106BA990BDC56" }
+  let(:ticket_code) { "TE469A2F95B47623C" }
 
   it "doesnt modify the original code variable" do
     decoder.decode(ticket_code)
-    expect(ticket_code).to eq("TC8B106BA990BDC56")
+    expect(ticket_code).to eq("TE469A2F95B47623C")
   end
-  %w[T34FCFF09B4651652 T4EF1864F836D35A7 T45038437B0D6FC54].each do |code|
+  %w[TE469A2F95B47623C].each do |code|
     it "expects the code '#{code}' to decode correctly" do
       result = decoder.decode(code)
       expect(result).not_to be_nil
@@ -29,7 +29,7 @@ RSpec.describe SonarDecoder, type: :domain_logic do
   end
 
   it ".decode returns the ticket barcode decoded" do
-    expect(decoder.decode(ticket_code)).to eq("201608504201012")
+    expect(decoder.decode(ticket_code)).to eq("201715499201099")
   end
 
   it ".perform returns nil if code is not valid" do
@@ -37,11 +37,11 @@ RSpec.describe SonarDecoder, type: :domain_logic do
   end
 
   describe ".verify_prefix" do
-    it "returns true if the code starts with 2016" do
-      expect(decoder.verify_prefix("201612313")).to eq(true)
+    it "returns true if the code starts with 2017" do
+      expect(decoder.verify_prefix("201712313")).to eq(true)
     end
 
-    it "returns false if the code does not start with 2016" do
+    it "returns false if the code does not start with 2017" do
       expect(decoder.verify_prefix("200012313")).to eq(false)
     end
   end
@@ -51,6 +51,6 @@ RSpec.describe SonarDecoder, type: :domain_logic do
   end
 
   it ".perform returns the company_ticket_code form the encoded string" do
-    expect(decoder.perform(ticket_code)).to eq(12)
+    expect(decoder.perform(ticket_code)).to eq(99)
   end
 end

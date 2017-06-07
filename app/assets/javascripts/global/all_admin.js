@@ -1,5 +1,6 @@
 $(document).on("ready", function(){
 
+  $.datepicker.setDefaults({dateFormat: 'yy-mm-dd'});
   $(document).ready(function() { jQuery(".best_in_place").best_in_place() });
 
   $('.best_in_place').bind("ajax:success", function () { $(this).closest('tr').children().effect('highlight', {color: "#91ee58"}, 'slow') });

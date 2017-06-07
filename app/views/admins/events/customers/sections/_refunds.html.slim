@@ -22,13 +22,14 @@
                 td.mdl-data-table__cell--non-numeric data-label="ID" = link_to refund.id, admins_event_refund_path(@current_event, refund)
                 td data-label="State" = refund.status.humanize
                 td data-label="Amount" = refund.amount
-                td data-label="Fee" = refund.fee
-                td data-label="Money" = refund.amount * @current_event.credit.value
+                td data-label="Fee" = number_to_token refund.fee
+                td data-label="Money" = number_to_event_currency refund.amount_money
                 td data-label="Created at" = l refund.created_at
                 td
                   - if current_user.admin?
-                    = link_to [:admins, @current_event, refund], method: "delete", class: "mdl-button mdl-button--icon" do
-                      span.icon.material-icons close
+                    = link_to [:admins, @current_event, refund], method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id="delete_refund_#{refund.id}" delete_forever
+              span.mdl-tooltip data-mdl-for="delete_refund_#{refund.id}" Delete
   .mdl-layout-spacer
 
 

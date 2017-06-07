@@ -1,6 +1,8 @@
 class OperatorTransaction < Transaction
-  def self.mandatory_fields
-    super + %w[operator_value operator_station_id]
+  belongs_to :operator_permission, optional: true, foreign_key: :catalog_item_id
+
+  def description
+    action.humanize
   end
 
   def self.policy_class

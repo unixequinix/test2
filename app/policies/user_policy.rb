@@ -1,17 +1,29 @@
 class UserPolicy < ApplicationPolicy
-  def new?
-    admin_and_promoter
+  def index?
+    user.admin?
+  end
+
+  def show?
+    user.admin? || record.eql?(user)
   end
 
   def create?
-    admin_and_promoter
+    true
+  end
+
+  def new?
+    true
   end
 
   def update?
-    admin_and_promoter
+    user.admin? || record.eql?(user)
+  end
+
+  def edit?
+    user.admin? || record.eql?(user)
   end
 
   def destroy?
-    admin_and_promoter
+    user.admin?
   end
 end

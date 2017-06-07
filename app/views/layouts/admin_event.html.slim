@@ -22,15 +22,15 @@ html
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
         .mdl-layout__header-row
-          = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank" do
-            i#launch.material-icons launch
-            span.mdl-tooltip data-mdl-for="launch" Customer Portal
-          |  &nbsp; &nbsp;
-
-          = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details" do
-            = @current_event.name
-            = " (CLOSED)" if @current_event.closed?
-            span.mdl-tooltip data-mdl-for="event_details" Event Dashboard
+          .event_name_header
+            = link_to customer_root_path(@current_event), class: "mdl-layout-title header-item", target: "_blank", id: "customer_portal_link" do
+              i.mdl-color-text--teal-200.material-icons launch
+              span.mdl-tooltip data-mdl-for="customer_portal_link" Customer Portal
+            | &nbsp; &nbsp;
+            = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details_link" do
+              = @current_event.name
+              = " (#{@current_event.state.humanize})"
+              span.mdl-tooltip data-mdl-for="event_details_link" Event Dashboard
 
           .mdl-layout-spacer
           .mdl-layout-title.header-item= yield(:title)
@@ -40,37 +40,37 @@ html
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons search
-              .mdl-textfield__expandable-holder
-                = yield(:search)
-            |  &nbsp; &nbsp;
+              .mdl-textfield__expandable-holder = yield(:search)
 
           = yield(:navigation_actions)
 
           = link_to admins_events_path, class: "mdl-button mdl-button--icon" do
-            span#events_link.icon.material-icons event_note
-            span.mdl-tooltip data-mdl-for="events_link" Events List
+            span#events_link.icon.material-icons home
+            span.mdl-tooltip data-mdl-for="events_link" Home
 
           = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
             span#out.icon.material-icons power_settings_new
             span.mdl-tooltip data-mdl-for="out"  Log out
 
+
       .mdl-layout__drawer
+        #event_logo= image_tag @current_event.logo.url(:panel)
         nav.mdl-navigation.global-nav
+          = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons people_outline
+            |  Customers
+          = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons import_export
+            |  Transactions
           - if policy(@current_event).event_settings?
             = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
               |  Users
-          = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons people_outline
-            |  Customers
           - if policy(Device.none).index?
-            = link_to admins_event_devices_path(@current_event), class: "mdl-navigation__link" do
+            = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons bug_report
               |  Asset Tracker
           - if policy(@current_event).event_charts? && !@current_event.created?
-            = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons import_export
-              |  Transactions
             = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
               |  Live Reports (BETA)
@@ -92,6 +92,9 @@ html
 
         nav.mdl-navigation.global-nav
           span.nav-title STORE
+          = link_to admins_event_operator_permissions_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons import_export
+            |  App Permissions
           = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             |  Accesses
@@ -101,13 +104,12 @@ html
           = link_to admins_event_products_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons shopping_basket
             |  Products
-          - unless @current_event.created?
-            = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons add_shopping_cart
-              |  Orders
-            = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons undo
-              |  Refunds
+          = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons shopping_cart
+            |  Orders
+          = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons undo
+            |  Refunds
 
         nav.mdl-navigation.global-nav
           span.nav-title STATIONS

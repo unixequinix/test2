@@ -22,7 +22,7 @@ RSpec.describe Transaction, type: :model do
     it "returns the category and type humanized" do
       allow(subject).to receive(:category).and_return("Glownet")
       subject.action = "Test"
-      expect(subject.description).to eq("Glownet : Test")
+      expect(subject.description).to eq("Glownet: Test")
     end
   end
 

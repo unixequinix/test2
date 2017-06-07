@@ -44,12 +44,15 @@
             th Product Price
             th Total
             th Product Type
+            th Redeemed
         tbody
           - @order.order_items.each do |order_item|
             tr
               td.mdl-data-table__cell--non-numeric = order_item.catalog_item.name
-              td = number_with_delimiter order_item.amount.to_i
+              td = number_with_delimiter order_item.amount
               td = number_to_event_currency order_item.catalog_item.price
               td = number_to_event_currency order_item.total
               td = order_item.catalog_item.type
+              td = best_in_place order_item, :redeemed, best_in_place_checkbox([:admins, @current_event, @order, order_item])
+            span.mdl-tooltip data-mdl-for="best_in_place_order_item_#{order_item.id}_redeemed" Change Redeemed
   .mdl-layout-spacer

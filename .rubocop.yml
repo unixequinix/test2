@@ -28,7 +28,7 @@ Documentation:
 Style/EmptyCaseCondition:
   Enabled: false
 
-Style/CaseIndentation:
+Layout/CaseIndentation:
   Enabled: false
 
 Metrics/LineLength:
@@ -43,7 +43,7 @@ Style/StringLiterals:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: aligned
 
 Metrics/AbcSize:

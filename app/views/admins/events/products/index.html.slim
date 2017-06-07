@@ -38,7 +38,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @products
+    = render "layouts/pagination", objects: @products
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -47,22 +47,30 @@
               th.mdl-data-table__cell--non-numeric Name
               th VAT
               th Is alcohol?
+              th
           tbody
             - @products.each do |product|
               tr data-event=@current_event.id data-product=product.id
-                td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = best_in_place product, :name, url: [:admins, @current_event, product]
+                td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place product, :name, url: [:admins, @current_event, product]
+                td data-label="VAT" = best_in_place product, :vat, url: [:admins, @current_event, product]
+                td data-label="Is alcohol?" = best_in_place product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, product])
+                td.table-actions
                   .table-action
                     = link_to admins_event_product_path(@current_event, product) do
                       button.icon.material-icons id="info_#{product.id}" info_outline
                   .table-action
                     = link_to edit_admins_event_product_path(@current_event, product) do
                       button.icon.material-icons id="edit_#{product.id}" edit
-                td data-label="VAT" = best_in_place product, :vat, url: [:admins, @current_event, product]
-                td data-label="Is alcohol?" = best_in_place product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, product])
+
+                  - if @current_event.created?
+                    .table-action
+                      = link_to admins_event_product_path(@current_event, product), method: "delete", data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons id="delete_#{product.id}" delete_forever
+
               span.mdl-tooltip data-mdl-for="edit_#{product.id}" Edit
               span.mdl-tooltip data-mdl-for="info_#{product.id}" Info
-    .mdl-cell.mdl-cell--12-col.italic.small = paginate @products
+              span.mdl-tooltip data-mdl-for="delete_#{product.id}" Delete
+    = render "layouts/pagination", objects: @products
   .mdl-layout-spacer
 
 

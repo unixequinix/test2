@@ -1,4 +1,4 @@
-class EditTransactionIndexes < ActiveRecord::Migration
+class EditTransactionIndexes < ActiveRecord::Migration[5.0]
   def change
     remove_index(:transactions, :device_uid) if index_exists?(:transactions, :device_uid)
     remove_index(:transactions, :device_db_index) if index_exists?(:transactions, :device_db_index)

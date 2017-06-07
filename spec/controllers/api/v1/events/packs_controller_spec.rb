@@ -24,16 +24,16 @@ RSpec.describe Api::V1::Events::PacksController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: params
-        pack_keys = %w[id name accesses credits user_flags]
+        pack_keys = %w[id name accesses credits user_flags operator_permissions]
         JSON.parse(response.body).map { |pack| expect(pack.keys).to eq(pack_keys) }
       end
 
       context "with the 'If-Modified-Since' header" do
         it "returns only the modified packs" do
-          request.headers["If-Modified-Since"] = (@new_pack.updated_at - 2.hours)
+          request.headers["If-Modified-Since"] = (@new_pack.updated_at - 2.hours).to_formatted_s(:transactions)
           get :index, params: params
           packs = JSON.parse(response.body).map { |m| m["id"] }
-          expect(packs).to eq([@new_pack.id])
+          expect(packs).to include(@new_pack.id)
         end
       end
 

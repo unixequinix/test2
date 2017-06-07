@@ -4,11 +4,11 @@ class Station < ApplicationRecord
   has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy
   has_many :station_products, dependent: :destroy
+  has_many :products, through: :station_products
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
 
-  validates :name, presence: true
-  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
+  validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }
 
   after_create :add_predefined_values
@@ -20,7 +20,7 @@ class Station < ApplicationRecord
                    access: [:access_control] }.freeze
 
   GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
-             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions hospitality_top_up cs_topup_refund cs_gtag_balance_fix cs_accreditation], # rubocop:disable Metrics/LineLength
+             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions hospitality_top_up cs_topup_refund cs_gtag_balance_fix cs_accreditation gtag_replacement], # rubocop:disable Metrics/LineLength
              glownet: %i[gtag_recycler envelope_linker],
              monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze

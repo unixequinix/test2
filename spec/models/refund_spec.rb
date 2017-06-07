@@ -22,6 +22,43 @@ RSpec.describe Refund, type: :model do
     end
   end
 
+  describe ".complete!" do
+    let(:credit) { create(:credit, value: 10) }
+    let(:event) { create(:event) }
+    let(:customer) { create(:customer, event: event) }
+    let(:customer_portal) { create(:station, event: event, category: "customer_portal", name: "customer_portal") }
+    subject { create(:refund, event: event, customer: customer, gateway: "bank_account") }
+
+    before do
+      event.credit = credit
+      credit.station_catalog_items.create! station: customer_portal, price: "100"
+    end
+
+    it "completes the order" do
+      expect(subject).not_to be_completed
+      subject.complete!
+      expect(subject).to be_completed
+    end
+
+    it "works with no refund data" do
+      expect { subject.complete! }.not_to raise_error
+    end
+
+    it "creates a refunded order" do
+      expect { subject.complete! }.to change(event.orders.where(status: "refunded"), :count).by(1)
+    end
+
+    it "creates a money transaction" do
+      expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
+    end
+
+    it "sends an email" do
+      email = OrderMailer.completed_refund(subject)
+      expect(OrderMailer).to receive(:completed_refund).with(subject).twice.and_return(email)
+      subject.complete!
+    end
+  end
+
   describe ".total" do
     it "returns the sum of amount and fee" do
       subject.amount = 10

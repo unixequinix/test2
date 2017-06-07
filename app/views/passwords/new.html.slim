@@ -1,0 +1,13 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--4-col
+    .login-header = image_tag("glownet-event-logo.png")
+    .demo-card-wide.mdl-card.mdl-shadow--2dp.login-card
+      .mdl-card__supporting-text
+      .mdl-card__supporting-text
+        = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload }) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :email, required: true, autofocus: true
+            = f.button :submit, "Reset password", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer

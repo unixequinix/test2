@@ -114,8 +114,10 @@ input:-webkit-autofill
     color: $grayBattleship
     font-size: 20px
     margin: 0
-  .table-action
-    display: inline-block
+  .table-actions
+    width: 150px
+    .table-action
+      display: inline-block
 
 .hiding
   display: none
@@ -316,6 +318,14 @@ label
   color: white
 
 
+//LOGO
+.mdl-layout__drawer
+  #event_logo
+    text-align: center
+    img
+      margin: 0 auto
+      max-width: 200px
+
 //MENU BTN
 .floaty
   position: absolute
@@ -347,3 +357,24 @@ label
   transform: rotate(360deg)
   transition: transform 100ms cubic-bezier(0.1,0.7,1.0,0.1)
 
+// PAGINATION
+.pagination_left
+  float: left
+  padding: 5px
+
+
+.pagination_right
+  float: right
+  padding: 5px
+
+
+.yes_switch, .no_switch
+  width: 35px !important
+
+.event_name_header
+  position: relative
+  left: 0px
+
+  a
+    display: inline
+    line-height: 64px

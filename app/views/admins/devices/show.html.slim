@@ -35,8 +35,8 @@ content-grid.mdl-grid
             th.mdl-data-table__cell--non-numeric Event
             th Transaction Count
         tbody
-          - @device.events.each do |event|
+          - @device.device_registrations.each do |registration|
             tr
-              td.mdl-data-table__cell--non-numeric = link_to event.name, admins_event_device_path(event, @device)
-              td = event.transactions.where(device_uid: @device.mac).size
+              td.mdl-data-table__cell--non-numeric = link_to registration.event.name, [:admins, registration.event, registration]
+              td = registration.event.transactions.where(device_uid: @device.mac).size
   .mdl-layout-spacer

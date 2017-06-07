@@ -19,7 +19,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
       flash.now[:errors] = errors.to_sentence
       render(:new)
     else
-      @ticket.assign_customer(@customer, :admin, current_user)
+      @ticket.assign_customer(@customer, current_user, :admin)
       redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Ticket"))
     end
   end
@@ -29,7 +29,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     authorize @ticket.customer, :destroy_credential?
     @ticket.unassign_customer(:admin, current_user)
     flash[:notice] = t("alerts.credential.unassigned", item: "Ticket")
-    redirect_to :back
+    redirect_to request.referer
   end
 
   private

@@ -1,8 +1,0 @@
-- if controller_name != 'sessions'
-  = link_to event_login_path(current_event) do
-    = t('links.buttons.sign_in')
-
-- if controller_name != 'passwords' && controller_name != 'registrations'
-  = link_to event_recover_password_path(current_event) do
-    = t('links.forgot')
-

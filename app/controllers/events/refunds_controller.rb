@@ -10,6 +10,7 @@ class Events::RefundsController < Events::EventsController
     @refund.prepare(permitted_params)
 
     if @refund.save
+      @refund.execute_refund_of_orders unless @refund.gateway.eql?("bank_account")
       @refund.complete!
       redirect_to customer_root_path(@current_event), notice: t("refunds.success")
     else
@@ -23,10 +24,10 @@ class Events::RefundsController < Events::EventsController
 
   def set_refund
     @refunds = @current_event.payment_gateways.order(:id).refund.map do |gateway|
-      fee = gateway.fee.to_f
-      amount = current_customer.orders.completed.where(gateway: gateway.name).sum(&:credits) - fee.to_f
-      amount = current_customer.global_refundable_credits - fee.to_f if gateway.name.eql?("bank_account")
-      amount = [amount, current_customer.global_refundable_credits - fee.to_f].min
+      fee = gateway.fee
+      amount = current_customer.orders.completed.where(gateway: gateway.name).sum(&:credits) - fee
+      amount = current_customer.global_refundable_credits - fee if gateway.name.eql?("bank_account")
+      amount = [amount, current_customer.global_refundable_credits - fee].min
       atts = { amount: amount, status: "started", fee: fee, gateway: gateway.name, event: @current_event }
 
       current_customer.refunds.new(atts) if amount.positive?

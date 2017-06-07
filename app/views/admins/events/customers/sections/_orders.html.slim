@@ -16,6 +16,7 @@
               th Total
               th Completed
               th Redeemed
+              th
           tbody
             - customer.orders.order(:status, :id).each do |order|
               tr
@@ -30,6 +31,11 @@
                     i.material-icons done
                   - else
                     i.material-icons clear
+                td
+                  - if current_user.admin?
+                    = link_to [:admins, @current_event, order], method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id="delete_order_#{order.id}" delete_forever
+              span.mdl-tooltip data-mdl-for="delete_order_#{order.id}" Delete
   .mdl-layout-spacer
 
 

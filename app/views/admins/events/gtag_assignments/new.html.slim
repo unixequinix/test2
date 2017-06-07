@@ -10,15 +10,16 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-      = form_tag admins_event_gtag_assignments_path(@current_event, @customer) do |f|
+      = simple_form_for [:admins, @current_event, @gtag], url: admins_event_gtag_assignments_path(@current_event, @customer), wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .form-inputs.short-input
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-            = text_field_tag :tag_uid, nil, placeholder: "Line 2 e.g:BA6D7DCO", class: "mdl-textfield__input", autofocus: true
+          = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
+          = f.input :tag_uid, placeholder: true, as: :string, autofocus: true
+          = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.pluck(:name, :id), include_blank: true, placeholder: true
+        .file
           label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='active'
-            = check_box_tag :active, 1, true, class: "mdl-switch__input"
             span.mdl-switch__label.form-label Active
+            = f.input :active, :input_html => { :id => 'active' }
 
         .form-actions
-          .col-sm-offset-3.col-sm-9
-            = submit_tag "Accept", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+          = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer

@@ -1,7 +1,7 @@
 - content_for(:navigation_actions) do
   = link_to admins_event_ticket_types_path, class: "mdl-button mdl-button--icon" do
     span#undo_link.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo_link" Back
+    span.mdl-tooltip data-mdl-for="undo_link" Back`
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_ticket_type_path(@current_event, @ticket_type) do |f|
@@ -37,7 +37,7 @@
       li.floaty-list-item
         = link_to admins_event_ticket_type_path(@current_event, @ticket_type), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket_type?' } do
           button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons delete
+            i.material-icons delete_forever
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
       li.floaty-list-item
         = link_to edit_admins_event_ticket_type_path(@current_event, @ticket_type) do
@@ -75,7 +75,7 @@
               td = best_in_place @ticket_type, :company_code, url: [:admins, @current_event, @ticket_type]
             tr
               td.mdl-data-table__cell--non-numeric Catalog Item
-              td = best_in_place @ticket_type, :catalog_item_id, as: :select, collection: @catalog_items.pluck(:id, :name), url: [:admins, @current_event, @ticket_type]
+              td = best_in_place @ticket_type, :catalog_item_id, as: :select, collection: @current_event.catalog_items.order(:type).map{|i| [i.id, i.name.humanize]}, url: [:admins, @current_event, @ticket_type]
             tr
               td.mdl-data-table__cell--non-numeric Tickets
               td = @ticket_type.tickets.count

@@ -44,7 +44,7 @@
               th.mdl-data-table__cell--non-numeric Status
               th.mdl-data-table__cell--non-numeric Start
               th.mdl-data-table__cell--non-numeric End
-              th Since
+              th
           tbody
             - @user.events.each do |event|
               tr
@@ -52,5 +52,8 @@
                 td.mdl-data-table__cell--non-numeric = event.state
                 td.mdl-data-table__cell--non-numeric = event.start_date.to_date.to_formatted_s(:short)
                 td.mdl-data-table__cell--non-numeric = event.end_date.to_date.to_formatted_s(:short)
-                td #{time_ago_in_words event.created_at} ago
+                td
+                  = link_to admins_event_event_registration_path(@current_event, @user.registration_for(event)), method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
+                    button.icon.material-icons id="delete_event_registration_#{event.id}" delete_forever
+              span.mdl-tooltip data-mdl-for="delete_event_registration_#{event.id}" Delete
     .mdl-layout-spacer

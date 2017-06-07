@@ -1,5 +1,5 @@
 class Api::V2::Events::CustomersController < Api::V2::BaseController
-  before_action :set_customer, only: %i[show update destroy]
+  before_action :set_customer, only: %i[refunds transactions show update destroy]
 
   # GET /customers
   def index
@@ -7,6 +7,19 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     authorize @customers
 
     render json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
+  end
+
+  # GET /customers/:id/refunds
+  def refunds
+    @refunds = @customer.refunds
+    render json: @refunds, each_serializer: Api::V2::RefundSerializer
+  end
+
+  # GET /customers/:id/transactions
+  def transactions
+    gtag = @customer.active_gtag
+    @transactions = gtag ?  gtag.transactions.credit.status_ok.order(:gtag_counter) : []
+    render json: @transactions, each_serializer: Api::V2::TransactionSerializer
   end
 
   # GET /customers/1

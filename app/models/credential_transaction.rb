@@ -1,5 +1,9 @@
 class CredentialTransaction < Transaction
-  belongs_to :ticket
+  belongs_to :ticket, optional: true
+
+  def credentials
+    [gtag, ticket].compact
+  end
 
   def description
     action.humanize

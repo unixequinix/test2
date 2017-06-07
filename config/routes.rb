@@ -13,12 +13,13 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
-  devise_for :users, controllers: { sessions: "admins/sessions"}
+  devise_for :users, controllers: { sessions: "admins/sessions", passwords: "passwords"}
+
   devise_scope :user do
     get "/admins/sign_in", to: "admins/sessions#new"
   end
 
-  resources :users, except: :index
+  resources :users, except: [:index, :destroy]
 
   namespace :admins do
 
@@ -27,7 +28,7 @@ Rails.application.routes.draw do
     end
 
     resources :users, only: [:index, :update, :destroy, :show]
-
+    resources :alerts, only: [:index, :create, :update, :destroy]
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do
@@ -42,6 +43,8 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
+        get :resolve_time
+        get :do_resolve_time
         get :edit_event_style
         get :device_settings
         delete :remove_db
@@ -55,21 +58,26 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
-        resources :refunds, only: [:index, :show, :destroy]
-        resources :orders, only: [:index, :show]
+        resources :refunds, only: [:index, :show, :destroy, :update]
+        resources :orders, only: [:index, :show, :new, :create, :destroy] do
+          resources :order_items, only: :update
+        end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :devices, only: [:index, :show] do
+        resources :device_registrations, only: [:index, :show] do
           get :download_db, on: :member
+          get :resolve_time, on: :member
         end
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
-        resources :packs
+        resources :operator_permissions
+        resources :packs do
+          post :clone, on: :member
+        end
         resources :ticket_assignments, only: :destroy
         resources :companies, except: :show
-        resources :event_registrations do
-          get :accept, on: :member
+        resources :event_registrations, except: :show  do
           get :resend, on: :member
         end
 
@@ -88,7 +96,7 @@ Rails.application.routes.draw do
             get :resolvable
           end
         end
-        resources :transactions, only: [:index, :show, :update] do
+        resources :transactions, only: [:index, :show, :update, :destroy] do
           post :search, on: :collection
           get :status_9, on: :member
           get :status_0, on: :member
@@ -220,16 +228,25 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :events, only: [:show] do
         scope module: "events" do
-          resources :customers, :constraints => { :id => /.*/ }
+          resources :customers, :constraints => { :id => /.*/ } do
+            get :refunds, on: :member
+            get :transactions, on: :member
+          end
           resources :devices
           resources :companies
           resources :gtags
           resources :accesses
           resources :products
-          resources :refunds
-          resources :stations
+          resources :stations do
+            resources :products
+            post :add_product, on: :member
+            post :remove_product, on: :member
+          end
           resources :tickets
 
+          resources :refunds do
+            put :complete, on: :member
+          end
           resources :orders do
             put :complete, on: :member
           end
@@ -248,6 +265,7 @@ Rails.application.routes.draw do
         scope module: "events" do
           resource :database, only: [:create, :show]
           resources :accesses, only: :index
+          resources :operator_permissions, only: :index
           resources :auto_top_ups, only: :create
           resources :backups, only: :create
           resources :ticket_types, only: :index
@@ -261,7 +279,7 @@ Rails.application.routes.draw do
           resources :transactions, only: :create
           resources :device_transactions, only: :create
           resources :user_flags, only: :index
-          resources :tickets, only: [:index, :show] do
+          resources :tickets, only: [:index, :show], :constraints => { :id => /.*/ } do
             get :banned, on: :collection
           end
           resources :gtags, only: [:index, :show] do

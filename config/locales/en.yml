@@ -21,13 +21,15 @@ en:
       without_credential: "%{item} is empty and cannot be assigned. Please try later"
       no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
       blacklisted: "%{item} is Blacklisted"
+      inactive: "%{item} is Inactive, this means it has been replaced for another. Please enter the active credential"
       assigned: "%{item} successfully assigned"
       not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
       unassigned: "%{item} successfully unassigned"
+      invalid: "There seems to be a problem with this %{item}. Please contact customer support at support@glownet.com or through Intercom"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Succesfully deleted
     error: The form contains errors
-    only_letters_end_numbers: May only contain letters and numbers
+    only_letters_and_numbers: May only contain letters and numbers
     order_complete: Your Order has been completed successfully!
     order_error: There was a problem with your order
     updated: Succesfully updated
@@ -80,7 +82,7 @@ en:
       header_invalid: We are currently retrieving all your purchases. Your final balance will be shown shortly.
       body_invalid: However, if you want to know your current, up-to-date balance, it can be checked at any device. Any Point of Sale, Topup or any other station. You can also contact us through the intercom icon at the bottom right. Or email us at
       body_credits: Your last recorded transaction was a '%{action}' at '%{station}' %{time} ago
-      body_balance: Your balance at the time was
+      body_balance: Your onsite balance at the time was
       refundable: Refundable
     credits_history:
       button: Download Transactions
@@ -106,13 +108,9 @@ en:
       no_items: No items included
     paypal:
       button: Pay with PayPal
-    without_gtags_claiming_started:
+    portal_closed:
       claim: Sorry
-      description: The refunds period is finished, If you have any question contact support.
-    without_gtags_disabled:
-      claim: The period to apply for a refund of your Card or Wristband credits is closed
-      description: If you have previously contacted us with any support question,
-      description2: do not worry, we will help you through with your refund.
+      description: The customer portal for this event is closed, If you have any question contact support.
   email:
     communication: This is an automated communication from %{event_name}. Replies will not be read.
     follow_on_twitter: Follow on Twitter
@@ -144,10 +142,9 @@ en:
     suscribe_on_you_tube: Subscribe on YouTube
   event:
     locales:
-      de: GER
       en: ENG
       es: ESP
-      it: ITA
+      de: DEU
     subject_support: Need help for %{event}
   footer:
     copyright: "© Glownet"
@@ -252,7 +249,7 @@ en:
     am: am
     pm: pm
     formats:
-      default: "%Y-%m-%d %H:%M"
+      default: "%d/%h/%y %H:%M"
       long: "%a, %d %b %Y %H:%M:%S"
       short: "%d %b %H:%M"
       zone_description: "%:z %Z"

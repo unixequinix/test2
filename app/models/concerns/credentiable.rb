@@ -4,7 +4,6 @@ module Credentiable
   included do
     belongs_to :event
     belongs_to :customer
-    belongs_to :ticket_type
 
     has_many :transactions, dependent: :restrict_with_error
   end
@@ -17,19 +16,25 @@ module Credentiable
     update_attribute(:banned, false)
   end
 
-  def assign_customer(new_customer, origin, operator)
+  def assign_customer(new_customer, operator, origin = :portal)
     update!(customer: new_customer)
     new_customer.touch
-    write_assignation_transaction("assigned", origin, operator)
+    write_assignation_transaction("assigned", operator, origin)
   end
 
-  def unassign_customer(origin, operator)
+  def unassign_customer(operator = nil, origin = :portal)
     customer&.touch
-    write_assignation_transaction("unassigned", origin, operator)
+    write_assignation_transaction("unassigned", operator, origin)
     update!(customer: nil)
   end
 
-  def write_assignation_transaction(action, origin, operator)
+  def claim_credential(obj)
+    return if obj.blank? || customer == obj.customer
+    message = "tried to assign to customer #{customer.id} but it is already assigned to #{obj.customer_id}"
+    obj.customer_id.blank? ? obj.update(customer: customer) : Alert.propagate(event, message, :medium, obj)
+  end
+
+  def write_assignation_transaction(action, operator, origin = :portal)
     action = "#{model_name.element}_#{action}"
     CredentialTransaction.write!(event, action, origin, customer, operator, assignation_atts)
   end

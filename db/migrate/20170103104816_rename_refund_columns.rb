@@ -1,4 +1,4 @@
-class RenameRefundColumns < ActiveRecord::Migration
+class RenameRefundColumns < ActiveRecord::Migration[5.0]
   def change
     rename_column :refunds, :iban, :field_a
     rename_column :refunds, :swift, :field_b

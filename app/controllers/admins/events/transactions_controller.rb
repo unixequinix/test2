@@ -1,6 +1,6 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type, except: :index
-  before_action :set_transactions, except: %i[index show fix status_9 status_0]
+  before_action :set_transactions, except: %i[index show fix status_9 status_0 destroy]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
 
   def index
@@ -34,13 +34,20 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   def status_9
     @transaction.update(status_code: 9, status_message: "cancelled by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    redirect_to(:back, notice: "Transaction cancelled successfully")
+    redirect_to(request.referer, notice: "Transaction cancelled successfully")
   end
 
   def status_0
     @transaction.update(status_code: 0, status_message: "accepted by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    redirect_to(:back, notice: "Transaction accepted successfully")
+    redirect_to(request.referer, notice: "Transaction accepted successfully")
+  end
+
+  def destroy
+    @transaction = @current_event.transactions.find(params[:id])
+    authorize @transaction
+    message = @transaction.destroy ? { notice: t('alerts.destroyed') } : { alert: @transaction.errors.full_messages.join(",") }
+    redirect_to request.referer, message
   end
 
   private

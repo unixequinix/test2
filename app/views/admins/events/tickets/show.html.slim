@@ -14,7 +14,7 @@
       li.floaty-list-item
         = link_to admins_event_ticket_path(@current_event, @ticket), method: :delete, data: { confirm: 'Are you sure you want to delete this ticket?' } do
           button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons delete
+            i.material-icons delete_forever
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
       li.floaty-list-item
         = link_to edit_admins_event_ticket_path(@current_event, @ticket) do

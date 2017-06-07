@@ -32,15 +32,8 @@ FactoryGirl.define do
       end
     end
 
-    trait :empty do |_pack|
-      after :create do |pack|
-        pack.pack_catalog_items.clear
-      end
-    end
-
     factory :full_pack, traits: %i[with_access with_credit with_user_flag]
     factory :credit_pack, traits: [:with_credit]
     factory :access_pack, traits: [:with_access]
-    factory :empty_pack, traits: [:empty]
   end
 end

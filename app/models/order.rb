@@ -1,13 +1,18 @@
 class Order < ApplicationRecord
   belongs_to :event
   belongs_to :customer, touch: true
+
   has_many :order_items, dependent: :destroy
   has_many :catalog_items, through: :order_items
+  has_many :transactions, dependent: :restrict_with_error
+
   accepts_nested_attributes_for :order_items
 
   validates :number, :status, presence: true
+
   validate :max_credit_reached
 
+  # TODO: Change this to enum
   scope(:not_refund, -> { where.not(gateway: "refund") })
   scope(:in_progress, -> { where(status: "in_progress") })
   scope(:completed, -> { where(status: "completed") })
@@ -25,7 +30,7 @@ class Order < ApplicationRecord
 
   def complete!(gateway, payment)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
-    atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total.to_f }
+    atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
     MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
     OrderMailer.completed_order(self).deliver_later
   end
@@ -91,7 +96,7 @@ class Order < ApplicationRecord
   def max_credit_reached
     return unless customer
     return if cancelled?
-    max_credits_reached = customer.global_credits + credits > event.maximum_gtag_balance.to_f
+    max_credits_reached = customer.global_credits + credits > event.maximum_gtag_balance
     errors.add(:credits, I18n.t("alerts.max_credits_reached")) if max_credits_reached
   end
 end

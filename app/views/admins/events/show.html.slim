@@ -1,68 +1,4 @@
-- content_for(:actions) do
-  .floaty
-    ul.floaty-list#actions-list
-      - if policy(@current_event).edit?
-        - if @current_event.created?
-          li.floaty-list-item
-            = link_to '#launch-modal' do
-              button#launch_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-                i.material-icons flight_takeoff
-                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="launch_link" Launch
-
-        - if @current_event.active?
-          li.floaty-list-item
-            = link_to '#close-modal' do
-              button#close_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-                i.material-icons flight_land
-                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="close_link" Close
-
-        li.floaty-list-item
-          = link_to admins_event_eventbrite_path(@current_event) do
-            button#eventbrite_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons gesture
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Eventbrite Settings
-
-        li.floaty-list-item
-          = link_to admins_event_payment_gateways_path(@current_event) do
-            button#payment_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons euro_symbol
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="payment_setting" Payment Settings
-
-        li.floaty-list-item
-          = link_to device_settings_admins_event_path(@current_event) do
-            button#device_settings.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons phonelink_setup
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Device Settings
-
-        li.floaty-list-item
-          = link_to edit_admins_event_path(@current_event) do
-            button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons edit
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Settings
-
-        li.floaty-list-item
-          = link_to edit_event_style_admins_event_path(@current_event) do
-            button#edit_style.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons brush
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_style" Style
-      - if policy(@current_event).destroy?
-        - if @current_event.created?
-          li.floaty-list-item
-            = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-              button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-                i.material-icons delete
-                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete Event
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
-
-.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .info-container = render "admins/events/status", event: @current_event
-  .mdl-layout-spacer
-
+= render "event_links"
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
@@ -79,17 +15,17 @@
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
+                  td.mdl-data-table__cell--non-numeric Slug
+                  td = @current_event.slug
+                tr
                   td.mdl-data-table__cell--non-numeric Timezone
-                  td = @current_event.timezone
+                  td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "(GMT#{zone.formatted_offset}) #{zone.name}"] }, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Start date
-                  td = l Time.use_zone(@current_event.timezone) { @current_event.start_date }
+                  td = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
                 tr
                   td.mdl-data-table__cell--non-numeric End date
-                  td = l Time.use_zone(@current_event.timezone) { @current_event.end_date }
-                tr
-                  td.mdl-data-table__cell--non-numeric Gtag Type
-                  td = best_in_place @current_event, :gtag_type, as: :select, collection: Gtag::DEFINITIONS.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event]
+                  td = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
                 tr
                   td.mdl-data-table__cell--non-numeric Support email
                   td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
@@ -148,7 +84,7 @@
           .mdl-card__title
             .mdl-cell.mdl-cell--12-col
               i.material-icons build
-              | Features (editable)
+              | Customer Mandatory Fields
 
           .mdl-card__supporting-text
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
@@ -166,48 +102,76 @@
                   td.mdl-data-table__cell--non-numeric Birthday Mandatory
                   td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
 
-      .mdl-cell.mdl-cell--6-col
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-cell.mdl-cell--4-col
-              i.material-icons insert_photo
-              | Style
-            .mdl-cell.mdl-cell--8-col
-              .tools
-                .tool-item
-                  = link_to edit_event_style_admins_event_path(@current_event) do
-                    span#edit5.material-icons brush
-                    span.mdl-tooltip data-mdl-for="edit5" Edit Style
-
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Gtag formats used
-                  td = @current_event.gtag_format.to_s.humanize
-                tr
-                  - if @current_event.logo?
-                    td.mdl-data-table__cell--non-numeric
-                      |Logo
-                      .table-action
+      - if @current_event.created?
+        .mdl-cell.mdl-cell--6-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              .mdl-cell.mdl-cell--4-col
+                i.material-icons insert_photo
+                | Style
+              .mdl-cell.mdl-cell--8-col
+                .tools
+                  .tool-item
+                    = link_to edit_event_style_admins_event_path(@current_event) do
+                      span#edit5.material-icons brush
+                      span.mdl-tooltip data-mdl-for="edit5" Edit Style
+            .mdl-card__supporting-text
+              .small style="padding: 0 25px;" If you are looking for the event setting, you must first #{link_to 'launch', '#launch-modal'} the event
+            .mdl-card__supporting-text
+              table.table-show.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Gtag formats used
+                    td = @current_event.gtag_format.to_s.humanize
+                  tr
+                    td.mdl-data-table__cell--non-numeric Logo
+                    td
+                      - if @current_event.logo?
                         = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
                           button#delete_logo.icon.material-icons delete
-                    td = image_tag @current_event.logo.url, class: "event-img-preview"
-                  - else
-                    td.mdl-data-table__cell--non-numeric Logo
-                    td.italic No logo found
+                        i.material-icons done
+                      - else
+                        i.material-icons clear
 
-                tr
-                  - if @current_event.background?
-                    td.mdl-data-table__cell--non-numeric
-                      | Background
-                      .table-action
+                  tr
+                    td.mdl-data-table__cell--non-numeric Background
+                    td
+                      - if @current_event.background?
                         = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
                           button#delete_background.icon.material-icons delete
-                    td = image_tag @current_event.background.url, class: "event-img-preview" if @current_event.background?
-                  - else
-                    td.mdl-data-table__cell--non-numeric Background
-                    td.italic No background found
-                span.mdl-tooltip data-mdl-for="delete_background" Delete Background
-                span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
+                        i.material-icons done
+                      - else
+                        i.material-icons clear
+
+                  span.mdl-tooltip data-mdl-for="delete_background" Delete Background
+                  span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
+
+      - else
+        .mdl-cell.mdl-cell--6-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              .mdl-cell.mdl-cell--12-col
+                i.material-icons line_style
+                | Event Controls
+            .mdl-card__supporting-text
+              table.table-show.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Devices API
+                    td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric Customer Portal
+                    td = best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric Online Refunds
+                    td = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric Online Topups
+                    td = best_in_place @current_event, :open_topups, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric Ticket Assignation
+                    td = best_in_place @current_event, :open_tickets, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric GTag Assignation
+                    td = best_in_place @current_event, :open_gtags, best_in_place_checkbox([:admins, @current_event])
   .mdl-layout-spacer

@@ -31,13 +31,10 @@
   .mdl-cell.mdl-cell--8-col
     .mdl-grid
       .mdl-cell.mdl-cell--9-col#event-list
-        = link_to "Active", admins_events_path, class: "filters__item #{"filters__item--active" if @status == [:launched, :started, :finished]}"
-        = link_to "All", admins_events_path(status: "all"), class: "filters__item #{"filters__item--active" if @status == "all"}"
-        = link_to "Created", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if @status == "created"}"
-        = link_to "Launched", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if @status == "launched"}"
-        = link_to "Started", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if @status == "started"}"
-        = link_to "Finished", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if @status == "finished"}"
-        = link_to "Closed", admins_events_path(status: "closed"), class: "filters__item #{"filters__item--active" if @status == "closed"}"
+        = link_to_unless @status == "all", "All", admins_events_path(status: "all"), class: "filters__item"
+        = link_to_unless @status == "created", "Created", admins_events_path(status: "created"), class: "filters__item"
+        = link_to_unless @status == "launched", "Launched", admins_events_path(status: "launched"), class: "filters__item"
+        = link_to_unless @status == "closed", "Closed", admins_events_path(status: "closed"), class: "filters__item"
       .mdl-cell.mdl-cell--3-col.italic.small.right = page_entries_info @events
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp

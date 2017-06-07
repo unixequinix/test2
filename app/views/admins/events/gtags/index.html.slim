@@ -43,7 +43,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @gtags
+    = render "layouts/pagination", objects: @gtags
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -56,26 +56,28 @@
               th Refundable Credits
               th Banned
               th Redeemed
+              th
           tbody
             - @gtags.each do |gtag|
-              tr
-                td.mdl-data-table__cell--non-numeric data-label="Tag UID"
-                  = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
-                  .table-action
-                    = link_to edit_admins_event_gtag_path(@current_event, gtag) do
-                      button.icon.material-icons id ="edit_#{gtag.id}" edit
-                  .table-action
-                    = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{gtag.id}" delete
+              tr class="#{"danger" unless gtag.valid_balance?}"
+                td.mdl-data-table__cell--non-numeric data-label="Tag UID" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
                 td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
                 td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
                 td data-label="Credits" = number_to_event_currency gtag.credits
                 td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
                 td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
+                td.table-actions
+                  .table-action
+                    = link_to edit_admins_event_gtag_path(@current_event, gtag) do
+                      button.icon.material-icons id ="edit_#{gtag.id}" edit
+                  .table-action
+                    = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{gtag.id}" delete_forever
+
               span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
-    .mdl-cell.mdl-cell--12-col.italic.small = paginate @gtags
+    = render "layouts/pagination", objects: @gtags
   .mdl-layout-spacer
 
 

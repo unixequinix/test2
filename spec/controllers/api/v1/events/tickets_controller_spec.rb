@@ -24,7 +24,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w[reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id]
+          keys = %w[reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id ticket_type_id customer_id] # rubocop:disable Metrics/LineLength
           expect(ticket.keys).to eq(keys)
         end
       end
@@ -73,9 +73,20 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           expect(response).to be_ok
         end
 
+        it "works with id" do
+          get :show, params: params.merge(id: @ticket.id)
+          expect(response).to be_ok
+        end
+
+        it "works with code including email addresses" do
+          ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer, code: "foo2@hoeho.bar.com")
+          get :show, params: params.merge(id: ticket.code)
+          expect(response).to be_ok
+        end
+
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w[reference redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email]
+          ticket_keys = %w[reference redeemed banned catalog_item_id ticket_type_id customer purchaser_first_name purchaser_last_name purchaser_email]
           c_keys = %w[id first_name last_name email orders credentials]
           order_keys = %w[catalog_item_id amount status redeemed id]
 
@@ -92,6 +103,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             redeemed: @ticket.redeemed,
             banned: @ticket.banned,
             catalog_item_id: @ticket.ticket_type.catalog_item.id,
+            ticket_type_id: @ticket.ticket_type_id,
             customer: {
               id:  @ticket.customer.id,
               credentials: [],

@@ -8,7 +8,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
 
 
-gem 'rails', '~> 5.0.2' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.1.1' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
 gem 'figaro'
@@ -31,7 +31,7 @@ gem 'json', '~> 1.8.5' # TODO: remove after deploy of JSON v3
 # Assets
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'slim'
+gem 'slim-rails'
 gem 'simple_form'
 gem 'paperclip'
 gem 'best_in_place'
@@ -81,6 +81,7 @@ gem 'activemerchant', github: "aspgems/active_merchant"
 # Asyncronous mailer
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
+gem 'sidekiq-failures'
 
 # PDF Generation
 gem 'wicked_pdf'
@@ -93,14 +94,11 @@ gem 'iso-swift', github: 'hugolantaume/iso-swift'
 gem 'bsb'
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '~> 3.0.5'
   gem 'foreman'
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
-  gem 'capistrano', '~> 3.6'
-  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano'
+  gem 'capistrano-rails'
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
   gem 'capistrano-faster-assets', '~> 1.0'

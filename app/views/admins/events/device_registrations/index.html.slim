@@ -1,0 +1,77 @@
+- content_for(:title) do
+  | Asset Tracker - #{number_with_delimiter(@current_event.device_registrations.count)}
+
+- classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "bad"}
+
+- if @registrations.any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    - @registrations.keys.each do |key|
+      .mdl-cell.mdl-cell--2-col
+        .customer-card.mdl-card.mdl-shadow--2dp class="#{classes[key.to_sym]}_header"
+          .mdl-card__title.mdl-card--expand
+            h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@registrations[key]&.size || 0)
+          .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
+    .mdl-layout-spacer
+
+
+
+- %w(to_check live staged locked no_idea ).each do |type|
+  - next unless @registrations[type]
+  - klass = classes[type.to_sym]
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"
+        h4 style="text-align: center; width: 100%;" class="#{klass}_info" = type.humanize
+
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            - @registrations[type].sort_by { |registration| registration.battery }.each do |registration|
+              - device = registration.device
+              tr
+                td.mdl-data-table__cell--non-numeric
+                  span style="font-size: 1.3em" = link_to device.asset_tracker || "NONE", [:admins, @current_event, registration]
+                  .small = device.mac
+                - if current_user.admin?
+                  td.mdl-data-table__cell--non-numeric = registration.app_version if registration.app_version
+                td.mdl-data-table__cell--non-numeric
+                  | #{registration.number_of_transactions} in Device
+                  br
+                  | #{registration.server_transactions} in Server
+
+                  - if type.eql?("to_check")
+                    - count_diff = registration.number_of_transactions - registration.server_transactions
+                    .small.bad_info = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
+                td
+                  - if registration.battery > 30
+                    i.material-icons style="color: #9ecf68" battery_full
+                    span style="color: #9ecf68;" #{registration.battery} %
+                  - else
+                    i.material-icons style="color: #e26465" battery_alert
+                    span style="color: #e26465;" #{registration.battery} %
+                td
+                  - if registration.updated_at > 5.minutes.ago
+                    i.material-icons style="color: #9ecf68" wifi
+                  - else
+                    span style="color: #e26465; padding-right: 10px;" #{time_ago_in_words registration.updated_at if registration.updated_at} ago
+                    i.material-icons style="color: #e26465" signal_wifi_off
+
+                td
+                  - if registration.operator
+                    .small
+                      span = registration.operator
+                      | &nbsp;
+                      icon.material-icons style="color: #009688; font-size: 20px" person
+                  - if registration.station
+                    .small
+                      span = registration.station
+                      | &nbsp;
+                      icon.material-icons style="color: #009688; font-size: 20px" home
+                  - if registration.last_time_used
+                    .small
+                      span = Time.parse(registration.last_time_used).to_formatted_s(:short)
+                      | &nbsp;
+                      icon.material-icons style="color: #009688; font-size: 20px" alarm
+
+    .mdl-layout-spacer

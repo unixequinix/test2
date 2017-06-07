@@ -14,10 +14,59 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
+
+- if policy(@current_event.refunds.new).stats? && @refunds.any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .mdl-grid
+
+        .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_token @current_event.refunds.where(status: "completed").sum(&:total)
+            .mdl-card__supporting-text
+              span.good_info = "Completed Fees: "
+              span = number_to_token @current_event.refunds.where(status: "completed").sum(:fee)
+
+        .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency @current_event.refunds.where(status: "completed").sum(&:total_money)
+            .mdl-card__supporting-text
+              span.good_info = "Completed Fees: "
+              span = number_to_event_currency @current_event.refunds.where(status: "completed").sum(&:fee_money)
+
+        .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_token @current_event.refunds.where(status: "started").sum(&:total)
+            .mdl-card__supporting-text
+              span.bad_info = "Started Fees: "
+              span = number_to_token @current_event.refunds.where(status: "started").sum(:fee)
+
+        .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency @current_event.refunds.where(status: "started").sum(&:total_money)
+            .mdl-card__supporting-text
+              span.bad_info = "Started Fees: "
+              span = number_to_event_currency @current_event.refunds.where(status: "started").sum(&:fee_money)
+
+
+    .mdl-layout-spacer
+
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .data-card-wide.mdl-card.mdl-shadow--2dp
+        = line_chart @graph, title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
+    .mdl-layout-spacer
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @refunds
+    = render "layouts/pagination", objects: @refunds
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -40,5 +89,5 @@
                 td data-label="Fee" = number_to_token refund.fee
                 td data-label="Money" = number_to_event_currency refund.amount_money
                 td data-label="Created at" = l refund.created_at
-    .mdl-cell.mdl-cell--12-col = paginate @refunds
+    = render "layouts/pagination", objects: @refunds
   .mdl-layout-spacer

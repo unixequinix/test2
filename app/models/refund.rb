@@ -6,18 +6,19 @@ class Refund < ApplicationRecord
 
   validates :field_a, length: { is: 6 }, bsb_number: true, if: :bsb
   validates :field_b, length: { within: 6..10 }, if: :bsb
-  validate :correct_iban_and_swift, if: :iban
+  validates :fee, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :field_a, :field_b, presence: true, if: (-> { gateway.eql?("bank_account") })
 
-  validates(:field_a, :field_b, presence: true, if: -> { gateway.eql?("bank_account") })
+  validate :correct_iban_and_swift, if: :iban
 
   scope(:query_for_csv, lambda { |event|
     joins(:customer)
-      .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee, refunds.money,
+      .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee,
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   })
 
-  def complete!(refund_data = {}.as_json)
-    execute_refund_of_orders unless gateway.eql?("bank_account")
+  def complete!(refund_data = {}.to_json)
+    return false if completed?
     update!(status: "completed")
 
     atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
@@ -31,8 +32,6 @@ class Refund < ApplicationRecord
   end
 
   def prepare(atts)
-    self.status = "completed"
-
     return unless gateway.eql?("bank_account")
     self.field_a = atts[:field_a]
     self.field_b = atts[:field_b]
@@ -40,8 +39,13 @@ class Refund < ApplicationRecord
     self.bsb = true if event.bsb?
   end
 
+  # TODO: Change this to enum
+  def completed?
+    status.eql?("completed")
+  end
+
   def total
-    amount.to_f + fee.to_f
+    amount + fee
   end
 
   def amount_money
@@ -65,15 +69,15 @@ class Refund < ApplicationRecord
 
     reduce_orders(orders, amount_money).map do |order, amount|
       response = order.online_refund(amount)
-      order.update!(status: "refunded", refund_data: response.params.as_json) if response.success?
+      order.update!(status: "refunded", refund_data: response.params.to_json) if response.success?
     end
   end
 
   def reduce_orders(orders, amount)
     order = orders.shift
     return [] unless order
-    return [[order, amount.to_f]] if order.total > amount
-    [[order, order.total.to_f]] + reduce_orders(orders, amount - order.total.to_f)
+    return [[order, amount]] if order.total > amount
+    [[order, order.total]] + reduce_orders(orders, amount - order.total)
   end
 
   def correct_iban_and_swift

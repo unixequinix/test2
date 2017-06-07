@@ -27,6 +27,6 @@
         ul
           - @item.pack_catalog_items.each do |p_item|
             - next if p_item.amount.zero?
-            li #{p_item.amount.to_i} x #{p_item.catalog_item.name}
+            li #{p_item.amount} x #{p_item.catalog_item.name}
       - else
         span = @item.name

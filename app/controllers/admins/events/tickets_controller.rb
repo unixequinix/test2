@@ -120,6 +120,6 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
   end
 
   def permitted_params
-    params.require(:ticket).permit(:event_id, :code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id) # rubocop:disable Metrics/LineLength
+    params.require(:ticket).permit(:code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id) # rubocop:disable Metrics/LineLength
   end
 end

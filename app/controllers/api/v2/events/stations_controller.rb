@@ -1,5 +1,5 @@
 class Api::V2::Events::StationsController < Api::V2::BaseController
-  before_action :set_station, only: %i[show update destroy]
+  before_action :set_station, only: %i[show update destroy add_product remove_product]
 
   # GET /stations
   def index
@@ -40,6 +40,21 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
     @station.destroy
   end
 
+  def add_product
+    @station_product = @station.station_products.create!(price: params[:product][:price], product_id: params[:product][:id])
+    authorize @station
+
+    if @station_product
+      render json: @station_product
+    else
+      render json: @station_product.errors, status: :unprocessable_entity
+    end
+  end
+
+  def remove_product
+    @station.station_products.find_by(product_id: params[:product][:id]).destroy
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -50,6 +65,6 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def station_params
-    params.require(:station).permit(:name, :location, :position, :category, :reporting_category, :address, :registration_num, :official_name, :station_event_id, :hidden) # rubocop:disable Metrics/LineLength
+    params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden)
   end
 end

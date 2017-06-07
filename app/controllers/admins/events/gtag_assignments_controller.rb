@@ -3,24 +3,22 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   def new
     authorize @customer, :new_credential?
+    @gtag = @customer.gtags.new(active: true)
   end
 
   def create
     authorize @customer, :create_credential?
+    @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: permitted_params[:tag_uid].strip)
 
-    @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
+    render(:new) && return unless @gtag.valid?
 
-    errors = []
-    errors << t("alerts.credential.not_found", item: "Gtag") if @gtag.blank?
-    errors << t("alerts.credential.already_assigned", item: "Gtag") if @gtag&.customer
-
-    if errors.any?
-      flash.now[:errors] = errors.to_sentence
+    if @gtag.customer
+      flash.now[:errors] = t("alerts.credential.already_assigned", item: "Gtag")
       render(:new)
     else
       @gtag.update(active: permitted_params[:active].present?)
       @customer.gtags.update_all(active: false) if @gtag.active?
-      @gtag.assign_customer(@customer, :admin, current_user)
+      @gtag.assign_customer(@customer, current_user, :admin)
       redirect_to admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Gtag")
     end
   end
@@ -28,9 +26,9 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   def destroy
     @gtag = @current_event.gtags.find(params[:id])
     authorize @gtag.customer, :destroy_credential?
-    @gtag.unassign_customer(:admin, current_user)
+    @gtag.unassign_customer(current_user, :admin)
     flash[:notice] = t("alerts.credential.unassigned", item: "Gtag")
-    redirect_to :back
+    redirect_to request.referer
   end
 
   private
@@ -40,6 +38,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.permit(:tag_uid, :active).merge(event_id: @current_event.id)
+    params.require(:gtag).permit(:tag_uid, :ticket_type_id, :active, :event_id)
   end
 end

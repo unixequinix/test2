@@ -1,4 +1,4 @@
-class AddCitextColumnType < ActiveRecord::Migration
+class AddCitextColumnType < ActiveRecord::Migration[5.0]
   def change
     enable_extension 'citext'
 

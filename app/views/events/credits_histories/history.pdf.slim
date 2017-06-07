@@ -19,7 +19,7 @@ html
                 span = current_customer.full_name
               p.account-user.user-mail = current_customer.email
             td.wrapper-bill-logo
-              = image_tag @current_event.logo.url(:paypal), class: "bill-logo" unless @current_event.logo.blank?
+              = image_tag @current_event.logo.url(:email), class: "bill-logo" unless @current_event.logo.blank?
           tr
             table.related-bill
               thead.bill-row
@@ -44,4 +44,4 @@ html
                 tr
                   td.transactions-total colspan="4"
                     p.bill-total-title total:
-                    p.bill-total-value = number_to_token @pdf_transactions.sum(:credits)
+                    p.bill-total-value = number_to_token @pdf_transactions.map(&:credits).sum

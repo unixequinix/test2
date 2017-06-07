@@ -9,6 +9,12 @@ RSpec.describe Gtag, type: :model do
     expect(subject).to be_valid
   end
 
+  it "upcases uid on save" do
+    subject.tag_uid = "aaaaaaaaaaaaaa"
+    subject.save
+    expect(subject.tag_uid).to eql("AAAAAAAAAAAAAA")
+  end
+
   it "simplifies looking for a customer with .assigned?" do
     expect(subject).to be_assigned
     subject.customer = nil
@@ -19,7 +25,7 @@ RSpec.describe Gtag, type: :model do
     ticket = create(:ticket, event: event)
     create(:credential_transaction, action: "ticket_checkin", status_code: 0, gtag: subject, event: event, ticket: ticket)
 
-    subject.assign_ticket
+    subject.assign_ticket_from_checkin
     expect(customer.tickets).to include(ticket)
   end
 
@@ -57,6 +63,18 @@ RSpec.describe Gtag, type: :model do
 
     it "changes the gtags final_refundable_balance" do
       expect { subject.recalculate_balance }.to change(subject, :final_refundable_balance).from(0.00)
+    end
+
+    it "creates an alert if final_balance is negative" do
+      allow(subject).to receive(:final_balance).and_return(-10)
+      expect(Alert).to receive(:propagate).once
+      subject.recalculate_balance
+    end
+
+    it "creates an alert if final_refundable_balance is negative" do
+      allow(subject).to receive(:final_refundable_balance).and_return(-10)
+      expect(Alert).to receive(:propagate).once
+      subject.recalculate_balance
     end
   end
 

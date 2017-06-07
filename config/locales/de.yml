@@ -1,266 +1,252 @@
 ---
 de:
   actions:
-    back: Back
-    check_news: Home
-    delete: Delete
-    edit: Edit
-    complete: Complete
-    repeat: Repeat
+    back: Zurück
+    check_news: Umkehren
+    delete: Löschen
+    edit: Bearbeiten
+    complete: Beenden
+    repeat: Wiederholen
   admissions:
-    button: Activate
-    call_to_action: Activate your Event Ticket!
-    description: Please enter the code that is printed on your event ticket just below the barcode.
+    button: Aktivieren
+    call_to_action: Aktiviere Dein Ticket für das Event!
+    description: Bitte gib den Code ein, der sich unter dem Strichcode deines Event-Tickets befindet.
     placeholders:
-      ticket_code: Event Ticket Code Number
+      ticket_code: Code deines Tickets
   alerts:
-    created: Succesfully created
-    cancelled: Cancelled successfully
+    created: Erfolgreich erstellt
+    cancelled: Erfolgreich abgebrochen
     credential:
-      already_assigned: "%{item} already assigned"
-      without_credential: "%{item} is empty and cannot be assigned. Please try later"
-      no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
-      blacklisted: "%{item} is Blacklisted"
-      assigned: "%{item} successfully assigned"
-      not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
-      unassigned: "%{item} successfully unassigned"
-    customer_without_transactions: The customer doesn't have credit transactions
-    destroyed: Succesfully deleted
-    error: The form contains errors
-    only_letters_end_numbers: May only contain letters and numbers
-    order_complete: Your Order has been completed successfully!
-    order_error: There was a problem with your order
-    updated: Succesfully updated
-    not_authorized: You are not authorized to perform this action
-    max_credits_reached: have reached the maximum allowed balance
-    import:
-      delayed: "%{count} %{item} were delayed for import, please check in a few minutes"
-      success: "%{count} %{item} successfully imported"
-      error: There has been an error with the import process
+      already_assigned: "Der %{item} ist bereits vergeben"
+      without_credential: "%{item} ist leer und kann nicht zugeordnet werden. Bitte versuche es später noch einmal"
+      no_item_assigned: "Der %{item} der eingegeben wurde, wird von unserem System analysiert und kann im Moment nicht zugeordnet werden. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support"
+      blacklisted: "%{item} befindet sich auf der schwarzen Liste"
+      inactive: "%{item} ist nicht aktiv, was bedeutet, dass sie durch eine andere ersetzt wurde. Sie müssen den neuen ID eingeben"
+      assigned: "%{item} erfolgreich zugeordnet"
+      not_found: "%{item} nicht gefunden. Wenn Sie es in den letzten 48 erworben haben, versuchen Sie es bitte später noch einmal, bis ihr Einkauf in unserem System aktualisiert ist. Falls nicht, nehmen Sie Kontakt mit dem Support auf."
+      unassigned: "%{item} erfolgreich freigegeben"
+      invalid: "Es gibt anscheinend ein Problem mit diesem %{item}. Bitte kontaktieren Sie unseren Support unter support@glownet.com oder durch Intercom"
+    customer_without_transactions: Der Kunde hat keine Kredittransaktionen
+    destroyed: Erfolgreich zerstört
+    error: Das Formular enthält Fehler
+    only_letters_dnd_numbers: Es darf nur aus Buchstaben und Zahlen bestehen
+    order_complete: Bestellung erfolgreich abgeschlossen
+    order_error: Es ist ein Problem mit Ihrer Bestellung aufgetreten
+    updated: Erfolgreich aktualisiert
+    not_authorized: Du bist nicht dazu berechtigt, diese Aktion durchzuführen
+    max_credits_reached: haben das erlaubte Limit erreicht
     confirm_delete: |
-      This action cannot be undone.
+      Diese Aktion kann nicht wieder rückgängig gemacht werden.
 
-      Are you sure you want to continue?
+      Möchtest Du wirklich fortfahren?
   checkout:
-    button: Checkout
-    description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
-    store: " store"
+    button: Befehl bestätigen
+    description: Onlineeinkäufe sind ideal, um Zeit zu sparen. Vermeide langes Schlangestehen beim Event und suche hier aus, was Du kaufen möchtest.
+    store: Geschäft
     total: Total
   conditions:
-    action: I accept
-    conjunction: and
-    privacy_conditions: the privacy policy
-    terms_of_use: the terms of use
+    action: Ich akzeptiere
+    conjunction: und
+    privacy_conditions: die Datenschutzbestimmungen
+    terms_of_use: die Nutzungsbedingungen
   dashboard:
     header:
-      home: Home
-      edit_account: Edit Account
-      change_password: Change Password
-      log_out: Log Out
-    confirm_log_out: Do you want to end this session?
-    topup: Top Up
-    refund: Refund
-    order: Order
+      home: Startseite
+      edit_account: Profil bearbeiten
+      change_password: Passwort ändern
+      log_out: Abmelden
+    confirm_log_out: Willst Du die Sitzung beenden?
+    topup: Aufladen
+    refund: Rückzahlung
+    order: Bestellung
     orders:
-      success_title: "Ka-ching! Time to use those %{credit_name} to treat yourself!"
-      credits: Credits
-      catalog_items: Other Items
-      disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
-      complete: Complete
-      cancel: Cancel
+      success_title: Glückwunsch!
+      credits: Kreditpunkte
+      catalog_items: Andere Artikel
+      disclaimer: Die Onlinebestellungen gelten ab Betreten des Geländes. Du musst nur zum Event gehen und kannst sofort Deine Kreditpunkte nutzen!
+      complete: Abschließen
+      cancel: Abbrechen
+      failed: Diese Bestellung wird auf dem Gelände NICHT gelten
+      in_progress: Im Gange (wird auf dem Gelände NICHT gelten)
+      cancelled: Abgebrochen
+      completed: wurde abgeschlossen und wird auf dem Gelände gelten
+      redeemed: Abgeschlossen und angewandt
     admissions:
-      call_to_action: Do you want to remove this ticket?
-      call_to_action_started: The event just started so you cannot change the ticket
+      call_to_action: Möchtest Du das Ticket löschen?
+      call_to_action_started: Das Event hat bereits begonnen, Du kannst das Ticket nicht mehr umtauschen
     credits:
-      button: Top-up
-      calculating_balance: Please contact us at %{email} in order to process your refund.
-      call_to_action_no_admission_html: To buy your Online Top-up,<br>please activate a Event Ticket first
-      call_to_action_started: The event just started so you cannot topup anymore
-      header: Your balance
-      header_invalid: We are currently retrieving all your purchases. Your final balance will be shown shortly.
-      body_invalid: However, if you want to know your current, up-to-date balance, it can be checked at any device. Any Point of Sale, Topup or any other station. You can also contact us through the intercom icon at the bottom right. Or email us at
-      body_credits: Your last recorded transaction was a '%{action}' at '%{station}' on '%{time}' ago
-      body_balance: Your balance at the time was
-      refundable: Refundable
+      button: Aufladen
+      calculating_balance: Schreib uns bitte an %{email} , um Deinen Umtausch zu bearbeiten.
+      call_to_action_no_admission_html: Um Online aufzuladen, <br> musst Du erst das Ticket aktivieren
+      call_to_action_started: Das Event hat bereits begonnen, Du kannst nicht mehr aufladen
+      header: Dein Guthaben
+      header_invalid: Wir sammeln alle Deine von verschiedenen Verkaufsstation getätigten Einkäufe. Dein Endergebnis wird später angezeigt.
+      body_invalid: Dennoch kannst Du Dein Guthaben in jeder Verkaufsstation überprüfen, oder in jeder anderen Station aufladen. Wenn Du möchtest kannst Du uns über das Intercom-Logo unten rechts kontaktieren oder eine Email schicken
+      body_credits: Deine letzte Transaktion war ein '%{action}' in '%{station}' vor '%{time}'
+      body_balance: Dein Guthaben auf diesem Event war zu diesem Zeitpunkt
+      refundable: Rückerstattbar
     credits_history:
-      button: Download Transactions
-      header: Transaction history
+      button: Transaktionen herunterladen
+      header: Transaktionsverlauf
     event_started:
-      description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
-      title: Ultimating details!
+      description: Wir arbeiten an den letzten Details des Events um Deine Erfahrung so gut wie möglich zu gestalten. Komm bitte wieder in ein paar Stunden vorbei und guck was wir für Dich vorbereitet haben.
+      title: Letzte Details!
     first_register:
       gtag:
-        both: Add Card or Wristband
-        card: Add Card
-        wristband: Add Wristband
-      ticket: Add ticket
+        both: Armband oder Karte hinzufügen
+        card: Karte hinzufügen
+        wristband: Armband hinzufügen
+      ticket: Ticket hinzufügen
     ticket_registration:
       title: Tickets
     gtag_registration:
       title:
-        both: Wristband/Card ID
-        card: Card ID
-        wristband: Wristband ID
-      card: Card
-      wristband: Wristband
-      no_items: No items included
+        both: ID des Armbands oder der Karte hinzufügen
+        card: ID der Karte
+        wristband: ID des Armbands
+      card: Karte
+      wristband: Armband
+      no_items: Es enthält kein verwandtes Produkt
     paypal:
-      button: Pay with PayPal
-    without_gtags_claiming_started:
-      claim: Sorry
-      description: The refunds period is finished, If you have any question contact support.
-    without_gtags_disabled:
-      claim: The period to apply for a refund of your Card or Wristband credits is closed
-      description: If you have previously contacted us with any support question,
-      description2: do not worry, we will help you through with your refund.
+      button: Mit PayPal synchronisiert
+    portal_closed:
+      claim: Es tut uns leid
+      description: Das Kundenportal für dieses Event ist geschlossen, kontaktiere unseren Support falls Du weitere Fragen hast.
   email:
-    communication: This is an automated communication from %{event_name}. Replies will not be read.
-    follow_on_twitter: Follow on Twitter
-    footer_glownet: Have a question about the online portal? Message us at
-    footer_organizer: Have a question for the event organiser? Contact them directly at
-    like_on_facebook: Like on Facebook
+    communication: Dies ist eine automatische Nachricht von %{event_name}, die Antworten werden nicht gelesen werden.
+    follow_on_twitter: Folge uns auf Twitter
+    footer_glownet: Hast Du eine Frage zum Onlineportal? Schicke uns Deine Nachricht an
+    footer_organizer: Hast Du eine Frage an den Veranstalter? Kontaktiere ihn auf
+    like_on_facebook: Gib einen Like auf Facebook
     order:
-      description: All your purchases will be automatically applied to your Card or Wristband once you enter the event. Your Event Card or Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
-      greet: Thank you for your purchase, %{name}!
-      order_number: Order Number
-      subject: Purchase at %{event}
-      success: 'Here are your order details:'
-    our_company: Learn more about Glownet
+      description: Alle von Dir gekauften Produkte werden automatisch zu Deiner Karte oder Armband summiert, sobald Du das Event betrittst. Deine Karte oder Armband sind eine schnelle und bequeme Methode, um Essen, Trinken und Merchandise-Artikel zu kaufen. Es ist die einzige akzeptierte Zahlmethode in allen Geschäften innerhald des Events.
+      greet: Danke für Deinen Einkauf, %{name}!
+      order_number: Bestellnummer
+      subject: Kaufe im %{event}
+      success: 'Hier sind die Details des Kaufs:'
+    our_company: Über Glownet
     refund:
-      subject: Refund at %{event}
-      refund_number: Refund number
-      success: Your refund has been successfully processed
+      subject: Rückerstattung der Guthaben von %{event}
+      refund_number: Nummer der Rückerstattung
+      success: Deine Rückerstattung wurde erfolgreich bearbeitet
     reset_password:
-      greet: Hello, %{name}!
-      mail_body: We have received a request to change your password. Click the link below to change it.
-      mail_link: Change my password
-      subject: Reset password instructions
+      greet: Hallo, %{name}!
+      mail_body: 'Du hast eine Passwortänderung angefordert. Du kannst dies unter dem folgendem Link tun:'
+      mail_link: Mein Passwort ändern
+      subject: Passwortänderung angefordert.
     welcome:
-      subject: Registration confirmation for %{event_name}
-      greet: Hello, %{name}!
-      mail_body: Thank you for registering with us.
-      mail_body2: To be able to enjoy the benefits of this online portal, the first thing you will need to do is assign your ticket, card or wristband.
-      event_url: "For your convenience, here is the event url:"
-    suscribe_on_you_tube: Subscribe on YouTube
+      subject: Bestätigung der Anmeldung bei
+      greet: Hallo, %{name},
+      mail_body: Danke für die Registrierung bei uns.
+      mail_body2: Um alle Vorteile des Onlineportals nutzen zu können, musst Du zunächst Dein Ticket, Deine Karte oder Armband registrieren
+      event_url: "Hier hast du die Webadresse des Events:"
+    suscribe_on_you_tube: Abonniere auf YouTube
   event:
     locales:
-      de: GER
       en: ENG
       es: ESP
-      it: ITA
-    subject_support: Need help for %{event}
+      de: DEU
+    subject_support: Ich brauche Hilfe für %{event}
   footer:
     copyright: "© Glownet"
-    privacy: Privacy policy
+    privacy: Datenschutzbestimmungen
     support: Support
-    use: Terms of use
+    use: Nutzungsbedingungen
   gtag_assignations:
-    button: Accept
+    button: Akzeptieren
     call_to_action:
-      both: Assign your Card or Wristband and go!
-      card: Assign your Card and go!
-      wristband: Assign your Wristband and go!
+      both: Gib den Code Deiner Karte oder Dienes Armbands ein und fahre fort!
+      card: Gib den Code Deiner Karte ein und fahre fort!
+      wristband: Gib den Code Deines Armbands ein und fahre fort!
     description:
-      standard: Read the second row of numbers and letters (yellow highlighted)
-    info: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
-    placeholder: 'e.g: BA6D7DC0'
+      standard: Gib die zweite Reihe (gelb unterlegt) von Nummern und Buchstaben ein
+    info: 'Erlaubte Symbole: "0" - "9" y "A, B, C, D, E, F"'
+    placeholder: 'Bsp.: BA6D7DC0'
   header:
-    edit: Edit Customer
+    edit: Profil bearbeiten
   links:
     buttons:
       sign_in: Login
-    forgot: Forgot your password?
+    forgot: Hast Du Dien Passwort vergessen?
   orders:
-    cancel_confirmation: "Are you sure you want to cancel payment of %{price}?"
-    already_cancelled: Order already cancelled
-    already_finalised: This order has already been finalised
-    button: Pay
-    card_code_verification: Card code verification (CCV)
-    card_expiration_date: Card expiration date
-    card_info: Card info
-    card_number: Card number
-    first_name: First name
-    last_name: Last name
-    order_review: Order review
-    payment: Payment Details
+    cancel_confirmation: Möchtest Du wirklich den Kauf von %{price} löschen?
+    already_cancelled: Diese Bestellung wurde bereits abgebrochen
+    already_finalised: Diese Bestellung wurde bereits abgeschlossen
+    button: Zahlen
+    card_info: Information der Karte
+    order_review: Zusammenfassung des Kaufs
+    payment: Details des Kaufs
     payment-buttons:
       bank_account:
-        icon: credit-card
-        name: Bank Account
+        icon: Kreditkarte
+        name: Bankkonto
       paypal:
         icon: paypal
         name: PayPal
-      vouchup:
-        icon: globe
-        name: Rest of payment methods
-    price: Price
-    products: Products
+    price: Preis
+    products: Produkte
     total: Total
-    vat: VAT Included
-    card_name: "card name"
-    card_doc_type: "document type"
-    card_doc_number: "document number"
+    vat: Inbegriffen MwSt
   passwords:
     edit:
-      button: Change my password
-      header: New password
-      password: New password
-      password_confirmation: Confirm your new password
+      button: Dein Passwort ändern
+      header: Neues Passwort
+      password: Neues Passwort
+      password_confirmation: Bestätige Dein neues Passwort
     new:
-      button: Send me password instructions
-      title: Forgot your password?
+      button: Anleitung erneut schicken
+      title: "Hast Du Dein Passwort vergessen?"
   pdf:
     actions:
-      refund: Refund
-      sale: Sale
-      topup: Topup
-    amount: Amount
-    date: Date
-    pdf_title: Transaction history
+      refund: Rückerstattung
+      sale: Verkauf
+      topup: Aufladen
+    amount: Menge
+    date: Datum
+    pdf_title: Transaktionsverlauf
     station: Station
-    type: Type
+    type: Typ
   refunds:
-    title: Refunds
-    amount: Amount
-    button: Refund
-    fee: Refund fee
-    total_credits: Total credits
-    product_description: Balance to be refunded
-    products: Products
-    success: Refund successfully claimed, soon you will receive your transfer
+    title: Rückerstattungen
+    amount: Menge
+    button: Rückerstattung
+    fee: Zusätzliche Kosten
+    total_credits: Totale Kreditpunkte
+    product_description: Rückzuzahlender Betrag
+    success: Falls ihre Rückerstattung korrekt bearbeitet wurde, werden sie bald ihre Kreditpunkte erhalten
   registration:
     edit:
-      button: Update
-      password_hint: Leave it blank if you don't want to change it
+      button: Aktualisieren
+      password_hint: Lass das Feld frei, wenn Du nichts ändern möchtest
     new:
-      button: Sign up
-      or: or
-      title: Get started
+      button: Registriere Dich
+      or: oder
+      title: Registriere Dich
   sessions:
-    call_to_action: Sign in with your favourite Social profile or simply create an account!
+    call_to_action: Registriere Dich bei uns mit Deinem bevorzugten sozialem Netzwerk oder mach ein Konto bei uns auf.
     create_account:
-      link: Create an account
-      lost_password: Lost password?
+      link: "¡Erstelle eins!"
+      lost_password: Passwort verloren
     log_in:
-      link: Log in here
-      title: Already have an account?
+      link: Login
+      title: Hast Du schon ein Konto?
     placeholder:
-      email: e.g. nickname@mail.com
-      password: e.g. · · · · · ·
+      email: Bsp. nickname@mail.com
+      password: Bsp. · · · · · ·
   simple_form:
-      labels:
-        customer:
-          new:
-            address: Address
-            birthdate: Birthdate
-            city: City
-            country: Country
-            current_password: Current Password
-            email: Email
-            first_name: First Name
-            gender: Gender
-            last_name: Surname
-            password: Password
-            password_confirmation: password confirmation
-            phone: Telefone number
-            postcode: Postcode
+    labels:
+      customer:
+        new:
+          address: Adresse
+          birthdate: Geburtsdatum
+          city: Stadt
+          country: Land
+          current_password: Aktuelles Passwort
+          email: Email
+          first_name: Name
+          gender: Geschlecht
+          last_name: Nachname
+          password: Passwort
+          password_confirmation: Bestätigung des Passworts
+          phone: Telefonnummer
+          postcode: Postleitzahl

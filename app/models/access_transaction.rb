@@ -1,5 +1,5 @@
 class AccessTransaction < Transaction
-  belongs_to :access
+  belongs_to :access, optional: true
 
   def self.mandatory_fields
     super + %w[access_id direction final_access_value]
