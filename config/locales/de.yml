@@ -40,9 +40,9 @@ de:
 
       Möchtest Du wirklich fortfahren?
   checkout:
-    button: Befehl bestätigen
+    button: Bestätigen
     description: Onlineeinkäufe sind ideal, um Zeit zu sparen. Vermeide langes Schlangestehen beim Event und suche hier aus, was Du kaufen möchtest.
-    store: Geschäft
+    store: Geld Aufladen
     total: Total
   conditions:
     action: Ich akzeptiere
