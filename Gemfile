@@ -81,7 +81,6 @@ gem 'activemerchant', github: "aspgems/active_merchant"
 # Asyncronous mailer
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
-gem 'sidekiq-failures'
 
 # PDF Generation
 gem 'wicked_pdf'
