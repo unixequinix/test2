@@ -1,6 +1,7 @@
 class Events::LocaleController < Events::EventsController
   include LanguageHelper
   skip_before_action :authenticate_customer!
+  skip_before_action :check_portal_open
 
   def change
     update_locale(params[:id])

@@ -29,7 +29,7 @@ en:
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Succesfully deleted
     error: The form contains errors
-    only_letters_end_numbers: May only contain letters and numbers
+    only_letters_and_numbers: May only contain letters and numbers
     order_complete: Your Order has been completed successfully!
     order_error: There was a problem with your order
     updated: Succesfully updated
@@ -144,6 +144,7 @@ en:
     locales:
       en: ENG
       es: ESP
+      de: DEU
     subject_support: Need help for %{event}
   footer:
     copyright: "© Glownet"
