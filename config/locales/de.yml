@@ -174,7 +174,7 @@ de:
     already_finalised: Diese Bestellung wurde bereits abgeschlossen
     button: Zahlen
     card_info: Information der Karte
-    order_review: Zusammenfassung des Kaufs
+    order_review: Zusammenfassung
     payment: Details des Kaufs
     payment-buttons:
       bank_account:
