@@ -39,6 +39,7 @@ class Refund < ApplicationRecord
     self.bsb = true if event.bsb?
   end
 
+  # TODO: Change this to enum
   def completed?
     status.eql?("completed")
   end

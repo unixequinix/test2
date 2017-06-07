@@ -6,7 +6,7 @@
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
       .mdl-grid
-        - %w( completed in_progress cancelled failed).each do |status|
+        - %w( completed refunded failed cancelled).each do |status|
           - count = @counts[status]
           .mdl-cell.mdl-cell--3-col
             .customer-card.mdl-card.mdl-shadow--2dp
@@ -14,7 +14,7 @@
                 h3.mdl-card__title-text = number_to_event_currency OrderItem.where(order_id: @current_event.orders.where(status: status)).sum(:total)
               .mdl-card__supporting-text
                 span class="#{"good_info" if status == 'completed'}#{"bad_info" if status.in?(%w(cancelled failed))}" = "#{status.humanize}: "
-                span = count
+                span = count.to_i
     .mdl-layout-spacer
 
   - if @orders.any?

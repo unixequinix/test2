@@ -12,6 +12,7 @@ class Order < ApplicationRecord
 
   validate :max_credit_reached
 
+  # TODO: Change this to enum
   scope(:not_refund, -> { where.not(gateway: "refund") })
   scope(:in_progress, -> { where(status: "in_progress") })
   scope(:completed, -> { where(status: "completed") })
