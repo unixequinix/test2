@@ -11,6 +11,6 @@ class Alert < ApplicationRecord
 
   def self.propagate(event, body, priority, subject)
     ids_of_users = event.event_registrations.where(role: :promoter).where.not(user_id: nil).pluck(:user_id)
-    ids_of_users.map { |id_of_user| create!(event: event, body: body, priority: priority, subject: subject, user_id: id_of_user) }
+    ids_of_users.map { |id_of_user| find_or_create_by(event: event, body: body, priority: priority, subject: subject, user_id: id_of_user) }
   end
 end
