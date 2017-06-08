@@ -1,8 +1,8 @@
 class Transactions::Base < ApplicationJob
-  SEARCH_ATTS = %w[event_id device_uid device_db_index device_created_at_fixed].freeze
+  SEARCH_ATTS = %i[event_id device_uid device_db_index device_created_at_fixed].freeze
 
   def perform(atts) # rubocop:disable Metrics/MethodLength
-    atts = preformat_atts(atts)
+    atts = preformat_atts(atts.symbolize_keys)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
     gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }

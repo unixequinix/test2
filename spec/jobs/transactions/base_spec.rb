@@ -70,8 +70,9 @@ RSpec.describe Transactions::Base, type: :job do
   end
 
   it "executes the job defined by action" do
+    expected_atts = { action: "sale", event_id: event.id, type: "CreditTransaction", credits: 30, customer_tag_uid: gtag.tag_uid, status_code: 0 }
     params[:action] = "sale"
-    expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(params))
+    expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(expected_atts))
     base.perform_now(params)
   end
 
@@ -102,6 +103,8 @@ RSpec.describe Transactions::Base, type: :job do
         params.delete(:transaction_id)
         params.delete(:customer_id)
         params.delete(:device_created_at)
+        params.delete(:type)
+
         expect(CreditTransaction.where(params)).not_to be_empty
       end
     end
