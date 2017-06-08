@@ -2,7 +2,6 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   before_action :set_modified
 
   def index
-    render(json: [].to_json) && return if @current_event.id.eql?(63)
     tickets = tickets_sql || []
     date = @current_event.tickets.maximum(:updated_at)&.httpdate
 

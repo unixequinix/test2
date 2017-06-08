@@ -3,7 +3,6 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   def index
     last_modified = @current_event.customers.maximum(:updated_at)
-    render(json: [].to_json) && return if @current_event.id.eql?(63)
     fresh_when(@current_event.customers.new, etag: @current_event.customers, last_modified: last_modified, public: true) && return
     render(json: customers_sql)
   end
