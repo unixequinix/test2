@@ -1,14 +1,14 @@
 - content_for(:title) do
   | Asset Tracker - #{number_with_delimiter(@current_event.device_registrations.count)}
 
-- classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "bad"}
+- classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "unknown"}
 
 - if @registrations.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    - @registrations.keys.each do |key|
+    - @registrations.keys.sort.each do |key|
       .mdl-cell.mdl-cell--2-col
-        .customer-card.mdl-card.mdl-shadow--2dp class="#{classes[key.to_sym]}_header"
+        .customer-card.mdl-card.mdl-shadow--2dp.asset_btn class="#{classes[key.to_sym]}_header" name="#{key}"
           .mdl-card__title.mdl-card--expand
             h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@registrations[key]&.size || 0)
           .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
@@ -19,7 +19,7 @@
 - %w(to_check live staged locked no_idea ).each do |type|
   - next unless @registrations[type]
   - klass = classes[type.to_sym]
-  .content-grid.mdl-grid
+  .content-grid.mdl-grid.asset-table id="#{type}"
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"
@@ -75,3 +75,10 @@
                       icon.material-icons style="color: #009688; font-size: 20px" alarm
 
     .mdl-layout-spacer
+
+javascript:
+  $(".asset_btn").on("click",function(){
+    type = ($(this).attr('name'));
+     $('#' + type).css("display", "flex");
+     $('.asset-table').not('#' + type).hide();
+  });
