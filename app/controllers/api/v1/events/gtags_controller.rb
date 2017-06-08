@@ -3,6 +3,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
 
   def index
     gtags = gtags_sql || []
+    render(json: [].to_json) && return if @current_event.id.eql?(63)
     date = @current_event.gtags.maximum(:updated_at)&.httpdate
     render_entity(gtags, date)
   end
