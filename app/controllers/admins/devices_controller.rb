@@ -1,6 +1,5 @@
 class Admins::DevicesController < Admins::BaseController
   before_action :set_device, only: %i[show edit update destroy]
-  before_action :authorize!
 
   def index
     @q = Device.ransack(params[:q])
@@ -26,19 +25,18 @@ class Admins::DevicesController < Admins::BaseController
   end
 
   def destroy
-    if @device.destroy
-      flash[:notice] = t("alerts.destroyed")
-    else
-      flash[:error] = @ticket.errors.full_messages.join(". ")
+    respond_to do |format|
+      if @device.destroy
+        format.html { redirect_to admins_devices_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
+      else
+        format.html { redirect_to [:admins, @device], alert: @device.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @device.errors }, status: :unprocessable_entity }
+      end
     end
-    redirect_to admins_devices_path
   end
 
   private
-
-  def authorize!
-    raise Pundit::NotAuthorizedError, "you are not authorized" unless current_user.admin?
-  end
 
   def set_device
     @device = Device.find(params[:id])
