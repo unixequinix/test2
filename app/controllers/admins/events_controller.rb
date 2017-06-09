@@ -47,13 +47,11 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def launch
-    authorize(@current_event)
     @current_event.update_attribute :state, "launched"
     redirect_to [:admins, @current_event], notice: t("alerts.updated")
   end
 
   def close
-    authorize(@current_event)
     @current_event.update_attribute :state, "closed"
     @current_event.companies.update_all(hidden: true)
     @current_event.payment_gateways.delete_all
@@ -61,24 +59,20 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def remove_db
-    authorize(@current_event)
     @current_event.update(params[:db] => nil)
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
   def resolve_time
-    authorize(@current_event)
     @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
   end
 
   def do_resolve_time
-    authorize(@current_event)
     @current_event.resolve_time!
     redirect_to request.referer, notice: "All timing issues solved"
   end
 
   def update
-    authorize(@current_event)
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
@@ -92,7 +86,6 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def remove_logo
-    authorize(@current_event)
     @current_event.logo.destroy
     @current_event.logo.clear
     @current_event.save
@@ -100,7 +93,6 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def remove_background
-    authorize(@current_event)
     @current_event.background.destroy
     @current_event.background.clear
     @current_event.save
@@ -108,7 +100,6 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def destroy
-    authorize(@current_event)
     transactions = @current_event.transactions
     SaleItem.where(credit_transaction_id: transactions).delete_all
     Transaction.where(id: @current_event.transactions).delete_all
@@ -124,6 +115,7 @@ class Admins::EventsController < Admins::BaseController
 
   def set_event
     @current_event = Event.friendly.find(params[:id])
+    authorize(@current_event)
   end
 
   def use_time_zone
