@@ -5,6 +5,7 @@ class Admins::DevicesController < Admins::BaseController
   def index
     @q = Device.ransack(params[:q])
     @devices = @q.result.includes(:events)
+    authorize(@devices)
     @devices = @devices.page(params[:page])
   end
 
@@ -41,6 +42,7 @@ class Admins::DevicesController < Admins::BaseController
 
   def set_device
     @device = Device.find(params[:id])
+    authorize(@device)
   end
 
   def permitted_params

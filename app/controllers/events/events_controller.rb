@@ -3,13 +3,10 @@ class Events::EventsController < ApplicationController
 
   layout "customer"
   protect_from_forgery
-  before_action :fetch_current_event
+  before_action :set_event
   before_action :authenticate_customer!
   before_action :resolve_locale
   before_action :check_portal_open
-
-  helper_method :current_event
-  helper_method :current_customer
 
   def show
     @any_tickets = TicketType.where.not(catalog_item: nil).where(hidden: false).includes(:tickets).merge(@current_event.tickets.where(banned: false)).any? # rubocop:disable Metrics/LineLength
@@ -19,6 +16,10 @@ class Events::EventsController < ApplicationController
   end
 
   private
+
+  def set_event
+    @current_event = Event.friendly.find(params[:event_id] || params[:id])
+  end
 
   def check_portal_open
     return true if @current_event.open_portal?

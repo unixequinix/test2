@@ -5,23 +5,9 @@ class Admins::AlertsController < Admins::BaseController
   # GET /alerts.json
   def index
     @resolved = params[:resolved].eql?("true") ? true : false
-    @alerts = current_user.alerts.where(resolved: @resolved).order(priority: :desc, event_id: :desc).group_by(&:priority)
-  end
-
-  # POST /alerts
-  # POST /alerts.json
-  def create
-    @alert = Alert.new(alert_params)
-
-    respond_to do |format|
-      if @alert.save
-        format.html { redirect_to [:admins, @alert], notice: t("alerts.created") }
-        format.json { render json: @alert, status: :created, location: [:admins, @alert] }
-      else
-        format.html { render :new }
-        format.json { render json: @alert.errors, status: :unprocessable_entity }
-      end
-    end
+    @alerts = current_user.alerts.where(resolved: @resolved).order(priority: :desc, event_id: :desc)
+    authorize(@alerts)
+    @alerts = @alerts.group_by(&:priority)
   end
 
   # PATCH/PUT /alerts/1
@@ -53,6 +39,7 @@ class Admins::AlertsController < Admins::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_alert
     @alert = Alert.find(params[:id])
+    authorize(@alert)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

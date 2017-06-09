@@ -1,7 +1,6 @@
 class DevicePolicy < ApplicationPolicy
   def show?
-    all_allowed
-    scope.where(id: record.id).exists?
+    user.admin?
   end
 
   def create?
@@ -13,7 +12,7 @@ class DevicePolicy < ApplicationPolicy
   end
 
   def update?
-    admin_or_promoter
+    user.admin?
   end
 
   def edit?
@@ -22,15 +21,5 @@ class DevicePolicy < ApplicationPolicy
 
   def destroy?
     user.admin?
-  end
-
-  private
-
-  def admin_or_promoter
-    user.admin? || user.registration_for(user.event_ids & record.event_ids)&.promoter?
-  end
-
-  def all_allowed
-    user.admin? || user.registration_for(user.event_ids & record.event_ids).present?
   end
 end

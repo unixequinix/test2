@@ -73,6 +73,12 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
 
   private
 
+  def validate_ticket_type!
+    ticket_type_id = params[:ticket][:ticket_type_id]
+    return true unless ticket_type_id
+    @current_event.ticket_types.find_by(id: ticket_type_id, company: @company)
+  end
+
   def ticket_params
     ticket = params[:ticket]
     purchaser = ticket[:purchaser_attributes] || {}

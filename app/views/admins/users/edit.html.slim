@@ -5,7 +5,7 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-      = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+      = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .field
           = f.input :password, autocomplete: "off", required: true
         .field

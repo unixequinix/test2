@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title = current_event.name
+    title = @current_event.name
     = stylesheet_link_tag 'customer', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'customer', 'data-turbolinks-track' => true
     = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
@@ -13,13 +13,13 @@ html
     = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css"
 
 
-  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{current_event.background.url})")
-    - if current_customer
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{@current_event.background.url})")
+    - if @current_customer
       javascript:
-        var current_user_email, current_user_id, current_user_name;
-        current_user_email = "#{current_customer&.email}";
-        current_user_name = "#{current_customer&.full_name}";
-        current_user_id = "#{current_customer&.id}";
+        var @current_user_email, @current_user_id, @current_user_name;
+        @current_user_email = "#{@current_customer&.email}";
+        @current_user_name = "#{@current_customer&.full_name}";
+        @current_user_id = "#{@current_customer&.id}";
       = javascript_include_tag "specific/intercom_logged_in"
 
     - else
@@ -37,8 +37,8 @@ html
           .content-grid.mdl-grid
             .mdl-layout-spacer
             .mdl-cell.mdl-cell--10-col
-              = link_to event_url(current_event) do
-                = image_tag current_event.logo.url unless current_event.logo.blank?
+              = link_to event_url(@current_event) do
+                = image_tag @current_event.logo.url unless @current_event.logo.blank?
             .mdl-layout-spacer
 
         .content-grid.mdl-grid.header#common-header
@@ -46,18 +46,18 @@ html
             = yield(:back)
           .mdl-cell.mdl-cell--6-col.header-right
             - if customer_signed_in?
-              = link_to event_url(current_event), class: "header-link" do
+              = link_to event_url(@current_event), class: "header-link" do
                 i#home.mdl-color-text--red.material-icons home
                 span.mdl-tooltip data-mdl-for="home" = t("dashboard.header.home")
-              - if current_customer.provider.blank?
-                = link_to event_change_password_path(current_event), class: "header-link" do
+              - if @current_customer.provider.blank?
+                = link_to event_change_password_path(@current_event), class: "header-link" do
                   i#pass.mdl-color-text--red.material-icons lock
                   span.mdl-tooltip data-mdl-for="pass" = t("dashboard.header.change_password")
-              = link_to event_account_path(current_event), class: "header-link" do
+              = link_to event_account_path(@current_event), class: "header-link" do
                 i#account.mdl-color-text--red.material-icons supervisor_account
                 span.mdl-tooltip data-mdl-for="account" = t("dashboard.header.edit_account")
               = yield(:history)
-              = link_to event_logout_path(current_event), method: :delete, data: { confirm: (t("dashboard.confirm_log_out")) }, class: "header-link" do
+              = link_to event_logout_path(@current_event), method: :delete, data: { confirm: (t("dashboard.confirm_log_out")) }, class: "header-link" do
                 i#out.mdl-color-text--red.material-icons power_settings_new
                 span.mdl-tooltip data-mdl-for="out" = t("dashboard.header.log_out")
 
@@ -96,16 +96,16 @@ html
                   - locales = I18n.available_locales.map(&:to_s)
                   - if locales.length >= 1
                     - locales.each_with_index do |locale, index|
-                      li = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+                      li = link_to t("event.locales.#{locale}"), change_event_locale_path(@current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
                       - if (index + 1 < I18n.available_locales.length)
                         span.footer-separator
 
                 ul.terms-list
                   li
-                    = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+                    = link_to t("footer.privacy"), event_privacy_policy_url(@current_event), target: '_blank'
                   span.footer-separator
                   li
-                    = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
+                    = link_to t("footer.use"), event_terms_of_use_url(@current_event), target: '_blank'
 
                 ul.copyright
                   li
@@ -115,7 +115,7 @@ html
                       = Date.current.year
                   span.footer-separator
                   li
-                    = mail_to current_event&.support_email, "Support", subject: "Information request for event '#{current_event.name}'"
+                    = mail_to @current_event&.support_email, "Support", subject: "Information request for event '#{@current_event.name}'"
       .mdl-layout-spacer
 
 javascript:

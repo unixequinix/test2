@@ -13,13 +13,11 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
-  devise_for :users, controllers: { sessions: "admins/sessions", passwords: "passwords"}
+  devise_for :users, controllers: { sessions: "admins/sessions", passwords: "admins/passwords"}
 
   devise_scope :user do
     get "/admins/sign_in", to: "admins/sessions#new"
   end
-
-  resources :users, except: [:index, :destroy]
 
   namespace :admins do
 
@@ -27,8 +25,8 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
 
-    resources :users, only: [:index, :update, :destroy, :show]
-    resources :alerts, only: [:index, :create, :update, :destroy]
+    resources :users
+    resources :alerts, only: [:index, :update, :destroy]
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do

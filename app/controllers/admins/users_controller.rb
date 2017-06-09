@@ -1,13 +1,30 @@
-class Admins::UsersController < Admins::BaseController
-  before_action :set_user, only: %i[update destroy show destroy]
-  before_action :authorize!
+class Admins::UsersController < ApplicationController
+  layout "admin"
+  before_action :set_user, only: %i[update destroy show edit]
 
   def index
     @q = policy_scope(User).ransack(params[:q])
     @users = @q.result
     @users = User.all.order(:role, :email).page(params[:per_page]) if params[:q].blank?
     @users = @users.page(params[:page])
-    render layout: "admin"
+  end
+
+  def new
+    @user = User.new(email: params[:email])
+    @email_disabled = true if params[:email].present?
+    render layout: "welcome_admin"
+  end
+
+  def create
+    @user = User.new(permitted_params.merge(role: "promoter"))
+    if @user.save
+      EventRegistration.where(email: @user.email).update_all(user_id: @user.id)
+      sign_in(@user, scope: :user)
+      redirect_to admins_events_path, notice: t("alerts.created")
+    else
+      @email_disabled = true if params[:email_disabled]
+      render :new, layout: "welcome_admin"
+    end
   end
 
   def update
@@ -36,16 +53,12 @@ class Admins::UsersController < Admins::BaseController
 
   private
 
-  def authorize!
-    raise Pundit::NotAuthorizedError, "you are not authorized" unless current_user.admin?
-  end
-
   def set_user
     @user = User.find(params[:id])
     authorize @user
   end
 
   def permitted_params
-    params.require(:user).permit(:role, :email, :username, :access_token)
+    params.require(:user).permit(:role, :email, :username, :access_token, :password, :password_confirmation)
   end
 end

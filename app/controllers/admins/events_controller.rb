@@ -1,26 +1,18 @@
-class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
-  before_action :authorize_event, except: %i[index create new sample_event stats]
-
-  layout "admin_event"
+class Admins::EventsController < Admins::BaseController
+  before_action :set_event, except: %i[index new sample_event create]
 
   def index
     @status = params[:status] || "launched"
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result
+    authorize(@events)
     @events = @events.with_state(@status) if @status != "all" && params[:q].blank?
     @events = @events.page(params[:page])
-    render layout: "admin"
-  end
-
-  def stats
-    authorize @current_event, :event_charts?
-    cookies.signed[:user_id] = current_user.id
   end
 
   def new
     @event = Event.new
     authorize(@event)
-    render layout: "admin"
   end
 
   def sample_event
@@ -39,16 +31,29 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
       redirect_to admins_event_path(@event), notice: t("alerts.created")
     else
       flash[:error] = t("alerts.error")
-      render :new, layout: "admin"
+      render :new
     end
   end
 
+  def show
+    authorize @current_event
+    render layout: "admin_event"
+  end
+
+  def stats
+    authorize @current_event, :event_charts?
+    cookies.signed[:user_id] = current_user.id
+    render layout: "admin_event"
+  end
+
   def launch
+    authorize(@current_event)
     @current_event.update_attribute :state, "launched"
     redirect_to [:admins, @current_event], notice: t("alerts.updated")
   end
 
   def close
+    authorize(@current_event)
     @current_event.update_attribute :state, "closed"
     @current_event.companies.update_all(hidden: true)
     @current_event.payment_gateways.delete_all
@@ -56,20 +61,24 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def remove_db
+    authorize(@current_event)
     @current_event.update(params[:db] => nil)
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
   def resolve_time
+    authorize(@current_event)
     @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
   end
 
   def do_resolve_time
+    authorize(@current_event)
     @current_event.resolve_time!
     redirect_to request.referer, notice: "All timing issues solved"
   end
 
   def update
+    authorize(@current_event)
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
@@ -83,6 +92,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def remove_logo
+    authorize(@current_event)
     @current_event.logo.destroy
     @current_event.logo.clear
     @current_event.save
@@ -90,6 +100,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def remove_background
+    authorize(@current_event)
     @current_event.background.destroy
     @current_event.background.clear
     @current_event.save
@@ -97,6 +108,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def destroy
+    authorize(@current_event)
     transactions = @current_event.transactions
     SaleItem.where(credit_transaction_id: transactions).delete_all
     Transaction.where(id: @current_event.transactions).delete_all
@@ -110,12 +122,12 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   private
 
-  def use_time_zone
-    Time.use_zone(@current_event.timezone) { yield }
+  def set_event
+    @current_event = Event.friendly.find(params[:id])
   end
 
-  def authorize_event
-    authorize(@current_event)
+  def use_time_zone
+    Time.use_zone(@current_event.timezone) { yield }
   end
 
   def permitted_params # rubocop:disable Metrics/MethodLength

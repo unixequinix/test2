@@ -46,10 +46,10 @@ html
               span.mdl-badge data-badge="#{current_user.alerts.unresolved.count}" Alerts
             - else
               | Alerts
-          = link_to user_path(current_user), class: "mdl-navigation__link" do
+          = link_to [:admins, current_user], class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons account_circle
             | My Profile
-          = link_to edit_user_path(current_user), class: "mdl-navigation__link" do
+          = link_to [:edit, :admins, current_user], class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons create
             |  Password
         - if current_user.admin?
