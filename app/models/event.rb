@@ -43,7 +43,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   before_create :generate_tokens
 
-  validates :name, :app_version, :support_email, :timezone, presence: true
+  validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
   validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
@@ -52,7 +52,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? } # rubocop:disable Metrics/LineLength
   validate :end_date_after_start_date
   validate :refunds_start_after_end_date
-  validate :refunds_end_after_refunds_start_date
+  validate :refunds_end_after_refunds_start
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
@@ -149,7 +149,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     errors.add(:refunds_start_date, "must be after end date")
   end
 
-  def refunds_end_after_refunds_start_date
+  def refunds_end_after_refunds_start
     return if refunds_end_date.blank? || refunds_start_date.blank? || refunds_end_date >= refunds_start_date
     errors.add(:refunds_end_date, "must be after refunds start date")
   end
