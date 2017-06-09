@@ -52,6 +52,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? } # rubocop:disable Metrics/LineLength
   validate :end_date_after_start_date
   validate :refunds_start_after_end_date
+  validate :refunds_end_after_refunds_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
@@ -146,6 +147,11 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def refunds_start_after_end_date
     return if end_date.blank? || refunds_start_date.blank? || refunds_start_date >= end_date
     errors.add(:refunds_start_date, "must be after end date")
+  end
+
+  def refunds_end_after_refunds_start_date
+    return if refunds_end_date.blank? || refunds_start_date.blank? || refunds_end_date >= refunds_start_date
+    errors.add(:refunds_end_date, "must be after refunds start date")
   end
 
   def generate_tokens
