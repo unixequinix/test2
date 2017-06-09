@@ -40,7 +40,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
         format.json { render status: :ok, json: @ticket }
       else
         format.html { render :edit }
-        format.json { render json: { errors: @ticket.errors }, status: :unprocessable_entity }
+        format.json { render json: @ticket.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

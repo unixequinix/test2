@@ -51,11 +51,26 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? } # rubocop:disable Metrics/LineLength
   validate :end_date_after_start_date
+  validate :refunds_start_after_end_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
+
+  def self.try_to_open_refunds
+    Event.where(state: "launched").find_each do |event|
+      date = event.refunds_start_date
+      Time.use_zone(event.timezone) { event.update(open_refunds: true) if date && Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
+    end
+  end
+
+  def self.try_to_end_refunds
+    Event.where(state: "launched").find_each do |event|
+      date = event.refunds_end_date
+      Time.use_zone(event.timezone) { event.update(open_refunds: false) if date && Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
+    end
+  end
 
   def formatted_start_date
     start_date.to_formatted_s(:best_in_place)
@@ -125,7 +140,12 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank? || end_date >= start_date
-    errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
+    errors.add(:end_date, "must be after start date")
+  end
+
+  def refunds_start_after_end_date
+    return if end_date.blank? || refunds_start_date.blank? || refunds_start_date >= end_date
+    errors.add(:refunds_start_date, "must be after end date")
   end
 
   def generate_tokens

@@ -24,7 +24,7 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
         format.json { render status: :ok, json: @refund }
       else
         format.html { render :edit }
-        format.json { render json: { errors: @refund.errors }, status: :unprocessable_entity }
+        format.json { render json: @refund.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

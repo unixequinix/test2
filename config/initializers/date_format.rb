@@ -12,3 +12,4 @@
 
 Time::DATE_FORMATS[:transactions] = "%Y-%m-%dT%T"
 Time::DATE_FORMATS[:best_in_place] = "%Y-%m-%d"
+Time::DATE_FORMATS[:human] = "%Y-%m-%d %H:%M"

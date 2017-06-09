@@ -30,7 +30,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
       if @item.update(params.require(params[:item_type]).permit(:price, :amount, :hidden))
         format.json { render status: :ok, json: @item }
       else
-        format.json { render json: { errors: @item.errors }, status: :unprocessable_entity }
+        format.json { render json: @item.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

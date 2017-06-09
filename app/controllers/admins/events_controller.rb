@@ -75,10 +75,9 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { head :ok }
       else
-        flash.now[:alert] = @current_event.errors.full_messages.to_sentence
         params[:redirect_path] ||= :edit
         format.html { render params[:redirect_path].to_sym }
-        format.json { render json: { errors: @current_event.errors }, status: :unprocessable_entity }
+        format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
       end
     end
   end
@@ -176,6 +175,8 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :open_topups,
                                   :open_tickets,
                                   :open_gtags,
+                                  :refunds_start_date,
+                                  :refunds_end_date,
                                   credit_attributes: %i[id name value])
   end
 end

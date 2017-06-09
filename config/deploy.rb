@@ -32,3 +32,5 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 set :rvm_ruby_version, '2.4.1'
 
 set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml')
+
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }

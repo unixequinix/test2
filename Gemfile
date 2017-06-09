@@ -34,7 +34,7 @@ gem 'jquery-ui-rails'
 gem 'slim-rails'
 gem 'simple_form'
 gem 'paperclip'
-gem 'best_in_place'
+gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 
@@ -78,9 +78,10 @@ gem 'tinymce-rails'
 # Payments
 gem 'activemerchant', github: "aspgems/active_merchant"
 
-# Asyncronous mailer
+# Asyncronous
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
+gem 'whenever', :require => false
 
 # PDF Generation
 gem 'wicked_pdf'

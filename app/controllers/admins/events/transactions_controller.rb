@@ -26,7 +26,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
       if @transaction.update(permitted_params)
         format.json { render status: :ok, json: @transaction }
       else
-        format.json { render json: { errors: @transaction.errors }, status: :unprocessable_entity }
+        format.json { render json: @transaction.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

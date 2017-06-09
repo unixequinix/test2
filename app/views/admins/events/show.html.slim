@@ -163,15 +163,37 @@
                     td.mdl-data-table__cell--non-numeric Customer Portal
                     td = best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])
                   tr
-                    td.mdl-data-table__cell--non-numeric Online Refunds
-                    td = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric Online Topups
-                    td = best_in_place @current_event, :open_topups, best_in_place_checkbox([:admins, @current_event])
-                  tr
                     td.mdl-data-table__cell--non-numeric Ticket Assignation
                     td = best_in_place @current_event, :open_tickets, best_in_place_checkbox([:admins, @current_event])
                   tr
                     td.mdl-data-table__cell--non-numeric GTag Assignation
                     td = best_in_place @current_event, :open_gtags, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric Online Topups
+                    td = best_in_place @current_event, :open_topups, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric Online Refunds
+                    td = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
+                  tr
+                    td.mdl-data-table__cell--non-numeric
+                      | Refunds Start Date
+                      span.small | (EG: YYYY-MM-DD HH:MM )
+                    td
+                      = best_in_place @current_event, :refunds_start_date, url: [:admins, @current_event], display_with: lambda { |v| v&.to_formatted_s(:human) }, value: @current_event.refunds_start_date&.to_formatted_s(:human)
+                      span
+                        - if @current_event.refunds_start_date.present?
+                          i.material-icons done
+                        - else
+                          i.material-icons clear
+                  tr
+                    td.mdl-data-table__cell--non-numeric
+                      | Refunds End Date
+                      span.small | (EG: YYYY-MM-DD HH:MM )
+                    td
+                      = best_in_place @current_event, :refunds_end_date, url: [:admins, @current_event], display_with: lambda {|v| v&.to_formatted_s(:human)}, value: @current_event.refunds_end_date&.to_formatted_s(:human)
+                      span
+                        - if @current_event.refunds_end_date.present?
+                          i.material-icons done
+                        - else
+                          i.material-icons clear
   .mdl-layout-spacer

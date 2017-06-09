@@ -33,7 +33,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       else
         flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
-        format.json { render json: { errors: @access.errors }, status: :unprocessable_entity }
+        format.json { render json: @access.errors.to_json, status: :unprocessable_entity }
       end
     end
   end
