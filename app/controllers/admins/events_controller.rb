@@ -1,4 +1,4 @@
-class Admins::EventsController < Admins::BaseController
+class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_event, except: %i[index new sample_event create]
 
   def index

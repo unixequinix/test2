@@ -1,9 +1,5 @@
-class Api::V1::Events::TransactionsController < ApplicationController
-  skip_before_action :verify_authenticity_token # TODO: check if this line is necessary
-  before_action :restrict_access_with_http
-
-  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    render(status: 403, json: :unauthorized) && return unless current_event.launched?
+class Api::V1::Events::TransactionsController < Api::V1::Events::BaseController
+  def create # rubocop:disable Metrics/CyclomaticComplexity
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
 
