@@ -23,7 +23,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     name = session[:omniauth]["info"]["name"].split(" ")
     first_name = session[:omniauth]["info"]["first_name"] || name.first
     last_name = session[:omniauth]["info"]["last_name"] || name.second
-    resource.event = @@current_event
+    resource.event = @current_event
     resource.provider = session[:omniauth]["provider"]
     resource.uid = session[:omniauth]["uid"]
     resource.email = session[:omniauth]["info"]["email"]

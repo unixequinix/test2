@@ -14,12 +14,12 @@ html
 
 
   body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{@current_event.background.url})")
-    - if @current_customer
+    - if current_customer
       javascript:
         var @current_user_email, @current_user_id, @current_user_name;
-        @current_user_email = "#{@current_customer&.email}";
-        @current_user_name = "#{@current_customer&.full_name}";
-        @current_user_id = "#{@current_customer&.id}";
+        @current_user_email = "#{current_customer&.email}";
+        @current_user_name = "#{current_customer&.full_name}";
+        @current_user_id = "#{current_customer&.id}";
       = javascript_include_tag "specific/intercom_logged_in"
 
     - else
@@ -49,7 +49,7 @@ html
               = link_to event_url(@current_event), class: "header-link" do
                 i#home.mdl-color-text--red.material-icons home
                 span.mdl-tooltip data-mdl-for="home" = t("dashboard.header.home")
-              - if @current_customer.provider.blank?
+              - if current_customer.provider.blank?
                 = link_to event_change_password_path(@current_event), class: "header-link" do
                   i#pass.mdl-color-text--red.material-icons lock
                   span.mdl-tooltip data-mdl-for="pass" = t("dashboard.header.change_password")
