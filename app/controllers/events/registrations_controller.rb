@@ -1,7 +1,9 @@
 class Events::RegistrationsController < Devise::RegistrationsController
   layout "customer"
-  helper_method :current_event
+
   before_action :configure_permitted_parameters
+  before_action :set_event
+
   helper_method :current_customer
 
   def create
@@ -21,7 +23,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     name = session[:omniauth]["info"]["name"].split(" ")
     first_name = session[:omniauth]["info"]["first_name"] || name.first
     last_name = session[:omniauth]["info"]["last_name"] || name.second
-    resource.event = @current_event
+    resource.event = @@current_event
     resource.provider = session[:omniauth]["provider"]
     resource.uid = session[:omniauth]["uid"]
     resource.email = session[:omniauth]["info"]["email"]
@@ -41,19 +43,18 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(_resource)
-    customer_root_path(current_event)
+    customer_root_path(@current_event)
   end
 
   def after_sign_up_path_for(_resource)
-    customer_root_path(current_event)
+    customer_root_path(@current_event)
   end
 
   def update_resource(resource, params)
     resource.update_without_password(params)
   end
 
-  def current_event
-    params[:event_id] ||= params[:id]
-    @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])
+  def set_event
+    @current_event = Event.friendly.find(params[:event_id] || params[:id])
   end
 end

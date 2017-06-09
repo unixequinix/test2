@@ -23,13 +23,13 @@ class Events::EventsController < ApplicationController
 
   def check_portal_open
     return true if @current_event.open_portal?
-    sign_out(current_customer)
-    redirect_to(event_login_path(current_event))
+    sign_out(@current_customer)
+    redirect_to(event_login_path(@current_event))
   end
 
   def authenticate_customer!
-    redirect_to(event_login_path(current_event)) && return unless customer_signed_in?
-    redirect_to(customer_root_path(current_customer.event)) unless current_customer.event == @current_event
+    redirect_to(event_login_path(@current_event)) && return unless customer_signed_in?
+    redirect_to(customer_root_path(@current_customer.event)) unless current_customer.event == @current_event
     super
   end
 end
