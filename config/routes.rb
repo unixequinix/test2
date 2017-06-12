@@ -62,7 +62,7 @@ Rails.application.routes.draw do
         end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :device_registrations, only: [:index, :show] do
+        resources :device_registrations, only: [:index, :show, :destroy] do
           get :download_db, on: :member
           get :resolve_time, on: :member
         end

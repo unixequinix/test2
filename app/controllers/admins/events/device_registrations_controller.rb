@@ -1,5 +1,5 @@
 class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseController
-  before_action :set_registration, only: %i[resolve_time show download_db]
+  before_action :set_registration, only: %i[resolve_time show download_db destroy]
 
   def index
     @registrations = @current_event.device_registrations.includes(:device)
@@ -37,6 +37,18 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   def show
     @transactions = @current_event.transactions.where(device_uid: @device.mac).includes(:gtag, :station).order(:device_db_index).page(params[:page])
     @device_transactions = @current_event.device_transactions.where(device_uid: @device.mac).order(:created_at)
+  end
+
+  def destroy
+    respond_to do |format|
+      if @registration.destroy
+        format.html { redirect_to admins_event_device_registrations_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
+      else
+        format.html { redirect_to [:admins, @current_event, @registration], alert: @registration.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @registration.errors }, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

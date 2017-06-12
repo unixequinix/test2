@@ -6,4 +6,8 @@ class DeviceRegistrationPolicy < ApplicationPolicy
   def resolve_time?
     user.admin?
   end
+
+  def destroy?
+    user.admin?
+  end
 end

@@ -10,6 +10,11 @@
             button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons cloud_download
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download DB Backups
+        li.floaty-list-item
+          = link_to [:admins, @current_event, @registration], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+            button#delete_registration.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons delete_forever
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete_registration" Remove from event
       ul.floaty-btn#button
         li
           button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
