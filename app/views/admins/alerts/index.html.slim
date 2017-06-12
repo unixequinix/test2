@@ -38,7 +38,14 @@
               - alerts.each do |alert|
                 tr
                   td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, alert.event]
-                  td.mdl-data-table__cell--non-numeric style="width: 70%" data-label="Body" #{link_to alert.subject.name, [:admins, alert.event, alert.subject]} #{alert.body}
+                  td.mdl-data-table__cell--non-numeric style="width: 70%" data-label="Body"
+                    - if alert.subject.is_a?(Transaction)
+                      = link_to "#{alert.subject.category.humanize} #{alert.subject.name}", admins_event_transaction_path(alert.event, alert.subject, type: alert.subject.category)
+                    - else
+                      = link_to alert.subject.name, [:admins, alert.event, alert.subject]
+
+                    | &nbsp; #{alert.body}
+
                   td.table-actions data-label="Resolved"
                     = best_in_place alert, :resolved, best_in_place_checkbox([:admins, alert])
                     .table-action

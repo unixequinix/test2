@@ -5,7 +5,7 @@ class CreditTransaction < Transaction
 
   def description
     refundables = " - R #{refundable_credits} #{event.credit.name}" if credits != refundable_credits
-    "Credit #{action.humanize}: #{credits} #{event.credit.name} #{refundables}"
+    "#{action.humanize}: #{credits} #{event.credit.name} #{refundables}"
   end
 
   def self.mandatory_fields
