@@ -4,8 +4,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
   before_action :set_event
 
-  helper_method :current_customer
-
   def create
     super do |resource|
       CustomerMailer.welcome(resource).deliver_later if resource.id
@@ -56,5 +54,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
   def set_event
     @current_event = Event.friendly.find(params[:event_id] || params[:id])
+    @current_customer = current_customer
   end
 end

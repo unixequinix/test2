@@ -2,7 +2,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
   before_action :set_item_class, except: [:find_product]
 
   def create # rubocop:disable Metrics/MethodLength
-    params[:station_product][:product_id] = current_event.products.find_or_create_by(name: params[:station_product][:product_name]).id if params[:item_type].eql?("station_product") # rubocop:disable Metrics/LineLength
+    params[:station_product][:product_id] = @current_event.products.find_or_create_by(name: params[:station_product][:product_name]).id if params[:item_type].eql?("station_product") # rubocop:disable Metrics/LineLength
 
     @station = @current_event.stations.find(params[:station_id])
     @group = @station.group

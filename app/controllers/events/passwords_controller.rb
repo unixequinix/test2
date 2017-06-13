@@ -1,20 +1,19 @@
 class Events::PasswordsController < Devise::PasswordsController
-  layout "customer"
+  before_action :set_event
 
-  helper_method :current_event
+  layout "customer"
 
   private
 
   def after_resetting_password_path_for(_resource)
-    customer_root_path(current_event)
+    customer_root_path(@current_event)
   end
 
   def after_sending_reset_password_instructions_path_for(_resource_name)
-    customer_root_path(current_event)
+    customer_root_path(@current_event)
   end
 
-  def current_event
-    params[:event_id] ||= params[:id]
-    @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])
+  def set_event
+    @current_event = Event.friendly.find(params[:event_id] || params[:id])
   end
 end
