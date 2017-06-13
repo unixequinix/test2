@@ -62,14 +62,16 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def self.try_to_open_refunds
     Event.where(state: "launched").find_each do |event|
       date = event.refunds_start_date
-      Time.use_zone(event.timezone) { event.update(open_refunds: true) if date && Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
+      next unless date
+      Time.use_zone(event.timezone) { event.update(open_refunds: true) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
     end
   end
 
   def self.try_to_end_refunds
     Event.where(state: "launched").find_each do |event|
       date = event.refunds_end_date
-      Time.use_zone(event.timezone) { event.update(open_refunds: false) if date && Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
+      next unless date
+      Time.use_zone(event.timezone) { event.update(open_refunds: false) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
     end
   end
 
