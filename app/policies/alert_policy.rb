@@ -1,6 +1,6 @@
 class AlertPolicy < ApplicationPolicy
   def index?
-    user.admin? || user.id.eql(record.scope_for_create["user_id"])
+    user.admin? || user.id.eql?(record.scope_for_create["user_id"])
   end
 
   def update?
