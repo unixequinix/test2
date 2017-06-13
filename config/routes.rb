@@ -26,7 +26,9 @@ Rails.application.routes.draw do
     end
 
     resources :users
-    resources :alerts, only: [:index, :update, :destroy]
+    resources :alerts, only: [:index, :update, :destroy] do
+      get :read_all, on: :collection
+    end
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do

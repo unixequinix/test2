@@ -10,6 +10,19 @@ class Admins::AlertsController < Admins::BaseController
     @alerts = @alerts.group_by(&:priority)
   end
 
+  # GET /alerts/read_all
+  # GET /alerts/read_all.json
+  def read_all
+    @alerts = current_user.alerts
+    authorize(@alerts)
+    @alerts.update_all(resolved: params[:resolved])
+
+    respond_to do |format|
+      format.html { redirect_to admins_alerts_path(resolved: params[:resolved]), notice: t("alerts.updated") }
+      format.json { head :ok }
+    end
+  end
+
   # PATCH/PUT /alerts/1
   # PATCH/PUT /alerts/1.json
   def update

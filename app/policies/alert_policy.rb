@@ -3,6 +3,10 @@ class AlertPolicy < ApplicationPolicy
     user.admin? || user.id.eql?(record.scope_for_create["user_id"])
   end
 
+  def read_all?
+    true
+  end
+
   def update?
     user.admin? || user.alerts.include?(record)
   end
