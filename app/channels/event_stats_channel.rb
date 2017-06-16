@@ -9,8 +9,10 @@ class EventStatsChannel < ApplicationCable::Channel
   private
 
   def render_stats(atts) # rubocop:disable all
+    Time.zone = @event.timezone
     atts.symbolize_keys!
-    if atts[:type].eql?("CreditTransaction")
+
+    if %w[sale topup refund record_credit sale_refund].include?(atts[:action]) || atts[:action].ends_with?("fee")
       @data[:topups] += atts[:credits].abs if atts[:action].eql?("topup")
       @data[:sales] += atts[:credits].abs if atts[:action].eql?("sale")
       @data[:refunds] += 1 if atts[:action].eql?("refund")
@@ -22,9 +24,9 @@ class EventStatsChannel < ApplicationCable::Channel
 
       hc = find_or_create(@data[:credits_chart], atts[:action])
       hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
-   end
+    end
 
-    @data[:not_on_date] += 1 unless (@event.start_date..@event.end_date).cover? atts[:device_created_at].to_date
+    @data[:not_on_date] += 1 unless ((@event.start_date - 3.days)..(@event.end_date + 3.days)).cover? atts[:device_created_at].to_date
     @data[:num_trans] += 1
     @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
     hc2 = find_or_create(@data[:transactions_chart], atts[:category])
