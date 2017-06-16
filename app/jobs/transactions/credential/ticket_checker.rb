@@ -4,7 +4,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
     ticket = assign_ticket(t, atts)
-    ticket.redeemed? ? Alert.propagate(event, "has been redeemed twice", :high, ticket) : ticket.update!(redeemed: true)
+    ticket.redeemed? ? Alert.propagate(t.event, "has been redeemed twice", :high, ticket) : ticket.update!(redeemed: true)
 
     return unless atts[:customer_id] && atts[:gtag_id]
     ticket.claim_credential(Gtag.find_by(id: atts[:gtag_id]))
