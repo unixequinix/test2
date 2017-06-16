@@ -26,7 +26,7 @@ class EventStatsChannel < ApplicationCable::Channel
       hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
     end
 
-    @data[:not_on_date] += 1 unless ((@event.start_date - 3.days)..(@event.end_date + 3.days)).cover? atts[:device_created_at].to_date
+    @data[:not_on_date] += 1 unless ((@event.start_date - 3.days)..(@event.end_date + 3.days)).cover? Time.zone.parse(atts[:device_created_at])
     @data[:num_trans] += 1
     @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
     hc2 = find_or_create(@data[:transactions_chart], atts[:category])
