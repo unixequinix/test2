@@ -38,7 +38,7 @@
               - data[:actions].to_a.sort_by { |h| h.last }.reverse.slice(0..2).each do |action, number|
                 tr
                   td.mdl-data-table__cell--non-numeric = action.humanize
-                  td = number_to_human number
+                  td = number_with_delimiter number
 
     .mdl-cell.mdl-cell--4-col
       .customer-card.mdl-card.mdl-shadow--2dp

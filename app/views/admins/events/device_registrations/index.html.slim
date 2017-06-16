@@ -44,7 +44,7 @@
                     - count_diff = registration.number_of_transactions - registration.server_transactions
                     .small.bad_info = "+#{count_diff.abs} in #{count_diff.positive? ? 'Device' : 'Server'}"
                 td
-                  - if registration.battery > 30
+                  - if registration.battery > 20
                     i.material-icons style="color: #9ecf68" battery_full
                     span style="color: #9ecf68;" #{registration.battery} %
                   - else

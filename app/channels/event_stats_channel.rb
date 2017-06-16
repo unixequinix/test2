@@ -2,6 +2,7 @@ class EventStatsChannel < ApplicationCable::Channel
   def subscribed
     @event = Event.find(params[:id])
     initial_stats(@event)
+    @data = {}
     stream_for(@event, coder: ActiveSupport::JSON) { |data| transmit(render_stats(data["data"])) if data["data"]["status_code"].zero? }
     transmit render(@data)
   end
@@ -22,7 +23,7 @@ class EventStatsChannel < ApplicationCable::Channel
 
       hc = find_or_create(@data[:credits_chart], atts[:action])
       hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
-    end
+   end
 
     @data[:not_on_date] += 1 unless (@event.start_date..@event.end_date).cover? atts[:device_created_at].to_date
     @data[:num_trans] += 1
