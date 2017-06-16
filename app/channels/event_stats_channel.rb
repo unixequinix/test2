@@ -9,7 +9,6 @@ class EventStatsChannel < ApplicationCable::Channel
   private
 
   def render_stats(atts) # rubocop:disable all
-    Time.zone = @event.timezone
     atts.symbolize_keys!
 
     if %w[sale topup refund record_credit sale_refund].include?(atts[:action]) || atts[:action].ends_with?("fee")
@@ -26,7 +25,6 @@ class EventStatsChannel < ApplicationCable::Channel
       hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
     end
 
-    @data[:not_on_date] += 1 unless ((@event.start_date - 3.days)..(@event.end_date + 3.days)).cover? Time.zone.parse(atts[:device_created_at])
     @data[:num_trans] += 1
     @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
     hc2 = find_or_create(@data[:transactions_chart], atts[:category])
@@ -38,11 +36,10 @@ class EventStatsChannel < ApplicationCable::Channel
   def initial_stats(event) # rubocop:disable all
     @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
 
-    transactions = event.transactions.where(device_created_at: event.start_date..event.end_date, status_code: 0)
+    transactions = event.transactions.status_ok
     credit_transactions = transactions.credit
 
     sales = credit_transactions.where(action: "sale")
-    @data[:not_on_date] = event.transactions.where.not(device_created_at: event.start_date..event.end_date).count
     @data[:sales] = sales.sum(:credits).abs
     @data[:topups] = credit_transactions.where(action: "topup").sum(:credits).abs
     @data[:num_trans] = transactions.count
