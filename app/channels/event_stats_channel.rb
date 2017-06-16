@@ -54,7 +54,7 @@ class EventStatsChannel < ApplicationCable::Channel
     end
 
     @data[:credits_chart] = %w[sale topup].map do |action|
-      data = credit_transactions.where(action: action).group_by_day(:device_created_at).sum(:credits)
+      data = credit_transactions.where(action: action).group_by_hour(:device_created_at).sum(:credits)
       data = data.collect { |k, v| [k, v.to_i.abs] }
       { name: action, data: Hash[data] }
     end
