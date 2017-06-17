@@ -5,7 +5,7 @@ class Admins::AlertsController < Admins::BaseController
   # GET /alerts.json
   def index
     @resolved = params[:resolved].eql?("true") ? true : false
-    @alerts = current_user.alerts.where(resolved: @resolved).order(priority: :desc, event_id: :desc)
+    @alerts = current_user.alerts.where(resolved: @resolved).order(event_id: :desc, created_at: :desc)
     authorize(@alerts)
     @alerts = @alerts.group_by(&:priority)
   end
