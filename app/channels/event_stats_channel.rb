@@ -14,7 +14,7 @@ class EventStatsChannel < ApplicationCable::Channel
     if %w[sale topup refund record_credit sale_refund].include?(atts[:action]) || atts[:action].ends_with?("fee")
       @data[:topups] += atts[:credits].abs if atts[:action].eql?("topup")
       @data[:sales] += atts[:credits].abs if atts[:action].eql?("sale")
-      @data[:refunds] += 1 if atts[:action].eql?("refund")
+      @data[:refunds] += atts[:credits].abs if atts[:action].eql?("refund")
       @data[:fees] += atts[:credits].abs if atts[:action].ends_with?("_fee")
       @data[:actions][atts[:action]] = @data[:actions][atts[:action]].to_i + 1
 
@@ -42,9 +42,9 @@ class EventStatsChannel < ApplicationCable::Channel
     sales = credit_transactions.where(action: "sale")
     @data[:sales] = sales.sum(:credits).abs
     @data[:topups] = credit_transactions.where(action: "topup").sum(:credits).abs
+    @data[:refunds] = credit_transactions.where(action: "refund").sum(:credits).abs
     @data[:num_trans] = transactions.count
     @data[:num_gtags] = event.gtags.count
-    @data[:refunds] = credit_transactions.where(action: "refund").count
     @data[:fees] = credit_transactions.where("action LIKE '%_fee'").count
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
     @data[:actions] = credit_transactions.group(:action).count
