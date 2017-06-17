@@ -44,14 +44,16 @@
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
               tr class="#{klass}_info"
+                th.mdl-data-table__cell--non-numeric Time
                 th.mdl-data-table__cell--non-numeric Event
                 th.mdl-data-table__cell--non-numeric Body
                 th Resolved?
             tbody
               - alerts.each do |alert|
                 tr
+                  td.mdl-data-table__cell--non-numeric data-label="Time" = l alert.created_at
                   td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, alert.event]
-                  td.mdl-data-table__cell--non-numeric style="width: 70%" data-label="Body"
+                  td.mdl-data-table__cell--non-numeric style="width: 60%" data-label="Body"
                     - if alert.subject.is_a?(Transaction)
                       = link_to "#{alert.subject.category.humanize} #{alert.subject.name}", admins_event_transaction_path(alert.event, alert.subject, type: alert.subject.category)
                     - else
