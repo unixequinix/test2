@@ -48,13 +48,13 @@
             tbody
               tr
                 td.mdl-data-table__cell--non-numeric Spend
-                td = number_to_currency data[:sales].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 0
+                td = number_to_currency data[:sales].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 2
               tr
                 td.mdl-data-table__cell--non-numeric Topup
-                td = number_to_currency data[:topups].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 0
+                td = number_to_currency data[:topups].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 2
               tr
                 td.mdl-data-table__cell--non-numeric Refund
-                td = number_to_currency data[:refunds].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 0
+                td = number_to_currency data[:refunds].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 2
 
 .mdl-cell.mdl-cell--12-col
   .data-card-wide.mdl-card.mdl-shadow--2dp
