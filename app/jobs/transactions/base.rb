@@ -19,8 +19,6 @@ class Transactions::Base < ApplicationJob
       return unless transaction.new_record?
       transaction.update!(column_attributes(klass, atts))
 
-      Alert.create!(event:Event.find(atts[:event_id]), body: atts.to_s, priority: :high, subject: transaction, user_id: 6) if transaction.action.eql?("sale") && transaction.sale_items.empty? && transaction.other_amount_credits.to_f.zero?
-
       return if transaction.status_not_ok?
       EventStatsChannel.broadcast_to(Event.find(atts[:event_id]), data: transaction)
       execute_operations(atts.merge(transaction_id: transaction.id))
