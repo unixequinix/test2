@@ -35,9 +35,30 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     end
   end
 
-  def show
-    authorize @current_event
+  def device_settings
     render layout: "admin_event"
+  end
+
+  def edit_event_style
+    render layout: "admin_event"
+  end
+
+  def edit
+    render layout: "admin_event"
+  end
+
+  def show
+    render layout: "admin_event"
+  end
+
+  def resolve_time
+    @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
+    render layout: "admin_event"
+  end
+
+  def do_resolve_time
+    @current_event.resolve_time!
+    redirect_to request.referer, notice: "All timing issues solved"
   end
 
   def stats
@@ -63,15 +84,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
-  def resolve_time
-    @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
-  end
-
-  def do_resolve_time
-    @current_event.resolve_time!
-    redirect_to request.referer, notice: "All timing issues solved"
-  end
-
   def update
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
@@ -79,7 +91,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
         format.json { head :ok }
       else
         params[:redirect_path] ||= :edit
-        format.html { render params[:redirect_path].to_sym }
+        format.html { render params[:redirect_path].to_sym, layout: "admin_event" }
         format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
       end
     end
