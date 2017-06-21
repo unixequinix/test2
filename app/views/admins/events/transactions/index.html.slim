@@ -40,7 +40,7 @@
               span.mdl-tooltip data-mdl-for="search-toggle"  Search
               .search-toggle Advanced Search
 
-      = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, method: :post}  do |f|
+      = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, method: :post, class: 'form-trim'}  do |f|
         .container-search
           .form-inputs
             label.mdl-textfield.mdl-js-textfield for='q_transaction_origin_eq'
@@ -112,7 +112,3 @@
 
       .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
     .mdl-layout-spacer
-
-
-
-
