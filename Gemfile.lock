@@ -301,7 +301,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (4.1.0)
     netrc (0.11.0)
-    newrelic_rpm (4.2.0.334)
     nilify_blanks (1.2.1)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -419,6 +418,8 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     rfc-822 (0.4.1)
+    rollbar (2.15.0)
+      multi_json
     roo (2.7.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -597,7 +598,6 @@ DEPENDENCIES
   jquery-ui-rails
   json (~> 1.8.5)
   kaminari
-  newrelic_rpm
   nilify_blanks
   oj
   oj_mimic_json
@@ -619,6 +619,7 @@ DEPENDENCIES
   rb-fsevent
   redis (~> 3.0)
   rfc-822
+  rollbar
   roo
   rspec-activemodel-mocks
   rspec-mocks
@@ -651,4 +652,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.14.6
+   1.15.1

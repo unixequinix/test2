@@ -34,3 +34,7 @@ set :rvm_ruby_version, '2.4.1'
 set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml')
 
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
+
+set :rollbar_token, Rails.application.secrets.rollbar_access_token
+set :rollbar_env, Proc.new { fetch :stage }
+set :rollbar_role, Proc.new { :app }

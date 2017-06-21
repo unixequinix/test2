@@ -91,6 +91,9 @@ gem 'iban-tools'
 gem 'iso-swift', github: 'hugolantaume/iso-swift'
 gem 'bsb'
 
+# Rollbar
+gem 'rollbar'
+
 group :development do
   gem 'foreman'
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
@@ -134,10 +137,6 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'simplecov', require: false
   gem 'codecov', require: false
-end
-
-group :production do
-  gem 'newrelic_rpm'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
