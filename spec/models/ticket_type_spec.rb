@@ -9,8 +9,9 @@ RSpec.describe TicketType, type: :model do
   end
 
   it "touches tickets on update" do
-    tickets = create_list(:ticket, 10, event: event, ticket_type: subject)
+    ticket = create(:ticket, event: event, ticket_type: subject)
+    updated_at = ticket.updated_at
     subject.update!(name: "name")
-    tickets.each { |t| expect(t.reload.updated_at).to eql(subject.updated_at) }
+    expect(ticket.reload.updated_at).not_to eql(updated_at)
   end
 end
