@@ -27,7 +27,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
     authorize @ticket_type
 
     if @ticket_type.save
-      render json: @ticket_type, status: :created, location: @ticket_type
+      render json: @ticket_type, status: :created, location: [:admins, @current_event, @ticket_type]
     else
       render json: @ticket_type.errors, status: :unprocessable_entity
     end
