@@ -1,5 +1,5 @@
 class OrderTransaction < Transaction
-  belongs_to :order
+  belongs_to :order, optional: true
   belongs_to :order_item, optional: true
   belongs_to :catalog_item, optional: true
 
