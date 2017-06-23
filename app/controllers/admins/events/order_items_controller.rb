@@ -8,7 +8,7 @@ class Admins::Events::OrderItemsController < Admins::Events::BaseController
         format.json { render status: :ok, json: @order_item }
       else
         format.html { render :edit }
-        format.json { render json: { errors: @order_item.errors }, status: :unprocessable_entity }
+        format.json { render json: @order_item.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

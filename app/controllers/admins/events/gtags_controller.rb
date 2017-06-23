@@ -15,6 +15,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def show
     @transactions = @gtag.transactions.includes(:event).order(:gtag_counter)
+    @corrections = @gtag.transactions.where(action: "correction")
   end
 
   def new
@@ -41,7 +42,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
       else
         flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
-        format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
+        format.json { render json: @gtag.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

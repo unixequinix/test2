@@ -3,7 +3,7 @@ class TopupCredit < ApplicationRecord
   belongs_to :station, touch: true
 
   validates :amount, uniqueness: { scope: :station_id }
-  validates :amount, :credit_id, presence: true
+  validates :amount, presence: true
   validate :valid_topup_credit, on: :create
 
   scope(:visible, -> { where(hidden: [false, nil]) })

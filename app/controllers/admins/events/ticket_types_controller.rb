@@ -44,7 +44,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
       else
         flash.now[:alert] = t("alerts.errors")
         format.html { render :edit }
-        format.json { render json: { errors: @ticket_type.errors }, status: :unprocessable_entity }
+        format.json { render json: @ticket_type.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

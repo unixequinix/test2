@@ -3,7 +3,7 @@
     .mdl-cell.mdl-cell--5-col
       h1 style="color: #999; text-align: right;"
         = number_with_delimiter data[:num_trans]
-        .small Transactions processed, #{data[:not_on_date]} not on date
+        .small Transactions processed
     .mdl-cell.mdl-cell--1-col
     .mdl-cell.mdl-cell--5-col
       h1 style="color: #999;  text-align: left;"
@@ -38,7 +38,7 @@
               - data[:actions].to_a.sort_by { |h| h.last }.reverse.slice(0..2).each do |action, number|
                 tr
                   td.mdl-data-table__cell--non-numeric = action.humanize
-                  td = number_to_human number
+                  td = number_with_delimiter number
 
     .mdl-cell.mdl-cell--4-col
       .customer-card.mdl-card.mdl-shadow--2dp
@@ -48,13 +48,13 @@
             tbody
               tr
                 td.mdl-data-table__cell--non-numeric Spend
-                td = number_to_currency data[:sales].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 0
+                td = number_to_currency data[:sales].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 2
               tr
                 td.mdl-data-table__cell--non-numeric Topup
-                td = number_to_currency data[:topups].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 0
+                td = number_to_currency data[:topups].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 2
               tr
                 td.mdl-data-table__cell--non-numeric Refund
-                td = number_to_currency data[:refunds].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 0
+                td = number_to_currency data[:refunds].abs / data[:num_gtags], unit: data[:credit_name].to_s, precision: 2
 
 .mdl-cell.mdl-cell--12-col
   .data-card-wide.mdl-card.mdl-shadow--2dp

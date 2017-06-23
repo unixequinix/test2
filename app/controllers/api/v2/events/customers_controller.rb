@@ -1,5 +1,17 @@
 class Api::V2::Events::CustomersController < Api::V2::BaseController
-  before_action :set_customer, only: %i[refunds transactions show update destroy]
+  before_action :set_customer, only: %i[topup refunds transactions show update destroy]
+
+  # POST /customers/:id/topup
+  def topup
+    @order = @customer.build_order([[@current_event.credit.id, params[:credits]]])
+
+    if @order.save
+      @order.complete!(params[:gateway])
+      render json: @order, serializer: Api::V2::OrderSerializer
+    else
+      render json: @order.errors, status: :unprocessable_entity
+    end
+  end
 
   # GET /customers
   def index

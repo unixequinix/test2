@@ -31,7 +31,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
         format.json { render json: @product }
       else
         format.html { render :edit }
-        format.json { render json: { errors: @product.errors }, status: :unprocessable_entity }
+        format.json { render json: @product.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

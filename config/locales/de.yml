@@ -41,7 +41,7 @@ de:
       Möchtest Du wirklich fortfahren?
   checkout:
     button: Bestätigen
-    description: Onlineeinkäufe sind ideal, um Zeit zu sparen. Vermeide langes Schlangestehen beim Event und suche hier aus, was Du kaufen möchtest.
+    description: Jetzt bequem online Geld aufladen, Zeit sparen und das Anstehen beim Event umgehen! Entscheide hier wieviel Du aufladen möchtest.
     store: Geld Aufladen
     total: Total
   conditions:
@@ -146,6 +146,7 @@ de:
       en: ENG
       es: ESP
       de: DEU
+      it: ITA
     subject_support: Ich brauche Hilfe für %{event}
   footer:
     copyright: "© Glownet"
@@ -155,7 +156,7 @@ de:
   gtag_assignations:
     button: Akzeptieren
     call_to_action:
-      both: Gib den Code Deiner Karte oder Dienes Armbands ein und fahre fort!
+      both: Gib den Code Deiner Karte oder Deines Armbands ein und fahre fort!
       card: Gib den Code Deiner Karte ein und fahre fort!
       wristband: Gib den Code Deines Armbands ein und fahre fort!
     description:

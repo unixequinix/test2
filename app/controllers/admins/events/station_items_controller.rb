@@ -1,7 +1,7 @@
 class Admins::Events::StationItemsController < Admins::Events::BaseController
   before_action :set_item_class, except: [:find_product]
 
-  def create # rubocop:disable Metrics/MethodLength
+  def create
     params[:station_product][:product_id] = current_event.products.find_or_create_by(name: params[:station_product][:product_name]).id if params[:item_type].eql?("station_product") # rubocop:disable Metrics/LineLength
 
     @station = @current_event.stations.find(params[:station_id])
@@ -30,7 +30,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
       if @item.update(params.require(params[:item_type]).permit(:price, :amount, :hidden))
         format.json { render status: :ok, json: @item }
       else
-        format.json { render json: { errors: @item.errors }, status: :unprocessable_entity }
+        format.json { render json: @item.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

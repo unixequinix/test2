@@ -54,6 +54,7 @@ FactoryGirl.define do
 
   factory :order_transaction do
     event
+    order
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]

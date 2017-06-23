@@ -1,33 +1,29 @@
 class Events::GtagAssignmentsController < Events::EventsController
   before_action :check_has_not_gtag!, only: %i[new create]
 
-  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/PerceivedComplexity
-    @code = permitted_params[:tag_uid].strip
+  def new
+    @gtag = @current_event.gtags.new
+  end
+
+  def create
+    @code = permitted_params[:reference].strip
     @gtag = @current_event.gtags.find_by(tag_uid: @code)
-    recycle_present = @current_event.transactions.where(action: "gtag_recycle", gtag: @gtag).any?
 
-    flash.now[:error] = t("alerts.credential.not_found", item: "Tag") if @gtag.nil?
-    flash.now[:error] = t("alerts.credential.already_assigned", item: "Tag") if @gtag&.customer
-    flash.now[:error] = t("alerts.credential.blacklisted", item: "Tag") if @gtag&.banned?
-    flash.now[:error] = t("alerts.credential.invalid", item: "Tag") if recycle_present
-    flash.now[:error] = t("alerts.credential.inactive", item: "Tag") unless @gtag&.active?
-    render(:new) && return if flash.now[:error].present?
+    @gtag.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Tag")) if @gtag.customer
+    render(:new) && return unless @gtag.validate_assignation
 
-    @gtag.assign_customer(current_customer, current_customer)
-    @gtag.assign_ticket_from_checkin
-    @gtag.assign_replaced_gtags
-
-    redirect_to event_path(@current_event), notice: t("alerts.credential.assigned", item: "Tag")
+    @gtag.assign_customer(@current_customer, @current_customer)
+    redirect_to event_path(@current_event), notice: t("credentials.assigned", item: "Tag")
   end
 
   private
 
   def check_has_not_gtag!
-    return if current_customer.active_gtag.nil?
-    redirect_to event_path(@current_event), flash: { error: t("alerts.credential.already_assigned", item: "Tag") }
+    return if @current_customer.active_gtag.nil?
+    redirect_to event_path(@current_event), flash: { error: t("credentials.already_assigned", item: "Tag") }
   end
 
   def permitted_params
-    params.require(:gtag_assignment_form).permit(:tag_uid).merge(event_id: @current_event.id)
+    params.require(:gtag).permit(:reference)
   end
 end

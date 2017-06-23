@@ -36,7 +36,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
       else
         flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
-        format.json { render json: { errors: @gateway.errors }, status: :unprocessable_entity }
+        format.json { render json: @gateway.errors.to_json, status: :unprocessable_entity }
       end
     end
   end
@@ -59,7 +59,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
     @config_atts = settings[:config]
   end
 
-  def permitted_params # rubocop:disable Metrics/MethodLength
+  def permitted_params
     params.require(:payment_gateway).permit(:name,
                                             :refund_field_a_name,
                                             :refund_field_b_name,

@@ -33,7 +33,9 @@ html
             span.mdl-tooltip data-mdl-for="out"  Log out
 
       .mdl-layout__drawer
-        #event_logo= image_tag asset_path('glownet-event-logo.png')
+
+        #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
+
         nav.mdl-navigation.global-nav
           = link_to admins_events_path, class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons stars
@@ -42,17 +44,17 @@ html
           span.nav-title PROFILE
           = link_to admins_alerts_path, class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons add_alert
-            - if current_user.alerts.unresolved.any?
-              span.mdl-badge data-badge="#{current_user.alerts.unresolved.count}" Alerts
+            - if @current_user.alerts.unresolved.any?
+              span.mdl-badge data-badge="#{@current_user.alerts.unresolved.count}" Alerts
             - else
               | Alerts
-          = link_to user_path(current_user), class: "mdl-navigation__link" do
+          = link_to [:admins, @current_user], class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons account_circle
             | My Profile
-          = link_to edit_user_path(current_user), class: "mdl-navigation__link" do
+          = link_to [:edit, :admins, @current_user], class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons create
             |  Password
-        - if current_user.admin?
+        - if @current_user.admin?
           nav.mdl-navigation.global-nav
             span.nav-title ADMIN
             = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do

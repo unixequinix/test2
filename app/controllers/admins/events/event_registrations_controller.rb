@@ -34,7 +34,7 @@ class Admins::Events::EventRegistrationsController < Admins::Events::BaseControl
       else
         flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
-        format.json { render json: { errors: @registration.errors }, status: :unprocessable_entity }
+        format.json { render json: @registration.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

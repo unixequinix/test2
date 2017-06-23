@@ -6,8 +6,6 @@ ruby '2.4.1'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
-
-
 gem 'rails', '~> 5.1.1' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
@@ -34,7 +32,7 @@ gem 'jquery-ui-rails'
 gem 'slim-rails'
 gem 'simple_form'
 gem 'paperclip'
-gem 'best_in_place'
+gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 
@@ -78,9 +76,10 @@ gem 'tinymce-rails'
 # Payments
 gem 'activemerchant', github: "aspgems/active_merchant"
 
-# Asyncronous mailer
+# Asyncronous
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
+gem 'whenever', :require => false
 
 # PDF Generation
 gem 'wicked_pdf'
@@ -91,6 +90,9 @@ gem 'rfc-822'
 gem 'iban-tools'
 gem 'iso-swift', github: 'hugolantaume/iso-swift'
 gem 'bsb'
+
+# Rollbar
+gem 'rollbar'
 
 group :development do
   gem 'foreman'
@@ -135,10 +137,6 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'simplecov', require: false
   gem 'codecov', require: false
-end
-
-group :production do
-  gem 'newrelic_rpm'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

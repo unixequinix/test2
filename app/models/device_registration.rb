@@ -8,7 +8,7 @@ class DeviceRegistration < ApplicationRecord
     device.asset_tracker.present? ? device.asset_tracker : device.mac
   end
 
-  # rubocop:disable Metrics/LineLength, Metrics/AbcSize, Rails/TimeZone, Metrics/MethodLength
+  # rubocop:disable Metrics/LineLength, Rails/TimeZone
   def resolve_time!(start_date = event.start_date.to_formatted_s(:transactions), end_date = event.end_date.to_formatted_s(:transactions), actions = %w[sale sale_refund])
     device_ts = event.transactions.where(device_uid: device.mac).order(:device_db_index)
     bad_ids = device_ts.onsite.where(action: actions).where.not(device_created_at: (start_date..end_date)).pluck(:id)

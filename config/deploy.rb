@@ -32,3 +32,9 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 set :rvm_ruby_version, '2.4.1'
 
 set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml')
+
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
+
+set :rollbar_token, "3bc66b29685d47b9934a72438c532838"
+set :rollbar_env, -> { fetch(:stage) }
+set :rollbar_role, :app

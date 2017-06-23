@@ -6,10 +6,15 @@
     .floaty
       ul.floaty-list#actions-list
         li.floaty-list-item
-          = link_to download_db_admins_event_device_registration_path(@current_event, @device) do
+          = link_to download_db_admins_event_device_registration_path(@current_event, @registration) do
             button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons cloud_download
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download DB Backups
+        li.floaty-list-item
+          = link_to [:admins, @current_event, @registration], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+            button#delete_registration.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons delete_forever
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete_registration" Remove from event
       ul.floaty-btn#button
         li
           button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -37,13 +42,12 @@
   .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
-        .mdl-cell.mdl-cell--12-col
-          p.left
-            i Device MAC: #{@device.mac}
-            .small = @registration.app_version
         .mdl-cell.mdl-cell--6-col
-          p.right
-            i = "#{pluralize(@device_transactions.count, "device transaction")} total"
+          h5 = best_in_place @device, :asset_tracker, url: [:admins, @device]
+          .small = @registration.app_version
+        .mdl-cell.mdl-cell--6-col.right
+          i = @device.mac
+
 
       - if @device_transactions.any?
         .table-responsive
@@ -86,7 +90,7 @@
                 tr class="#{"danger" unless transaction.status_code.zero?}"
                   td.mdl-data-table__cell--non-numeric data-label="Counter" = transaction.device_db_index
                   td.mdl-data-table__cell--non-numeric data-label="Action" =  link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)
-                  td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.gtag.tag_uid, [:admins, @current_event, transaction.gtag]
+                  td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.gtag.tag_uid, [:admins, @current_event, transaction.gtag] if transaction.gtag
                   td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to transaction.station.name, [:admins, @current_event, transaction.station] if transaction.station
                   td data-label="Device created at" = l Time.zone.parse(transaction.device_created_at)
 

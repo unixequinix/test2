@@ -54,7 +54,9 @@ html
 
 
       .mdl-layout__drawer
-        #event_logo= image_tag @current_event.logo.url(:panel)
+
+        #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
+
         nav.mdl-navigation.global-nav
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons people_outline

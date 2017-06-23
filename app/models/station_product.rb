@@ -6,7 +6,7 @@ class StationProduct < ApplicationRecord
   belongs_to :product
   belongs_to :station, touch: true
 
-  validates :price, :product_id, :position, presence: true
+  validates :price, :position, presence: true
   validates :price, numericality: true
   validates :product_id, uniqueness: { scope: :station_id }
 

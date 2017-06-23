@@ -1,26 +1,18 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
-  before_action :authorize_event, except: %i[index create new sample_event stats]
-
-  layout "admin_event"
+  before_action :set_event, except: %i[index new sample_event create]
 
   def index
     @status = params[:status] || "launched"
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result
+    authorize(@events)
     @events = @events.with_state(@status) if @status != "all" && params[:q].blank?
     @events = @events.page(params[:page])
-    render layout: "admin"
-  end
-
-  def stats
-    authorize @current_event, :event_charts?
-    cookies.signed[:user_id] = current_user.id
   end
 
   def new
     @event = Event.new
     authorize(@event)
-    render layout: "admin"
   end
 
   def sample_event
@@ -39,8 +31,40 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
       redirect_to admins_event_path(@event), notice: t("alerts.created")
     else
       flash[:error] = t("alerts.error")
-      render :new, layout: "admin"
+      render :new
     end
+  end
+
+  def device_settings
+    render layout: "admin_event"
+  end
+
+  def edit_event_style
+    render layout: "admin_event"
+  end
+
+  def edit
+    render layout: "admin_event"
+  end
+
+  def show
+    render layout: "admin_event"
+  end
+
+  def resolve_time
+    @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
+    render layout: "admin_event"
+  end
+
+  def do_resolve_time
+    @current_event.resolve_time!
+    redirect_to request.referer, notice: "All timing issues solved"
+  end
+
+  def stats
+    authorize @current_event, :event_charts?
+    cookies.signed[:user_id] = current_user.id
+    render layout: "admin_event"
   end
 
   def launch
@@ -60,25 +84,15 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
-  def resolve_time
-    @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
-  end
-
-  def do_resolve_time
-    @current_event.resolve_time!
-    redirect_to request.referer, notice: "All timing issues solved"
-  end
-
   def update
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { head :ok }
       else
-        flash.now[:alert] = @current_event.errors.full_messages.to_sentence
         params[:redirect_path] ||= :edit
-        format.html { render params[:redirect_path].to_sym }
-        format.json { render json: { errors: @current_event.errors }, status: :unprocessable_entity }
+        format.html { render params[:redirect_path].to_sym, layout: "admin_event" }
+        format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
       end
     end
   end
@@ -111,12 +125,13 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   private
 
-  def use_time_zone
-    Time.use_zone(@current_event.timezone) { yield }
+  def set_event
+    @current_event = Event.friendly.find(params[:id])
+    authorize(@current_event)
   end
 
-  def authorize_event
-    authorize(@current_event)
+  def use_time_zone
+    Time.use_zone(@current_event.timezone) { yield }
   end
 
   def permitted_params # rubocop:disable Metrics/MethodLength
@@ -176,6 +191,8 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :open_topups,
                                   :open_tickets,
                                   :open_gtags,
+                                  :refunds_start_date,
+                                  :refunds_end_date,
                                   credit_attributes: %i[id name value])
   end
 end

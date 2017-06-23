@@ -1,4 +1,6 @@
 class OrderMailer < ApplicationMailer
+  default template_path: 'mailers/order_mailer'
+
   def completed_refund(refund)
     @refund = refund
     customer = @refund.customer

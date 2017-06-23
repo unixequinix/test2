@@ -146,6 +146,7 @@ es:
       en: ENG
       es: ESP
       de: DEU
+      it: ITA
     subject_support: Necesito ayuda para %{event}
   footer:
     copyright: "© Glownet"

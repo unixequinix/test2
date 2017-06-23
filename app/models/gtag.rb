@@ -11,7 +11,7 @@ class Gtag < ApplicationRecord
 
   validates :tag_uid, uniqueness: { scope: :event_id },
                       presence: true,
-                      format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_nd_numbers") },
+                      format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") },
                       length: { is: 14 }
 
   validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
@@ -23,21 +23,6 @@ class Gtag < ApplicationRecord
 
   def name
     "Gtag: #{tag_uid}"
-  end
-
-  def assign_ticket_from_checkin
-    return unless customer
-    ticket = event.transactions.credential.find_by(status_code: 0, action: "ticket_checkin", gtag_id: id)&.ticket
-    claim_credential(ticket)
-  end
-
-  def assign_replaced_gtags
-    return unless customer
-    references = event.transactions.credential.status_ok.where(action: "gtag_replacement", gtag_id: id).pluck(:ticket_code)
-    references += event.transactions.credential.status_ok.where(action: "gtag_replacement", ticket_code: tag_uid).pluck(:customer_tag_uid)
-    references.delete(tag_uid)
-
-    event.gtags.where(tag_uid: references).find_each { |gtag| claim_credential(gtag) }
   end
 
   def recalculate_balance

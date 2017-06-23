@@ -16,16 +16,6 @@ en:
   alerts:
     created: Succesfully created
     cancelled: Cancelled successfully
-    credential:
-      already_assigned: "%{item} already assigned"
-      without_credential: "%{item} is empty and cannot be assigned. Please try later"
-      no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
-      blacklisted: "%{item} is Blacklisted"
-      inactive: "%{item} is Inactive, this means it has been replaced for another. Please enter the active credential"
-      assigned: "%{item} successfully assigned"
-      not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
-      unassigned: "%{item} successfully unassigned"
-      invalid: "There seems to be a problem with this %{item}. Please contact customer support at support@glownet.com or through Intercom"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Succesfully deleted
     error: The form contains errors
@@ -53,6 +43,18 @@ en:
     conjunction: and
     privacy_conditions: the privacy policy
     terms_of_use: the terms of use
+  credentials:
+    name: Credential
+    new_button: Continue
+    already_assigned: "%{item} already assigned"
+    without_credential: "%{item} is empty and cannot be assigned. Please try later"
+    no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
+    blacklisted: "%{item} is Blacklisted"
+    inactive: "%{item} is Inactive, this means it has been replaced for another. Please enter the active credential"
+    assigned: "%{item} successfully assigned"
+    not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
+    unassigned: "%{item} successfully unassigned"
+    invalid: "There seems to be a problem with this %{item}. Please contact customer support at support@glownet.com or through Intercom"
   dashboard:
     header:
       home: Home
@@ -145,6 +147,7 @@ en:
       en: ENG
       es: ESP
       de: DEU
+      it: ITA
     subject_support: Need help for %{event}
   footer:
     copyright: "© Glownet"

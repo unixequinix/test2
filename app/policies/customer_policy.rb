@@ -1,4 +1,8 @@
 class CustomerPolicy < ApplicationPolicy
+  def topup?
+    all_allowed && event_open
+  end
+
   def refunds?
     all_allowed
   end

@@ -6,7 +6,7 @@ class Admins::Events::CatalogItemsController < Admins::Events::BaseController
     if @item.update(permitted_params)
       render json: @item
     else
-      render json: { errors: @item.errors }, status: :unprocessable_entity
+      render json: @item.errors.to_json, status: :unprocessable_entity
     end
   end
 

@@ -1,7 +1,8 @@
-class Admins::EventbriteController < ApplicationController
+class Admins::EventbriteController < Admins::BaseController
   # this method is here because all auth sessions redirect to a common action (this one).
   # this allows to being able to create only one common app in Eventbrite
   def auth
+    skip_authorization
     event = Event.find_by slug: cookies.signed[:event_slug]
     redirect_to(admins_event_path(event), alert: "Access Denied") && return if params[:error]
 

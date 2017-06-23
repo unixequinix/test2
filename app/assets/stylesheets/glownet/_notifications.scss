@@ -23,6 +23,35 @@
   }
 }
 
+.purr {
+  position: fixed;
+  width: 20em;
+  top: 20em;
+  right: 39%;
+  padding: 3em;
+  background-color: $red;
+  color: #DDD;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -moz-box-shadow: 1px #666;
+  -webkit-box-shadow: 1px #666;
+  box-shadow: 1px #666;
+  filter:alpha(opacity=90);
+  opacity: 0.9;
+  -moz-opacity:0.9;
+  z-index: 9999 !important;
+}
+.purr:hover .close	{
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  display: block;
+  width: 25px;
+  height: 25px;
+  text-indent: -9999px;
+  background: url("/images/close-button.gif") no-repeat;
+}
+
 .snackbar {
   align-items: center;
   background-color: $grayAsh;

@@ -4,7 +4,10 @@ class UserMailer < Devise::Mailer
 
   layout "user_mail"
 
-  default template_path: 'user_mailer', from: 'Glownet <no-reply@glownet.com>', content_type: "multipart/html", reply_to: "support@glownet.com"
+  default template_path: 'mailers/user_mailer',
+          from: 'Glownet <no-reply@glownet.com>',
+          content_type: "multipart/mixed",
+          parts_order: %w[multipart/alternative text/html text/enriched text/plain application/pdf]
 
   def invite_to_event(registration)
     @registration = registration

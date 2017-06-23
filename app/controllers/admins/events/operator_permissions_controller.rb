@@ -45,7 +45,7 @@ class Admins::Events::OperatorPermissionsController < Admins::Events::BaseContro
         format.json { render json: true }
       else
         format.html { redirect_to [:admins, @current_event, @permission], alert: @permission.errors.full_messages.to_sentence }
-        format.json { render json: { errors: @permission.errors }, status: :unprocessable_entity }
+        format.json { render json: @permission.errors.to_json, status: :unprocessable_entity }
       end
     end
   end

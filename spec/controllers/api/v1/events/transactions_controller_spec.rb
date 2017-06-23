@@ -60,7 +60,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         it "returns a 400 status code" do
           event.update!(state: "closed")
           post :create, params: { event_id: event.id }
-          expect(response.status).to eq(403)
+          expect(response.status).to eq(400)
         end
       end
 

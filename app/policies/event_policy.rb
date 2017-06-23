@@ -1,4 +1,8 @@
 class EventPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
   def show?
     user.admin? || user.registration_for(record).present?
   end

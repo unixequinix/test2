@@ -39,7 +39,7 @@
           tbody
             - @customers.each do |customer|
               tr [id="customer-#{customer.id}"]
-                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to customer.email, admins_event_customer_path(@current_event, customer)
+                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to (customer.email.present? ? customer.email : "Anonymous"), admins_event_customer_path(@current_event, customer)
                 td data-label="First name" = customer.first_name
                 td data-label="Last name" = customer.last_name
                 td data-label="Tickets"

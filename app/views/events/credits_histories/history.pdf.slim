@@ -16,8 +16,8 @@ html
           tr
             td.wrapper-bill-user
               p.account-user-name
-                span = current_customer.full_name
-              p.account-user.user-mail = current_customer.email
+                span = @current_customer.full_name
+              p.account-user.user-mail = @current_customer.email
             td.wrapper-bill-logo
               = image_tag @current_event.logo.url(:email), class: "bill-logo" unless @current_event.logo.blank?
           tr
@@ -37,7 +37,7 @@ html
                           li
                             = item.product.name
                             = " (#{item.quantity})"
-                    td = t.station.name
+                    td = t.station&.name
                     td = l Time.zone.parse(t.device_created_at)
                     td.transaction-item-amount = number_to_token t.credits
 

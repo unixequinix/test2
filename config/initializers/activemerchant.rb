@@ -1,1 +1,1 @@
-ActiveMerchant::Billing::Base.mode = Rails.env.eql?("production") ? :production : :test
+ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test

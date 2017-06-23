@@ -1,18 +1,16 @@
 class Admins::Events::BaseController < Admins::BaseController
   layout "admin_event"
-  helper_method :current_event
 
-  after_action :verify_authorized # disable not to raise exception when action does not have authorize method
+  before_action :set_event
   around_action :use_time_zone
 
   private
 
-  def use_time_zone
-    Time.use_zone(current_event.timezone) { yield }
+  def set_event
+    @current_event = Event.friendly.find(params[:event_id])
   end
 
-  def after_sign_out_path_for(resource)
-    return admin_root_path if resource == :admin
-    root_path
+  def use_time_zone
+    Time.use_zone(@current_event.timezone) { yield }
   end
 end

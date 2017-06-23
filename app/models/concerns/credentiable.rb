@@ -3,9 +3,19 @@ module Credentiable
 
   included do
     belongs_to :event
-    belongs_to :customer
+    belongs_to :customer, optional: true
 
     has_many :transactions, dependent: :restrict_with_error
+  end
+
+  def customer_not_anonymous?
+    customer && !customer.anonymous?
+  end
+
+  def validate_assignation
+    errors.add(:reference, I18n.t("credentials.not_found", item: I18n.t("credentials.name"))) if new_record?
+    errors.add(:reference, I18n.t("credentials.blacklisted", item: I18n.t("credentials.name"))) if banned?
+    errors.empty?
   end
 
   def ban
@@ -26,12 +36,6 @@ module Credentiable
     customer&.touch
     write_assignation_transaction("unassigned", operator, origin)
     update!(customer: nil)
-  end
-
-  def claim_credential(obj)
-    return if obj.blank? || customer == obj.customer
-    message = "tried to assign to customer #{customer.id} but it is already assigned to #{obj.customer_id}"
-    obj.customer_id.blank? ? obj.update(customer: customer) : Alert.propagate(event, message, :medium, obj)
   end
 
   def write_assignation_transaction(action, operator, origin = :portal)

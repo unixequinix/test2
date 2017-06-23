@@ -36,14 +36,14 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
-  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50", panel: "200x" }, default_url: "/assets/glownet-event-logo.png") # rubocop:disable Metrics/LineLength
-  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: "/assets/background-default.jpg") # rubocop:disable Metrics/LineLength
+  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50", panel: "200x" }, default_url: ':default_event_image_url') # rubocop:disable Metrics/LineLength
+  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ':default_event_background_url') # rubocop:disable Metrics/LineLength
   has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
   has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
 
   before_create :generate_tokens
 
-  validates :name, :app_version, :support_email, :timezone, presence: true
+  validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
   validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
@@ -51,11 +51,29 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? } # rubocop:disable Metrics/LineLength
   validate :end_date_after_start_date
+  validate :refunds_start_after_end_date
+  validate :refunds_end_after_refunds_start
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
+
+  def self.try_to_open_refunds
+    Event.where(state: "launched").find_each do |event|
+      date = event.refunds_start_date
+      next unless date
+      Time.use_zone(event.timezone) { event.update(open_refunds: true) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
+    end
+  end
+
+  def self.try_to_end_refunds
+    Event.where(state: "launched").find_each do |event|
+      date = event.refunds_end_date
+      next unless date
+      Time.use_zone(event.timezone) { event.update(open_refunds: false) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
+    end
+  end
 
   def formatted_start_date
     start_date.to_formatted_s(:best_in_place)
@@ -125,7 +143,17 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank? || end_date >= start_date
-    errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
+    errors.add(:end_date, "must be after start date")
+  end
+
+  def refunds_start_after_end_date
+    return if end_date.blank? || refunds_start_date.blank? || refunds_start_date >= end_date
+    errors.add(:refunds_start_date, "must be after end date")
+  end
+
+  def refunds_end_after_refunds_start
+    return if refunds_end_date.blank? || refunds_start_date.blank? || refunds_end_date >= refunds_start_date
+    errors.add(:refunds_end_date, "must be after refunds start date")
   end
 
   def generate_tokens

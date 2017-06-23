@@ -1,27 +1,44 @@
 class Events::RegistrationsController < Devise::RegistrationsController
   layout "customer"
-  helper_method :current_event
+
   before_action :configure_permitted_parameters
-  helper_method :current_customer
+  before_action :set_event
 
   def create
-    super do |resource|
-      CustomerMailer.welcome(resource).deliver_later if resource.id
+    build_resource(sign_up_params)
+
+    if resource.save
+      session[:credential_type].constantize.find_by(event: @current_event, id: session[:credential_id]).assign_customer(resource, resource)
+      session[:credential_id], session[:credential_type], session[:customer_id] = nil
+
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
     end
   end
 
   private
 
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-  def build_resource(*args)
-    super
+  def build_resource(hash = {}) # rubocop:disable Metrics/AbcSize
+    self.resource = session[:customer_id] ? @current_event.customers.find(session[:customer_id]) : @current_event.customers.new
+    resource.attributes = hash.merge(anonymous: false)
+
     return unless session[:omniauth]
 
     token = Devise.friendly_token[0, 20]
     name = session[:omniauth]["info"]["name"].split(" ")
     first_name = session[:omniauth]["info"]["first_name"] || name.first
     last_name = session[:omniauth]["info"]["last_name"] || name.second
-    resource.event = @current_event
     resource.provider = session[:omniauth]["provider"]
     resource.uid = session[:omniauth]["uid"]
     resource.email = session[:omniauth]["info"]["email"]
@@ -41,19 +58,19 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(_resource)
-    customer_root_path(current_event)
+    customer_root_path(@current_event)
   end
 
   def after_sign_up_path_for(_resource)
-    customer_root_path(current_event)
+    customer_root_path(@current_event)
   end
 
   def update_resource(resource, params)
     resource.update_without_password(params)
   end
 
-  def current_event
-    params[:event_id] ||= params[:id]
-    @current_event = Event.find_by(slug: params[:event_id]) || Event.find_by(id: params[:event_id])
+  def set_event
+    @current_event = Event.friendly.find(params[:event_id] || params[:id])
+    @current_customer = current_customer
   end
 end

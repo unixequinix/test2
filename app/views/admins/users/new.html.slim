@@ -4,10 +4,7 @@
     .login-header= image_tag("glownet-event-logo.png")
     .demo-card-wide.mdl-card.mdl-shadow--2dp.login-card
       .mdl-card__supporting-text
-        = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
-          .field
-            = f.input :username, placeholder: true, autofocus: true
-
+        = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
           .field
             - if @email_disabled
               = hidden_field_tag :email_disabled, true
@@ -15,6 +12,8 @@
             - else
               = f.input :email, placeholder: true
 
+          .field
+            = f.input :username, placeholder: true, autofocus: true
           .field
             = f.input :password, autocomplete: "off"
           .field

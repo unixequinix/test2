@@ -15,6 +15,19 @@
                 | See New
               - else
                 | See All
+      - if @resolved
+        li.floaty-list-item
+          = link_to read_all_admins_alerts_path(resolved: false) do
+            button#unread_all.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons drafts
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unread_all" Unread all
+      - else
+        li.floaty-list-item
+          = link_to read_all_admins_alerts_path(resolved: true) do
+            button#read_all.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons markunread
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="read_all" Read all
+
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -26,19 +39,28 @@
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"
-        h4 style="text-align: center; width: 100%;" class="#{klass}_info" = priority.humanize
+        h4 style="text-align: center; width: 100%;" class="#{klass}_info" #{priority.humanize} - #{alerts.count}
         .table-responsive
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
               tr class="#{klass}_info"
+                th.mdl-data-table__cell--non-numeric Time
                 th.mdl-data-table__cell--non-numeric Event
                 th.mdl-data-table__cell--non-numeric Body
                 th Resolved?
             tbody
               - alerts.each do |alert|
                 tr
+                  td.mdl-data-table__cell--non-numeric data-label="Time" = l alert.created_at
                   td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, alert.event]
-                  td.mdl-data-table__cell--non-numeric style="width: 70%" data-label="Body" #{link_to alert.subject.name, [:admins, alert.event, alert.subject]} #{alert.body}
+                  td.mdl-data-table__cell--non-numeric style="width: 60%" data-label="Body"
+                    - if alert.subject.is_a?(Transaction)
+                      = link_to "#{alert.subject.category.humanize} #{alert.subject.name}", admins_event_transaction_path(alert.event, alert.subject, type: alert.subject.category)
+                    - else
+                      = link_to alert.subject.name, [:admins, alert.event, alert.subject]
+
+                    | &nbsp; #{alert.body}
+
                   td.table-actions data-label="Resolved"
                     = best_in_place alert, :resolved, best_in_place_checkbox([:admins, alert])
                     .table-action

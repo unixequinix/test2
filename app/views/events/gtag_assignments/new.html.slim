@@ -11,6 +11,7 @@
       = fa_icon "info-circle"
       |  &nbsp;
       = t('gtag_assignations.info')
+
     .content-grid.mdl-grid
       .mdl-layout-spacer
       - if @current_event.both? || @current_event.wristband?
@@ -18,18 +19,18 @@
           p.tag-title.center-text = t('dashboard.gtag_registration.wristband')
           .img-ticket
             = image_tag "standard-gtag.png"
-          = form_for :gtag_assignment_form, url: event_gtag_assignments_path(@current_event) do |f|
+          = simple_form_for @gtag, url: event_gtag_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.text_field :tag_uid, value: @code, placeholder: t("gtag_assignations.placeholder"), class: "mdl-textfield__input"
-            = submit_tag t('gtag_assignations.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+              = f.input :reference, autofocus: true, label: t("gtag_assignations.placeholder")
+            = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
       - if @current_event.both? || @current_event.card?
         .mdl-cell.mdl-cell--6-col
           p.tag-title.center-text = t('dashboard.gtag_registration.card')
           .img-ticket
             = image_tag "standard-card.png"
-          = form_for :gtag_assignment_form, url: event_gtag_assignments_path(@current_event) do |f|
+          = simple_form_for @gtag, url: event_gtag_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.text_field :tag_uid, value: @code, placeholder: t("gtag_assignations.placeholder"), class: "mdl-textfield__input"
-            = submit_tag t('gtag_assignations.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+              = f.input :reference, label: t("gtag_assignations.placeholder")
+            = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
       .mdl-layout-spacer

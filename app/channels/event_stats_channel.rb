@@ -10,10 +10,11 @@ class EventStatsChannel < ApplicationCable::Channel
 
   def render_stats(atts) # rubocop:disable all
     atts.symbolize_keys!
-    if atts[:type].eql?("CreditTransaction")
+
+    if %w[sale topup refund record_credit sale_refund].include?(atts[:action]) || atts[:action].ends_with?("fee")
       @data[:topups] += atts[:credits].abs if atts[:action].eql?("topup")
       @data[:sales] += atts[:credits].abs if atts[:action].eql?("sale")
-      @data[:refunds] += 1 if atts[:action].eql?("refund")
+      @data[:refunds] += atts[:credits].abs if atts[:action].eql?("refund")
       @data[:fees] += atts[:credits].abs if atts[:action].ends_with?("_fee")
       @data[:actions][atts[:action]] = @data[:actions][atts[:action]].to_i + 1
 
@@ -24,7 +25,6 @@ class EventStatsChannel < ApplicationCable::Channel
       hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
     end
 
-    @data[:not_on_date] += 1 unless (@event.start_date..@event.end_date).cover? atts[:device_created_at].to_date
     @data[:num_trans] += 1
     @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
     hc2 = find_or_create(@data[:transactions_chart], atts[:category])
@@ -33,19 +33,18 @@ class EventStatsChannel < ApplicationCable::Channel
     render(@data)
   end
 
-  def initial_stats(event) # rubocop:disable all
+  def initial_stats(event)
     @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
 
-    transactions = event.transactions.where(device_created_at: event.start_date..event.end_date, status_code: 0)
+    transactions = event.transactions.status_ok
     credit_transactions = transactions.credit
 
     sales = credit_transactions.where(action: "sale")
-    @data[:not_on_date] = event.transactions.where.not(device_created_at: event.start_date..event.end_date).count
     @data[:sales] = sales.sum(:credits).abs
     @data[:topups] = credit_transactions.where(action: "topup").sum(:credits).abs
+    @data[:refunds] = credit_transactions.where(action: "refund").sum(:credits).abs
     @data[:num_trans] = transactions.count
     @data[:num_gtags] = event.gtags.count
-    @data[:refunds] = credit_transactions.where(action: "refund").count
     @data[:fees] = credit_transactions.where("action LIKE '%_fee'").count
     @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
     @data[:actions] = credit_transactions.group(:action).count
@@ -55,7 +54,7 @@ class EventStatsChannel < ApplicationCable::Channel
     end
 
     @data[:credits_chart] = %w[sale topup].map do |action|
-      data = credit_transactions.where(action: action).group_by_day(:device_created_at).sum(:credits)
+      data = credit_transactions.where(action: action).group_by_hour(:device_created_at).sum(:credits)
       data = data.collect { |k, v| [k, v.to_i.abs] }
       { name: action, data: Hash[data] }
     end

@@ -13,13 +13,11 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
-  devise_for :users, controllers: { sessions: "admins/sessions", passwords: "passwords"}
+  devise_for :users, controllers: { sessions: "admins/sessions", passwords: "admins/passwords"}
 
   devise_scope :user do
     get "/admins/sign_in", to: "admins/sessions#new"
   end
-
-  resources :users, except: [:index, :destroy]
 
   namespace :admins do
 
@@ -27,8 +25,10 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
 
-    resources :users, only: [:index, :update, :destroy, :show]
-    resources :alerts, only: [:index, :create, :update, :destroy]
+    resources :users
+    resources :alerts, only: [:index, :update, :destroy] do
+      get :read_all, on: :collection
+    end
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
         end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :device_registrations, only: [:index, :show] do
+        resources :device_registrations, only: [:index, :show, :destroy] do
           get :download_db, on: :member
           get :resolve_time, on: :member
         end
@@ -107,7 +107,7 @@ Rails.application.routes.draw do
             post :refund
           end
         end
-        resources :customers, only: [:index, :show] do
+        resources :customers, only: [:index, :show, :edit, :update] do
           member do
             resources :ticket_assignments, only: [:new, :create]
             resources :gtag_assignments, only: [:new, :create]
@@ -159,6 +159,7 @@ Rails.application.routes.draw do
   # Customer Area
   #----------------------------------------------------------
   devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks" }
+
   scope module: "events" do
     resources :events, only: [:show], path: "/" do
       devise_for :customers, skip: :omniauth_callbacks
@@ -188,6 +189,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :credentials, only: [:new, :create]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
@@ -228,28 +230,39 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :events, only: [:show] do
         scope module: "events" do
+          resources :devices
+          resources :companies
+          resources :accesses
+          resources :products
+
+          resources :tickets do
+            post :topup, on: :member
+          end
+
+          resources :gtags do
+            post :topup, on: :member
+          end
+
           resources :customers, :constraints => { :id => /.*/ } do
+            post :topup, on: :member
             get :refunds, on: :member
             get :transactions, on: :member
           end
-          resources :devices
-          resources :companies
-          resources :gtags
-          resources :accesses
-          resources :products
+
           resources :stations do
             resources :products
             post :add_product, on: :member
             post :remove_product, on: :member
           end
-          resources :tickets
 
           resources :refunds do
             put :complete, on: :member
           end
+
           resources :orders do
             put :complete, on: :member
           end
+
           resources :ticket_types do
             get :tickets, on: :member
           end

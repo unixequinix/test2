@@ -4,19 +4,16 @@ class Transactions::Credential::TicketChecker < Transactions::Base
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
     ticket = assign_ticket(t, atts)
-    ticket.redeemed? ? Alert.propagate(event, "has been redeemed twice", :high, ticket) : ticket.update!(redeemed: true)
-
-    return unless atts[:customer_id] && atts[:gtag_id]
-    ticket.claim_credential(Gtag.find_by(id: atts[:gtag_id]))
+    ticket.redeemed? ? Alert.propagate(t.event, "has been redeemed twice", :high, ticket) : ticket.update!(redeemed: true)
   end
 
-  def assign_ticket(transaction, atts) # rubocop:disable Metrics/MethodLength
+  def assign_ticket(transaction, atts)
     code = atts[:ticket_code]
     event = transaction.event
 
     # If ticket is found by code, it is already there, assign and return it.
     ticket = event.tickets.find_by(code: code)
-    transaction.update!(ticket: ticket) if ticket
+    transaction.update!(ticket: ticket, customer: transaction.customer) if ticket
     return ticket if ticket
 
     # Ticket is not found. perhaps is new sonar ticket?
@@ -30,7 +27,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
     ctt = event.ticket_types.find_by(company_code: id)
     begin
       ticket = event.tickets.find_or_create_by!(code: code, ticket_type: ctt)
-      transaction.update!(ticket: ticket)
+      transaction.update!(ticket: ticket, customer: transaction.customer)
     rescue ActiveRecord::RecordNotUnique
       retry
     end
