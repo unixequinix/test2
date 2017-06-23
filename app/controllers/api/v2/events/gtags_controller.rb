@@ -1,5 +1,19 @@
 class Api::V2::Events::GtagsController < Api::V2::BaseController
-  before_action :set_gtag, only: %i[show update destroy]
+  before_action :set_gtag, only: %i[topup show update destroy]
+
+  # POST /customers/:id/topup
+  def topup
+    @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
+
+    @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]])
+
+    if @order.save
+      @order.complete!(params[:gateway])
+      render json: @order, serializer: Api::V2::OrderSerializer
+    else
+      render json: @order.errors, status: :unprocessable_entity
+    end
+  end
 
   # GET /gtags
   def index

@@ -1,4 +1,8 @@
 class GtagPolicy < ApplicationPolicy
+  def topup?
+    all_allowed && event_open
+  end
+
   def solve_inconsistent?
     all_allowed && event_open
   end

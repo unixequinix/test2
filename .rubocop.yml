@@ -47,10 +47,10 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: aligned
 
 Metrics/AbcSize:
-  Max: 40
+  Max: 50
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
   Enabled: true
 
 Lint/RequireParentheses:

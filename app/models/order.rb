@@ -2,7 +2,7 @@ class Order < ApplicationRecord
   belongs_to :event
   belongs_to :customer, touch: true
 
-  has_many :order_items, dependent: :destroy
+  has_many :order_items, dependent: :destroy, inverse_of: :order
   has_many :catalog_items, through: :order_items
   has_many :transactions, dependent: :restrict_with_error
 
@@ -28,7 +28,7 @@ class Order < ApplicationRecord
     status.eql?("refunded")
   end
 
-  def complete!(gateway, payment)
+  def complete!(gateway, payment = {}.to_json)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
     MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)

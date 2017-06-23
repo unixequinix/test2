@@ -3,7 +3,7 @@ class Alert < ApplicationRecord
   belongs_to :user
   belongs_to :subject, polymorphic: true
 
-  validates :body, :event_id, :user_id, presence: true
+  validates :body, presence: true
 
   scope :unresolved, (-> { where(resolved: false) })
 

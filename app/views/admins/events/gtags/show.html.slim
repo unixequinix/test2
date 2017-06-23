@@ -88,4 +88,7 @@
             .small = "(last transaction final r balance)"
   .mdl-layout-spacer
 
-= render("admins/events/customers/sections/onsite_transactions", transactions: @transactions, title: "Onsite Transactions" ) if @transactions.present?
+- if @corrections.any?
+  = render("admins/events/customers/sections/online_transactions", transactions: @corrections, title: "Corrections" )
+
+= render("admins/events/customers/sections/onsite_transactions", transactions: @transactions, title: "Onsite Transactions" ) if @transactions.any?

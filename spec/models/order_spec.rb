@@ -6,6 +6,7 @@ RSpec.describe Order, type: :model do
 
   describe ".complete!" do
     it "marks the order as completed" do
+      allow(Transaction).to receive(:write!).once
       subject.complete!("paypal", {}.to_json)
       expect(subject).to be_completed
     end

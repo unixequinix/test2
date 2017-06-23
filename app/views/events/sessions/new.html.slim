@@ -26,7 +26,7 @@
               = "Sign in with Google"
 
           .mdl-cell.mdl-cell--12-col
-            = link_to event_register_path(@current_event), class: "social-btn social-btn--account" do
+            = link_to new_event_credential_path(@current_event), class: "social-btn social-btn--account" do
               = t('sessions.create_account.link')
 
       .traditional-login

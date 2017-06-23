@@ -1,4 +1,8 @@
 class TicketPolicy < ApplicationPolicy
+  def topup?
+    all_allowed && event_open
+  end
+
   def import?
     admin_or_promoter && event_open
   end

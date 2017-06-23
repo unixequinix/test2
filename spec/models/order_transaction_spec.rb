@@ -1,7 +1,7 @@
 require "spec_helper"
 
 RSpec.describe OrderTransaction, type: :model do
-  subject { build(:order_transaction) }
+  subject { create(:order_transaction) }
 
   it "has a valid factory" do
     expect(subject).to be_valid

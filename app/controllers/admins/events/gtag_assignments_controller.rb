@@ -12,14 +12,15 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
     render(:new) && return unless @gtag.valid?
 
-    if @gtag.customer
-      flash.now[:errors] = t("alerts.credential.already_assigned", item: "Gtag")
+    if @gtag.customer_not_anonymous?
+      flash.now[:errors] = t("credentials.already_assigned", item: "Gtag")
       render(:new)
     else
+      @gtag.customer.destroy
       @gtag.update(active: permitted_params[:active].present?)
       @customer.gtags.update_all(active: false) if @gtag.active?
       @gtag.assign_customer(@customer, current_user, :admin)
-      redirect_to admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Gtag")
+      redirect_to admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Gtag")
     end
   end
 
@@ -27,7 +28,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     @gtag = @current_event.gtags.find(params[:id])
     authorize @gtag.customer, :destroy_credential?
     @gtag.unassign_customer(current_user, :admin)
-    flash[:notice] = t("alerts.credential.unassigned", item: "Gtag")
+    flash[:notice] = t("credentials.unassigned", item: "Gtag")
     redirect_to request.referer
   end
 

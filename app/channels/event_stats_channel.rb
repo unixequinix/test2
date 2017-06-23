@@ -33,7 +33,7 @@ class EventStatsChannel < ApplicationCable::Channel
     render(@data)
   end
 
-  def initial_stats(event) # rubocop:disable all
+  def initial_stats(event)
     @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
 
     transactions = event.transactions.status_ok

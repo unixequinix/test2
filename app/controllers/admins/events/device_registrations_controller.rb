@@ -12,7 +12,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     redirect_to request.referer, notice: "All timing issues solved for device #{@device.asset_tracker || 'NONE'}"
   end
 
-  def download_db # rubocop:disable Metrics/MethodLength
+  def download_db
     secrets = Rails.application.secrets
     credentials = Aws::Credentials.new(secrets.s3_access_key_id, secrets.s3_secret_access_key)
     s3 = Aws::S3::Resource.new(region: 'eu-west-1', credentials: credentials)

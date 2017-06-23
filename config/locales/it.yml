@@ -1,0 +1,252 @@
+it:
+  actions:
+    back: Indietro
+    check_news: Tornare
+    delete: Cancellare
+    edit: Modificare
+    complete: Finalizzare
+    repeat: Ripetere
+  admissions:
+    button: Attivare
+    call_to_action: Attiva il tuo biglietto dell´ Evento!
+    description: Per favore, introduci il codice stampato in basso del codice a barra sul tuo biglietto dell´evento.
+    placeholders:
+      biglietto_code: Codice del biglietto
+  alerts:
+    created: Creato con successo
+    cancelled: Cancellato con successo
+    credential:
+      already_assigned: "L´ %{item} é giá assegnato"
+      without_credential: "%{item} é voto e non si può assegnare .Per favore, intentalo in un altro momento"
+      no_item_assigned: "L´ %{item} che ha introdotto é in fase di processo da parte del nostro sistema e per il momento non può essere assegnato. Por favore, torni più tardi o contatti con      l´assistenza. "
+      blacklisted: "%{item} é nella lista nera"
+      inactive: “%{item}non é attivo, questo significa che é stato sostituito da un altro. Deve introdurre il nuovo credenziale“
+      assigned: "%{item} assegnato correttamente"
+      not_found: "%{item} non incontrato. Se lo ha acquistato nelle ultime  48 ore, per favore, riprovi più tardi finché non attualizziamo il nostro sistema con il suo acquisto. In caso contrario, contatti con l´assistenza."
+      unassigned: "%{item} rimosso correttamente"
+      invalid: “Sembra che ci sia un problema con questo %{item}. Per favore, contatta con l´assistenza support@glownet.com o attraverso Intercom"
+    customer_without_transactions: Il cliente non ha operazioni di credito.
+    destroyed: Distrutto con successo
+    error: Il modulo contiene errori
+    only_letters_dnd_numbers: Puó contenere solo lettere e numeri
+    order_complete: Acquisto completato con successo
+    order_error: Abbiamo avuto un problema con il suo acquisto
+    updated: Aggiornato con successo
+    not_authorized: Non é autorizzato a realizzare questa operazione
+    max_credits_reached: Hanno raggiunto il limite consentito
+    confirm_delete: |
+      Questa operazione non può essere annullata.
+
+      Sei sicuro di voler continuare?
+  checkout:
+    button: Confirmare ordine
+    description: Comprare online é un buon modo per risparmiare il tempo. Evita le code nell´Evento qui selezionato, ció che desideri comprare.
+    store: negozio
+    total: Totale
+  conditions:
+    action: Accetto
+    conjunction: e
+    privacy_conditions: La politica di privacy
+    terms_of_use: le condizioni d´uso
+  dashboard:
+    header:
+      home: Inizio
+      edit_account: Cambiare Profilo
+      change_password: Cambiare password
+      log_out: Uscire
+    confirm_log_out: Vuoi chiudere la sessione?
+    topup: Ricarica
+    refund: Devoluzione
+    order: Richiesta
+    orders:
+      success_title: Complimenti!
+      credits: Crediti
+      catalog_items: Altri articoli
+      disclaimer: Gli ordini online si applicheranno all´entrare nel complesso. Solo devi arrivare all´evento ed iniziare ad utilizzare i tuoi crediti immediatamente!
+      complete: Completare
+      cancel: Cancellare
+      failed: Quest´ordine NON si applicherà nel complesso.
+      in_progress: In corso (non si applicherà nel complesso)
+      cancelled: cancellato
+      completed: é stato completato e si applicherà nel complesso
+      redeemed: Completato e applicato
+    admissions:
+      call_to_action: Vuoi eliminare il biglietto?
+      call_to_action_started: L´evento é già iniziato, non puoi cambiare il tuo biglietto
+    credits:
+      button: Ricarica
+      calculating_balance: Per favore scrivici a %{email} per elaborare la tua devoluzione
+      call_to_action_no_admission_html: Per poter ricaricare  online,<br>dovrai prima attivare un Biglietto
+      call_to_action_started: L´Evento é già iniziato, non puoi più ricaricare
+      header: Il tuo credito
+      header_invalid: Stiamo raccogliendo tutti i tuoi acquisti dei dispositivi. Più tardi ti mostreremo il tuo bilancio finale.
+      body_invalid: Tuttavia, puoi verificare il tuo bilancio in qualsiasi dispositivo dei punti vendita, ricarica o qualsiasi altra gestione. Se vuoi, puoi contattare con noi attraverso la icona di intercom in basso a destra, o inviarci un´e-mail a
+      body_credits: La tua ultima transizione é stata '%{action}' in '%{station}' fa '%{time}'
+      body_balance: Il tuo bilancio nell´evento in quel momento era
+      refundable: Rimborsabile
+    credits_history:
+      button: Scaricare transizioni
+      header: Cronologia transizioni
+    event_started:
+      description: Stiamo lavorando negli ultimi dettagli      dell´evento per far sí che a tua esperienza sia la migliore possibile. Per favore, torna tra poche ore e guarda quello che abbiamo preparato per te
+      title: Ultimi dettagli!
+    first_register:
+      gtag:
+        both: Aggiungere Braccialetto o Tessera
+        card: Aggiungere Tessera
+        wristband: Aggiungere braccialetto
+      biglietto: Aggiungere biglietto
+    biglietto_registration:
+      title: Biglietti
+    gtag_registration:
+      title:
+        both: ID del braccialetto o tessera
+        card: ID della tessera
+        wristband: ID del braccialetto
+      card: tessera
+      wristband: Braccialetto
+      no_items: Non contiene nessun prodotto associato
+    paypal:
+      button: Sincronizza con PayPal
+    portal_closed:
+      claim: Siamo spiacenti
+      description: Il portale del cliente per questo evento é chiuso, contatta con l´assistenza se hai dei dubbi.
+  email:
+    communication: Questo é un messaggio automático di  %{event_name}, le risposte non verranno lette.
+    follow_on_twitter: Seguici su Twitter
+    footer_glownet: Hai qualche domanda con rispetto al portale  online? Mandaci un messaggio a
+    footer_organizer: Hai qualche domanda per l´organizzatore? Contattalo su
+    like_on_facebook: metti mi piace su Facebook
+    order:
+      description: Tutti i prodotti che hai acquistato verranno aggiunti immediatamente alla sua tessera o braccialetto una volta entrato all´evento. La tua tessera o braccialetto é un modo rapido ed opportuno per pagare cibo, bevande e merchandising. E´ l´unica forma di pagamento accettata in tutti i negozi all´interno      dell´evento.
+      greet: Grazie per il tuo acquisto, %{name}!
+      order_number: Numero d´ordine
+      subject: Compra in %{event}
+      success: ‘Qui puoi trovare i dettagli del tuoi acquisto:'
+    our_company: Riguardo Glownet
+    refund:
+      subject: Devoluzione di fondi di  %{event}
+      refund_number: Numero di devoluzione
+      success: La tua devoluzione é stata elaborata con successo
+    reset_password:
+      greet: Ciao, %{name}!
+      mail_body: ‘Hai richiesto di cambiare la tua password . Puoi farlo attraverso del seguente link:'
+      mail_link: Cambiare la mia password
+      subject: Richiesta di modifica della password.
+    welcome:
+      subject: Confermazione della registrazione su  %{event_name}
+      greet: Ciao, %{name},
+      mail_body: Grazie per registrati con noi.
+      mail_body2: Per trarre beneficio di tutti i vantaggi del portale online la prima cosa che devi fare é registrare il tuo biglietto, braccialetto o tessera
+      event_url: “Per la tua comodità qui puoi trovare la url   dell´evento:"
+    suscribe_on_you_tube: Sottoscriviti su YouTube
+  event:
+    locales:
+      en: ENG
+      es: ESP
+      de: DEU
+      it: ITA
+    subject_support: Ho bisogno d´aiuto per %{event}
+  footer:
+    copyright: "© Glownet"
+    privacy: Politica di Privacy
+    support: Assistenza
+    use: Condizioni d´uso
+  gtag_assignations:
+    button: Accettare
+    call_to_action:
+      both: Introduci il codice della tua tessera o braccialetto e continua!
+      card: Introduci il codice della tua tessera e continua!
+      wristband: Introduci il codice del tuo braccialetto e continua!
+    description:
+      standard: Introduci la seconda fila di numeri e lettere (evidenziata in giallo)
+    info: 'Simboli ammessi: "0" - "9" y "A, B, C, D, E, F"'
+    placeholder: 'es: BA6D7DC0'
+  header:
+    edit: Modificare profilo
+  links:
+    buttons:
+      sign_in: Inizia sessione
+    forgot: Hai dimenticato la tua password?
+  orders:
+    cancel_confirmation: “Sei sicuro di voler cancellare il pagamento di %{price}?"
+    already_cancelled: Questo acquisto é già stato cancellato
+    already_finalised: Questo acquisto é già stato completato  precedentemente
+    button: Pagare
+    card_info: Informazione sulla tessera
+    order_review: Riassunto dell´acquisto
+    payment: Dettagli del pagamento
+    payment-buttons:
+      bank_account:
+        icon: Carta di credito
+        name: Conto corrente
+      paypal:
+        icon: paypal
+        name: PayPal
+    price: Prezzo
+    products: prodotti
+    total: Totale
+    vat: IVA Incluso
+  passwords:
+    edit:
+      button: Cambiare la tua password
+      header: Nuova password
+      password: Password nuova
+      password_confirmation: Conferma la tua nuova password
+    new:
+      button: Rinviare istruzioni
+      title: “Hai dimenticato la tua password?"
+  pdf:
+    actions:
+      refund: Rimborso
+      sale: Vendita
+      topup: Ricarica
+    amount: Quantità
+    date: data
+    pdf_title: Cronologia delle operazioni
+    station: Stazione
+    type: Tipo
+  refunds:
+    title: Devoluzioni
+    amount: Quantità
+    button: Devoluzione
+    fee: Costi aggiuntivi
+    total_credits: Crediti totali
+    product_description: Quantitá da restituire
+    success: La sua devoluzione é stata processata correttamente, in breve riceverà il suo credito
+  registration:
+    edit:
+      button: Attualizzare
+      password_hint: Lasciala in bianco se non desideri cambiarla
+    new:
+      button: Registrati
+      or: o
+      title: Registrati
+  sessions:
+    call_to_action: Registrati con il tuo SocialNetwork preferito o crea un account con noi.
+    create_account:
+      link: "Crea una!"
+      lost_password: Password smarrita
+    log_in:
+      link: Inizia sessione
+      title:  Hai già un account?
+    placeholder:
+      email: es. nickname@mail.com
+      password: es. · · · · · ·
+  simple_form:
+    labels:
+      customer:
+        new:
+          address: Direzione
+          birthdate:  Data di nascita
+          city: Città
+          country: Paese
+          current_password: Password attuale
+          email: E-mail
+          first_name: Nome
+          gender: Genere
+          last_name: Cognome
+          password: Password
+          password_confirmation: Conferma la password
+          phone: Numero di Telefono
+          postcode: Codice postale

@@ -9,8 +9,8 @@
     p.center-text = t('admissions.description')
     .img-ticket
       = image_tag "img-bar-code.png"
-    = form_for :ticket, url: event_ticket_assignments_path(@current_event)do |f|
+    = simple_form_for @ticket, url: event_ticket_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
       .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-        = f.text_field :code, value: @code, placeholder: t('admissions.placeholders.ticket_code'), autofocus: true, class: "mdl-textfield__input"
-      = submit_tag t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+        = f.input :reference, autofocus: true, label: t('admissions.placeholders.ticket_code')
 
+      = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

@@ -42,6 +42,11 @@
             button#new_order.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add_shopping_cart
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" new Order
+      li.floaty-list-item
+        = link_to edit_admins_event_customer_path(@current_event, @customer) do
+          button#edit_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons edit
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_customer" new Order
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

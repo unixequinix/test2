@@ -1,5 +1,5 @@
 class CreditTransaction < Transaction
-  has_many :sale_items, foreign_key: 'credit_transaction_id'
+  has_many :sale_items, foreign_key: 'credit_transaction_id', inverse_of: :credit_transaction
 
   accepts_nested_attributes_for :sale_items
 

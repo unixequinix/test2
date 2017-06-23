@@ -28,7 +28,7 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
     expect do
       worker.perform_later(atts)
       transaction.reload
-    end.to change(transaction, :order_id).from(nil).to(order.id)
+    end.to change(transaction, :order_id).to(order.id)
   end
 
   it "doesnt assign the order to the transaction if already redeemed" do

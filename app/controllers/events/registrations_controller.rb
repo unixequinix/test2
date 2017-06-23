@@ -5,23 +5,40 @@ class Events::RegistrationsController < Devise::RegistrationsController
   before_action :set_event
 
   def create
-    super do |resource|
-      CustomerMailer.welcome(resource).deliver_later if resource.id
+    build_resource(sign_up_params)
+
+    if resource.save
+      session[:credential_type].constantize.find_by(event: @current_event, id: session[:credential_id]).assign_customer(resource, resource)
+      session[:credential_id], session[:credential_type], session[:customer_id] = nil
+
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
     end
   end
 
   private
 
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-  def build_resource(*args)
-    super
+  def build_resource(hash = {}) # rubocop:disable Metrics/AbcSize
+    self.resource = session[:customer_id] ? @current_event.customers.find(session[:customer_id]) : @current_event.customers.new
+    resource.attributes = hash.merge(anonymous: false)
+
     return unless session[:omniauth]
 
     token = Devise.friendly_token[0, 20]
     name = session[:omniauth]["info"]["name"].split(" ")
     first_name = session[:omniauth]["info"]["first_name"] || name.first
     last_name = session[:omniauth]["info"]["last_name"] || name.second
-    resource.event = @current_event
     resource.provider = session[:omniauth]["provider"]
     resource.uid = session[:omniauth]["uid"]
     resource.email = session[:omniauth]["info"]["email"]

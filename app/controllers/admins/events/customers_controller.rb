@@ -17,6 +17,18 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     @online_transactions = @customer.transactions.includes(:event).online
   end
 
+  def update
+    respond_to do |format|
+      if @customer.update(permitted_params)
+        format.html { redirect_to [:admins, @current_event, @customer], notice: t("alerts.updated") }
+        format.json { render status: :ok, json: @customer }
+      else
+        format.html { render :edit }
+        format.json { render json: @customer.errors.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def reset_password
     password = "123456"
     @customer.update(password: password, password_confirmation: password)
@@ -26,16 +38,18 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def download_transactions
     @pdf_transactions = @customer.transactions.credit.status_ok.order(:gtag_counter)
     if @pdf_transactions.any?
-      html = render_to_string(action: :transactions_pdf, layout: false)
-      pdf = WickedPdf.new.pdf_from_string(html)
+      pdf = WickedPdf.new.pdf_from_string(render_to_string(action: :transactions_pdf, layout: false))
       send_data(pdf, filename: "transaction_history_#{@customer.id}.pdf", disposition: "attachment")
     else
-      flash[:error] = t("alerts.customer_without_transactions")
-      redirect_to(admins_event_customer_path(@current_event, @customer))
+      redirect_to(admins_event_customer_path(@current_event, @customer), error: t("alerts.customer_without_transactions"))
     end
   end
 
   private
+
+  def permitted_params
+    params.require(:customer).permit(:email, :first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender, :banned)
+  end
 
   def set_customer
     @customer = @current_event.customers.find(params[:id])

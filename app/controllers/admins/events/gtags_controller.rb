@@ -15,6 +15,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def show
     @transactions = @gtag.transactions.includes(:event).order(:gtag_counter)
+    @corrections = @gtag.transactions.where(action: "correction")
   end
 
   def new

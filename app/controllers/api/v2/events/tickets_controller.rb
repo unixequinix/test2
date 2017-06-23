@@ -1,5 +1,19 @@
 class Api::V2::Events::TicketsController < Api::V2::BaseController
-  before_action :set_ticket, only: %i[show update destroy]
+  before_action :set_ticket, only: %i[topup show update destroy]
+
+  # POST /customers/:id/topup
+  def topup
+    @ticket.update!(customer: @current_event.customers.create!) if @ticket.customer.blank?
+
+    @order = @ticket.customer.build_order([[@current_event.credit.id, params[:credits]]])
+
+    if @order.save
+      @order.complete!(params[:gateway])
+      render json: @order, serializer: Api::V2::OrderSerializer
+    else
+      render json: @order.errors, status: :unprocessable_entity
+    end
+  end
 
   # GET /tickets
   def index
@@ -44,7 +58,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_ticket
-    @ticket = @current_event.tickets.find(params[:id])
+    @ticket = @current_event.tickets.find_by(id: params[:id]) || @current_event.tickets.find_by(code: params[:id])
     authorize @ticket
   end
 

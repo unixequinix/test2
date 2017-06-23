@@ -2,9 +2,9 @@ class Transaction < ApplicationRecord
   include Alertable
 
   belongs_to :event
-  belongs_to :station
+  belongs_to :station, optional: true
   belongs_to :customer, optional: true
-  belongs_to :gtag
+  belongs_to :gtag, optional: true
 
   scope(:credit, -> { where(type: "CreditTransaction") })
   scope(:credential, -> { where(type: "CredentialTransaction") })

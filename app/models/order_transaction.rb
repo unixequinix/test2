@@ -1,7 +1,7 @@
 class OrderTransaction < Transaction
   belongs_to :order
-  belongs_to :order_item
-  belongs_to :catalog_item
+  belongs_to :order_item, optional: true
+  belongs_to :catalog_item, optional: true
 
   def description
     action.humanize

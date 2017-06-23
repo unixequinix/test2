@@ -17,13 +17,34 @@ RSpec.describe Transactions::Base, type: :job do
     }
   end
 
-  before(:each) do
-    # Dont care about the BalanceUpdater, so I mock the behaviour
-    allow(Transactions::Credit::BalanceUpdater).to receive(:perform_now)
-  end
+  describe "creates anonymous customers" do
+    it "if not present" do
+      gtag.update customer: nil
+      expect { base.perform_now(params) }.to change(Customer, :count).by(1)
+    end
 
-  it "creates transactions based on type" do
-    expect { base.perform_now(params) }.to change(CreditTransaction, :count).by(1)
+    it "unless already present" do
+      gtag.update! customer: customer
+      expect { base.perform_now(params) }.not_to change(Customer, :count)
+    end
+
+    it ", then adds customer_id to transaction, even if already present" do
+      gtag.update! customer: customer
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(customer_id: customer.id))
+      base.perform_now(params)
+    end
+
+    it ", then adds customer_id to transaction, event when not present in db" do
+      gtag.update! customer: nil
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(:customer_id))
+      base.perform_now(params)
+    end
+
+    it "assigns any customer to the gtag" do
+      gtag.update customer: nil
+      base.perform_now(params)
+      expect(gtag.reload.customer).not_to be_nil
+    end
   end
 
   describe "when sale_items_attributes is blank" do
@@ -69,14 +90,14 @@ RSpec.describe Transactions::Base, type: :job do
     end
   end
 
-  it "executes the job defined by action" do
-    expected_atts = { action: "sale", event_id: event.id, type: "CreditTransaction", credits: 30, customer_tag_uid: gtag.tag_uid, status_code: 0 }
-    params[:action] = "sale"
-    expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(expected_atts))
-    base.perform_now(params)
-  end
-
   describe "descendants" do
+    it "executes the job defined by action" do
+      expected_atts = { action: "sale", event_id: event.id, type: "CreditTransaction", credits: 30, customer_tag_uid: gtag.tag_uid, status_code: 0 }
+      params[:action] = "sale"
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(expected_atts))
+      base.perform_now(params)
+    end
+
     it "must be loaded with environment" do
       expect(base.descendants).not_to be_empty
     end

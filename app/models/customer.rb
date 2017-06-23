@@ -16,11 +16,11 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :tickets, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
 
-  validates :email, format: { with: RFC822::EMAIL }
-  validates :email, uniqueness: { scope: [:event_id] }
-  validates :email, :first_name, :last_name, :encrypted_password, presence: true
-  validates :agreed_on_registration, acceptance: { accept: true }
-  validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? })
+  validates :email, format: { with: RFC822::EMAIL }, unless: :anonymous?
+  validates :email, uniqueness: { scope: [:event_id] }, unless: :anonymous?
+  validates :email, :first_name, :last_name, :encrypted_password, presence: true, unless: :anonymous?
+  validates :agreed_on_registration, acceptance: { accept: true }, unless: :anonymous?
+  validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? }), unless: :anonymous?
   validates :phone, presence: true, if: (-> { custom_validation("phone") })
   validates :birthdate, presence: true, if: (-> { custom_validation("birthdate") })
   validates :phone, presence: true, if: (-> { custom_validation("phone") })
@@ -138,7 +138,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def custom_validation(field)
     event && event.method("#{field}_mandatory?").call && !reset_password_token_changed? &&
-      (!encrypted_password_changed? || new_record?)
+      (!encrypted_password_changed? || new_record?) && !anonymous?
   end
 
   private

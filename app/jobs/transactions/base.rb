@@ -1,17 +1,14 @@
 class Transactions::Base < ApplicationJob
   SEARCH_ATTS = %i[event_id device_uid device_db_index device_created_at_fixed].freeze
 
-  def perform(atts) # rubocop:disable Metrics/MethodLength
+  def perform(atts)
     atts = preformat_atts(atts.symbolize_keys)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
-    gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
 
-    begin
-      atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id if gtag_atts[:tag_uid].present?
-    rescue ActiveRecord::RecordNotUnique
-      retry
-    end
+    gtag = create_gtag(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id]) if atts[:customer_tag_uid].present?
+    atts[:gtag_id] = gtag&.id
+    atts[:customer_id] = gtag&.customer_id
 
     begin
       transaction = klass.find_or_initialize_by(atts.slice(*SEARCH_ATTS))
@@ -57,6 +54,17 @@ class Transactions::Base < ApplicationJob
   end
 
   private
+
+  def create_gtag(atts)
+    begin
+      gtag = Gtag.find_or_create_by(atts)
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
+    return gtag if gtag.customer.present?
+    gtag.update!(customer: Customer.create!(event_id: atts[:event_id]))
+    gtag
+  end
 
   def permitted_params
     params.require(:company).permit(:name, :event_id)
