@@ -87,7 +87,7 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
       end
 
       it "includes old_event_keys" do
-        expect(@body).to include("name" => "old_event_keys", "value" => ["11111111111111111111111111111111"])
+        expect(@body).to include("name" => "old_event_keys", "value" => "11111111111111111111111111111111")
       end
     end
 

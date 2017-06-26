@@ -16,16 +16,6 @@ de:
   alerts:
     created: Erfolgreich erstellt
     cancelled: Erfolgreich abgebrochen
-    credential:
-      already_assigned: "Der %{item} ist bereits vergeben"
-      without_credential: "%{item} ist leer und kann nicht zugeordnet werden. Bitte versuche es später noch einmal"
-      no_item_assigned: "Der %{item} der eingegeben wurde, wird von unserem System analysiert und kann im Moment nicht zugeordnet werden. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support"
-      blacklisted: "%{item} befindet sich auf der schwarzen Liste"
-      inactive: "%{item} ist nicht aktiv, was bedeutet, dass sie durch eine andere ersetzt wurde. Sie müssen den neuen ID eingeben"
-      assigned: "%{item} erfolgreich zugeordnet"
-      not_found: "%{item} nicht gefunden. Wenn Sie es in den letzten 48 erworben haben, versuchen Sie es bitte später noch einmal, bis ihr Einkauf in unserem System aktualisiert ist. Falls nicht, nehmen Sie Kontakt mit dem Support auf."
-      unassigned: "%{item} erfolgreich freigegeben"
-      invalid: "Es gibt anscheinend ein Problem mit diesem %{item}. Bitte kontaktieren Sie unseren Support unter support@glownet.com oder durch Intercom"
     customer_without_transactions: Der Kunde hat keine Kredittransaktionen
     destroyed: Erfolgreich zerstört
     error: Das Formular enthält Fehler
@@ -49,6 +39,19 @@ de:
     conjunction: und
     privacy_conditions: die Datenschutzbestimmungen
     terms_of_use: die Nutzungsbedingungen
+  credentials:
+    reference: Zeichen
+    name: Berechtigung
+    new_button: Fortsetzen
+    already_assigned: "Der %{item} ist bereits vergeben"
+    without_credential: "%{item} ist leer und kann nicht zugeordnet werden. Bitte versuche es später noch einmal"
+    no_item_assigned: "Der %{item} der eingegeben wurde, wird von unserem System analysiert und kann im Moment nicht zugeordnet werden. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support"
+    blacklisted: "%{item} befindet sich auf der schwarzen Liste"
+    inactive: "%{item} ist nicht aktiv, was bedeutet, dass sie durch eine andere ersetzt wurde. Sie müssen den neuen ID eingeben"
+    assigned: "%{item} erfolgreich zugeordnet"
+    not_found: "%{item} nicht gefunden. Wenn Sie es in den letzten 48 erworben haben, versuchen Sie es bitte später noch einmal, bis ihr Einkauf in unserem System aktualisiert ist. Falls nicht, nehmen Sie Kontakt mit dem Support auf."
+    unassigned: "%{item} erfolgreich freigegeben"
+    invalid: "Es gibt anscheinend ein Problem mit diesem %{item}. Bitte kontaktieren Sie unseren Support unter support@glownet.com oder durch Intercom"
   dashboard:
     header:
       home: Startseite
@@ -229,6 +232,7 @@ de:
       button: Registriere Dich
       or: oder
       title: Registriere Dich
+      credential: Please enter your ticket reference, card or wristband UID to proceed
   sessions:
     call_to_action: Registriere Dich bei uns mit Deinem bevorzugten sozialem Netzwerk oder mach ein Konto bei uns auf.
     create_account:

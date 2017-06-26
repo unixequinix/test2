@@ -44,6 +44,7 @@ en:
     privacy_conditions: the privacy policy
     terms_of_use: the terms of use
   credentials:
+    reference: Reference
     name: Credential
     new_button: Continue
     already_assigned: "%{item} already assigned"
@@ -242,6 +243,7 @@ en:
       button: Sign up
       or: or
       title: Get started
+      credential: Bitte geben Sie die auf Ihrem Ticket, Karte oder Armband aufgedruckte Referenz ein
   sessions:
     call_to_action: Sign in with your favourite Social profile or simply create an account!
     create_account:

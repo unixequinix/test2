@@ -15,16 +15,6 @@ it:
   alerts:
     created: Creato con successo
     cancelled: Cancellato con successo
-    credential:
-      already_assigned: "L´ %{item} é giá assegnato"
-      without_credential: "%{item} é voto e non si può assegnare .Per favore, intentalo in un altro momento"
-      no_item_assigned: "L´ %{item} che ha introdotto é in fase di processo da parte del nostro sistema e per il momento non può essere assegnato. Por favore, torni più tardi o contatti con      l´assistenza. "
-      blacklisted: "%{item} é nella lista nera"
-      inactive: “%{item}non é attivo, questo significa che é stato sostituito da un altro. Deve introdurre il nuovo credenziale“
-      assigned: "%{item} assegnato correttamente"
-      not_found: "%{item} non incontrato. Se lo ha acquistato nelle ultime  48 ore, per favore, riprovi più tardi finché non attualizziamo il nostro sistema con il suo acquisto. In caso contrario, contatti con l´assistenza."
-      unassigned: "%{item} rimosso correttamente"
-      invalid: “Sembra che ci sia un problema con questo %{item}. Per favore, contatta con l´assistenza support@glownet.com o attraverso Intercom"
     customer_without_transactions: Il cliente non ha operazioni di credito.
     destroyed: Distrutto con successo
     error: Il modulo contiene errori
@@ -48,6 +38,19 @@ it:
     conjunction: e
     privacy_conditions: La politica di privacy
     terms_of_use: le condizioni d´uso
+  credentials:
+    reference: Codice
+    name: Credenziali
+    new_button: Continua
+    already_assigned: "L´ %{item} é giá assegnato"
+    without_credential: "%{item} é voto e non si può assegnare .Per favore, intentalo in un altro momento"
+    no_item_assigned: "L´ %{item} che ha introdotto é in fase di processo da parte del nostro sistema e per il momento non può essere assegnato. Por favore, torni più tardi o contatti con      l´assistenza. "
+    blacklisted: "%{item} é nella lista nera"
+    inactive: “%{item}non é attivo, questo significa che é stato sostituito da un altro. Deve introdurre il nuovo credenziale“
+    assigned: "%{item} assegnato correttamente"
+    not_found: "%{item} non incontrato. Se lo ha acquistato nelle ultime  48 ore, per favore, riprovi più tardi finché non attualizziamo il nostro sistema con il suo acquisto. In caso contrario, contatti con l´assistenza."
+    unassigned: "%{item} rimosso correttamente"
+    invalid: “Sembra che ci sia un problema con questo %{item}. Per favore, contatta con l´assistenza support@glownet.com o attraverso Intercom"
   dashboard:
     header:
       home: Inizio
@@ -222,6 +225,7 @@ it:
       button: Registrati
       or: o
       title: Registrati
+      credential: Perfavore, introdurre il codice di riferimento del Biglietto o Paycard per procedere.
   sessions:
     call_to_action: Registrati con il tuo SocialNetwork preferito o crea un account con noi.
     create_account:

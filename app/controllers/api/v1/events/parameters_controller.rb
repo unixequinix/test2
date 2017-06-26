@@ -21,7 +21,7 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
 
     # rubocop:disable Style/NestedTernaryOperator
     serie = @current_event.event_serie
-    old_events = serie ? serie.events.where.not(id: @current_event.id).map { |e| production_env ? e.gtag_key : fake_key } : []
+    old_events = serie ? serie.events.where.not(id: @current_event.id).map { |e| production_env ? e.gtag_key : fake_key }.uniq.join(";") : ""
     body << { name: "old_event_keys", value: old_events }
 
     render_entity(body.as_json, @current_event.updated_at&.httpdate)
