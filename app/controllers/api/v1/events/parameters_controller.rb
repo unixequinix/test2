@@ -17,7 +17,9 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
     body << { name: "ultralight_c_private_key", value: value } if @current_event.gtag_type.eql?("ultralight_c")
     body << { name: "gtag_key", value: value }
     body << { name: "cypher_enabled", value: @current_event.name.downcase.tr("ó", "o").include?("sonar") }
-    body << { name: "old_event_keys", value: @current_event.event_serie.events.where.not(id: @current_event.id).collect { |_e| value } }
+
+    old_events = @current_event.event_serie ? @current_event.event_serie.events.where.not(id: @current_event.id).collect { |_e| value } : []
+    body << { name: "old_event_keys", value: old_events }
 
     render_entity(body.as_json, @current_event.updated_at&.httpdate)
   end
