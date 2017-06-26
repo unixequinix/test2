@@ -13,6 +13,7 @@ FactoryGirl.define do
     open_topups true
     open_tickets true
     open_gtags true
+    event_serie_id nil
 
     # Event states
 

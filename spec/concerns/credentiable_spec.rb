@@ -8,7 +8,10 @@ shared_examples_for "credentiable" do
 
   describe ".assign_customer" do
     it "assigns the customer to the #{described_class}" do
-      expect { subject.assign_customer(customer, nil) }.to change(subject, :customer).from(nil).to(customer)
+      expect do
+        subject.assign_customer(customer, nil)
+        subject.reload
+      end.to change(subject, :customer).from(nil).to(customer)
     end
 
     it "touches the customer updated_at" do

@@ -148,6 +148,12 @@ es:
       de: DEU
       it: ITA
     subject_support: Necesito ayuda para %{event}
+  event_serie:
+      created: Creado con éxito
+      updated: Succesfully updated
+      cancelled: Cancelado con éxito
+      error: El formulario contiene errores
+      destroyed: Destruido con éxito
   footer:
     copyright: "© Glownet"
     privacy: Política de privacidad

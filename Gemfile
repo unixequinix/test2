@@ -106,6 +106,7 @@ group :development do
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   # gem 'i18n-tasks' # enable when needed
+  gem 'xray-rails'
 end
 
 group :development, :test do
@@ -127,6 +128,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
+  gem 'rails-controller-testing'
 end
 
 group :test do

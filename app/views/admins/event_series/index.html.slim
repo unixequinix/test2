@@ -1,0 +1,29 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Event Series
+- content_for(:actions) do
+  .floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_event_series_path do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+          
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+          tbody
+            - @event_series.each do |event_serie|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Name" = link_to event_serie.name, admins_event_series_path(event_serie), class: "no_link"
+  .mdl-layout-spacer

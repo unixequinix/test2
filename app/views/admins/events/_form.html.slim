@@ -14,6 +14,12 @@
       .form-inputs
         = f.input :name, placeholder: true, autofocus: true
         = f.input :timezone, as: :time_zone, include_blank: false
+    .fieldset
+      .section-header
+        i.material-icons info_outline
+        span Event Serie
+      .form-inputs
+        = f.input :event_serie_id, as: :select, collection: @event_series
 
     .fieldset
       .section-header
@@ -28,4 +34,3 @@
     .form-actions
       .col-sm-offset-3.col-sm-9
         = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
-

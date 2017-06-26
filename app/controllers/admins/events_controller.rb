@@ -1,5 +1,6 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_event, except: %i[index new sample_event create]
+  before_action :set_event_series, only: %i[new edit]
 
   def index
     @status = params[:status] || "launched"
@@ -125,6 +126,11 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   private
 
+  def set_event_series
+    @event_series = EventSerie.all
+    authorize(@event_series)
+  end
+
   def set_event
     @current_event = Event.friendly.find(params[:id])
     authorize(@current_event)
@@ -193,6 +199,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :open_gtags,
                                   :refunds_start_date,
                                   :refunds_end_date,
+                                  :event_serie_id,
                                   credit_attributes: %i[id name value])
   end
 end

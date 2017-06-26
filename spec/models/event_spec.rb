@@ -86,4 +86,14 @@ RSpec.describe Event, type: :model do
       expect(subject.credit_price).to eq(subject.credit.value)
     end
   end
+
+  describe ".event_serie_id" do
+    before do
+      create(:event_serie, :with_events, associated_events: subject)
+    end
+
+    it "returns event_serie_id" do
+      expect(subject.event_serie_id).not_to be_nil
+    end
+  end
 end
