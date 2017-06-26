@@ -126,7 +126,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
-  gem 'rails-controller-testing'
 end
 
 group :test do

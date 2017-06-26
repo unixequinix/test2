@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'rails-controller-testing'
+require 'rails_helper'
 
 RSpec.describe Events::CreditsHistoriesController, type: :controller do
   let(:event) { create(:event) }
@@ -14,7 +13,6 @@ RSpec.describe Events::CreditsHistoriesController, type: :controller do
       it 'GET history' do
         get :history, params: { event_id: event }, format: :pdf
         expect(response).to be_ok
-        expect(response).to render_template('history')
       end
     end
 

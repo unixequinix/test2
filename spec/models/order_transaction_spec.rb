@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe OrderTransaction, type: :model do
   subject { create(:order_transaction) }

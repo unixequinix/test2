@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
   let(:event) { create(:event) }

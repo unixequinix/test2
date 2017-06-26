@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe CredentialTransaction, type: :model do
   subject { build(:credential_transaction) }

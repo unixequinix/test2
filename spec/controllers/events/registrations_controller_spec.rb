@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'rails-controller-testing'
+require 'rails_helper'
 
 RSpec.describe Events::RegistrationsController, type: :controller do
   let(:event) { create(:event) }
@@ -19,13 +18,11 @@ RSpec.describe Events::RegistrationsController, type: :controller do
       it 'GET change_password' do
         get :change_password, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('change_password')
       end
 
       it 'GET edit' do
         get :edit, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('edit')
       end
     end
 
@@ -33,7 +30,6 @@ RSpec.describe Events::RegistrationsController, type: :controller do
       it 'GET new' do
         get :new, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('new')
       end
 
       # it 'GET change_password' do

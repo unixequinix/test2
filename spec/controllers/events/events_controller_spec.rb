@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'rails-controller-testing'
+require 'rails_helper'
 
 RSpec.describe Events::EventsController, type: :controller do
   let(:event) { create(:event) }
@@ -12,7 +11,6 @@ RSpec.describe Events::EventsController, type: :controller do
       it 'GET show' do
         get :show, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('show')
       end
     end
 

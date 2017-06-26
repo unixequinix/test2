@@ -1,8 +1,6 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
-  include ControllerMacros
-
   let(:event) { create(:event, state: "launched") }
   let(:user) { create(:user) }
   let(:transaction) { CreditTransaction.new }

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe CreditTransaction, type: :model do
   it "can create sale_items with nested attributes" do

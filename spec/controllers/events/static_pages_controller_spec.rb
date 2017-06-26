@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'rails-controller-testing'
+require 'rails_helper'
 
 RSpec.describe Events::StaticPagesController, type: :controller do
   let(:event) { create(:event) }
@@ -12,13 +11,11 @@ RSpec.describe Events::StaticPagesController, type: :controller do
       it 'GET privacy_policy' do
         get :privacy_policy, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('privacy_policy_en')
       end
 
       it 'GET terms_of_use' do
         get :terms_of_use, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('terms_of_use_en')
       end
     end
 
@@ -26,13 +23,11 @@ RSpec.describe Events::StaticPagesController, type: :controller do
       it 'GET privacy_policy' do
         get :privacy_policy, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('privacy_policy_en')
       end
 
       it 'GET terms_of_use' do
         get :terms_of_use, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('terms_of_use_en')
       end
     end
   end

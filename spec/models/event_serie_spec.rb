@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe EventSerie, type: :model do
   let(:event_serie) { build(:event_serie) }

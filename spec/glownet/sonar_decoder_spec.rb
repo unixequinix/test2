@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe SonarDecoder, type: :domain_logic do
   let(:decoder) { SonarDecoder }

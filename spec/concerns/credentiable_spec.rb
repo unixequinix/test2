@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for "credentiable" do
   let(:model) { described_class } # the class that includes the concern

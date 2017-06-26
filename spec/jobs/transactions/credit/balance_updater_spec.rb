@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Transactions::Credit::BalanceUpdater, type: :job do
   let(:base) { Transactions::Base }

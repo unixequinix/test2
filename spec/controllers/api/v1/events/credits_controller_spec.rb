@@ -1,5 +1,5 @@
 
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Api::V1::Events::CreditsController, type: :controller do
   let(:event) { create(:event) }

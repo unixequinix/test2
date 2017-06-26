@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'rails-controller-testing'
+require 'rails_helper'
 
 RSpec.describe Events::SessionsController, type: :controller do
   let(:event) { create(:event) }
@@ -13,7 +12,6 @@ RSpec.describe Events::SessionsController, type: :controller do
         event.open_portal = true
         get :new, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('new')
       end
     end
 
@@ -22,7 +20,6 @@ RSpec.describe Events::SessionsController, type: :controller do
         event.open_portal = false
         get :new, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('new')
       end
     end
   end

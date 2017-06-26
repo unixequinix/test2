@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'rails-controller-testing'
+require 'rails_helper'
 
 RSpec.describe Events::TicketAssignmentsController, type: :controller do
   let(:event) { create(:event) }
@@ -12,7 +11,6 @@ RSpec.describe Events::TicketAssignmentsController, type: :controller do
       it 'GET new' do
         get :new, params: { event_id: event }
         expect(response).to be_ok
-        expect(response).to render_template('new')
       end
     end
 

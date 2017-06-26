@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   let(:event) { create(:event) }

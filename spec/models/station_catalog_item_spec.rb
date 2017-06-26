@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe StationCatalogItem, type: :model do
   subject { create(:station_catalog_item) }

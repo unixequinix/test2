@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe CatalogItem, type: :model do
   subject { build(:catalog_item) }
