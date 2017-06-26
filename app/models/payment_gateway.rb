@@ -15,7 +15,7 @@ class PaymentGateway < ApplicationRecord
 
   validates :login, :password, :signature, presence: true, if: (-> { paypal? })
 
-  enum name: { paypal: 0, redsys: 1, stripe: 2, wirecard: 3, bank_account: 4, mercadopago: 5, vouchup: 6 }
+  enum name: { paypal: 0, redsys: 1, stripe: 2, wirecard: 3, bank_account: 4, mercadopago: 5, vouchup: 6, transferwise: 7 }
 
   scope(:topup, -> { where(topup: true) })
   scope(:refund, -> { where(refund: true) })
