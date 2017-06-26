@@ -95,7 +95,6 @@ gem 'bsb'
 gem 'rollbar'
 
 group :development do
-  gem 'foreman'
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
   gem 'capistrano'
