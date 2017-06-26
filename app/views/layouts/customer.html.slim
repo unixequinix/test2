@@ -45,11 +45,11 @@ html
           .mdl-cell.mdl-cell--6-col.header-left
             = yield(:back)
           .mdl-cell.mdl-cell--6-col.header-right
-            - if customer_signed_in?
+            - if @current_customer.present?
               = link_to event_url(@current_event), class: "header-link" do
                 i#home.mdl-color-text--red.material-icons home
                 span.mdl-tooltip data-mdl-for="home" = t("dashboard.header.home")
-              - if @current_customer.provider.blank?
+              - if @current_customer.provider.present?
                 = link_to event_change_password_path(@current_event), class: "header-link" do
                   i#pass.mdl-color-text--red.material-icons lock
                   span.mdl-tooltip data-mdl-for="pass" = t("dashboard.header.change_password")

@@ -23,6 +23,8 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_one :credit, dependent: :destroy
 
+  belongs_to :event_serie, optional: true
+
   accepts_nested_attributes_for :credit
 
   scope(:with_state, ->(state) { where state: state })

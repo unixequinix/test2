@@ -1,8 +1,9 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Api::V1::Events::ParametersController, type: :controller do
   let(:user) { create(:user) }
-  let(:event) { create(:event, gtag_type: "ultralight_c", gtag_key: "ab") }
+  let(:event_serie) { create(:event_serie, :with_events) }
+  let(:event) { create(:event, gtag_type: "ultralight_c", gtag_key: "ab", event_serie_id: event_serie.id) }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   describe "GET index" do
@@ -83,6 +84,10 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
 
       it "includes maximum_gtag_balance" do
         expect(@body).to include("name" => "maximum_gtag_balance", "value" => event.maximum_gtag_balance)
+      end
+
+      it "includes old_event_keys" do
+        expect(@body).to include("name" => "old_event_keys", "value" => ["11111111111111111111111111111111"])
       end
     end
 

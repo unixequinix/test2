@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe DeviceRegistration, type: :model do
   let(:event) { create(:event) }

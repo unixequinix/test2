@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe MoneyTransaction, type: :model do
   subject { create(:money_transaction, event: build(:event)) }

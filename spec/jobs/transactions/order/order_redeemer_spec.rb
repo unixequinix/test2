@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
   let(:event) { create(:event) }

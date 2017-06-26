@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       get :read_all, on: :collection
     end
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
+    resources :event_series
 
     namespace :eventbrite do
       get :auth
@@ -208,7 +209,7 @@ Rails.application.routes.draw do
       get :paypal_setup_purchase, to: "paypal#setup_purchase"
       get :paypal_purchase, to: "paypal#purchase"
       post :paypal_refund, to: "paypal#refund"
-      
+
       # Vouchup
       get :vouchup_purchase, to: "vouchup#purchase"
       post :vouchup_success, to: "vouchup#success"
@@ -320,4 +321,3 @@ Rails.application.routes.draw do
     end
   end
 end
-

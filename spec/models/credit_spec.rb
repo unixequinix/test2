@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Credit, type: :model do
   subject { create(:credit) }

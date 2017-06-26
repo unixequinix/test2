@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Pack, type: :model do
   let(:pack) { create(:pack, :with_credit) }

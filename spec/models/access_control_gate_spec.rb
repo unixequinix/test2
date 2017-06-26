@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe AccessControlGate, type: :model do
   subject { build(:access_control_gate, access: create(:access)) }

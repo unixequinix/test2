@@ -95,7 +95,6 @@ gem 'bsb'
 gem 'rollbar'
 
 group :development do
-  gem 'foreman'
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
   gem 'capistrano'
@@ -105,7 +104,7 @@ group :development do
   gem 'capistrano-faster-assets', '~> 1.0'
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
-  # gem 'i18n-tasks' # enable when needed
+  gem 'xray-rails'
 end
 
 group :development, :test do

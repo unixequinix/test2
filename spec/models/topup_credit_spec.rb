@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe TopupCredit, type: :model do
   subject { build(:topup_credit) }

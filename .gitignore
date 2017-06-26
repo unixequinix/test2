@@ -35,6 +35,7 @@ dump.rdb
 
 .byebug_history
 .ruby-gemset
+.rvmrc
 .idea/*
 *.sql
 *.csv

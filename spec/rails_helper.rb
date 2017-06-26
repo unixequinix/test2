@@ -6,7 +6,7 @@ require 'pundit/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 
-unless ARGV.any? {|e| e =~ /guard-rspec/ }
+unless ARGV.any? { |e| e =~ /guard-rspec/ }
   SimpleCov.start do
     add_group "Models", "app/models"
     add_group "Controllers", "app/controllers"
@@ -54,7 +54,7 @@ Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -87,12 +87,9 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
-  config.include ControllerMacros, type: :controller
-  config.include I18nMacros, type: :feature
-  config.include Warden::Test::Helpers
-  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include FactoryGirl::Syntax::Methods
-
+  config.include ControllerMacros
 
   Warden.test_mode!
   Sidekiq::Testing.inline!
@@ -109,5 +106,4 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
-
 end

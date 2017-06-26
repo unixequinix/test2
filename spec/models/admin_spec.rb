@@ -19,7 +19,7 @@
 #  index_admins_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe User, type: :model do
   subject { build(:user) }

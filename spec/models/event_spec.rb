@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Event, type: :model do
   subject { build(:event) }
@@ -84,6 +84,16 @@ RSpec.describe Event, type: :model do
       subject.save
       subject.create_credit!(value: 1, name: "CR")
       expect(subject.credit_price).to eq(subject.credit.value)
+    end
+  end
+
+  describe ".event_serie_id" do
+    before do
+      create(:event_serie, :with_events, associated_events: subject)
+    end
+
+    it "returns event_serie_id" do
+      expect(subject.event_serie_id).not_to be_nil
     end
   end
 end
