@@ -16,16 +16,6 @@ es:
   alerts:
     created: Creado con éxito
     cancelled: Cancelado con éxito
-    credential:
-      already_assigned: "El %{item} ya está asignado"
-      without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
-      no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
-      blacklisted: "%{item} está en la Lista Negra"
-      inactive: "%{item} no está activa, esto quiere decir que ha sido reemplazada por otra. Debe introducir el credencial nuevo"
-      assigned: "%{item} asignado correctamente"
-      not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
-      unassigned: "%{item} desasignado correctamente"
-      invalid: "Parace que hay un problema con este %{item}. Por favor, contacta con soporte en support@glownet.com o a través de Intercom"
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: Destruido con éxito
     error: El formulario contiene errores
@@ -49,6 +39,19 @@ es:
     conjunction: y
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
+  credentials:
+    reference: Código
+    name: Credencial
+    new_button: Continúa
+    already_assigned: "El %{item} ya está asignado"
+    without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
+    no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
+    blacklisted: "%{item} está en la Lista Negra"
+    inactive: "%{item} no está activa, esto quiere decir que ha sido reemplazada por otra. Debe introducir el credencial nuevo"
+    assigned: "%{item} asignado correctamente"
+    not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
+    unassigned: "%{item} desasignado correctamente"
+    invalid: "Parace que hay un problema con este %{item}. Por favor, contacta con soporte en support@glownet.com o a través de Intercom"
   dashboard:
     header:
       home: Inicio
@@ -229,6 +232,7 @@ es:
       button: Regístrate
       or: o
       title: Regístrate
+      credential: Por favor, introduce el código de tu Ticket, Pulsera o Tarjeta para continuar.
   sessions:
     call_to_action: Regístrate con tu red social favorita o crea una cuenta con nosotros.
     create_account:
