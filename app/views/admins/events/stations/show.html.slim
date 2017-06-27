@@ -33,7 +33,8 @@
 
 - if @transactions.any?
   .content-grid.mdl-grid
-    .mdl-cell.mdl-cell--12-col
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
       .mdl-grid
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
@@ -59,14 +60,15 @@
             .mdl-card__supporting-text
               | Avg Sale Per Operator
               .small = "(By #{@transactions.pluck(:operator_tag_uid).uniq.count} operators)"
+    .mdl-layout-spacer
 
 
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--11-col
+  .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      .mdl-cell.mdl-cell--4-col
+      .mdl-cell.mdl-cell--5-col
         .admin-card-wide.mdl-card.mdl-shadow--2dp
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
@@ -89,10 +91,37 @@
               tr
                 td.mdl-data-table__cell--non-numeric Registration Num
                 td = best_in_place @station, :registration_num, url: [:admins, @current_event, @station]
-              tr
-                td.mdl-data-table__cell--non-numeric Reporting Category
-                td = best_in_place @station, :reporting_category, url: [:admins, @current_event, @station]
+
       .mdl-cell.mdl-cell--7-col
         = render(partial: "admins/events/station_items/#{@station.form}/form") if @station.form
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--5-col
+        - if @devices.any?
+          h5 Devices used
+          .admin-card-wide.mdl-card.mdl-shadow--2dp
+            table.mdl-data-table.mdl-js-data-table.within-card
+              thead
+                tr
+                  th.mdl-data-table__cell--non-numeric Started
+                  th.mdl-data-table__cell--non-numeric Device
+                  th Transactions
+                  th Total
+              tbody
+                - @devices.each do |device|
+                  - device_transactions = @transactions.where(device_uid: device.mac).order(:device_created_at)
+                  tr
+                    td.mdl-data-table__cell--non-numeric = l Time.zone.parse(device_transactions.first.device_created_at)
+                    td.mdl-data-table__cell--non-numeric = link_to device.name, [:admins, @current_event, DeviceRegistration.find_by(event: @current_event, device: device)]
+                    td = device_transactions.count
+                    td = device_transactions.sum(:credits)
+
+
+      .mdl-cell.mdl-cell--7-col
+        h5 Menu
         = render(partial: "admins/events/station_items/#{@station.form}/list") if @station.form
   .mdl-layout-spacer
