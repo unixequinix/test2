@@ -8,7 +8,7 @@
           .section-header
             i.material-icons info_outline
             span Event Info
-          .form-inputs.short-input
+          .form-inputs
             = f.input :name, placeholder: true, autofocus: true
             = f.input :event_serie_id, as: :select, collection: @event_series
             = f.input :timezone, as: :time_zone, include_blank: false

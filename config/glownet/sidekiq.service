@@ -1,9 +1,11 @@
-
+# sudo apt-get dist-upgrade -y
 # sudo apt-get update -y
 # sudo apt-get upgrade -y
+# sudo apt autoremove -y
 # sudo apt-get install redis-server -y
 # sudo vi /lib/systemd/system/sidekiq.service
 # copy file down
+# sudo systemctl disable sidekiq.service
 # sudo systemctl enable sidekiq.service
 # sudo systemctl daemon-reload
 # sudo systemctl restart sidekiq.service

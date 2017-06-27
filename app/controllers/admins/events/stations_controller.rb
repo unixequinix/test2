@@ -15,6 +15,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @sales = @transactions.credit.where(action: "sale").sum(:credits).abs
     @refunds = @transactions.credit.where(action: "sale_refund").sum(:credits).abs
     @operators = @transactions.pluck(:operator_tag_uid).uniq.count
+    @devices = @current_event.devices.where(mac: @transactions.pluck(:device_uid).uniq)
   end
 
   def new
