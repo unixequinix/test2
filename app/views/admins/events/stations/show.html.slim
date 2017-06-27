@@ -102,7 +102,6 @@
     .mdl-grid
       .mdl-cell.mdl-cell--5-col
         - if @devices.any?
-          h5 Devices used
           .admin-card-wide.mdl-card.mdl-shadow--2dp
             table.mdl-data-table.mdl-js-data-table.within-card
               thead
@@ -122,6 +121,5 @@
 
 
       .mdl-cell.mdl-cell--7-col
-        h5 Menu
         = render(partial: "admins/events/station_items/#{@station.form}/list") if @station.form
   .mdl-layout-spacer

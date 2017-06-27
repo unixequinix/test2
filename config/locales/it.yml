@@ -227,7 +227,7 @@ it:
       title: Registrati
       credential: Perfavore, introdurre il codice di riferimento del Biglietto o Paycard per procedere.
   sessions:
-    call_to_action: Registrati con il tuo SocialNetwork preferito o crea un account con noi.
+    call_to_action: Inizia sessione o registrati
     create_account:
       link: "Crea una!"
       lost_password: Password smarrita
