@@ -234,7 +234,7 @@ de:
       title: Registriere Dich
       credential: Please enter your ticket reference, card or wristband UID to proceed
   sessions:
-    call_to_action: Registriere Dich bei uns mit Deinem bevorzugten sozialem Netzwerk oder mach ein Konto bei uns auf.
+    call_to_action: Login oder Registriere
     create_account:
       link: "¡Erstelle eins!"
       lost_password: Passwort verloren

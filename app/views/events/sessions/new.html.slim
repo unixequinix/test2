@@ -14,6 +14,12 @@
 
     - else
       .call-to-action = t("sessions.call_to_action")
+      .social-login
+        .content-grid.mdl-grid
+          .mdl-cell.mdl-cell--12-col
+            = link_to new_event_credential_path(@current_event), class: "social-btn social-btn--account" do
+              = t('sessions.create_account.link')
+
       .traditional-login
         .content-grid.mdl-grid
           .mdl-cell.mdl-cell--12-col
