@@ -28,11 +28,11 @@ class Order < ApplicationRecord
     status.eql?("refunded")
   end
 
-  def complete!(gateway, payment = {}.to_json)
+  def complete!(gateway = "unknown", payment = {}.to_json)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
     MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
-    OrderMailer.completed_order(self).deliver_later
+    OrderMailer.completed_order(self).deliver_later unless customer.anonymous?
   end
 
   def completed?

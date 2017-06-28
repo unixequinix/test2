@@ -232,7 +232,7 @@ de:
       button: Registriere Dich
       or: oder
       title: Registriere Dich
-      credential: Please enter your ticket reference, card or wristband UID to proceed
+      credential: Bitte gebe Deine Ticketreferenz, Karte oder Armband nummer ein, um fortzufahren
   sessions:
     call_to_action: Login oder Registriere
     create_account:
