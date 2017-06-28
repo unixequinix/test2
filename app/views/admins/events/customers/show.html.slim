@@ -1,6 +1,9 @@
 - content_for(:title) do
-  ="#{@customer.first_name.humanize} #{@customer.last_name.humanize}"
-  .small style="width: 100%; text-align: center" #{@customer.email}
+  - if @customer.anonymous?
+    | Anonymous
+  - else
+    = @customer.full_name
+    .small style="width: 100%; text-align: center" #{@customer.email}
 
 - content_for(:navigation_actions) do
   = link_to admins_event_customers_path(@current_event), class: "mdl-button mdl-button--icon" do

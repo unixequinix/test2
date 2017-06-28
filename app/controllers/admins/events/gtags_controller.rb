@@ -69,7 +69,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
   end
 
-  def import # rubocop:disable Metrics/MethodLength
+  def import
     authorize @current_event.gtags.new
     path = admins_event_gtags_path(@current_event)
     redirect_to(path, alert: "File not supplied") && return unless params[:file]
@@ -83,10 +83,9 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
 
     begin
-      CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
+      CSV.foreach(file, headers: true, col_sep: ";") do |row|
         ticket_type = ticket_types[row.field("Type")]
-        credits = row.field("Balance")
-        GtagCreator.perform_later(event_id: @current_event.id, tag_uid: row.field("UID"), ticket_type_id: ticket_type, credits: credits)
+        GtagCreator.perform_later(event: @current_event, tag_uid: row.field("UID"), ticket_type_id: ticket_type, credits: row.field("Balance").to_f)
         count += 1
       end
     rescue

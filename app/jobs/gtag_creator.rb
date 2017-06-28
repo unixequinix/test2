@@ -1,22 +1,19 @@
 class GtagCreator < ApplicationJob
   def perform(atts)
-    gtag = Gtag.find_or_initialize_by(event_id: atts[:event_id], tag_uid: atts[:tag_uid])
-    gtag.update!(atts)
-    credits = atts[:credits]
+    return if atts[:tag_uid].blank?
 
-    return if credits.blank?
-    gtag.update!(final_balance: credits, final_refundable_balance: credits, refundable_credits: credits)
+    begin
+      gtag = atts[:event].gtags.find_or_create_by!(atts.slice(:tag_uid, :ticket_type_id))
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
 
-    t_atts = { customer_tag_uid: gtag.tag_uid,
-               gtag_counter: 0,
-               gtag_id: gtag.id,
-               final_balance: credits,
-               final_refundable_balance: credits,
-               refundable_credits: credits,
-               credits: credits }
+    return if atts[:credits].blank? || atts[:credits].zero?
 
-    CreditTransaction.write!(Event.find(atts[:event_id]), "topup", :device, nil, nil, t_atts)
-  rescue ActiveRecord::RecordNotUnique
-    retry
+    customer = atts[:event].customers.create!
+
+    gtag.update!(customer: customer, active: true)
+    order = customer.build_order([[atts[:event].credit.id, atts[:credits]]])
+    order.complete!
   end
 end
