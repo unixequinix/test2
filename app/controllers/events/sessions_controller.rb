@@ -9,7 +9,7 @@ class Events::SessionsController < Devise::SessionsController
   private
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || customer_root_path(@current_event)
+    customer_root_path(resource.event)
   end
 
   def after_sign_out_path_for(_resource)
