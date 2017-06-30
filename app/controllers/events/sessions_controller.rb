@@ -9,7 +9,7 @@ class Events::SessionsController < Devise::SessionsController
   private
 
   def after_sign_in_path_for(resource)
-    request.env["omniauth.origin"] || stored_location_for(resource) || customer_root_path(@current_event)
+    stored_location_for(resource) || customer_root_path(@current_event)
   end
 
   def after_sign_out_path_for(_resource)
