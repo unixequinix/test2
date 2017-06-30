@@ -7,6 +7,7 @@ class Events::OrdersController < Events::EventsController
   end
 
   def new
+    redirect_to @current_event unless @current_event.open_topups
     @order = @current_customer.orders.new
     @catalog_items = catalog_items_hash
   end

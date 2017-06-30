@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe Events::TicketsController, type: :controller do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
-  let(:company) { create(:company, event: event) }
-  let(:ticket_type) { create(:ticket_type, event: event, company: company) }
-  let(:ticket) { create(:ticket, event: event, customer: customer, ticket_type: ticket_type) }
+  let(:ticket) { create(:ticket, event: event, customer: customer) }
 
   describe 'render templates' do
     context 'customer is logged in' do

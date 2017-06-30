@@ -9,7 +9,6 @@ RSpec.describe Events::SessionsController, type: :controller do
   describe 'render template new' do
     context 'event has customer portal' do
       it 'GET login' do
-        event.open_portal = true
         get :new, params: { event_id: event }
         expect(response).to be_ok
       end

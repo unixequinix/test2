@@ -27,6 +27,10 @@ class Events::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def change_password
+    redirect_to :event_login unless customer_signed_in?
+  end
+
   private
 
   def build_resource(hash = {}) # rubocop:disable Metrics/AbcSize

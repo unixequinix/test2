@@ -195,7 +195,7 @@ Rails.application.routes.draw do
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
       resources :gtags, only: [:show]
-      resources :orders, expect: :destroy do
+      resources :orders, except: [:destroy] do
         get :success, on: :member
         get :error, on: :member
         get :abstract_error, on: :collection

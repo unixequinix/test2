@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Events::RegistrationsController, type: :controller do
+RSpec.describe Events::PasswordsController, type: :controller do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
 
@@ -15,14 +15,9 @@ RSpec.describe Events::RegistrationsController, type: :controller do
         expect(response).to redirect_to(event)
       end
 
-      it 'GET change_password' do
-        get :change_password, params: { event_id: event }
-        expect(response).to be_ok
-      end
-
       it 'GET edit' do
         get :edit, params: { event_id: event }
-        expect(response).to be_ok
+        expect(response).to redirect_to(event)
       end
     end
 
@@ -30,11 +25,6 @@ RSpec.describe Events::RegistrationsController, type: :controller do
       it 'GET new' do
         get :new, params: { event_id: event }
         expect(response).to be_ok
-      end
-
-      it 'GET change_password' do
-        get :change_password, params: { event_id: event }
-        expect(response).to redirect_to(:event_login)
       end
 
       # TODO: edit
