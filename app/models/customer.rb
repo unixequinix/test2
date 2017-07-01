@@ -106,6 +106,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     order
   end
 
+  def can_purchase_item?(catalog_item)
+    active_credentials.map { |credential| credential.ticket_type&.catalog_item }.compact.include?(catalog_item)
+  end
+
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)

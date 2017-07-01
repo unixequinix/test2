@@ -51,6 +51,7 @@ it:
     not_found: "%{item} non incontrato. Se lo ha acquistato nelle ultime  48 ore, per favore, riprovi più tardi finché non attualizziamo il nostro sistema con il suo acquisto. In caso contrario, contatti con l´assistenza."
     unassigned: "%{item} rimosso correttamente"
     invalid: “Sembra che ci sia un problema con questo %{item}. Per favore, contatta con l´assistenza support@glownet.com o attraverso Intercom"
+    same_credential: "You cannot assign a %{item} with the same content twice"
   dashboard:
     header:
       home: Inizio

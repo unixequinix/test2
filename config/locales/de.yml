@@ -52,6 +52,7 @@ de:
     not_found: "%{item} nicht gefunden. Wenn Sie es in den letzten 48 erworben haben, versuchen Sie es bitte später noch einmal, bis ihr Einkauf in unserem System aktualisiert ist. Falls nicht, nehmen Sie Kontakt mit dem Support auf."
     unassigned: "%{item} erfolgreich freigegeben"
     invalid: "Es gibt anscheinend ein Problem mit diesem %{item}. Bitte kontaktieren Sie unseren Support unter support@glownet.com oder durch Intercom"
+    same_credential: "You cannot assign a %{item} with the same content twice"
   dashboard:
     header:
       home: Startseite
