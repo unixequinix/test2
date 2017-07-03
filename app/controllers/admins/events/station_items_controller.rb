@@ -78,6 +78,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
                                               :amount,
                                               :credit_id,
                                               :station_id,
-                                              :hidden)
+                                              :hidden,
+                                              :position)
   end
 end
