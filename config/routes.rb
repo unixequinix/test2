@@ -254,6 +254,7 @@ Rails.application.routes.draw do
             resources :products
             post :add_product, on: :member
             post :remove_product, on: :member
+            put :update_product, on: :member
           end
 
           resources :refunds do
