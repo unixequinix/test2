@@ -17,7 +17,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
       flash.now[:alert] = t("alerts.error")
       @item.product_validations if @item.is_a?(StationProduct)
       @transactions = []
-      @sales, @refunds = []
+      @devices = []
       @operators = 0
       render 'admins/events/stations/show'
     end

@@ -41,7 +41,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   end
 
   def add_product
-    @station_product = @station.station_products.create!(price: params[:product][:price], product_id: params[:product][:id])
+    @station_product = @station.station_products.create!(price: product_params[:price], product_id: product_params[:id])
     authorize @station
 
     if @station_product
@@ -58,8 +58,8 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   def update_product
     @station_product = @station.station_products.find_by(product_id: product_params[:id])
     authorize @station
-
-    if @station_product.update(product_params)
+    atts = product_params.slice(:price, :position)
+    if @station_product.update(atts)
       render json: @station_product
     else
       render json: @station_product.errors, status: :unprocessable_entity
@@ -80,6 +80,6 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   end
 
   def product_params
-    params.require(:product).permit(:price, :position)
+    params.require(:product).permit(:id, :price, :position)
   end
 end
