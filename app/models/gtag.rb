@@ -12,7 +12,7 @@ class Gtag < ApplicationRecord
   validates :tag_uid, uniqueness: { scope: :event_id },
                       presence: true,
                       format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") },
-                      length: { is: 14 }
+                      length: { in: 8..14 }
 
   validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
 
