@@ -16,7 +16,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
       flash.now[:errors] = t("credentials.already_assigned", item: "Gtag")
       render(:new)
     else
-      @gtag.customer.destroy
+      @gtag.customer&.destroy
       @gtag.update(active: permitted_params[:active].present?)
       @customer.gtags.update_all(active: false) if @gtag.active?
       @gtag.assign_customer(@customer, current_user, :admin)
