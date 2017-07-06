@@ -15,7 +15,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   def create
     # TODO: this is weird behaviour. But when mass assignment is done, a "string not matched" exception is show.
     #       believed to be something to do with serialization of hash stored attributes.
-    @gateway = @current_event.payment_gateways.new(name: permitted_params.delete(:name), fee: permitted_params.delete(:fee), minimum: permitted_params.delete(:minimum))
+    @gateway = @current_event.payment_gateways.new(name: permitted_params.delete(:name), fee: permitted_params.delete(:fee), minimum: permitted_params.delete(:minimum)) # rubocop:disable Metrics/LineLength
     @gateway.data = permitted_params
 
     authorize @gateway
