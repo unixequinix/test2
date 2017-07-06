@@ -34,7 +34,7 @@ class Events::RefundsController < Events::EventsController
       amount = [amount, @current_customer.global_refundable_credits - fee].min
       atts = { amount: amount, status: "started", fee: fee, gateway: gateway.name, event: @current_event }
 
-      @current_customer.refunds.new(atts) if amount.positive?
+      @current_customer.refunds.new(atts) if amount.positive? && gateway.minimum < @current_customer.global_refundable_credits
     end.compact
   end
 
