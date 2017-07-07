@@ -11,8 +11,8 @@
             | d&uuml;rfen, z.B. um von einem Zahlungsservice- Provider f&uuml;r das
             | Helene Beach Festival (die Veranstaltung) eine R&uuml;ckerstattung von
             | Guthaben zu erhalten (Services), das &uuml;ber die Site erworben
-            | wurden.
-            = link_to @current_event.name, event_url(@current_event)
+            | wurden. 
+            = link_to "#{@current_event.name}", event_url(@current_event)
           li
             | 1.2 Eigent&uuml;mer und Betreiber dieser Site ist Glownet Limited,
             | registriert unter der Nummer 08245670 und der Adresse Unit 2, 9
@@ -28,6 +28,14 @@
             | Konditionen sind. Dies stellt einen rechtsg&uuml;ltigen Vertrag zwischen
             | uns und Ihnen dar. Indem Sie unsere Website besuchen bzw. nutzen, stimmen
             | Sie zu, an diese Konditionen rechtlich gebunden zu sein.
+            br
+            br
+            | Bez&uuml;glich der bargeldlosen Bezahlung und Aufladung und Abheben von Guthaben beachten
+            | Sie bitte die in unseren 
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event)
+            |  verlinkten Bedingungen des
+            | Zahlungsservice-Provider sowie des Veranstalters. 
+
           li
             | 1.4 Bez&uuml;glich der bargeldlosen Bezahlung beachten Sie bitte die
             | Bedingungen des Zahlungsservice-Provider sowie des Veranstalters abrufbar
@@ -37,7 +45,7 @@
               li Address: 35B Wroughton Road, London, SW11 6BE.
               li
                 | Wenn Sie Hilfe ben&ouml;tigen dieses Event Portal mit der
-                | Verwendung , mailen Sie bitte an
+                | Verwendung , mailen Sie bitte an 
                 = mail_to @current_event.support_email
       li
         h4 2. &Auml;nderungen der Konditionen
@@ -107,9 +115,9 @@
             | angeben, und dass Sie die in Ihrem Profil enthaltenen pers&ouml;nlichen
             | Angaben auf dem aktuellen Stand halten und im Fall von &Auml;nderungen
             | unverz&uuml;glich aktualisieren. Weitere Informationen dar&uuml;ber, wie
-            | wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren
-            | Datenschutzrichtlinien
+            | wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren 
             = link_to t("footer.privacy"), event_privacy_policy_url(@current_event)
+
           li
             | 4.3 Sie stimmen zu, dass Sie mit niemandem Ihr Passwort teilen, und
             | dass Ihr Passwort vertraulich bleibt.
@@ -132,7 +140,7 @@
             | Zahlungsservice-Provider ist verantwortlich f&uuml;r s&auml;mtliche
             | Erstattungen an Sie, nicht wir. Bitte kontaktieren Sie den Veranstalter
             | direkt, wenn Sie mit jemandem &uuml;ber Ihre Erstattung sprechen
-            | m&ouml;chten:
+            | m&ouml;chten: 
             = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
               span = @current_event.name
           li
@@ -145,7 +153,7 @@
             | oder haftbar f&uuml;r m&ouml;gliche Fragen, die sich aus der
             | Veranstaltung selbst, den Ticketverk&auml;ufen oder den
             | R&uuml;ckerstattungen ergeben. Wenn Sie diesbez&uuml;glich mit jemandem
-            | sprechen m&ouml;chten, wenden Sie sich bitte an den Veranstalter:
+            | sprechen m&ouml;chten, wenden Sie sich bitte an den Veranstalter: 
             = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
               span = @current_event.name
       li
@@ -187,7 +195,7 @@
             | w&auml;hrend des Surfens und der Nutzung der Site erhalten, werden in
             | \&Uuml;bereinstimmung mit unseren Datenschutzbestimmungen verwendet. Wenn
             | Sie mehr &uuml;ber die von Ihnen gesammelten Daten und deren Verwendung
-            | erfahren wollen, finden Sie hier unsere Datenschutzrichtlinien
+            | erfahren wollen, finden Sie hier unsere 
             = link_to t("footer.privacy"), event_privacy_policy_url(@current_event)
           li
             | 7.2 Wenn Sie diesen Konditionen zustimmen, erkl&auml;ren Sie sich
@@ -346,3 +354,11 @@
             | sollten, unterliegt diese Auseinandersetzung bzw. dieser Anspruch, soweit
             | rechtlich zul&auml;ssig, der ausschlie&szlig;lichen Gerichtsbarkeit der
             | englischen Gerichte.
+          li
+            | F&uuml;r den Fall, dass die Konditionen als &uuml;bersetzung in einer anderen Sprache als Englisch
+            | vorliegt, und sich ein Konflikt im Hinblick auf Bestimmungen in der englischen Sprache und
+            | der &uuml;bersetzung in der anderen Sprache ergibt, ist die englische Fassung maßgebend.
+            br
+            br
+            | If these Terms are translated into a language other than English and there is a conflict
+            | of terms between the English and the other language, the English version will prevail.
