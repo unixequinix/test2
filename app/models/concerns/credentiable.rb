@@ -14,6 +14,7 @@ module Credentiable
 
   def validate_assignation
     errors.add(:reference, I18n.t("credentials.not_found", item: I18n.t("credentials.name"))) if new_record?
+    errors.add(:reference, I18n.t("credentials.already_assigned", item: I18n.t("credentials.name"))) if customer.present?
     errors.add(:reference, I18n.t("credentials.blacklisted", item: I18n.t("credentials.name"))) if banned?
     errors.empty?
   end

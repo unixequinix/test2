@@ -8,7 +8,8 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
   def create
     authorize @customer, :create_credential?
     @code = permitted_params[:code].strip
-    @ticket = @current_event.tickets.find_by(code: @code)
+    @ticket = @current_event.tickets.find_or_initialize_by(code: @code)
+
     @ticket.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Ticket")) if @ticket.customer_not_anonymous?
 
     if @ticket.validate_assignation
