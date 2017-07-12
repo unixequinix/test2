@@ -5,7 +5,7 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
   let(:ticket_code) { "TE469A2F95B47623C" }
   let(:ticket) { create(:ticket, code: "TICKETCODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "BBBBBBBBBBBBBB", event: event) }
-  let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
+  let(:transaction) { create(:credential_transaction, event: event, ticket: ticket, ticket_code: ticket.code) }
   let(:worker) { Transactions::Credential::TicketChecker.new }
   let(:decoder) { SonarDecoder }
   let(:ctt_id) { "99" }
@@ -23,14 +23,12 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
 
   describe "actions include" do
     it "assigns a ticket" do
-      expect(worker).to receive(:assign_ticket).with(transaction, atts).and_return(ticket)
+      expect(worker).to receive(:assign_ticket).with(transaction).and_return(ticket)
       worker.perform(atts)
     end
 
     it "marks redeemed" do
-      ticket.update!(redeemed: false)
-      worker.perform(atts)
-      expect(ticket.reload).to be_redeemed
+      expect { worker.perform(atts) }.to change { ticket.reload.redeemed? }.from(false).to(true)
     end
   end
 
@@ -40,45 +38,44 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
     context "with sonar decryption" do
       before do
         allow(SonarDecoder).to receive(:perform).and_return(ctt_id)
-        atts[:ticket_code] = ticket_code
+        transaction.update ticket_code: ticket_code
       end
 
       it "attaches the correct ticket_type based on ticket_code" do
-        ticket = worker.assign_ticket(transaction, atts)
+        ticket = worker.assign_ticket(transaction)
         expect(ticket.ticket_type).to eq(@ctt)
       end
 
       it "attaches the ticket_id to the transaction" do
-        worker.assign_ticket(transaction, atts)
+        worker.assign_ticket(transaction)
         expect(transaction.reload.ticket_id).not_to be_nil
       end
 
       it "creates a ticket for the event" do
-        expect { worker.assign_ticket(transaction, atts) }.to change(Ticket, :count).by(1)
+        expect { worker.assign_ticket(transaction) }.to change(Ticket, :count).by(1)
       end
     end
 
     it "finds the ticket if present" do
-      atts[:ticket_code] = ticket_code
-      t = create(:ticket, event: event, code: ticket_code)
+      transaction.update ticket_code: ticket.code
       expect(decoder).not_to receive(:perform)
-      expect(worker.assign_ticket(transaction, atts)).to eq(t)
+      expect(worker.assign_ticket(transaction)).to eq(ticket)
     end
 
     it "tries to decode the ticket if not present" do
-      atts[:ticket_code] = ticket_code
+      transaction.update ticket_code: ticket_code
       expect(decoder).to receive(:perform).and_return(ctt_id)
-      worker.assign_ticket(transaction, atts)
+      worker.assign_ticket(transaction)
     end
 
     it "raises error if ticket is neither found nor decoded" do
-      atts[:ticket_code] = "NOT_VALID_CODE"
-      expect { worker.assign_ticket(transaction, atts) }.to raise_error(RuntimeError)
+      transaction.update ticket_code: "NOT_VALID_CODE"
+      expect { worker.assign_ticket(transaction) }.to raise_error(RuntimeError)
     end
 
     it "leaves the ticket if already present" do
       transaction.create_ticket!(event: event, code: ticket_code, ticket_type: @ctt)
-      expect { worker.assign_ticket(transaction, atts) }.not_to change(Ticket, :count)
+      expect { worker.assign_ticket(transaction) }.not_to change(Ticket, :count)
     end
   end
 end

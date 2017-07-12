@@ -36,7 +36,6 @@ class Transactions::Base < ApplicationJob
   def preformat_atts(atts)
     atts[:transaction_origin] = Transaction::ORIGINS[:device]
     atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id])&.id
-    atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:order_item_counter] = atts[:order_item_id] if atts.key?(:order_item_id)
     atts[:device_created_at_fixed] = atts[:device_created_at].gsub(/(?<hour>[\+,\-][0-9][0-9])(?<minute>[0-9][0-9])/, '\k<hour>:\k<minute>')
     atts[:device_created_at] = atts[:device_created_at_fixed][0, 19]

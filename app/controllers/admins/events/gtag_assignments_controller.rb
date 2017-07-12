@@ -8,12 +8,14 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   def create
     authorize @customer, :create_credential?
-    @code = permitted_params[:code].strip
-    @gtag = @current_event.gtags.find_or_initialize_by(code: @code)
+    @code = permitted_params[:tag_uid].strip
+    @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
 
     @gtag.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Tag")) if @gtag.customer_not_anonymous?
 
     if @gtag.validate_assignation
+      @gtag.update(active: permitted_params[:active].present?)
+      @customer.gtags.update_all(active: false) if @gtag.active?
       @gtag.assign_customer(@customer, current_user, :admin)
       redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Tag"))
     else
