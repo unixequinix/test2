@@ -115,6 +115,7 @@ html
                   span.footer-separator
                   li
                     = mail_to @current_event&.support_email, "Support", subject: "Information request for event '#{@current_event.name}'"
+                span.web-version = WEB_VERSION
       .mdl-layout-spacer
 
 javascript:
