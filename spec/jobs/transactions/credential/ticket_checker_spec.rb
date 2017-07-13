@@ -5,7 +5,7 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
   let(:ticket_code) { "TE469A2F95B47623C" }
   let(:ticket) { create(:ticket, code: "TICKETCODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "BBBBBBBBBBBBBB", event: event) }
-  let(:transaction) { create(:credential_transaction, event: event, ticket: ticket, ticket_code: ticket.code) }
+  let(:transaction) { create(:credential_transaction, event: event, ticket: ticket, ticket_code: ticket.code, gtag: gtag) }
   let(:worker) { Transactions::Credential::TicketChecker.new }
   let(:decoder) { SonarDecoder }
   let(:ctt_id) { "99" }

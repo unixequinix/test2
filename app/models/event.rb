@@ -139,6 +139,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     stations.create! name: "Operator Permissions", category: "operator_permissions"
     stations.create! name: "Gtag Recycler", category: "gtag_recycler"
     stations.create! name: "Gtag Replacement", category: "gtag_replacement"
+    stations.create! name: "Yellow Card", category: "yellow_card"
   end
 
   private
