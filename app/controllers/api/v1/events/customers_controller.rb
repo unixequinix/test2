@@ -44,11 +44,16 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
                            SELECT
                              customer_id,
                              code     AS reference,
-                             'ticket' AS type
+                             'ticket' AS type,
+                             redeemed
                            FROM tickets
                            WHERE tickets.customer_id IN (#{ids.join(', ')})
                            UNION ALL
-                           SELECT customer_id, tag_uid AS reference, 'gtag'  AS type
+                           SELECT
+                             customer_id,
+                             tag_uid AS reference,
+                             'gtag'  AS type,
+                              redeemed
                            FROM gtags
                            WHERE gtags.active = TRUE AND gtags.customer_id IN (#{ids.join(', ')})
                          ) cr
