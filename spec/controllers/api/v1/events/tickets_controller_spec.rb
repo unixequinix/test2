@@ -105,7 +105,10 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             ticket_type_id: @ticket.ticket_type_id,
             customer: {
               id:  @ticket.customer.id,
-              credentials: [],
+              credentials: [{ reference: @ticket.code,
+                              type: "ticket",
+                              redeemed: @ticket.redeemed,
+                              banned: @ticket.banned }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
