@@ -1,58 +1,58 @@
 require "rails_helper"
 
 RSpec.describe Order, type: :model do
-  let(:event) { build(:event) }
-  subject { build(:order, event: event, customer: build(:customer, event: event)) }
+  let(:event) { create(:event) }
+  subject { create(:order, event: event, customer: create(:customer, event: event)) }
 
   describe ".complete!" do
+    before { event.stations.create! name: "Customer Portal", category: "customer_portal" }
+
     it "marks the order as completed" do
-      allow(Transaction).to receive(:write!).once
-      subject.complete!("paypal", {}.to_json)
-      expect(subject).to be_completed
+      expect { subject.complete!("paypal", {}.to_json) }.to change { subject.reload.completed? }.from(false).to(true)
+    end
+
+    it "creates a money transaction" do
+      expect { subject.complete!("paypal", {}.to_json) }.to change(MoneyTransaction, :count).by(1)
+    end
+
+    it "creates a stat" do
+      expect { subject.complete!("paypal", {}.to_json) }.to change(Stat, :count).by(1)
     end
   end
 
   describe ".refund?" do
     it "returns true if the gateway is refund" do
-      expect(subject).not_to be_refund
-      subject.gateway = "refund"
-      expect(subject).to be_refund
+      expect { subject.gateway = "refund" }.to change { subject.refund? }.from(false).to(true)
     end
   end
 
   describe ".refunded?" do
     it "returns true if the gateway is refund" do
-      expect(subject).not_to be_refunded
-      subject.status = "refunded"
-      expect(subject).to be_refunded
+      expect { subject.status = "refunded" }.to change { subject.refunded? }.from(false).to(true)
     end
   end
 
   describe ".completed?" do
     it "returns true if the status is completed" do
-      subject.status = "completed"
-      expect(subject).to be_completed
+      expect { subject.status = "completed" }.to change { subject.completed? }.from(false).to(true)
     end
   end
 
   describe ".fail!" do
     it "marks the order as faild" do
-      subject.fail!("paypal", {}.to_json)
-      expect(subject.status).to eq("failed")
+      expect { subject.fail!("paypal", {}.to_json) }.to change { subject.reload.status }.to("failed")
     end
   end
 
   describe ".cancel!" do
     it "marks the order as canceld" do
-      subject.cancel!({}.to_json)
-      expect(subject.status).to eq("cancelled")
+      expect { subject.cancel!({}.to_json) }.to change { subject.reload.status }.to("cancelled")
     end
   end
 
   describe ".cancelled?" do
     it "returns true if the status is cancelled" do
-      subject.status = "cancelled"
-      expect(subject).to be_cancelled
+      expect { subject.status = "cancelled" }.to change { subject.cancelled? }.from(false).to(true)
     end
   end
 

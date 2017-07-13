@@ -11,6 +11,7 @@
 db/*.sqlite3
 db/*.sqlite3-journal
 db/schema.rb
+db_stats/schema.rb
 
 
 # Ignore all logfiles and tempfiles.

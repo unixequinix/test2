@@ -8,43 +8,43 @@ default: &default
 
 development:
   <<: *default
-  database: glownet_web_development
+  database: glownet_stats_development
   host: localhost
 
 test:
   <<: *default
-  database: glownet_web_test
+  database: glownet_stats_test
   host: localhost
 
 demo:
   <<: *default
-  database: glownet_web_demo
+  database: glownet_stats_demo
   username: glownet
 
 
 integration:
   <<: *default
-  database: glownet_web_integration
+  database: glownet_stats_integration
   username: glownet
 
 sandbox:
   <<: *default
-  database: glownet_web_sandbox
+  database: glownet_stats_sandbox
   username: glownet
 
 staging:
   <<: *default
-  database: glownet_web_staging
+  database: glownet_stats_staging
   username: glownet
 
 hotfix:
   <<: *default
-  database: glownet_web_hotfix
+  database: glownet_stats_hotfix
   username: glownet
 
 production:
   <<: *default
-  database: glownet_web_production
+  database: glownet_stats_production
   username: glownet
   host: glowneteudb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
   pool: 10

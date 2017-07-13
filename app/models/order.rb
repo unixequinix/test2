@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  include StatsHelper
+
   belongs_to :event
   belongs_to :customer, touch: true
 
@@ -28,15 +30,16 @@ class Order < ApplicationRecord
     status.eql?("refunded")
   end
 
+  def completed?
+    status.eql?("completed")
+  end
+
   def complete!(gateway = "unknown", payment = {}.to_json)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
-    MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
+    t = MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
+    create_stat(extract_atts_from_transaction(t).merge(payment_method: gateway, action: "topup", transaction_counter: 0, total: credits.abs))
     OrderMailer.completed_order(self).deliver_later unless customer.anonymous?
-  end
-
-  def completed?
-    status.eql?("completed")
   end
 
   def fail!(gateway, payment)

@@ -25,6 +25,7 @@ class Transactions::Base < ApplicationJob
   end
 
   def execute_operations(atts)
+    load_classes if Rails.env.development?
     children = self.class.descendants
     children.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
   end
@@ -63,6 +64,19 @@ class Transactions::Base < ApplicationJob
     return gtag if gtag.customer.present?
     gtag.update!(customer: Customer.create!(event_id: atts[:event_id]))
     gtag
+  end
+
+  # This method is only for development since eager-loading messes up the inherited hook
+  def load_classes
+    Transactions::Credential::TicketChecker.inspect
+    Transactions::Credential::GtagReplacer.inspect
+    Transactions::Credential::TicketChecker.inspect
+    Transactions::Credit::BalanceUpdater.inspect
+    Transactions::Operator::PermissionCreator.inspect
+    Transactions::Order::OrderRedeemer.inspect
+    Transactions::Stats::FeeCreator.inspect
+    Transactions::Stats::SaleCreator.inspect
+    Transactions::Stats::TopupCreator.inspect
   end
 
   def permitted_params

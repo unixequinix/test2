@@ -1,6 +1,9 @@
 set :application, "arepa"
 set :repo_url, "git@github.com:Gl0wnet/web-core.git"
 
+# While migrations looks like a concern of the database layer, migrations are strictly related to the framework. https://github.com/capistrano/rails
+set :migration_role, :app
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -38,3 +41,7 @@ set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 set :rollbar_token, "3bc66b29685d47b9934a72438c532838"
 set :rollbar_env, -> { fetch(:stage) }
 set :rollbar_role, :app
+
+load "lib/tasks/capistrano.rake"
+after 'deploy:updated', 'deploy:stats_create'
+after 'deploy:updated', 'deploy:stats_migrate'

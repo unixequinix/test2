@@ -1,5 +1,5 @@
 class Transactions::Credential::TicketChecker < Transactions::Base
-  TRIGGERS = %w[ticket_checkin ticket_validation].freeze
+  TRIGGERS = %w[ticket_checkin].freeze
 
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
