@@ -7,8 +7,6 @@ class EventStatsChannel < ApplicationCable::Channel
 
   private
 
-
-
   def render(event)
     stats = event.stats
 
@@ -24,7 +22,7 @@ class EventStatsChannel < ApplicationCable::Channel
       initial_fees:    stats.initial_fees.group(:payment_method).sum(:total),
       topup_fees:      stats.topup_fees.group(:payment_method).sum(:total),
       deposit_fees:    stats.deposit_fees.group(:payment_method).sum(:total),
-      return_fees:     stats.return_fees.group(:payment_method).sum(:total),
+      return_fees:     stats.return_fees.group(:payment_method).sum(:total)
     }
 
     ApplicationController.render(partial: 'admins/events/stats/cashless_info', locals: locals)

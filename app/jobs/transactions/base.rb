@@ -19,7 +19,6 @@ class Transactions::Base < ApplicationJob
       return if transaction.status_not_ok?
 
       execute_operations(atts.merge(transaction_id: transaction.id))
-
     rescue ActiveRecord::RecordNotUnique
       retry
     end
