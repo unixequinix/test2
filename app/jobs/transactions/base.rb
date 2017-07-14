@@ -17,8 +17,9 @@ class Transactions::Base < ApplicationJob
       transaction.update!(column_attributes(klass, atts))
 
       return if transaction.status_not_ok?
-      EventStatsChannel.broadcast_to(Event.find(atts[:event_id]), data: transaction)
+
       execute_operations(atts.merge(transaction_id: transaction.id))
+
     rescue ActiveRecord::RecordNotUnique
       retry
     end

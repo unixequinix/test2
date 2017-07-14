@@ -49,7 +49,6 @@ Rails.application.routes.draw do
         get :edit_event_style
         get :device_settings
         delete :remove_db
-        get :stats
         get :launch
         get :close
         post :remove_logo
@@ -82,8 +81,8 @@ Rails.application.routes.draw do
           get :resend, on: :member
         end
 
-        get 'stats/cashless', to: 'stats#cashless', as: :stats_cashless
-        get 'stats/stations', to: 'stats#stations', as: :stats_stations
+        get 'reports/cashless', to: 'stats#cashless', as: :stats_cashless
+        get 'reports/stations', to: 'stats#stations', as: :stats_stations
 
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"

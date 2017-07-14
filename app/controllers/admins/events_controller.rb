@@ -62,12 +62,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     redirect_to request.referer, notice: "All timing issues solved"
   end
 
-  def stats
-    authorize @current_event, :event_charts?
-    cookies.signed[:user_id] = current_user.id
-    render layout: "admin_event"
-  end
-
   def launch
     @current_event.update_attribute :state, "launched"
     redirect_to [:admins, @current_event], notice: t("alerts.updated")

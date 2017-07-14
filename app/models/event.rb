@@ -78,6 +78,10 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
   end
 
+  def self.reload_stats
+    Event.where(state: 'launched').each { |event| EventStatsChannel.broadcast_to(event, {}) }
+  end
+
   def formatted_start_date
     start_date.to_formatted_s(:best_in_place)
   end

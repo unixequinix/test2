@@ -19,7 +19,13 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :output, "log/cron.log"
+
 every 10.minutes do # 1.minute 1.day 1.week 1.month 1.year is also supported
   runner "Event.try_to_end_refunds"
   runner "Event.try_to_open_refunds"
+end
+
+every 1.minute do # 1.minute 1.day 1.week 1.month 1.year is also supported
+  runner "Event.reload_stats"
 end
