@@ -2,7 +2,7 @@ class Transactions::Credential::TicketValidator < Transactions::Base
   TRIGGERS = %w[ticket_validation].freeze
 
   def perform(atts)
-    t = CredentialTransaction.find(atts[:transaction_id])
+    transaction = CredentialTransaction.find(atts[:transaction_id])
     event = transaction.event
     ticket = event.tickets.find_by(code: transaction.ticket_code)
 
