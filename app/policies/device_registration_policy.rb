@@ -10,4 +10,8 @@ class DeviceRegistrationPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def transactions?
+    admin_or_promoter
+  end
 end
