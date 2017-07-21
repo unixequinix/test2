@@ -5,10 +5,10 @@ RSpec.describe Transactions::Base, type: :job do
   let(:event) { create(:event) }
   let(:gtag)  { create(:gtag, tag_uid: "AAAAAAAAAAAAAA", event: event) }
   let(:customer) { create(:customer, event: event) }
-  let(:params) do
+  let(:atts) do
     {
       type: "credit",
-      action: "sale",
+      action: "test_action",
       credits: 30,
       event_id: event.id,
       device_created_at: Time.zone.now.to_s,
@@ -17,85 +17,77 @@ RSpec.describe Transactions::Base, type: :job do
     }
   end
 
-  describe "creates anonymous customers" do
-    it "if not present" do
-      gtag.update customer: nil
-      expect { base.perform_now(params) }.to change(Customer, :count).by(1)
+  describe ".apply_customers" do
+    it "if not present in neither, creates one" do
+      expect { base.perform_now(atts) }.to change(Customer, :count).by(1)
     end
 
-    it "unless already present" do
+    it "if not present in gtag but present in transactions, uses transactions" do
+      atts[:customer_id] = customer.id
+      expect { base.perform_now(atts) }.to change { gtag.reload.customer }.from(nil).to(customer)
+    end
+
+    it "if not present in transaction but present in gtag, uses gtags" do
       gtag.update! customer: customer
-      expect { base.perform_now(params) }.not_to change(Customer, :count)
+      expect { base.perform_now(atts) }.not_to change(gtag.reload, :customer)
     end
 
-    it ", then adds customer_id to transaction, even if already present" do
+    it "and adds customer_id to transaction" do
       gtag.update! customer: customer
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(customer_id: customer.id))
-      base.perform_now(params)
+      expect { base.perform_now(atts) }.to change { customer.reload.transactions.count }.from(0).to(1)
     end
 
-    it ", then adds customer_id to transaction, event when not present in db" do
-      gtag.update! customer: nil
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(:customer_id))
-      base.perform_now(params)
-    end
-
-    it "assigns any customer to the gtag" do
-      gtag.update customer: nil
-      base.perform_now(params)
-      expect(gtag.reload.customer).not_to be_nil
+    it "assigns any customer to the gtag not matter what" do
+      expect(gtag.customer).to be_nil
+      expect { base.perform_now(atts) }.to change { gtag.reload.customer }.from(nil)
     end
   end
 
   describe "when sale_items_attributes is blank" do
     after do
-      expect { base.perform_now(params) }.to change(Transaction, :count).by(1)
+      expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
     end
 
     it "works when status code is error (other than 0)" do
-      params[:status_code] = 2
+      atts[:status_code] = 2
     end
 
     it "removes sale_item_attributes when empty" do
-      params[:sale_item_attributes] = []
+      atts[:sale_item_attributes] = []
     end
 
     it "removes sale_item_attributes when nil" do
-      params[:sale_item_attributes] = nil
+      atts[:sale_item_attributes] = nil
     end
   end
 
   describe "when passed sale_items in attributes" do
     before do
-      params.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, unit_price: 8.31 },
-                                            { product_id: create(:product).id, quantity: 1.0, unit_price: 2.72 }])
+      atts.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, unit_price: 8.31 },
+                                          { product_id: create(:product).id, quantity: 1.0, unit_price: 2.72 }])
     end
 
     it "saves sale_items" do
-      expect { base.perform_now(params) }.to change(SaleItem, :count).by(2)
+      expect { base.perform_now(atts) }.to change(SaleItem, :count).by(2)
     end
   end
 
-  context "when tag_uid is present in DB" do
-    it "does not create a Gtag" do
-      event.gtags << gtag
-      expect { base.perform_now(params) }.not_to change(Gtag, :count)
-    end
+  it "does not create a Gtag when tag_uid is present in DB" do
+    event.gtags << gtag
+    expect { base.perform_now(atts) }.not_to change(Gtag, :count)
   end
 
-  context "when tag_uid is not present in DB" do
-    it "creates a Gtag for the event" do
-      params[:customer_tag_uid] = "BBBBBBBBBBBBBB"
-      expect { base.perform_now(params) }.to change(Gtag, :count).by(1)
-    end
+  it "creates a Gtag for the event when tag_uid is not present in DB" do
+    atts[:customer_tag_uid] = "BBBBBBBBBBBBBB"
+    expect { base.perform_now(atts) }.to change(Gtag, :count).by(1)
   end
 
   describe "descendants" do
     it "executes the job defined by action" do
       expected_atts = { action: "sale", event_id: event.id, type: "CreditTransaction", credits: 30, customer_tag_uid: gtag.tag_uid, status_code: 0 }
-      params[:action] = "sale"
+      atts[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(expected_atts))
-      base.perform_now(params)
+      base.perform_now(atts)
     end
 
     it "must be loaded with environment" do
@@ -113,30 +105,30 @@ RSpec.describe Transactions::Base, type: :job do
     describe "from devices" do
       it "ignores attributes not present in table" do
         expect do
-          base.perform_now(params.merge(foo: "not valid"))
+          base.perform_now(atts.merge(foo: "not valid"))
         end.to change(CreditTransaction, :count).by(1)
       end
 
       it "works even if jobs fail" do
-        params[:action] = "sale"
+        atts[:action] = "sale"
         allow(Transactions::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
-        expect { base.perform_now(params) }.to raise_error("Error_1")
-        params.delete(:transaction_id)
-        params.delete(:customer_id)
-        params.delete(:device_created_at)
-        params.delete(:type)
+        expect { base.perform_now(atts) }.to raise_error("Error_1")
+        atts.delete(:transaction_id)
+        atts.delete(:customer_id)
+        atts.delete(:device_created_at)
+        atts.delete(:type)
 
-        expect(CreditTransaction.where(params)).not_to be_empty
+        expect(CreditTransaction.where(atts)).not_to be_empty
       end
     end
   end
 
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
-      params[:action] = "sale"
+      atts[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
-      base.perform_now(params)
-      at = params.merge(type: "credit", device_created_at: params[:device_created_at])
+      base.perform_now(atts)
+      at = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
       base.perform_now(at)
     end
   end

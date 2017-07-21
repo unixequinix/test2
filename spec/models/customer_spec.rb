@@ -4,6 +4,42 @@ RSpec.describe Customer, type: :model do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
 
+  describe ".claim" do
+    let(:anon_customer) { create(:customer, event: event, anonymous: true) }
+
+    it "returns false if anon_customer is nil" do
+      expect(Customer.claim(event, customer.id, nil)).to be_falsey
+    end
+
+    it "returns false if customer is nil" do
+      expect(Customer.claim(event, nil, anon_customer.id)).to be_falsey
+    end
+
+    it "returns true if anon_customer is self" do
+      expect(Customer.claim(event, customer.id, anon_customer.id)).to be_truthy
+    end
+
+    it "deletes anon_customer" do
+      expect { Customer.claim(event, customer.id, anon_customer.id) }.to change(Customer, :count).by(1)
+    end
+
+    it "raises alert if anon_customer is not anonymous" do
+      expect(Alert).to receive(:propagate).once
+      anon_customer.update! anonymous: false
+      Customer.claim(event, customer.id, anon_customer.id)
+    end
+
+    it "moves transactions over from anon_customer" do
+      t = create(:credit_transaction, customer: anon_customer)
+      expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { t.reload.customer }.from(anon_customer).to(customer)
+    end
+
+    it "moves gtags over from anon_customer" do
+      gtag = create(:gtag, customer: anon_customer)
+      expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { gtag.reload.customer }.from(anon_customer).to(customer)
+    end
+  end
+
   describe ".build_order" do
     before do
       @station = create(:station, category: "customer_portal", event: event)
@@ -114,6 +150,7 @@ RSpec.describe Customer, type: :model do
 
   describe ".full_name" do
     it "return the first_name and last_name together" do
+      customer.anonymous = false
       allow(customer).to receive(:first_name).and_return("Glownet")
       allow(customer).to receive(:last_name).and_return("Test")
       expect(customer.full_name).to eq("Glownet Test")
