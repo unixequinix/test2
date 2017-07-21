@@ -1,6 +1,5 @@
 class Alert < ApplicationRecord
   belongs_to :event
-  belongs_to :user
   belongs_to :subject, polymorphic: true
 
   validates :body, presence: true
@@ -10,7 +9,6 @@ class Alert < ApplicationRecord
   enum priority: { low: 0, medium: 1, high: 2 }
 
   def self.propagate(event, body, priority, subject)
-    ids_of_users = event.event_registrations.where(role: :promoter).where.not(user_id: nil).pluck(:user_id)
-    ids_of_users.map { |id_of_user| find_or_create_by(event: event, body: body, priority: priority, subject: subject, user_id: id_of_user) }
+    event.alerts.find_or_create_by(body: body, priority: priority, subject: subject)
   end
 end

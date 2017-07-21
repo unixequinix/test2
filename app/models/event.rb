@@ -21,6 +21,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :event_registrations, dependent: :destroy
   has_many :users, through: :event_registrations
   has_many :stats
+  has_many :alerts
 
   has_one :credit, dependent: :destroy
 

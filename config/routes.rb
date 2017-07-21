@@ -26,9 +26,6 @@ Rails.application.routes.draw do
     end
 
     resources :users
-    resources :alerts, only: [:index, :update, :destroy] do
-      get :read_all, on: :collection
-    end
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
     resources :event_series
 
@@ -58,6 +55,9 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
+        resources :alerts, only: [:index, :update, :destroy] do
+          get :read_all, on: :collection
+        end
         resources :refunds, only: [:index, :show, :destroy, :update]
         resources :orders, only: [:index, :show, :new, :create, :destroy] do
           resources :order_items, only: :update
