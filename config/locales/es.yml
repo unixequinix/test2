@@ -52,6 +52,7 @@ es:
     not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
     unassigned: "%{item} desasignado correctamente"
     invalid: "Parace que hay un problema con este %{item}. Por favor, contacta con soporte en support@glownet.com o a través de Intercom"
+    same_credential: "No puedes assignar un %{item} con el mismo contenido dos veces. "
   dashboard:
     header:
       home: Inicio

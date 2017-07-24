@@ -7,9 +7,7 @@ class Events::GtagAssignmentsController < Events::EventsController
 
   def create
     @code = permitted_params[:reference].strip
-    @gtag = @current_event.gtags.find_by(tag_uid: @code)
-
-    @gtag.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Tag")) if @gtag.customer
+    @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
     render(:new) && return unless @gtag.validate_assignation
 
     @gtag.assign_customer(@current_customer, @current_customer)

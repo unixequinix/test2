@@ -1,5 +1,5 @@
 class Api::V2::Events::StationsController < Api::V2::BaseController
-  before_action :set_station, only: %i[show update destroy add_product remove_product]
+  before_action :set_station, only: %i[show update destroy add_product remove_product update_product]
 
   # GET /stations
   def index
@@ -41,7 +41,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   end
 
   def add_product
-    @station_product = @station.station_products.create!(price: params[:product][:price], product_id: params[:product][:id])
+    @station_product = @station.station_products.create!(price: product_params[:price], product_id: product_params[:id])
     authorize @station
 
     if @station_product
@@ -52,7 +52,18 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   end
 
   def remove_product
-    @station.station_products.find_by(product_id: params[:product][:id]).destroy
+    @station.station_products.find_by(product_id: product_params[:id]).destroy
+  end
+
+  def update_product
+    @station_product = @station.station_products.find_by(product_id: product_params[:id])
+    authorize @station
+    atts = product_params.slice(:price, :position)
+    if @station_product.update(atts)
+      render json: @station_product
+    else
+      render json: @station_product.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -66,5 +77,9 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   # Only allow a trusted parameter "white list" through.
   def station_params
     params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden)
+  end
+
+  def product_params
+    params.require(:product).permit(:id, :price, :position)
   end
 end

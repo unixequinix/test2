@@ -20,6 +20,8 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :refunds, dependent: :destroy
   has_many :event_registrations, dependent: :destroy
   has_many :users, through: :event_registrations
+  has_many :stats
+  has_many :alerts
 
   has_one :credit, dependent: :destroy
 
@@ -62,7 +64,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   do_not_validate_attachment_file_type :device_basic_db
 
   def self.try_to_open_refunds
-    Event.where(state: "launched").find_each do |event|
+    Event.where(state: 'launched', open_refunds: false).find_each do |event|
       date = event.refunds_start_date
       next unless date
       Time.use_zone(event.timezone) { event.update(open_refunds: true) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
@@ -70,11 +72,15 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def self.try_to_end_refunds
-    Event.where(state: "launched").find_each do |event|
+    Event.where(state: 'launched', open_refunds: true).find_each do |event|
       date = event.refunds_end_date
       next unless date
       Time.use_zone(event.timezone) { event.update(open_refunds: false) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
     end
+  end
+
+  def self.reload_stats
+    Event.where(state: 'launched').find_each { |event| EventStatsChannel.broadcast_to(event, {}) }
   end
 
   def formatted_start_date

@@ -10,6 +10,6 @@ class Transactions::Credit::BalanceUpdater < Transactions::Base
     gtag.recalculate_balance
 
     return unless atts[:customer_tag_uid] == atts[:operator_tag_uid]
-    Alert.propagate(event, "has the same operator and customer UIDs: #{atts[:customer_tag_uid]}", :medium, transaction)
+    Alert.propagate(event, "has the same operator and customer UIDs", :medium, transaction)
   end
 end

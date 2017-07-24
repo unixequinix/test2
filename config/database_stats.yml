@@ -1,0 +1,50 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  port: 5432
+  host: glownethotfixdb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
+  password: <%= ENV["pg_password"] %>
+
+development:
+  <<: *default
+  database: glownet_stats_development
+  host: localhost
+
+test:
+  <<: *default
+  database: glownet_stats_test
+  host: localhost
+
+demo:
+  <<: *default
+  database: glownet_stats_demo
+  username: glownet
+
+
+integration:
+  <<: *default
+  database: glownet_stats_integration
+  username: glownet
+
+sandbox:
+  <<: *default
+  database: glownet_stats_sandbox
+  username: glownet
+
+staging:
+  <<: *default
+  database: glownet_stats_staging
+  username: glownet
+
+hotfix:
+  <<: *default
+  database: glownet_stats_hotfix
+  username: glownet
+
+production:
+  <<: *default
+  database: glownet_stats_production
+  username: glownet
+  host: glowneteudb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
+  pool: 10

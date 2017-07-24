@@ -2,7 +2,11 @@ class Events::RefundsController < Events::EventsController
   before_action :set_refund, only: %i[new create]
 
   def new
-    redirect_to event_path(@current_event), notice: "No refund options available" if @refunds.empty?
+    if @current_event.open_refunds
+      redirect_to event_path(@current_event), notice: "No refund options available" if @refunds.empty?
+    else
+      redirect_to event_path(@current_event)
+    end
   end
 
   def create
@@ -30,7 +34,7 @@ class Events::RefundsController < Events::EventsController
       amount = [amount, @current_customer.global_refundable_credits - fee].min
       atts = { amount: amount, status: "started", fee: fee, gateway: gateway.name, event: @current_event }
 
-      @current_customer.refunds.new(atts) if amount.positive?
+      @current_customer.refunds.new(atts) if amount.positive? && gateway.minimum <= @current_customer.global_refundable_credits
     end.compact
   end
 

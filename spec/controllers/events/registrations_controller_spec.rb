@@ -32,15 +32,12 @@ RSpec.describe Events::RegistrationsController, type: :controller do
         expect(response).to be_ok
       end
 
-      # it 'GET change_password' do
-      #   get :change_password, params: { event_id: event }
-      #   expect(response).to redirect_to(:event_login)
-      # end
+      it 'GET change_password' do
+        get :change_password, params: { event_id: event }
+        expect(response).to redirect_to(:event_login)
+      end
 
-      # it 'GET edit' do
-      #   get :edit, params: { event_id: event }
-      #   expect(response).to redirect_to(:event_login)
-      # end
+      # TODO: edit
     end
   end
 end

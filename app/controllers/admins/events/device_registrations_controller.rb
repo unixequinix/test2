@@ -1,5 +1,5 @@
 class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseController
-  before_action :set_registration, only: %i[resolve_time show download_db destroy]
+  before_action :set_registration, only: %i[resolve_time show download_db destroy transactions]
 
   def index
     @registrations = @current_event.device_registrations.includes(:device)
@@ -35,8 +35,14 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   end
 
   def show
-    @transactions = @current_event.transactions.where(device_uid: @device.mac).includes(:gtag, :station).order(:device_db_index).page(params[:page])
     @device_transactions = @current_event.device_transactions.where(device_uid: @device.mac).order(:created_at)
+    @device_stations = @current_event.transactions.where(device_uid: @device.mac).page(params[:page]).group(:station_id).count
+  end
+
+  def transactions
+    all_transactions = @current_event.transactions.where(device_uid: @device.mac)
+    @transactions = all_transactions.includes(:station).order(:device_db_index).page(params[:page])
+    @stations_count = all_transactions.select(:station_id).distinct.count
   end
 
   def destroy

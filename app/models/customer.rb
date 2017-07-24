@@ -12,8 +12,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
-  has_many :gtags, dependent: :nullify
   has_many :tickets, dependent: :nullify
+
+  # only two relationships allowed with anonymous customers
+  has_many :gtags, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
 
   validates :email, format: { with: RFC822::EMAIL }, unless: :anonymous?
@@ -34,10 +36,25 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     where(event: event)
       .joins("LEFT OUTER JOIN gtags ON gtags.customer_id = customers.id")
       .joins("LEFT OUTER JOIN tickets ON tickets.customer_id = customers.id")
-      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits as credits, gtags.refundable_credits as refundable_credits, email, first_name, last_name") # rubocop:disable Metrics/LineLength
+      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits as credits,
+               gtags.refundable_credits as refundable_credits, email, first_name, last_name")
       .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.refundable_credits")
       .order("first_name ASC")
   })
+
+  def self.claim(event, customer_id, anon_customer_id)
+    return false if anon_customer_id.blank? || customer_id.blank?
+    return true if customer_id == anon_customer_id
+
+    anon_customer = event.customers.find(anon_customer_id)
+
+    message = "PROFILE FRAUD: customer #{anon_customer_id} is not anonymous when trying to claim"
+    Alert.propagate(event, message, :high, event.customers.find(customer_id)) && return unless anon_customer.anonymous?
+
+    anon_customer.transactions.update_all(customer_id: customer_id)
+    anon_customer.gtags.update_all(customer_id: customer_id)
+    anon_customer.destroy!
+  end
 
   def refunding?
     refunds.any? { |r| r.status.eql?("in_progress") || r.status.eql?("started") }
@@ -49,7 +66,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def full_name
-    "#{first_name} #{last_name}"
+    anonymous? ? "Anonymous customer" : "#{first_name} #{last_name}"
   end
 
   def global_credits
@@ -106,6 +123,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     order
   end
 
+  def can_purchase_item?(catalog_item)
+    active_credentials.map { |credential| credential.ticket_type&.catalog_item }.compact.include?(catalog_item)
+  end
+
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)
@@ -122,7 +143,14 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     last_name = auth.info&.last_name || auth.info.name.split(" ").second
 
     customer = find_by(provider: auth.provider, uid: auth.uid, event: event)
-    customer ||= event.customers.new(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: first_name, last_name: last_name, password: token, password_confirmation: token, agreed_on_registration: true) # rubocop:disable Metrics/LineLength
+    customer ||= event.customers.new(provider: auth.provider,
+                                     uid: auth.uid,
+                                     email: auth.info.email,
+                                     first_name: first_name,
+                                     last_name: last_name,
+                                     password: token,
+                                     password_confirmation: token,
+                                     agreed_on_registration: true)
 
     customer.save
     customer

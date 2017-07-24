@@ -26,9 +26,6 @@ Rails.application.routes.draw do
     end
 
     resources :users
-    resources :alerts, only: [:index, :update, :destroy] do
-      get :read_all, on: :collection
-    end
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
     resources :event_series
 
@@ -49,7 +46,6 @@ Rails.application.routes.draw do
         get :edit_event_style
         get :device_settings
         delete :remove_db
-        get :stats
         get :launch
         get :close
         post :remove_logo
@@ -59,6 +55,9 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
+        resources :alerts, only: [:index, :update, :destroy] do
+          get :read_all, on: :collection
+        end
         resources :refunds, only: [:index, :show, :destroy, :update]
         resources :orders, only: [:index, :show, :new, :create, :destroy] do
           resources :order_items, only: :update
@@ -68,6 +67,7 @@ Rails.application.routes.draw do
         resources :device_registrations, only: [:index, :show, :destroy] do
           get :download_db, on: :member
           get :resolve_time, on: :member
+          get :transactions, on: :member
         end
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
@@ -81,6 +81,9 @@ Rails.application.routes.draw do
         resources :event_registrations, except: :show  do
           get :resend, on: :member
         end
+
+        get 'reports/cashless', to: 'stats#cashless', as: :stats_cashless
+        get 'reports/stations', to: 'stats#stations', as: :stats_stations
 
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"
@@ -195,7 +198,7 @@ Rails.application.routes.draw do
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
       resources :gtags, only: [:show]
-      resources :orders, expect: :destroy do
+      resources :orders, except: [:destroy] do
         get :success, on: :member
         get :error, on: :member
         get :abstract_error, on: :collection
@@ -254,6 +257,7 @@ Rails.application.routes.draw do
             resources :products
             post :add_product, on: :member
             post :remove_product, on: :member
+            put :update_product, on: :member
           end
 
           resources :refunds do

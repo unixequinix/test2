@@ -1,0 +1,96 @@
+- classes = { high: "bad", medium: "neutral", low: "neutral2"}
+
+- content_for(:title) do
+  .mdl-layout-title.header-item
+    | Alerts (#{@alerts.values.map(&:size).sum})
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_alerts_path do |f|
+    = f.search_field :body_or_subject_type_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+- content_for(:actions) do
+  .floaty
+    ul.floaty-list#actions-list
+      - if @resolved
+        li.floaty-list-item
+          = link_to admins_event_alerts_path(@current_event, resolved: false) do
+            button#unresolved.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons add
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unresolved" Unresolved Alerts
+        li.floaty-list-item
+          = link_to read_all_admins_event_alerts_path(resolved: false) do
+            button#unread_all.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons drafts
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unread_all" Mark all as Unresolved
+      - else
+        li.floaty-list-item
+          = link_to admins_event_alerts_path(@current_event, resolved: true) do
+            button#resolved.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons add
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resolved" Resolved Alerts
+        li.floaty-list-item
+          = link_to read_all_admins_event_alerts_path(resolved: true) do
+            button#read_all.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons markunread
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="read_all" Mark all as Resolved
+
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+
+- if @alerts.any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    - @alerts.keys.sort.each do |key|
+      .mdl-cell.mdl-cell--2-col
+        .customer-card.mdl-card.mdl-shadow--2dp.asset_btn class="#{classes[key.to_sym]}_header" name="#{key.downcase}"
+          .mdl-card__title.mdl-card--expand
+            h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@alerts[key]&.size || 0)
+          .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
+    .mdl-layout-spacer
+
+
+- @alerts.each do |priority, alerts|
+  - klass = classes[priority.to_sym]
+  .content-grid.mdl-grid.asset-table id="#{priority.downcase}"
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"
+        h4 style="text-align: center; width: 100%;" class="#{klass}_info" #{priority.humanize} - #{alerts.count}
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card.asset_table
+            thead
+              tr class="#{klass}_info"
+                th.mdl-data-table__cell--non-numeric Time
+                th.mdl-data-table__cell--non-numeric Event
+                th.mdl-data-table__cell--non-numeric Body
+                th Resolved?
+            tbody
+              - alerts.each do |alert|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Time" = l alert.created_at
+                  td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, @current_event, alert]
+                  td.mdl-data-table__cell--non-numeric style="width: 60%" data-label="Body"
+                    - if alert.subject.is_a?(Transaction)
+                      = link_to alert.subject.name, admins_event_transaction_path(@current_event, alert.subject, type: alert.subject.category)
+                    - else
+                      = link_to alert.subject.name, [:admins, @current_event, alert.subject]
+                    | &nbsp; #{alert.body}
+
+                  td.table-actions data-label="Resolved"
+                    = best_in_place alert, :resolved, best_in_place_checkbox([:admins, @current_event, alert])
+                    .table-action
+                      = link_to [:admins, @current_event, alert], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons delete_forever
+
+    .mdl-layout-spacer
+
+
+javascript:
+  $(".asset_btn").on("click",function(){
+      type = ($(this).attr('name'));
+      $('#' + type).css("display", "flex");
+      $('.asset-table').not('#' + type).hide();
+  });

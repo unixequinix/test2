@@ -1,4 +1,8 @@
 class ProductPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
   def sample_csv?
     admin_or_promoter
   end

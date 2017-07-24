@@ -26,7 +26,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
     @ticket = @current_event.tickets.new(permitted_params)
     authorize @ticket
     if @ticket.save
-      redirect_to admins_event_tickets_path, notice: t("alerts.created")
+      redirect_to [:admins, @current_event, @ticket], notice: t("alerts.created")
     else
       flash.now[:alert] = t("alerts.error")
       render :new

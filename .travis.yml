@@ -25,6 +25,10 @@ script:
   - RAILS_ENV=test bundle exec rake db:create
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - RAILS_ENV=test bundle exec rake db:test:prepare
+  - RAILS_ENV=test bundle exec rake stats:db:drop
+  - RAILS_ENV=test bundle exec rake stats:db:create
+  - RAILS_ENV=test bundle exec rake stats:db:migrate --trace
+  - RAILS_ENV=test bundle exec rake stats:db:test:prepare
   - bundle exec rspec --fail-fast
 
 matrix:

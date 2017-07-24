@@ -4,7 +4,7 @@ RSpec.describe Transactions::Credential::GtagReplacer, type: :job do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
   let(:old_gtag) { create(:gtag, event: event, customer: customer) }
-  let(:new_gtag) { create(:gtag, event: event) }
+  let(:new_gtag) { create(:gtag, event: event, customer: create(:customer, event: event)) }
   let(:worker) { Transactions::Credential::GtagReplacer.new }
   let(:atts) { { gtag_id: new_gtag.id, event_id: event.id, ticket_code: old_gtag.tag_uid } }
 

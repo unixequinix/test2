@@ -1,0 +1,32 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h4 Product Summary
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Station
+              th.mdl-data-table__cell--non-numeric Product
+              th Quantity
+              th Total
+          tbody
+            - @result.each do |station, products|
+              - totals = products[:total]
+              - quantities = products[:quantity]
+
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Station" rowspan="#{totals.size}"
+                  = station.name
+                  br
+                  b = number_to_event_currency totals.values.sum * @current_event.credit.value
+                - product_id, total = totals.shift
+                = render "product_row", product_id: product_id, total: total, station: station, quantities: quantities
+
+              - totals.each do |product_id, total|
+                tr = render "product_row", product_id: product_id, total: total, station: station, quantities: quantities
+
+
+
+  .mdl-layout-spacer

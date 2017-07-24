@@ -9,6 +9,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize(@events)
     @events = @events.with_state(@status) if @status != "all" && params[:q].blank?
     @events = @events.page(params[:page])
+    @alerts = Alert.where(event_id: @events).group(:event_id).count
   end
 
   def new
@@ -60,12 +61,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def do_resolve_time
     @current_event.resolve_time!
     redirect_to request.referer, notice: "All timing issues solved"
-  end
-
-  def stats
-    authorize @current_event, :event_charts?
-    cookies.signed[:user_id] = current_user.id
-    render layout: "admin_event"
   end
 
   def launch

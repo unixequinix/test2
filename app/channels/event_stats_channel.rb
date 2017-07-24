@@ -1,73 +1,30 @@
 class EventStatsChannel < ApplicationCable::Channel
   def subscribed
     @event = Event.find(params[:id])
-    initial_stats(@event)
-    stream_for(@event, coder: ActiveSupport::JSON) { |data| transmit(render_stats(data["data"])) if data["data"]["status_code"].zero? }
-    transmit render(@data)
+    stream_for(@event, coder: ActiveSupport::JSON) { transmit(render(@event)) }
+    transmit render(@event)
   end
 
   private
 
-  def render_stats(atts) # rubocop:disable all
-    atts.symbolize_keys!
+  def render(event)
+    stats = event.stats
 
-    if %w[sale topup refund record_credit sale_refund].include?(atts[:action]) || atts[:action].ends_with?("fee")
-      @data[:topups] += atts[:credits].abs if atts[:action].eql?("topup")
-      @data[:sales] += atts[:credits].abs if atts[:action].eql?("sale")
-      @data[:refunds] += atts[:credits].abs if atts[:action].eql?("refund")
-      @data[:fees] += atts[:credits].abs if atts[:action].ends_with?("_fee")
-      @data[:actions][atts[:action]] = @data[:actions][atts[:action]].to_i + 1
+    locals = {
+      event:           event,
+      payment_methods: stats.select(:payment_method).distinct.pluck(:payment_method).sort,
+      online_topups:   stats.topups.online.group(:payment_method).sum(:total),
+      onsite_topups:   stats.topups.onsite.group(:payment_method).sum(:total),
+      online_refunds:  stats.refunds.online.group(:payment_method).sum(:total),
+      onsite_refunds:  stats.refunds.onsite.group(:payment_method).sum(:total),
+      sales:           stats.sales.onsite.group(:payment_method).sum(:total),
+      sale_refunds:    stats.sale_refunds.group(:payment_method).sum(:total),
+      initial_fees:    stats.initial_fees.group(:payment_method).sum(:total),
+      topup_fees:      stats.topup_fees.group(:payment_method).sum(:total),
+      deposit_fees:    stats.deposit_fees.group(:payment_method).sum(:total),
+      return_fees:     stats.return_fees.group(:payment_method).sum(:total)
+    }
 
-      stations = @data[:stations].find { |hash| hash[:id].eql?(atts[:station_id]) }
-      stations[:data] += 1 if stations
-
-      hc = find_or_create(@data[:credits_chart], atts[:action])
-      hc[:data][atts[:device_created_at].to_date] = hc[:data][atts[:device_created_at].to_date].to_i + atts[:credits].abs
-    end
-
-    @data[:num_trans] += 1
-    @data[:num_gtags] += 1 if atts[:gtag_counter].eql?(1)
-    hc2 = find_or_create(@data[:transactions_chart], atts[:category])
-    hc2[:data][atts[:device_created_at].to_date] = hc2[:data][atts[:device_created_at].to_date].to_i + 1
-
-    render(@data)
-  end
-
-  def initial_stats(event)
-    @data = { credit_name: event.credit.name, currency_symbol: event.currency, credit_value: event.credit.value, event_id: event.id }
-
-    transactions = event.transactions.status_ok
-    credit_transactions = transactions.credit
-
-    sales = credit_transactions.where(action: "sale")
-    @data[:sales] = sales.sum(:credits).abs
-    @data[:topups] = credit_transactions.where(action: "topup").sum(:credits).abs
-    @data[:refunds] = credit_transactions.where(action: "refund").sum(:credits).abs
-    @data[:num_trans] = transactions.count
-    @data[:num_gtags] = event.gtags.count
-    @data[:fees] = credit_transactions.where("action LIKE '%_fee'").count
-    @data[:stations] = event.stations.map { |s| { id: s.id, name: s.name, data: sales.where(station: s).sum(:credits).abs } }
-    @data[:actions] = credit_transactions.group(:action).count
-
-    @data[:transactions_chart] = %w[credit money credential].map do |type|
-      { name: type, data: transactions.send(type).group_by_day(:device_created_at).count }
-    end
-
-    @data[:credits_chart] = %w[sale topup].map do |action|
-      data = credit_transactions.where(action: action).group_by_hour(:device_created_at).sum(:credits)
-      data = data.collect { |k, v| [k, v.to_i.abs] }
-      { name: action, data: Hash[data] }
-    end
-  end
-
-  def render(data)
-    ApplicationController.render(partial: 'admins/events/numbers', locals: { data: data })
-  end
-
-  def find_or_create(arr, name)
-    result = arr.find { |hash| hash[:name].eql?(name) }
-    result = { name: name, data: {} } unless result
-    arr << result unless result
-    result
+    ApplicationController.render(partial: 'admins/events/stats/cashless_info', locals: locals)
   end
 end
