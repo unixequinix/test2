@@ -8,6 +8,10 @@ class DeviceRegistration < ApplicationRecord
     device.asset_tracker.present? ? device.asset_tracker : device.mac
   end
 
+  def time_diff
+    current_time.present? ? current_time - updated_at : 0
+  end
+
   # rubocop:disable Metrics/LineLength, Rails/TimeZone
   def resolve_time!(start_date = event.start_date.to_formatted_s(:transactions), end_date = event.end_date.to_formatted_s(:transactions), actions = %w[sale sale_refund])
     device_ts = event.transactions.where(device_uid: device.mac).order(:device_db_index)
