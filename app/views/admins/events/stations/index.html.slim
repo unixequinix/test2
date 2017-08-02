@@ -1,18 +1,19 @@
 - content_for(:title) do
-  | #{@group.humanize} Stations
+  | #{@group.to_s.humanize} Stations
 
-- content_for(:actions) do
-  .floaty
-    ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to new_admins_event_station_path(group: @group) do
-          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons add
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
+- if @group
+  - content_for(:actions) do
+    .floaty
+      ul.floaty-list#actions-list
+        li.floaty-list-item
+          = link_to new_admins_event_station_path(group: @group) do
+            button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons add
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+      ul.floaty-btn#button
+        li
+          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+            i.material-icons#changeIcon build
 
 .content-grid.mdl-grid
   .mdl-layout-spacer

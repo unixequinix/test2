@@ -20,14 +20,11 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     @ticket = Ticket.new(ticket_params.merge(event: @current_event))
 
     unless validate_ticket_type!
-      render(status: :unprocessable_entity,
-             json: { status: "unprocessable_entity", error: "Ticket type not found." }) &&
-        return
+      render(status: :unprocessable_entity, json: { status: "unprocessable_entity", error: "Ticket type not found." }) && return
     end
 
     unless @ticket.save
-      render(status: :unprocessable_entity,
-             json: { status: "unprocessable_entity", error: @ticket.errors.full_messages }) && return
+      render(status: :unprocessable_entity, json: { status: "unprocessable_entity", error: @ticket.errors.full_messages }) && return
     end
 
     render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
