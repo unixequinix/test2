@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def user_not_authorized
+    respond_to do |format|
+      format.html { redirect_to admins_events_path, alert: t("alerts.not_authorized") }
+      format.json { render json: { error: t("alerts.not_authorized") }, status: :unauthorized }
+      format.text { "User not authorized" }
+    end
+  end
+
   def configure_permitted_parameters
     added_attrs = %i[username email password password_confirmation event_id]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
