@@ -18,7 +18,7 @@
       .form-inputs
         label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='alcohol_forbidden'
           span.mdl-switch__label.form-label Alcohol Forbidden
-          = f.input :alcohol_forbidden, value: true, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: pack.pack_catalog_items.select{|i| i.catalog_item.eql?(@item) }.first.amount.eql?(1) }
+          = f.input :alcohol_forbidden, value: true, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: pack.pack_catalog_items.select{|i| i.catalog_item.eql?(@item) }.first&.amount&.eql?(1) }
 
     .fieldset
       .section-header
