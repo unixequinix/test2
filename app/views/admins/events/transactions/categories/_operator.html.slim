@@ -5,15 +5,16 @@
         i.material-icons store
         |Operator
     .mdl-card__supporting-text
-      - permission = @current_event.operator_permissions.find(@transaction.catalog_item_id)
-      table.mdl-data-table.mdl-js-data-table.within-card
-        tbody
-          tr
-            td.mdl-data-table__cell--non-numeric Role
-            td = permission.role.humanize
-          tr
-            td.mdl-data-table__cell--non-numeric Group
-            td = permission.group&.humanize
-          tr
-            td.mdl-data-table__cell--non-numeric Station ID
-            td = permission.station&.name
+      - permission = @current_event.operator_permissions.find_by(id: @transaction.catalog_item_id)
+      - if permission
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Role
+              td = permission.role.humanize
+            tr
+              td.mdl-data-table__cell--non-numeric Group
+              td = permission.group&.humanize
+            tr
+              td.mdl-data-table__cell--non-numeric Station ID
+              td = permission.station&.name
