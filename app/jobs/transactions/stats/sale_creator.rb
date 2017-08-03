@@ -3,6 +3,8 @@ class Transactions::Stats::SaleCreator < Transactions::Base
 
   TRIGGERS = %w[sale sale_refund].freeze
 
+  queue_as :low
+
   def perform(atts)
     t = CreditTransaction.find(atts[:transaction_id])
     t_atts = extract_atts_from_transaction(t).merge(payment_method: "credits")

@@ -5,8 +5,8 @@ FactoryGirl.define do
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
-    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:items_amount)
     sequence(:price)
@@ -20,8 +20,8 @@ FactoryGirl.define do
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
-    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:credits)
     sequence(:refundable_credits)
@@ -35,8 +35,8 @@ FactoryGirl.define do
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
-    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -46,8 +46,8 @@ FactoryGirl.define do
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
-    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     direction 1
   end
@@ -59,8 +59,8 @@ FactoryGirl.define do
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
-    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -70,8 +70,8 @@ FactoryGirl.define do
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
-    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 end

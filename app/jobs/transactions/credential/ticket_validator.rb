@@ -1,6 +1,8 @@
 class Transactions::Credential::TicketValidator < Transactions::Base
   TRIGGERS = %w[ticket_validation].freeze
 
+  queue_as :low
+
   def perform(atts)
     transaction = CredentialTransaction.find(atts[:transaction_id])
     event = transaction.event

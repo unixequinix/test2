@@ -1,6 +1,8 @@
 class Transactions::Operator::PermissionCreator < Transactions::Base
   TRIGGERS = %w[record_operator_permission].freeze
 
+  queue_as :low
+
   def perform(atts)
     event = Event.find(atts[:event_id])
     station = event.stations.find_by(station_event_id: atts[:station_permission_id])

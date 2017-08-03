@@ -3,6 +3,8 @@ class Transactions::Stats::TopupCreator < Transactions::Base
 
   TRIGGERS = %w[onsite_topup onsite_refund].freeze
 
+  queue_as :low
+
   def perform(atts)
     t = MoneyTransaction.find(atts[:transaction_id])
 

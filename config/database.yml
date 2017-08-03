@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: utf8
-  pool: 5
+  pool: 15
   port: 5432
   host: glownethotfixdb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
   password: <%= ENV["pg_password"] %>

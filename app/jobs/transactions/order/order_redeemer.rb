@@ -1,6 +1,8 @@
 class Transactions::Order::OrderRedeemer < Transactions::Base
   TRIGGERS = %w[order_redeemed].freeze
 
+  queue_as :low
+
   def perform(atts)
     transaction = OrderTransaction.find(atts[:transaction_id])
     customer = transaction.event.customers.find(atts[:customer_id])

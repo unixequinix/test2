@@ -6,6 +6,8 @@ RSpec.describe Transactions::Credit::BalanceUpdater, type: :job do
   let(:event) { create(:event) }
   let(:params) { { gtag_id: create(:gtag, event: event).id, event_id: event.id } }
 
+  before { allow(Transactions::Stats::SaleCreator).to receive(:perform_later).once }
+
   it "calls recalculate_balance on the given customer" do
     expect_any_instance_of(Gtag).to receive(:recalculate_balance)
     worker.perform_now(params)
