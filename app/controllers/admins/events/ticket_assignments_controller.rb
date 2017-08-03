@@ -24,7 +24,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
   def destroy
     @ticket = @current_event.tickets.find(params[:id])
     authorize @ticket.customer, :destroy_credential?
-    @ticket.unassign_customer(:admin, current_user)
+    @ticket.unassign_customer(current_user, :admin)
     flash[:notice] = t("credentials.unassigned", item: "Ticket")
     redirect_to request.referer
   end
