@@ -7,10 +7,9 @@ class Transactions::Operator::PermissionCreator < Transactions::Base
 
     begin
       permission = event.operator_permissions.find_or_create_by!(role: atts[:role], group: atts[:group], station: station)
+      event.transactions.find(atts[:transaction_id]).update!(catalog_item_id: permission.id)
     rescue ActiveRecord::RecordNotUnique
       retry
     end
-
-    event.transactions.find(atts[:transaction_id]).update!(catalog_item_id: permission.id)
   end
 end
