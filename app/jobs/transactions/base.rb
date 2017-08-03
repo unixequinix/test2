@@ -23,13 +23,6 @@ class Transactions::Base < ApplicationJob
   end
 
   def execute_operations(atts)
-    Transactions::Credit::BalanceUpdater.inspect
-    Transactions::Operator::PermissionCreator.inspect
-    Transactions::Order::OrderRedeemer.inspect
-    Transactions::Stats::FeeCreator.inspect
-    Transactions::Stats::SaleCreator.inspect
-    Transactions::Stats::TopupCreator.inspect
-
     children = self.class.descendants
     children.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
   end
