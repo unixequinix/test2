@@ -9,6 +9,6 @@ Sidekiq.configure_client do |config|
 end
 
 if Rails.env.development? || Rails.env.test?
-  #require 'sidekiq/testing'
-  #Sidekiq::Testing.inline!
+  require 'sidekiq/testing'
+  Sidekiq::Testing.inline!
 end
