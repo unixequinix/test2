@@ -93,6 +93,6 @@ hr
     - replaced_uid = @current_event.transactions.status_ok.find_by(gtag_id: gtag.id, action: "gtag_replacement").ticket_code
     - gtags = [@current_event.gtags.find_by(tag_uid: replaced_uid), gtag]
     - transactions = gtags.map(&:transactions).flatten
-    = render(root + "onsite_transactions", transactions: transactions, title: "(#{gtags.any?(&:active?) ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtags.map(&:tag_uid).to_sentence}" )
+    = render(root + "onsite_transactions", transactions: transactions, title: "(#{gtags.any?(&:active?) ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtags.map(&:tag_uid).to_sentence}", closed: true )
   - else
-    = render(root + "onsite_transactions", transactions: gtag.transactions, title: "(#{gtag.active? ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtag.tag_uid}" )
+    = render(root + "onsite_transactions", transactions: gtag.transactions, title: "(#{gtag.active? ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtag.tag_uid}", closed: true )

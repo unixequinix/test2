@@ -1,3 +1,5 @@
+- closed ||= false
+
 - if transactions.any?
   - counters = transactions.map(&:gtag_counter).sort
   - all_counters = (1..counters.last).to_a
@@ -11,8 +13,11 @@
           .mdl-cell.mdl-cell--6-col = title
           .mdl-cell.mdl-cell--6-col.right
             a.collapse-link-closed
-              i.fa.fa-chevron-down
-        .table-responsive style=("display: none;")
+              - if closed
+                i.fa.fa-chevron-down
+              - else
+                i.fa.fa-chevron-up
+        .table-responsive style="display: #{closed ? 'none' : 'true'}"
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
               tr
