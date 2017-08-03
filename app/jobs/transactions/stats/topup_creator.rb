@@ -9,7 +9,7 @@ class Transactions::Stats::TopupCreator < Transactions::Base
     t = MoneyTransaction.find(atts[:transaction_id])
 
     action = t.action.gsub("onsite_", "")
-    total = t.price.abs * t.event.credit.value
+    total = t.price.abs / t.event.credit.value
     t_atts = extract_atts_from_transaction(t).merge(payment_method: t.payment_method, action: action, transaction_counter: 0, total: total)
 
     create_stat(t_atts)
