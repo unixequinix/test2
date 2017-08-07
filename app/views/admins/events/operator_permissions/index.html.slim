@@ -2,7 +2,7 @@
   | Operator Permissions
 
 - content_for(:actions) do
-  .floaty
+  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to new_admins_event_operator_permission_path do
@@ -46,5 +46,3 @@
 
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @permissions
   .mdl-layout-spacer
-
-

@@ -7,7 +7,7 @@
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  .floaty
+  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       - unless @station.category.eql?("customer_portal")
         li.floaty-list-item

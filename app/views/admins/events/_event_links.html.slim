@@ -56,7 +56,7 @@
         span.mdl-button__ripple-container NO
 
 - content_for(:actions) do
-  .floaty
+  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       - if policy(@current_event).edit?
         - if current_user.admin?
