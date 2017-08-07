@@ -18,7 +18,6 @@
   - [default, 4]
   - [medium, 2]
   - [low, 1]
-  - [mailers, 1]
 
 # you can override settings based on environment
 production:
