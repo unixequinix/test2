@@ -42,6 +42,7 @@
       .small Server Transactions
   .mdl-layout-spacer
 
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
@@ -51,7 +52,19 @@
           h5 = best_in_place @device, :asset_tracker, url: [:admins, @device]
           .small = @registration.app_version
         .mdl-cell.mdl-cell--6-col.right
-          i = @device.mac
+          table style="float: right"
+            tr
+              td &nbsp;
+              td style="color: #999" = @device.mac
+            tr.small
+              td Last Connection
+              td style="color: #999" = l @registration.updated_at
+            tr.small
+              td Last Time
+              td style="color: #999" = l @registration.current_time
+            tr.small
+              td Time Difference
+              td style="color: #999" = distance_of_time_in_words @registration.time_diff
 
 
       - if @device_transactions.any?

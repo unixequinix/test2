@@ -3,6 +3,8 @@ class Transactions::Stats::FeeCreator < Transactions::Base
 
   TRIGGERS = %w[gtag_return_fee gtag_deposit_fee initial_fee topup_fee].freeze
 
+  queue_as :low
+
   def perform(atts)
     t = CreditTransaction.find(atts[:transaction_id])
 

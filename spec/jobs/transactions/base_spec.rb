@@ -17,32 +17,6 @@ RSpec.describe Transactions::Base, type: :job do
     }
   end
 
-  describe ".apply_customers" do
-    it "if not present in neither, creates one" do
-      expect { base.perform_now(atts) }.to change(Customer, :count).by(1)
-    end
-
-    it "if not present in gtag but present in transactions, uses transactions" do
-      atts[:customer_id] = customer.id
-      expect { base.perform_now(atts) }.to change { gtag.reload.customer }.from(nil).to(customer)
-    end
-
-    it "if not present in transaction but present in gtag, uses gtags" do
-      gtag.update! customer: customer
-      expect { base.perform_now(atts) }.not_to change(gtag.reload, :customer)
-    end
-
-    it "and adds customer_id to transaction" do
-      gtag.update! customer: customer
-      expect { base.perform_now(atts) }.to change { customer.reload.transactions.count }.from(0).to(1)
-    end
-
-    it "assigns any customer to the gtag not matter what" do
-      expect(gtag.customer).to be_nil
-      expect { base.perform_now(atts) }.to change { gtag.reload.customer }.from(nil)
-    end
-  end
-
   describe "when sale_items_attributes is blank" do
     after do
       expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
@@ -72,21 +46,12 @@ RSpec.describe Transactions::Base, type: :job do
     end
   end
 
-  it "does not create a Gtag when tag_uid is present in DB" do
-    event.gtags << gtag
-    expect { base.perform_now(atts) }.not_to change(Gtag, :count)
-  end
-
-  it "creates a Gtag for the event when tag_uid is not present in DB" do
-    atts[:customer_tag_uid] = "BBBBBBBBBBBBBB"
-    expect { base.perform_now(atts) }.to change(Gtag, :count).by(1)
-  end
-
   describe "descendants" do
     it "executes the job defined by action" do
       expected_atts = { action: "sale", event_id: event.id, type: "CreditTransaction", credits: 30, customer_tag_uid: gtag.tag_uid, status_code: 0 }
       atts[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(expected_atts))
+      allow(Transactions::Stats::SaleCreator).to receive(:perform_later).once
       base.perform_now(atts)
     end
 
@@ -127,6 +92,7 @@ RSpec.describe Transactions::Base, type: :job do
     it "should only execute subscriptors if the transaction created is new" do
       atts[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
+      allow(Transactions::Stats::SaleCreator).to receive(:perform_later).once
       base.perform_now(atts)
       at = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
       base.perform_now(at)

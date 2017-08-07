@@ -10,7 +10,11 @@ class Events::RefundsController < Events::EventsController
   end
 
   def create
+    @payment_gateways = @current_event.payment_gateways.refund
     @refund = @refunds.find { |refund| refund.gateway.eql? permitted_params[:gateway] }
+
+    render(:new) && return if @refund.blank?
+
     @refund.prepare(permitted_params)
 
     if @refund.save
@@ -18,7 +22,6 @@ class Events::RefundsController < Events::EventsController
       @refund.complete!
       redirect_to customer_root_path(@current_event), notice: t("refunds.success")
     else
-      @payment_gateways = @current_event.payment_gateways.refund
       flash.now[:error] = @refund.errors.full_messages.to_sentence
       render :new
     end

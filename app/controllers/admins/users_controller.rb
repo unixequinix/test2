@@ -1,5 +1,8 @@
 class Admins::UsersController < ApplicationController
   layout "admin"
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   before_action :set_user, only: %i[update destroy show edit]
 
   def index
@@ -7,6 +10,7 @@ class Admins::UsersController < ApplicationController
     @users = @q.result
     @users = User.all.order(:role, :email).page(params[:per_page]) if params[:q].blank?
     @users = @users.page(params[:page])
+    authorize @users
   end
 
   def new

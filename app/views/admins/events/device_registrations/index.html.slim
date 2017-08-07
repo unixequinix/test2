@@ -58,6 +58,13 @@
                     i.material-icons style="color: #e26465" signal_wifi_off
 
                 td
+                  - if registration.time_diff < 1
+                    i.material-icons style="color: #9ecf68" timer
+                  - else
+                    span style="color: #e26465; padding-right: 10px;" = distance_of_time_in_words registration.time_diff
+                    i.material-icons style="color: #e26465" timer_off
+
+                td
                   - if registration.operator
                     .small
                       span = registration.operator

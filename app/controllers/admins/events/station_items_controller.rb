@@ -49,7 +49,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
 
   def find_product
     skip_authorization
-    @products = @current_event.products.where("lower(name) LIKE '%#{params[:product_name].downcase}%'").order(:name)
+    @products = @current_event.products.with_name_like(params[:product_name]).order(:name)
     render partial: "product_results"
   end
 

@@ -8,20 +8,16 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   def create
     authorize @customer, :create_credential?
-    @code = permitted_params[:tag_uid].strip
+    @code = permitted_params[:reference].strip
     @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
-
     @gtag.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Tag")) if @gtag.customer_not_anonymous?
 
-    if @gtag.validate_assignation
-      @gtag.update(active: permitted_params[:active].present?)
-      @customer.gtags.update_all(active: false) if @gtag.active?
-      @gtag.assign_customer(@customer, current_user, :admin)
-      redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Tag"))
-    else
-      flash.now[:errors] = errors.to_sentence
-      render(:new)
-    end
+    render(:new) && return unless @gtag.validate_assignation
+
+    @gtag.update(active: permitted_params[:active].present?)
+    @customer.gtags.update_all(active: false) if @gtag.active?
+    @gtag.assign_customer(@customer, current_user, :admin)
+    redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Tag"))
   end
 
   def destroy
@@ -39,6 +35,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:gtag).permit(:tag_uid, :ticket_type_id, :active, :event_id)
+    params.require(:gtag).permit(:reference, :ticket_type_id, :active, :event_id)
   end
 end

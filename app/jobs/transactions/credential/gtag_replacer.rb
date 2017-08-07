@@ -1,5 +1,9 @@
 class Transactions::Credential::GtagReplacer < Transactions::Base
+  include TransactionsHelper
+
   TRIGGERS = %w[gtag_replacement].freeze
+
+  queue_as :low
 
   def perform(atts)
     event = Event.find(atts[:event_id])

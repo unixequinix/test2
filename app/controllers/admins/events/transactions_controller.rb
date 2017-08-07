@@ -34,20 +34,23 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   def status_9
     @transaction.update(status_code: 9, status_message: "cancelled by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    redirect_to(request.referer, notice: "Transaction cancelled successfully")
+    return_url = request.referer || admins_event_transaction_path(@current_event, @transaction, type: @transaction.category)
+    redirect_to(return_url, notice: "Transaction cancelled successfully")
   end
 
   def status_0
     @transaction.update(status_code: 0, status_message: "accepted by user #{current_user.email}")
     @transaction.gtag&.recalculate_balance
-    redirect_to(request.referer, notice: "Transaction accepted successfully")
+    return_url = request.referer || admins_event_transaction_path(@current_event, @transaction, type: @transaction.category)
+    redirect_to(return_url, notice: "Transaction accepted successfully")
   end
 
   def destroy
     @transaction = @current_event.transactions.find(params[:id])
     authorize @transaction
     message = @transaction.destroy ? { notice: t('alerts.destroyed') } : { alert: @transaction.errors.full_messages.join(",") }
-    redirect_to request.referer, message
+    return_url = request.referer || admins_event_transactions_path(@current_event)
+    redirect_to return_url, message
   end
 
   private

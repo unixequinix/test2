@@ -2,8 +2,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   before_action :set_station, except: %i[index new create]
 
   def index
-    @group = params[:group]
-    @stations = @current_event.stations.where(category: Station::GROUPS[@group.to_sym]).order(hidden: :asc, name: :asc)
+    @group = params[:group]&.to_sym
+    @stations = @current_event.stations.where(category: Station::GROUPS[@group]).order(hidden: :asc, name: :asc)
+    @stations = @current_event.stations.all if @group.blank?
     authorize @stations
   end
 

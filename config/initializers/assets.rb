@@ -13,5 +13,5 @@ Rails.application.config.assets.version = '2.1'
 assets = %w( .svg .eot .woff .ttf welcome_admin.css admin.css cable.js customer.css customer.js layout.css)
 Rails.application.config.assets.precompile += assets
 
-specific = %w( specific/events-form.js specific/orders.js specific/intercom_logged_in.js specific/intercom_logged_out.js)
+specific = %w( specific/events-form.js specific/orders.js specific/intercom.js)
 Rails.application.config.assets.precompile += specific

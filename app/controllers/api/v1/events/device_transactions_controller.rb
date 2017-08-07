@@ -4,7 +4,10 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
       next if atts.empty?
       action = atts[:action].downcase
       server_count = @current_event.transactions.where(device_uid: atts[:device_uid]).count
-      new_atts = atts.slice(:battery, :number_of_transactions).merge(server_transactions: server_count, app_version: params[:app_version])
+      new_atts = atts.slice(:battery, :number_of_transactions)
+      new_atts[:current_time] = params[:current_time]
+      new_atts[:server_transactions] = server_count
+      new_atts[:app_version] = params[:app_version]
       new_atts[:action] = action if action.in?(DeviceTransaction::ACTIONS)
 
       device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)

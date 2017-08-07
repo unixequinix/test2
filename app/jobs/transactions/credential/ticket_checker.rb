@@ -1,6 +1,8 @@
 class Transactions::Credential::TicketChecker < Transactions::Base
   TRIGGERS = %w[ticket_checkin].freeze
 
+  queue_as :low
+
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
     code = t.ticket_code

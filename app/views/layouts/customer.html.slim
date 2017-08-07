@@ -14,16 +14,12 @@ html
 
 
   body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{@current_event.background.url})")
-    - if @current_customer
+    - if @current_event.open_portal_intercom?
       javascript:
-        var @current_user_email, @current_user_id, @current_user_name;
-        @current_user_email = "#{@current_customer&.email}";
-        @current_user_name = "#{@current_customer&.full_name}";
-        @current_user_id = "#{@current_customer&.id}";
-      = javascript_include_tag "specific/intercom_logged_in"
-
-    - else
-      = javascript_include_tag "specific/intercom_logged_out"
+        var current_user_email = "#{@current_customer&.email}";
+        var current_user_name = "#{@current_customer&.full_name}";
+        var current_user_id = "#{@current_customer&.id}";
+      = javascript_include_tag "specific/intercom"
 
     .content-grid.mdl-grid
       .mdl-layout-spacer

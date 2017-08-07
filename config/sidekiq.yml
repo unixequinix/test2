@@ -4,7 +4,7 @@
 # Place this file at config/sidekiq.yml and Sidekiq will
 # pick it up automatically.
 :verbose: false
-:concurrency: 1
+:concurrency: 10
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: log/sidekiq.log
 
@@ -15,9 +15,10 @@
 # even put in dynamic logic, like a host-specific queue.
 # http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
 :queues:
-  - default
-  - mailers
+  - [default, 4]
+  - [medium, 2]
+  - [low, 1]
 
 # you can override settings based on environment
 production:
-  :concurrency: 1
+  :concurrency: 10

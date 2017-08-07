@@ -26,7 +26,7 @@
             i.material-icons bookmark_border
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ticket" Assign Ticket
       li.floaty-list-item
-        = link_to new_admins_event_ticket_assignment_path(@current_event, @customer) do
+        = link_to download_transactions_admins_event_customer_path(@current_event, @customer) do
           button#credit_history.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="credit_history" Credit History
@@ -41,13 +41,13 @@
           = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id) do
             button#new_order.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add_shopping_cart
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" new Order
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" New Order
       - if current_user.admin? && !@customer.anonymous?
         li.floaty-list-item
           = link_to edit_admins_event_customer_path(@current_event, @customer) do
             button#edit_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_customer" new Order
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_customer" Edit Customer
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -93,6 +93,6 @@ hr
     - replaced_uid = @current_event.transactions.status_ok.find_by(gtag_id: gtag.id, action: "gtag_replacement").ticket_code
     - gtags = [@current_event.gtags.find_by(tag_uid: replaced_uid), gtag]
     - transactions = gtags.map(&:transactions).flatten
-    = render(root + "onsite_transactions", transactions: transactions, title: "(#{gtags.any?(&:active?) ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtags.map(&:tag_uid).to_sentence}" )
+    = render(root + "onsite_transactions", transactions: transactions, title: "(#{gtags.any?(&:active?) ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtags.map(&:tag_uid).to_sentence}", closed: true )
   - else
-    = render(root + "onsite_transactions", transactions: gtag.transactions, title: "(#{gtag.active? ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtag.tag_uid}" )
+    = render(root + "onsite_transactions", transactions: gtag.transactions, title: "(#{gtag.active? ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtag.tag_uid}", closed: true )

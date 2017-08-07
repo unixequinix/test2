@@ -163,6 +163,9 @@
                     td.mdl-data-table__cell--non-numeric Customer Portal
                     td = best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])
                   tr
+                    td.mdl-data-table__cell--non-numeric Customer Portal InterCom
+                    td = best_in_place @current_event, :open_portal_intercom, best_in_place_checkbox([:admins, @current_event])
+                  tr
                     td.mdl-data-table__cell--non-numeric Ticket Assignation
                     td = best_in_place @current_event, :open_tickets, best_in_place_checkbox([:admins, @current_event])
                   tr
