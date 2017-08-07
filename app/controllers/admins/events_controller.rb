@@ -188,6 +188,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :app_version,
                                   :open_api,
                                   :open_portal,
+                                  :open_portal_intercom,
                                   :open_refunds,
                                   :open_topups,
                                   :open_tickets,
