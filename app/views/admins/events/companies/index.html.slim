@@ -6,7 +6,7 @@
     = f.search_field :name_or_access_token_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-  .floaty
+  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to new_admins_event_company_path do
@@ -58,7 +58,3 @@
               span.mdl-tooltip data-mdl-for="delete_#{company.id}" Delete
     = render "layouts/pagination", objects: @companies
   .mdl-layout-spacer
-
-
-
-

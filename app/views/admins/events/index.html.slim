@@ -6,7 +6,7 @@
   .mdl-layout-title.header-item Events
 
 - content_for(:actions) do
-  .floaty
+  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       - unless Rails.env.production?
         li.floaty-list-item
@@ -60,5 +60,3 @@
                 td.mdl-data-table__cell--non-numeric data-label="End" = event.end_date.to_date.to_formatted_s(:short)
                 td data-label="Since" #{time_ago_in_words event.created_at} ago
   .mdl-layout-spacer
-
-

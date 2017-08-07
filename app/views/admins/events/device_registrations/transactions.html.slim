@@ -8,7 +8,7 @@
 
 - if current_user.admin?
   - content_for(:actions) do
-    .floaty
+    *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
       ul.floaty-list#actions-list
         li.floaty-list-item
           = link_to [:download_db, :admins, @current_event, @registration] do
