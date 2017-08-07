@@ -45,5 +45,7 @@ module GlownetWeb
     config.middleware.use Rack::Attack
 
     config.active_record.belongs_to_required_by_default = true
+
+    config.action_mailer.deliver_later_queue_name = 'low'
   end
 end
