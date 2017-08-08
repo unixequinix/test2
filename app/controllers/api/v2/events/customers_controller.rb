@@ -69,7 +69,10 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_customer
-    @customer = @current_event.customers.find_by(id: params[:id]) || @current_event.customers.find_by(email: params[:id])
+    customers = @current_event.customers
+    customer_id = customers.find_by(id: params[:id])&.id || customers.find_by(email: params[:id])&.id
+
+    @customer = customers.find(customer_id)
     authorize @customer
   end
 

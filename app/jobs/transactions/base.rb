@@ -11,24 +11,12 @@ class Transactions::Base < ApplicationJob
     begin
       transaction = klass.find_or_initialize_by(atts.slice(*SEARCH_ATTS))
       return unless transaction.new_record?
-      transaction.update!(column_attributes(klass, atts))
+      transaction.update! atts.slice(*klass.column_names.compact.map(&:to_sym))
     rescue ActiveRecord::RecordNotUnique
       retry
     end
 
-    Transactions::PostProcessor.perform_later(transaction)
-
-    return if transaction.status_not_ok?
-    execute_operations(atts.merge(transaction_id: transaction.id))
-  end
-
-  def execute_operations(atts)
-    children = self.class.descendants
-    children.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
-  end
-
-  def column_attributes(klass, atts)
-    atts.slice(*klass.column_names.compact.map(&:to_sym))
+    Transactions::PostProcessor.perform_later(atts.merge(transaction_id: transaction.id))
   end
 
   def preformat_atts(atts)
