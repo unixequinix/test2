@@ -1,24 +1,30 @@
 require "rails_helper"
 
 RSpec.describe Transactions::Credit::BalanceUpdater, type: :job do
-  let(:base) { Transactions::Base }
   let(:worker) { Transactions::Credit::BalanceUpdater }
   let(:event) { create(:event) }
-  let(:params) { { gtag_id: create(:gtag, event: event).id, event_id: event.id } }
+  let(:gtag) { create(:gtag, event: event) }
+  let(:atts) { { gtag_id: gtag.id, event_id: event.id, customer_tag_uid: gtag.tag_uid } }
 
-  before { allow(Transactions::Stats::SaleCreator).to receive(:perform_later).once }
-
-  it "calls recalculate_balance on the given customer" do
-    expect_any_instance_of(Gtag).to receive(:recalculate_balance)
-    worker.perform_now(params)
+  it "calls recalculate_balance on the given gtag" do
+    expect(Gtag).to receive(:find).once.with(gtag.id).and_return(gtag)
+    expect(gtag).to receive(:recalculate_balance).once
+    worker.perform_now(atts)
   end
 
-  %w[sale topup refund fee sale_refund record_credit].each do |action|
-    it "it is a subscriber for the action '#{action}'" do
-      expect(worker).to receive(:perform_later).once
-      params[:action] = action
-      params[:device_created_at] = Time.zone.now.to_s
-      base.perform_later(params)
-    end
+  it "creates an alert when customer and operator tag_uids are the same" do
+    transaction = create(:credit_transaction, event: event, customer_tag_uid: gtag.tag_uid)
+    atts[:operator_tag_uid] = gtag.tag_uid
+    atts[:transaction_id] = transaction.id
+
+    expect(Alert).to receive(:propagate).with(event, "has the same operator and customer UIDs", :medium, transaction).once
+    worker.perform_now(atts)
+  end
+
+  it "does not create an alert when customer and operator tag_uids are different" do
+    atts[:operator_tag_uid] = "NOTTHESAME"
+
+    expect(Alert).not_to receive(:propagate)
+    worker.perform_now(atts)
   end
 end

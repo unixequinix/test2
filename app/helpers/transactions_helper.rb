@@ -9,4 +9,17 @@ module TransactionsHelper
   rescue ActiveRecord::RecordNotUnique
     retry
   end
+
+  def load_classes
+    Transactions::Credential::GtagChecker.inspect
+    Transactions::Credential::GtagReplacer.inspect
+    Transactions::Credential::TicketChecker.inspect
+    Transactions::Credential::TicketValidator.inspect
+    Transactions::Credit::BalanceUpdater.inspect
+    Transactions::Operator::PermissionCreator.inspect
+    Transactions::Order::OrderRedeemer.inspect
+    Transactions::Stats::FeeCreator.inspect
+    Transactions::Stats::SaleCreator.inspect
+    Transactions::Stats::TopupCreator.inspect
+  end
 end
