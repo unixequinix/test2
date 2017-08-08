@@ -18,6 +18,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
   # GET /gtags
   def index
     @gtags = @current_event.gtags
+    authorize @gtags
 
     render json: @gtags, each_serializer: Api::V2::Simple::GtagSerializer
   end
@@ -30,6 +31,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
   # POST /gtags
   def create
     @gtag = @current_event.gtags.new(gtag_params)
+    authorize @gtag
 
     if @gtag.save
       render json: @gtag, status: :created, location: [:admins, @current_event, @gtag]
@@ -57,6 +59,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_gtag
     @gtag = @current_event.gtags.find_by(id: params[:id]) || @current_event.gtags.find_by(tag_uid: params[:id])
+    authorize @gtag
   end
 
   # Only allow a trusted parameter "white list" through.

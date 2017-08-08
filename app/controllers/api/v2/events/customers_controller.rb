@@ -16,6 +16,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
   # GET /customers
   def index
     @customers = @current_event.customers
+    authorize @customers
 
     render json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
   end
@@ -41,6 +42,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
   # POST /customers
   def create
     @customer = @current_event.customers.new(customer_params)
+    authorize @customer
 
     if @customer.save
       render json: @customer, serializer: Api::V2::Full::CustomerSerializer, status: :created, location: [:admins, @current_event, @customer]
@@ -68,6 +70,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_customer
     @customer = @current_event.customers.find_by(id: params[:id]) || @current_event.customers.find_by(email: params[:id])
+    authorize @customer
   end
 
   # Only allow a trusted parameter "white list" through.
