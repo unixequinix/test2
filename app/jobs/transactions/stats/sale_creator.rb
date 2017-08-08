@@ -14,7 +14,7 @@ class Transactions::Stats::SaleCreator < Transactions::Base
     other_amount = t.other_amount_credits.to_f.abs
     return if other_amount.zero?
 
-    o_atts = t_atts.merge(transaction_counter: 0, product_qty: other_amount, product_name: "Other Product", total: other_amount)
+    o_atts = t_atts.merge(transaction_counter: 0, product_qty: 1, product_name: "Other Product", total: other_amount)
     create_stat(o_atts)
   end
 end
