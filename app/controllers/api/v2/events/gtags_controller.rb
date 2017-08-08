@@ -58,7 +58,10 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_gtag
-    @gtag = @current_event.gtags.find_by(id: params[:id]) || @current_event.gtags.find_by(tag_uid: params[:id])
+    gtags = @current_event.gtags
+    gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
+
+    @gtag = gtags.find(gtag_id)
     authorize @gtag
   end
 
