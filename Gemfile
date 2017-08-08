@@ -79,6 +79,7 @@ gem 'activemerchant', github: "aspgems/active_merchant"
 # Asyncronous
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'sidekiq'
+gem 'sidekiq-failures'
 gem 'whenever', :require => false
 
 # PDF Generation
