@@ -6,8 +6,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-
-    if resource.save
+    if verify_recaptcha(model: resource) && resource.save
       session[:credential_type].constantize.find_by(event: @current_event, id: session[:credential_id]).assign_customer(resource, resource)
       session[:credential_id], session[:credential_type], session[:customer_id] = nil
 
@@ -21,7 +20,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
         respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
-      clean_up_passwords resource
       set_minimum_password_length
       respond_with resource
     end

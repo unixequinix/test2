@@ -43,6 +43,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
 gem 'pundit'
+gem 'recaptcha', require: 'recaptcha/rails'
 
 # Design
 gem 'font-awesome-rails'

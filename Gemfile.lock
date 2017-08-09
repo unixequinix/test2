@@ -407,6 +407,8 @@ GEM
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    recaptcha (4.3.1)
+      json
     redis (3.3.3)
     ref (2.0.0)
     responders (2.4.0)
@@ -623,6 +625,7 @@ DEPENDENCIES
   rails-erd
   ransack!
   rb-fsevent
+  recaptcha
   redis (~> 3.0)
   rfc-822
   rollbar

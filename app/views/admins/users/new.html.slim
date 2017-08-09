@@ -18,6 +18,8 @@
             = f.input :password, autocomplete: "off"
           .field
             = f.input :password_confirmation, autocomplete: "off"
+          .field
+            = recaptcha_tags
           .form-actions
             = f.button :submit, "Register", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer
