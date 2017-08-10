@@ -46,6 +46,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
 
   before_create :generate_tokens
+  before_save :round_fees
 
   validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
@@ -148,6 +149,12 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   private
+
+  def round_fees
+    self.initial_topup_fee = initial_topup_fee.to_f.round(2)
+    self.gtag_deposit_fee = gtag_deposit_fee.to_f.round(2)
+    self.topup_fee = topup_fee.to_f.round(2)
+  end
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank? || end_date >= start_date

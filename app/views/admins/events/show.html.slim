@@ -66,13 +66,13 @@
                   td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Gtag deposit fee
-                  td = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event]
+                  td#gtag_deposit_fee = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Initial Topup fee
-                  td = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event]
+                  td#initial_topup_fee = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event]
                 tr
                   td.mdl-data-table__cell--non-numeric Topup fee
-                  td = best_in_place @current_event, :topup_fee, url: [:admins, @current_event]
+                  td#topup_fee = best_in_place @current_event, :topup_fee, url: [:admins, @current_event]
   .mdl-layout-spacer
 
 .mdl-grid.light-grid
@@ -202,3 +202,20 @@
                         - else
                           i.material-icons clear
   .mdl-layout-spacer
+
+javascript:
+  var gtag_deposit_fee = $('#gtag_deposit_fee');
+  var initial_topup_fee = $('#initial_topup_fee');
+  var topup_fee = $('#topup_fee');
+  
+  gtag_deposit_fee.bind('ajax:success', function() {
+    gtag_deposit_fee.text((parseFloat(gtag_deposit_fee.text())).toFixed(2))
+  });
+  
+  initial_topup_fee.bind('ajax:success', function() {
+    initial_topup_fee.text((parseFloat(initial_topup_fee.text())).toFixed(2))
+  });
+  
+  topup_fee.bind('ajax:success', function() {
+    topup_fee.text((parseFloat(topup_fee.text())).toFixed(2))
+  });
