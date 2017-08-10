@@ -3,9 +3,7 @@ module TransactionsHelper
     # ticket_activation transactions dont have tag_uid
     return unless tag_uid
 
-    gtag = Gtag.find_or_initialize_by(tag_uid: tag_uid, event_id: event_id)
-    gtag.save!
-    gtag
+    Gtag.find_or_create_by!(tag_uid: tag_uid, event_id: event_id)
   rescue ActiveRecord::RecordNotUnique
     retry
   end
