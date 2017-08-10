@@ -24,7 +24,7 @@
               td = best_in_place @user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @user]
             tr
               td.mdl-data-table__cell--non-numeric Last Logged in
-              td = l @user.last_sign_in_at
+              td = l(@user.last_sign_in_at) if @user.last_sign_in_at
             tr
               td.mdl-data-table__cell--non-numeric Login count
               td = @user.sign_in_count
