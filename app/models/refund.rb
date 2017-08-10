@@ -33,8 +33,8 @@ class Refund < ApplicationRecord
 
   def prepare(atts)
     return unless gateway.eql?("bank_account")
-    self.field_a = atts[:field_a]
-    self.field_b = atts[:field_b]
+    self.field_a = atts[:field_a].gsub(/\s+/, '')
+    self.field_b = atts[:field_b].gsub(/\s+/, '')
     self.iban = true if event.iban?
     self.bsb = true if event.bsb?
   end
