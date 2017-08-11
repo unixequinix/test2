@@ -11,7 +11,7 @@ Devise.setup do |config|
   config.strip_whitespace_keys = [:email]
   config.skip_session_storage = [:http_auth]
   config.stretches = Rails.env.test? ? 1 : 11
-  config.reconfirmable = true
+  config.reconfirmable = false
   config.expire_all_remember_me_on_sign_out = false
   config.sign_out_all_scopes = false
   config.password_length = 3..128

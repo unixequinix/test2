@@ -138,6 +138,11 @@ es:
       mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
       mail_link: Cambiar mi contraseña
       subject: Solicitud de cambio de contraseña.
+    confirmation:
+      flash_message: 'Te hemos enviado un email de verificación de tu cuenta. Por favor, comprueba tu email y pincha en el enlace para confirmar tu cuenta.'
+      description: 'Haz click en el siguiente enlace para confirmar tu cuenta'
+      error: 'Ha ocurrido un error validando tu cuenta'
+      confirm: 'Confirmar'
     welcome:
       subject: Confirmación del registro en %{event_name}
       greet: Hola, %{name},

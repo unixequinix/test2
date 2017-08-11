@@ -6,19 +6,10 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-    if verify_recaptcha(model: resource) && resource.save
-      session[:credential_type].constantize.find_by(event: @current_event, id: session[:credential_id]).assign_customer(resource, resource)
-      session[:credential_id], session[:credential_type], session[:customer_id] = nil
 
-      if resource.active_for_authentication?
-        set_flash_message! :notice, :signed_up
-        sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
-      else
-        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
-        expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
-      end
+    if verify_recaptcha(model: resource) && resource.save
+      set_flash_message! :notice, t('email.confirmation.flash_message')
+      redirect_to customer_event_session_path(@current_event)
     else
       set_minimum_password_length
       respond_with resource
@@ -60,10 +51,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(_resource)
-    customer_root_path(@current_event)
-  end
-
-  def after_sign_up_path_for(_resource)
     customer_root_path(@current_event)
   end
 

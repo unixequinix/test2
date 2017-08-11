@@ -162,7 +162,7 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Customer Area
   #----------------------------------------------------------
-  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks" }
+  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks", confirmations: 'confirmations'}
 
   scope module: "events" do
     resources :events, only: [:show], path: "/" do

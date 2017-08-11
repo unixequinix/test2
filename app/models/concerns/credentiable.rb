@@ -28,7 +28,13 @@ module Credentiable
   end
 
   def assign_customer(new_customer, operator, origin = :portal)
-    update!(customer: new_customer)
+    if customer.present?
+      Customer.claim(event, new_customer.id, customer.id)
+      reload # this is necessary because the customer is updated in the background
+    else
+      update!(customer: new_customer)
+    end
+
     new_customer.touch
     write_assignation_transaction("assigned", operator, origin)
   end

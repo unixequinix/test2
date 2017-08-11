@@ -1,5 +1,5 @@
-class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
-  devise :database_authenticatable, :registerable, :recoverable, :omniauthable,
+class Customer < ApplicationRecord
+  devise :database_authenticatable, :registerable, :recoverable, :omniauthable, :confirmable,
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
          reset_password_within: 1.day,

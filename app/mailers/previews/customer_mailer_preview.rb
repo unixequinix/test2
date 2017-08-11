@@ -6,4 +6,8 @@ class CustomerMailerPreview < ActionMailer::Preview
   def welcome
     CustomerMailer.welcome(Customer.first)
   end
+
+  def confirmation_instructions
+    CustomerMailer.confirmation_instructions(Customer.first, "faketoken", {})
+  end
 end
