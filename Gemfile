@@ -107,6 +107,7 @@ group :development do
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem 'xray-rails'
+  gem 'letter_opener'
 end
 
 group :development, :test do
