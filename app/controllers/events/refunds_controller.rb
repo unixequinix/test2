@@ -18,6 +18,10 @@ class Events::RefundsController < Events::EventsController
     @refund.prepare(permitted_params)
 
     if @refund.save
+      refunds = Refund.where(field_a: @refund.field_a, field_b: @refund.field_b).where.not(id: @refund.id)
+      message = "has the same bank account number as #{refunds.count} other #{'refund'.pluralize(refunds.count)}"
+      Alert.propagate(@current_event, message, :medium, @refund) if refunds.any?
+
       @refund.execute_refund_of_orders unless @refund.gateway.eql?("bank_account")
       @refund.complete!
       redirect_to customer_root_path(@current_event), notice: t("refunds.success")
