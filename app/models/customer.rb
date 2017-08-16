@@ -153,6 +153,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
                                      password_confirmation: token,
                                      agreed_on_registration: true)
 
+    customer.skip_confirmation!
     customer.save
     customer
   end

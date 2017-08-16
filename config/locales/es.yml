@@ -240,7 +240,7 @@ es:
       title: Regístrate
       credential: Por favor, introduce el código de tu Ticket, Pulsera o Tarjeta para continuar.
   sessions:
-    call_to_action: Inicia sesión o regístrate
+    call_to_action: Regístrate con tu red social favorita o crea una cuenta con nosotros.
     create_account:
       link: "¡Crea una!"
       lost_password: Contraseña perdida

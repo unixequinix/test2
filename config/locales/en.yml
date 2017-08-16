@@ -251,7 +251,7 @@ en:
       title: Get started
       credential: Please enter your ticket reference, card or wristband UID to proceed
   sessions:
-    call_to_action: Sign in or create an account
+    call_to_action: Sign in with your favourite Social profile or simply create an account!
     create_account:
       link: Create an account
       lost_password: Lost password?
