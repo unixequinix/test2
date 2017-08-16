@@ -14,7 +14,7 @@ class Refund < ApplicationRecord
   scope(:query_for_csv, lambda { |event|
     joins(:customer)
       .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee,
-               refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
+               refunds.status, refunds.field_a, refunds.field_b, refunds.created_at, refunds.ip").where(customers: { event_id: event.id })
   })
 
   def complete!(refund_data = {}.to_json)

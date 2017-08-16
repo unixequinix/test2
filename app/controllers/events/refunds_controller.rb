@@ -15,7 +15,7 @@ class Events::RefundsController < Events::EventsController
 
     render(:new) && return if @refund.blank?
 
-    @refund.prepare(permitted_params)
+    @refund.prepare(permitted_params.merge(ip: request.remote_ip))
 
     if @refund.save
       refunds = Refund.where(field_a: @refund.field_a, field_b: @refund.field_b).where.not(id: @refund.id)

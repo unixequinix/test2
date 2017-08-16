@@ -69,6 +69,11 @@ RSpec.describe Customer, type: :model do
       expect(@order).to be_valid
     end
 
+    it "allows for extra atts" do
+      order = customer.build_order(@items, ip: "127.0.0.1")
+      expect(order.ip).to eq("127.0.0.1")
+    end
+
     describe "creates order_items" do
       before { @order_items = @order.order_items }
 

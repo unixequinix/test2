@@ -1,5 +1,5 @@
-class Customer < ApplicationRecord
-  devise :database_authenticatable, :registerable, :recoverable, :omniauthable, :confirmable,
+class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
+  devise :database_authenticatable, :registerable, :recoverable, :omniauthable, :trackable, :confirmable,
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
          reset_password_within: 1.day,
@@ -107,8 +107,9 @@ class Customer < ApplicationRecord
     OrderItem.where(order: orders)
   end
 
-  def build_order(items)
-    order = orders.new(event: event)
+  def build_order(items, atts = {})
+    atts[:event] = event
+    order = orders.new(atts)
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
       item_id, amount = arr
