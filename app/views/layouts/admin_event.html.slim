@@ -34,12 +34,14 @@ html
               span.mdl-tooltip data-mdl-for="customer_portal_link" Customer Portal
             | &nbsp; &nbsp;
             = link_to admins_event_path(@current_event), class: "mdl-layout-title header-item", id: "event_details_link" do
+              = @current_event.id
+              | &nbsp;-&nbsp;
               = @current_event.name
               = " (#{@current_event.state.humanize})"
               span.mdl-tooltip data-mdl-for="event_details_link" Event Dashboard
 
           .mdl-layout-spacer
-          .mdl-layout-title.header-item= yield(:title)
+          .mdl-layout-title.header-item = yield(:title)
           .mdl-layout-spacer
 
           - if @q

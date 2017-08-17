@@ -22,6 +22,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :users, through: :event_registrations
   has_many :stats
   has_many :alerts
+  has_many :device_caches
 
   has_one :credit, dependent: :destroy
 
@@ -42,8 +43,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50", panel: "200x" }, default_url: ':default_event_image_url') # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ':default_event_background_url') # rubocop:disable Metrics/LineLength
-  has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
-  has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
 
   before_create :generate_tokens
   before_save :round_fees
@@ -60,9 +59,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate :refunds_end_after_refunds_start
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
-
-  do_not_validate_attachment_file_type :device_full_db
-  do_not_validate_attachment_file_type :device_basic_db
 
   def self.try_to_open_refunds
     Event.where(state: 'launched', open_refunds: false).find_each do |event|

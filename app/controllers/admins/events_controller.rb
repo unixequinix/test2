@@ -38,6 +38,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def device_settings
+    @device_caches = @current_event.device_caches
     render layout: "admin_event"
   end
 

@@ -72,6 +72,7 @@ Rails.application.routes.draw do
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
+        resources :device_caches, only: :destroy
         resources :operator_permissions
         resources :packs do
           post :clone, on: :member
