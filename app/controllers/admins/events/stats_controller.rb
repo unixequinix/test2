@@ -1,5 +1,10 @@
 class Admins::Events::StatsController < Admins::Events::BaseController
   before_action :set_stats
+  before_action :set_filters
+
+  def cashless
+    cookies.signed[:user_id] = current_user.id
+  end
 
   def stations
     @result = {}
@@ -11,14 +16,16 @@ class Admins::Events::StatsController < Admins::Events::BaseController
     end
   end
 
-  def cashless
-    cookies.signed[:user_id] = current_user.id
-  end
-
   private
 
   def set_stats
     @stats = @current_event.stats
     authorize(@stats)
+  end
+
+  def set_filters
+    @stations = params[:stations] if params[:stations].present?
+    @start_date = params[:search].present? && params[:search][:start_date].present? ? params[:search][:start_date] : nil
+    @end_date = params[:search].present? && params[:search][:end_date].present? ? params[:search][:end_date] : nil
   end
 end

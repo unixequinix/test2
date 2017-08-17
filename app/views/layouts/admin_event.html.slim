@@ -86,14 +86,14 @@ html
             = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons bug_report
               |  Asset Tracker
-        nav.mdl-navigation.global-nav
-          span.nav-title REPORTS
-          - if policy(@current_event).event_charts? && !@current_event.created?
+        - if policy(@current_event).event_charts? && !@current_event.created?
+          nav.mdl-navigation.global-nav
+            span.nav-title REPORTS
             = link_to admins_event_stats_cashless_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
               |  Cashless
-            = link_to admins_event_stats_stations_path(@current_event), class: "mdl-navigation__link" do 
-              i.mdl-color-text--teal-200.material-icons insert_chart 
+            = link_to admins_event_stats_stations_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons insert_chart
               |  Stations
 
         nav.mdl-navigation.global-nav

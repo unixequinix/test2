@@ -14,7 +14,7 @@ module StatsHelper
       date: transaction.device_created_at,
       operator_tag_uid: transaction.operator_tag_uid,
       customer_tag_uid: transaction.customer_tag_uid,
-      device_uid: transaction.device_uid
+      device_id: Device.find_by(mac: transaction.device_uid)&.id
     }
   end
 
@@ -24,7 +24,7 @@ module StatsHelper
       product_qty: item.quantity,
       product_id: item.product_id,
       product_name: item.product.name,
-      total: (item.unit_price * item.quantity).abs
+      total: -(item.unit_price * item.quantity)
     }
   end
 

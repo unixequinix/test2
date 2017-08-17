@@ -11,10 +11,12 @@ class Transactions::Stats::SaleCreator < Transactions::Base
 
     t.sale_items.order(:id).each.with_index { |item, index| create_stat t_atts.merge(extract_atts_from_sale_item(item, index + 1)) }
 
-    other_amount = t.other_amount_credits.to_f.abs
+    other_amount = t.other_amount_credits.to_f
     return if other_amount.zero?
 
-    o_atts = t_atts.merge(transaction_counter: 0, product_qty: 1, product_name: "Other Product", total: other_amount)
+    qty = t.action.eql?("sale") ? 1 : -1
+
+    o_atts = t_atts.merge(transaction_counter: 0, product_qty: qty, product_name: "Other Product", total: other_amount)
     create_stat(o_atts)
   end
 end

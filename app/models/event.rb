@@ -145,6 +145,10 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     stations.create! name: "Yellow Card", category: "yellow_card"
   end
 
+  def start_end_dates_range
+    (start_date.to_date.to_datetime..end_date.to_datetime).map(&:to_date)
+  end
+
   private
 
   def round_fees
