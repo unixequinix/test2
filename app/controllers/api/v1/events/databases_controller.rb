@@ -2,6 +2,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   def show
     category = params[:basic].eql?("true") ? "basic" : "full"
 
+    app_version = "unknown"
     # TODO: change above line for this one when app starts sending the app version when creating caches
     # app_version = params[:app_version] || 'unknown'
 
