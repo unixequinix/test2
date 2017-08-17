@@ -3,8 +3,16 @@ require 'rails_helper'
 RSpec.describe Events::RegistrationsController, type: :controller do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
+  let(:customer_valid_atts) do
+    { email: 'email@email.com', password: 'password', first_name: 'first_name', last_name: 'last_name', agreed_on_registration: true }
+  end
+  let(:customer_invalid_atts) do
+    { email: 'email@email.com', password: 'password', first_name: 'first_name', last_name: 'last_name', agreed_on_registration: false }
+  end
 
-  before(:each) { request.env["devise.mapping"] = Devise.mappings[:customer] }
+  before(:each) do
+    request.env["devise.mapping"] = Devise.mappings[:customer]
+  end
 
   describe 'render templates' do
     context 'customer is logged in' do
@@ -37,7 +45,23 @@ RSpec.describe Events::RegistrationsController, type: :controller do
         expect(response).to redirect_to(:event_login)
       end
 
-      # TODO: edit
+      it 'POST success create customer' do
+        expect { post :create, params: { event_id: event, customer: customer_valid_atts } }.to change(Customer, :count).by(1)
+      end
+
+      it 'POST unable to create customer' do
+        expect { post :create, params: { event_id: event, customer: customer_invalid_atts } }.to change(Customer, :count).by(0)
+      end
+
+      it 'POST success create customer redirect to customer customer_event_session_path' do
+        post :create, params: { event_id: event, customer: customer_valid_atts }
+        expect(response).to redirect_to(customer_event_session_path(event))
+      end
+
+      it 'POST unable to create customer but response is ok' do
+        post :create, params: { event_id: event, customer: customer_invalid_atts }
+        expect(response).to be_ok
+      end
     end
   end
 end

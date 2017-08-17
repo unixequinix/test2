@@ -13,7 +13,8 @@ class Events::OrdersController < Events::EventsController
   end
 
   def create
-    @order = @current_customer.build_order(params[:checkout_form][:catalog_items].permit!.to_h.to_a)
+    @order = @current_customer.build_order(params[:checkout_form][:catalog_items].permit!.to_h.to_a, ip: request.remote_ip)
+
     if @order.total.positive? && @order.save
       redirect_to event_order_path(@current_event, @order)
     else

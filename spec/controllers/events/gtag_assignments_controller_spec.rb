@@ -12,6 +12,41 @@ RSpec.describe Events::GtagAssignmentsController, type: :controller do
         get :new, params: { event_id: event }
         expect(response).to be_ok
       end
+
+      context "gtag initialization without customer assignation" do
+        before { @gtag = create(:gtag, event: event) }
+
+        it 'POST create' do
+          expect do
+            post :create, params: { event_id: event, gtag: { reference: @gtag.tag_uid } }
+          end.to change(Gtag, :count).by(0)
+        end
+
+        it 'POST initialize gtag with anonymous customer' do
+          post :create, params: { event_id: event, gtag: { reference: @gtag.tag_uid } }
+          expect(event.gtags.last.customer.anonymous).to be(true)
+        end
+      end
+
+      context "gtag initialization withiout anonymous customer assignation" do
+        before do
+          customer.anonymous = false
+          customer.save
+          anonymous_customer = create(:customer, event: event, anonymous: true)
+          @gtag = create(:gtag, event: event, customer_id: anonymous_customer.id)
+        end
+
+        it 'POST create' do
+          expect do
+            post :create, params: { event_id: event, gtag: { reference: @gtag.tag_uid } }
+          end.to change(Gtag, :count).by(0)
+        end
+
+        it 'POST find gtag without anonymous customer' do
+          post :create, params: { event_id: event, gtag: { reference: @gtag.tag_uid } }
+          expect(event.gtags.last.customer.anonymous).to be(false)
+        end
+      end
     end
 
     context 'customer is not logged in' do

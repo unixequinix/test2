@@ -16,12 +16,12 @@ class Admins::UsersController < ApplicationController
   def new
     @user = User.new(email: params[:email])
     @email_disabled = true if params[:email].present?
-    render layout: "welcome_admin"
+    render :new, layout: "welcome_admin"
   end
 
   def create
     @user = User.new(permitted_params.merge(role: "promoter"))
-    if @user.save
+    if verify_recaptcha(model: @user) && @user.save
       EventRegistration.where(email: @user.email).update_all(user_id: @user.id)
       sign_in(@user, scope: :user)
       redirect_to admins_events_path, notice: t("alerts.created")

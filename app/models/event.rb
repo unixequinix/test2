@@ -22,6 +22,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :users, through: :event_registrations
   has_many :stats
   has_many :alerts
+  has_many :device_caches
 
   has_one :credit, dependent: :destroy
 
@@ -42,10 +43,9 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50", panel: "200x" }, default_url: ':default_event_image_url') # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ':default_event_background_url') # rubocop:disable Metrics/LineLength
-  has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
-  has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
 
   before_create :generate_tokens
+  before_save :round_fees
 
   validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
@@ -59,9 +59,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate :refunds_end_after_refunds_start
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
-
-  do_not_validate_attachment_file_type :device_full_db
-  do_not_validate_attachment_file_type :device_basic_db
 
   def self.try_to_open_refunds
     Event.where(state: 'launched', open_refunds: false).find_each do |event|
@@ -145,9 +142,20 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     stations.create! name: "Operator Permissions", category: "operator_permissions"
     stations.create! name: "Gtag Recycler", category: "gtag_recycler"
     stations.create! name: "Gtag Replacement", category: "gtag_replacement"
+    stations.create! name: "Yellow Card", category: "yellow_card"
+  end
+
+  def start_end_dates_range
+    (start_date.to_date.to_datetime..end_date.to_datetime).map(&:to_date)
   end
 
   private
+
+  def round_fees
+    self.initial_topup_fee = initial_topup_fee.to_f.round(2)
+    self.gtag_deposit_fee = gtag_deposit_fee.to_f.round(2)
+    self.topup_fee = topup_fee.to_f.round(2)
+  end
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank? || end_date >= start_date

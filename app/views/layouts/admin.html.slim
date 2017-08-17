@@ -23,7 +23,7 @@ html
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
         .mdl-layout__header-row
-          .event_name_header= yield(:title)
+          .event_name_header = yield(:title)
           .mdl-layout-spacer
           .mdl-layout-title.header-item
           .mdl-layout-spacer
@@ -32,8 +32,7 @@ html
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons search
-              .mdl-textfield__expandable-holder
-                = yield(:search)
+              .mdl-textfield__expandable-holder = yield(:search)
           = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
             span#out.icon.material-icons power_settings_new
             span.mdl-tooltip data-mdl-for="out"  Log out

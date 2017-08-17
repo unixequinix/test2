@@ -5,42 +5,44 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
-.mdl-grid.light-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .mdl-grid
-      .mdl-cell.mdl-cell--12-col
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            h2.mdl-card__title-text Databases
-          .mdl-card__supporting-text
-            .table-responsive
-              table.mdl-data-table.mdl-js-data-table.within-card
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric Full DB
-                    td = @current_event.device_full_db_updated_at ? l(@current_event.device_full_db_updated_at) : "Not found"
-                    td = number_to_human_size(@current_event.device_full_db_file_size)
-                    td.database__actions
-                      = link_to remove_db_admins_event_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
-                        button.icon.material-icons clear
-                        | Clear cache
-                      = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "#{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-                        button.icon.material-icons file_download
-                        | Download
+- if @device_caches.any?
+  .mdl-grid.light-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .mdl-grid
+        .mdl-cell.mdl-cell--12-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text Device Caches
+            .mdl-card__supporting-text
+              .table-responsive
+                table.mdl-data-table.mdl-js-data-table.within-card
+                  thead
+                    tr
+                      th.mdl-data-table__cell--non-numeric Version
+                      th.mdl-data-table__cell--non-numeric Category
+                      th Last Updated
+                      th File Size
+                      th &nbsp;
+                  tbody
+                    - @device_caches.each do |device_cache|
+                      tr
+                        td.mdl-data-table__cell--non-numeric data-label="Version" = device_cache.app_version
+                        td.mdl-data-table__cell--non-numeric data-label="Category" = device_cache.category.humanize
+                        td data-label="Last Updated" = l(device_cache.updated_at)
+                        td data-label="File Size" = number_to_human_size(device_cache.file_file_size)
+                        td.table-actions
+                          .table-action
+                            = link_to admins_event_device_cache_path(@current_event, device_cache), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                              button.icon.material-icons id ="delete_#{device_cache.id}" delete_forever
+                          .table-action
+                            = link_to device_cache.file.url do
+                              button.icon.material-icons id ="download_#{device_cache.id}" file_download
 
-                  tr
-                    td.mdl-data-table__cell--non-numeric Basic DB
-                    td = @current_event.device_basic_db_updated_at ? l(@current_event.device_basic_db_updated_at) : "Not found"
-                    td = number_to_human_size(@current_event.device_basic_db_file_size)
-                    td.database__actions
-                      = link_to remove_db_admins_event_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
-                        button.icon.material-icons clear
-                        | Clear cache
-                      = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-                        button.icon.material-icons file_download
-                        | Download
-  .mdl-layout-spacer
+                      span.mdl-tooltip data-mdl-for="delete_#{device_cache.id}" Delete
+                      span.mdl-tooltip data-mdl-for="download_#{device_cache.id}" Download
+
+    .mdl-layout-spacer
 
 .mdl-grid.light-grid
   .mdl-layout-spacer

@@ -15,4 +15,14 @@ class Stat < StatsBase
   scope :online, -> { where(source: %w[customer_portal admin_panel]) }
 
   validates :transaction_id, :transaction_counter, :event_id, :event_name, :credit_name, :credit_value, :action, :station_id, :station_name, :station_category, :date, :total, :payment_method, presence: true # rubocop:disable Metrics/LineLength
+
+  def self.by_dates(start_date = nil, end_date = nil)
+    if start_date && end_date
+      where("to_date(date, 'YYYY MM DD') BETWEEN ? AND ?", start_date, end_date)
+    elsif start_date
+      where("to_date(date, 'YYYY MM DD') = ?", start_date)
+    else
+      all
+    end
+  end
 end

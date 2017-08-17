@@ -3,6 +3,10 @@
 
 - classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "unknown"}
 
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_device_registrations_path do |f|
+    = f.search_field :device_asset_tracker_or_device_mac_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
 - if @registrations.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer

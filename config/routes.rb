@@ -72,6 +72,7 @@ Rails.application.routes.draw do
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
+        resources :device_caches, only: :destroy
         resources :operator_permissions
         resources :packs do
           post :clone, on: :member
@@ -162,7 +163,7 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Customer Area
   #----------------------------------------------------------
-  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks" }
+  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks", confirmations: 'confirmations'}
 
   scope module: "events" do
     resources :events, only: [:show], path: "/" do
@@ -193,11 +194,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :credentials, only: [:new, :create]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
-      resources :gtags, only: [:show]
+      resources :gtags, only: [:show] do
+        patch :ban, on: :member
+      end
       resources :orders, except: [:destroy] do
         get :success, on: :member
         get :error, on: :member

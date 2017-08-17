@@ -235,7 +235,7 @@ de:
       title: Registriere Dich
       credential: Bitte gebe Deine Ticketreferenz, Karte oder Armband nummer ein, um fortzufahren
   sessions:
-    call_to_action: Login oder Registriere
+    call_to_action: Registriere Dich bei uns mit Deinem bevorzugten sozialem Netzwerk oder mach ein Konto bei uns auf.
     create_account:
       link: "¡Erstelle eins!"
       lost_password: Passwort verloren

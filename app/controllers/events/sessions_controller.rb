@@ -3,8 +3,17 @@ class Events::SessionsController < Devise::SessionsController
 
   before_action :resolve_locale
   before_action :set_event
+  before_action :check_customer_confirmation, only: [:create]
 
   layout "customer"
+
+  def create
+    resource = warden.authenticate!(auth_options)
+    sign_in(resource)
+
+    set_flash_message!(:notice, :signed_in)
+    redirect_to after_sign_in_path_for(resource)
+  end
 
   private
 
@@ -14,6 +23,16 @@ class Events::SessionsController < Devise::SessionsController
 
   def after_sign_out_path_for(_resource)
     event_login_path(@current_event)
+  end
+
+  def check_customer_confirmation
+    customer = Customer.find_by(email: sign_in_params[:email])
+
+    return if customer.confirmed?
+
+    flash[:error] = t('sessions.log_in.unconfirmed_error')
+    expire_data_after_sign_in!
+    redirect_to request.path
   end
 
   def set_event

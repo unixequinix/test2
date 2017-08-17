@@ -137,6 +137,11 @@ en:
       mail_body: We have received a request to change your password. Click the link below to change it.
       mail_link: Change my password
       subject: Reset password instructions
+    confirmation:
+      flash_message: 'We have sent you a verification email to confirm your account. Please, check your email and follows the link to active it.'
+      description: 'Click the following link to confirm your account'
+      error: 'An error has ocurred validating your account'
+      confirm: 'Confirm'
     welcome:
       subject: Registration confirmation for %{event_name}
       greet: Hello, %{name}!
@@ -172,6 +177,21 @@ en:
       standard: Read the second row of numbers and letters (yellow highlighted)
     info: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
     placeholder: 'e.g: BA6D7DC0'
+    block: "Vanish your wristband"
+  gtag_unsubscribe:
+    banned: "Banned"
+    ban: "Unsubscribe your wristband"
+    flash_message: "Your wristband was succesfully unsubscribed"
+    modal:
+      title: "Are you sure?"
+      subtitle: "After confirm"
+      statements:
+        first: "You won't be able to use the gtag or move around the event gates anymore"
+        second: "Devices that have no internet will not receive notice of this blocking and therefore operations could be done after blocking"
+        third: "This action cannot be undone"
+      confirmation: "Still want to confirm?"
+      confirm: "Confirm"
+      cancel: "Cancel"
   header:
     edit: Edit Customer
   links:
@@ -246,13 +266,14 @@ en:
       title: Get started
       credential: Please enter your ticket reference, card or wristband UID to proceed
   sessions:
-    call_to_action: Sign in or create an account
+    call_to_action: Sign in with your favourite Social profile or simply create an account!
     create_account:
       link: Create an account
       lost_password: Lost password?
     log_in:
       link: Log in here
       title: Already have an account?
+      unconfirmed_error: "This account does not exist or it has not already been validated"
     placeholder:
       email: e.g. nickname@mail.com
       password: e.g. · · · · · ·

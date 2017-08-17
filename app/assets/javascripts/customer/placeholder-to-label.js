@@ -2,7 +2,7 @@ function placeholderToLabel() {
   var target = $("input");
 
   target.each(function() {
-    if(this.value || $(this).is(":focus")) {
+    if (this.value || $(this).is(":focus")) {
       $(this).prev().addClass("to-be-label");
     }
 
@@ -10,13 +10,13 @@ function placeholderToLabel() {
       $(this).prev().addClass("to-be-label");
     });
 
-    $(this).on("blur", function(event){
+    $(this).on("blur", function(event) {
       $(this).prev().removeClass("to-be-label");
-      if(this.value) {
+      if (this.value) {
         $(this).prev().addClass("to-be-label");
       }
     });
   });
 }
-$(document).on('turbolinks:load', placeholderToLabel);
+
 $(document).ready(placeholderToLabel);

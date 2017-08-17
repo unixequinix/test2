@@ -2,8 +2,9 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   before_action :set_registration, only: %i[resolve_time show download_db destroy transactions]
 
   def index
-    @registrations = @current_event.device_registrations.includes(:device)
-    authorize @current_event.device_registrations
+    @q = @current_event.device_registrations.ransack(params[:q])
+    @registrations = @q.result.includes(:device)
+    authorize @registrations
     @registrations = @registrations.group_by(&:status)
   end
 

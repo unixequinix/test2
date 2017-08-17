@@ -1,0 +1,18 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    div style="padding: 20px"
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      = form_for :search, method: "get" do |f|
+        h5 Filter by Stations
+        - @all_stations.each do |station|
+          = f.label station.name
+          = check_box_tag "stations[]", station.id
+        h5 Filter by Dates
+        p Start date
+        = f.select :start_date, @current_event.start_end_dates_range, {include_blank: 'All days'}
+        p End date
+        = f.select :end_date, @current_event.start_end_dates_range, {include_blank: 'All days'}
+        br
+        = f.submit "Filter", name: nil, class: 'mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit'
+  .mdl-layout-spacer

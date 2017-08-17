@@ -104,6 +104,8 @@
                 = link_to "#{gtag.tag_uid}", event_gtag_path(@current_event, gtag)
                 - if gtag.ticket_type
                   | &nbsp; - #{gtag.ticket_type.name}
+                - if gtag.banned?
+                  | &nbsp; - #{t('gtag_unsubscribe.banned')}
 
 - if @orders.any?
   .mdl-cell.mdl-cell--12-col

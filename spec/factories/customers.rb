@@ -13,5 +13,6 @@ FactoryGirl.define do
     postcode { "12345" }
     agreed_event_condition true
     event
+    confirmed_at Time.zone.now
   end
 end

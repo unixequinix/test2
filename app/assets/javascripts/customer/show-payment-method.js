@@ -18,5 +18,4 @@ function showPaymentMethod() {
   });
 
 }
-$(document).on("turbolinks:load", showPaymentMethod);
-
+$(document).ready(showPaymentMethod);

@@ -76,8 +76,8 @@
                     - if alert.subject.is_a?(Transaction)
                       = link_to alert.subject.name, admins_event_transaction_path(@current_event, alert.subject, type: alert.subject.category)
                     - else
-                      = link_to alert.subject.name, [:admins, @current_event, alert.subject]
-                    | &nbsp; #{alert.body}
+                      = link_to alert.subject.try(:name) || alert.subject.id, [:admins, @current_event, alert.subject]
+                    | &nbsp; #{alert.body} 
 
                   td.table-actions data-label="Resolved"
                     = best_in_place alert, :resolved, best_in_place_checkbox([:admins, @current_event, alert])

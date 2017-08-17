@@ -27,4 +27,14 @@ class CustomerMailer < Devise::Mailer
     I18n.locale = record.locale
     mail(to: record.email, reply_to: @event.support_email, subject: t("email.reset_password.subject"))
   end
+
+  def confirmation_instructions(record, token, _opts = {})
+    @event = record.event
+    @name = record.full_name
+    @token = token
+
+    headers["X-No-Spam"] = "True"
+    I18n.locale = record.locale
+    mail(to: record.email, reply_to: @event.support_email, subject: 'Confirma tu email')
+  end
 end

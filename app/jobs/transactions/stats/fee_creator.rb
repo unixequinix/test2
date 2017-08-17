@@ -10,7 +10,7 @@ class Transactions::Stats::FeeCreator < Transactions::Base
 
     return if t.credits.to_f.zero?
 
-    t_atts = extract_atts_from_transaction(t).merge(payment_method: "credits", transaction_counter: 0, total: t.credits.abs)
+    t_atts = extract_atts_from_transaction(t).merge(payment_method: "credits", transaction_counter: 0, total: t.credits)
     create_stat(t_atts)
   end
 end

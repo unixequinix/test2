@@ -4,12 +4,12 @@
 # Place this file at config/sidekiq.yml and Sidekiq will
 # pick it up automatically.
 :verbose: false
-:concurrency: 10
+:concurrency: 2
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: log/sidekiq.log
 
 # Set timeout to 8 on Heroku, longer if you manage your own systems.
-:timeout: 30
+:timeout: 15
 
 # Sidekiq will run this file through ERB when reading it so you can
 # even put in dynamic logic, like a host-specific queue.

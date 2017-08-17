@@ -14,7 +14,7 @@ class Refund < ApplicationRecord
   scope(:query_for_csv, lambda { |event|
     joins(:customer)
       .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee,
-               refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
+               refunds.status, refunds.field_a, refunds.field_b, refunds.created_at, refunds.ip").where(customers: { event_id: event.id })
   })
 
   def complete!(refund_data = {}.to_json)
@@ -33,8 +33,8 @@ class Refund < ApplicationRecord
 
   def prepare(atts)
     return unless gateway.eql?("bank_account")
-    self.field_a = atts[:field_a]
-    self.field_b = atts[:field_b]
+    self.field_a = atts[:field_a].gsub(/\s+/, '')
+    self.field_b = atts[:field_b].gsub(/\s+/, '')
     self.iban = true if event.iban?
     self.bsb = true if event.bsb?
   end

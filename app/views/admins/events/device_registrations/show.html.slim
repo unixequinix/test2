@@ -61,7 +61,7 @@
               td style="color: #999" = l @registration.updated_at
             tr.small
               td Last Time
-              td style="color: #999" = l @registration.current_time
+              td style="color: #999" = l(@registration.current_time) if @registration.current_time
             tr.small
               td Time Difference
               td style="color: #999" = distance_of_time_in_words @registration.time_diff

@@ -7,26 +7,37 @@ shared_examples_for "credentiable" do
   subject { create(model.to_s.underscore.to_sym) }
 
   describe ".assign_customer" do
-    it "assigns the customer to the #{described_class}" do
-      expect do
+    context "subject has customer_id assigned as anonimous customer" do
+      it "assigns the customer to the #{described_class}" do
+        expect do
+          subject.assign_customer(customer, nil)
+          subject.reload
+        end.to change(subject, :customer).from(subject.customer_id).to(customer)
+      end
+    end
+
+    context "subject has not customer_id assigned" do
+      it "assigns the customer to the #{described_class}" do
+        expect do
+          subject.assign_customer(customer, nil)
+          subject.reload
+        end.to change(subject, :customer).from(nil).to(customer)
+      end
+
+      it "touches the customer updated_at" do
+        customer.update_columns(updated_at: 100.years.ago)
+        expect { subject.assign_customer(customer, nil) }.to change(customer, :updated_at)
+      end
+
+      it "touches the customer updated_at" do
+        customer.update_columns(updated_at: 100.years.ago)
+        expect { subject.assign_customer(customer, nil) }.to change(customer, :updated_at)
+      end
+
+      it "writes the transaction" do
+        expect(subject).to receive(:write_assignation_transaction).with("assigned", nil, :portal)
         subject.assign_customer(customer, nil)
-        subject.reload
-      end.to change(subject, :customer).from(nil).to(customer)
-    end
-
-    it "touches the customer updated_at" do
-      customer.update_columns(updated_at: 100.years.ago)
-      expect { subject.assign_customer(customer, nil) }.to change(customer, :updated_at)
-    end
-
-    it "touches the customer updated_at" do
-      customer.update_columns(updated_at: 100.years.ago)
-      expect { subject.assign_customer(customer, nil) }.to change(customer, :updated_at)
-    end
-
-    it "writes the transaction" do
-      expect(subject).to receive(:write_assignation_transaction).with("assigned", nil, :portal)
-      subject.assign_customer(customer, nil)
+      end
     end
   end
 
