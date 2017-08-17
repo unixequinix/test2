@@ -8,7 +8,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
 
     if verify_recaptcha(model: resource) && resource.save
-      flash[:notice] = I18n.t('email.confirmation.flash_message')
+      flash[:notice] = t('email.confirmation.flash_message')
       redirect_to customer_event_session_path(@current_event)
     else
       set_minimum_password_length
@@ -40,6 +40,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     resource.password = token
     resource.password_confirmation = token
     resource.agreed_on_registration = true
+    resource.anonymous = false
     session.delete(:omniauth) && resource.valid?
   end
 

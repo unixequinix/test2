@@ -273,6 +273,7 @@ en:
     log_in:
       link: Log in here
       title: Already have an account?
+      unconfirmed_error: "This account does not exist or it has not already been validated"
     placeholder:
       email: e.g. nickname@mail.com
       password: e.g. · · · · · ·

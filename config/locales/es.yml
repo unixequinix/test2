@@ -261,6 +261,7 @@ es:
     log_in:
       link: Inicia sesión
       title: Ya tienes cuenta?
+      unconfirmed_error: "Esta cuenta no existe o aún no está validad"
     placeholder:
       email: ej. nickname@mail.com
       password: ej. · · · · · ·

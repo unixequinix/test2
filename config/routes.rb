@@ -194,7 +194,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :credentials, only: [:new, :create]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
