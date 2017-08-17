@@ -8,7 +8,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
 
     if verify_recaptcha(model: resource) && resource.save
-      set_flash_message! :notice, t('email.confirmation.flash_message')
+      flash[:notice] = I18n.t('email.confirmation.flash_message')
       redirect_to customer_event_session_path(@current_event)
     else
       set_minimum_password_length

@@ -9,7 +9,7 @@ class Events::ConfirmationsController < Devise::ConfirmationsController
     if resource.confirmed?
       sign_in(resource)
     else
-      set_flash_message! :notice, t('email.confirmation.error')
+      flash[:notice] = I18n.t('email.confirmation.error')
     end
 
     customer_root_path(@current_event)

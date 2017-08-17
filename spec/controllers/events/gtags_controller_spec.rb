@@ -15,11 +15,28 @@ RSpec.describe Events::GtagsController, type: :controller do
         get :show, params: { event_id: event, id: gtag }
         expect(response).to be_ok
       end
+
+      it 'PATCH ban' do
+        put :ban, params: { event_id: event, id: gtag, gtag: { banned: true } }
+        expect(response).to redirect_to event_gtag_path(event)
+      end
+
+      it 'PATCH ban' do
+        gtag.banned = true
+        gtag.save
+        put :ban, params: { event_id: event, id: gtag, gtag: { banned: false } }
+        expect(gtag.banned).to be(true)
+      end
     end
 
     context 'customer is not logged in' do
       it 'GET show' do
         get :show, params: { event_id: event, id: gtag }
+        expect(response).to redirect_to(:event_login)
+      end
+
+      it 'PATCH ban' do
+        put :ban, params: { event_id: event, id: gtag, gtag: { banned: true } }
         expect(response).to redirect_to(:event_login)
       end
     end

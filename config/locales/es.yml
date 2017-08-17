@@ -178,6 +178,20 @@ es:
       standard: Introduce la segunda fila de números y letras (resaltada en amarillo)
     info: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
     placeholder: 'e.j: BA6D7DC0'
+  gtag_unsubscribe:
+    banned: "Dado de baja"
+    ban: "Da de baja tu pulsera"
+    flash_message: "Tu pulsera ha sido dada de baja con éxito"
+    modal:
+      title: '¿Estás seguro?'
+      subtitle: 'Después de confirmar:'
+      statements:
+        first: 'No podrás utilizar tu pulsera o acceder a las diferentes zonas del recinto '
+        second: 'Ten en cuenta que los dispositivos que no estén sincronizados correctamente pueden realizar operaciones aunque la pulsera esté deshabilitada'
+        third: 'Esta acción no se puede deshacer'
+      confirmation: '¿Aún deseas dar de baja tu pulsera?'
+      confirm: 'Confirmar'
+      cancel: 'Cancelar'
   header:
     edit: Editar Perfil
   links:

@@ -197,7 +197,9 @@ Rails.application.routes.draw do
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create]
       resources :tickets, only: [:show]
-      resources :gtags, only: [:show]
+      resources :gtags, only: [:show] do
+        patch :ban, on: :member
+      end
       resources :orders, except: [:destroy] do
         get :success, on: :member
         get :error, on: :member

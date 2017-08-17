@@ -1,6 +1,6 @@
-function calculateTotalCheckout () {
+function calculateTotalCheckout() {
   var calculatedTotal = 0,
-      product = null;
+    product = null;
   $('.amount-input').each(function(idx, element) {
     product = $(element);
     calculatedTotal += product.data('price') * product.val();
@@ -11,23 +11,23 @@ function calculateTotalCheckout () {
 
 function topUpButton() {
 
-  if( $("#checkout-form").length > 0 ) {
+  if ($("#checkout-form").length > 0) {
 
     $(function() {
       FastClick.attach(document.body);
       calculateTotalCheckout();
     });
 
-    $('.amount-button').on('click',function(){
+    $('.amount-button').on('click', function() {
       var $this = $(this),
-          inputId = $this.data('id'),
-          price = $this.data('price'),
-          step = $this.data('step'),
-          input = $('#amount-input-' + inputId),
-          total = $('#amount-total-' + inputId),
-          min = input.attr('min'),
-          max = input.attr('max'),
-          amount = $this.data('operation') == "plus" ? parseInt(input.val())+step : parseInt(input.val())-step;
+        inputId = $this.data('id'),
+        price = $this.data('price'),
+        step = $this.data('step'),
+        input = $('#amount-input-' + inputId),
+        total = $('#amount-total-' + inputId),
+        min = input.attr('min'),
+        max = input.attr('max'),
+        amount = $this.data('operation') == "plus" ? parseInt(input.val()) + step : parseInt(input.val()) - step;
 
       if (amount >= min && amount <= max) {
         input.val((amount));
@@ -36,26 +36,22 @@ function topUpButton() {
       calculateTotalCheckout();
     });
 
-    $('.amount-input').on('change',function(){
+    $('.amount-input').on('change', function() {
       var $this = $(this),
-          inputId = $this.data('id'),
-          price = $this.data('price'),
-          amount = $this.val(),
-          total = $('#amount-total-' + inputId);
+        inputId = $this.data('id'),
+        price = $this.data('price'),
+        amount = $this.val(),
+        total = $('#amount-total-' + inputId);
 
       total.text((amount * price));
       calculateTotalCheckout();
     });
 
-    $('#input-range').bind('input', function(){
-    	calculateTotalCheckout();
-    }).bind('change', function(){
-    	calculateTotalCheckout();	/* IE */
+    $('#input-range').bind('input', function() {
+      calculateTotalCheckout();
+    }).bind('change', function() {
+      calculateTotalCheckout(); /* IE */
     });
   }
 }
-
-$(document).on('turbolinks:load', topUpButton);
-
-
-
+$(document).ready(showPaymentMethod);

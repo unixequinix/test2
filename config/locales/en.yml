@@ -177,6 +177,21 @@ en:
       standard: Read the second row of numbers and letters (yellow highlighted)
     info: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
     placeholder: 'e.g: BA6D7DC0'
+    block: "Vanish your wristband"
+  gtag_unsubscribe:
+    banned: "Banned"
+    ban: "Unsubscribe your wristband"
+    flash_message: "Your wristband was succesfully unsubscribed"
+    modal:
+      title: "Are you sure?"
+      subtitle: "After confirm"
+      statements:
+        first: "You won't be able to use the gtag or move around the event gates anymore"
+        second: "Devices that have no internet will not receive notice of this blocking and therefore operations could be done after blocking"
+        third: "This action cannot be undone"
+      confirmation: "Still want to confirm?"
+      confirm: "Confirm"
+      cancel: "Cancel"
   header:
     edit: Edit Customer
   links:

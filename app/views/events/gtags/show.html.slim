@@ -4,9 +4,50 @@
     span.mdl-tooltip data-mdl-for="back" Back
 
 .panel-card-wide.mdl-card.mdl-shadow--2dp
-  .mdl-card__title
+  .mdl-card__title style="display: #{@gtag.banned? ? 'block' : 'inherit'}"
     .mdl-cell.mdl-cell--12-col
       h4 = @gtag.tag_uid
+    - if @gtag.banned?
+      div
+        h6 = t("gtag_unsubscribe.flash_message")
+        ul style="text-align: left"
+          li
+            = t('gtag_unsubscribe.modal.statements.first')
+          li
+            = t('gtag_unsubscribe.modal.statements.second')
+          li
+            = t('gtag_unsubscribe.modal.statements.third')
+
+    - else
+      .wrapper-session.wrapper-module-centered.edit-customer-form
+        =link_to "#ban-gtag-modal" do
+          button#ban_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored 
+            i.material-icons highlight_off
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ban_link" = t('gtag_unsubscribe.ban')
+
+      .remodal data-remodal-id="ban-gtag-modal"
+        button.remodal-close data-remodal-action="close"
+
+        h3.remodal__title = t('gtag_unsubscribe.modal.title')
+
+        = t('gtag_unsubscribe.modal.subtitle')
+
+        ul style="text-align: left"
+          li
+            b = t('gtag_unsubscribe.modal.statements.first')
+          li
+            b = t('gtag_unsubscribe.modal.statements.second')
+          li
+            b = t('gtag_unsubscribe.modal.statements.third')
+
+        h6 style="text-align: center" = t('gtag_unsubscribe.modal.confirmation')
+
+
+        h4 style="text-align: center"
+          = link_to ban_event_gtag_path(@current_event, @gtag), method: :patch, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent", style: "width: 100%" do
+            span.mdl-button__ripple-container = t('gtag_unsubscribe.modal.confirm')
+          = button_tag "#", data: { "remodal-action" => "close" }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+            span.mdl-button__ripple-container = t('gtag_unsubscribe.modal.cancel')
 
   - if @item
     - if @item.is_a?(Pack)

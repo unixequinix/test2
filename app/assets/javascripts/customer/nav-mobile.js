@@ -1,11 +1,11 @@
 function showNavMobile() {
-  var trigger             = $("#mobile-trigger"),
-      triggerIcon         = $('.mobile-trigger i'),
-      target              = $('#mobile-options'),
-      unscrollableContent = $('.container-main'),
-      close               = $('.mobile-options');
+  var trigger = $("#mobile-trigger"),
+    triggerIcon = $('.mobile-trigger i'),
+    target = $('#mobile-options'),
+    unscrollableContent = $('.container-main'),
+    close = $('.mobile-options');
 
-  trigger.on("click", function(event){
+  trigger.on("click", function(event) {
     triggerIcon.toggleClass('fa-times');
     target.toggleClass('open-nav');
     unscrollableContent.toggleClass('unscrollable-view');
@@ -17,8 +17,5 @@ function showNavMobile() {
     triggerIcon.toggleClass('fa-times');
   });
 }
-$(document).on('turbolinks:load', showNavMobile);
+
 $(document).ready(showNavMobile);
-
-
-

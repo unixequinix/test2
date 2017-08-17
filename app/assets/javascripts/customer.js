@@ -1,9 +1,10 @@
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
-//= require turbolinks
 
 //= require vendor/fastclick
 //= require vendor/fastclick_load
+//= require vendor/remodal.min
 
 //= require customer/placeholder-to-label
 //= require customer/nav-mobile
