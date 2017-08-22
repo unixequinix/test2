@@ -9,7 +9,7 @@
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
+        .mdl-card__title class="#{active ? "good_header" : "bad_header"}"
           .mdl-cell.mdl-cell--6-col = title
           .mdl-cell.mdl-cell--6-col.right
             a.collapse-link-closed

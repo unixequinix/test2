@@ -87,4 +87,4 @@
 hr
 = render(root + "online_transactions", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
 - @customer.gtags.order(active: :desc, id: :asc).each do |gtag|
-  = render(root + "onsite_transactions", transactions: gtag.transactions, title: "(#{gtag.active? ? 'ACTIVE' : 'INACTIVE'}) Transactions for tag #{gtag.tag_uid}", closed: true )
+  = render(root + "onsite_transactions", transactions: gtag.transactions, title: "Transactions for tag #{gtag.tag_uid}", active: gtag.active, closed: true )
