@@ -26,13 +26,11 @@ class Events::SessionsController < Devise::SessionsController
   end
 
   def check_customer_confirmation
-    customer = Customer.find_by(email: sign_in_params[:email])
-
+    customer = @current_event.customers.find_by(email: sign_in_params[:email])
     return if customer&.confirmed?
 
-    flash[:error] = t('sessions.log_in.unconfirmed_error')
     expire_data_after_sign_in!
-    redirect_to request.path
+    redirect_to request.path, alert: t('sessions.log_in.unconfirmed_error')
   end
 
   def set_event
