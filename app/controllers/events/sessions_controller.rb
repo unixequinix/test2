@@ -9,7 +9,7 @@ class Events::SessionsController < Devise::SessionsController
 
   def create
     resource = warden.authenticate!(auth_options)
-    sign_in(resource)
+    sign_in resource
 
     set_flash_message!(:notice, :signed_in)
     redirect_to after_sign_in_path_for(resource)
@@ -28,7 +28,7 @@ class Events::SessionsController < Devise::SessionsController
   def check_customer_confirmation
     customer = Customer.find_by(email: sign_in_params[:email])
 
-    return if customer.confirmed?
+    return if customer&.confirmed?
 
     flash[:error] = t('sessions.log_in.unconfirmed_error')
     expire_data_after_sign_in!

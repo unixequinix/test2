@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :customer do
+  factory :customer_unconfirmed, class: Customer do
     sequence(:first_name) { |n| "FirstName #{n}" }
     sequence(:last_name) { |n| "LastName #{n}" }
     sequence(:email) { |n| "email_#{n}@glownet.com" }
@@ -13,6 +13,9 @@ FactoryGirl.define do
     postcode { "12345" }
     agreed_event_condition true
     event
+  end
+
+  factory :customer, class: Customer, parent: :customer_unconfirmed do
     confirmed_at Time.zone.now
   end
 end
