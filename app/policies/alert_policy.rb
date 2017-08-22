@@ -4,6 +4,6 @@ class AlertPolicy < ApplicationPolicy
   end
 
   def read_all?
-    admin_or_promoter
+    user.admin? || user.registration_for(record.scope_for_create["event_id"])&.promoter?
   end
 end
