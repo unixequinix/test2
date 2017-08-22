@@ -29,7 +29,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     return unless session[:omniauth]
 
     token = Devise.friendly_token[0, 20]
-    name = session[:omniauth]["info"]["name"].split(" ")
+    name = session[:omniauth]["info"]["name"]&.split(" ")
     first_name = session[:omniauth]["info"]["first_name"] || name.first
     last_name = session[:omniauth]["info"]["last_name"] || name.second
     resource.provider = session[:omniauth]["provider"]
