@@ -10,11 +10,11 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
     render(json: { url: AwsManager.generate_url(device_cache.file.path) })
   end
 
-  def create
-    atts = {}
+  def create # rubocop:disable Metrics/CyclomaticComplexity
     file = permitted_params[:file]
-    render(status: :bad_request, json: { error: "File empty" }) && return unless file
+    render(status: :bad_request, json: { errors: "File empty" }) && return unless file
 
+    atts = {}
     atts[:app_version] = permitted_params[:app_version] || 'unknown'
     atts[:category] = permitted_params[:basic].eql?("true") ? "basic" : "full"
 
