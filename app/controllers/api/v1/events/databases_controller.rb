@@ -15,7 +15,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
     file = permitted_params[:file]
     render(status: :bad_request, json: { error: "File empty" }) && return unless file
 
-    atts[:app_version] ||= 'unknown'
+    atts[:app_version] = permitted_params[:app_version] || 'unknown'
     atts[:category] = permitted_params[:basic].eql?("true") ? "basic" : "full"
 
     device_cache = @current_event.device_caches.find_or_initialize_by(atts)
