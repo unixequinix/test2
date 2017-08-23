@@ -1,8 +1,8 @@
 class Events::SessionsController < Devise::SessionsController
   include LanguageHelper
 
-  before_action :resolve_locale
   before_action :set_event
+  before_action :resolve_locale
   before_action :check_customer_confirmation, only: [:create]
 
   layout "customer"
@@ -10,9 +10,9 @@ class Events::SessionsController < Devise::SessionsController
   def create
     resource = warden.authenticate!(auth_options)
     sign_in resource
+    yield resource if block_given?
 
-    set_flash_message!(:notice, :signed_in)
-    redirect_to after_sign_in_path_for(resource)
+    redirect_to after_sign_in_path_for(resource), notice: t('sessions.log_in.success', event: @current_event.name)
   end
 
   private
@@ -22,6 +22,7 @@ class Events::SessionsController < Devise::SessionsController
   end
 
   def after_sign_out_path_for(_resource)
+    flash[:notice] = t('sessions.log_out.success')
     event_login_path(@current_event)
   end
 
@@ -30,7 +31,7 @@ class Events::SessionsController < Devise::SessionsController
     return if customer&.confirmed?
 
     expire_data_after_sign_in!
-    redirect_to request.path, alert: t('sessions.log_in.unconfirmed_error')
+    redirect_to after_sign_out_path_for(customer&.event || @current_event), alert: t('sessions.log_in.account_error')
   end
 
   def set_event

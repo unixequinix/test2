@@ -15,7 +15,7 @@ FactoryGirl.define do
     event
   end
 
-  factory :customer, class: Customer, parent: :customer_unconfirmed do
-    confirmed_at Time.zone.now
+  factory :customer, class: Customer, parent: :customer_unconfirmed do |f|
+    f.after(:create, &:confirm)
   end
 end

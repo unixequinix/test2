@@ -273,11 +273,17 @@ en:
     log_in:
       link: Log in here
       title: Already have an account?
-      unconfirmed_error: "This account does not exist or it has not already been validated"
+      success: "Welcome to %{event}"
+      account_error: "This account does not exist or it has not already been validated"
+      confirmed_not_logged_error: "Log into your account"
+    log_out:
+      success: "See you soon!"
     placeholder:
       email: e.g. nickname@mail.com
       password: e.g. · · · · · ·
-
+  social_login:
+    facebook: "Sign in with Facebook"
+    google: "Sign in with Google"
   time:
     am: am
     pm: pm

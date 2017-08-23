@@ -32,7 +32,7 @@ RSpec.describe Events::SessionsController, type: :controller do
       context 'unconfirmed customer' do
         it 'POST login redirection' do
           post :create, params: { event_id: event, customer: { email: customer_unconfirmed.email, password: customer_unconfirmed.password } }
-          expect(response).to redirect_to(request.path)
+          expect(response).to redirect_to(event_login_path(event))
         end
 
         it 'POST login signed customer' do
