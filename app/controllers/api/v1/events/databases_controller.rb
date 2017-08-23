@@ -1,13 +1,9 @@
 class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   def show
     category = params[:basic].eql?("true") ? "basic" : "full"
-
-    app_version = "unknown"
-    # TODO: change above line for this one when app starts sending the app version when creating caches
-    # app_version = params[:app_version] || 'unknown'
+    app_version = params[:app_version] || 'unknown'
 
     device_cache = @current_event.device_caches.find_by(category: category, app_version: app_version)
-
     render(status: :not_found, json: :not_found) && return unless device_cache
 
     url = AwsManager.generate_url(device_cache.file.path)
