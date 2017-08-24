@@ -85,7 +85,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
-        format.json { head :ok }
+        format.json { render json: @current_event }
       else
         params[:redirect_path] ||= :edit
         format.html { render params[:redirect_path].to_sym, layout: "admin_event" }

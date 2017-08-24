@@ -17,8 +17,8 @@ RSpec.describe Api::V1::Events::CreditsController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: params
-        credit_keys = %w[id name value currency]
-        JSON.parse(response.body).map { |credit| expect(credit.keys).to eq(credit_keys) }
+        credit_keys = %w[id name value currency credit_symbol currency_symbol]
+        credit_keys.each { |key| JSON.parse(response.body).map { |credit| expect(credit.keys).to include(key) } }
       end
     end
 

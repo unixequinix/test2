@@ -13,6 +13,6 @@ class Admins::Events::CatalogItemsController < Admins::Events::BaseController
   private
 
   def permitted_params
-    params.require(:catalog_item).permit(:id, :name, :description, :name, :value)
+    params.require(:catalog_item).permit(:id, :name, :description, :name, :value, :symbol)
   end
 end

@@ -29,58 +29,7 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Support email
                   td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Official Name
-                  td = best_in_place @current_event, :official_name, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Official Address
-                  td = best_in_place @current_event, :official_address, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Registration Num
-                  td = best_in_place @current_event, :registration_num, url: [:admins, @current_event]
 
-      .mdl-cell.mdl-cell--6-col
-        .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-cell.mdl-cell--12-col
-              i.material-icons local_atm
-              | Money Settings (editable)
-
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Value
-                  td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description
-                tr
-                  td.mdl-data-table__cell--non-numeric Currency
-                  td = best_in_place @current_event, :currency, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Credit Name (Singular form)
-                  td = best_in_place @current_event.credit, :name, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
-                tr
-                  td.mdl-data-table__cell--non-numeric Maximum Gtag Balance
-                  td = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Credit Step
-                  td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Gtag deposit fee
-                  td#gtag_deposit_fee = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Initial Topup fee
-                  td#initial_topup_fee = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Topup fee
-                  td#topup_fee = best_in_place @current_event, :topup_fee, url: [:admins, @current_event]
-  .mdl-layout-spacer
-
-.mdl-grid.light-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .mdl-grid
-      .mdl-cell.mdl-cell--6-col
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-cell.mdl-cell--12-col
               i.material-icons build
@@ -102,53 +51,104 @@
                   td.mdl-data-table__cell--non-numeric Birthday Mandatory
                   td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
 
-      - if @current_event.created?
-        .mdl-cell.mdl-cell--6-col
-          .transaction-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title
-              .mdl-cell.mdl-cell--4-col
-                i.material-icons insert_photo
-                | Style
-              .mdl-cell.mdl-cell--8-col
-                .tools
-                  .tool-item
-                    = link_to edit_event_style_admins_event_path(@current_event) do
-                      span#edit5.material-icons brush
-                      span.mdl-tooltip data-mdl-for="edit5" Edit Style
+          .mdl-card__title
+            .mdl-cell.mdl-cell--4-col
+              i.material-icons insert_photo
+              | Style
+            .mdl-cell.mdl-cell--8-col
+              .tools
+                .tool-item
+                  = link_to edit_event_style_admins_event_path(@current_event) do
+                    span#edit5.material-icons brush
+                    span.mdl-tooltip data-mdl-for="edit5" Edit Style
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Gtag formats used
+                  td = @current_event.gtag_format.to_s.humanize
+                tr
+                  td.mdl-data-table__cell--non-numeric Logo
+                  td
+                    - if @current_event.logo?
+                      = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
+                        button#delete_logo.icon.material-icons delete
+                      i.material-icons done
+                    - else
+                      i.material-icons clear
+
+                tr
+                  td.mdl-data-table__cell--non-numeric Background
+                  td
+                    - if @current_event.background?
+                      = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
+                        button#delete_background.icon.material-icons delete
+                      i.material-icons done
+                    - else
+                      i.material-icons clear
+
+                span.mdl-tooltip data-mdl-for="delete_background" Delete Background
+                span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
+
+      .mdl-cell.mdl-cell--6-col
+        .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-cell.mdl-cell--12-col
+              i.material-icons local_atm
+              | Money Settings (editable)
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Value
+                  td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description, classes: "currency_exchange"
+                tr
+                  td.mdl-data-table__cell--non-numeric Currency
+                  td#currency = best_in_place @current_event, :currency, as: :select, collection: Money::Currency.all.map { |c| [c.id.to_s.upcase, "#{c.symbol} : #{c.name}"] }, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Credit Name (Singular form)
+                  td#credit_name = best_in_place @current_event.credit, :name, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
+                tr
+                  td.mdl-data-table__cell--non-numeric Credit Symbol
+                  td = best_in_place @current_event.credit, :symbol, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
+                tr
+                  td.mdl-data-table__cell--non-numeric Maximum Gtag Balance
+                  td
+                    = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric Credit Step
+                  td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--12-col
+              i.material-icons local_atm
+              | Fees (editable)
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Gtag deposit fee
+                  td
+                    = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], classes: "event_fee"
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric Initial Topup fee
+                  td
+                    = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event], classes: "event_fee"
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric Topup fee
+                  td
+                    = best_in_place @current_event, :topup_fee, url: [:admins, @current_event], classes: "event_fee"
+                    |  #{@current_event.credit.symbol}
+
+          - if @current_event.created?
             .mdl-card__supporting-text
               .small style="padding: 0 25px;" If you are looking for the event setting, you must first #{link_to 'launch', '#launch-modal'} the event
-            .mdl-card__supporting-text
-              table.table-show.mdl-data-table.mdl-js-data-table.within-card
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric Gtag formats used
-                    td = @current_event.gtag_format.to_s.humanize
-                  tr
-                    td.mdl-data-table__cell--non-numeric Logo
-                    td
-                      - if @current_event.logo?
-                        = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
-                          button#delete_logo.icon.material-icons delete
-                        i.material-icons done
-                      - else
-                        i.material-icons clear
-
-                  tr
-                    td.mdl-data-table__cell--non-numeric Background
-                    td
-                      - if @current_event.background?
-                        = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
-                          button#delete_background.icon.material-icons delete
-                        i.material-icons done
-                      - else
-                        i.material-icons clear
-
-                  span.mdl-tooltip data-mdl-for="delete_background" Delete Background
-                  span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
-
-      - else
-        .mdl-cell.mdl-cell--6-col
-          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          - else
             .mdl-card__title
               .mdl-cell.mdl-cell--12-col
                 i.material-icons line_style
@@ -183,7 +183,7 @@
                       span.small
                         | &nbsp;(EG: YYYY-MM-DD HH:MM )
                     td
-                      = best_in_place @current_event, :refunds_start_date, url: [:admins, @current_event], display_with: lambda { |v| v&.to_formatted_s(:human) }, value: @current_event.refunds_start_date&.to_formatted_s(:human)
+                      = best_in_place @current_event, :refunds_start_date, url: [:admins, @current_event], display_with: lambda {|v| v&.to_formatted_s(:human)}, value: @current_event.refunds_start_date&.to_formatted_s(:human)
                       span
                         - if @current_event.refunds_start_date.present?
                           i.material-icons done
@@ -201,21 +201,29 @@
                           i.material-icons done
                         - else
                           i.material-icons clear
+
   .mdl-layout-spacer
 
 javascript:
-  var gtag_deposit_fee = $('#gtag_deposit_fee');
-  var initial_topup_fee = $('#initial_topup_fee');
-  var topup_fee = $('#topup_fee');
-  
-  gtag_deposit_fee.bind('ajax:success', function() {
-    gtag_deposit_fee.text((parseFloat(gtag_deposit_fee.text())).toFixed(2))
+  $('.event_fee').bind('ajax:success', function() {
+    $(this).text((parseFloat($(this).text())).toFixed(2))
   });
-  
-  initial_topup_fee.bind('ajax:success', function() {
-    initial_topup_fee.text((parseFloat(initial_topup_fee.text())).toFixed(2))
+
+  var exchange = $('.currency_exchange');
+  var currency = $('#currency');
+  var credit_name = $('#credit_name');
+
+  exchange.bind('ajax:success', function (event, data) {
+      var result = $.parseJSON(data);
+      exchange.text("1 #{@current_event.credit.name} = " + result.value +  " #{@current_event.currency}")
   });
-  
-  topup_fee.bind('ajax:success', function() {
-    topup_fee.text((parseFloat(topup_fee.text())).toFixed(2))
+
+  currency.bind('ajax:success', function (event, data) {
+      var result = $.parseJSON(data);
+      exchange.text("1 #{@current_event.credit.name} = #{@current_event.credit.value} " + result.currency)
+  });
+
+  credit_name.bind('ajax:success', function (event, data) {
+      var result = $.parseJSON(data);
+      exchange.text("1 " + result.name + " = #{@current_event.credit.value}  #{@current_event.currency}")
   });
