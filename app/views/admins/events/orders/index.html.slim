@@ -36,7 +36,6 @@
             tr
               th.mdl-data-table__cell--non-numeric Number
               th.mdl-data-table__cell--non-numeric Customer
-              th.mdl-data-table__cell--non-numeric IP
               th Amount
               - if @current_event.payment_gateways.count > 1
                 th Gateway
@@ -46,7 +45,6 @@
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
                 td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to order.customer.email, admins_event_customer_path(@current_event, order.customer)
-                td.mdl-data-table__cell--non-numeric data-label="IP" = link_to order&.ip || '', admins_event_customer_path(@current_event, order.customer)
                 td data-label="Amount" = number_to_event_currency order.total
                 - if @current_event.payment_gateways.count > 1
                   td data-label="Gateway" = order.gateway&.humanize

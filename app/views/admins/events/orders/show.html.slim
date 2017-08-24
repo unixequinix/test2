@@ -22,6 +22,9 @@
             td.mdl-data-table__cell--non-numeric State
             td = @order.status
           tr
+            td.mdl-data-table__cell--non-numeric IP
+            td = @order.ip
+          tr
             td.mdl-data-table__cell--non-numeric Created
             td = l @order.created_at if @order.created_at
           tr

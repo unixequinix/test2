@@ -22,6 +22,9 @@
             td.mdl-data-table__cell--non-numeric Status
             td = @refund.status.humanize
           tr
+            td.mdl-data-table__cell--non-numeric IP
+            td = @refund.ip
+          tr
             td.mdl-data-table__cell--non-numeric Created at
             td = l @refund.created_at
           tr
