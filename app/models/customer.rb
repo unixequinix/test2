@@ -18,8 +18,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :gtags, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
 
-  validates :email, format: { with: RFC822::EMAIL }, unless: :anonymous?
-  validates :email, uniqueness: { scope: [:event_id] }, unless: :anonymous?
+  validates :email, format: { with: RFC822::EMAIL }, allow_blank: true, if: :anonymous?
+  validates :email, format: { with: RFC822::EMAIL }, allow_blank: false, unless: :anonymous?
+  validates :email, uniqueness: { scope: [:event_id] }, allow_blank: true, if: :anonymous?
+  validates :email, uniqueness: { scope: [:event_id] }, allow_blank: false, unless: :anonymous?
   validates :email, :first_name, :last_name, :encrypted_password, presence: true, unless: :anonymous?
   validates :agreed_on_registration, acceptance: { accept: true }, unless: :anonymous?
   validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? }), unless: :anonymous?
