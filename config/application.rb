@@ -14,8 +14,11 @@ module GlownetWeb
 
     Figaro.load
 
-    config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
+    config.middleware.use Rack::Attack
 
+    config.active_record.belongs_to_required_by_default = true
+
+    # Language and encoding
     I18n.config.enforce_available_locales = true
     config.i18n.default_locale = :en
     config.i18n.available_locales = [:en, :es, :de, :it]
@@ -23,16 +26,31 @@ module GlownetWeb
     config.time_zone = "Madrid"
     config.encoding = "utf-8"
 
+    # Paperclip
     config.paperclip_defaults = {
-        storage: :s3,
-        s3_protocol: :https,
-        s3_region: "eu-west-1",
-        s3_credentials: {
-            access_key_id: Rails.application.secrets.s3_access_key_id,
-            secret_access_key: Rails.application.secrets.s3_secret_access_key,
-            bucket: Rails.application.secrets.s3_bucket,
-            s3_host_name: Rails.application.secrets.s3_hostname
-        }
+      storage: :s3,
+      s3_protocol: :https,
+      s3_region: "eu-west-1",
+      s3_credentials: {
+          access_key_id: Rails.application.secrets.s3_access_key_id,
+          secret_access_key: Rails.application.secrets.s3_secret_access_key,
+          bucket: Rails.application.secrets.s3_bucket,
+          s3_host_name: Rails.application.secrets.s3_hostname
+      }
+    }
+
+    # Mailer
+    config.action_mailer.deliver_later_queue_name = 'low'
+    config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
+    config.action_mailer.smtp_settings = {
+      address: 'smtp.mandrillapp.com',
+      port: 587,
+      domain: 'smtp.mandrillapp.com',
+      user_name: Rails.application.secrets.smtp_username,
+      password: Rails.application.secrets.smtp_password,
+      authentication: 'plain',
+      enable_starttls_auto: true,
+      openssl_verify_mode: 'none'
     }
 
     config.middleware.insert_before 0, Rack::Cors do
@@ -41,11 +59,5 @@ module GlownetWeb
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-
-    config.middleware.use Rack::Attack
-
-    config.active_record.belongs_to_required_by_default = true
-
-    config.action_mailer.deliver_later_queue_name = 'low'
   end
 end
