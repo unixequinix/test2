@@ -6,7 +6,7 @@ class Transactions::Credential::TicketValidator < ApplicationJob
     event = transaction.event
     ticket = event.tickets.find_by(code: transaction.ticket_code)
 
-    ticket.update!(customer: Customer.create!(event: event)) if ticket.customer.blank?
+    ticket.update!(customer: Customer.create!(event: event)) if ticket.customer_id.blank?
     ticket.redeemed? ? Alert.propagate(t.event, "has been redeemed twice", :high, ticket) : ticket.update!(redeemed: true)
   end
 end
