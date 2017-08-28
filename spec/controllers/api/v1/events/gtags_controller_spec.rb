@@ -40,11 +40,18 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         end
       end
 
-      it "returns gtags if they have customer" do
-        gtag = create :gtag, customer: create(:customer, event: event), event: event
+      it "returns gtags if they have a registered customer" do
+        gtag = create :gtag, customer: create(:customer, event: event, anonymous: false), event: event
         get :index, params: params
         gtags = JSON.parse(response.body).map(&:symbolize_keys)
         expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+      end
+
+      it "does not return gtags if they have an anonymous customer" do
+        gtag = create :gtag, customer: create(:customer, event: event, anonymous: true), event: event
+        get :index, params: params
+        gtags = JSON.parse(response.body).map(&:symbolize_keys)
+        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
       end
 
       it "returns gtags if they are banned" do

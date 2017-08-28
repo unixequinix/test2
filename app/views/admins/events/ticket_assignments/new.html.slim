@@ -13,7 +13,7 @@
       = form_tag admins_event_ticket_assignments_path(@current_event, @customer) do |f|
         .form-inputs.short-input
           .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-            = text_field_tag :code, nil, placeholder: "Event ticket code number", class: "mdl-textfield__input"
+            = text_field_tag :code, nil, placeholder: "Event ticket code number", class: "mdl-textfield__input", value: @ticket&.code
         .form-actions
           .col-sm-offset-3.col-sm-9
             = submit_tag "Accept", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

@@ -19,18 +19,17 @@
           p.tag-title.center-text = t('dashboard.gtag_registration.wristband')
           .img-ticket
             = image_tag "standard-gtag.png"
-          = simple_form_for @gtag, url: event_gtag_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.input :reference, autofocus: true, label: t("gtag_assignations.placeholder")
-            = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
       - if @current_event.both? || @current_event.card?
         .mdl-cell.mdl-cell--6-col
           p.tag-title.center-text = t('dashboard.gtag_registration.card')
           .img-ticket
             = image_tag "standard-card.png"
-          = simple_form_for @gtag, url: event_gtag_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.input :reference, label: t("gtag_assignations.placeholder")
-            = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+
+      .mdl-cell.mdl-cell--12-col
+        = simple_form_for @gtag, url: event_gtag_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            = f.input :reference, autofocus: true, label: t("gtag_assignations.placeholder")
+          = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+
       .mdl-layout-spacer

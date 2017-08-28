@@ -26,7 +26,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       end
 
       it "returns the necessary keys" do
-        cus_keys = %w[id updated_at first_name last_name email credentials orders]
+        cus_keys = %w[id updated_at first_name last_name email orders credentials]
         cre_keys = %w[customer_id reference type redeemed]
         order_keys = %w[customer_id id amount catalog_item_id redeemed status]
 

@@ -23,30 +23,36 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
 
   private
 
+  # * are banned or
+  # * have customer with orders or (right now we check for not anonymous)
+  # * have ticket_type with catalog_item
   def gtags_sql # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
-        FROM (
-          SELECT
-            upper(gtags.tag_uid) as reference,
-            gtags.banned,
-            gtags.redeemed,
-            ticket_types.catalog_item_id as catalog_item_id,
-            gtags.ticket_type_id,
-            customer_id
-          FROM gtags
 
-          LEFT OUTER JOIN ticket_types
-            ON ticket_types.id = gtags.ticket_type_id
-            AND ticket_types.hidden = false
-            AND ticket_types.catalog_item_id IS NOT NULL
+      FROM (
+        SELECT
+          upper(gtags.tag_uid) as reference,
+          gtags.banned,
+          gtags.redeemed,
+          ticket_types.catalog_item_id as catalog_item_id,
+          gtags.ticket_type_id,
+          customer_id
+        FROM gtags
+
+        LEFT OUTER JOIN ticket_types
+          ON ticket_types.id = gtags.ticket_type_id
+          AND ticket_types.hidden = false
+          AND ticket_types.catalog_item_id IS NOT NULL
+
+        LEFT JOIN customers ON customers.id = gtags.customer_id
 
         WHERE
-          gtags.event_id = #{@current_event.id} AND
-          (gtags.customer_id IS NOT NULL OR gtags.banned = TRUE OR catalog_item_id IS NOT NULL)
+          gtags.event_id = #{@current_event.id}
+          AND (gtags.banned = TRUE OR catalog_item_id IS NOT NULL OR customers.anonymous = false)
           #{"AND gtags.updated_at > '#{@modified}'" if @modified}
-        ) g
-      SQL
+      ) g
+    SQL
     ActiveRecord::Base.connection.select_value(sql)
   end
 
@@ -55,7 +61,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
       FROM (
         SELECT
-          gtags.tag_uid as reference,
+          upper(gtags.tag_uid) as reference,
           gtags.banned,
           gtags.updated_at,
           customer_id as customer_id

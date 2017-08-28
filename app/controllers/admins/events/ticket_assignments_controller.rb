@@ -16,7 +16,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
       @ticket.assign_customer(@customer, current_user, :admin)
       redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Ticket"))
     else
-      flash.now[:errors] = errors.to_sentence
+      flash.now[:errors] = @ticket.errors.full_messages.to_sentence
       render(:new)
     end
   end

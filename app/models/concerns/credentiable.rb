@@ -3,7 +3,7 @@ module Credentiable
 
   included do
     belongs_to :event
-    belongs_to :customer, optional: true
+    belongs_to :customer, optional: true, touch: true
 
     has_many :transactions, dependent: :restrict_with_error
   end
