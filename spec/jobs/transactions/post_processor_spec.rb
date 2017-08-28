@@ -8,6 +8,12 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   let(:transaction) { create(:credit_transaction, event: event, customer_tag_uid: gtag.tag_uid) }
   let(:atts) { { transaction_id: transaction.id, event_id: event.id, customer_tag_uid: gtag.tag_uid } }
 
+  it "calls ticket validator perform if action is ticket_validation and there is no gtag" do
+    atts[:action] = "ticket_validation"
+    expect(Transactions::Credential::TicketValidator).to receive(:perform_later).once.with(atts)
+    base.perform(atts)
+  end
+
   describe ".apply_customers" do
     it "if not present in neither, creates one" do
       expect { base.perform(atts) }.to change(Customer, :count).by(1)

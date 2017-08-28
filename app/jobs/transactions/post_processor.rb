@@ -7,7 +7,8 @@ class Transactions::PostProcessor < ApplicationJob
     transaction = Transaction.find(atts[:transaction_id])
 
     gtag = create_gtag(transaction.customer_tag_uid, transaction.event_id)
-    return unless gtag
+    Transactions::Credential::TicketValidator.perform_later(atts) if atts[:action].eql?("ticket_validation")
+    return if gtag.blank?
 
     customer_id = apply_customers(transaction.event_id, transaction.customer_id, gtag)
     transaction.update!(gtag_id: gtag.id, customer_id: customer_id)

@@ -1,6 +1,4 @@
-class Transactions::Credential::TicketValidator < Transactions::Base
-  TRIGGERS = %w[ticket_validation].freeze
-
+class Transactions::Credential::TicketValidator < ApplicationJob
   queue_as :low
 
   def perform(atts)
