@@ -10,7 +10,8 @@ class Api::V1::Events::BackupsController < Api::V1::Events::BaseController
     s3 = Aws::S3::Resource.new(region: 'eu-west-1', credentials: credentials)
 
     device = params[:device_uid].to_s.delete("\"")
-    name = "gspot/event/#{params[:event_id]}/backups/#{device}/#{Time.zone.now.to_i}.db"
+    time = Time.zone.now.to_i
+    name = "gspot/event/#{params[:event_id]}/backups/#{device}/#{time}.db"
     obj = s3.bucket(Rails.application.secrets.s3_bucket).object(name)
     obj.put(body: params[:backup])
 
