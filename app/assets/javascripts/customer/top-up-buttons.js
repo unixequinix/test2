@@ -54,4 +54,4 @@ function topUpButton() {
     });
   }
 }
-$(document).ready(showPaymentMethod);
+$(document).ready(topUpButton);
