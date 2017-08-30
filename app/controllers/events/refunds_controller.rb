@@ -15,10 +15,10 @@ class Events::RefundsController < Events::EventsController
 
     render(:new) && return if @refund.blank?
 
-    @refund.prepare(permitted_params.merge(ip: request.remote_ip))
+    @refund.prepare_for_bank_account(permitted_params)
 
-    if @refund.save
-      refunds = Refund.where(field_a: @refund.field_a, field_b: @refund.field_b).where.not(id: @refund.id)
+    if @refund.update(ip: request.remote_ip)
+      refunds = @current_event.refunds.where(field_a: @refund.field_a, field_b: @refund.field_b).where.not(id: @refund.id)
       message = "has the same bank account number as #{refunds.count} other #{'refund'.pluralize(refunds.count)}"
       Alert.propagate(@current_event, message, :medium, @refund) if refunds.any?
 
