@@ -66,6 +66,11 @@ RSpec.describe Customer, type: :model do
       gtag = create(:gtag, customer: anon_customer)
       expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { gtag.reload.customer }.from(anon_customer).to(customer)
     end
+
+    it "moves tickets over from anon_customer" do
+      ticket = create(:ticket, customer: anon_customer)
+      expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { ticket.reload.customer }.from(anon_customer).to(customer)
+    end
   end
 
   describe ".build_order" do

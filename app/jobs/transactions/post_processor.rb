@@ -19,13 +19,4 @@ class Transactions::PostProcessor < ApplicationJob
     load_classes if Rails.env.development?
     Transactions::Base.descendants.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
   end
-
-  def apply_customers(event_id, customer_id, gtag)
-    claimed = Customer.claim(event_id, customer_id, gtag.customer_id)
-    return customer_id if claimed.present?
-
-    gtag.update!(customer_id: customer_id) if customer_id.present?
-    gtag.update!(customer_id: Customer.create!(event_id: event_id, anonymous: true).id) if gtag.customer_id.blank?
-    gtag.customer_id
-  end
 end

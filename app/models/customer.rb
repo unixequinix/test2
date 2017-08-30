@@ -55,6 +55,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     anon_customer.transactions.update_all(customer_id: customer_id)
     anon_customer.gtags.update_all(customer_id: customer_id)
+    anon_customer.tickets.update_all(customer_id: customer_id)
     anon_customer.destroy!
   end
 
