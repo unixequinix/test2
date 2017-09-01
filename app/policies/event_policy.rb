@@ -48,7 +48,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def event_charts?
-    admin_or_promoter
+    user.admin?
   end
 
   def remove_logo?
