@@ -10,16 +10,16 @@
         th
 
     tbody
-      - @items.each do |station_product|
-        tr data-id="#{station_product.id}" class="#{'resource-hidden' if station_product.hidden?}"
+      - @items.each do |product|
+        tr data-id="#{product.id}" class="#{'resource-hidden' if product.hidden?}"
           td.table-sortable-field = fa_icon("bars")
-          td.mdl-data-table__cell--non-numeric = link_to station_product.product.name, [:admins, @current_event, station_product.product]
-          td = best_in_place station_product, :price, as: :input, url: admins_event_station_station_item_path(@current_event, station_product.station, station_product, item_type: "station_product")
-          td = best_in_place station_product.product, :is_alcohol, best_in_place_checkbox(admins_event_product_path(@current_event, station_product.product))
-          td = best_in_place station_product, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, station_product.station, station_product, item_type: "station_product"))
+          td.mdl-data-table__cell--non-numeric = best_in_place product, :name, as: :input, url: [:admins, @current_event, product.station, product]
+          td = best_in_place product, :price, as: :input, url: [:admins, @current_event, product.station, product]
+          td = best_in_place product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, product.station, product])
+          td = best_in_place product, :hidden, best_in_place_checkbox([:admins, @current_event, product.station, product])
           td.table-actions
             .table-action
-              = link_to admins_event_station_station_item_path(@current_event, @station, station_product, item_type: "station_product"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+              = link_to admins_event_station_station_item_path(@current_event, @station, product, item_type: "product"), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                 button.icon.material-icons id ="delete_#{@station.id}" delete_forever
 
 
@@ -48,7 +48,7 @@ javascript:
 
         $.ajax({
             type: "PUT",
-            url: "#{sort_admins_event_station_station_items_path(@current_event, @station, item_type: 'station_product')}",
+            url: "#{sort_admins_event_station_station_items_path(@current_event, @station, item_type: 'product')}",
             data: { order: updated_order }
         });
     });

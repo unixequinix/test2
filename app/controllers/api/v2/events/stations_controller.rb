@@ -40,32 +40,6 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
     @station.destroy
   end
 
-  def add_product
-    @station_product = @station.station_products.create!(price: product_params[:price], product_id: product_params[:id])
-    authorize @station
-
-    if @station_product
-      render json: @station_product
-    else
-      render json: @station_product.errors, status: :unprocessable_entity
-    end
-  end
-
-  def remove_product
-    @station.station_products.find_by(product_id: product_params[:id]).destroy
-  end
-
-  def update_product
-    @station_product = @station.station_products.find_by(product_id: product_params[:id])
-    authorize @station
-    atts = product_params.slice(:price, :position)
-    if @station_product.update(atts)
-      render json: @station_product
-    else
-      render json: @station_product.errors, status: :unprocessable_entity
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -80,6 +54,6 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   end
 
   def product_params
-    params.require(:product).permit(:id, :price, :position)
+    params.require(:product).permit(:name, :description, :vat, :is_alcohol, :price, :position)
   end
 end

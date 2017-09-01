@@ -8,7 +8,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :companies, dependent: :destroy
   has_many :gtags, dependent: :destroy
   has_many :payment_gateways, dependent: :destroy
-  has_many :products, dependent: :destroy
   has_many :stations, dependent: :destroy
   has_many :device_transactions, dependent: :destroy
   has_many :user_flags, dependent: :destroy

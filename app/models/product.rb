@@ -1,10 +1,27 @@
 class Product < ApplicationRecord
-  belongs_to :event
-  has_many :station_products, dependent: :destroy
+  belongs_to :station, touch: true
   has_many :sale_items, dependent: :restrict_with_error
 
-  validates :name, presence: true
-  validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
+  validates :name, uniqueness: { scope: :station_id, case_sensitive: false }, presence: true
+  validates :price, :position, presence: true, numericality: true
+
+  before_validation :set_position
 
   scope :with_name_like, ->(query) { where("lower(name) LIKE ?", "%#{sanitize_sql_like(query)}%") }
+
+  default_scope { order(position: :asc) }
+
+  def self.sort_column
+    :position
+  end
+
+  def self.policy_class
+    StationItemPolicy
+  end
+
+  private
+
+  def set_position
+    self.position = station.products.count + 1 if position.blank?
+  end
 end

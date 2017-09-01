@@ -22,8 +22,8 @@ class Api::V1::StationSerializer < ActiveModel::Serializer
   end
 
   def pos(hash)
-    hash[:products] = object.station_products.map do |sp|
-      { product_id: sp.product_id, price: sp.price.round(2), position: sp.position, hidden: sp.hidden? }
+    hash[:products] = object.products.map do |sp|
+      { product_id: sp.id, price: sp.price.round(2), position: sp.position, hidden: sp.hidden? }
     end
   end
 

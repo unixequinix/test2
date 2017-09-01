@@ -140,17 +140,14 @@ Rails.application.routes.draw do
             post :import
           end
         end
-        resources :products do
-          collection do
-            post :import
-            get :sample_csv
-          end
-        end
         resources :stations do
           post :clone
-          resources :station_items, only: [:create, :update, :destroy] do
-            put :sort, on: :collection
-            get :find_product, on: :collection
+          scope module: :stations do
+            resources :products, only: [:update, :edit, :index, :show]
+            resources :station_items, only: [:create, :update, :destroy] do
+              put :sort, on: :collection
+              get :find_product, on: :collection
+            end
           end
         end
         resources :ticket_types, except: :show do
@@ -257,9 +254,6 @@ Rails.application.routes.draw do
 
           resources :stations do
             resources :products
-            post :add_product, on: :member
-            post :remove_product, on: :member
-            put :update_product, on: :member
           end
 
           resources :refunds do

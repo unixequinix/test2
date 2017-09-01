@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :product do
-    event
-    sequence(:name) { |n| "Product #{n}" }
-    sequence(:description) { |n| "Description #{n}" }
-    is_alcohol false
+    station
+    sequence(:name) { |i| "Product #{i}" }
+    price 99
+    sequence(:position)
   end
 end

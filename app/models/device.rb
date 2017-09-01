@@ -10,4 +10,8 @@ class Device < ApplicationRecord
   def name
     "#{mac}: #{asset_tracker.blank? ? 'Unnamed' : asset_tracker}"
   end
+
+  def small_name
+    asset_tracker.blank? ? mac : asset_tracker
+  end
 end
