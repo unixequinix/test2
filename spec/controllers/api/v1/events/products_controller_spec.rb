@@ -3,15 +3,12 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::ProductsController, type: :controller do
   let(:event) { create(:event) }
   let(:user) { create(:user) }
-
-  let(:station) { create(:station, event: event) }
+  let(:db_products) { event.products }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   before do
-    @new_product = create(:product, station: station, updated_at: Time.zone.now + 4.hours)
-    @new_product2 = create(:product, station: station)
-
-    @db_products = [@new_product, @new_product2]
+    create(:product, event: event)
+    @new_product = create(:product, event: event, updated_at: Time.zone.now + 4.hours)
   end
 
   describe "GET index" do
@@ -42,7 +39,7 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
         it "returns all the products" do
           get :index, params: params
           api_products = JSON.parse(response.body).map { |m| m["id"] }
-          expect(api_products).to eq(@db_products.map(&:id))
+          expect(api_products).to eq(db_products.map(&:id))
         end
       end
     end

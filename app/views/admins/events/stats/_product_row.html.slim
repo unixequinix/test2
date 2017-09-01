@@ -1,6 +1,6 @@
-- product = station.products.find_by(product_id: product_id)
+- station_product = station.station_products.find_by(product_id: product_id)
 
-td.mdl-data-table__cell--non-numeric data-label="Product" = product&.name || "Other Amount"
+td.mdl-data-table__cell--non-numeric data-label="Product" = station_product&.product&.name || "Other Amount"
 td data-label="Quantity" = number_with_delimiter quantities[product_id]
 td data-label="Total"
   b = number_to_event_currency total * @current_event.credit.value

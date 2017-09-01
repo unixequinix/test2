@@ -1,0 +1,20 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, product], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, product], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs
+      = f.input :name, placeholder: true
+      = f.input :description, placeholder: true
+    .file
+      = f.input :vat, placeholder: false
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='is_alcohol'
+        span.mdl-switch__label.form-label Is Alcohol?
+        = f.input :is_alcohol, :input_html => { :id => 'is_alcohol' }
+      = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
+

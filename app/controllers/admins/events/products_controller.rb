@@ -1,0 +1,87 @@
+class Admins::Events::ProductsController < Admins::Events::BaseController
+  before_action :set_product, only: %i[show edit update destroy]
+
+  def index
+    @q = @current_event.products.ransack(params[:q])
+    @products = @q.result
+    authorize @products
+    @products = @products.page(params[:page])
+  end
+
+  def new
+    @product = @current_event.products.new
+    authorize @product
+  end
+
+  def create
+    @product = @current_event.products.new(permitted_params)
+    authorize @product
+    if @product.save
+      redirect_to admins_event_products_path, notice: t("alerts.created")
+    else
+      flash.now[:alert] = t("alerts.error")
+      render :new
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @product.update(permitted_params)
+        format.html { redirect_to admins_event_products_path, notice: t("alerts.updated") }
+        format.json { render json: @product }
+      else
+        format.html { render :edit }
+        format.json { render json: @product.errors.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    if @product.destroy
+      redirect_to admins_event_products_path, notice: t("alerts.destroyed")
+    else
+      redirect_to admins_event_product_path(@current_event, @product), alert: @product.errors.full_messages.to_sentence
+    end
+  end
+
+  def sample_csv
+    authorize @current_event.products.new
+    header = %w[name description is_alcohol]
+    data = [["Beer", "Franziskaner beer", "true"], ["Hotdog", "Hotdog with onion", "false"]]
+
+    csv_file = CsvExporter.sample(header, data)
+    respond_to do |format|
+      format.csv { send_data(csv_file) }
+    end
+  end
+
+  def import
+    authorize @current_event.products.new
+    alert = "Seleccione un archivo para importar"
+    redirect_to(admins_event_products_path(@current_event), alert: alert) && return unless params[:file]
+    file = params[:file][:data].tempfile.path
+
+    CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, i|
+      atts = { name: row.field("name"), description: row.field("description"), is_alcohol: row.field("is_alcohol") }
+      product = @current_event.products.find_by(name: row.field("name")) || @current_event.products.new
+      product.assign_attributes(atts)
+
+      next if product.save
+      errors = "Line #{i}: " + product.errors.full_messages.join(". ")
+      return redirect_to(admins_event_products_path(@current_event), alert: errors)
+    end
+
+    redirect_to(admins_event_products_path(@current_event), notice: "Products imported")
+  end
+
+  private
+
+  def set_product
+    @product = @current_event.products.find(params[:id])
+    authorize @product
+  end
+
+  def permitted_params
+    params.require(:product).permit(:id, :name, :description, :is_alcohol, :vat, :event_id)
+  end
+end

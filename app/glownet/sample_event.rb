@@ -4,7 +4,7 @@ class SampleEvent # rubocop:disable all
     @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}", start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
     @event.initial_setup!
 
-    data = %w(customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations)
+    data = %w(customers accesses packs products ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations)
     data.each { |d| eval("create_#{d}") }
 
     @event
@@ -59,6 +59,16 @@ class SampleEvent # rubocop:disable all
       end
 
       p.save! # Because association validation in pack model
+    end
+  end
+
+  def self.create_products
+    10.times do |index|
+      @event.products.create!(name: "Product #{index + 1}", description: "blah blah", is_alcohol: [true, false].sample)
+    end
+
+    10.times do |index|
+      @event.products.create!(name: "Market #{index + 1}", description: "blah blah", is_alcohol: [true, false].sample)
     end
   end
 
@@ -145,7 +155,8 @@ class SampleEvent # rubocop:disable all
     station = @event.stations.create!(name: "MARKET 1", category: "vendor")
 
     products.each.with_index do |p, index|
-      station.products.create(price: p[:price], name: p[:name], station: station, position: index + 1, is_alcohol: [true, false].sample)
+      product = Product.find_by(name: p[:name], event: @event)
+      station.station_products.create(price: p[:price], product: product, station: station, position: index + 1)
     end
   end
 
@@ -165,7 +176,8 @@ class SampleEvent # rubocop:disable all
     station = @event.stations.create!(name: "BAR 1", category: "bar")
 
     products.each do |p|
-      station.products.create(price: p[:price], name: p[:name], station: station, is_alcohol: [true, false].sample)
+      product = Product.find_by(name: p[:name], event: @event)
+      station.station_products.create(price: p[:price], product: product, station: station)
     end
   end
 

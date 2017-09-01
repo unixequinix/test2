@@ -122,6 +122,9 @@ html
           = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons view_module
             |  Packs
+          = link_to admins_event_products_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons shopping_basket
+            |  Products
           = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons shopping_cart
             |  Orders

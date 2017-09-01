@@ -93,7 +93,7 @@
                 td = best_in_place @station, :registration_num, url: [:admins, @current_event, @station]
 
       .mdl-cell.mdl-cell--7-col
-        = render(partial: "admins/events/stations/#{@station.form}/form") if @station.form
+        = render(partial: "admins/events/station_items/#{@station.form}/form") if @station.form
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
@@ -115,11 +115,11 @@
                   - device_transactions = @transactions.where(device_uid: device.mac).order(:device_created_at)
                   tr
                     td.mdl-data-table__cell--non-numeric = l Time.zone.parse(device_transactions.first.device_created_at)
-                    td.mdl-data-table__cell--non-numeric = link_to device.small_name, [:admins, @current_event, DeviceRegistration.find_by(event: @current_event, device: device)]
+                    td.mdl-data-table__cell--non-numeric = link_to device.name, [:admins, @current_event, DeviceRegistration.find_by(event: @current_event, device: device)]
                     td = device_transactions.count
-                    td = number_to_token device_transactions.sum(:credits)
+                    td = device_transactions.sum(:credits)
 
 
       .mdl-cell.mdl-cell--7-col
-        = render(partial: "admins/events/stations/#{@station.form}/list") if @station.form
+        = render(partial: "admins/events/station_items/#{@station.form}/list") if @station.form
   .mdl-layout-spacer
