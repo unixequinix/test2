@@ -131,7 +131,7 @@ en:
     refund:
       subject: Refund at %{event}
       refund_number: Refund number
-      success: Your refund has been successfully processed
+      success: Your refund is being processed
     reset_password:
       greet: Hello, %{name}!
       mail_body: We have received a request to change your password. Click the link below to change it.
