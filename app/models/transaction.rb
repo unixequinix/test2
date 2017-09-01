@@ -6,22 +6,23 @@ class Transaction < ApplicationRecord
   belongs_to :customer, optional: true
   belongs_to :gtag, optional: true
 
-  scope(:credit, -> { where(type: "CreditTransaction") })
-  scope(:credential, -> { where(type: "CredentialTransaction") })
-  scope(:access, -> { where(type: "AccessTransaction") })
-  scope(:money, -> { where(type: "MoneyTransaction") })
-  scope(:ban, -> { where(type: "BanTransaction") })
-  scope(:orders, -> { where(type: "OrderTransaction") })
-  scope(:device, -> { where(type: "DeviceTransaction") })
-  scope(:onsite, -> { where(transaction_origin: ORIGINS[:device]) })
-  scope(:online, -> { where(transaction_origin: [ORIGINS[:portal], ORIGINS[:admin]]) })
+  scope :credit, -> { where(type: "CreditTransaction") }
+  scope :credential, -> { where(type: "CredentialTransaction") }
+  scope :access, -> { where(type: "AccessTransaction") }
+  scope :money, -> { where(type: "MoneyTransaction") }
+  scope :ban, -> { where(type: "BanTransaction") }
+  scope :orders, -> { where(type: "OrderTransaction") }
+  scope :device, -> { where(type: "DeviceTransaction") }
+  scope :onsite, -> { where(transaction_origin: ORIGINS[:device]) }
+  scope :online, -> { where.not(transaction_origin: ORIGINS[:device]) }
+  scope :api, -> { where(transaction_origin: [ORIGINS[:api]]) }
 
-  scope(:with_event, ->(event) { where(event: event) })
-  scope(:with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) })
-  scope(:status_ok, -> { where(status_code: 0) })
-  scope(:origin, ->(origin) { where(transaction_origin: Transaction::ORIGINS[origin]) })
+  scope :with_event, ->(event) { where(event: event) }
+  scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
+  scope :status_ok, -> { where(status_code: 0) }
+  scope :origin, ->(origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
 
-  ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
+  ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel", api: "api" }.freeze
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
 
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
