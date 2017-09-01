@@ -15,7 +15,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
 
     Alert.propagate(t.event, "has been redeemed twice", :high, ticket) && return if ticket.redeemed?
 
-    apply_customers(t.event_id, t.customer_id, ticket)
+    apply_customers(t.event, t.customer_id, ticket)
     ticket.update!(redeemed: true)
   end
 

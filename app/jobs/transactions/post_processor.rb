@@ -10,7 +10,7 @@ class Transactions::PostProcessor < ApplicationJob
     Transactions::Credential::TicketValidator.perform_later(atts) if atts[:action].eql?("ticket_validation")
     return if gtag.blank?
 
-    customer_id = apply_customers(transaction.event_id, transaction.customer_id, gtag)
+    customer_id = apply_customers(transaction.event, transaction.customer_id, gtag)
     transaction.update!(gtag_id: gtag.id, customer_id: customer_id)
 
     return if transaction.status_not_ok?
