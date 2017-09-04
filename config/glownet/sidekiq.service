@@ -1,5 +1,5 @@
-# sudo apt-get dist-upgrade -y
 # sudo apt-get update -y
+# sudo apt-get dist-upgrade -y
 # sudo apt-get upgrade -y
 # sudo apt autoremove -y
 # cd /var/log/ && sudo find . -name "*.gz" -type f -delete
