@@ -2,14 +2,17 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   before_action :set_refund, only: %i[show destroy update]
 
   def index
-    @refunds = @current_event.refunds.includes(:customer).page(params[:page])
-    authorize @refunds
+    @q = @current_event.refunds.includes(:customer).ransack(params[:q])
+    @refunds = @q.result
 
     @graph = %w[started completed].map do |action|
-      data = @current_event.refunds.where(status: action).group_by_day(:created_at).sum(:amount)
+      data = @refunds.where(status: action).group_by_day("refunds.created_at").sum(:amount)
       data = data.collect { |k, v| [k, v.to_i.abs] }
       { name: action, data: Hash[data] }
     end
+
+    @refunds = @refunds.page(params[:page])
+    authorize @refunds
 
     respond_to do |format|
       format.html

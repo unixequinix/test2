@@ -132,7 +132,7 @@ es:
     refund:
       subject: Devolución de fondos de %{event}
       refund_number: Número de devolución
-      success: Tu devolución ha sido procesada con éxito
+      success: Tu devolución está siendo procesada
     reset_password:
       greet: ¡Hola, %{name}!
       mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
@@ -259,12 +259,19 @@ es:
       link: "¡Crea una!"
       lost_password: Contraseña perdida
     log_in:
-      link: Inicia sesión
-      title: Ya tienes cuenta?
-      unconfirmed_error: "Esta cuenta no existe o aún no está validad"
+      link: "Inicia sesión"
+      title: "¿Ya tienes cuenta?"
+      success: "Bienvenido a %{event}"
+      account_error: "Esta cuenta no existe o aún no está validada"
+      confirmed_not_logged_error: "Accede a tu cuenta"
+    log_out:
+      success: "Nos vemos pronto!"
     placeholder:
       email: ej. nickname@mail.com
       password: ej. · · · · · ·
+  social_login:
+    facebook: "Registrate con Facebook"
+    google: "Registrate con Google"
   simple_form:
     labels:
       customer:

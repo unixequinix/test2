@@ -8,6 +8,6 @@ class Device < ApplicationRecord
   validates :mac, uniqueness: true
 
   def name
-    "#{mac}: #{asset_tracker.blank? ? 'Unamed' : asset_tracker}"
+    "#{mac}: #{asset_tracker.blank? ? 'Unnamed' : asset_tracker}"
   end
 end

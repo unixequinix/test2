@@ -1,7 +1,7 @@
 class Api::V2::Events::GtagsController < Api::V2::BaseController
   before_action :set_gtag, only: %i[topup show update destroy]
 
-  # POST /customers/:id/topup
+  # POST /gtags/:id/topup
   def topup
     @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
 

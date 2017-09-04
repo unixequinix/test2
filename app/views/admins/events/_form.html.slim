@@ -28,7 +28,14 @@
       .form-inputs
         = f.input :start_date, as: :datetime
         = f.input :end_date, as: :datetime
-
+    .fieldset
+      .section-header
+        i.material-icons info_outline
+        span Official Info
+      .form-inputs
+        = f.input :official_name, placeholder: true
+        = f.input :official_address, placeholder: true
+        = f.input :registration_num, placeholder: true
 
 
     .form-actions

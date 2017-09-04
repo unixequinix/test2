@@ -1,9 +1,9 @@
 class StatPolicy < ApplicationPolicy
   def cashless?
-    user.admin? || user.event_ids.include?(record.scope_for_create["event_id"])
+    user.admin?
   end
 
   def stations?
-    user.admin? || user.event_ids.include?(record.scope_for_create["event_id"])
+    user.admin?
   end
 end

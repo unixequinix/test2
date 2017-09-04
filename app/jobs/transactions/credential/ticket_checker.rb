@@ -1,4 +1,6 @@
 class Transactions::Credential::TicketChecker < Transactions::Base
+  include TransactionsHelper
+
   TRIGGERS = %w[ticket_checkin].freeze
 
   queue_as :low
@@ -6,11 +8,14 @@ class Transactions::Credential::TicketChecker < Transactions::Base
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
     code = t.ticket_code
-    ticket = t.event.tickets.find_by(code: code) || decode_ticket(code, t.event)
+    event = t.event
+    ticket = event.tickets.find_by(code: code) || decode_ticket(code, event)
+
     t.update!(ticket: ticket)
 
     Alert.propagate(t.event, "has been redeemed twice", :high, ticket) && return if ticket.redeemed?
 
+    apply_customers(t.event, t.customer_id, ticket)
     ticket.update!(redeemed: true)
   end
 

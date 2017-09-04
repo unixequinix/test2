@@ -90,7 +90,8 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include FactoryGirl::Syntax::Methods
   config.include ControllerMacros
-
+  config.include Warden::Test::Helpers
+  
   Warden.test_mode!
   Sidekiq::Testing.inline!
 

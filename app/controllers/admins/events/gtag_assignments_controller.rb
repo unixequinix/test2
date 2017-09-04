@@ -10,7 +10,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     authorize @customer, :create_credential?
     @code = permitted_params[:reference].strip
     @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
-    @gtag.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Tag")) if @gtag.customer_not_anonymous?
 
     render(:new) && return unless @gtag.validate_assignation
 

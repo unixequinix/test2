@@ -31,7 +31,7 @@ class Refund < ApplicationRecord
     OrderMailer.completed_refund(self).deliver_later
   end
 
-  def prepare(atts)
+  def prepare_for_bank_account(atts)
     return unless gateway.eql?("bank_account")
     self.field_a = atts[:field_a].gsub(/\s+/, '')
     self.field_b = atts[:field_b].gsub(/\s+/, '')

@@ -1,5 +1,5 @@
 class Transactions::Credit::BalanceUpdater < Transactions::Base
-  TRIGGERS = %w[sale topup refund fee record_credit sale_refund].freeze
+  TRIGGERS = %w[sale topup refund fee record_credit sale_refund replacement_topup replacement_refund].freeze
 
   queue_as :low
 

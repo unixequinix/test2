@@ -80,6 +80,10 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     Event.where(state: 'launched').find_each { |event| EventStatsChannel.broadcast_to(event, {}) }
   end
 
+  def currency_symbol
+    Money::Currency.find(currency.downcase.to_sym).symbol
+  end
+
   def formatted_start_date
     start_date.to_formatted_s(:best_in_place)
   end

@@ -1,15 +1,17 @@
 class Events::RegistrationsController < Devise::RegistrationsController
-  layout "customer"
+  include LanguageHelper
 
+  before_action :resolve_locale
   before_action :configure_permitted_parameters
   before_action :set_event
+
+  layout "customer"
 
   def create
     build_resource(sign_up_params)
 
     if verify_recaptcha(model: resource) && resource.save
-      flash[:notice] = t('email.confirmation.flash_message')
-      redirect_to customer_event_session_path(@current_event)
+      redirect_to customer_event_session_path(@current_event), notice: t('email.confirmation.flash_message')
     else
       set_minimum_password_length
       respond_with resource
@@ -24,12 +26,12 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
   def build_resource(hash = {}) # rubocop:disable Metrics/AbcSize
     self.resource = session[:customer_id] ? @current_event.customers.find(session[:customer_id]) : @current_event.customers.new
-    resource.attributes = hash.merge(anonymous: false)
+    resource.attributes = hash.merge(anonymous: false, locale: I18n.locale)
 
     return unless session[:omniauth]
 
     token = Devise.friendly_token[0, 20]
-    name = session[:omniauth]["info"]["name"].split(" ")
+    name = session[:omniauth]["info"]["name"]&.split(" ")
     first_name = session[:omniauth]["info"]["first_name"] || name.first
     last_name = session[:omniauth]["info"]["last_name"] || name.second
     resource.provider = session[:omniauth]["provider"]
@@ -41,6 +43,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
     resource.password_confirmation = token
     resource.agreed_on_registration = true
     resource.anonymous = false
+    resource.locale = I18n.locale
     session.delete(:omniauth) && resource.valid?
   end
 

@@ -30,6 +30,11 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
     expect { worker.perform(atts) }.to raise_error(RuntimeError)
   end
 
+  it "applies a customer to the ticket" do
+    transaction.update customer: create(:customer, event: event)
+    expect { worker.perform(atts) }.to change { ticket.reload.customer }.from(nil).to(transaction.customer)
+  end
+
   describe ".decode_ticket" do
     before do
       @ctt = create(:ticket_type, event: event, company_code: ctt_id)

@@ -1,6 +1,10 @@
 - content_for(:title) do
   | Refunds
 
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_refunds_path do |f|
+    = f.search_field :field_a_or_field_b_or_customer_first_name_or_customer_last_name_or_customer_email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
 - content_for(:actions) do
   *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list

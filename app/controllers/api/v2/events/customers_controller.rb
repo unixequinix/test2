@@ -1,5 +1,18 @@
 class Api::V2::Events::CustomersController < Api::V2::BaseController
-  before_action :set_customer, only: %i[topup refunds transactions show update destroy]
+  before_action :set_customer, only: %i[topup refunds transactions show update destroy assign_gtag]
+
+  # POST /customers/:id/assign_gtag
+  def assign_gtag
+    @code = params[:tag_uid].strip
+    @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
+
+    render(json: @gtag.errors, status: :unprocessable_entity) && return unless @gtag.validate_assignation
+
+    @gtag.update!(active: params[:active].present?)
+    @customer.gtags.update_all(active: false) if @gtag.active?
+    @gtag.assign_customer(@customer, @current_user, :api) unless @gtag.customer == @customer
+    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+  end
 
   # POST /customers/:id/topup
   def topup
@@ -67,7 +80,6 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_customer
     customers = @current_event.customers
     customer_id = customers.find_by(id: params[:id])&.id || customers.find_by(email: params[:id])&.id

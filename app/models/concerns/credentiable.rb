@@ -3,18 +3,18 @@ module Credentiable
 
   included do
     belongs_to :event
-    belongs_to :customer, optional: true
+    belongs_to :customer, optional: true, touch: true
 
     has_many :transactions, dependent: :restrict_with_error
   end
 
   def customer_not_anonymous?
-    customer && !customer.anonymous?
+    customer.present? && !customer.anonymous?
   end
 
   def validate_assignation
     errors.add(:reference, I18n.t("credentials.not_found", item: I18n.t("credentials.name"))) if new_record?
-    errors.add(:reference, I18n.t("credentials.already_assigned", item: I18n.t("credentials.name"))) if customer.present? && !customer.anonymous?
+    errors.add(:reference, I18n.t("credentials.already_assigned", item: I18n.t("credentials.name"))) if customer_not_anonymous?
     errors.add(:reference, I18n.t("credentials.blacklisted", item: I18n.t("credentials.name"))) if banned?
     errors.empty?
   end

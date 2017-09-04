@@ -24,6 +24,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
 
   private
 
+  # * have ticket_type with catalog_item
   def tickets_sql(only_banned = false) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))

@@ -251,6 +251,7 @@ Rails.application.routes.draw do
 
           resources :customers, :constraints => { :id => /.*/ } do
             post :topup, on: :member
+            post :assign_gtag, on: :member
             get :refunds, on: :member
             get :transactions, on: :member
           end

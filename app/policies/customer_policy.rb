@@ -3,6 +3,10 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def assign_gtag?
+    all_allowed && event_open
+  end
+
   def refunds?
     all_allowed
   end

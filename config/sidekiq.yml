@@ -15,10 +15,13 @@
 # even put in dynamic logic, like a host-specific queue.
 # http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
 :queues:
-  - [default, 4]
-  - [medium, 2]
-  - [low, 1]
+  - default
+  - medium
+  - low
 
 # you can override settings based on environment
 production:
+  :concurrency: 10
+
+development:
   :concurrency: 10

@@ -16,8 +16,16 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   private
 
+  # * have online orders with status 'completed' or 'cancelled' or
+  # * have tickets at all or (right now we dont check this!)
+  # * have tags with ticket_type which has a catalog_item
   def customers_sql # rubocop:disable Metrics/MethodLength
-    ids = @modified.present? ? @current_event.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
+    cids = @modified.present? ? @current_event.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
+    order_cids = @current_event.orders.where(status: %w[completed cancelled], customer_id: cids).pluck(:customer_id)
+    gtag_cids = @current_event.gtags.where(active: true, customer_id: cids).where.not(ticket_type: nil).pluck(:customer_id)
+    ticket_cids = @current_event.tickets.where(customer_id: cids).where.not(ticket_type: nil).pluck(:customer_id)
+
+    ids = (order_cids + gtag_cids + ticket_cids).uniq
     return [].to_json unless ids.any?
 
     sql = <<-SQL
@@ -32,52 +40,49 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
         customers.email,
         cred.credentials,
         ord.orders
-
       FROM customers
 
         LEFT JOIN (
-                    SELECT
-                      cr.customer_id AS customer_id,
-                      json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) AS credentials
+          SELECT
+            cr.customer_id AS customer_id,
+            json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) AS credentials
+          FROM (
+            SELECT
+              customer_id,
+              code     AS reference,
+              'ticket' AS type
+            FROM tickets
+            WHERE tickets.customer_id IN (#{ids.join(', ')})
 
-                    FROM (
-                           SELECT
-                             customer_id,
-                             code     AS reference,
-                             'ticket' AS type,
-                             redeemed
-                           FROM tickets
-                           WHERE tickets.customer_id IN (#{ids.join(', ')})
-                           UNION ALL
-                           SELECT
-                             customer_id,
-                             tag_uid AS reference,
-                             'gtag'  AS type,
-                              redeemed
-                           FROM gtags
-                           WHERE gtags.active = TRUE AND gtags.customer_id IN (#{ids.join(', ')})
-                         ) cr
-                    GROUP BY cr.customer_id
-                  ) cred ON customers.id = cred.customer_id
+            UNION ALL
+
+            SELECT
+              customer_id,
+              tag_uid AS reference,
+              'gtag'  AS type
+            FROM gtags
+            WHERE gtags.customer_id IN (#{ids.join(', ')})
+          ) cr GROUP BY cr.customer_id
+        ) cred ON customers.id = cred.customer_id
+
         LEFT JOIN (
-                    SELECT
-                      o.customer_id AS customer_id,
-                      json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
-                    FROM (
-                           SELECT
-                             customer_id,
-                             counter AS id,
-                             amount,
-                             catalog_item_id,
-                             redeemed,
-                             orders.status
-                           FROM order_items
-                             JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
-                             JOIN orders ON orders.id = order_items.order_id AND orders.status IN ('completed', 'cancelled') AND orders.customer_id IN (#{ids.join(', ')})
-                         ) o
-                    GROUP BY o.customer_id
-                  ) ord
-          ON customers.id = ord.customer_id
+          SELECT
+            o.customer_id                                              AS customer_id,
+            json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
+          FROM (
+            SELECT
+              customer_id,
+              counter AS id,
+              amount,
+              catalog_item_id,
+              redeemed,
+              orders.status
+            FROM order_items
+              JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
+              JOIN orders ON orders.id = order_items.order_id AND orders.customer_id IN (#{ids.join(', ')})
+          ) o GROUP BY o.customer_id
+        ) ord ON customers.id = ord.customer_id
+
       WHERE customers.id IN (#{ids.join(', ')})
     ) cep
     SQL

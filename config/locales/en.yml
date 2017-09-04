@@ -131,7 +131,7 @@ en:
     refund:
       subject: Refund at %{event}
       refund_number: Refund number
-      success: Your refund has been successfully processed
+      success: Your refund is being processed
     reset_password:
       greet: Hello, %{name}!
       mail_body: We have received a request to change your password. Click the link below to change it.
@@ -273,11 +273,17 @@ en:
     log_in:
       link: Log in here
       title: Already have an account?
-      unconfirmed_error: "This account does not exist or it has not already been validated"
+      success: "Welcome to %{event}"
+      account_error: "This account does not exist or it has not already been validated"
+      confirmed_not_logged_error: "Log into your account"
+    log_out:
+      success: "See you soon!"
     placeholder:
       email: e.g. nickname@mail.com
       password: e.g. · · · · · ·
-
+  social_login:
+    facebook: "Sign in with Facebook"
+    google: "Sign in with Google"
   time:
     am: am
     pm: pm

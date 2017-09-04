@@ -4,6 +4,34 @@ RSpec.describe Customer, type: :model do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
 
+  describe 'validations on' do
+    context "#email" do
+      it "includes format when email is present" do
+        customer.email = "invalidemail"
+        expect(customer).not_to be_valid
+        expect(customer.errors[:email]).to include("is invalid")
+      end
+
+      it "does not include format when email is blank" do
+        customer.email = nil
+        expect(customer).to be_valid
+      end
+
+      it "includes presence if customer is not anonymous" do
+        customer.anonymous = false
+        customer.email = nil
+        expect(customer).not_to be_valid
+        expect(customer.errors[:email]).to include("can't be blank")
+      end
+
+      it "does not include presence if customer is anonymous" do
+        customer.anonymous = true
+        customer.email = nil
+        expect(customer).to be_valid
+      end
+    end
+  end
+
   describe ".claim" do
     let(:anon_customer) { create(:customer, event: event, anonymous: true) }
 
@@ -37,6 +65,11 @@ RSpec.describe Customer, type: :model do
     it "moves gtags over from anon_customer" do
       gtag = create(:gtag, customer: anon_customer)
       expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { gtag.reload.customer }.from(anon_customer).to(customer)
+    end
+
+    it "moves tickets over from anon_customer" do
+      ticket = create(:ticket, customer: anon_customer)
+      expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { ticket.reload.customer }.from(anon_customer).to(customer)
     end
   end
 

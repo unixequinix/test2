@@ -82,7 +82,7 @@ html
             = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
               |  Users
-          - if policy(Device.none).index?
+          - if policy(@current_event.device_registrations).index?
             = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons bug_report
               |  Asset Tracker
