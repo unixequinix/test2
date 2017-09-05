@@ -138,6 +138,12 @@ de:
       mail_body: 'Du hast eine Passwortänderung angefordert. Du kannst dies unter dem folgendem Link tun:'
       mail_link: Mein Passwort ändern
       subject: Passwortänderung angefordert.
+    confirmation:
+      subject: "Confirm your email"
+      flash_message: 'We have sent you a verification email to confirm your account. Please, check your email and follows the link to active it.'
+      description: 'Click the following link to confirm your account'
+      error: 'An error has occurred validating your account'
+      confirm: 'Confirm'
     welcome:
       subject: Bestätigung der Anmeldung bei
       greet: Hallo, %{name},

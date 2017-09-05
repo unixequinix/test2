@@ -35,6 +35,6 @@ class CustomerMailer < Devise::Mailer
 
     headers["X-No-Spam"] = "True"
     I18n.locale = record.locale
-    mail(to: record.email, reply_to: @event.support_email, subject: 'Confirma tu email')
+    mail(to: record.email, reply_to: @event.support_email, subject: t("email.confirmation.subject"))
   end
 end
