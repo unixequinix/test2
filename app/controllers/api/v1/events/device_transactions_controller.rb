@@ -14,7 +14,7 @@ class Api::V1::Events::DeviceTransactionsController < Api::V1::Events::BaseContr
       registration = @current_event.device_registrations.find_or_create_by!(device: device)
       registration.update!(new_atts)
 
-      Alert.propagate(@current_event, "has no name", :low, registration) if device.asset_tracker.blank?
+      Alert.propagate(@current_event, registration, "has no name", :low) if device.asset_tracker.blank?
 
       next unless action.in?(DeviceTransaction::ACTIONS)
       counter = @current_event.device_transactions.where(device_uid: atts[:device_uid]).count + 1

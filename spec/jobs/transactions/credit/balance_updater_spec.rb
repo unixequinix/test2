@@ -17,7 +17,7 @@ RSpec.describe Transactions::Credit::BalanceUpdater, type: :job do
     atts[:operator_tag_uid] = gtag.tag_uid
     atts[:transaction_id] = transaction.id
 
-    expect(Alert).to receive(:propagate).with(event, "has the same operator and customer UIDs", :medium, transaction).once
+    expect(Alert).to receive(:propagate).with(event, transaction, "has the same operator and customer UIDs", :medium).once
     worker.perform_now(atts)
   end
 

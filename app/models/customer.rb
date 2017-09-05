@@ -51,7 +51,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     anon_customer = event.customers.find(anon_customer_id)
 
     message = "PROFILE FRAUD: customer #{anon_customer_id} is not anonymous when trying to claim"
-    Alert.propagate(event, message, :high, event.customers.find(customer_id)) && return unless anon_customer.anonymous?
+    Alert.propagate(event, event.customers.find(customer_id), message) && return unless anon_customer.anonymous?
 
     anon_customer.transactions.update_all(customer_id: customer_id)
     anon_customer.gtags.update_all(customer_id: customer_id)
