@@ -248,6 +248,11 @@ de:
     log_in:
       link: Login
       title: Hast Du schon ein Konto?
+      success: "Welcome to %{event}"
+      account_error: "This account does not exist or it has not already been validated"
+      confirmed_not_logged_error: "Log into your account"
+    log_out:
+      success: "See you soon!"
     placeholder:
       email: Bsp. nickname@mail.com
       password: Bsp. · · · · · ·
