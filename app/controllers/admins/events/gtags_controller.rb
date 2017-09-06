@@ -14,7 +14,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def show
-    @transactions = @gtag.transactions.includes(:event).order(:gtag_counter)
+    @transactions = @gtag.transactions.includes(:event).order(:gtag_counter).onsite
     @corrections = @gtag.transactions.where(action: "correction")
   end
 
