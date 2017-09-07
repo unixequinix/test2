@@ -16,5 +16,6 @@ FactoryGirl.define do
     event
     sequence(:name) { |n| "Credit #{n}" }
     value 1
+    symbol "$"
   end
 end

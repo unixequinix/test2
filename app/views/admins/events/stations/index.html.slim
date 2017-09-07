@@ -1,6 +1,11 @@
 - content_for(:title) do
   | #{@group.to_s.humanize} Stations
 
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_stations_path(@current_event) do |f|
+    = f.search_field :name_or_category_or_location_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
 - if @group
   - content_for(:actions) do
     *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
@@ -10,6 +15,17 @@
             button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+
+        li.floaty-list-item
+          button#hide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
+            i.material-icons flip_to_back
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="hide_multiple" Hide Selected
+
+        li.floaty-list-item
+          button#unhide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
+            i.material-icons flip_to_front
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unhide_multiple" Unhide Selected
+
       ul.floaty-btn#button
         li
           button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -20,7 +36,7 @@
   .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.within-card
+        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
@@ -32,7 +48,7 @@
 
           tbody
             - @stations.each do |station|
-              tr class="#{'resource-hidden' if station.hidden?}"
+              tr class="#{'resource-hidden' if station.hidden?}" data-event=@current_event.id data-station=station.id
                 td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station]
                 td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
                 td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize

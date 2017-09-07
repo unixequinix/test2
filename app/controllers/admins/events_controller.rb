@@ -9,7 +9,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize(@events)
     @events = @events.with_state(@status) if @status != "all" && params[:q].blank?
     @events = @events.page(params[:page])
-    @alerts = Alert.where(event_id: @events).group(:event_id).count
+    @alerts = Alert.where(event_id: @events).unresolved.group(:event_id).count
   end
 
   def new

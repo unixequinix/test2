@@ -148,6 +148,8 @@ Rails.application.routes.draw do
         end
         resources :stations do
           post :clone
+          post :hide
+          post :unhide
           resources :station_items, only: [:create, :update, :destroy] do
             put :sort, on: :collection
             get :find_product, on: :collection
@@ -239,6 +241,7 @@ Rails.application.routes.draw do
           resources :devices
           resources :companies
           resources :accesses
+          resources :stats, only: %i[index show]
           resources :products
 
           resources :tickets do

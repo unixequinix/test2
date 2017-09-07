@@ -139,7 +139,8 @@ es:
       mail_link: Cambiar mi contraseña
       subject: Solicitud de cambio de contraseña.
     confirmation:
-      flash_message: 'Te hemos enviado un email de verificación de tu cuenta. Por favor, comprueba tu email y pincha en el enlace para confirmar tu cuenta.'
+      subject: "Confirma tu email"
+      flash_message: 'Te hemos enviado un email de verificación a tu cuenta. Por favor, comprueba tu email y pincha en el enlace para confirmar tu cuenta.'
       description: 'Haz click en el siguiente enlace para confirmar tu cuenta'
       error: 'Ha ocurrido un error validando tu cuenta'
       confirm: 'Confirmar'
@@ -262,7 +263,7 @@ es:
       link: "Inicia sesión"
       title: "¿Ya tienes cuenta?"
       success: "Bienvenido a %{event}"
-      account_error: "Esta cuenta no existe o aún no está validada"
+      account_error: "Has introducido mal las credenciales de tu cuenta o aún no está validada"
       confirmed_not_logged_error: "Accede a tu cuenta"
     log_out:
       success: "Nos vemos pronto!"

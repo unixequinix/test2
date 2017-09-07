@@ -9,6 +9,6 @@ class Transactions::Credit::BalanceUpdater < Transactions::Base
     return unless atts[:customer_tag_uid] == atts[:operator_tag_uid]
     event = Event.find(atts[:event_id])
     transaction = Transaction.find(atts[:transaction_id])
-    Alert.propagate(event, "has the same operator and customer UIDs", :medium, transaction)
+    Alert.propagate(event, transaction, "has the same operator and customer UIDs", :medium)
   end
 end

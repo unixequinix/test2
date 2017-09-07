@@ -3,6 +3,7 @@ class AccessControlGate < ApplicationRecord
   belongs_to :station, touch: true
 
   validates :direction, presence: true
+  validates :access_id, uniqueness: { scope: :station_id }
 
   scope(:in, -> { where(direction: "1") })
   scope(:out, -> { where(direction: "-1") })

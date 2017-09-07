@@ -9,10 +9,15 @@ class Events::SessionsController < Devise::SessionsController
 
   def create
     resource = warden.authenticate!(auth_options)
-    sign_in resource
-    yield resource if block_given?
 
-    redirect_to after_sign_in_path_for(resource), notice: t('sessions.log_in.success', event: @current_event.name)
+    if sign_in(resource)
+      yield resource if block_given?
+      message = { notice: t('sessions.log_in.success', event: @current_event.name) }
+    else
+      message = { alert: t('sessions.log_in.account_error') }
+    end
+
+    redirect_to after_sign_in_path_for(resource), message
   end
 
   private
@@ -31,7 +36,7 @@ class Events::SessionsController < Devise::SessionsController
     return if customer&.confirmed?
 
     expire_data_after_sign_in!
-    redirect_to after_sign_out_path_for(customer&.event || @current_event), alert: t('sessions.log_in.account_error')
+    redirect_to event_login_path(customer&.event || @current_event), alert: t('sessions.log_in.account_error')
   end
 
   def set_event

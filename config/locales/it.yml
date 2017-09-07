@@ -137,6 +137,12 @@ it:
       mail_body: ‘Hai richiesto di cambiare la tua password . Puoi farlo attraverso del seguente link:'
       mail_link: Cambiare la mia password
       subject: Richiesta di modifica della password.
+    confirmation:
+      subject: "Confirm your email"
+      flash_message: 'We have sent you a verification email to confirm your account. Please, check your email and follows the link to active it.'
+      description: 'Click the following link to confirm your account'
+      error: 'An error has occurred validating your account'
+      confirm: 'Confirm'
     welcome:
       subject: Confermazione della registrazione su  %{event_name}
       greet: Ciao, %{name},
@@ -235,6 +241,11 @@ it:
     log_in:
       link: Inizia sessione
       title:  Hai già un account?
+      success: "Welcome to %{event}"
+      account_error: "There is an error with your account credentials or it has not already been validated"
+      confirmed_not_logged_error: "Log into your account"
+    log_out:
+      success: "See you soon!"
     placeholder:
       email: es. nickname@mail.com
       password: es. · · · · · ·

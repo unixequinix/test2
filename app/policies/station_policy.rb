@@ -18,4 +18,12 @@ class StationPolicy < ApplicationPolicy
   def sort?
     admin_or_promoter && event_open
   end
+
+  def hide?
+    admin_or_promoter && event_open
+  end
+
+  def unhide?
+    admin_or_promoter && event_open
+  end
 end

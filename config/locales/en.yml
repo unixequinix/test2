@@ -138,9 +138,10 @@ en:
       mail_link: Change my password
       subject: Reset password instructions
     confirmation:
+      subject: "Confirm your email"
       flash_message: 'We have sent you a verification email to confirm your account. Please, check your email and follows the link to active it.'
       description: 'Click the following link to confirm your account'
-      error: 'An error has ocurred validating your account'
+      error: 'An error has occurred validating your account'
       confirm: 'Confirm'
     welcome:
       subject: Registration confirmation for %{event_name}
@@ -274,7 +275,7 @@ en:
       link: Log in here
       title: Already have an account?
       success: "Welcome to %{event}"
-      account_error: "This account does not exist or it has not already been validated"
+      account_error: "There is an error with your account credentials or it has not already been validated"
       confirmed_not_logged_error: "Log into your account"
     log_out:
       success: "See you soon!"

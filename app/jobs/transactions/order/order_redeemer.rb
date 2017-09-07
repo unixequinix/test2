@@ -11,7 +11,7 @@ class Transactions::Order::OrderRedeemer < Transactions::Base
 
     transaction.update!(order: order)
 
-    Alert.propagate(transaction.event, "has been redeemed twice", :high, order) && return if item.redeemed?
+    Alert.propagate(transaction.event, order, "has been redeemed twice") && return if item.redeemed?
 
     item.update!(redeemed: true)
     customer.touch

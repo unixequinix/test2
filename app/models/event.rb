@@ -47,7 +47,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   before_create :generate_tokens
   before_save :round_fees
 
-  validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, presence: true
+  validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, :currency, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
   validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
@@ -59,6 +59,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate :refunds_end_after_refunds_start
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
+  validate :currency_symbol
 
   def self.try_to_open_refunds
     Event.where(state: 'launched', open_refunds: false).find_each do |event|
@@ -81,7 +82,7 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def currency_symbol
-    Money::Currency.find(currency.downcase.to_sym).symbol
+    Money::Currency.find(currency.downcase.to_sym).symbol if currency.present?
   end
 
   def formatted_start_date

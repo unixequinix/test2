@@ -32,7 +32,7 @@ class Gtag < ApplicationRecord
     self.final_balance = ts.last&.final_balance.to_f
     self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
 
-    Alert.propagate(event, "has negative balance", :high, self) if final_balance.negative? || final_refundable_balance.negative?
+    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_refundable_balance.negative?
 
     save if changed?
   end

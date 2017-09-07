@@ -3,8 +3,12 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def index
     @group = params[:group]&.to_sym
-    @stations = @current_event.stations.where(category: Station::GROUPS[@group]).order(hidden: :asc, name: :asc)
-    @stations = @current_event.stations.all if @group.blank?
+    q = @current_event.stations
+    q = @group.blank? ? q.all : q.where(category: Station::GROUPS[@group])
+    q = q.order(hidden: :asc, name: :asc)
+
+    @q = q.ransack(params[:q])
+    @stations = @q.result
     authorize @stations
   end
 
@@ -37,13 +41,28 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     end
   end
 
+  def hide
+    @station.update!(hidden: true)
+    respond_to do |format|
+      format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
+      format.json { render json: @station }
+    end
+  end
+
+  def unhide
+    @station.update!(hidden: false)
+    respond_to do |format|
+      format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
+      format.json { render json: @station }
+    end
+  end
+
   def update
     respond_to do |format|
       if @station.update(permitted_params)
         format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
-        format.json { render json: @station }
+        format.json { render status: :ok, json: @station }
       else
-        flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
         format.json { render json: @station.errors.to_json, status: :unprocessable_entity }
       end
@@ -82,14 +101,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:station).permit(:name,
-                                    :location,
-                                    :event_id,
-                                    :category,
-                                    :reporting_category,
-                                    :address,
-                                    :registration_num,
-                                    :official_name,
-                                    :hidden)
+    params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden)
   end
 end

@@ -20,7 +20,7 @@ class Events::RefundsController < Events::EventsController
     if @refund.update(ip: request.remote_ip)
       refunds = @current_event.refunds.where(field_a: @refund.field_a, field_b: @refund.field_b).where.not(id: @refund.id)
       message = "has the same bank account number as #{refunds.count} other #{'refund'.pluralize(refunds.count)}"
-      Alert.propagate(@current_event, message, :medium, @refund) if refunds.any?
+      Alert.propagate(@current_event, @refund, message, :medium) if refunds.any?
 
       @refund.execute_refund_of_orders unless @refund.gateway.eql?("bank_account")
       @refund.complete!
