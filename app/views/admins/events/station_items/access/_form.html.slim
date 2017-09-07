@@ -4,7 +4,7 @@
     .form-inputs.short-input
       = hidden_field_tag :item_type, "access_control_gate"
       = f.input :direction, collection: [["In", 1], ["Out", -1]], include_blank: true
-      = f.input :access_id, collection: @current_event.accesses.pluck(:name, :id), include_blank: true
+      = f.input :access_id, collection: @current_event.accesses.where.not(id: @station.access_control_gates.pluck(:access_id)).pluck(:name, :id), include_blank: true
       = f.input :station_id, as: :hidden, input_html: { value: @station.id }
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
