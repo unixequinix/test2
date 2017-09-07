@@ -1,5 +1,5 @@
 class Api::V2::Events::CustomersController < Api::V2::BaseController
-  before_action :set_customer, only: %i[topup refunds transactions show update destroy assign_gtag ban unban]
+  before_action :set_customer, only: %i[topup refunds transactions show update destroy assign_gtag assign_ticket ban unban]
 
   # POST /gtags/:id/ban
   def ban
@@ -23,6 +23,16 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     @gtag.assign_customer(@customer, @current_user, :api) unless @gtag.customer == @customer
     @gtag.make_active! if params[:active].present?
 
+    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+  end
+
+  # POST /customers/:id/assign_gtag
+  def assign_ticket
+    @code = params[:code].strip
+    @ticket = @current_event.tickets.find_or_initialize_by(code: @code)
+    render(json: @ticket.errors, status: :unprocessable_entity) && return unless @ticket.validate_assignation
+
+    @ticket.assign_customer(@customer, @current_user, :api) unless @ticket.customer == @customer
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 

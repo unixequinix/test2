@@ -260,6 +260,7 @@ Rails.application.routes.draw do
               post :unban
               post :topup
               post :assign_gtag
+              post :assign_ticket
               get :refunds
               get :transactions
             end
