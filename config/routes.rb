@@ -241,6 +241,7 @@ Rails.application.routes.draw do
           resources :devices
           resources :companies
           resources :accesses
+          resources :stats, only: %i[index show]
           resources :products
 
           resources :tickets do
