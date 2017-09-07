@@ -27,6 +27,11 @@ class Gtag < ApplicationRecord
     "Gtag: #{tag_uid}"
   end
 
+  def make_active!
+    update!(active: true)
+    customer&.gtags&.update_all(active: false)
+  end
+
   def recalculate_balance
     ts = transactions.onsite.credit.where(status_code: 0).order(:gtag_counter, :device_created_at)
     self.credits = ts.sum(:credits)

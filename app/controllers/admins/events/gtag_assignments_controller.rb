@@ -13,9 +13,9 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
     render(:new) && return unless @gtag.validate_assignation
 
-    @gtag.update(active: permitted_params[:active].present?)
-    @customer.gtags.update_all(active: false) if @gtag.active?
     @gtag.assign_customer(@customer, current_user, :admin)
+    @gtag.make_active! if permitted_params[:active].present?
+
     redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Tag"))
   end
 

@@ -8,9 +8,9 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
     render(json: @gtag.errors, status: :unprocessable_entity) && return unless @gtag.validate_assignation
 
-    @gtag.update!(active: params[:active].present?)
-    @customer.gtags.update_all(active: false) if @gtag.active?
     @gtag.assign_customer(@customer, @current_user, :api) unless @gtag.customer == @customer
+    @gtag.make_active! if params[:active].present?
+
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 

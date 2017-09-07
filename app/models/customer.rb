@@ -59,10 +59,6 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     anon_customer.destroy!
   end
 
-  def refunding?
-    refunds.any? { |r| r.status.eql?("in_progress") || r.status.eql?("started") }
-  end
-
   def valid_balance?
     positive = !global_credits.negative? && !global_refundable_credits.negative?
     (active_gtag.blank? && positive) || (active_gtag&.valid_balance? && positive)
@@ -100,10 +96,6 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def active_credentials
     [active_gtag, tickets.where(banned: false)].flatten.compact
-  end
-
-  def active_credentials?
-    active_credentials.any?
   end
 
   def order_items

@@ -1,5 +1,5 @@
 class Api::V2::Events::GtagsController < Api::V2::BaseController
-  before_action :set_gtag, only: %i[topup show update destroy]
+  before_action :set_gtag, only: %i[topup show update destroy ban unban]
 
   # POST /gtags/:id/topup
   def topup

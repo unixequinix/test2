@@ -11,6 +11,8 @@ class Events::GtagAssignmentsController < Events::EventsController
     render(:new) && return unless @gtag.validate_assignation
 
     @gtag.assign_customer(@current_customer, @current_customer)
+    @gtag.make_active!
+
     redirect_to event_path(@current_event), notice: t("credentials.assigned", item: "Tag")
   end
 
