@@ -1,4 +1,6 @@
 class Refund < ApplicationRecord
+  include Eventable
+
   attr_accessor :iban, :bsb
 
   belongs_to :event
@@ -10,6 +12,8 @@ class Refund < ApplicationRecord
   validates :field_a, :field_b, presence: true, if: (-> { gateway.eql?("bank_account") })
 
   validate :correct_iban_and_swift, if: :iban
+
+  validate_associations
 
   scope(:query_for_csv, lambda { |event|
     joins(:customer)

@@ -1,7 +1,7 @@
 class Gtag < ApplicationRecord
   include Credentiable
   include Alertable
-
+  include Eventable
   belongs_to :ticket_type, optional: true
 
   before_save :upcase_tag_uid
@@ -15,6 +15,8 @@ class Gtag < ApplicationRecord
                       length: { in: 8..14 }
 
   validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
+
+  validate_associations
 
   scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits refundable_credits final_balance final_refundable_balance]) })
   scope :banned, (-> { where(banned: true) })

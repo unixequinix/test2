@@ -1,10 +1,12 @@
 class Ticket < ApplicationRecord
   include Credentiable
   include Alertable
+  include Eventable
 
   belongs_to :ticket_type
 
   validates :code, uniqueness: { scope: :event_id }, presence: true
+  validate_associations
 
   scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
   scope :banned, -> { where(banned: true) }

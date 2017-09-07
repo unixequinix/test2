@@ -6,7 +6,7 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
   let(:worker) { Transactions::Order::OrderRedeemer.new }
   let(:customer) { create(:customer, event: event) }
   let(:catalog_item) { event.credit }
-  let(:order) { create(:order, customer: customer) }
+  let(:order) { create(:order, customer: customer, event: event) }
   let(:order_item) { create(:order_item, order: order, catalog_item: catalog_item, counter: 1) }
   let(:atts) do
     {

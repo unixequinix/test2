@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :refund do
-    customer
+    event
+    customer { build(:customer, event: event) }
     sequence(:amount)
     sequence(:fee)
     field_a "ES91 2100 0418 4502 0005 1332"
