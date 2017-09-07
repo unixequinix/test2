@@ -96,4 +96,15 @@ RSpec.describe Event, type: :model do
       expect(subject.event_serie_id).not_to be_nil
     end
   end
+
+  describe ".currency_symbol" do
+    it "returns symbol" do
+      expect(subject.currency_symbol).to be_a(String)
+    end
+
+    it "add errors if currency is blank" do
+      subject.currency = nil
+      expect(subject.currency_symbol).to be_nil
+    end
+  end
 end
