@@ -242,7 +242,7 @@ it:
       link: Inizia sessione
       title:  Hai già un account?
       success: "Welcome to %{event}"
-      account_error: "This account does not exist or it has not already been validated"
+      account_error: "There is an error with your account credentials or it has not already been validated"
       confirmed_not_logged_error: "Log into your account"
     log_out:
       success: "See you soon!"

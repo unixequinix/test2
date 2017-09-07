@@ -263,7 +263,7 @@ es:
       link: "Inicia sesión"
       title: "¿Ya tienes cuenta?"
       success: "Bienvenido a %{event}"
-      account_error: "Esta cuenta no existe o aún no está validada"
+      account_error: "Has introducido mal las credenciales de tu cuenta o aún no está validada"
       confirmed_not_logged_error: "Accede a tu cuenta"
     log_out:
       success: "Nos vemos pronto!"
