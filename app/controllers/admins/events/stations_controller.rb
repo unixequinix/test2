@@ -42,7 +42,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def hide
-    @station.update(hidden: true)
+    @station.update!(hidden: true)
     respond_to do |format|
       format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
       format.json { render json: @station }
@@ -50,7 +50,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def unhide
-    @station.update(hidden: false)
+    @station.update!(hidden: false)
     respond_to do |format|
       format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
       format.json { render json: @station }

@@ -35,7 +35,7 @@ $(document).on("ready", function(){
     });
 
     $("#unhide_multiple").on("click",function(event){
-        doMultiple(this, "hide", function(elem) {
+        doMultiple(this, "unhide", function(elem) {
             $(elem).removeClass("resource-hidden");
             $(elem).find(".yes_switch").removeClass("is-checked yes_switch").addClass("no_switch");
         });
