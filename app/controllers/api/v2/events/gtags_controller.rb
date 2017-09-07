@@ -1,6 +1,24 @@
 class Api::V2::Events::GtagsController < Api::V2::BaseController
   before_action :set_gtag, only: %i[topup show update destroy ban unban]
 
+  # POST /gtags/:id/ban
+  def ban
+    if @gtag.update(banned: true)
+      render json: @gtag
+    else
+      render json: @gtag.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /gtags/:id/unban
+  def unban
+    if @gtag.update(banned: false)
+      render json: @gtag
+    else
+      render json: @gtag.errors, status: :unprocessable_entity
+    end
+  end
+
   # POST /gtags/:id/topup
   def topup
     @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?

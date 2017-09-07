@@ -1,5 +1,23 @@
 class Api::V2::Events::TicketsController < Api::V2::BaseController
-  before_action :set_ticket, only: %i[topup show update destroy]
+  before_action :set_ticket, only: %i[topup show update destroy ban unban]
+
+  # POST /gtags/:id/ban
+  def ban
+    if @ticket.update(banned: true)
+      render json: @ticket
+    else
+      render json: @ticket.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /gtags/:id/unban
+  def unban
+    if @ticket.update(banned: false)
+      render json: @ticket
+    else
+      render json: @ticket.errors, status: :unprocessable_entity
+    end
+  end
 
   # POST /customers/:id/topup
   def topup

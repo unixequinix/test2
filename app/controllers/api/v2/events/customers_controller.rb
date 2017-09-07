@@ -1,5 +1,17 @@
 class Api::V2::Events::CustomersController < Api::V2::BaseController
-  before_action :set_customer, only: %i[topup refunds transactions show update destroy assign_gtag]
+  before_action :set_customer, only: %i[topup refunds transactions show update destroy assign_gtag ban unban]
+
+  # POST /gtags/:id/ban
+  def ban
+    @customer.credentials.map { |c| c.update(banned: true) }
+    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+  end
+
+  # POST /gtags/:id/unban
+  def unban
+    @customer.credentials.map { |c| c.update(banned: false) }
+    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+  end
 
   # POST /customers/:id/assign_gtag
   def assign_gtag
