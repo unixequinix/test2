@@ -49,6 +49,7 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
   # DELETE /orders/1
   def destroy
     @order.destroy
+    head(:ok)
   end
 
   private

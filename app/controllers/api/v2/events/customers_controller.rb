@@ -98,6 +98,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
   # DELETE /customers/1
   def destroy
     @customer.destroy
+    head(:ok)
   end
 
   private

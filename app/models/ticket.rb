@@ -14,7 +14,6 @@ class Ticket < ApplicationRecord
 
   alias_attribute :reference, :code
   alias_attribute :ticket_reference, :code
-  alias_attribute :name, :code
 
   def name
     "Ticket: #{code}"

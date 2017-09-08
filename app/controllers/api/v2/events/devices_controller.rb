@@ -3,7 +3,7 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
 
   # GET /devices
   def index
-    @devices = Device.all
+    @devices = @current_event.devices
     authorize @devices
 
     render json: @devices
@@ -12,18 +12,6 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
   # GET /devices/1
   def show
     render json: @device
-  end
-
-  # POST /devices
-  def create
-    @device = Device.new(device_params)
-    authorize @device
-
-    if @device.save
-      render json: @device, status: :created, location: @device
-    else
-      render json: @device.errors, status: :unprocessable_entity
-    end
   end
 
   # PATCH/PUT /devices/1
@@ -37,14 +25,15 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
 
   # DELETE /devices/1
   def destroy
-    @device.destroy
+    @current_event.device_registrations.find_by(device: @device).destroy
+    head(:ok)
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_device
-    @device = Device.find(params[:id])
+    @device = @current_event.devices.find(params[:id])
     authorize @device
   end
 

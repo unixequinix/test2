@@ -91,7 +91,9 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include ControllerMacros
   config.include Warden::Test::Helpers
-  
+  config.include Requests::JsonHelpers, type: :api
+  config.include Api::V2Helper, type: :api
+
   Warden.test_mode!
   Sidekiq::Testing.inline!
 

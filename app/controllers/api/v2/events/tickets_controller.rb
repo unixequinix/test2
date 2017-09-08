@@ -43,7 +43,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
 
   # GET /tickets/1
   def show
-    render json: @ticket
+    render json: @ticket, serializer: Api::V2::TicketSerializer
   end
 
   # POST /tickets
@@ -70,6 +70,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
   # DELETE /tickets/1
   def destroy
     @ticket.destroy
+    head(:ok)
   end
 
   private

@@ -17,7 +17,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
   # POST /accesses
   def create
     @access = @current_event.accesses.new(access_params)
-    authorize @accesse
+    authorize @access
 
     if @access.save
       render json: @access, status: :created, location: [:admins, @current_event, @access]
@@ -37,7 +37,8 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
 
   # DELETE /accesses/1
   def destroy
-    @access.destroy
+    @access.destroy!
+    head(:ok)
   end
 
   private
@@ -45,7 +46,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_access
     @access = @current_event.accesses.find(params[:id])
-    authorize @accesse
+    authorize @access
   end
 
   # Only allow a trusted parameter "white list" through.

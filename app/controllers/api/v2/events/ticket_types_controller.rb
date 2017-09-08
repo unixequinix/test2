@@ -18,7 +18,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
 
   # GET /ticket_types/1
   def show
-    render json: @ticket_type
+    render json: @ticket_type, serializer: Api::V2::TicketTypeSerializer
   end
 
   # POST /ticket_types
@@ -45,6 +45,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
   # DELETE /ticket_types/1
   def destroy
     @ticket_type.destroy
+    head(:ok)
   end
 
   private

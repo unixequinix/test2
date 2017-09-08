@@ -238,7 +238,7 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :events, only: [:show] do
         scope module: "events" do
-          resources :devices
+          resources :devices, except: %i[create new]
           resources :companies
           resources :accesses
           resources :stats, only: %i[index show]

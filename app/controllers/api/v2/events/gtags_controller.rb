@@ -70,6 +70,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
   # DELETE /gtags/1
   def destroy
     @gtag.destroy
+    head(:ok)
   end
 
   private
