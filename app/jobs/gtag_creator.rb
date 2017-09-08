@@ -3,7 +3,7 @@ class GtagCreator < ApplicationJob
     return if atts[:tag_uid].blank?
 
     begin
-      gtag = atts[:event].gtags.find_or_create_by!(atts.slice(:tag_uid, :ticket_type_id))
+      gtag = atts[:event].gtags.find_or_create_by(atts.slice(:tag_uid, :ticket_type_id))
     rescue ActiveRecord::RecordNotUnique
       retry
     end
