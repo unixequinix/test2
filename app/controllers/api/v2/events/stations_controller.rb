@@ -38,6 +38,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
   # DELETE /stations/1
   def destroy
     @station.destroy
+    head(:ok)
   end
 
   def add_product

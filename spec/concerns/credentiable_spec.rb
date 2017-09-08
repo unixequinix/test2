@@ -2,9 +2,10 @@ require 'rails_helper'
 
 shared_examples_for "credentiable" do
   let(:model) { described_class } # the class that includes the concern
-  let(:customer) { create(:customer) }
+  let(:event) { create(:event) }
+  let(:customer) { create(:customer, event: event) }
 
-  subject { create(model.to_s.underscore.to_sym) }
+  subject { create(model.to_s.underscore.to_sym, event: event) }
 
   describe ".assign_customer" do
     context "subject has customer_id assigned as anonimous customer" do

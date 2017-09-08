@@ -52,12 +52,12 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   describe "GET show" do
     context "with authentication" do
       before do
-        @pack = create(:pack, :with_access)
+        @pack = create(:pack, :with_access, event: event)
         @access = @pack.catalog_items.accesses.first
         @ctt = create(:ticket_type, company: create(:company, event: event), event: event, catalog_item: @pack)
         @customer = create(:customer, event: event)
         @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
-        order = create(:order, customer: @customer, status: "completed")
+        order = create(:order, customer: @customer, status: "completed", event: event)
         @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
 
         http_login(user.email, user.access_token)

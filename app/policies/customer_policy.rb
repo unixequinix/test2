@@ -3,7 +3,19 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def ban?
+    all_allowed && event_open
+  end
+
+  def unban?
+    all_allowed && event_open
+  end
+
   def assign_gtag?
+    all_allowed && event_open
+  end
+
+  def assign_ticket?
     all_allowed && event_open
   end
 

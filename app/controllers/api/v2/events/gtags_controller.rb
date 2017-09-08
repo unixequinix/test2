@@ -1,5 +1,23 @@
 class Api::V2::Events::GtagsController < Api::V2::BaseController
-  before_action :set_gtag, only: %i[topup show update destroy]
+  before_action :set_gtag, only: %i[topup show update destroy ban unban]
+
+  # POST /gtags/:id/ban
+  def ban
+    if @gtag.update(banned: true)
+      render json: @gtag
+    else
+      render json: @gtag.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /gtags/:id/unban
+  def unban
+    if @gtag.update(banned: false)
+      render json: @gtag
+    else
+      render json: @gtag.errors, status: :unprocessable_entity
+    end
+  end
 
   # POST /gtags/:id/topup
   def topup
@@ -52,6 +70,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
   # DELETE /gtags/1
   def destroy
     @gtag.destroy
+    head(:ok)
   end
 
   private

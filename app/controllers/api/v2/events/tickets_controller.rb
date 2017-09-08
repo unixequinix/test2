@@ -1,5 +1,23 @@
 class Api::V2::Events::TicketsController < Api::V2::BaseController
-  before_action :set_ticket, only: %i[topup show update destroy]
+  before_action :set_ticket, only: %i[topup show update destroy ban unban]
+
+  # POST /gtags/:id/ban
+  def ban
+    if @ticket.update(banned: true)
+      render json: @ticket
+    else
+      render json: @ticket.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /gtags/:id/unban
+  def unban
+    if @ticket.update(banned: false)
+      render json: @ticket
+    else
+      render json: @ticket.errors, status: :unprocessable_entity
+    end
+  end
 
   # POST /customers/:id/topup
   def topup
@@ -25,7 +43,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
 
   # GET /tickets/1
   def show
-    render json: @ticket
+    render json: @ticket, serializer: Api::V2::TicketSerializer
   end
 
   # POST /tickets
@@ -52,6 +70,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
   # DELETE /tickets/1
   def destroy
     @ticket.destroy
+    head(:ok)
   end
 
   private

@@ -42,6 +42,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
   # DELETE /products/1
   def destroy
     @product.destroy
+    head(:ok)
   end
 
   private

@@ -49,6 +49,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
   # DELETE /refunds/1
   def destroy
     @refund.destroy
+    head(:ok)
   end
 
   private

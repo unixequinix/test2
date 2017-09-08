@@ -1,4 +1,6 @@
 class TicketType < ApplicationRecord
+  include Eventable
+
   has_many :tickets, dependent: :destroy
   has_many :gtags, dependent: :destroy
 
@@ -8,7 +10,10 @@ class TicketType < ApplicationRecord
 
   validates :company_code, uniqueness: { scope: :company_id }, allow_blank: true
   validates :name, uniqueness: { scope: %i[company_id event_id], case_sensitive: false }
+
   validates :name, presence: true
+
+  validate_associations
 
   scope(:for_devices, -> { where.not(catalog_item_id: nil) })
   scope(:no_catalog_item, -> { where(catalog_item_id: nil) })

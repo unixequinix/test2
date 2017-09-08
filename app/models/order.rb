@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
   include StatsHelper
+  include Eventable
 
   belongs_to :event
   belongs_to :customer, touch: true
@@ -13,6 +14,8 @@ class Order < ApplicationRecord
   validates :number, :status, presence: true
 
   validate :max_credit_reached
+
+  validate_associations
 
   # TODO: Change this to enum
   scope(:not_refund, -> { where.not(gateway: "refund") })

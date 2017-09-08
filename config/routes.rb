@@ -238,7 +238,7 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :events, only: [:show] do
         scope module: "events" do
-          resources :devices
+          resources :devices, except: %i[create new]
           resources :companies
           resources :accesses
           resources :stats, only: %i[index show]
@@ -250,13 +250,20 @@ Rails.application.routes.draw do
 
           resources :gtags do
             post :topup, on: :member
+            post :ban, on: :member
+            post :unban, on: :member
           end
 
           resources :customers, :constraints => { :id => /.*/ } do
-            post :topup, on: :member
-            post :assign_gtag, on: :member
-            get :refunds, on: :member
-            get :transactions, on: :member
+            member do
+              post :ban
+              post :unban
+              post :topup
+              post :assign_gtag
+              post :assign_ticket
+              get :refunds
+              get :transactions
+            end
           end
 
           resources :stations do

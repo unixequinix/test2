@@ -38,6 +38,7 @@ class Api::V2::Events::CompaniesController < Api::V2::BaseController
   # DELETE /companies/1
   def destroy
     @company.destroy
+    head(:ok)
   end
 
   private

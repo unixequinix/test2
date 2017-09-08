@@ -11,8 +11,8 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
   describe "GET index" do
     context "with authentication" do
       before do
-        create(:gtag, customer: customer)
-        order = create(:order, customer: customer, status: "completed")
+        create(:gtag, customer: customer, event: event)
+        order = create(:order, customer: customer, status: "completed", event: event)
         create(:order_item, order: order, catalog_item: item, counter: 1)
       end
 
@@ -26,8 +26,8 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       end
 
       it "returns the necessary keys" do
-        cus_keys = %w[id updated_at first_name last_name email orders credentials]
-        cre_keys = %w[customer_id reference type redeemed]
+        cus_keys = %w[id updated_at first_name last_name email credentials orders]
+        cre_keys = %w[customer_id reference type]
         order_keys = %w[customer_id id amount catalog_item_id redeemed status]
 
         JSON.parse(response.body).map do |gtag|
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
         JSON.parse(response.body).map do |c|
           api_cred = c["credentials"]
           db_cred = Customer.find(c["id"]).active_credentials.map do |obj|
-            { customer_id: obj.customer_id, reference: obj.reference, type: obj.class.name.downcase, redeemed: false }.as_json
+            { customer_id: obj.customer_id, reference: obj.reference, type: obj.class.name.downcase }.as_json
           end
           expect(api_cred).to eq(db_cred)
         end

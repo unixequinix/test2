@@ -58,17 +58,17 @@ RSpec.describe Customer, type: :model do
     end
 
     it "moves transactions over from anon_customer" do
-      t = create(:credit_transaction, customer: anon_customer)
+      t = create(:credit_transaction, customer: anon_customer, event: event)
       expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { t.reload.customer }.from(anon_customer).to(customer)
     end
 
     it "moves gtags over from anon_customer" do
-      gtag = create(:gtag, customer: anon_customer)
+      gtag = create(:gtag, customer: anon_customer, event: event)
       expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { gtag.reload.customer }.from(anon_customer).to(customer)
     end
 
     it "moves tickets over from anon_customer" do
-      ticket = create(:ticket, customer: anon_customer)
+      ticket = create(:ticket, customer: anon_customer, event: event)
       expect { Customer.claim(event, customer.id, anon_customer.id) }.to change { ticket.reload.customer }.from(anon_customer).to(customer)
     end
   end
@@ -157,7 +157,7 @@ RSpec.describe Customer, type: :model do
       end
 
       it "takes into account orders completed" do
-        orders = create_list(:order, 3, customer: customer, status: "completed").map(&:credits).sum
+        orders = create_list(:order, 3, customer: customer, status: "completed", event: event).map(&:credits).sum
         expect(customer.global_credits).to eq(orders)
       end
 
@@ -180,7 +180,7 @@ RSpec.describe Customer, type: :model do
       end
 
       it "takes into account orders completed" do
-        orders = create_list(:order, 3, customer: customer, status: "completed").map(&:credits).sum
+        orders = create_list(:order, 3, customer: customer, status: "completed", event: event).map(&:credits).sum
         expect(customer.global_refundable_credits).to eq(orders)
       end
     end

@@ -44,7 +44,7 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
     it "returns a success response" do
       EventSerie.create! valid_attributes
       get :index, params: {}
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -52,14 +52,14 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
     it "returns a success response" do
       event_serie = EventSerie.create! valid_attributes
       get :show, params: { id: event_serie.to_param }
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
     end
   end
 
   describe "GET #new" do
     it "returns a success response" do
       get :new, params: {}
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
     it "returns a success response" do
       event_serie = EventSerie.create! valid_attributes
       get :edit, params: { id: event_serie.to_param }
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { event_serie: invalid_attributes }
-        expect(response).to be_success
+        expect(response).to have_http_status(:ok)
       end
     end
   end
@@ -115,7 +115,7 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         event_serie = EventSerie.create! valid_attributes
         put :update, params: { id: event_serie.to_param, event_serie: invalid_attributes }
-        expect(response).to be_success
+        expect(response).to have_http_status(:ok)
       end
     end
   end
