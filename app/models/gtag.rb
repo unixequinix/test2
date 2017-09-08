@@ -14,7 +14,8 @@ class Gtag < ApplicationRecord
                       format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") },
                       length: { in: 8..14 }
 
-  validates :format, :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true
+  validates :format, presence: true
+  validates :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true, numericality: true
 
   validate_associations
 

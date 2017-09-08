@@ -10,7 +10,7 @@ class Refund < ApplicationRecord
   validates :field_b, length: { within: 6..10 }, if: :bsb
   validates :fee, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :field_a, :field_b, presence: true, if: (-> { gateway.eql?("bank_account") })
-  validates :amount, presence: true
+  validates :amount, :gateway, presence: true
 
   validate :correct_iban_and_swift, if: :iban
 

@@ -2,7 +2,7 @@ class TicketType < ApplicationRecord
   include Eventable
 
   has_many :tickets, dependent: :destroy
-  has_many :gtags, dependent: :destroy
+  has_many :gtags, dependent: :nullify
 
   belongs_to :event
   belongs_to :catalog_item, optional: true

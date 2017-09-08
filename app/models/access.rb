@@ -1,4 +1,10 @@
 class Access < CatalogItem
+  COUNTER = "counter".freeze
+  PERMANENT = "permanent".freeze
+  PERMANENT_STRICT = "permanent_strict".freeze
+
+  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT].freeze
+
   has_many :access_transactions, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
 
@@ -6,15 +12,10 @@ class Access < CatalogItem
   before_validation :calculate_memory_position
 
   validates :memory_length, :mode, presence: true
+  validates :mode, inclusion: { in: MODES, message: "Has to be one of: #{MODES.to_sentence}" }
   validate :validate_memory_position
 
   scope(:infinite, -> { where(mode: [PERMANENT, PERMANENT_STRICT]) })
-
-  COUNTER = "counter".freeze
-  PERMANENT = "permanent".freeze
-  PERMANENT_STRICT = "permanent_strict".freeze
-
-  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT].freeze
 
   def infinite?
     mode == PERMANENT || mode == PERMANENT_STRICT
