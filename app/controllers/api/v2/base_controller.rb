@@ -20,7 +20,7 @@ module Api::V2
 
     def render_unauthorized(realm = "Application")
       headers["WWW-Authenticate"] = %(Token realm="#{realm.delete('"')}") if realm.is_a?(String)
-      render json: { error: 'Bad credentials' }, status: :unauthorized
+      render json: { error: 'Forbidden access' }, status: :forbidden
     end
 
     def destroy_session
