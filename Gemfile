@@ -50,21 +50,22 @@ gem 'font-awesome-rails'
 gem 'chartkick'
 gem 'groupdate'
 
+# Navigation
+gem 'kaminari'
+
 # APIs
 gem 'jbuilder', '~> 2.5'
 gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'eventbrite', github: 'envoy/eventbrite'
 gem 'rack-attack'
+gem 'api-pagination'
 
 # SEO
 gem 'friendly_id'
 
 # CSV
 gem 'roo'
-
-# Navigation
-gem 'kaminari'
 
 # Search
 gem 'ransack', github: 'activerecord-hackery/ransack'

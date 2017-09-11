@@ -53,7 +53,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     @customers = @current_event.customers
     authorize @customers
 
-    render json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
+    paginate json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
   end
 
   # GET /customers/:id/refunds

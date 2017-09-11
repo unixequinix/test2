@@ -6,7 +6,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
     @accesses = @current_event.accesses
     authorize @accesses
 
-    render json: @accesses
+    paginate json: @accesses
   end
 
   # GET /accesses/1

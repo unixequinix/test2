@@ -4,7 +4,7 @@ class Api::V2::Events::StatsController < Api::V2::BaseController
     @stats = Stat.where(event: @current_event)
     authorize @stats
 
-    render json: @stats
+    paginate json: @stats
   end
 
   # GET /stats/1

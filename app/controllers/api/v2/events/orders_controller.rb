@@ -17,7 +17,7 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
     @orders = @current_event.orders.includes(:order_items)
     authorize @orders
 
-    render json: @orders, each_serializer: Api::V2::OrderSerializer
+    paginate json: @orders, each_serializer: Api::V2::OrderSerializer
   end
 
   # GET /orders/1

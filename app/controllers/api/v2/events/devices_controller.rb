@@ -6,7 +6,7 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
     @devices = @current_event.devices
     authorize @devices
 
-    render json: @devices
+    paginate json: @devices
   end
 
   # GET /devices/1

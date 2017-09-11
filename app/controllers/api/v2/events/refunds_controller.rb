@@ -17,7 +17,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
     @refunds = @current_event.refunds
     authorize @refunds
 
-    render json: @refunds
+    paginate json: @refunds
   end
 
   # GET /refunds/1
