@@ -30,7 +30,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
     ctt = event.ticket_types.find_by(company_code: id)
 
     begin
-      ticket = event.tickets.find_or_create_by!(code: code, ticket_type: ctt)
+      ticket = event.tickets.find_or_create_by(code: code, ticket_type: ctt)
     rescue ActiveRecord::RecordNotUnique
       retry
     end
