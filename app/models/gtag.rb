@@ -29,8 +29,8 @@ class Gtag < ApplicationRecord
   end
 
   def make_active!
-    update!(active: true)
     customer&.gtags&.update_all(active: false)
+    update!(active: true)
   end
 
   def recalculate_balance
