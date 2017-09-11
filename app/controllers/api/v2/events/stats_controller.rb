@@ -1,5 +1,5 @@
 class Api::V2::Events::StatsController < Api::V2::BaseController
-  # GET /stats
+  # GET api/v2/events/:event_id/stats
   def index
     @stats = Stat.where(event: @current_event)
     authorize @stats
@@ -7,7 +7,7 @@ class Api::V2::Events::StatsController < Api::V2::BaseController
     paginate json: @stats
   end
 
-  # GET /stats/1
+  # GET api/v2/events/:event_id/stats/:id
   def show
     @stat = Stat.find_by!(id: params[:id], event: @current_event)
     authorize @stat

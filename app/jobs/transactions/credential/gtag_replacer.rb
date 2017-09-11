@@ -6,14 +6,9 @@ class Transactions::Credential::GtagReplacer < Transactions::Base
   queue_as :low
 
   def perform(atts)
-    event = Event.find(atts[:event_id])
-    new_gtag = event.gtags.find(atts[:gtag_id])
-    old_gtag = create_gtag(atts[:ticket_code], event.id)
-    old_gtag.update!(active: false, banned: true)
+    new_gtag = Gtag.find_by(id: atts[:gtag_id], event_id: atts[:event_id])
+    old_gtag = create_gtag(atts[:ticket_code], atts[:event_id])
 
-    # the old_gtag might have a registered customer or at the very least the one we just created, also orders...
-    # the new one is anonymous.
-    Customer.claim(event, old_gtag.customer_id, new_gtag.customer_id)
-    new_gtag.update!(active: true)
+    old_gtag.replace!(new_gtag)
   end
 end

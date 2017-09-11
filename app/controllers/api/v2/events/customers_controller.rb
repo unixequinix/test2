@@ -1,19 +1,29 @@
 class Api::V2::Events::CustomersController < Api::V2::BaseController
-  before_action :set_customer, only: %i[topup refunds transactions show update destroy assign_gtag assign_ticket ban unban]
+  before_action :set_customer, except: %i[index create]
 
-  # POST /gtags/:id/ban
+  # POST api/v2/events/:event_id/customers/:id/ban
+  def gtag_replacement
+    old_gtag = @customer.active_gtag
+    new_gtag = @current_event.gtags.find_or_initialize_by(tag_uid: params[:new_tag_uid])
+    render(json: new_gtag.errors, status: :unprocessable_entity) && return unless new_gtag.validate_assignation
+
+    old_gtag.replace!(new_gtag)
+    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+  end
+
+  # POST api/v2/events/:event_id/customers/:id/ban
   def ban
     @customer.credentials.map { |c| c.update(banned: true) }
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 
-  # POST /gtags/:id/unban
+  # POST api/v2/events/:event_id/customers/:id/unban
   def unban
     @customer.credentials.map { |c| c.update(banned: false) }
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 
-  # POST /customers/:id/assign_gtag
+  # POST api/v2/events/:event_id/customers/:id/assign_gtag
   def assign_gtag
     @code = params[:tag_uid].strip
     @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
@@ -26,7 +36,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 
-  # POST /customers/:id/assign_gtag
+  # POST api/v2/events/:event_id/customers/:id/assign_gtag
   def assign_ticket
     @code = params[:code].strip
     @ticket = @current_event.tickets.find_or_initialize_by(code: @code)
@@ -36,7 +46,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 
-  # POST /customers/:id/topup
+  # POST api/v2/events/:event_id/customers/:id/topup
   def topup
     @order = @customer.build_order([[@current_event.credit.id, params[:credits]]])
 
@@ -48,7 +58,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     end
   end
 
-  # GET /customers
+  # GET api/v2/events/:event_id/customers
   def index
     @customers = @current_event.customers
     authorize @customers
@@ -56,25 +66,25 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     paginate json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
   end
 
-  # GET /customers/:id/refunds
+  # GET api/v2/events/:event_id/customers/:id/refunds
   def refunds
     @refunds = @customer.refunds
     render json: @refunds, each_serializer: Api::V2::RefundSerializer
   end
 
-  # GET /customers/:id/transactions
+  # GET api/v2/events/:event_id/customers/:id/transactions
   def transactions
     gtag = @customer.active_gtag
     @transactions = gtag ?  gtag.transactions.credit.status_ok.order(:gtag_counter) : []
     render json: @transactions, each_serializer: Api::V2::TransactionSerializer
   end
 
-  # GET /customers/1
+  # GET api/v2/events/:event_id/customers/:id
   def show
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
 
-  # POST /customers
+  # POST api/v2/events/:event_id/customers
   def create
     @customer = @current_event.customers.new(customer_params)
     authorize @customer
@@ -86,7 +96,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /customers/1
+  # PATCH/PUT api/v2/events/:event_id/customers/:id
   def update
     if @customer.update(customer_params)
       render json: @customer, serializer: Api::V2::Full::CustomerSerializer
@@ -95,7 +105,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     end
   end
 
-  # DELETE /customers/1
+  # DELETE api/v2/events/:event_id/customers/:id
   def destroy
     @customer.destroy
     head(:ok)

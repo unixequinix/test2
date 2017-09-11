@@ -1,7 +1,7 @@
 class Api::V2::Events::TicketTypesController < Api::V2::BaseController
   before_action :set_ticket_type, only: %i[tickets show update destroy]
 
-  # GET /ticket_types
+  # GET api/v2/events/:event_id/ticket_types
   def index
     @ticket_types = @current_event.ticket_types
     authorize @ticket_types
@@ -9,19 +9,19 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
     render json: @ticket_types
   end
 
-  # GET /ticket_types/:id/tickets
+  # GET api/v2/events/:event_id/ticket_types/:id/tickets
   def tickets
     @tickets = @ticket_type.tickets
 
     render json: @tickets, each_serializer: Api::V2::Simple::TicketSerializer
   end
 
-  # GET /ticket_types/1
+  # GET api/v2/events/:event_id/ticket_types/:id
   def show
     render json: @ticket_type, serializer: Api::V2::TicketTypeSerializer
   end
 
-  # POST /ticket_types
+  # POST api/v2/events/:event_id/ticket_types
   def create
     @ticket_type = @current_event.ticket_types.new(ticket_type_params)
     authorize @ticket_type
@@ -33,7 +33,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /ticket_types/1
+  # PATCH/PUT api/v2/events/:event_id/ticket_types/:id
   def update
     if @ticket_type.update(ticket_type_params)
       render json: @ticket_type
@@ -42,7 +42,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
     end
   end
 
-  # DELETE /ticket_types/1
+  # DELETE api/v2/events/:event_id/ticket_types/:id
   def destroy
     @ticket_type.destroy
     head(:ok)

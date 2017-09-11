@@ -1,7 +1,7 @@
 class Api::V2::Events::RefundsController < Api::V2::BaseController
   before_action :set_refund, only: %i[show update destroy complete]
 
-  # PATCH/PUT /refunds/1
+  # PATCH/PUT api/v2/events/:event_id/refunds/:id
   def complete
     if @refund.completed?
       @refund.errors.add(:status, "is already completed")
@@ -12,7 +12,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
     end
   end
 
-  # GET /refunds
+  # GET api/v2/events/:event_id/refunds
   def index
     @refunds = @current_event.refunds
     authorize @refunds
@@ -20,12 +20,12 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
     paginate json: @refunds
   end
 
-  # GET /refunds/1
+  # GET api/v2/events/:event_id/refunds/:id
   def show
     render json: @refund
   end
 
-  # POST /refunds
+  # POST api/v2/events/:event_id/refunds
   def create
     @refund = @current_event.refunds.new(refund_params)
     authorize @refund
@@ -37,7 +37,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /refunds/1
+  # PATCH/PUT api/v2/events/:event_id/refunds/:id
   def update
     if @refund.update(refund_params)
       render json: @refund
@@ -46,7 +46,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
     end
   end
 
-  # DELETE /refunds/1
+  # DELETE api/v2/events/:event_id/refunds/:id
   def destroy
     @refund.destroy
     head(:ok)

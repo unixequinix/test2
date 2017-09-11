@@ -1,7 +1,7 @@
 class Api::V2::Events::DevicesController < Api::V2::BaseController
   before_action :set_device, only: %i[show update destroy]
 
-  # GET /devices
+  # GET api/v2/events/:event_id/devices
   def index
     @devices = @current_event.devices
     authorize @devices
@@ -9,12 +9,12 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
     paginate json: @devices
   end
 
-  # GET /devices/1
+  # GET api/v2/events/:event_id/devices/:id
   def show
     render json: @device
   end
 
-  # PATCH/PUT /devices/1
+  # PATCH/PUT api/v2/events/:event_id/devices/:id
   def update
     if @device.update(device_params)
       render json: @device
@@ -23,7 +23,7 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
     end
   end
 
-  # DELETE /devices/1
+  # DELETE api/v2/events/:event_id/devices/:id
   def destroy
     @current_event.device_registrations.find_by(device: @device).destroy
     head(:ok)

@@ -7,6 +7,10 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def gtag_replacement?
+    all_allowed && event_open
+  end
+
   def unban?
     all_allowed && event_open
   end

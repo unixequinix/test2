@@ -1,7 +1,7 @@
 class Api::V2::Events::TicketsController < Api::V2::BaseController
   before_action :set_ticket, only: %i[topup show update destroy ban unban]
 
-  # POST /gtags/:id/ban
+  # POST api/v2/events/:event_id/tickets/:id/ban
   def ban
     if @ticket.update(banned: true)
       render json: @ticket
@@ -10,7 +10,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
     end
   end
 
-  # POST /gtags/:id/unban
+  # POST api/v2/events/:event_id/tickets/:id/unban
   def unban
     if @ticket.update(banned: false)
       render json: @ticket
@@ -19,7 +19,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
     end
   end
 
-  # POST /customers/:id/topup
+  # POST api/v2/events/:event_id/customers/:id/topup
   def topup
     @ticket.update!(customer: @current_event.customers.create!) if @ticket.customer.blank?
 
@@ -33,7 +33,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
     end
   end
 
-  # GET /tickets
+  # GET api/v2/events/:event_id/tickets
   def index
     @tickets = @current_event.tickets
     authorize @tickets
@@ -41,12 +41,12 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
     render json: @tickets, each_serializer: Api::V2::Simple::TicketSerializer
   end
 
-  # GET /tickets/1
+  # GET api/v2/events/:event_id/tickets/:id
   def show
     render json: @ticket, serializer: Api::V2::TicketSerializer
   end
 
-  # POST /tickets
+  # POST api/v2/events/:event_id/tickets
   def create
     @ticket = @current_event.tickets.new(ticket_params)
     authorize @ticket
@@ -58,7 +58,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /tickets/1
+  # PATCH/PUT api/v2/events/:event_id/tickets/:id
   def update
     if @ticket.update(ticket_params)
       render json: @ticket
@@ -67,7 +67,7 @@ class Api::V2::Events::TicketsController < Api::V2::BaseController
     end
   end
 
-  # DELETE /tickets/1
+  # DELETE api/v2/events/:event_id/tickets/:id
   def destroy
     @ticket.destroy
     head(:ok)

@@ -1,7 +1,7 @@
 class Api::V2::Events::CompaniesController < Api::V2::BaseController
   before_action :set_company, only: %i[show update destroy]
 
-  # GET /companies
+  # GET api/v2/events/:event_id/companies
   def index
     @companies = @current_event.companies
     authorize @companies
@@ -9,12 +9,12 @@ class Api::V2::Events::CompaniesController < Api::V2::BaseController
     render json: @companies
   end
 
-  # GET /companies/1
+  # GET api/v2/events/:event_id/companies/:id
   def show
     render json: @company
   end
 
-  # POST /companies
+  # POST api/v2/events/:event_id/companies
   def create
     @company = @current_event.companies.new(company_params)
     authorize @company
@@ -26,7 +26,7 @@ class Api::V2::Events::CompaniesController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /companies/1
+  # PATCH/PUT api/v2/events/:event_id/companies/:id
   def update
     if @company.update(company_params)
       render json: @company
@@ -35,7 +35,7 @@ class Api::V2::Events::CompaniesController < Api::V2::BaseController
     end
   end
 
-  # DELETE /companies/1
+  # DELETE api/v2/events/:event_id/companies/:id
   def destroy
     @company.destroy
     head(:ok)

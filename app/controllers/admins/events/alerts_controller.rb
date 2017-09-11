@@ -25,8 +25,8 @@ class Admins::Events::AlertsController < Admins::Events::BaseController
     end
   end
 
-  # PATCH/PUT /alerts/1
-  # PATCH/PUT /alerts/1.json
+  # PATCH/PUT /alerts/:id
+  # PATCH/PUT /alerts/:id.json
   def update
     respond_to do |format|
       if @alert.update(alert_params)
@@ -39,8 +39,8 @@ class Admins::Events::AlertsController < Admins::Events::BaseController
     end
   end
 
-  # DELETE /alerts/1
-  # DELETE /alerts/1.json
+  # DELETE /alerts/:id
+  # DELETE /alerts/:id.json
   def destroy
     @alert.destroy
     respond_to do |format|
