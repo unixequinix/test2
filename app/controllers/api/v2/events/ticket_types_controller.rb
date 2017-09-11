@@ -6,7 +6,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
     @ticket_types = @current_event.ticket_types
     authorize @ticket_types
 
-    render json: @ticket_types
+    paginate json: @ticket_types
   end
 
   # GET api/v2/events/:event_id/ticket_types/:id/tickets

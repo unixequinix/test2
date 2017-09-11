@@ -6,7 +6,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
     @stations = @current_event.stations
     authorize @stations
 
-    render json: @stations
+    paginate json: @stations
   end
 
   # GET api/v2/events/:event_id/stations/:id
