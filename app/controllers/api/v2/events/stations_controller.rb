@@ -1,20 +1,20 @@
 class Api::V2::Events::StationsController < Api::V2::BaseController
   before_action :set_station, only: %i[show update destroy add_product remove_product update_product]
 
-  # GET /stations
+  # GET api/v2/events/:event_id/stations
   def index
     @stations = @current_event.stations
     authorize @stations
 
-    render json: @stations
+    paginate json: @stations
   end
 
-  # GET /stations/1
+  # GET api/v2/events/:event_id/stations/:id
   def show
     render json: @station
   end
 
-  # POST /stations
+  # POST api/v2/events/:event_id/stations
   def create
     @station = @current_event.stations.new(station_params)
     authorize @station
@@ -26,7 +26,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /stations/1
+  # PATCH/PUT api/v2/events/:event_id/stations/:id
   def update
     if @station.update(station_params)
       render json: @station
@@ -35,7 +35,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
     end
   end
 
-  # DELETE /stations/1
+  # DELETE api/v2/events/:event_id/stations/:id
   def destroy
     @station.destroy
     head(:ok)

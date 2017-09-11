@@ -1,7 +1,7 @@
 class Api::V2::Events::OrdersController < Api::V2::BaseController
   before_action :set_order, only: %i[show update destroy complete]
 
-  # PATCH/PUT /orders/1
+  # PATCH/PUT api/v2/events/:event_id/orders/:id
   def complete
     if @order.completed?
       @order.errors.add(:status, "is already completed")
@@ -12,20 +12,20 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
     end
   end
 
-  # GET /orders
+  # GET api/v2/events/:event_id/orders
   def index
     @orders = @current_event.orders.includes(:order_items)
     authorize @orders
 
-    render json: @orders, each_serializer: Api::V2::OrderSerializer
+    paginate json: @orders, each_serializer: Api::V2::OrderSerializer
   end
 
-  # GET /orders/1
+  # GET api/v2/events/:event_id/orders/:id
   def show
     render json: @order, serializer: Api::V2::OrderSerializer
   end
 
-  # POST /orders
+  # POST api/v2/events/:event_id/orders
   def create
     @order = @current_event.orders.new(order_params)
     authorize @order
@@ -37,7 +37,7 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /orders/1
+  # PATCH/PUT api/v2/events/:event_id/orders/:id
   def update
     if @order.update(order_params)
       render json: @order
@@ -46,7 +46,7 @@ class Api::V2::Events::OrdersController < Api::V2::BaseController
     end
   end
 
-  # DELETE /orders/1
+  # DELETE api/v2/events/:event_id/orders/:id
   def destroy
     @order.destroy
     head(:ok)

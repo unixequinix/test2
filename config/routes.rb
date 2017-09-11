@@ -249,9 +249,12 @@ Rails.application.routes.draw do
           end
 
           resources :gtags do
-            post :topup, on: :member
-            post :ban, on: :member
-            post :unban, on: :member
+            member do
+              post :replace
+              post :topup
+              post :ban
+              post :unban
+            end
           end
 
           resources :customers, :constraints => { :id => /.*/ } do
@@ -261,6 +264,7 @@ Rails.application.routes.draw do
               post :topup
               post :assign_gtag
               post :assign_ticket
+              post :gtag_replacement
               get :refunds
               get :transactions
             end

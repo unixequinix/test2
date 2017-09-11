@@ -8,8 +8,8 @@ class Admins::EventSeriesController < Admins::BaseController
     authorize(@event_series)
   end
 
-  # GET /event_series/1
-  # GET /event_series/1.json
+  # GET /event_series/:id
+  # GET /event_series/:id.json
   def show; end
 
   # GET /event_series/new
@@ -18,7 +18,7 @@ class Admins::EventSeriesController < Admins::BaseController
     authorize(@event_serie)
   end
 
-  # GET /event_series/1/edit
+  # GET /event_series/:id/edit
   def edit; end
 
   # POST /event_series
@@ -38,8 +38,8 @@ class Admins::EventSeriesController < Admins::BaseController
     end
   end
 
-  # PATCH/PUT /event_series/1
-  # PATCH/PUT /event_series/1.json
+  # PATCH/PUT /event_series/:id
+  # PATCH/PUT /event_series/:id.json
   def update
     respond_to do |format|
       if @event_serie.update(event_series_params)
@@ -52,8 +52,8 @@ class Admins::EventSeriesController < Admins::BaseController
     end
   end
 
-  # DELETE /event_series/1
-  # DELETE /event_series/1.json
+  # DELETE /event_series/:id
+  # DELETE /event_series/:id.json
   def destroy
     @event_serie.destroy
     respond_to do |format|

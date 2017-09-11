@@ -1,5 +1,5 @@
 class Api::V2::EventsController < Api::V2::BaseController
-  # GET /events/1
+  # GET /events/:id
   def show
     authorize(@current_event)
     render json: @current_event

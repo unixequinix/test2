@@ -1,20 +1,20 @@
 class Api::V2::Events::AccessesController < Api::V2::BaseController
   before_action :set_access, only: %i[show update destroy]
 
-  # GET /accesses
+  # GET api/v2/events/:event_id/accesses
   def index
     @accesses = @current_event.accesses
     authorize @accesses
 
-    render json: @accesses
+    paginate json: @accesses
   end
 
-  # GET /accesses/1
+  # GET api/v2/events/:event_id/accesses/:id
   def show
     render json: @access
   end
 
-  # POST /accesses
+  # POST api/v2/events/:event_id/accesses
   def create
     @access = @current_event.accesses.new(access_params)
     authorize @access
@@ -26,7 +26,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /accesses/1
+  # PATCH/PUT api/v2/events/:event_id/accesses/:id
   def update
     if @access.update(access_params)
       render json: @access
@@ -35,7 +35,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
     end
   end
 
-  # DELETE /accesses/1
+  # DELETE api/v2/events/:event_id/accesses/:id
   def destroy
     @access.destroy!
     head(:ok)

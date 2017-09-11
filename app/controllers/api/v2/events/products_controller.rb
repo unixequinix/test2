@@ -11,7 +11,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
     render json: @products
   end
 
-  # GET /products/1
+  # GET /products/:id
   def show
     render json: @product
   end
@@ -29,7 +29,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /products/1
+  # PATCH/PUT /products/:id
   def update
     if @product.update(product_params)
       @station.station_products.find_by(product: @product).update(price: @price) if @price
@@ -39,7 +39,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
     end
   end
 
-  # DELETE /products/1
+  # DELETE /products/:id
   def destroy
     @product.destroy
     head(:ok)

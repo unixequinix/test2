@@ -1,4 +1,8 @@
 class GtagPolicy < ApplicationPolicy
+  def replace?
+    all_allowed && event_open
+  end
+
   def topup?
     all_allowed && event_open
   end

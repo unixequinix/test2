@@ -1,7 +1,16 @@
 class Api::V2::Events::GtagsController < Api::V2::BaseController
-  before_action :set_gtag, only: %i[topup show update destroy ban unban]
+  before_action :set_gtag, only: %i[topup show update destroy ban unban replace]
 
-  # POST /gtags/:id/ban
+  # POST api/v2/events/:event_id/gtags/:id/replace
+  def replace
+    new_gtag = @current_event.gtags.find_or_initialize_by(tag_uid: params[:new_tag_uid])
+    render(json: new_gtag.errors, status: :unprocessable_entity) && return unless new_gtag.validate_assignation
+
+    @gtag.replace!(new_gtag)
+    render json: new_gtag, serializer: Api::V2::GtagSerializer
+  end
+
+  # POST api/v2/events/:event_id/gtags/:id/ban
   def ban
     if @gtag.update(banned: true)
       render json: @gtag
@@ -10,7 +19,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     end
   end
 
-  # POST /gtags/:id/unban
+  # POST api/v2/events/:event_id/gtags/:id/unban
   def unban
     if @gtag.update(banned: false)
       render json: @gtag
@@ -19,7 +28,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     end
   end
 
-  # POST /gtags/:id/topup
+  # POST api/v2/events/:event_id/gtags/:id/topup
   def topup
     @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
 
@@ -33,7 +42,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     end
   end
 
-  # GET /gtags
+  # GET api/v2/events/:event_id/gtags
   def index
     @gtags = @current_event.gtags
     authorize @gtags
@@ -41,12 +50,12 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     render json: @gtags, each_serializer: Api::V2::Simple::GtagSerializer
   end
 
-  # GET /gtags/1
+  # GET api/v2/events/:event_id/gtags/:id
   def show
     render json: @gtag
   end
 
-  # POST /gtags
+  # POST api/v2/events/:event_id/gtags
   def create
     @gtag = @current_event.gtags.new(gtag_params)
     authorize @gtag
@@ -58,7 +67,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     end
   end
 
-  # PATCH/PUT /gtags/1
+  # PATCH/PUT api/v2/events/:event_id/gtags/:id
   def update
     if @gtag.update(gtag_params)
       render json: @gtag
@@ -67,7 +76,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
     end
   end
 
-  # DELETE /gtags/1
+  # DELETE api/v2/events/:event_id/gtags/:id
   def destroy
     @gtag.destroy
     head(:ok)

@@ -6,7 +6,7 @@ ruby '2.4.1'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
-gem 'rails', '~> 5.1.2' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.1.4' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
 gem 'figaro'
@@ -50,21 +50,22 @@ gem 'font-awesome-rails'
 gem 'chartkick'
 gem 'groupdate'
 
+# Navigation
+gem 'kaminari'
+
 # APIs
 gem 'jbuilder', '~> 2.5'
 gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'eventbrite', github: 'envoy/eventbrite'
 gem 'rack-attack'
+gem 'api-pagination'
 
 # SEO
 gem 'friendly_id'
 
 # CSV
 gem 'roo'
-
-# Navigation
-gem 'kaminari'
 
 # Search
 gem 'ransack', github: 'activerecord-hackery/ransack'
