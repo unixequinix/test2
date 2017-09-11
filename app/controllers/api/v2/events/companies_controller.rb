@@ -11,7 +11,7 @@ class Api::V2::Events::CompaniesController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/companies/:id
   def show
-    render json: @company
+    render json: @company, serializer: Api::V2::CompanySerializer
   end
 
   # POST api/v2/events/:event_id/companies

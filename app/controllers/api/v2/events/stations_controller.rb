@@ -11,7 +11,7 @@ class Api::V2::Events::StationsController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/stations/:id
   def show
-    render json: @station
+    render json: @station, serializer: Api::V2::StationSerializer
   end
 
   # POST api/v2/events/:event_id/stations

@@ -17,7 +17,7 @@ db_stats/schema.rb
 # Ignore all logfiles and tempfiles.
 log/*.log
 tmp/
-
+spec/examples.txt
 doc/
 *.swp
 *~

@@ -40,18 +40,18 @@ html
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
         nav.mdl-navigation.global-nav
-          = link_to admins_events_path, class: "mdl-navigation__link" do
+          = link_to admins_events_path, class: "mdl-navigation__link", id: "events_layout_link" do
             i.mdl-color-text--teal-200.material-icons stars
             |  Events
-          = link_to admins_event_series_index_path, class: "mdl-navigation__link" do
+          = link_to admins_event_series_index_path, class: "mdl-navigation__link", id: "event_series_layout_link" do
             i.mdl-color-text--teal-200.material-icons stars
             |  Event Series
         nav.mdl-navigation.global-nav
           span.nav-title PROFILE
-          = link_to [:admins, @current_user], class: "mdl-navigation__link" do
+          = link_to [:admins, @current_user], class: "mdl-navigation__link", id: "profile_layout_link" do
             i.mdl-color-text--teal-200.material-icons account_circle
             | My Profile
-          = link_to [:edit, :admins, @current_user], class: "mdl-navigation__link" do
+          = link_to [:edit, :admins, @current_user], class: "mdl-navigation__link", id: "password_layout_link" do
             i.mdl-color-text--teal-200.material-icons create
             |  Password
         - if @current_user.admin?
@@ -60,10 +60,10 @@ html
             = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons markunread_mailbox
               |  Sidekiq
-            = link_to admins_users_path, class: "mdl-navigation__link" do
+            = link_to admins_users_path, class: "mdl-navigation__link", id: "users_layout_link" do
               i.mdl-color-text--teal-200.material-icons people
               |  Users
-            = link_to admins_devices_path, class: "mdl-navigation__link" do
+            = link_to admins_devices_path, class: "mdl-navigation__link", id: "devices_layout_link" do
               i.mdl-color-text--teal-200.material-icons settings_cell
               |  Devices
               

@@ -29,6 +29,10 @@ end
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+
+require 'capybara/rspec'
+require 'capybara/rails'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'warden'
 
@@ -50,7 +54,10 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
-Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: :firefox )
+end
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -109,4 +116,11 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+
+  config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.filter_run_when_matching :focus
+  config.example_status_persistence_file_path = "spec/examples.txt"
+  config.default_formatter = 'doc' if config.files_to_run.one?
+  config.order = :random
+  Kernel.srand config.seed
 end
