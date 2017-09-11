@@ -29,7 +29,7 @@ class Gtag < ApplicationRecord
   end
 
   def make_active!
-    customer&.gtags&.update_all(active: false)
+    customer.gtags.where.not(id: id).update_all(active: false) if customer
     update!(active: true)
   end
 
