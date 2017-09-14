@@ -43,8 +43,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is a point of sales" do
         before do
           @station = create(:station, category: "vendor", event: event)
-          item = create(:product, event: event)
-          @station.station_products.create(price: rand(1.0...20.0).round(2), product: item, position: 9)
+          create(:product, station: @station, price: rand(1.0...20.0).round(2), position: 9)
         end
 
         it "returns all the pos stations" do
@@ -59,9 +58,8 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           expect(s).to have_key("products")
 
           s_ws_items = s["products"]
-          s_db_items = @station.station_products.map do |m|
-            { product_id: m["product_id"], price: m["price"], position: m["position"], hidden: m["hidden"] }.as_json
-          end
+          s_db_items = @station.products.map { |p| { product_id: p.id, price: p.price, position: p.position, hidden: p.hidden }.as_json }
+
           expect(s_ws_items).to eq(s_db_items)
         end
       end

@@ -17,8 +17,7 @@ class Station < ApplicationRecord
 
   has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy
-  has_many :station_products, dependent: :destroy
-  has_many :products, through: :station_products
+  has_many :products, dependent: :destroy
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
   has_many :stats
@@ -44,12 +43,8 @@ class Station < ApplicationRecord
     event.catalog_items - station_catalog_items.map(&:catalog_item)
   end
 
-  def unassigned_products
-    event.products - station_products.map(&:product)
-  end
-
   def all_station_items
-    topup_credits + station_catalog_items + station_products + access_control_gates
+    topup_credits + station_catalog_items + products + access_control_gates
   end
 
   private

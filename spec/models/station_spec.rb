@@ -61,11 +61,4 @@ RSpec.describe Station, type: :model do
       expect(subject.unassigned_catalog_items).to include(access)
     end
   end
-
-  describe ".unassigned_products" do
-    it "returns the products which aren't current in the station" do
-      product = create(:product, event_id: subject.event_id)
-      expect(subject.unassigned_products).to include(product)
-    end
-  end
 end
