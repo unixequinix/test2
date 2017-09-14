@@ -4,17 +4,19 @@ default: &default
   pool: 5
   port: 5432
   host: glownethotfixdb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
-  password: <%= ENV["pg_password"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] || ENV["pg_password"] %>
 
 development:
   <<: *default
   database: glownet_stats_development
-  host: localhost
+  username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
+  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
 
 test:
   <<: *default
   database: glownet_stats_test
-  host: localhost
+  username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
+  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
 
 demo:
   <<: *default

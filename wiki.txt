@@ -1,0 +1,43 @@
+#Install Docker
+[Ubuntu](https://www.digitalocean.com/community/tutorials/como-instalar-y-usar-docker-en-ubuntu-16-04-es)
+[Mac](https://download.docker.com/mac/stable/Docker.dmg)
+[Windows](https://download.docker.com/win/stable/InstallDocker.msi)
+
+#Install Docker compose (only ubuntu)
+[Docker compose](https://docs.docker.com/compose/install/)
+
+#Create env files from .env examples files inside 'config/docker'
+
+### All these commands must be executed in project root path
+# Run project 
+    1.  docker-compose build
+    2.  docker-compose run web rake db:create db:migrate
+        docker-compose run web rake stats:db:create db:migrate
+    3.  docker exec -i glownet_postgres_1 psql -U postgres glownet_web_development << dump.sql 
+        (with dump.sql available in your project root path)
+        (if you don't want to dump data to your database, jump to step 4)
+    4.  docker-compose run web rake db:migrate
+# Run tests
+    1.  docker-compose bunlde exec rspec
+# Docker commands  
+    ## Build image
+        docker-composse build
+    ## Start all containers
+        docker-compose up
+    ## See all containers
+        docker-compose ps
+    ## Remove all containers, images and volumes
+        docker-compose down
+#Database commands 
+    ## Create database
+        docker-compose run web rake db:create RAILS_ENV=*****
+    ## Migrate database
+        docker-compose run web rake db:migrate RAILS_ENV=*****
+        docker-compose run web rake stats:db:migrate RAILS_ENV=*****
+    ## Drop database
+        docker-compose run web rake db:drop
+    ## Load database dump (with dump.sql available in your project root path)
+        docker exec -i glownet_postgres_1 psql -U postgres glownet_web_development < dump.sql
+# Rails commands
+    ## Open rails terminal
+        docker-compose run web bundle exec rails c
