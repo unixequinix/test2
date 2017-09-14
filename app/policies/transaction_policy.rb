@@ -1,4 +1,8 @@
 class TransactionPolicy < ApplicationPolicy
+  def download_raw_transactions?
+    admin_or_promoter
+  end
+
   def fix?
     admin_or_promoter && event_open
   end

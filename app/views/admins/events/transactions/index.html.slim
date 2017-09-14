@@ -22,6 +22,12 @@
             button#resolvable_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons healing
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
+      - if policy(@current_event.transactions).download_raw_transactions?
+        li.floaty-list-item
+          = link_to download_raw_transactions_admins_event_transactions_path(@current_event, format: :csv) do
+            button#download_raw_transactions.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons cloud_download
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download_raw_transactions" Download Raw Data
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

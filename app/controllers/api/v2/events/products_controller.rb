@@ -35,7 +35,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
       render json: @product.errors, status: :unprocessable_entity
     end
   end
-  
+
   # DELETE stations/:station_id/products/1
   def destroy
     @product.destroy

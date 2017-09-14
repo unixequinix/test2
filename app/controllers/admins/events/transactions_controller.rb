@@ -3,6 +3,12 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_transactions, except: %i[index show fix status_9 status_0 destroy]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
 
+  def download_raw_transactions
+    respond_to do |format|
+      format.csv { send_data(DownloadTransactionsQuery.new(@current_event).to_csv) }
+    end
+  end
+
   def index
     @transactions = params[:q] ? @current_event.transactions : @current_event.transactions.none
     authorize @transactions
