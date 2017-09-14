@@ -41,7 +41,7 @@
           tbody
             - @transaction.sale_items.each do |item|
               tr
-                td.mdl-data-table__cell--non-numeric = link_to item.product.name, admins_event_product_path(@current_event, item.product)
+                td.mdl-data-table__cell--non-numeric = link_to item.product.name, admins_event_station_product_path(@current_event, @item.product.station, item.product)
                 td = item.quantity
                 td = item.unit_price
                 td = item.unit_price * item.quantity
