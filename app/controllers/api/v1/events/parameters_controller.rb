@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
 class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
   before_action :set_modified
 

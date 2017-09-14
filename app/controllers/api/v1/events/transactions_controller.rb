@@ -1,5 +1,5 @@
 class Api::V1::Events::TransactionsController < Api::V1::Events::BaseController
-  def create # rubocop:disable Metrics/CyclomaticComplexity
+  def create
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
 

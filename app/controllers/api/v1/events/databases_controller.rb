@@ -10,7 +10,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
     render(json: { url: AwsManager.generate_url(device_cache.file.path) })
   end
 
-  def create
+  def create # rubocop
     file = permitted_params[:file]
     render(status: :bad_request, json: { errors: "File empty" }) && return unless file
 
