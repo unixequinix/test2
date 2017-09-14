@@ -22,7 +22,7 @@ class Admins::Events::Stations::StationItemsController < Admins::Events::BaseCon
 
   def update
     respond_to do |format|
-      if @item.update(params.require(params[:item_type]).permit(:price, :amount, :hidden))
+      if @item.update(permitted_params)
         format.json { render status: :ok, json: @item }
       else
         format.json { render json: @item.errors.to_json, status: :unprocessable_entity }
