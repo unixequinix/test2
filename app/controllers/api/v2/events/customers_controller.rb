@@ -58,14 +58,6 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     end
   end
 
-  # GET api/v2/events/:event_id/customers
-  def index
-    @customers = @current_event.customers
-    authorize @customers
-
-    paginate json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
-  end
-
   # GET api/v2/events/:event_id/customers/:id/refunds
   def refunds
     @refunds = @customer.refunds
@@ -77,6 +69,14 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     gtag = @customer.active_gtag
     @transactions = gtag ?  gtag.transactions.credit.status_ok.order(:gtag_counter) : []
     render json: @transactions, each_serializer: Api::V2::TransactionSerializer
+  end
+
+  # GET api/v2/events/:event_id/customers
+  def index
+    @customers = @current_event.customers
+    authorize @customers
+
+    paginate json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
   end
 
   # GET api/v2/events/:event_id/customers/:id

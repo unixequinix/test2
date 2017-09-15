@@ -10,6 +10,10 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
   before { token_login(user, event) }
 
+  describe "POST #gtag_replacement" do
+
+  end
+
   describe "GET #index" do
     before { create_list(:customer, 10, event: event) }
 
