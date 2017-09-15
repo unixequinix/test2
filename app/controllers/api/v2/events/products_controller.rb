@@ -45,7 +45,7 @@ class Api::V2::Events::ProductsController < Api::V2::BaseController
   private
 
   def set_station
-    @station = @current_event.stations.find(params[:station_id]) if params[:station_id]
+    @station = @current_event.stations.find(params[:station_id])
     render json: { errors: "Working with products on non-vendor stations" }, status: :unprocessable_entity unless @station.form.eql?(:pos)
   end
 

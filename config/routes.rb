@@ -240,7 +240,6 @@ Rails.application.routes.draw do
           resources :companies
           resources :accesses
           resources :stats, only: %i[index show]
-          resources :products
 
           resources :tickets do
             post :topup, on: :member
