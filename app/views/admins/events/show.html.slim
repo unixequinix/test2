@@ -102,7 +102,7 @@
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric Value
-                  td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description, classes: "currency_exchange"
+                  td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description, class: "currency_exchange"
                 tr
                   td.mdl-data-table__cell--non-numeric Currency
                   td#currency = best_in_place @current_event, :currency, as: :select, collection: Money::Currency.all.map { |c| [c.id.to_s.upcase, "#{c.symbol} : #{c.name}"] }, url: [:admins, @current_event]
@@ -132,17 +132,17 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Gtag deposit fee
                   td
-                    = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], classes: "event_fee"
+                    = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], class: "event_fee"
                     |  #{@current_event.credit.symbol}
                 tr
                   td.mdl-data-table__cell--non-numeric Initial Topup fee
                   td
-                    = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event], classes: "event_fee"
+                    = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event], class: "event_fee"
                     |  #{@current_event.credit.symbol}
                 tr
                   td.mdl-data-table__cell--non-numeric Topup fee
                   td
-                    = best_in_place @current_event, :topup_fee, url: [:admins, @current_event], classes: "event_fee"
+                    = best_in_place @current_event, :topup_fee, url: [:admins, @current_event], class: "event_fee"
                     |  #{@current_event.credit.symbol}
 
           - if @current_event.created?
