@@ -228,7 +228,8 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the transactions as JSON" do
       get :transactions, params: atts
-      expect(json.last).to eq(obj_to_json(@transactions.sort_by(&:gtag_counter).last, "TransactionSerializer"))
+      last_transaction = event.transactions.find(json.last["id"])
+      expect(json.last).to eq(obj_to_json(last_transaction, "TransactionSerializer"))
     end
   end
 
