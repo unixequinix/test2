@@ -9,7 +9,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def create # rubocop:disable Metrics/PerceivedComplexity
-    t_code = params[:tickets_blacklist] && params[:tickets_blacklist][:ticket_reference]
+    t_code = params[:tickets_blacklist][:ticket_reference]
     render(status: :bad_request, json: { error: "Ticket reference is missing." }) && return unless t_code
 
     @ticket = tickets.find_by(code: t_code)

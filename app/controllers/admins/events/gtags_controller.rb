@@ -88,7 +88,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
         GtagCreator.perform_later(event: @current_event, tag_uid: row.field("UID"), ticket_type_id: ticket_type, credits: row.field("Balance").to_f)
         count += 1
       end
-    rescue
+    rescue # rubocop:disable Lint/RescueWithoutErrorClass
       return redirect_to(path, alert: t("alerts.import.error"))
     end
 

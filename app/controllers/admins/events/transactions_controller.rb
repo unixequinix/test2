@@ -67,7 +67,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def set_type
-    @type = params[:type] || (params[:q] && params[:q][:type])
+    @type = params[:type] || (params[:q][:type])
     @type&.camelcase
   end
 

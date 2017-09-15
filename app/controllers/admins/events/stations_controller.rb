@@ -87,7 +87,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def sort
-    params[:order].each { |_key, value| @current_event.stations.find(value[:id]).update_attribute(:position, value[:position]) }
+    params[:order].each_value { |value| @current_event.stations.find(value[:id]).update_attribute(:position, value[:position]) }
     render nothing: true
   end
 

@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   belongs_to :customer, touch: true
 
   has_many :order_items, dependent: :destroy, inverse_of: :order
-  has_many :catalog_items, through: :order_items
+  has_many :catalog_items, through: :order_items, dependent: :destroy
   has_many :transactions, dependent: :restrict_with_error
 
   accepts_nested_attributes_for :order_items

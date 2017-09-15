@@ -21,6 +21,6 @@ class PaymentGateway < ApplicationRecord
   scope(:refund, -> { where(refund: true) })
 
   def actions
-    GATEWAYS[name.to_sym] && GATEWAYS[name.to_sym][:actions] || []
+    GATEWAYS[name.to_sym][:actions] || []
   end
 end

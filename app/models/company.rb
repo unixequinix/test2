@@ -1,5 +1,5 @@
 class Company < ApplicationRecord
-  has_many :ticket_types
+  has_many :ticket_types, dependent: :destroy
 
   belongs_to :event
 

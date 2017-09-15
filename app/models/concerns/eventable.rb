@@ -20,9 +20,8 @@ module Eventable
 
   def associations_in_event
     self.class.assoc.each do |assoc|
-      klass = assoc.gsub("_id", "").classify.constantize
-      obj = klass.find_by(id: send(assoc))
-      errors.add(assoc, "cannot belong to a different event") if obj && obj.event != event
+      obj = assoc.gsub("_id", "").classify.constantize.find_by(id: send(assoc))
+      errors.add(assoc, "cannot belong to a different event") if obj && obj&.event != event
     end
   end
 end

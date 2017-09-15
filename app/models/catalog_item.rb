@@ -1,10 +1,10 @@
 class CatalogItem < ApplicationRecord
   belongs_to :event
   has_many :pack_catalog_items, dependent: :destroy
-  has_many :packs, through: :pack_catalog_items
+  has_many :packs, through: :pack_catalog_items, dependent: :destroy
   has_many :station_catalog_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
-  has_many :orders, through: :order_items
+  has_many :orders, through: :order_items, dependent: :destroy
   has_many :ticket_types, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
 

@@ -12,7 +12,7 @@ module Api::V1
     def restrict_access_with_http
       authenticate_or_request_with_http_basic do |email, token|
         user = User.find_by(email: email)
-        user && user.access_token.eql?(token)
+        user&.access_token.eql?(token)
       end
     end
   end
