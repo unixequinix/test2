@@ -30,7 +30,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
 
-  def bulk_upload # rubocop:disable all
+  def bulk_upload
     render(status: :bad_request, json: { error: "tickets key is missing" }) && return unless params[:tickets]
     errors = { atts: [] }
 
@@ -59,7 +59,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     render(status: :created, json: :created)
   end
 
-  def update # rubocop:disable Metrics/CyclomaticComplexity
+  def update
     @ticket = tickets.find_by(id: params[:id])
 
     render(status: :not_found, json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." }) && return unless @ticket

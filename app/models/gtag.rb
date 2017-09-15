@@ -37,7 +37,7 @@ class Gtag < ApplicationRecord
   end
 
   def make_active!
-    customer.gtags.where.not(id: id).update_all(active: false) if customer
+    customer&.gtags&.where&.not(id: id)&.update_all(active: false)
     update!(active: true)
   end
 
@@ -57,7 +57,7 @@ class Gtag < ApplicationRecord
     ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
     transaction = transactions.credit.find_by(gtag_counter: 0)
     atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, final_balance: 0, final_refundable_balance: 0)
-    transaction = CreditTransaction.write!(event, "correction", :device, nil, nil, atts) unless transaction
+    transaction ||= CreditTransaction.write!(event, "correction", :device, nil, nil, atts)
 
     credits = ts.last&.final_balance.to_f - ts.map(&:credits).sum
     refundable_credits = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).sum

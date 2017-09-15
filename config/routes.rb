@@ -102,6 +102,7 @@ Rails.application.routes.draw do
           end
         end
         resources :transactions, only: [:index, :show, :update, :destroy] do
+          get :download_raw_transactions, on: :collection
           post :search, on: :collection
           get :status_9, on: :member
           get :status_0, on: :member
@@ -239,7 +240,6 @@ Rails.application.routes.draw do
           resources :companies
           resources :accesses
           resources :stats, only: %i[index show]
-          resources :products
 
           resources :tickets do
             post :topup, on: :member

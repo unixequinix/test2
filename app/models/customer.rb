@@ -107,6 +107,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     order = orders.new(atts)
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
+      arr.unshift(event.credit.id) if arr.size.eql?(1)
       item_id, amount = arr
       amount = amount.to_f
       next if amount.zero?

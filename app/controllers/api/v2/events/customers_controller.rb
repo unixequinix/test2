@@ -6,9 +6,10 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     old_gtag = @customer.active_gtag
     new_gtag = @current_event.gtags.find_or_initialize_by(tag_uid: params[:new_tag_uid])
     render(json: new_gtag.errors, status: :unprocessable_entity) && return unless new_gtag.validate_assignation
+    render(json: { customer: "Has no current active Gtag" }, status: :unprocessable_entity) && return if old_gtag.nil?
 
     old_gtag.replace!(new_gtag)
-    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+    render json: @customer.reload, serializer: Api::V2::Full::CustomerSerializer
   end
 
   # POST api/v2/events/:event_id/customers/:id/ban
@@ -25,13 +26,14 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # POST api/v2/events/:event_id/customers/:id/assign_gtag
   def assign_gtag
+    params[:active] ||= "true"
     @code = params[:tag_uid].strip
     @gtag = @current_event.gtags.find_or_initialize_by(tag_uid: @code)
 
     render(json: @gtag.errors, status: :unprocessable_entity) && return unless @gtag.validate_assignation
 
     @gtag.assign_customer(@customer, @current_user, :api) unless @gtag.customer == @customer
-    @gtag.make_active! if params[:active].present?
+    @gtag.make_active! if params[:active].eql?("true")
 
     render json: @customer, serializer: Api::V2::Full::CustomerSerializer
   end
@@ -48,7 +50,10 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # POST api/v2/events/:event_id/customers/:id/topup
   def topup
-    @order = @customer.build_order([[@current_event.credit.id, params[:credits]]])
+    credits = params[:credits]
+    render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return if credits.blank? || credits.to_f.negative?
+
+    @order = @customer.build_order([[@current_event.credit.id, credits]])
 
     if @order.save
       @order.complete!(params[:gateway])
@@ -56,14 +61,6 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     else
       render json: @order.errors, status: :unprocessable_entity
     end
-  end
-
-  # GET api/v2/events/:event_id/customers
-  def index
-    @customers = @current_event.customers
-    authorize @customers
-
-    paginate json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
   end
 
   # GET api/v2/events/:event_id/customers/:id/refunds
@@ -74,9 +71,16 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/customers/:id/transactions
   def transactions
-    gtag = @customer.active_gtag
-    @transactions = gtag ?  gtag.transactions.credit.status_ok.order(:gtag_counter) : []
+    @transactions = @customer.transactions.credit.status_ok.order(:gtag_counter)
     render json: @transactions, each_serializer: Api::V2::TransactionSerializer
+  end
+
+  # GET api/v2/events/:event_id/customers
+  def index
+    @customers = @current_event.customers
+    authorize @customers
+
+    paginate json: @customers, each_serializer: Api::V2::Simple::CustomerSerializer
   end
 
   # GET api/v2/events/:event_id/customers/:id

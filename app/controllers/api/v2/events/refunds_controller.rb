@@ -22,7 +22,7 @@ class Api::V2::Events::RefundsController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/refunds/:id
   def show
-    render json: @refund
+    render json: @refund, serializer: Api::V2::RefundSerializer
   end
 
   # POST api/v2/events/:event_id/refunds

@@ -1,8 +1,8 @@
 class Pack < CatalogItem
   attr_accessor :alcohol_forbidden
 
-  has_many :pack_catalog_items, dependent: :destroy, inverse_of: :pack
-  has_many :catalog_items, through: :pack_catalog_items
+  has_many :pack_catalog_items, inverse_of: :pack, dependent: :destroy
+  has_many :catalog_items, through: :pack_catalog_items, dependent: :destroy
 
   scope(:credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) })
 

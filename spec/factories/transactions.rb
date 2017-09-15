@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :money_transaction do
     event
+    station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
@@ -16,6 +17,7 @@ FactoryGirl.define do
 
   factory :credit_transaction do
     event
+    station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
@@ -31,6 +33,7 @@ FactoryGirl.define do
 
   factory :credential_transaction do
     event
+    station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
@@ -42,6 +45,7 @@ FactoryGirl.define do
 
   factory :access_transaction do
     event
+    station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]
@@ -54,6 +58,7 @@ FactoryGirl.define do
 
   factory :order_transaction do
     event
+    station
     order
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -66,6 +71,7 @@ FactoryGirl.define do
 
   factory :transaction do
     event
+    station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
     transaction_origin Transaction::ORIGINS[:device]

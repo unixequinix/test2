@@ -1,6 +1,6 @@
 class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :device_registrations, dependent: :destroy
-  has_many :devices, through: :device_registrations
+  has_many :devices, through: :device_registrations, dependent: :destroy
   has_many :transactions, dependent: :restrict_with_error
   has_many :tickets, dependent: :destroy
   has_many :catalog_items, dependent: :destroy
@@ -18,10 +18,10 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
   has_many :event_registrations, dependent: :destroy
-  has_many :users, through: :event_registrations
-  has_many :stats
-  has_many :alerts
-  has_many :device_caches
+  has_many :users, through: :event_registrations, dependent: :destroy
+  has_many :stats, dependent: :restrict_with_error
+  has_many :alerts, dependent: :destroy
+  has_many :device_caches, dependent: :destroy
 
   has_one :credit, dependent: :destroy
 

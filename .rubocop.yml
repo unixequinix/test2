@@ -53,6 +53,10 @@ Metrics/MethodLength:
   Max: 20
   Enabled: true
 
+Metrics/CyclomaticComplexity:
+  Max: 10
+  Enabled: true
+
 Lint/RequireParentheses:
   Enabled: true
 
@@ -61,3 +65,5 @@ Rails:
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+

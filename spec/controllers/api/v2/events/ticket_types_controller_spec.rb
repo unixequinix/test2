@@ -39,7 +39,7 @@ RSpec.describe Api::V2::Events::TicketTypesController, type: %i[controller api] 
 
     it "returns the ticket_type as JSON" do
       get :show, params: { event_id: event.id, id: ticket_type.to_param }
-      expect(json).to eq(obj_to_json(ticket_type, "TicketTypeSerializer"))
+      expect(json).to eq(obj_to_json(ticket_type, "Full::TicketTypeSerializer"))
     end
   end
 

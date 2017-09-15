@@ -11,7 +11,7 @@ class Api::V2::Events::DevicesController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/devices/:id
   def show
-    render json: @device
+    render json: @device, serializer: Api::V2::DeviceSerializer
   end
 
   # PATCH/PUT api/v2/events/:event_id/devices/:id

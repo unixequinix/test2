@@ -10,13 +10,13 @@
     ul.floaty-list#actions-list
       - unless Rails.env.production?
         li.floaty-list-item
-          = link_to sample_event_admins_events_path do
+          = link_to sample_event_admins_events_path, id: "sample_event_link" do
             button#add-fake.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add_box
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add-fake" Sample Event
 
       li.floaty-list-item
-        = link_to new_admins_event_path do
+        = link_to new_admins_event_path, id: "new_event_link" do
           button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons add
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
