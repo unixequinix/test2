@@ -6,9 +6,10 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     old_gtag = @customer.active_gtag
     new_gtag = @current_event.gtags.find_or_initialize_by(tag_uid: params[:new_tag_uid])
     render(json: new_gtag.errors, status: :unprocessable_entity) && return unless new_gtag.validate_assignation
+    render(json: { customer: "Has no current active Gtag" }, status: :unprocessable_entity) && return if old_gtag.nil?
 
     old_gtag.replace!(new_gtag)
-    render json: @customer, serializer: Api::V2::Full::CustomerSerializer
+    render json: @customer.reload, serializer: Api::V2::Full::CustomerSerializer
   end
 
   # POST api/v2/events/:event_id/customers/:id/ban

@@ -1,5 +1,3 @@
 class AlertSerializer < ActiveModel::Serializer
-  attributes :id, :body
-  has_one :event
-  has_one :subject
+  attributes :id, :body, :event_id, :subject_id, :subject_type
 end

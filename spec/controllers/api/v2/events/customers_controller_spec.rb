@@ -11,7 +11,38 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
   before { token_login(user, event) }
 
   describe "POST #gtag_replacement" do
+    let(:new_gtag) { create(:gtag, tag_uid: "12345678", event: event) }
+    let(:atts) { { new_tag_uid: new_gtag.tag_uid, id: customer.to_param, event_id: event.to_param } }
 
+    before { create(:gtag, tag_uid: "AAAAAAAA", event: event, customer: customer, active: true) }
+
+    it "replaces the active gtag for the given customer" do
+      expect do
+        post :gtag_replacement, params: atts
+      end.to change { customer.reload.active_gtag.tag_uid }.from("AAAAAAAA").to(new_gtag.tag_uid)
+    end
+
+    it "returns unprocessable_entity if new_tag_uid does not match any gtags" do
+      atts[:new_tag_uid] = "INVALIDTAG"
+      post :gtag_replacement, params: atts
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "returns unprocessable_entity if customer has no gtag" do
+      customer.update! active_gtag: nil
+      post :gtag_replacement, params: atts
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "returns a success response" do
+      post :gtag_replacement, params: atts
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns the customer as JSON" do
+      post :gtag_replacement, params: atts
+      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+    end
   end
 
   describe "GET #index" do

@@ -52,7 +52,7 @@ class Api::V2::Events::GtagsController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/gtags/:id
   def show
-    render json: @gtag
+    render json: @gtag, serializer: Api::V2::GtagSerializer
   end
 
   # POST api/v2/events/:event_id/gtags

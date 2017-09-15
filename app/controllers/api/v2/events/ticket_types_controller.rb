@@ -18,7 +18,7 @@ class Api::V2::Events::TicketTypesController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/ticket_types/:id
   def show
-    render json: @ticket_type, serializer: Api::V2::TicketTypeSerializer
+    render json: @ticket_type, serializer: Api::V2::Full::TicketTypeSerializer
   end
 
   # POST api/v2/events/:event_id/ticket_types

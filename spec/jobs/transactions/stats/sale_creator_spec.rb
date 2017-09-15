@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Transactions::Stats::SaleCreator, type: :job do
   let(:worker) { Transactions::Stats::SaleCreator }
   let(:event) { create(:event) }
-  let(:product) { create(:product, event: event) }
+  let(:product) { create(:product) }
   let(:transaction) { create(:credit_transaction, action: "sale", event: event) }
   let(:atts) { { transaction_id: transaction.id } }
 
