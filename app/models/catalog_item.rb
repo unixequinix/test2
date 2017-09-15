@@ -36,6 +36,6 @@ class CatalogItem < ApplicationRecord
   end
 
   def price
-    station_catalog_items.find_by(station: event.portal_station)&.price
+    station_catalog_items.find_by(station: event.portal_station)&.price&.to_f
   end
 end

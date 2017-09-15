@@ -11,7 +11,7 @@ class Api::V2::Events::AccessesController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/accesses/:id
   def show
-    render json: @access
+    render json: @access, serializer: Api::V2::AccessSerializer
   end
 
   # POST api/v2/events/:event_id/accesses
