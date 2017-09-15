@@ -71,12 +71,12 @@
               - alerts.each do |alert|
                 tr
                   td.mdl-data-table__cell--non-numeric data-label="Time" = l alert.created_at
-                  td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, @current_event, alert]
+                  td.mdl-data-table__cell--non-numeric data-label="Event" = link_to alert.event.name, [:admins, @current_event]
                   td.mdl-data-table__cell--non-numeric style="width: 60%" data-label="Body"
                     - if alert.subject.is_a?(Transaction)
                       = link_to alert.subject.name, admins_event_transaction_path(@current_event, alert.subject, type: alert.subject.category)
                     - else
-                      = link_to alert.subject.try(:name) || alert.subject.id, [:admins, @current_event, alert.subject]
+                      = link_to alert.subject.name, [:admins, @current_event, alert.subject]
                     | &nbsp; #{alert.body} 
 
                   td.table-actions data-label="Resolved"
