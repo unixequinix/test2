@@ -46,7 +46,7 @@
             - if @ticket.customer
               tr
                 td.mdl-data-table__cell--non-numeric Customer
-                td = link_to "#{@ticket.customer.full_name} - #{@ticket.customer.email}", [:admins, @current_event, @ticket]
+                td = link_to "#{@ticket.customer.full_name} - #{@ticket.customer.full_email}", [:admins, @current_event, @ticket]
             tr
               td.mdl-data-table__cell--non-numeric Ticket type
               td = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?
@@ -100,7 +100,7 @@
           tbody
             tr
               td.mdl-data-table__cell--non-numeric
-                = link_to customer.email, admins_event_customer_path(@current_event, customer)
+                = link_to customer.full_email, admins_event_customer_path(@current_event, customer)
                 = link_to admins_event_ticket_assignment_path(@current_event, @ticket.id), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                   = fa_icon "ban"
               td #{customer.first_name} #{customer.last_name}
