@@ -32,24 +32,24 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
 
       FROM (
         SELECT
-          upper(gtags.tag_uid) as reference,
-          gtags.banned,
-          gtags.redeemed,
-          ticket_types.catalog_item_id as catalog_item_id,
-          gtags.ticket_type_id,
-          customer_id
+        upper(gtags.tag_uid) as reference,
+        gtags.banned,
+        gtags.redeemed,
+        ticket_types.catalog_item_id as catalog_item_id,
+        gtags.ticket_type_id,
+        gtags.customer_id
         FROM gtags
+        LEFT JOIN orders ON gtags.customer_id = orders.customer_id
 
-        LEFT OUTER JOIN ticket_types
-          ON ticket_types.id = gtags.ticket_type_id
-          AND ticket_types.hidden = false
-          AND ticket_types.catalog_item_id IS NOT NULL
+        LEFT JOIN ticket_types
+        ON ticket_types.id = gtags.ticket_type_id
+        AND ticket_types.hidden = false
 
-        LEFT JOIN customers ON customers.id = gtags.customer_id
-
-        WHERE
-          gtags.event_id = #{@current_event.id}
-          AND (gtags.banned = TRUE OR catalog_item_id IS NOT NULL OR customers.anonymous = false)
+        WHERE (
+          gtags.banned = TRUE
+          OR catalog_item_id IS NOT NULL
+          OR orders.id IS NOT NULL)
+          AND gtags.event_id = #{@current_event.id}
           #{"AND gtags.updated_at > '#{@modified}'" if @modified}
       ) g
     SQL

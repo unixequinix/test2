@@ -68,6 +68,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     anonymous? ? "Anonymous customer" : "#{first_name} #{last_name}"
   end
 
+  def full_email
+    anonymous? ? "Anonymous email" : email
+  end
+
   def global_credits
     # TODO: This method will need to take into account refunds when we stop creating negative online orders
     transactions_balance = event.transactions.credit.onsite.status_ok.where(gtag: gtags, action: "record_credit").sum(:credits)
@@ -114,7 +118,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
-      total = amount * item.price
+      total = amount * item.price.to_f
       order.order_items.new(catalog_item: item, amount: amount, total: total, counter: counter)
     end
     order

@@ -122,6 +122,17 @@ RSpec.describe Customer, type: :model do
         end
       end
 
+      it "with non price" do
+        item = create(:user_flag, event: event)
+        @station.station_catalog_items.create!(catalog_item: item, price: 1)
+        order = customer.build_order([[item.id, 1]])
+
+        order.order_items.each do |order_item|
+          catalog_item = order_item.catalog_item
+          expect(order_item.total).to eq(catalog_item.price * 1)
+        end
+      end
+
       it "with correct counters" do
         expect(@order_items.map(&:counter).sort).to eq([1, 2])
       end
@@ -187,11 +198,32 @@ RSpec.describe Customer, type: :model do
   end
 
   describe ".full_name" do
-    it "return the first_name and last_name together" do
+    it "return the first_name and last_name together if customer is not anonymous" do
       customer.anonymous = false
       allow(customer).to receive(:first_name).and_return("Glownet")
       allow(customer).to receive(:last_name).and_return("Test")
       expect(customer.full_name).to eq("Glownet Test")
+    end
+
+    it "return the first_name and last_name together if customer anonymous" do
+      customer.anonymous = true
+      allow(customer).to receive(:first_name).and_return(nil)
+      allow(customer).to receive(:last_name).and_return(nil)
+      expect(customer.full_name).to eq("Anonymous customer")
+    end
+  end
+
+  describe ".full_email" do
+    it "return the email if customer is not anonymous" do
+      customer.anonymous = false
+      allow(customer).to receive(:email).and_return("email@glownet.com")
+      expect(customer.full_email).to eq("email@glownet.com")
+    end
+
+    it "return the anonymous email if customer is anonymous" do
+      customer.anonymous = true
+      allow(customer).to receive(:email).and_return(nil)
+      expect(customer.full_email).to eq("Anonymous email")
     end
   end
 
