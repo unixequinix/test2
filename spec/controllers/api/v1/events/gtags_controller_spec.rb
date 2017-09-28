@@ -40,39 +40,48 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         end
       end
 
-      it "returns gtags if they have a registered customer" do
-        gtag = create :gtag, customer: create(:customer, event: event, anonymous: false), event: event
-        get :index, params: params
-        gtags = JSON.parse(response.body).map(&:symbolize_keys)
-        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
-      end
+      context "with orders" do
+        before(:each) do
+          @customer = create(:customer, event: event, anonymous: false)
+          @anon_customer = create(:customer, event: event, anonymous: true)
+          create(:order, event: event, customer: @customer)
+          create(:order, event: event, customer: @anon_customer)
+        end
 
-      it "does not return gtags if they have an anonymous customer" do
-        gtag = create :gtag, customer: create(:customer, event: event, anonymous: true), event: event
-        get :index, params: params
-        gtags = JSON.parse(response.body).map(&:symbolize_keys)
-        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
-      end
+        it "returns gtags if they have a registered customer" do
+          gtag = create :gtag, customer: @customer, event: event
+          get :index, params: params
+          gtags = JSON.parse(response.body).map(&:symbolize_keys)
+          expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+        end
 
-      it "returns gtags if they are banned" do
-        gtag = create :gtag, banned: true, event: event
-        get :index, params: params
-        gtags = JSON.parse(response.body).map(&:symbolize_keys)
-        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
-      end
+        it "returns gtags if they have an anonymous customer" do
+          gtag = create :gtag, customer: @anon_customer, event: event
+          get :index, params: params
+          gtags = JSON.parse(response.body).map(&:symbolize_keys)
+          expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+        end
 
-      it "returns gtags if they have a ticket_type" do
-        gtag = create :gtag, event: event, ticket_type: create(:ticket_type, event: event)
-        get :index, params: params
-        gtags = JSON.parse(response.body).map(&:symbolize_keys)
-        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
-      end
+        it "returns gtags if they are banned" do
+          gtag = create :gtag, banned: true, event: event
+          get :index, params: params
+          gtags = JSON.parse(response.body).map(&:symbolize_keys)
+          expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+        end
 
-      it "does not return gtags without ticket_type, banned or customer" do
-        gtag = create :gtag, event: event
-        get :index, params: params
-        gtags = JSON.parse(response.body).map(&:symbolize_keys)
-        expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
+        it "returns gtags if they have a ticket_type" do
+          gtag = create :gtag, event: event, ticket_type: create(:ticket_type, event: event)
+          get :index, params: params
+          gtags = JSON.parse(response.body).map(&:symbolize_keys)
+          expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).not_to be_nil
+        end
+
+        it "does not return gtags without ticket_type, banned or customer" do
+          gtag = create :gtag, event: event
+          get :index, params: params
+          gtags = JSON.parse(response.body).map(&:symbolize_keys)
+          expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
+        end
       end
     end
 
