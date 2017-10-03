@@ -6,7 +6,7 @@ class Api::V1::EventsController < Api::V1::BaseController
     render(stats: :ok, json: @events, each_serializer: Api::V1::EventSerializer) if params[:mac].blank?
 
     begin
-      device = Device.find_or_create_by!(mac: params[:mac])
+      device = Device.find_or_create_by(mac: params[:mac])
     rescue ActiveRecord::RecordNotUnique
       retry
     end
