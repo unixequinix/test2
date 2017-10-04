@@ -1,6 +1,6 @@
 - content_for(:title) do
   = @customer.full_name
-  .small style="width: 100%; text-align: center" #{@customer.email}
+  .small style="width: 100%; text-align: center" #{@customer.full_email}
 
 - content_for(:navigation_actions) do
   = link_to admins_event_customers_path(@current_event), class: "mdl-button mdl-button--icon" do
