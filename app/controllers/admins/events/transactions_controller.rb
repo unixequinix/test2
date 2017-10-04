@@ -1,5 +1,5 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
-  before_action :set_type, except: :index
+  before_action :set_type, except: %i[index download_raw_transactions]
   before_action :set_transactions, except: %i[index show fix status_9 status_0 destroy]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
 

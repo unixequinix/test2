@@ -33,9 +33,16 @@ html
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons search
               .mdl-textfield__expandable-holder = yield(:search)
-          = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
-            span#out.icon.material-icons power_settings_new
-            span.mdl-tooltip data-mdl-for="out"  Log out
+          div class="dropdown"
+            i.mdl-color-text--gray-50.material-icons account_circle
+            span.title =  @current_user.username.mb_chars.capitalize.to_s
+            div class ="dropdown-content"
+              = link_to [:admins, @current_user], class: "dropdown-item", id: "profile_layout_link" do
+                i.mdl-color-text--teal-200.material-icons account_circle
+                | My Profile
+              = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "profile_layout_link" do
+                i.mdl-color-text--teal-200.material-icons power_settings_new
+                |  Log out
 
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
@@ -46,14 +53,6 @@ html
           = link_to admins_event_series_index_path, class: "mdl-navigation__link", id: "event_series_layout_link" do
             i.mdl-color-text--teal-200.material-icons stars
             |  Event Series
-        nav.mdl-navigation.global-nav
-          span.nav-title PROFILE
-          = link_to [:admins, @current_user], class: "mdl-navigation__link", id: "profile_layout_link" do
-            i.mdl-color-text--teal-200.material-icons account_circle
-            | My Profile
-          = link_to [:edit, :admins, @current_user], class: "mdl-navigation__link", id: "password_layout_link" do
-            i.mdl-color-text--teal-200.material-icons create
-            |  Password
         - if @current_user.admin?
           nav.mdl-navigation.global-nav
             span.nav-title ADMIN

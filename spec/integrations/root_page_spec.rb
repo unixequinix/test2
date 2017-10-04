@@ -29,14 +29,11 @@ RSpec.describe "the signin process", type: :feature do
     # Visit URL
     visit admins_events_path
     # Clicks events
+
     find_link("events_layout_link").click
     expect(page).to have_current_path("/admins/events")
     find_link("event_series_layout_link").click
     expect(page).to have_current_path("/admins/event_series")
-    find_link("profile_layout_link").click
-    expect(page).to have_current_path("/admins/users/#{@user.id}")
-    find_link("password_layout_link").click
-    expect(page).to have_current_path("/admins/users/#{@user.id}/edit")
     find_link("users_layout_link").click
     expect(page).to have_current_path("/admins/users")
     find_link("devices_layout_link").click

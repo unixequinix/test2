@@ -91,6 +91,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
   # POST api/v2/events/:event_id/customers
   def create
     @customer = @current_event.customers.new(customer_params)
+    @customer.skip_confirmation!
     authorize @customer
 
     if @customer.save

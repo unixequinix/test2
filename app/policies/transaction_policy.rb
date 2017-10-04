@@ -1,6 +1,6 @@
 class TransactionPolicy < ApplicationPolicy
   def download_raw_transactions?
-    admin_or_promoter
+    index?
   end
 
   def fix?

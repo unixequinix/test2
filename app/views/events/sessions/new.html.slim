@@ -17,15 +17,11 @@
       .social-login
         .content-grid.mdl-grid
           .mdl-cell.mdl-cell--6-col
-            = link_to customer_facebook_omniauth_authorize_path(event: @current_event.slug), class: "social-btn social-btn--facebook" do
-              = fa_icon "facebook"
-              = t("social_login.facebook")
-          .mdl-cell.mdl-cell--6-col
             = link_to customer_google_oauth2_omniauth_authorize_path(event: @current_event.slug), class: "social-btn social-btn--google" do
               = fa_icon "google"
               = t("social_login.google")
 
-          .mdl-cell.mdl-cell--12-col
+          .mdl-cell.mdl-cell--6-col
             = link_to event_register_path(@current_event), class: "social-btn social-btn--account" do
               = t('sessions.create_account.link')
 

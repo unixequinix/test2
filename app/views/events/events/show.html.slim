@@ -17,7 +17,7 @@
 
         - if @current_event.topups? && @current_event.open_topups? && @current_customer.active_credentials.any?
           .tool-item
-            = link_to new_event_order_path(@current_event) do
+            = link_to store_redirection(@current_event) do
               .credit-tooltip = t("dashboard.topup")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons add_shopping_cart
