@@ -43,7 +43,7 @@ class Order < ApplicationRecord
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
     t = MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
     create_stat(extract_atts_from_transaction(t).merge(payment_method: gateway, action: "topup", transaction_counter: 0, total: credits))
-    
+
     OrderMailer.completed_order(self).deliver_later if send_email || !customer.anonymous?
   end
 
