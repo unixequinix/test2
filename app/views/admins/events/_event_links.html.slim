@@ -59,12 +59,6 @@
   *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       - if policy(@current_event).edit?
-        - if current_user.admin?
-          li.floaty-list-item
-            = link_to resolve_time_admins_event_path(@current_event) do
-              button#time_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-                i.material-icons watch_later
-                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="time_link" Solve Timing Issues
         - if @current_event.created?
           li.floaty-list-item
             = link_to '#launch-modal' do
@@ -90,12 +84,6 @@
             button#payment_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons euro_symbol
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="payment_setting" Payment Settings
-
-        li.floaty-list-item
-          = link_to device_settings_admins_event_path(@current_event) do
-            button#device_settings.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons phonelink_setup
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Device Settings
 
         li.floaty-list-item
           = link_to edit_admins_event_path(@current_event) do

@@ -52,13 +52,36 @@ html
 
           = yield(:navigation_actions)
 
-          = link_to admins_events_path, class: "mdl-button mdl-button--icon" do
-            span#events_link.icon.material-icons home
-            span.mdl-tooltip data-mdl-for="events_link" Home
+          = link_to admins_event_alerts_path(@current_event), class: "mdl-button mdl-button--icon" do
+            span#alerts.i.mdl-color-text--gray-50.material-icons add_alert
+            span.mdl-tooltip data-mdl-for="alerts" Alerts
+            - if @current_event.alerts.unresolved.any?
+              span.mdl-badge data-badge="#{@current_event.alerts.unresolved.count}"
 
-          = link_to destroy_user_session_path, method: :delete, class: "mdl-button mdl-button--icon" do
-            span#out.icon.material-icons power_settings_new
-            span.mdl-tooltip data-mdl-for="out"  Log out
+          div class="dropdown"
+            i.mdl-color-text--gray-50.material-icons help_outline
+            span.title Help
+            div class ="dropdown-content"
+              = link_to "http://learning.glownet.com", target: :_blank, class: "dropdown-item", id: "courses_layout_link" do
+                i.mdl-color-text--teal-200.material-icons book
+                | My Courses
+              = link_to "https://glownet.atlassian.net/servicedesk/customer/portal/4/group/10", target: :_blank, class: "dropdown-item", id: "support_layout_link" do
+                i.mdl-color-text--teal-200.material-icons local_convenience_store
+                |  Support
+
+          div class="dropdown"
+            i.mdl-color-text--gray-50.material-icons account_circle
+            span.title =  @current_user.username.mb_chars.capitalize.to_s
+            div class ="dropdown-content"
+              = link_to admins_events_path, class: "dropdown-item", id: "events_layout_link" do
+                span#events_link.i.mdl-color-text--teal-200.material-icons home
+                | My events
+              = link_to [:admins, @current_user], class: "dropdown-item", id: "profile_layout_link" do
+                i.mdl-color-text--teal-200.material-icons account_circle
+                | My Profile
+              = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "profile_layout_link" do
+                i.mdl-color-text--teal-200.material-icons power_settings_new
+                |  Log out
 
 
       .mdl-layout__drawer
@@ -66,26 +89,6 @@ html
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
         nav.mdl-navigation.global-nav
-          = link_to admins_event_alerts_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons add_alert
-            - if @current_event.alerts.unresolved.any?
-              span.mdl-badge data-badge="#{@current_event.alerts.unresolved.count}" Alerts
-            - else
-              | Alerts
-          = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons people_outline
-            |  Customers
-          = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons import_export
-            |  Transactions
-          - if policy(@current_event).event_settings?
-            = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons person
-              |  Users
-          - if policy(@current_event.device_registrations).index?
-            = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons bug_report
-              |  Asset Tracker
         - if policy(@current_event).event_charts? && !@current_event.created?
           nav.mdl-navigation.global-nav
             span.nav-title REPORTS
@@ -98,9 +101,9 @@ html
 
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
-          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons markunread_mailbox
-            |  Companies
+          = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons people_outline
+            |  Customers
           = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons class
             |  Ticket types
@@ -140,6 +143,26 @@ html
           = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons local_activity
             |  Management
+
+        nav.mdl-navigation.global-nav
+          span.nav-title SUPPORT
+          - if policy(@current_event.device_registrations).index?
+            = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons bug_report
+              |  Asset Tracker
+          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons markunread_mailbox
+              |  API access
+          - if policy(@current_event).event_settings?
+              = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
+                  i.mdl-color-text--teal-200.material-icons person
+                  |  Users
+          = link_to device_settings_admins_event_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons phonelink_setup
+              |  Device Settings
+          = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons import_export
+              |  Transactions
             
         span.web-version = WEB_VERSION
 
