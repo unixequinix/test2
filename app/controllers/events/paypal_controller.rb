@@ -31,7 +31,7 @@ class Events::PaypalController < Events::PaymentsController
     response = paypal.purchase(@total, payer_id: params[:PayerID], token: params[:token], currency: @current_event.currency)
 
     if response.success?
-      @order.complete!("paypal", response.params.as_json)
+      @order.complete!("paypal", response.params.as_json, true)
       redirect_to success_event_order_path(@current_event, @order)
     else
       @order.fail!("paypal", response.params.as_json)
