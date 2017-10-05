@@ -87,7 +87,17 @@ html
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
-  
+
+        - if policy(Stat).reports?
+          nav.mdl-navigation.global-nav
+            span.nav-title REPORTS (BETA)
+            = link_to cashless_admins_event_stats_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons show_chart
+              |  Cashless
+            = link_to stations_admins_event_stats_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons insert_chart
+              |  Stations
+
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
@@ -140,18 +150,18 @@ html
               i.mdl-color-text--teal-200.material-icons bug_report
               |  Asset Tracker
           = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons markunread_mailbox
-              |  API access
+            i.mdl-color-text--teal-200.material-icons markunread_mailbox
+            |  API access
           - if policy(@current_event).event_settings?
-              = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
-                  i.mdl-color-text--teal-200.material-icons person
-                  |  Users
+            = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons person
+              |  Users
           = link_to device_settings_admins_event_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons phonelink_setup
-              |  Device Settings
+            i.mdl-color-text--teal-200.material-icons phonelink_setup
+            |  Device Settings
           = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons import_export
-              |  Transactions
+            i.mdl-color-text--teal-200.material-icons import_export
+            |  Transactions
             
         span.web-version = WEB_VERSION
 

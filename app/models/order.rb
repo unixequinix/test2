@@ -25,6 +25,10 @@ class Order < ApplicationRecord
   scope(:cancelled, -> { where(status: "cancelled") })
   scope(:failed, -> { where(status: "failed") })
 
+  def name
+    "Order: ##{number}"
+  end
+
   def refund?
     gateway.eql?("refund")
   end

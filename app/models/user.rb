@@ -9,12 +9,16 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validate :validate_username
 
-  enum role: { admin: 0, promoter: 1 }
+  enum role: { glowball: 2, admin: 0, promoter: 1 }
 
   attr_accessor :login
 
   def devise_mailer
     UserMailer
+  end
+
+  def admin?
+    super || glowball?
   end
 
   def registration_for(event)

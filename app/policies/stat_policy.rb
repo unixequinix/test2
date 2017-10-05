@@ -1,9 +1,13 @@
 class StatPolicy < ApplicationPolicy
+  def reports?
+    user.glowball?
+  end
+
   def cashless?
-    user.admin?
+    user.glowball?
   end
 
   def stations?
-    user.admin?
+    user.glowball?
   end
 end
