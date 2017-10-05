@@ -276,7 +276,7 @@ Rails.application.routes.draw do
             put :complete, on: :member
           end
 
-          resources :orders do
+          resources :orders, except: %i[create update] do
             put :complete, on: :member
           end
 

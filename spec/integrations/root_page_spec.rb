@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "the signin process", type: :feature do
   before :each do
-    @user = create(:user, role: 0)
+    @user = create(:user, role: 2)
     create(:event)
     login_as(@user, scope: :user)
   end
