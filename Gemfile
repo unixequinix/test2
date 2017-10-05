@@ -70,6 +70,9 @@ gem 'roo'
 # Search
 gem 'ransack', github: 'activerecord-hackery/ransack'
 
+# Sort table
+gem 'jquery-tablesorter'
+
 # Form normalizers
 gem 'country_select'
 gem 'phony_rails'
