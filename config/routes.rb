@@ -83,9 +83,6 @@ Rails.application.routes.draw do
           get :resend, on: :member
         end
 
-        get 'reports/cashless', to: 'stats#cashless', as: :stats_cashless
-        get 'reports/stations', to: 'stats#stations', as: :stats_stations
-
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"
         get "eventbrite/import_tickets", to: "eventbrite#import_tickets"

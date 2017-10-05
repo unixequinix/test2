@@ -87,18 +87,7 @@ html
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
-
-        nav.mdl-navigation.global-nav
-        - if policy(@current_event).event_charts? && !@current_event.created?
-          nav.mdl-navigation.global-nav
-            span.nav-title REPORTS
-            = link_to admins_event_stats_cashless_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              |  Cashless
-            = link_to admins_event_stats_stations_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons insert_chart
-              |  Stations
-
+  
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
