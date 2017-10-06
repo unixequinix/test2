@@ -9,6 +9,7 @@
         table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
+              th.mdl-data-table__cell--non-numeric Counters
               th.mdl-data-table__cell--non-numeric Number
               th Gateway
               th State
@@ -20,6 +21,7 @@
           tbody
             - customer.orders.order(:status, :id).each do |order|
               tr
+                td.mdl-data-table__cell--non-numeric data-label="Counters" = order.order_items.map(&:counter).to_sentence
                 td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
                 td data-label="Gateway" = order.gateway.to_s.humanize
                 td data-label="State" = order.status.humanize
