@@ -33,6 +33,8 @@ html
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons search
               .mdl-textfield__expandable-holder = yield(:search)
+            div style="width: 20px;"
+
           div class="dropdown"
             i.mdl-color-text--gray-50.material-icons account_circle
             span.title =  @current_user.username.mb_chars.capitalize.to_s
@@ -40,6 +42,22 @@ html
               = link_to [:admins, @current_user], class: "dropdown-item", id: "profile_layout_link" do
                 i.mdl-color-text--teal-200.material-icons account_circle
                 | My Profile
+              = link_to admins_events_path, class: "dropdown-item", id: "events_layout_link" do
+                i.mdl-color-text--teal-200.material-icons stars
+                |  Events
+              = link_to admins_event_series_index_path, class: "dropdown-item", id: "event_series_layout_link" do
+                i.mdl-color-text--teal-200.material-icons stars
+                |  Event Series
+              - if @current_user.admin?
+                = link_to admins_sidekiq_web_path, target: "_blank", class: "dropdown-item" do
+                  i.mdl-color-text--teal-200.material-icons markunread_mailbox
+                  |  Sidekiq
+                = link_to admins_users_path, class: "dropdown-item", id: "users_layout_link" do
+                  i.mdl-color-text--teal-200.material-icons people
+                  |  Users
+                = link_to admins_devices_path, class: "dropdown-item", id: "devices_layout_link" do
+                  i.mdl-color-text--teal-200.material-icons settings_cell
+                  |  Devices
               = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "profile_layout_link" do
                 i.mdl-color-text--teal-200.material-icons power_settings_new
                 |  Log out
@@ -47,25 +65,6 @@ html
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
         nav.mdl-navigation.global-nav
-          = link_to admins_events_path, class: "mdl-navigation__link", id: "events_layout_link" do
-            i.mdl-color-text--teal-200.material-icons stars
-            |  Events
-          = link_to admins_event_series_index_path, class: "mdl-navigation__link", id: "event_series_layout_link" do
-            i.mdl-color-text--teal-200.material-icons stars
-            |  Event Series
-        - if @current_user.admin?
-          nav.mdl-navigation.global-nav
-            span.nav-title ADMIN
-            = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons markunread_mailbox
-              |  Sidekiq
-            = link_to admins_users_path, class: "mdl-navigation__link", id: "users_layout_link" do
-              i.mdl-color-text--teal-200.material-icons people
-              |  Users
-            = link_to admins_devices_path, class: "mdl-navigation__link", id: "devices_layout_link" do
-              i.mdl-color-text--teal-200.material-icons settings_cell
-              |  Devices
-              
         span.web-version = WEB_VERSION
 
       main.mdl-layout__content

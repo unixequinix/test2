@@ -1,3 +1,4 @@
+
 .alert {
   border-radius: 3px;
   background: #ff9900;
@@ -114,8 +115,8 @@
   &--notice {
     button { color: $green; }
   }
+}
 
-  .alert-badge {
-    overflow: visible
-  }
+.alert-badge, #alerts {
+  overflow: visible
 }
