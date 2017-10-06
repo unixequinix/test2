@@ -114,4 +114,8 @@
   &--notice {
     button { color: $green; }
   }
+
+  .alert-badge {
+    overflow: visible
+  }
 }
