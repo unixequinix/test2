@@ -2,7 +2,7 @@ class PackCatalogItem < ApplicationRecord
   belongs_to :pack, inverse_of: :pack_catalog_items, touch: true
   belongs_to :catalog_item
 
-  validates :amount, numericality: { less_than_or_equal_to: (->(item) { item.pack.event.maximum_gtag_balance }) }
+  validates :amount, numericality: { greater_than: 0, less_than_or_equal_to: (->(item) { item.pack.event.maximum_gtag_balance }) }
 
   validate :limit_amount, if: :infinite?
   validate :packception
@@ -18,7 +18,6 @@ class PackCatalogItem < ApplicationRecord
   end
 
   def limit_amount
-    return if amount.is_a?(Numeric) && amount.between?(0, 1)
-    errors[:amount] << I18n.t("errors.messages.invalid_max_value_for_infinite")
+    errors[:amount] << "Infinite accesses cannot have amount different to 1" if amount != 1
   end
 end

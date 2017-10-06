@@ -57,7 +57,7 @@ html
             span#alerts.i.mdl-color-text--gray-50.material-icons add_alert
             span.mdl-tooltip data-mdl-for="alerts" Alerts
             - if @current_event.alerts.unresolved.any?
-              span.mdl-badge.alert-badge data-badge="#{@current_event.alerts.unresolved.count}"
+              span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
 
           div class="dropdown"
             i.mdl-color-text--gray-50.material-icons help_outline

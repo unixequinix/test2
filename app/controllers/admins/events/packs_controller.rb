@@ -11,13 +11,13 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   def new
     @pack = @current_event.packs.new
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-    @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
+    @pack.pack_catalog_items.build(catalog_item: @item)
     authorize @pack
   end
 
   def edit
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-    @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
+    @pack.pack_catalog_items.build(catalog_item: @item)
     authorize @pack
   end
 
