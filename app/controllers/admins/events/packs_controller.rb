@@ -11,25 +11,24 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   def new
     @pack = @current_event.packs.new
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-    @pack.pack_catalog_items.build(catalog_item: @item)
+    @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
     authorize @pack
   end
 
   def edit
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-    @pack.pack_catalog_items.build(catalog_item: @item)
+    @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
     authorize @pack
   end
 
   def create
     flag = permitted_params.delete(:alcohol_forbidden)
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-
     @pack = @current_event.packs.new(permitted_params)
     authorize @pack
 
     if @pack.save
-      @pack.pack_catalog_items.create(catalog_item: @item, amount: flag) if flag.eql?("1")
+      @pack.pack_catalog_items.create(catalog_item: @item, amount: flag) if flag.to_i.eql?(1)
       redirect_to [:admins, @current_event, @pack], notice: t("alerts.created")
     else
       @pack.pack_catalog_items.build(catalog_item: @item, amount: flag)
@@ -43,8 +42,8 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
 
     if @pack.update(permitted_params)
-      @pack.pack_catalog_items.find_or_create_by(catalog_item: @item, amount: flag) if flag.eql?("1")
-      @pack.pack_catalog_items.find_by(catalog_item: @item)&.destroy if flag.to_i.eql?("0")
+      @pack.pack_catalog_items.find_or_create_by(catalog_item: @item, amount: flag) if flag.to_i.eql?(1)
+      @pack.pack_catalog_items.find_by(catalog_item: @item)&.destroy if flag.to_i.eql?(0)
 
       # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
       @pack.pack_catalog_items.map(&:save)
