@@ -16,7 +16,7 @@ html
           tr
             td.wrapper-bill-user
               p.account-user-name
-                span = @current_customer.full_name
+                span = @current_customer.name
               p.account-user.user-mail = @current_customer.email
             td.wrapper-bill-logo
               = image_tag @current_event.logo.url(:email), class: "bill-logo" unless @current_event.logo.blank?
@@ -35,7 +35,7 @@ html
                       ul
                         - t.sale_items.each do |item|
                           li
-                            = item.product.name
+                            = item.product&.name || "Other"
                             = " (#{item.quantity})"
                     td = t.station&.name
                     td = l Time.zone.parse(t.device_created_at)

@@ -18,7 +18,7 @@
             - tickets.each do |ticket|
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Code"= link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
-                td.mdl-data-table__cell--non-numeric data-label="Customer"= ticket.customer ? link_to(ticket.customer.full_name, [:admins, @current_event, ticket.customer]) : ticket.full_name
+                td.mdl-data-table__cell--non-numeric data-label="Customer"= ticket.customer ? link_to(ticket.customer.name, [:admins, @current_event, ticket.customer]) : ticket.purchaser_full_name
                 td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, ticket.ticket_type) if ticket.ticket_type
                 td data-label="Banned" = best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
                 td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])

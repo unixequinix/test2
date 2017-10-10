@@ -46,7 +46,7 @@
             - if @ticket.customer
               tr
                 td.mdl-data-table__cell--non-numeric Customer
-                td = link_to "#{@ticket.customer.full_name} - #{@ticket.customer.full_email}", [:admins, @current_event, @ticket.customer]
+                td = link_to "#{@ticket.customer.name} - #{@ticket.customer.full_email}", [:admins, @current_event, @ticket.customer]
             tr
               td.mdl-data-table__cell--non-numeric Ticket type
               td = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?

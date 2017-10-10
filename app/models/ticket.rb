@@ -19,7 +19,7 @@ class Ticket < ApplicationRecord
     "Ticket: #{code}"
   end
 
-  def full_name
+  def purchaser_full_name
     "#{purchaser_first_name} #{purchaser_last_name}"
   end
 

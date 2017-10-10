@@ -64,7 +64,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     (active_gtag.blank? && positive) || (active_gtag&.valid_balance? && positive)
   end
 
-  def full_name
+  def name
     anonymous? ? "Anonymous customer" : "#{first_name} #{last_name}"
   end
 

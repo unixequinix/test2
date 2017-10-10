@@ -115,7 +115,7 @@
                       = link_to(device.asset_tracker, admins_device_path(device)) if device
                   td data-label="Customer Tag"
                     - if transaction.customer
-                      = link_to transaction.customer.full_name, admins_event_customer_path(@current_event, transaction.customer)
+                      = link_to transaction.customer.name, admins_event_customer_path(@current_event, transaction.customer)
                     - elsif transaction.gtag
                       = link_to transaction.customer_tag_uid, admins_event_gtag_path(@current_event, transaction.gtag)
                     - else

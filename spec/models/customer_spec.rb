@@ -197,19 +197,19 @@ RSpec.describe Customer, type: :model do
     end
   end
 
-  describe ".full_name" do
+  describe ".name" do
     it "return the first_name and last_name together if customer is not anonymous" do
       customer.anonymous = false
       allow(customer).to receive(:first_name).and_return("Glownet")
       allow(customer).to receive(:last_name).and_return("Test")
-      expect(customer.full_name).to eq("Glownet Test")
+      expect(customer.name).to eq("Glownet Test")
     end
 
     it "return the first_name and last_name together if customer anonymous" do
       customer.anonymous = true
       allow(customer).to receive(:first_name).and_return(nil)
       allow(customer).to receive(:last_name).and_return(nil)
-      expect(customer.full_name).to eq("Anonymous customer")
+      expect(customer.name).to eq("Anonymous customer")
     end
   end
 

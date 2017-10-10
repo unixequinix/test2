@@ -24,7 +24,7 @@ class OrderMailer < ApplicationMailer
 
   def initialise_customer(record)
     @customer = record.customer
-    @name = @customer.full_name
+    @name = @customer.name
     @event = record.event
     true if @customer.anonymous?
   end
