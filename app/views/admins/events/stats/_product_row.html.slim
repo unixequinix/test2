@@ -1,4 +1,4 @@
-- product = station.products.find_by(product_id: product_id)
+- product = station.products.find(product_id)
 
 td.mdl-data-table__cell--non-numeric data-label="Product" = product&.name || "Other Amount"
 td data-label="Quantity" = number_with_delimiter quantities[product_id]
