@@ -42,8 +42,8 @@
                 td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @companies, url: [:admins, @current_event, ticket_type]
                 td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
                 td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
-                td data-label="Tickets" = @ticket_counts[ticket_type.id]
-                td data-label="Gtags" = @gtag_counts[ticket_type.id]
+                td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
+                td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
                 td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
                 td.table-actions
                   .table-action
