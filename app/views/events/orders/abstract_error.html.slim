@@ -6,7 +6,7 @@
       .mdl-card__supporting-text = t("dashboard.orders.failed")
 
     .mdl-cell.mdl-cell--2-col
-      = link_to new_event_order_path(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
+      = link_to store_redirection(@current_event), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
         span.material-icons add_shopping_cart
         span.mdl-tooltip data-mdl-for="topup" = t("dashboard.repeat")
     .mdl-cell.mdl-cell--2-col

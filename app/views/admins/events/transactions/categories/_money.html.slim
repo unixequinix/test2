@@ -8,17 +8,6 @@
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
           tr
-            - if @transaction.order
-              td.mdl-data-table__cell--non-numeric Order
-              td = link_to @transaction.order.number, admins_event_orders_path(@current_event, @transaction.order)
-
-            - if class_name = @transaction.catalog_item&.class
-              td.mdl-data-table__cell--non-numeric Type
-              td = link_to class_name.to_s.humanize, send("edit_admins_event_#{class_name.to_s.downcase}_path", @current_event, @transaction.catalog_item)
-          tr
-            td.mdl-data-table__cell--non-numeric Catalog item ID
-            td = @transaction.catalog_item_id
-          tr
             td.mdl-data-table__cell--non-numeric Items amount
             td = @transaction.items_amount
           tr

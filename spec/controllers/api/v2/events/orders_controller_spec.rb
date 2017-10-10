@@ -43,59 +43,6 @@ RSpec.describe Api::V2::Events::OrdersController, type: %i[controller api] do
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Order" do
-        expect do
-          post :create, params: { event_id: event.id, order: valid_attributes }
-        end.to change(Order, :count).by(1)
-      end
-
-      it "returns a created response" do
-        post :create, params: { event_id: event.id, order: valid_attributes }
-        expect(response).to be_created
-      end
-
-      it "returns the created order" do
-        post :create, params: { event_id: event.id, order: valid_attributes }
-        expect(json["id"]).to eq(Order.last.id)
-      end
-    end
-
-    context "with invalid params" do
-      it "returns an unprocessable_entity response" do
-        post :create, params: { event_id: event.id, order: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) { { status: "cancelled" } }
-
-      before { order }
-
-      it "updates the requested order" do
-        expect do
-          put :update, params: { event_id: event.id, id: order.to_param, order: new_attributes }
-        end.to change { order.reload.status }.to("cancelled")
-      end
-
-      it "returns the order" do
-        put :update, params: { event_id: event.id, id: order.to_param, order: valid_attributes }
-        expect(json["id"]).to eq(order.id)
-      end
-    end
-
-    context "with invalid params" do
-      it "returns an unprocessable_entity response" do
-        put :update, params: { event_id: event.id, id: order.to_param, order: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
   describe "DELETE #destroy" do
     before { order }
 

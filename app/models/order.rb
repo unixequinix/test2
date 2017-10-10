@@ -25,6 +25,10 @@ class Order < ApplicationRecord
   scope(:cancelled, -> { where(status: "cancelled") })
   scope(:failed, -> { where(status: "failed") })
 
+  def name
+    "Order: ##{number}"
+  end
+
   def refund?
     gateway.eql?("refund")
   end
@@ -44,7 +48,7 @@ class Order < ApplicationRecord
     t = MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
     create_stat(extract_atts_from_transaction(t).merge(payment_method: gateway, action: "topup", transaction_counter: 0, total: credits))
 
-    OrderMailer.completed_order(self).deliver_later if send_email || !customer.anonymous?
+    OrderMailer.completed_order(self).deliver_later if send_email && !customer.anonymous?
   end
 
   def fail!(gateway, payment)

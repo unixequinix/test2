@@ -55,6 +55,10 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
+        resources :stats, only: [] do
+          get :cashless, on: :collection
+          get :stations, on: :collection
+        end
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection
         end
@@ -82,9 +86,6 @@ Rails.application.routes.draw do
         resources :event_registrations, except: :show  do
           get :resend, on: :member
         end
-
-        get 'reports/cashless', to: 'stats#cashless', as: :stats_cashless
-        get 'reports/stations', to: 'stats#stations', as: :stats_stations
 
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"
@@ -275,7 +276,7 @@ Rails.application.routes.draw do
             put :complete, on: :member
           end
 
-          resources :orders do
+          resources :orders, except: %i[create update] do
             put :complete, on: :member
           end
 

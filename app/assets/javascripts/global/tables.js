@@ -27,6 +27,10 @@ $(document).on("ready", function(){
     });
   });
 
+  $(function sortTableColumns(){
+    $("table.sortable").tablesorter(); 
+  });
+
   $('.collapse-link-closed').click(function () {
       var card = $(this).closest('div.admin-card-wide');
       var button = $(this).find('i');

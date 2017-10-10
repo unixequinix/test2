@@ -5,6 +5,10 @@ class Transaction < ApplicationRecord
   belongs_to :station, optional: true
   belongs_to :customer, optional: true
   belongs_to :gtag, optional: true
+  belongs_to :catalog_item, optional: true
+  belongs_to :ticket, optional: true
+  belongs_to :order, optional: true
+  belongs_to :order_item, optional: true
 
   scope :credit, -> { where(type: "CreditTransaction") }
   scope :credential, -> { where(type: "CredentialTransaction") }

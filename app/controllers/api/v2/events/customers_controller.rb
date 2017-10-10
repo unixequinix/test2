@@ -90,7 +90,10 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # POST api/v2/events/:event_id/customers
   def create
-    @customer = @current_event.customers.new(customer_params)
+    new_params = customer_params.merge(anonymous: false, agreed_on_registration: true)
+    new_params[:encrypted_password] = SecureRandom.hex(24) if new_params[:password].blank? && new_params[:password_confirmation].blank?
+
+    @customer = @current_event.customers.new(new_params)
     @customer.skip_confirmation!
     authorize @customer
 
@@ -128,6 +131,6 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :phone, :postcode, :address, :city, :country, :gender, :password, :password_confirmation, :agreed_on_registration, :anonymous) # rubocop:disable Metrics/LineLength
+    params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :phone, :postcode, :address, :city, :country, :gender, :password, :password_confirmation) # rubocop:disable Metrics/LineLength
   end
 end

@@ -1,6 +1,6 @@
 class UserPolicy < ApplicationPolicy
   def index?
-    user.admin?
+    user.glowball?
   end
 
   def show?
@@ -16,14 +16,14 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || record.eql?(user)
+    user.glowball? || record.eql?(user)
   end
 
   def edit?
-    user.admin? || record.eql?(user)
+    user.glowball? || record.eql?(user)
   end
 
   def destroy?
-    user.admin?
+    user.glowball?
   end
 end
