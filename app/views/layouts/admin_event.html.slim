@@ -81,6 +81,9 @@ html
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons people_outline
             |  Customers
+          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons markunread_mailbox
+            |  Companies
           = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons class
             |  Ticket types
