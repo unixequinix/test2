@@ -17,6 +17,8 @@ RSpec.describe Transactions::Base, type: :job do
     }
   end
 
+  before { Transactions::Credit::BalanceUpdater }
+
   describe "when sale_items_attributes is blank" do
     after do
       expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
