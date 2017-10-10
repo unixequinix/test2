@@ -1,8 +1,6 @@
 class OperatorPermission < CatalogItem
   has_many :operator_transactions, dependent: :destroy, foreign_key: :catalog_item_id
 
-  belongs_to :station, optional: true
-
   validates :role, presence: true
   validates :station_id, presence: true, if: (-> { group.blank? })
   validates :group, presence: true, if: (-> { station_id.blank? })
