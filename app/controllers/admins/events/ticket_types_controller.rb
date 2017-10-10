@@ -9,7 +9,11 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
 
   def index
     @q = @current_event.ticket_types.order(%i[company_id name]).ransack(params[:q])
-    @ticket_types = @q.result
+    @ticket_types = @q.result.includes(catalog_item: :station)
+    @companies = @current_event.companies.pluck(:id, :name)
+    @catalog_items = @current_event.catalog_items.order(:type).map { |i| [i.id, i.name.humanize] }
+    @ticket_counts = @current_event.tickets.group(:ticket_type_id).count
+    @gtag_counts = @current_event.gtags.group(:ticket_type_id).count
     authorize @ticket_types
     @ticket_types = @ticket_types.page(params[:page])
   end

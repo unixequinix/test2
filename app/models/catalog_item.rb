@@ -1,5 +1,7 @@
 class CatalogItem < ApplicationRecord
   belongs_to :event
+  belongs_to :station, optional: true
+
   has_many :pack_catalog_items, dependent: :destroy
   has_many :packs, through: :pack_catalog_items, dependent: :destroy
   has_many :station_catalog_items, dependent: :destroy

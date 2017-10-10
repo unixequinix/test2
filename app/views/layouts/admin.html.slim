@@ -33,34 +33,9 @@ html
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons search
               .mdl-textfield__expandable-holder = yield(:search)
-            div style="width: 20px;"
+            div style="width: 30px;"
 
-          div class="dropdown"
-            i.mdl-color-text--gray-50.material-icons account_circle
-            span.title =  @current_user.username.mb_chars.capitalize.to_s
-            div class ="dropdown-content"
-              = link_to [:admins, @current_user], class: "dropdown-item", id: "profile_layout_link" do
-                i.mdl-color-text--teal-200.material-icons account_circle
-                | My Profile
-              = link_to admins_events_path, class: "dropdown-item", id: "events_layout_link" do
-                i.mdl-color-text--teal-200.material-icons stars
-                |  Events
-              = link_to admins_event_series_index_path, class: "dropdown-item", id: "event_series_layout_link" do
-                i.mdl-color-text--teal-200.material-icons stars
-                |  Event Series
-              - if @current_user.admin?
-                = link_to admins_sidekiq_web_path, target: "_blank", class: "dropdown-item" do
-                  i.mdl-color-text--teal-200.material-icons markunread_mailbox
-                  |  Sidekiq
-                = link_to admins_users_path, class: "dropdown-item", id: "users_layout_link" do
-                  i.mdl-color-text--teal-200.material-icons people
-                  |  Users
-                = link_to admins_devices_path, class: "dropdown-item", id: "devices_layout_link" do
-                  i.mdl-color-text--teal-200.material-icons settings_cell
-                  |  Devices
-              = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "profile_layout_link" do
-                i.mdl-color-text--teal-200.material-icons power_settings_new
-                |  Log out
+          = render partial: "layouts/dropdown_menu"
 
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path

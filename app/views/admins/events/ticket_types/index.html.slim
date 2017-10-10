@@ -39,11 +39,11 @@
             - @ticket_types.each do |ticket_type|
               tr class="#{'resource-hidden' if ticket_type.hidden?}"
                 td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
-                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, ticket_type]
+                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @companies, url: [:admins, @current_event, ticket_type]
                 td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
-                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @current_event.catalog_items.order(:type).map{|i| [i.id, i.name.humanize]}, url: [:admins, @current_event, ticket_type]
-                td data-label="Tickets" = ticket_type.tickets.count
-                td data-label="Gtags" = ticket_type.gtags.count
+                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
+                td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
+                td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
                 td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
                 td.table-actions
                   .table-action
