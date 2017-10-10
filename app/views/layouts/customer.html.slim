@@ -17,7 +17,7 @@ html
     - if @current_event.open_portal_intercom?
       javascript:
         var current_user_email = "#{@current_customer&.email}";
-        var current_user_name = "#{@current_customer&.full_name}";
+        var current_user_name = "#{@current_customer&.name}";
         var current_user_id = "#{@current_customer&.id}";
       = javascript_include_tag "specific/intercom"
 

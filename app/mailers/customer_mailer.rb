@@ -11,7 +11,7 @@ class CustomerMailer < Devise::Mailer
 
   def welcome(record)
     @event = record.event
-    @name = record.full_name
+    @name = record.name
 
     headers["X-No-Spam"] = "True"
     I18n.locale = record.locale
@@ -20,7 +20,7 @@ class CustomerMailer < Devise::Mailer
 
   def reset_password_instructions(record, token, _opts = {})
     @event = record.event
-    @name = record.full_name
+    @name = record.name
     @token = token
 
     headers["X-No-Spam"] = "True"
@@ -30,7 +30,7 @@ class CustomerMailer < Devise::Mailer
 
   def confirmation_instructions(record, token, _opts = {})
     @event = record.event
-    @name = record.full_name
+    @name = record.name
     @token = token
 
     headers["X-No-Spam"] = "True"

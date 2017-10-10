@@ -95,7 +95,7 @@
                     td.mdl-data-table__cell--non-numeric Customer
                     td
                       - if @customer
-                        = link_to @customer.full_name, admins_event_customer_path(@current_event, @customer)
+                        = link_to @customer.name, admins_event_customer_path(@current_event, @customer)
                       - else
                         = @transaction.customer_id
 
@@ -130,7 +130,7 @@
                   - order.order_items.each do |order_item|
                     tr
                       td.mdl-data-table__cell--non-numeric = link_to order.number, [:admins, @current_event, order]
-                      td.mdl-data-table__cell--non-numeric = link_to order_item.order.customer&.full_name, admins_event_customer_path(@current_event, order_item.order.customer.id)
+                      td.mdl-data-table__cell--non-numeric = link_to order_item.order.customer&.name, admins_event_customer_path(@current_event, order_item.order.customer.id)
                       td = order_item.amount
                       td = order_item.catalog_item.name
                       td

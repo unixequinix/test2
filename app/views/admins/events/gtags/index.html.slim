@@ -61,7 +61,7 @@
             - @gtags.each do |gtag|
               tr class="#{"danger" unless gtag.valid_balance?}"
                 td.mdl-data-table__cell--non-numeric data-label="Tag UID" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
-                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.full_name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
                 td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
                 td data-label="Credits" = number_to_event_currency gtag.credits
                 td data-label="Refundable Credits" = number_to_event_currency gtag.refundable_credits
