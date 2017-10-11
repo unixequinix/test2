@@ -260,6 +260,7 @@ Rails.application.routes.draw do
               post :ban
               post :unban
               post :topup
+              post :virtual_topup
               post :assign_gtag
               post :assign_ticket
               post :gtag_replacement

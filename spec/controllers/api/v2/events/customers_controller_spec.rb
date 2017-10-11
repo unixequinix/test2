@@ -195,6 +195,70 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     end
   end
 
+  describe "POST #virtual_topup" do
+    let(:new_atts) { atts.merge(credits: 10, gateway: "paypal") }
+
+    before do
+      station = create :station, name: "Customer Portal", category: "customer_portal", event: event
+      station.station_catalog_items.create! catalog_item: event.credit, price: 1
+    end
+
+    it "returns a success response" do
+      post :virtual_topup, params: new_atts
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns the customer orders as JSON" do
+      post :virtual_topup, params: new_atts
+      expect(json).to eq(obj_to_json(customer.reload.orders.last, "OrderSerializer"))
+    end
+
+    it "creates an order for the customer" do
+      expect { post :virtual_topup, params: new_atts }.to change { customer.reload.orders.count }.by(1)
+    end
+
+    it "sums to the global credits of the customer" do
+      expect { post :virtual_topup, params: new_atts }.to change { customer.global_credits }.by(10.0)
+    end
+
+    it "sums to the global refundable credits of the customer" do
+      expect { post :virtual_topup, params: new_atts }.to change { customer.global_refundable_credits }.by(0.0)
+    end
+
+    it "return unprocessable entity if credits are not present" do
+      new_atts[:credits] = nil
+      post :virtual_topup, params: new_atts
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "return unprocessable entity if credits are negative" do
+      new_atts[:credits] = -10
+      post :virtual_topup, params: new_atts
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "sets the new orders gateway accordingly" do
+      new_atts[:gateway] = "somethingcrazy"
+      post :virtual_topup, params: new_atts
+      expect(customer.reload.orders.last.gateway).to eq("somethingcrazy")
+    end
+
+    it "should create a pack" do
+      expect { post :virtual_topup, params: new_atts }.to change { customer.event.packs.count }.by(1)
+    end
+
+    it "should find a created pack" do
+      pack = create(:pack, :with_credit, event: event)
+      expect { post :virtual_topup, params: new_atts.merge(name: pack.name) }.to change { customer.event.packs.count }.by(0)
+    end
+
+    it "pack should have a credit catalog item with value 1" do
+      pack = create(:pack, :with_credit, event: event)
+      post :virtual_topup, params: new_atts.merge(name: pack.name)
+      expect(customer.event.packs.last.catalog_items.last.value).to eq(1.0)
+    end
+  end
+
   describe "GET #refunds" do
     before { create_list(:refund, 10, event: event, customer: customer) }
 
