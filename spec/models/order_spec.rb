@@ -14,10 +14,6 @@ RSpec.describe Order, type: :model do
     it "creates a money transaction" do
       expect { subject.complete!("paypal", {}.to_json) }.to change(MoneyTransaction, :count).by(1)
     end
-
-    it "creates a stat" do
-      expect { subject.complete!("paypal", {}.to_json) }.to change(Stat, :count).by(1)
-    end
   end
 
   describe ".refund?" do

@@ -3,7 +3,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
 
   TRIGGERS = %w[ticket_checkin].freeze
 
-  queue_as :low
+  queue_as :medium_low
 
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])

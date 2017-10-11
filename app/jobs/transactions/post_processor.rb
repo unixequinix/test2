@@ -14,9 +14,8 @@ class Transactions::PostProcessor < ApplicationJob
     transaction.update!(gtag_id: gtag.id, customer_id: customer_id)
 
     return if transaction.status_not_ok?
-    atts[:gtag_id] = gtag.id
 
-    load_classes if Rails.env.development?
-    Transactions::Base.descendants.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
+    atts[:gtag_id] = gtag.id
+    Transactions::Base.execute_descendants(atts)
   end
 end

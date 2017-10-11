@@ -1,7 +1,7 @@
 class Transactions::Credential::GtagChecker < Transactions::Base
   TRIGGERS = %w[gtag_checkin].freeze
 
-  queue_as :low
+  queue_as :medium_low
 
   def perform(atts)
     gtag = Gtag.find(atts[:gtag_id])

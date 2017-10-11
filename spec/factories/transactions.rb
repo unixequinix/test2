@@ -69,6 +69,36 @@ FactoryGirl.define do
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
+  factory :user_engagement_transaction do
+    event
+    station
+    order
+    action "exhibitor_note"
+    sequence(:device_db_index)
+    message "i love Glownet! "
+    sequence(:priority)
+    transaction_origin Transaction::ORIGINS[:device]
+    device_created_at { Time.zone.now }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
+  end
+
+  factory :user_flag_transaction do
+    event
+    station
+    order
+    action "exhibitor_note"
+    sequence(:device_db_index)
+    user_flag_active true
+    user_flag "yellow_flag"
+    transaction_origin Transaction::ORIGINS[:device]
+    device_created_at { Time.zone.now }
+    customer_tag_uid { SecureRandom.hex(14).upcase }
+    operator_tag_uid { SecureRandom.hex(14).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
+  end
+
   factory :transaction do
     event
     station

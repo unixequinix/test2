@@ -3,7 +3,7 @@ class Transactions::Credential::GtagReplacer < Transactions::Base
 
   TRIGGERS = %w[gtag_replacement].freeze
 
-  queue_as :low
+  queue_as :medium_low
 
   def perform(atts)
     new_gtag = Gtag.find_by(id: atts[:gtag_id], event_id: atts[:event_id])

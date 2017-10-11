@@ -1,4 +1,6 @@
 class Transactions::Base < ApplicationJob
+  Dir[Rails.root.join('apps', 'jobs', 'transactions', '*.rb')].each { |file| require file }
+
   SEARCH_ATTS = %i[event_id device_uid device_db_index device_created_at_fixed].freeze
 
   queue_as :default
@@ -29,6 +31,11 @@ class Transactions::Base < ApplicationJob
     params[:device_created_at] = params[:device_created_at_fixed][0, 19]
     params.delete(:sale_items_attributes) if params[:sale_items_attributes].blank?
     params
+  end
+
+  def self.execute_descendants(atts)
+    descendants.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
+    Stats::Base.execute_descendants(atts[:transaction_id], atts[:action])
   end
 
   def self.inherited(klass)

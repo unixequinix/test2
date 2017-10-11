@@ -16,17 +16,4 @@ module TransactionsHelper
     credential.update!(customer_id: Customer.create!(event_id: event.id, anonymous: true).id) if credential.customer_id.blank?
     credential.customer_id
   end
-
-  def load_classes
-    Transactions::Credential::GtagChecker.inspect
-    Transactions::Credential::GtagReplacer.inspect
-    Transactions::Credential::TicketChecker.inspect
-    Transactions::Credential::TicketValidator.inspect
-    Transactions::Credit::BalanceUpdater.inspect
-    Transactions::Operator::PermissionCreator.inspect
-    Transactions::Order::OrderRedeemer.inspect
-    Transactions::Stats::FeeCreator.inspect
-    Transactions::Stats::SaleCreator.inspect
-    Transactions::Stats::TopupCreator.inspect
-  end
 end

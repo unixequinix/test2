@@ -97,18 +97,6 @@ RSpec.describe Gtag, type: :model do
         expect(transaction.action).to eq("correction")
       end
 
-      it "with credits which are the difference between final_balance and the sum of credits" do
-        final_ts = subject.transactions.order(gtag_counter: :asc).select { |t| t.status_code.zero? }.last.final_balance
-        diff = final_ts - subject.transactions.sum(:credits)
-        expect(transaction.credits).to eql(diff)
-      end
-
-      it "with refundable credits which are the difference between final_refundable_balance and the sum of credits" do
-        final_ts = subject.transactions.order(gtag_counter: :asc).select { |t| t.status_code.zero? }.last.final_refundable_balance
-        diff = final_ts - subject.transactions.sum(:refundable_credits)
-        expect(transaction.credits).to eql(diff)
-      end
-
       it "with a final_balance of 0" do
         expect(transaction.final_balance).to be_zero
       end

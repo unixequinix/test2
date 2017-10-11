@@ -1,6 +1,6 @@
 class Stat < StatsBase
   belongs_to :event
-  belongs_to :station
+  belongs_to :station, optional: true
 
   scope :topups, -> { where(action: "topup") }
   scope :refunds, -> { where(action: "refund") }
@@ -13,8 +13,6 @@ class Stat < StatsBase
 
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: %w[customer_portal admin_panel]) }
-
-  validates :source, :transaction_id, :transaction_counter, :event_name, :credit_name, :credit_value, :action, :station_name, :station_category, :date, :total, :payment_method, presence: true # rubocop:disable Metrics/LineLength
 
   def self.by_dates(start_date = nil, end_date = nil)
     if start_date && end_date
