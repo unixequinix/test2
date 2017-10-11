@@ -11,7 +11,12 @@ vouchup:
   actions:
     - topup
     - refund
-
+  host:
+    development: "dev.wiredlion.io"
+    sandbox: "demo.wiredlion.io"
+    production: "wiredlion.io"
+    test: "dev.wiredlion.io"
+    
 bank_account:
   actions:
     - refund
