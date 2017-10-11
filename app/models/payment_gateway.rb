@@ -19,6 +19,7 @@ class PaymentGateway < ApplicationRecord
 
   scope(:topup, -> { where(topup: true) })
   scope(:refund, -> { where(refund: true) })
+  scope(:vouchup, -> { where(name: "vouchup") })
 
   def actions
     GATEWAYS[name.to_sym][:actions] || []

@@ -1,6 +1,6 @@
 module PaymentGatewaysHelper
   def store_redirection(event, type, options = {})
-    return send("new_event_#{type}_path", event) unless event.payment_gateways.topup.pluck(:name).include?('vouchup')
+    return send("new_event_#{type}_path", event) unless event.payment_gateways.vouchup.any?
 
     host = YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml'))["vouchup"]["host"][Rails.env]
 
