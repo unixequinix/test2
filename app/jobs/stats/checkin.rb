@@ -12,7 +12,7 @@ class Stats::Checkin < Stats::Base
 
     atts.merge!(extract_credential_atts(credential))
     atts.merge!(extract_ticket_type_info(credential.ticket_type))
-    atts.merge!(extract_catalog_item_info(credential.ticket_type.catalog_item))
+    atts.merge!(extract_catalog_item_info(credential.ticket_type&.catalog_item))
 
     create_stat(extract_atts(t, atts))
   end
