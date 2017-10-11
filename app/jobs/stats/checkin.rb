@@ -8,6 +8,8 @@ class Stats::Checkin < Stats::Base
     credential = t.ticket
     credential = t.gtag if t.action.eql?("gtag_checkin")
 
+    return unless credential
+
     atts = t.action.include?("checkin") ? { action: "checkin", name: t.action.gsub("_checkin", "") } : { action: "ticket_validation" }
 
     atts.merge!(extract_credential_atts(credential))
