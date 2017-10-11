@@ -5,7 +5,9 @@ module PaymentGatewaysHelper
     host = YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml'))["vouchup"]["host"][Rails.env]
 
     params = { path: "/register/#{event.slug}/glownet/#{current_customer.id}" }
-    params = { path: "/refund/#{event.slug}/customer-details", query: "email=#{current_customer.email}&gtag=#{options[:gtag_id]}" } if type == :refund
+
+    query = { email: current_customer.email, gtag: options[:gtag_id] }.to_param
+    params = { path: "/refund/#{event.slug}/customer-details", query: query } if type == :refund
 
     "https://#{URI::HTTP.build({ host: host }.merge(params))}"
   end

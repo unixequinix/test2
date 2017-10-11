@@ -63,8 +63,8 @@ module StatsHelper
       event_series_id: event.event_serie&.id,
       event_series_name: event.event_serie&.name,
       customer_id: customer&.id,
-      customer_name: customer&.full_name,
-      customer_email: customer&.full_email,
+      customer_name: customer&.name,
+      customer_email: customer&.name,
       customer_uid: transaction.customer_tag_uid,
       gtag_counter: transaction.gtag_counter
     }.merge(extra_atts)

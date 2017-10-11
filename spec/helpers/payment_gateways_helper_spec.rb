@@ -47,7 +47,7 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
       end
 
       it "should contain the customer email" do
-        expect(helper.store_redirection(event, :refund, gtag_id: customer.active_gtag.id)).to include(customer.email)
+        expect(helper.store_redirection(event, :refund, gtag_id: customer.active_gtag.id)).to include(customer.email.split("@").first)
       end
 
       it "should contain the customer gatg_id" do
