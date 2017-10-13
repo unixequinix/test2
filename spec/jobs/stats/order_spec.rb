@@ -18,6 +18,14 @@ RSpec.describe Stats::Order, type: :job do
     let(:catalog_item) { order_item.catalog_item }
 
     include_examples "a catalog_item"
+
+    it "ignores catalog_item if no order_item is found" do
+      transaction.update(order_item_counter: -1)
+      stat = worker.perform_now(transaction.id)
+      expect(stat.catalog_item_id).to be_nil
+      expect(stat.catalog_item_name).to be_nil
+      expect(stat.catalog_item_type).to be_nil
+    end
   end
 
   describe "extracting order information" do
