@@ -1,14 +1,14 @@
 module PaymentGatewaysHelper
   def store_redirection(event, type, options = {})
-    path = new_event_refund_path(event) if type == :refund
-    path = new_event_order_path(event) if type == :order
+    return send("new_event_#{type}_path", event) unless event.payment_gateways.vouchup.any?
 
     return path unless event.payment_gateways.topup.pluck(:name).include?('vouchup')
 
-    host = YAML.load_file("#{Rails.root}/config/glownet/payment_gateways.yml")["vouchup"]["host"][Rails.env]
-    full_uri = URI::HTTP.build(host: host, path: "/refund/#{event.slug}/customer-details", query: "email=#{current_customer.email}&gtag=#{options[:gtag_uid]}") if type == :refund
-    full_uri = URI::HTTP.build(host: host, path: "/register/#{event.slug}/glownet/#{current_customer.id}") if type == :order
+    params = { path: "/register/#{event.slug}/glownet/#{current_customer.id}" }
+    params = { path: "/refund/#{event.slug}/customer-details", query: { email: current_customer.email, gtag: options[:gtag_uid] }.to_param } if type == :refund # rubocop:disable Metric/LineLength
 
-    "https://#{full_uri}"
+    url = { host: YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml'))["vouchup"]["host"][Rails.env] }.merge(params)
+
+    "https://#{URI::HTTP.build(url)}"
   end
 end
