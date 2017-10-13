@@ -13,10 +13,11 @@ vouchup:
     - refund
   host:
     development: "dev.wiredlion.io"
+    hotfix: "dev.wiredlion.io"
+    test: "dev.wiredlion.io"
     sandbox: "demo.wiredlion.io"
     production: "wiredlion.io"
-    test: "dev.wiredlion.io"
-    
+
 bank_account:
   actions:
     - refund

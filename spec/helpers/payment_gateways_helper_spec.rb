@@ -39,19 +39,19 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
       end
 
       it "should not be new refunds path" do
-        expect(helper.store_redirection(event, :refund, gtag_id: customer.active_gtag.id)).not_to eql(new_event_order_path(event))
+        expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).not_to eql(new_event_order_path(event))
       end
 
       it "should contain the glownet portion of the URL" do
-        expect(helper.store_redirection(event, :refund, gtag_id: customer.active_gtag.id)).to include("refund")
+        expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include("refund")
       end
 
       it "should contain the customer email" do
-        expect(helper.store_redirection(event, :refund, gtag_id: customer.active_gtag.id)).to include(customer.email.split("@").first)
+        expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include(customer.email.split("@").first)
       end
 
       it "should contain the customer gatg_id" do
-        expect(helper.store_redirection(event, :refund, gtag_id: customer.active_gtag.id)).to include(customer.active_gtag.id.to_s)
+        expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include(customer.active_gtag.tag_uid)
       end
     end
 
