@@ -7,7 +7,7 @@ RSpec.describe Stats::Purchase, type: :job do
   let(:transaction) { create(:money_transaction, action: "box_office_purchase", event: event, catalog_item: access) }
 
   describe ".stat_creation" do
-    let(:action) { "box_office_purchase" }
+    let(:action) { "purchase" }
     let(:name) { nil }
 
     include_examples "a stat"
@@ -30,7 +30,7 @@ RSpec.describe Stats::Purchase, type: :job do
 
       it "names action purchase" do
         stats = worker.perform_now(transaction.id)
-        expect(stats.map(&:action).sort).to eql(["purchase", "purchase"])
+        expect(stats.map(&:action).sort).to eql(%w[purchase purchase])
       end
 
       it "sets monetary_quantity to 1" do

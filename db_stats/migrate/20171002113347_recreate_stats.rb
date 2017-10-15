@@ -36,8 +36,8 @@ class RecreateStats < ActiveRecord::Migration[5.1]
       t.string :product_name
       t.boolean :is_alcohol
       t.integer :sale_item_quantity
-      t.decimal :sale_item_unit_price, precision: 8, scale: 2
-      t.decimal :sale_item_total_price, precision: 8, scale: 2
+      t.decimal :sale_item_unit_price, precision: 10, scale: 2
+      t.decimal :sale_item_total_price, precision: 10, scale: 2
       t.bigint :catalog_item_id
       t.string :catalog_item_name
       t.string :catalog_item_type
