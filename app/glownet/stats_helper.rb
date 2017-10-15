@@ -7,7 +7,6 @@ module StatsHelper
 
   def extract_money_atts(t, extra_atts = {})
     { payment_method: t.payment_method,
-      action: t.action.gsub("onsite_", ""),
       monetary_quantity: 1,
       monetary_unit_price: t.price,
       currency: t.event.currency,
@@ -74,9 +73,9 @@ module StatsHelper
     product = item.product
     {
       line_counter: counter,
-      product_id: product.id,
-      product_name: product.name,
-      is_alcohol: product.is_alcohol,
+      product_id: product&.id,
+      product_name: product&.name || "Other Amount",
+      is_alcohol: product&.is_alcohol,
       sale_item_quantity: item.quantity,
       sale_item_unit_price: item.unit_price,
       sale_item_total_price: item.unit_price * item.quantity

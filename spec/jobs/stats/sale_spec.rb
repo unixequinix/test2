@@ -13,36 +13,26 @@ RSpec.describe Stats::Sale, type: :job do
   end
 
   describe "Other amounts" do
-    before { transaction.update other_amount_credits: 10 }
-
-    it "creates one Stat for other amount if present" do
-      expect { worker.perform_now(transaction.id) }.to change(Stat, :count).by(transaction.sale_items.size + 1)
-    end
+    before { transaction.sale_items.create! quantity: 1, unit_price: 15 }
 
     it "with positive quantity if action is sale" do
-      stat = worker.perform_now(transaction.id)
+      stat = worker.perform_now(transaction.id).select { |s| s.product_name.eql?("Other Amount") }.last
       expect(stat.sale_item_quantity).to be(1)
     end
 
-    it "with negative quantity if action is anything else" do
-      transaction.update action: "anything_else"
-      stat = worker.perform_now(transaction.id)
-      expect(stat.sale_item_quantity).to be(-1)
-    end
-
-    it "with name 'Other Product'" do
-      stat = worker.perform_now(transaction.id)
-      expect(stat.product_name).to eq("Other Product")
+    it "with name 'Other Amount'" do
+      stat = worker.perform_now(transaction.id).select { |s| s.product_name.eql?("Other Amount") }.last
+      expect(stat.product_name).to eq("Other Amount")
     end
 
     it "with correct total" do
-      stat = worker.perform_now(transaction.id)
-      expect(stat.sale_item_total_price).to eq(transaction.other_amount_credits)
+      stat = worker.perform_now(transaction.id).select { |s| s.product_name.eql?("Other Amount") }.last
+      expect(stat.sale_item_total_price).to eq(15)
     end
 
     it "with correct unit_price" do
-      stat = worker.perform_now(transaction.id)
-      expect(stat.sale_item_unit_price).to eq(transaction.other_amount_credits)
+      stat = worker.perform_now(transaction.id).select { |s| s.product_name.eql?("Other Amount") }.last
+      expect(stat.sale_item_unit_price).to eq(15)
     end
   end
 end

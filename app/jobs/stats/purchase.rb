@@ -6,7 +6,7 @@ class Stats::Purchase < Stats::Base
 
   def perform(transaction_id)
     t = MoneyTransaction.find(transaction_id)
-    atts = extract_money_atts(t)
+    atts = extract_money_atts(t, action: "purchase")
     item_atts = extract_catalog_item_info(t.catalog_item, atts)
 
     return create_stat(extract_atts(t, item_atts)) if t.catalog_item

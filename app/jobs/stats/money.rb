@@ -6,6 +6,8 @@ class Stats::Money < Stats::Base
 
   def perform(transaction_id)
     t = MoneyTransaction.find(transaction_id)
-    create_stat(extract_atts(t, extract_money_atts(t)))
+
+    atts = { action: t.action.gsub("onsite_", "").gsub("online_", "") }
+    create_stat(extract_atts(t, extract_money_atts(t, atts)))
   end
 end

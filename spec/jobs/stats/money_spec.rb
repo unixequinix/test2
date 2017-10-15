@@ -16,6 +16,12 @@ RSpec.describe Stats::Money, type: :job do
       stat = worker.perform_now(transaction.id)
       expect(stat.action).to eql("refund")
     end
+
+    it "removes _online from refund action" do
+      transaction.update!(action: "online_refund")
+      stat = worker.perform_now(transaction.id)
+      expect(stat.action).to eql("refund")
+    end
   end
 
   describe "extracting monetary info" do

@@ -28,6 +28,11 @@ RSpec.describe Stats::Purchase, type: :job do
         expect(stats.map(&:line_counter).sort).to eql([1, 2])
       end
 
+      it "names action purchase" do
+        stats = worker.perform_now(transaction.id)
+        expect(stats.map(&:action).sort).to eql(["purchase", "purchase"])
+      end
+
       it "sets monetary_quantity to 1" do
         stats = worker.perform_now(transaction.id)
         expect(stats.map(&:monetary_quantity).uniq).to eql([1])
