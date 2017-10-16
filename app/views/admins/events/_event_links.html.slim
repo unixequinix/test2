@@ -97,6 +97,13 @@
               i.material-icons brush
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_style" Style
 
+      - if policy(@current_event).versions?
+        li.floaty-list-item
+          = link_to versions_admins_event_path(@current_event) do
+            button#versions.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons layers
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="versions" Blame
+
       - if policy(@current_event).destroy?
         - if @current_event.created?
           li.floaty-list-item
@@ -104,6 +111,7 @@
               button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
                 i.material-icons delete_forever
                 span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete Event
+
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

@@ -24,7 +24,8 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'deep_cloneable'
 gem 'pg' # Use pg as the database for Active Record
-gem 'json', '~> 1.8.5' # TODO: remove after deploy of JSON v3
+gem 'json'
+gem 'paper_trail'
 
 # Assets
 gem 'jquery-rails'

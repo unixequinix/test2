@@ -27,6 +27,10 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
+  def versions?
+    true
+  end
+
   def edit_event_style?
     admin_or_promoter && event_open
   end

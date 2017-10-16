@@ -17,10 +17,12 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize(@event)
   end
 
-  def sample_event
-    @event = SampleEvent.run
-    authorize(@event)
-    redirect_to [:edit, :admins, @event], notice: t("alerts.created")
+  def edit
+    render layout: "admin_event"
+  end
+
+  def show
+    render layout: "admin_event"
   end
 
   def create
@@ -37,20 +39,48 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     end
   end
 
+  def update
+    respond_to do |format|
+      if @current_event.update(permitted_params.merge(slug: nil))
+        format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
+        format.json { render json: @current_event }
+      else
+        params[:redirect_path] ||= :edit
+        format.html { render params[:redirect_path].to_sym, layout: "admin_event" }
+        format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    transactions = @current_event.transactions
+    SaleItem.where(credit_transaction_id: transactions).delete_all
+    Transaction.where(id: @current_event.transactions).delete_all
+    Transaction.where(catalog_item_id: @current_event.catalog_items).update_all(catalog_item_id: nil)
+    @current_event.device_transactions.delete_all
+    @current_event.tickets.delete_all
+    @current_event.gtags.delete_all
+    @current_event.destroy
+    redirect_to admins_events_path(status: params[:status]), notice: t("alerts.destroyed")
+  end
+
+  def versions
+    @versions = @current_event.versions.page(params[:page])
+    render layout: "admin_event"
+  end
+
+  def sample_event
+    @event = SampleEvent.run
+    authorize(@event)
+    redirect_to [:edit, :admins, @event], notice: t("alerts.created")
+  end
+
   def device_settings
     @device_caches = @current_event.device_caches
     render layout: "admin_event"
   end
 
   def edit_event_style
-    render layout: "admin_event"
-  end
-
-  def edit
-    render layout: "admin_event"
-  end
-
-  def show
     render layout: "admin_event"
   end
 
@@ -81,19 +111,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     redirect_to device_settings_admins_event_path(@current_event)
   end
 
-  def update
-    respond_to do |format|
-      if @current_event.update(permitted_params.merge(slug: nil))
-        format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
-        format.json { render json: @current_event }
-      else
-        params[:redirect_path] ||= :edit
-        format.html { render params[:redirect_path].to_sym, layout: "admin_event" }
-        format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def remove_logo
     @current_event.logo.destroy
     @current_event.logo.clear
@@ -106,18 +123,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     @current_event.background.clear
     @current_event.save
     redirect_to request.referer, notice: t("alerts.destroyed")
-  end
-
-  def destroy
-    transactions = @current_event.transactions
-    SaleItem.where(credit_transaction_id: transactions).delete_all
-    Transaction.where(id: @current_event.transactions).delete_all
-    Transaction.where(catalog_item_id: @current_event.catalog_items).update_all(catalog_item_id: nil)
-    @current_event.device_transactions.delete_all
-    @current_event.tickets.delete_all
-    @current_event.gtags.delete_all
-    @current_event.destroy
-    redirect_to admins_events_path(status: params[:status]), notice: t("alerts.destroyed")
   end
 
   private
