@@ -91,8 +91,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController # rubocop:d
 
   # GET api/v2/events/:event_id/customers/:id/transactions
   def transactions
-    @transactions = @customer.transactions.credit.status_ok.order(:gtag_counter)
-    render json: @transactions, each_serializer: Api::V2::TransactionSerializer
+    render json: @customer, serializer: Api::V2::Full::CustomerTransactionsSerializer
   end
 
   # GET api/v2/events/:event_id/customers
