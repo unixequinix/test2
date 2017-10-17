@@ -71,6 +71,7 @@ module StatsHelper
 
   def extract_atts_from_sale_item(item, counter)
     product = item.product
+    total = item.unit_price * item.quantity
     {
       line_counter: counter,
       product_id: product&.id,
@@ -78,7 +79,8 @@ module StatsHelper
       is_alcohol: product&.is_alcohol,
       sale_item_quantity: item.quantity,
       sale_item_unit_price: item.unit_price,
-      sale_item_total_price: item.unit_price * item.quantity
+      sale_item_total_price: total,
+      credit_amount: -total
     }
   end
 
