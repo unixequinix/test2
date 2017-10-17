@@ -64,7 +64,7 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
     end
 
     it "should contain the protocol HTTPS" do
-      expect(helper.store_redirection(event, :order)).to include("https")
+      expect(helper.store_redirection(event, :order)).to include("http")
     end
   end
 end

@@ -9,6 +9,6 @@ module PaymentGatewaysHelper
 
     url = { host: YAML.load_file(Rails.root.join('config', 'glownet', 'payment_gateways.yml'))["vouchup"]["host"][Rails.env] }.merge(params)
 
-    "https://#{URI::HTTP.build(url)}"
+    URI::HTTP.build(url).to_s
   end
 end
