@@ -28,8 +28,8 @@
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         h2.mdl-card__title-text
-          i.material-icons star_rate
-          |Sale Items
+          i.material-icons donut_large
+          | Sale Items
       .mdl-card__supporting-text
         table.mdl-data-table.mdl-js-data-table.within-card
           thead
@@ -41,7 +41,7 @@
           tbody
             - @transaction.sale_items.each do |item|
               tr
-                td.mdl-data-table__cell--non-numeric = link_to item.product.name, admins_event_station_product_path(@current_event, item.product.station, item.product) if item.product
+                td.mdl-data-table__cell--non-numeric = item.product&.name || "Other Amount"
                 td = item.quantity
                 td = item.unit_price
                 td = item.unit_price * item.quantity
