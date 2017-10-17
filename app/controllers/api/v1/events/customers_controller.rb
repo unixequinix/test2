@@ -71,8 +71,9 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
             json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
           FROM (
             SELECT
-              customer_id,
+              orders.id as real_id,
               counter AS id,
+              customer_id,
               amount,
               catalog_item_id,
               redeemed,

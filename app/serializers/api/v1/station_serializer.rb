@@ -1,8 +1,12 @@
 class Api::V1::StationSerializer < ActiveModel::Serializer
-  attributes :id, :type, :name, :hidden
+  attributes :id, :real_id, :type, :name, :hidden
 
   def id
     object.station_event_id
+  end
+
+  def real_id
+    object.id
   end
 
   def attributes(*args)
