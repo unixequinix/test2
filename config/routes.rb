@@ -150,7 +150,7 @@ Rails.application.routes.draw do
           post :hide
           post :unhide
           scope module: :stations do
-            resources :products, only: [:update, :edit, :index, :show]
+            resources :products, only: [:update, :index]
             resources :station_items, only: [:create, :update, :destroy] do
               put :sort, on: :collection
               get :find_product, on: :collection
