@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
-  let(:event) { create(:event) }
+  let(:event) { create(:event, open_ticketing_api: true) }
   let(:company) { create(:company, event: event) }
   let(:ticket_type) { create(:ticket_type, event: event, company: company) }
   before { create_list(:ticket, 2, banned: true, event: event, ticket_type: ticket_type) }

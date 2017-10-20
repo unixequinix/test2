@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
-  let(:event) { create(:event) }
+  let(:event) { create(:event, open_ticketing_api: true) }
   let(:company) { create(:company, event: event) }
   let(:customer) { create(:customer, event: event) }
   let(:gtag) { create(:gtag, event: event, customer: customer) }

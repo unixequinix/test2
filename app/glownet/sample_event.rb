@@ -1,7 +1,7 @@
 class SampleEvent # rubocop:disable all
   # rubocop:disable all
   def self.run
-    @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}", start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
+    @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}", start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_ticketing_api: true, open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
     @event.initial_setup!
 
     data = %w(customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations)

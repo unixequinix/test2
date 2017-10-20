@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:user) { create(:user) }
   let(:device) { create(:device) }
-  let(:db_events) { Event.all }
+  let(:db_events) { Event.where(open_devices_api: true) }
 
   describe "GET index" do
     context "with authentication" do
