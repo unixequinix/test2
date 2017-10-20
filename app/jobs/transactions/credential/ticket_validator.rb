@@ -1,5 +1,5 @@
 class Transactions::Credential::TicketValidator < ApplicationJob
-  queue_as :low
+  queue_as :medium_low
 
   def perform(atts)
     transaction = CredentialTransaction.find(atts[:transaction_id])

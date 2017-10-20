@@ -168,4 +168,26 @@
                       - else
                         i.material-icons clear
 
+      - if @transaction.catalog_item
+        - item = @transaction.catalog_item
+
+        .mdl-cell.mdl-cell--12-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons bookmark_border
+                | Item
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                thead
+                  tr
+                    th.mdl-data-table__cell--non-numeric Name
+                    th Type
+                    th Credits
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric = link_to item.name, [:admins, @current_event, item]
+                    td = item.class.to_s.humanize
+                    td = item.credits
+
       = render(partial: "admins/events/transactions/categories/#{@type}") if lookup_context.template_exists?("admins/events/transactions/categories/_#{@type}")

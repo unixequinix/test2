@@ -63,6 +63,7 @@
 
                 td
                   - if registration.time_diff < 1
+                    span style="color: #9ecf68; padding-right: 10px;" Correct time
                     i.material-icons style="color: #9ecf68" timer
                   - else
                     span style="color: #e26465; padding-right: 10px;" = distance_of_time_in_words registration.time_diff

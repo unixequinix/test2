@@ -8,6 +8,14 @@ module Credentiable
     has_many :transactions, dependent: :restrict_with_error
   end
 
+  def purchaser_full_name
+    "#{try(:purchaser_first_name)} #{try(:purchaser_last_name)}"
+  end
+
+  def credential_type
+    self.class.to_s.downcase
+  end
+
   def customer_not_anonymous?
     customer.present? && !customer.anonymous?
   end

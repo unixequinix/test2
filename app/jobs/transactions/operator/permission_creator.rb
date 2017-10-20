@@ -1,7 +1,7 @@
 class Transactions::Operator::PermissionCreator < Transactions::Base
   TRIGGERS = %w[record_operator_permission].freeze
 
-  queue_as :low
+  queue_as :medium_low
 
   def perform(atts)
     event = Event.find(atts[:event_id])

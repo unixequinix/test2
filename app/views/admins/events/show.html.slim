@@ -145,6 +145,24 @@
                     = best_in_place @current_event, :topup_fee, url: [:admins, @current_event], class: "event_fee"
                     |  #{@current_event.credit.symbol}
 
+          .mdl-card__title
+            .mdl-cell.mdl-cell--12-col
+              i.material-icons signal_cellular_null
+              | API Controls
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric V2
+                  td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Devices
+                  td = best_in_place @current_event, :open_devices_api, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Ticketing
+                  td = best_in_place @current_event, :open_ticketing_api, best_in_place_checkbox([:admins, @current_event])
+
+
           - if @current_event.created?
             .mdl-card__supporting-text
               .small style="padding: 0 25px;" If you are looking for the event setting, you must first #{link_to 'launch', '#launch-modal'} the event
@@ -156,9 +174,6 @@
             .mdl-card__supporting-text
               table.table-show.mdl-data-table.mdl-js-data-table.within-card
                 tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric Devices API
-                    td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
                   tr
                     td.mdl-data-table__cell--non-numeric Customer Portal
                     td = best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])

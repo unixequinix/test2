@@ -53,7 +53,7 @@ RSpec.describe Transactions::PostProcessor, type: :job do
 
   describe "executing operations" do
     before { atts[:action] = "sale" }
-    before { allow(Transactions::Stats::SaleCreator).to receive(:perform_later) }
+    before { allow(Stats::Sale).to receive(:perform_later) }
 
     it "executes tasks based on triggers" do
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once

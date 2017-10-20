@@ -1,4 +1,4 @@
-class Api::V2::Events::CustomersController < Api::V2::BaseController
+class Api::V2::Events::CustomersController < Api::V2::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_customer, except: %i[index create]
 
   # POST api/v2/events/:event_id/customers/:id/ban
@@ -63,6 +63,26 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
     end
   end
 
+  # POST api/v2/events/:event_id/customers/:id/virtual_topup
+  def virtual_topup
+    credits = params[:credits]
+    render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return if credits.blank? || credits.to_f.negative?
+
+    pack_name = params[:name] || 'Non refundable pack'
+    @pack = @current_event.packs.find_by(name: pack_name)
+    @pack ||= @current_event.packs.create(name: pack_name, pack_catalog_items_attributes: [{ catalog_item: @current_event.credit, amount: 1 }])
+
+    @order = @customer.build_order([[@pack.id, credits]])
+
+    if @order.save!
+      @order.complete!(params[:gateway])
+
+      render json: @order, serializer: Api::V2::OrderSerializer
+    else
+      render json: @order.errors, status: :unprocessable_entity
+    end
+  end
+
   # GET api/v2/events/:event_id/customers/:id/refunds
   def refunds
     @refunds = @customer.refunds
@@ -71,8 +91,7 @@ class Api::V2::Events::CustomersController < Api::V2::BaseController
 
   # GET api/v2/events/:event_id/customers/:id/transactions
   def transactions
-    @transactions = @customer.transactions.credit.status_ok.order(:gtag_counter)
-    render json: @transactions, each_serializer: Api::V2::TransactionSerializer
+    render json: @customer, serializer: Api::V2::Full::CustomerTransactionsSerializer
   end
 
   # GET api/v2/events/:event_id/customers

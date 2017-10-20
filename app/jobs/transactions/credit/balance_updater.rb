@@ -1,7 +1,7 @@
 class Transactions::Credit::BalanceUpdater < Transactions::Base
   TRIGGERS = %w[sale topup refund fee record_credit sale_refund replacement_topup replacement_refund].freeze
 
-  queue_as :low
+  queue_as :medium_low
 
   def perform(atts)
     Gtag.find(atts[:gtag_id]).recalculate_balance

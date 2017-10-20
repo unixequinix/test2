@@ -1,0 +1,37 @@
+= render "event_links"
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    = render "layouts/pagination", objects: @versions
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Changed at
+              th.mdl-data-table__cell--non-numeric Action
+              th.mdl-data-table__cell--non-numeric Responsible
+              th.mdl-data-table__cell--non-numeric Changes
+          tbody
+            - @versions.each do |version|
+              - changes = version.changeset
+              - changes.delete("updated_at")
+              - user = User.find_by(id: version.whodunnit)
+
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Created At" = l version.created_at
+                td.mdl-data-table__cell--non-numeric data-label="Event" = version.event
+                td.mdl-data-table__cell--non-numeric data-label="User" = user ? link_to(user.username, [:admins, user]) : "Unknown"
+                td.mdl-data-table__cell--non-numeric data-label="Changes"
+                  - changes.each do |attribute, values|
+                    div
+                      | #{attribute.humanize}: From
+                      '
+                      b = values.first || "Blank"
+                      '
+                      | to
+                      '
+                      b = values.last
+    = render "layouts/pagination", objects: @versions
+  .mdl-layout-spacer

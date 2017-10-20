@@ -37,6 +37,28 @@ RSpec.describe Transactions::Base, type: :job do
     end
   end
 
+  describe "descendants" do
+    before { atts[:transaction_id] = create(:credit_transaction, event: event).id }
+    after { base.execute_descendants(atts) }
+
+    it "should have all classes loaded" do
+      expect(base.descendants).not_to be_empty
+    end
+
+    it "should call perform_later on a subscriber class" do
+      atts[:action] = "sale"
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
+    end
+
+    it "should not call perform_later on anything if there is no subscriber" do
+      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_later)
+    end
+
+    it "should call execute_descendants on Stats::Base" do
+      expect(Stats::Base).to receive(:execute_descendants).once.with(atts[:transaction_id], "test_action")
+    end
+  end
+
   describe "when passed sale_items in attributes" do
     before do
       atts.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, unit_price: 8.31 },
@@ -45,26 +67,6 @@ RSpec.describe Transactions::Base, type: :job do
 
     it "saves sale_items" do
       expect { base.perform_now(atts) }.to change(SaleItem, :count).by(2)
-    end
-  end
-
-  describe "descendants" do
-    it "executes the job defined by action" do
-      expected_atts = { action: "sale", event_id: event.id, type: "CreditTransaction", credits: 30, customer_tag_uid: gtag.tag_uid, status_code: 0 }
-      atts[:action] = "sale"
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(expected_atts))
-      allow(Transactions::Stats::SaleCreator).to receive(:perform_later).once
-      base.perform_now(atts)
-    end
-
-    it "must be loaded with environment" do
-      expect(base.descendants).not_to be_empty
-    end
-
-    it "should include the descendants of base classes" do
-      expect(base.descendants).to include(Transactions::Credential::TicketChecker)
-      expect(base.descendants).to include(Transactions::Credential::GtagChecker)
-      expect(base.descendants).to include(Transactions::Credit::BalanceUpdater)
     end
   end
 
@@ -94,10 +96,10 @@ RSpec.describe Transactions::Base, type: :job do
     it "should only execute subscriptors if the transaction created is new" do
       atts[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
-      allow(Transactions::Stats::SaleCreator).to receive(:perform_later).once
+      allow(Stats::Sale).to receive(:perform_later).once
       base.perform_now(atts)
-      at = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
-      base.perform_now(at)
+      atts2 = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
+      base.perform_now(atts2)
     end
   end
 end

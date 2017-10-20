@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 
+
+
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
@@ -52,6 +54,7 @@ Rails.application.routes.draw do
         post :remove_background
         get :create_admin
         get :create_customer_support
+        get :versions
       end
 
       scope module: "events" do
@@ -147,7 +150,7 @@ Rails.application.routes.draw do
           post :hide
           post :unhide
           scope module: :stations do
-            resources :products, only: [:update, :edit, :index, :show]
+            resources :products, only: [:update, :index]
             resources :station_items, only: [:create, :update, :destroy] do
               put :sort, on: :collection
               get :find_product, on: :collection
@@ -260,6 +263,7 @@ Rails.application.routes.draw do
               post :ban
               post :unban
               post :topup
+              post :virtual_topup
               post :assign_gtag
               post :assign_ticket
               post :gtag_replacement
@@ -322,10 +326,10 @@ Rails.application.routes.draw do
   end
 
   ##----------------------------------------------------------
-  # Thirdparty API
+  # Ticketing API
   #----------------------------------------------------------
-  namespace :companies do
-    namespace :api, defaults: { format: "json" } do
+  namespace :companies, defaults: { format: "json" } do
+    namespace :api do
       namespace :v1 do
         resources :banned_tickets, path: "tickets/blacklist", only: [:index, :create, :destroy]
         resources :tickets, only: [:index, :show, :create, :update] do
