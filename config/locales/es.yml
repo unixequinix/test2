@@ -157,6 +157,7 @@ es:
       es: ESP
       de: DEU
       it: ITA
+      pt: POR
     subject_support: Necesito ayuda para %{event}
   event_serie:
       created: Creado con éxito

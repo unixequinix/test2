@@ -30,9 +30,9 @@
       = f.input :birthdate, required: true, include_blank: true, wrapper_html: { class: 'registration-select' }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year], label: t("simple_form.labels.customer.new.birthdate") if @current_event.birthdate_mandatory?
       
       .session-accept-terms.center
-          label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='action'
-            span.mdl-switch__label.form-label = raw "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}"
-            = f.input :agreed_on_registration, as: :boolean, :input_html => { :id => 'action' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='action'
+          span.mdl-switch__label.form-label = raw "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}"
+          = f.input :agreed_on_registration, as: :boolean, :input_html => { :id => 'action' }
       
       .recaptcha
         = recaptcha_tags if Rails.env.production?

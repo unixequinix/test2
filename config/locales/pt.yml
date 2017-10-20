@@ -1,0 +1,306 @@
+---
+pt:
+  actions:
+    back: Voltar atrás
+    check_news: Início
+    delete: Apagar
+    edit: Editar
+    complete: Completar
+    repeat: Repetir
+  admissions: 
+    button: Activar
+    call_to_action: Activar o seu ingresso!
+    description: For favor introduza o código que está impresso no seu ingresso logo abaixo o código de barras 
+    placeholders:
+      ticket_code: Número de Código do ingresso
+  alerts:
+    created: Criado com Sucesso
+    cancelled: Cancelado com sucesso
+    customer_without_transactions: O cliente não tem transações
+    destroyed: Apagado com Sucesso
+    error: O Formulário contém erros
+    only_letters_and_numbers: Só pode conter letras e números
+    order_complete: A sua ordem foi completada com sucesso !
+    order_error: Houve um problema com a sua encomenda 
+    updated: Atualizado com sucesso
+    not_authorized: Não está autorizado a realizar esta operação 
+    max_credits_reached: chegou ao limite de saldo permitido 
+    import:
+      delayed: "%{count} %{item} estamos atrasados para realizar a importação, por favor tente novamente dentro de um momento"
+      success: "%{count} %{item} importado correctamente"
+      error: Ocorreu um erro com o processo de importação
+    confirm_delete: |
+      Essa ação não poderá ser desfeita.
+
+      Tem certeza que quer continuar?
+  checkout:
+    button: Checkout
+    description: Encomendar online é uma ótima forma de poupar tempo durante o evento. Evite o desconforto de ficar esperando em filas selecionando aqui o que deseja comprar. 
+    store: " loja"
+    total: Total
+  conditions:
+    action: Aceito
+    conjunction: e
+    privacy_conditions: política de privacidade
+    terms_of_use: condições de utilização
+  credentials:
+    reference: Referencia
+    name: Credencial
+    new_button: Continuar
+    already_assigned: "%{item} já atribuído"
+    without_credential: "%{item} está vazio e não pode ser atribuído. Por favor tente mais tarde"
+    no_item_assigned: "O %{item} que você introduziu está sendo processado pelo nosso sistema e ainda não pode ser atribuído. Por favor, volte mais tarde ou contacte o nosso suporte"
+    blacklisted: "%{item} está em Lista Negra"
+    inactive: "%{item} está inactivo, isso significa que foi trocado por outro. Por favor introduza uma credencial activa"
+    assigned: "%{item} atribuído com sucesso"
+    not_found: "%{item} não encontrado. Se efectuou a compra nas últimas 48 horas, por favor tente mais tarde, permitindo que atualizemos o nosso sistema com a sua compra. De outra forma, por favor contacte o nosso suporte."
+    unassigned: "%{item} não atribuído com sucesso"
+    invalid: "Ocorreu um erro com esse %{item}. Por favor contacte o apoio ao cliente em support@glownet.com ou através do Intercom"
+    same_credential: "Você não pode atribuir um/a %{item} com o mesmo conteúdo duas vezes"
+  dashboard:
+    header:
+      home: Início
+      edit_account: Editar Conta
+      change_senha: Mudar senha
+      log_out: Sair 
+    confirm_log_out: Quer terminar esta sessão?
+    topup: Top Up
+    refund: Reembolso
+    order: Encomenda
+    orders:
+      success_title: "Ka-ching! Hora para usar %{credit_name} para se recompensar!"
+      credits: Créditos
+      catalog_items: Outros Items
+      disclaimer: A compra online será creditada no local do evento. Venha e comece a comprar de imediato!
+      complete: Completado
+      cancel: Cancelar
+    admissions:
+      call_to_action: Quer remover esse ingresso?
+      call_to_action_started: O evento já começou, portanto não pode mudar este ingresso
+    credits:
+      button: Top-up
+      calculating_balance: Por favor nos contacte em %{email} de forma a procedermos ao seu reembolso.
+      call_to_action_no_admission_html: Para comprar o seu Top-up Online,<br>por favor ative o seu ingresso primeiro 
+      call_to_action_started: O evento começou portanto já não pode efectuar um topup
+      header: O seu saldo
+      header_invalid: Estamos a processar todas as suas compras. Poderá vero seu saldo final em breve.
+      body_invalid: Porém, se desejar saber o seu saldo atual, pode fazê-lo em qualquer dispositivo, qualquer ponto de vendas, Topup ou qualquer outra estação. Também nos poderá contactar utilizando o ícone do intercom no canto inferior direito. Ou nos envie um email para
+      body_credits: A sua última transação registrada foi "%{action}" em "%{station}" %{time} atrás
+      body_balance: O seu saldo a essa hora era
+      refundable: Reembolsável 
+    credits_history:
+      button: Transferir transações
+      header: Histórico de transações
+    event_started:
+      description: Estamos a terminar a configuração do evento para lhe proporcionar uma experiência fantástica. Por favor regresse mais tarde e veja o que preparámos para você.
+      title: Finalizando detalhes!
+    first_register:
+      gtag:
+        both: Adicionar Cartão ou Pulseira
+        card: Adicionar Cartão
+        wristband: Adicionar Pulseira
+      ticket: Adicionar ingresso
+    ticket_registration:
+      title: ingressos
+    gtag_registration:
+      title:
+        both: Pulseira/ID Cartão
+        card: ID Cartão
+        wristband: ID Pulseira 
+      card: Cartão
+      wristband: Pulseira
+      no_items: Nenhum item incluído
+    paypal:
+      button: Pague com PayPal
+    portal_closed:
+      claim: Desculpe
+      description: O portal de cliente para este evento está encerrado. Se tiver alguma questão, contacte o suporte.
+  email:
+    communication: Esta é uma comunicação automática de %{event_name}. As respostas não serão lidas.
+    follow_on_twitter: Siga no Twitter
+    footer_glownet: Tem alguma questão sobre o portal online? Nos envie uma mensagem para
+    footer_organizer: Tem uma questão sobre o organizador do evento? Contacte diretamente para
+    like_on_facebook: Goste no Facebook
+    order:
+      description: Todas as suas compras serão automaticamente adicionadas ao seu cartão ou pulseira quando entrar no evento. O seu cartão ou pulseira são uma forma conveniente e rápida para pagar comidas, bebidas e merchandise. É a única forma de pagamento aceite no local do evento.
+      greet: Obrigado pela sua compra, %{name}!
+      order_number: Número do seu pedido
+      subject: Comprado em %{event}
+      success: "Aqui estão os detalhes do seu pedido:"
+    our_company: Mais informações sobre a Glownet
+    refund:
+      subject: Reembolso em %{event}
+      refund_number: Número de reembolso
+      success: O seu reembolso está sendo porcessado
+    reset_senha:
+      greet: Oi, %{name}!
+      mail_body: Recebemos o seu pedido para mudar a sua senha. Clique no link em baixo para mudar.
+      mail_link: Mudar a minha senha
+      subject: Instruções para reiniciar a senha
+    confirmation:
+      subject: "Confirme seu email"
+      flash_message: "Lhe enviámos um email para confirmar a sua conta. Por favor, cheque o seu email e siga o link para o ativar."
+      description: "Clique nesse link para confirmar a sua conta"
+      error: "Ocorreu um erro ao validar a sua conta"
+      confirm: "Confirmar"
+    welcome:
+      subject: Confirmação de cadastro para %{event_name}
+      greet: Oi, %{name}!
+      mail_body: Obrigado por se cadastrar connosco.
+      mail_body2: Para que possa aproveitar os benefícios do nosso portal online, a primeira coisa que precisa fazer é atribuir o seu ingresso, cartão ou pulseira.
+      event_url: "Para sua comodidade aqui está o url do evento:"
+    suscribe_on_you_tube: Subscreva no YouTube
+  event:
+    locales:
+      en: ENG
+      es: ESP
+      de: DEU
+      it: ITA
+      pt: POR
+    subject_support: Necessito ajuda para %{event}
+  event_serie:
+      created: Criado com sucesso
+      updated: Atualizado com sucesso
+      cancelled: Cancelado com sucesso
+      error: O formulário contém erros
+      destroyed: Apagado com sucesso
+  footer:
+    copyright: "© Glownet"
+    privacy: Politica de privacidade
+    support: Suporte
+    use: Termos de utilização
+  gtag_assignations:
+    button: Aceitar
+    call_to_action:
+      both: Atribua o seu Cartão ou pulseira e vá! 
+      card: Atribua o seu Cartão e vá!
+      wristband: Atribua a sua Pulseira e vá!
+    description:
+      standard: Leia a segunda linha de números e letras (sublinhados a amarelo)
+    info: 'Simbolos permitidos: "0" - "9" e "A, B, C, D, E, F"'
+    placeholder: "ex.: BA6D7DC0"
+    block: "Oculte a sua pulseira"
+  gtag_unsubscribe:
+    banned: "Banido"
+    ban: "Cancele a subscrição da sua pulseira"
+    flash_message: "A sua pulseira foi cancelada com sucesso"
+    modal:
+      title: "Tem certeza?"
+      subtitle: "Depois de confirmar"
+      statements:
+        first: "Você não poderá usar o gtag ou se deslocar mais nos portões do evento"
+        second: "Os dispositivos que não possuem internet não receberão aviso deste bloqueio e, portanto, as operações podem ser realizadas após o bloqueio"
+        third: "Essa ação não pode ser desfeita"
+      confirmation: "Ainda quer confirmar?"
+      confirm: "Confirmar"
+      cancel: "Cancelar"
+  header:
+    edit: Editar Cliente
+  links:
+    buttons:
+      sign_in: Login
+    forgot: Esqueceu sua senha?
+  orders:
+    cancel_confirmation: "Tem certeza de que deseja cancelar o pagamento de %{price}?"
+    already_cancelled: Pedido já cancelado
+    already_finalised: Este pedido já foi finalizado
+    button: Pagar
+    card_code_verification: Verificação do código do cartão (CCV)
+    card_expiration_date: Data de Expiração do Cartão
+    card_info: Informação do cartão
+    card_number: Número do cartão
+    first_name: Nome
+    last_name: Apelido
+    order_review: Revisão do pedido
+    payment: Detalhes do pagamento
+    payment-buttons:
+      bank_account:
+        icon: cartão de crédito
+        name: Conta bancária
+      paypal:
+        icon: paypal
+        name: PayPal
+      vouchup:
+        icon: globo
+        name: Restantes métodos de pagamento
+    price: Preço
+    products: Produtos
+    total: Total
+    vat: IVA Incluído
+    card_name: nome do cartão
+    card_doc_type: tipo de documento
+    card_doc_number: número do documento
+  passwords:
+    edit:
+      button: Mudar a minha senha
+      header: Nova senha
+      password: Nova senha
+      password_confirmation: Confirme a sua nova senha
+    new:
+      button: Envie-me instruções de senha
+      title: Esqueceu a sua senha?
+  pdf:
+    actions:
+      refund: Reembolso
+      sale: Venda
+      topup: Topup
+    amount: Quantidade
+    date: Data
+    pdf_title: Histórico de transações
+    station: Estação
+    type: Tipo
+  refunds:
+    title: Reembolsos
+    amount: Montante
+    button: Reembolso
+    fee: Taxa de reembolso
+    total_credits: Total de créditos
+    product_description: Saldo a ser reembolsado
+    products: Produtos
+    success: Reembolso reivindicado com sucesso, em breve você receberá sua transferência
+  registration:
+    edit:
+      button: Atualização
+      senha_hint: Deixe-o em branco se você não quiser mudá-lo
+    new:
+      button: Inscrição
+      or: ou
+      title: Iniciar
+      credential: Por favor insira sua referência de ingresso, cartão ou wristband UID para prosseguir
+  sessions:
+    call_to_action: Faça login com seu perfil de conta social favorita ou simplesmente crie uma conta!
+    create_account:
+      link: Crie a sua conta aqui
+      lost_senha: Perdeu a sua senha?
+    log_in:
+      link: Entre aqui
+      title: Já tem uma conta?
+      success: "Bem-vindo ao %{event}"
+      account_error: Há um erro nas credenciais da sua conta ou ainda não foi validada
+      confirmed_not_logged_error: Faça login na sua conta
+    log_out:
+      success: Até Breve!
+    placeholder:
+      email: ex. nickname@mail.com
+      senha: ex. · · · · · ·
+  social_login:
+    facebook: Faça login com o Facebook
+    google: Faça login com Google
+
+  simple_form:
+    labels:
+      customer:
+        new:
+          address: Endereço
+          birthdate: Data de nascimento
+          city: Cidade
+          country: País
+          current_password: Senha atual
+          email: Email
+          first_name: Nome
+          last_name: Sobrenomes
+          gender: Gênero
+          password: Senha
+          password_confirmation: Confirmação de senha
+          phone: Número de telefone
+          postcode: CEP
