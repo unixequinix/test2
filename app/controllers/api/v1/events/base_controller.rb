@@ -22,7 +22,7 @@ class Api::V1::Events::BaseController < Api::V1::BaseController
   end
 
   def check_api_open
-    render json: { error: "Event '#{@current_event.name}' does not have the API open" }, status: :unauthorized unless @current_event.open_api?
+    render json: { error: "Event '#{@current_event.name}' does not have the API open" }, status: :unauthorized unless @current_event.open_devices_api?
   end
 
   def set_modified
