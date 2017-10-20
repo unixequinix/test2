@@ -10,11 +10,11 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_one(:active_gtag, -> { where(active: true) }, class_name: "Gtag")
 
-  has_many :orders, dependent: :destroy
+  has_many :orders, dependent: :restrict_with_error
   has_many :refunds, dependent: :destroy
-  has_many :tickets, dependent: :nullify
 
   # only two relationships allowed with anonymous customers
+  has_many :tickets, dependent: :nullify
   has_many :gtags, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
 
