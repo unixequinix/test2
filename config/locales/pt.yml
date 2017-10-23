@@ -1,16 +1,16 @@
 ---
 pt:
   actions:
-    back: Voltar atrás
+    back: Voltar
     check_news: Início
     delete: Apagar
     edit: Editar
     complete: Completar
     repeat: Repetir
-  admissions: 
-    button: Activar
-    call_to_action: Activar o seu ingresso!
-    description: For favor introduza o código que está impresso no seu ingresso logo abaixo o código de barras 
+  admissions:
+    button: Ativar
+    call_to_action: Ativar o seu ingresso!
+    description: For favor introduza o código que está impresso no seu ingresso logo abaixo o código de barras
     placeholders:
       ticket_code: Número de Código do ingresso
   alerts:
@@ -21,10 +21,10 @@ pt:
     error: O Formulário contém erros
     only_letters_and_numbers: Só pode conter letras e números
     order_complete: A sua ordem foi completada com sucesso !
-    order_error: Houve um problema com a sua encomenda 
+    order_error: Houve um problema com a sua encomenda
     updated: Atualizado com sucesso
-    not_authorized: Não está autorizado a realizar esta operação 
-    max_credits_reached: chegou ao limite de saldo permitido 
+    not_authorized: Não está autorizado a realizar esta operação
+    max_credits_reached: chegou ao limite de saldo permitido
     import:
       delayed: "%{count} %{item} estamos atrasados para realizar a importação, por favor tente novamente dentro de um momento"
       success: "%{count} %{item} importado correctamente"
@@ -35,7 +35,7 @@ pt:
       Tem certeza que quer continuar?
   checkout:
     button: Checkout
-    description: Encomendar online é uma ótima forma de poupar tempo durante o evento. Evite o desconforto de ficar esperando em filas selecionando aqui o que deseja comprar. 
+    description: Encomendar online é uma ótima forma de poupar tempo durante o evento. Evite o desconforto de ficar esperando em filas selecionando aqui o que deseja comprar.
     store: " loja"
     total: Total
   conditions:
@@ -61,10 +61,10 @@ pt:
     header:
       home: Início
       edit_account: Editar Conta
-      change_senha: Mudar senha
-      log_out: Sair 
+      change_password: Mudar Senha
+      log_out: Sair
     confirm_log_out: Quer terminar esta sessão?
-    topup: Top Up
+    topup: Carregar
     refund: Reembolso
     order: Encomenda
     orders:
@@ -78,16 +78,16 @@ pt:
       call_to_action: Quer remover esse ingresso?
       call_to_action_started: O evento já começou, portanto não pode mudar este ingresso
     credits:
-      button: Top-up
+      button: Carregar
       calculating_balance: Por favor nos contacte em %{email} de forma a procedermos ao seu reembolso.
-      call_to_action_no_admission_html: Para comprar o seu Top-up Online,<br>por favor ative o seu ingresso primeiro 
-      call_to_action_started: O evento começou portanto já não pode efectuar um topup
-      header: O seu saldo
+      call_to_action_no_admission_html: Para comprar o seu Carregar Online,<br>por favor ative o seu ingresso primeiro
+      call_to_action_started: O evento começou portanto já não pode efectuar um carregar
+      header: O Seu Saldo
       header_invalid: Estamos a processar todas as suas compras. Poderá vero seu saldo final em breve.
-      body_invalid: Porém, se desejar saber o seu saldo atual, pode fazê-lo em qualquer dispositivo, qualquer ponto de vendas, Topup ou qualquer outra estação. Também nos poderá contactar utilizando o ícone do intercom no canto inferior direito. Ou nos envie um email para
+      body_invalid: Porém, se desejar saber o seu saldo atual, pode fazê-lo em qualquer dispositivo, qualquer ponto de vendas, Carregar ou qualquer outra estação. Também nos poderá contactar utilizando o ícone do intercom no canto inferior direito. Ou nos envie um email para
       body_credits: A sua última transação registrada foi "%{action}" em "%{station}" %{time} atrás
       body_balance: O seu saldo a essa hora era
-      refundable: Reembolsável 
+      refundable: Reembolsável
     credits_history:
       button: Transferir transações
       header: Histórico de transações
@@ -96,17 +96,17 @@ pt:
       title: Finalizando detalhes!
     first_register:
       gtag:
-        both: Adicionar Cartão ou Pulseira
-        card: Adicionar Cartão
-        wristband: Adicionar Pulseira
-      ticket: Adicionar ingresso
+        both: Registrar Cartão ou Pulseira
+        card: Registrar Cartão
+        wristband: Registrar Pulseira
+      ticket: Registrar Ingresso
     ticket_registration:
-      title: ingressos
+      title: Ingressos
     gtag_registration:
       title:
         both: Pulseira/ID Cartão
         card: ID Cartão
-        wristband: ID Pulseira 
+        wristband: ID Pulseira
       card: Cartão
       wristband: Pulseira
       no_items: Nenhum item incluído
@@ -172,7 +172,7 @@ pt:
   gtag_assignations:
     button: Aceitar
     call_to_action:
-      both: Atribua o seu Cartão ou pulseira e vá! 
+      both: Atribua o seu Cartão ou pulseira e vá!
       card: Atribua o seu Cartão e vá!
       wristband: Atribua a sua Pulseira e vá!
     description:
@@ -243,7 +243,7 @@ pt:
     actions:
       refund: Reembolso
       sale: Venda
-      topup: Topup
+      topup: Carregar
     amount: Quantidade
     date: Data
     pdf_title: Histórico de transações
