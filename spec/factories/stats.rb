@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :stat do
-    sequence(:operation_id)
+    sequence(:line_counter)
+    operation { create(:credit_transaction, event: event) }
     origin "onsite"
     date { Time.zone.now }
     action { "topup" }
