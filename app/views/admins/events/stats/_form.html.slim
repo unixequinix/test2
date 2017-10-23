@@ -1,0 +1,29 @@
+.mdl-card__supporting-text
+  table.table-show.mdl-data-table.mdl-js-data-table.within-card
+    tbody
+      tr
+        td.mdl-data-table__cell--non-numeric Event
+        td=stat.event.name
+      tr
+        td.mdl-data-table__cell--non-numeric Operation
+        td = link_to @operation.type, admins_event_transaction_path(@current_event, @operation, type: @operation.category)
+          
+      tr
+        td.mdl-data-table__cell--non-numeric Date
+        td = best_in_place @stat, :date, as: :date, url: admins_event_stat_url(@current_event, stat), value: stat.date.to_formatted_s(:best_in_place)
+      tr
+        td.mdl-data-table__cell--non-numeric Sale Item Quantity
+        td = best_in_place @stat, :sale_item_quantity, url: admins_event_stat_url(@current_event, stat), value: stat.sale_item_quantity
+      tr
+        td.mdl-data-table__cell--non-numeric Sale Item Unit Price
+        td = best_in_place @stat, :sale_item_unit_price, url: admins_event_stat_url(@current_event, stat), value: stat.sale_item_unit_price
+      tr
+        td.mdl-data-table__cell--non-numeric Sale Item Unit Price
+        td = best_in_place @stat, :sale_item_unit_price, url: admins_event_stat_url(@current_event, stat), value: stat.sale_item_unit_price
+
+javascript:
+  $.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd HH:MM:ss',
+    minDate: "#{stat.event.start_date}",
+    maxDate: "#{stat.event.end_date}"
+  });

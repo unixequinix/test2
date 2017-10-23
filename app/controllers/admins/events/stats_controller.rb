@@ -1,6 +1,15 @@
 class Admins::Events::StatsController < Admins::Events::BaseController
-  before_action :set_stats
+  before_action :set_stat, only: %i[edit update]
+  before_action :set_stats, except: %i[edit update]
   before_action :set_filters
+
+  def edit
+    @operation = @stat.operation
+  end
+
+  def update
+    # TODO[fmoya] make update custom by field depending of error code
+  end
 
   def cashless
     cookies.signed[:user_id] = current_user.id
@@ -16,11 +25,27 @@ class Admins::Events::StatsController < Admins::Events::BaseController
     end
   end
 
+  def issues
+    @all_stats = Stat.where(event_id: @current_event.id).where.not(error_code: nil)
+    @error_types = @all_stats.pluck(:error_code).uniq
+
+    if params[:error_type]
+      @stats = @all_stats.where(error_code: params[:error_type]).order(:date) if params[:error_type]
+    else
+      @stats = []
+    end
+  end
+
   private
 
   def set_stats
     @stats = @current_event.stats
     authorize(@stats)
+  end
+
+  def set_stat
+    @stat = @current_event.stats.find(params[:id])
+    authorize(@stat) if @stat.error_code.present?
   end
 
   def set_filters

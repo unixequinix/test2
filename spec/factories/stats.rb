@@ -7,4 +7,22 @@ FactoryGirl.define do
     event
     event_name "some event"
   end
+
+  trait :with_sale_items do
+    transient do
+      operation_transaction nil
+      sale_item nil
+      i nil
+    end
+
+    before(:create) do |instance, evaluator|
+      instance.operation_id = evaluator.operation_transaction.id
+      instance.is_alcohol = evaluator.sale_item.product&.is_alcohol
+      instance.sale_item_quantity = evaluator.sale_item.quantity
+      instance.sale_item_unit_price = evaluator.sale_item.unit_price
+      instance.sale_item_total_price = (evaluator.sale_item.quantity * evaluator.sale_item.unit_price)
+      instance.line_counter = evaluator.sale_item.id
+      instance.action = evaluator.operation_transaction.action
+    end
+  end
 end

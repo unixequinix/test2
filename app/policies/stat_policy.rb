@@ -10,4 +10,8 @@ class StatPolicy < ApplicationPolicy
   def stations?
     user.glowball?
   end
+
+  def issues?
+    user.glowball?
+  end
 end

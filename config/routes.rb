@@ -58,9 +58,10 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
-        resources :stats, only: [] do
+        resources :stats, only: [:edit, :update] do
           get :cashless, on: :collection
           get :stations, on: :collection
+          get :issues, on: :collection
         end
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection

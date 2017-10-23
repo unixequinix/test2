@@ -1,0 +1,15 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-grid.light-grid
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--10-col
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons info_outline
+                  | Info Stat
+              = render "form", stat: @stat
+  .mdl-layout-spacer
