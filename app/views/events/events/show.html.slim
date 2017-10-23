@@ -60,7 +60,7 @@
         .mdl-cell.mdl-cell--4-col
           .tools
             .tool-item
-              = link_to new_event_ticket_assignment_path(@current_event) do
+              = link_to new_event_ticket_assignment_path(@current_event), id: "add_new_ticket_link" do
                 .credit-tooltip = t("dashboard.first_register.ticket")
                 .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                   span.material-icons add
@@ -87,7 +87,7 @@
         - if @current_event.open_gtags? && @current_customer.active_gtag.blank?
           .tools
             .tool-item
-              = link_to new_event_gtag_assignment_path(@current_event) do
+              = link_to new_event_gtag_assignment_path(@current_event), id: "add_new_gtag_link" do
                 .credit-tooltip = t("dashboard.first_register.gtag.#{@current_event.gtag_format}")
                 .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                   span.material-icons add
