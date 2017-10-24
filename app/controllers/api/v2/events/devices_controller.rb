@@ -1,44 +1,46 @@
-class Api::V2::Events::DevicesController < Api::V2::BaseController
-  before_action :set_device, only: %i[show update destroy]
+module Api::V2
+  class Events::DevicesController < BaseController
+    before_action :set_device, only: %i[show update destroy]
 
-  # GET api/v2/events/:event_id/devices
-  def index
-    @devices = @current_event.devices
-    authorize @devices
+    # GET api/v2/events/:event_id/devices
+    def index
+      @devices = @current_event.devices
+      authorize @devices
 
-    paginate json: @devices
-  end
-
-  # GET api/v2/events/:event_id/devices/:id
-  def show
-    render json: @device, serializer: Api::V2::DeviceSerializer
-  end
-
-  # PATCH/PUT api/v2/events/:event_id/devices/:id
-  def update
-    if @device.update(device_params)
-      render json: @device
-    else
-      render json: @device.errors, status: :unprocessable_entity
+      paginate json: @devices
     end
-  end
 
-  # DELETE api/v2/events/:event_id/devices/:id
-  def destroy
-    @current_event.device_registrations.find_by(device: @device).destroy
-    head(:ok)
-  end
+    # GET api/v2/events/:event_id/devices/:id
+    def show
+      render json: @device, serializer: DeviceSerializer
+    end
 
-  private
+    # PATCH/PUT api/v2/events/:event_id/devices/:id
+    def update
+      if @device.update(device_params)
+        render json: @device
+      else
+        render json: @device.errors, status: :unprocessable_entity
+      end
+    end
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_device
-    @device = @current_event.devices.find(params[:id])
-    authorize @device
-  end
+    # DELETE api/v2/events/:event_id/devices/:id
+    def destroy
+      @current_event.device_registrations.find_by(device: @device).destroy
+      head(:ok)
+    end
 
-  # Only allow a trusted parameter "white list" through.
-  def device_params
-    params.require(:device).permit(:mac, :asset_tracker)
+    private
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_device
+      @device = @current_event.devices.find(params[:id])
+      authorize @device
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def device_params
+      params.require(:device).permit(:mac, :asset_tracker)
+    end
   end
 end

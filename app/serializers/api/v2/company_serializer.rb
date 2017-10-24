@@ -1,5 +1,7 @@
-class Api::V2::CompanySerializer < ActiveModel::Serializer
-  attributes :id, :name, :access_token
+module Api::V2
+  class CompanySerializer < ActiveModel::Serializer
+    attributes :id, :name, :access_token
 
-  has_many :ticket_types, serializer: Api::V2::TicketTypeSerializer
+    has_many :ticket_types, serializer: TicketTypeSerializer
+  end
 end

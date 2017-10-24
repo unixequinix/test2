@@ -1,3 +1,5 @@
-class Api::V2::Simple::CustomerSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :email, :anonymous
+module Api::V2
+  class Simple::CustomerSerializer < ActiveModel::Serializer
+    attributes :id, :first_name, :last_name, :email, :anonymous
+  end
 end

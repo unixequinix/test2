@@ -37,6 +37,6 @@ describe StatValidator do
 
   it "should return an error on sale validation" do
     @sale_refund_stats.first.sale_item_total_price = 0
-    expect(StatValidator.send(:validate_sales, @sale_refund_stats.first)).to be(Stat.error_codes.index(2))
+    expect(StatValidator.send(:validate_sales, @sale_refund_stats.first)).to be(Stat.error_codes.key(2))
   end
 end
