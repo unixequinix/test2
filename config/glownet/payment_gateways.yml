@@ -15,6 +15,7 @@ vouchup:
     development: "dev.wiredlion.io"
     hotfix: "dev.wiredlion.io"
     test: "dev.wiredlion.io"
+    staging: "dev.wiredlion.io"
     sandbox: "demo.wiredlion.io"
     production: "wiredlion.io"
 
