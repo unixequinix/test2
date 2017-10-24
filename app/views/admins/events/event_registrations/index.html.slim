@@ -1,20 +1,6 @@
 - content_for(:title) do
   | Users
 
-- content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
-    ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to new_admins_event_event_registration_path do
-          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons add
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" New
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
-
-
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
