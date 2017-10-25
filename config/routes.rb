@@ -206,6 +206,7 @@ Rails.application.routes.draw do
         patch :ban, on: :member
       end
       resources :orders, except: [:destroy] do
+        get :complete, on: :member
         get :success, on: :member
         get :error, on: :member
         get :abstract_error, on: :collection

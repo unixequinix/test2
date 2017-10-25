@@ -20,7 +20,7 @@
 
   .mdl-card__supporting-text
     ul.container-payment-buttons
-      - if @payment_gateways.size > 1
+      - if @payment_gateways.size > 1 && @order.total.positive?
         - @payment_gateways.pluck(:name).each_with_index do |gateway, index|
           - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway)
           li
@@ -28,7 +28,12 @@
               = fa_icon t("orders.payment-buttons.#{gateway}.icon")
               p = t("orders.payment-buttons.#{gateway}.name")
 
-    - @payment_gateways.each_with_index do |gateway, index|
-      - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway.name)
-      .container-method id="method-#{gateway.name}" class=(selected ? "show-container" : "")
-        = render "events/orders/#{gateway.name}/payment_form"
+    - if @order.total.positive?
+      - @payment_gateways.each.with_index do |gateway, index|
+        - selected = (index.zero? && params[:gateway].nil?) || params[:gateway].to_s.eql?(gateway.name)
+        .container-method id="method-#{gateway.name}" class=(selected ? "show-container" : "")
+          = render "events/orders/#{gateway.name}/payment_form"
+    - else
+      .wrapper-paypal.center-text
+        = link_to complete_event_order_path(@current_event, @order), class: "btn btn-action-add-paypal btn-full-width" do
+          = button_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

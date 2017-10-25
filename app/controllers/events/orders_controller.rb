@@ -1,5 +1,5 @@
 class Events::OrdersController < Events::EventsController
-  before_action :set_order, only: %i[show error success]
+  before_action :set_order, only: %i[show error success complete]
 
   def show
     @payment_gateways = @current_event.payment_gateways.topup
@@ -13,15 +13,21 @@ class Events::OrdersController < Events::EventsController
   end
 
   def create
-    @order = @current_customer.build_order(params[:checkout_form][:catalog_items].permit!.to_h.to_a, ip: request.remote_ip)
+    items = params[:checkout_form][:catalog_items].permit!.to_h.to_a
+    @order = @current_customer.build_order(items, ip: request.remote_ip)
 
-    if @order.total.positive? && @order.save
+    if @order.order_items.any? && @order.save
       redirect_to event_order_path(@current_event, @order)
     else
       @catalog_items = catalog_items_hash
       flash.now[:error] = @order.errors.full_messages.to_sentence
       render :new
     end
+  end
+
+  def complete
+    @order.complete!("none", {}, true)
+    redirect_to success_event_order_path(@current_event, @order)
   end
 
   private

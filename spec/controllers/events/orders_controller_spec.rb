@@ -31,6 +31,12 @@ RSpec.describe Events::OrdersController, type: :controller do
         expect(response).to be_ok
       end
 
+      it 'POST create' do
+        create(:station_catalog_item, catalog_item: catalog_item, station: station)
+        get :new, params: { event_id: event }
+        expect(response).to be_ok
+      end
+
       it 'GET show' do
         get :show, params: { event_id: event, id: order }
         expect(response).to be_ok
