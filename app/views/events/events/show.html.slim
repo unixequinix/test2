@@ -16,7 +16,7 @@
       .tools
         - if @current_event.topups? && @current_event.open_topups? && @current_customer.active_credentials.any?
           .tool-item
-            = link_to store_redirection(@current_event, :order) do
+            = link_to store_redirection(@current_event, :order), id: "new_top_up" do
               .credit-tooltip = t("dashboard.topup")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons add_shopping_cart
