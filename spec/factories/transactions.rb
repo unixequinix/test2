@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :money_transaction do
     event
     station

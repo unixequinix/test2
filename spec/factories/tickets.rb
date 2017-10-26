@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :ticket do
     event
     code { SecureRandom.hex(16).upcase.to_s }

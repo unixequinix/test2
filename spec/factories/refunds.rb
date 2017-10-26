@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :refund do
     event
     customer { build(:customer, event: event) }

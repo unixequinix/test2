@@ -11,7 +11,7 @@
 #  currency   :string           not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :credit do |_param|
     event
     sequence(:name) { |n| "Credit #{n}" }

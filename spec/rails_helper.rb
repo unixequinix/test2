@@ -96,7 +96,7 @@ RSpec.configure do |config|
   # Add stuff to make devise work
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :helper
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include ControllerMacros
   config.include Warden::Test::Helpers
   config.include Requests::JsonHelpers, type: :api
@@ -108,7 +108,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     Sidekiq::Worker.clear_all
   end
-  config.before(:suite) { FactoryGirl.lint } if ENV["LINT"]
+  config.before(:suite) { FactoryBot.lint } if ENV["LINT"]
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

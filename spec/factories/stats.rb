@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :stat do
     sequence(:line_counter)
     operation { create(:credit_transaction, event: event) }
