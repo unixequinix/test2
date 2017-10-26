@@ -27,7 +27,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
       it "returns the necessary keys" do
         cus_keys = %w[id updated_at first_name last_name email credentials orders]
-        cre_keys = %w[customer_id reference type]
+        cre_keys = %w[customer_id reference redeemed type]
         order_keys = %w[real_id id customer_id amount catalog_item_id redeemed status]
 
         JSON.parse(response.body).map do |gtag|
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
         JSON.parse(response.body).map do |c|
           api_cred = c["credentials"]
           db_cred = Customer.find(c["id"]).active_credentials.map do |obj|
-            { customer_id: obj.customer_id, reference: obj.reference, type: obj.class.name.downcase }.as_json
+            { customer_id: obj.customer_id, reference: obj.reference, redeemed: obj.redeemed?, type: obj.class.name.downcase }.as_json
           end
           expect(api_cred).to eq(db_cred)
         end
