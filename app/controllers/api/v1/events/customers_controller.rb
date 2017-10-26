@@ -50,6 +50,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
             SELECT
               customer_id,
               code     AS reference,
+              redeemed,
               'ticket' AS type
             FROM tickets
             WHERE tickets.customer_id IN (#{ids.join(', ')})
@@ -59,6 +60,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
             SELECT
               customer_id,
               tag_uid AS reference,
+              redeemed,
               'gtag'  AS type
             FROM gtags
             WHERE gtags.customer_id IN (#{ids.join(', ')})
