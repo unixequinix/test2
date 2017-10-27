@@ -22,4 +22,4 @@
           .checkout-amount [data-id="checkout"]
             span [id="amount-total-checkout"] 0
             span  #{@current_event.currency}
-        = button_tag t('checkout.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+        = button_tag t('checkout.button'), name: "commit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

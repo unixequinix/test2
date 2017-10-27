@@ -9,7 +9,7 @@
   *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
-        = link_to new_admins_event_gtag_path do
+        = link_to new_admins_event_gtag_path, id: "new_gtag_link" do
           button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons add
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add

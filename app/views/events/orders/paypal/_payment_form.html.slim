@@ -1,5 +1,5 @@
 .wrapper-paypal.center-text
-  = link_to event_paypal_setup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-paypal btn-full-width" do
+  = link_to event_paypal_setup_purchase_path(@current_event, order_id: @order), id: "pay_link", class: "btn btn-action-add-paypal btn-full-width" do
     = button_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
 
 javascript:

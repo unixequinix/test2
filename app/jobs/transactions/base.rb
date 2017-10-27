@@ -25,7 +25,8 @@ class Transactions::Base < ApplicationJob
     # this should slowly go, since data should come in the right format.
     params[:type] = Transaction.class_for_type(params[:type]).to_s
     params[:transaction_origin] = Transaction::ORIGINS[:device]
-    params[:station_id] = Station.find_by(event_id: params[:event_id], station_event_id: params[:station_id])&.id
+    params[:station_id] = Station.find_by(event_id: params[:event_id], station_event_id: params[:station_id])&.id if params[:station_id]
+    params[:station_id] = params[:real_station_id] if params[:real_station_id]
     params[:order_item_counter] = params[:order_item_id] if params.key?(:order_item_id)
     params[:device_created_at_fixed] = params[:device_created_at].gsub(/(?<hour>[\+,\-][0-9][0-9])(?<minute>[0-9][0-9])/, '\k<hour>:\k<minute>')
     params[:device_created_at] = params[:device_created_at_fixed][0, 19]

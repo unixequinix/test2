@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :catalog_item do
     event
     type "CatalogItem"

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :money_transaction do
     event
     station
@@ -29,6 +29,30 @@ FactoryGirl.define do
     sequence(:refundable_credits)
     sequence(:final_balance)
     sequence(:final_refundable_balance)
+
+    trait :with_sales do
+      after(:build) do |credit_transaction|
+        rand(1..5).times do |_index|
+          create(:sale_item,
+                 quantity: 1,
+                 credit_transaction: credit_transaction,
+                 product: create(:product, station: credit_transaction.station))
+        end
+        create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: 1)
+      end
+    end
+
+    trait :with_sale_refunds do
+      after(:build) do |credit_transaction|
+        rand(1..5).times do |_index|
+          create(:sale_item,
+                 quantity: -1,
+                 credit_transaction: credit_transaction,
+                 product: create(:product, station: credit_transaction.station))
+        end
+        create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: -1)
+      end
+    end
   end
 
   factory :credential_transaction do

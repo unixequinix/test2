@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::ProductsController, type: :controller do
-  let(:event) { create(:event) }
+  let(:event) { create(:event, open_devices_api: true) }
   let(:user) { create(:user) }
 
   let(:station) { create(:station, event: event) }

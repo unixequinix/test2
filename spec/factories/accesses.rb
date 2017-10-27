@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :access do
     event
     sequence(:name) { |n| "Access #{n}" }

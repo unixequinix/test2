@@ -19,6 +19,22 @@ RSpec.describe Transactions::Base, type: :job do
 
   before { Transactions::Credit::BalanceUpdater }
 
+  describe "handling both station_id formats" do
+    let(:station) { create(:station, event: event, station_event_id: 23) }
+
+    it "will work with old format" do
+      atts[:station_id] = station.station_event_id
+      expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
+      expect(event.transactions.last.station).to eq(station)
+    end
+
+    it "will work with new format" do
+      atts[:real_station_id] = station.id
+      expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
+      expect(event.transactions.last.station).to eq(station)
+    end
+  end
+
   describe "when sale_items_attributes is blank" do
     after do
       expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)

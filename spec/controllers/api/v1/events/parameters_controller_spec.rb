@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::ParametersController, type: :controller do
   let(:user) { create(:user) }
   let(:event_serie) { create(:event_serie, :with_events) }
-  let(:event) { create(:event, gtag_type: "ultralight_c", gtag_key: "ab", event_serie_id: event_serie.id) }
+  let(:event) { create(:event, open_devices_api: true, gtag_type: "ultralight_c", gtag_key: "ab", event_serie_id: event_serie.id) }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   describe "GET index" do

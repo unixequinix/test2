@@ -1,3 +1,5 @@
-class Api::V2::AccessSerializer < ActiveModel::Serializer
-  attributes :id, :name, :mode
+module Api::V2
+  class AccessSerializer < ActiveModel::Serializer
+    attributes :id, :name, :mode
+  end
 end

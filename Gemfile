@@ -131,7 +131,7 @@ group :development, :test do
   gem 'terminal-notifier-guard'
   gem 'terminal-notifier'
   gem 'puma', '~> 3.0' # Use Puma as the app server
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
 end

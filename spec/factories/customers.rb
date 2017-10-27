@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :customer_unconfirmed, class: Customer do
     sequence(:first_name) { |n| "FirstName #{n}" }
     sequence(:last_name) { |n| "LastName #{n}" }

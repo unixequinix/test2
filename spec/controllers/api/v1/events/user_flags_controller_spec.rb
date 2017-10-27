@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
-  let(:event) { create(:event) }
+  let(:event) { create(:event, open_devices_api: true) }
   let(:user) { create(:user) }
   let(:db_user_flags) { event.user_flags }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }

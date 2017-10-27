@@ -1,67 +1,69 @@
-class Api::V2::Events::RefundsController < Api::V2::BaseController
-  before_action :set_refund, only: %i[show update destroy complete]
+module Api::V2
+  class Events::RefundsController < BaseController
+    before_action :set_refund, only: %i[show update destroy complete]
 
-  # PATCH/PUT api/v2/events/:event_id/refunds/:id
-  def complete
-    if @refund.completed?
-      @refund.errors.add(:status, "is already completed")
-      render json: @refund.errors, status: :unprocessable_entity
-    else
-      @refund.complete!(refund_params[:refund_data])
-      render json: @refund
+    # PATCH/PUT api/v2/events/:event_id/refunds/:id
+    def complete
+      if @refund.completed?
+        @refund.errors.add(:status, "is already completed")
+        render json: @refund.errors, status: :unprocessable_entity
+      else
+        @refund.complete!(refund_params[:refund_data])
+        render json: @refund
+      end
     end
-  end
 
-  # GET api/v2/events/:event_id/refunds
-  def index
-    @refunds = @current_event.refunds
-    authorize @refunds
+    # GET api/v2/events/:event_id/refunds
+    def index
+      @refunds = @current_event.refunds
+      authorize @refunds
 
-    paginate json: @refunds
-  end
-
-  # GET api/v2/events/:event_id/refunds/:id
-  def show
-    render json: @refund, serializer: Api::V2::RefundSerializer
-  end
-
-  # POST api/v2/events/:event_id/refunds
-  def create
-    @refund = @current_event.refunds.new(refund_params)
-    authorize @refund
-
-    if @refund.save
-      render json: @refund, status: :created, location: [:admins, @current_event, @refund]
-    else
-      render json: @refund.errors, status: :unprocessable_entity
+      paginate json: @refunds
     end
-  end
 
-  # PATCH/PUT api/v2/events/:event_id/refunds/:id
-  def update
-    if @refund.update(refund_params)
-      render json: @refund
-    else
-      render json: @refund.errors, status: :unprocessable_entity
+    # GET api/v2/events/:event_id/refunds/:id
+    def show
+      render json: @refund, serializer: RefundSerializer
     end
-  end
 
-  # DELETE api/v2/events/:event_id/refunds/:id
-  def destroy
-    @refund.destroy
-    head(:ok)
-  end
+    # POST api/v2/events/:event_id/refunds
+    def create
+      @refund = @current_event.refunds.new(refund_params)
+      authorize @refund
 
-  private
+      if @refund.save
+        render json: @refund, status: :created, location: [:admins, @current_event, @refund]
+      else
+        render json: @refund.errors, status: :unprocessable_entity
+      end
+    end
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_refund
-    @refund = @current_event.refunds.find(params[:id])
-    authorize @refund
-  end
+    # PATCH/PUT api/v2/events/:event_id/refunds/:id
+    def update
+      if @refund.update(refund_params)
+        render json: @refund
+      else
+        render json: @refund.errors, status: :unprocessable_entity
+      end
+    end
 
-  # Only allow a trusted parameter "white list" through.
-  def refund_params
-    params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :customer_id, :gateway, :refund_data)
+    # DELETE api/v2/events/:event_id/refunds/:id
+    def destroy
+      @refund.destroy
+      head(:ok)
+    end
+
+    private
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_refund
+      @refund = @current_event.refunds.find(params[:id])
+      authorize @refund
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def refund_params
+      params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :customer_id, :gateway, :refund_data)
+    end
   end
 end
