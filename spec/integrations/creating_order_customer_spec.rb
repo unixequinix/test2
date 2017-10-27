@@ -7,10 +7,10 @@ RSpec.describe "Create an online order", type: :feature do
   let(:station) { event.stations.find_by(category: "customer_portal") }
 
   before do
-    @catalog_vip_item = event.catalog_items.last
+    @item = event.catalog_items.last
     ticket.reload
     create(:payment_gateway, event: event, topup: true, name: "paypal", login: Figaro.env.paypal_login, password: Figaro.env.paypal_password, signature: Figaro.env.paypal_signature) # rubocop:disable Metrics/LineLength
-    create(:station_catalog_item, station: station, catalog_item: @catalog_vip_item, price: 0.0)
+    create(:station_catalog_item, station: station, catalog_item: @item, price: 0.0)
 
     login_as(customer, scope: :customer)
     visit customer_root_path(event)
@@ -22,7 +22,7 @@ RSpec.describe "Create an online order", type: :feature do
     it "skips the payment gateway" do
       within("#checkout-form") do
         find("#amount-input-#{event.credit.id}", visible: false).set 0
-        all("#amount-input-#{@catalog_vip_item.id} option")[1].select_option
+        all("#amount-input-#{@item.id} option")[1].select_option
       end
       find("button[name=commit]").click
       @order = event.orders.last
@@ -31,7 +31,7 @@ RSpec.describe "Create an online order", type: :feature do
       find_link("pay_link").click
 
       expect(@order.reload).to be_completed
-      expect(@order.order_items.map(&:catalog_item)).to include @catalog_vip_item
+      expect(@order.order_items.map(&:catalog_item)).to include @item
       expect(page).to have_current_path(success_event_order_path(event, @order))
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe "Create an online order", type: :feature do
     it "is buying items with total greater than 0" do
       within("#checkout-form") do
         find("#amount-input-#{event.credit.id}", visible: false).set 50
-        all("#amount-input-#{@catalog_vip_item.id} option")[1].select_option
+        all("#amount-input-#{@item.id} option")[1].select_option
       end
 
       find("button[name=commit]").click
@@ -53,7 +53,7 @@ RSpec.describe "Create an online order", type: :feature do
         expect(current_url).to include("paypal")
       end
       @order.complete!
-      expect(@order.order_items.map(&:catalog_item)).to include @catalog_vip_item
+      expect(@order.order_items.map(&:catalog_item)).to include @item
     end
 
     it "is topup with only credits" do
@@ -76,7 +76,6 @@ RSpec.describe "Create an online order", type: :feature do
   end
 
   it "is located in orders/new and topup with credits" do
-    find_link("new_top_up").click
     expect(page).to have_current_path(new_event_order_path(event))
     expect do
       within("#checkout-form") do
@@ -87,39 +86,37 @@ RSpec.describe "Create an online order", type: :feature do
       @order = event.orders.last
       expect(page).to have_current_path(event_order_path(event, @order))
       @order.complete!
-      expect(@order.order_items.map(&:catalog_item)).to include @item_crd
+      expect(@order.order_items.map(&:catalog_item)).to include event.credit
     end.to change(customer, :global_credits)
   end
 
   it "is located in orders/new and buy items with total of 0" do
-    find_link("new_top_up").click
     expect(page).to have_current_path(new_event_order_path(event))
 
     within("#checkout-form") do
       fill_in 'input-range', with: 0
-      all("#amount-input-#{@catalog_item.id} option")[1].select_option
+      all("#amount-input-#{@item.id} option")[1].select_option
     end
 
     find("button[name=commit]").click
     @order = event.orders.last
     expect(page).to have_current_path(event_order_path(event, @order))
     @order.complete!
-    expect(@order.order_items.map(&:catalog_item)).to include @catalog_item
+    expect(@order.order_items.map(&:catalog_item)).to include @item
   end
 
   it "is located in orders/new and buy items with total greater than 0" do
-    find_link("new_top_up").click
     expect(page).to have_current_path(new_event_order_path(event))
 
     within("#checkout-form") do
       fill_in 'input-range', with: 50
-      all("#amount-input-#{@catalog_item.id} option")[1].select_option
+      all("#amount-input-#{@item.id} option")[1].select_option
     end
 
     find("button[name=commit]").click
     @order = event.orders.last
     expect(page).to have_current_path(event_order_path(event, @order))
     @order.complete!
-    expect(@order.order_items.map(&:catalog_item)).to include @catalog_item
+    expect(@order.order_items.map(&:catalog_item)).to include @item
   end
 end
