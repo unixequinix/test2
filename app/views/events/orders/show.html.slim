@@ -10,8 +10,12 @@
       tr.table-head
       - @order.order_items.each do |order_item|
         tr.border-bottom
-          td #{pluralize(order_item.amount, order_item.catalog_item.name)}
+          td #{order_item.amount.to_i} x #{order_item.catalog_item.name}
           td.table-amount #{order_item.total_formatted} #{@current_event.currency}
+      tr
+        td
+          .total-text = t('order.credits_purchased')
+        td.total-amount #{@order.credits.to_i}
       tr
         td
           .total-text = t('orders.total')
