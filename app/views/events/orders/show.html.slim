@@ -39,5 +39,5 @@
           = render "events/orders/#{gateway.name}/payment_form"
     - else
       .wrapper-paypal.center-text
-        = link_to complete_event_order_path(@current_event, @order), class: "btn btn-action-add-paypal btn-full-width" do
+        = link_to complete_event_order_path(@current_event, @order), id: "pay_link", class: "btn btn-action-add-paypal btn-full-width" do
           = button_tag t('orders.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
