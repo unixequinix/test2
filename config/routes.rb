@@ -62,6 +62,7 @@ Rails.application.routes.draw do
           get :cashless, on: :collection
           get :stations, on: :collection
           get :issues, on: :collection
+          put :update_multiple, on: :collection
         end
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection

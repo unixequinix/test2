@@ -14,8 +14,10 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
+    = render "layouts/pagination", objects: @stats
+
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      - unless @stats.empty?
+      - unless @stats.blank?
         table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr

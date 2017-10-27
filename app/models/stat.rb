@@ -1,6 +1,5 @@
 class Stat < StatsBase
   include StatValidator
-  include StatFixer
 
   belongs_to :event
   belongs_to :station, optional: true
@@ -19,6 +18,8 @@ class Stat < StatsBase
 
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: %w[customer_portal admin_panel]) }
+
+  has_paper_trail on: %i[update destroy]
 
   enum error_code: { timing_issue: 0, sale_total_quantity: 1, sale_total_price: 2 }
 

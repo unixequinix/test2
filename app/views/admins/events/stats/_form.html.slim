@@ -1,29 +1,28 @@
+.mdl-card__title
+  .mdl-cell.mdl-cell--12-col
+    i.material-icons info_outline
+    | Info Stat - 
+    span.mdl-color-text--red #{@stat.error_code.to_s.humanize} error
+    = link_to admins_event_stat_path(@current_event, @stat), method: :put do
+      button#accept-stat.mdl-button.mdl-button--raised.mdl-button.mdl-button--colored.pagination_right Accept Stat
 .mdl-card__supporting-text
   table.table-show.mdl-data-table.mdl-js-data-table.within-card
     tbody
       tr
         td.mdl-data-table__cell--non-numeric Event
-        td=stat.event.name
+        td=@stat.event.name
+      tr
+        td.mdl-data-table__cell--non-numeric Current Stat Id
+        td=@stat.id
       tr
         td.mdl-data-table__cell--non-numeric Operation
-        td = link_to @operation.type, admins_event_transaction_path(@current_event, @operation, type: @operation.category)
-          
+        td = @operation.type
       tr
         td.mdl-data-table__cell--non-numeric Date
-        td = best_in_place @stat, :date, as: :date, url: admins_event_stat_url(@current_event, stat), value: stat.date.to_formatted_s(:best_in_place)
+        td = @stat.date.to_formatted_s(:best_in_place)
       tr
         td.mdl-data-table__cell--non-numeric Sale Item Quantity
-        td = best_in_place @stat, :sale_item_quantity, url: admins_event_stat_url(@current_event, stat), value: stat.sale_item_quantity
+        td = @stat.sale_item_quantity
       tr
         td.mdl-data-table__cell--non-numeric Sale Item Unit Price
-        td = best_in_place @stat, :sale_item_unit_price, url: admins_event_stat_url(@current_event, stat), value: stat.sale_item_unit_price
-      tr
-        td.mdl-data-table__cell--non-numeric Sale Item Unit Price
-        td = best_in_place @stat, :sale_item_unit_price, url: admins_event_stat_url(@current_event, stat), value: stat.sale_item_unit_price
-
-javascript:
-  $.datepicker.setDefaults({
-    dateFormat: 'yy-mm-dd HH:MM:ss',
-    minDate: "#{stat.event.start_date}",
-    maxDate: "#{stat.event.end_date}"
-  });
+        td = @stat.sale_item_unit_price
