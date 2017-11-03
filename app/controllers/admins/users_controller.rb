@@ -37,7 +37,7 @@ class Admins::UsersController < ApplicationController
         format.html { redirect_to admins_user_path(@user), notice: t("alerts.updated") }
         format.json { render status: :ok, json: @user }
       else
-        format.html { render :edit }
+        format.html { render :show }
         format.json { render json: { errors: @user.errors }, status: :unprocessable_entity }
       end
     end

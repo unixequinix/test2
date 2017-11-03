@@ -11,7 +11,7 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_customers
-    @event.customers.create!(first_name: "Vicentest", last_name: "Test", email: "test@test.com", agreed_on_registration: true, phone: "512 2301 440", country: "ES", gender: "male", birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)), postcode: "28012", password: "test", password_confirmation: "test", confirmed_at: Time.zone.now)
+    @event.customers.create!(first_name: "Vicentest", last_name: "Test", email: "test@test.com", agreed_on_registration: true, phone: "512 2301 440", country: "ES", gender: "male", birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)), postcode: "28012", password: "password", password_confirmation: "password", confirmed_at: Time.zone.now)
   end
 
   def self.create_accesses

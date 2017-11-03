@@ -18,6 +18,19 @@ class Events::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @current_customer.update(permitted_params)
+        sign_in(@current_customer, bypass: true)
+        format.html { redirect_to customer_root_path(@current_event), notice: t("alerts.updated") }
+        format.json { render status: :ok, json: @current_customer }
+      else
+        format.html { render :change_password }
+        format.json { render json: { errors: @current_customer.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def change_password
     redirect_to :event_login unless customer_signed_in?
   end
@@ -65,5 +78,9 @@ class Events::RegistrationsController < Devise::RegistrationsController
   def set_event
     @current_event = Event.friendly.find(params[:event_id] || params[:id])
     @current_customer = current_customer
+  end
+
+  def permitted_params
+    params.require(:customer).permit(:password, :password_confirmation)
   end
 end

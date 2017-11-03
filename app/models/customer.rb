@@ -6,6 +6,14 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
          sign_in_after_reset_password: true,
          omniauth_providers: %i[facebook google_oauth2]
 
+  validates :email, presence: { if: :email_required? }
+  validates :email, uniqueness: { allow_blank: true, if: :email_changed? }
+  validates :email, format: { with: Devise.email_regexp, allow_blank: true, if: :email_changed? }
+
+  validates :password, presence: { unless: :anonymous? }
+  validates :password, confirmation: { unless: :anonymous? }
+  validates :password, length: { within: Devise.password_length, allow_blank: true }
+
   belongs_to :event
 
   has_one(:active_gtag, -> { where(active: true) }, class_name: "Gtag")

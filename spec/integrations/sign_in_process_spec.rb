@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "the signin process", type: :feature do
   before :each do
-    @user = create(:user, email: "test@test.com", password: "foo", password_confirmation: "foo")
+    @user = create(:user, email: "test@test.com", password: "foopassword", password_confirmation: "foopassword")
     visit new_user_session_path
   end
 
@@ -23,7 +23,7 @@ RSpec.describe "the signin process", type: :feature do
       fill_in 'user_login', with: ''
       fill_in 'user_password', with: ''
       fill_in 'user_login', with: @user.email
-      fill_in 'user_password', with: "notgood"
+      fill_in 'user_password', with: "notgoodpassword"
     end
 
     find("input[name=commit]").click
