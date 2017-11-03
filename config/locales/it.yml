@@ -60,7 +60,7 @@ it:
       log_out: Uscire
     confirm_log_out: Vuoi chiudere la sessione?
     topup: Ricarica
-    refund: Devoluzione
+    refund: Rimborsi
     order: Richiesta
     orders:
       success_title: Complimenti!
