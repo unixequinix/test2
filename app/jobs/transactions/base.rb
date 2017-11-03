@@ -36,7 +36,7 @@ class Transactions::Base < ApplicationJob
 
   def self.execute_descendants(atts)
     descendants.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }
-    Stats::Base.execute_descendants(atts[:transaction_id], atts[:action])
+    # Stats::Base.execute_descendants(atts[:transaction_id], atts[:action])
   end
 
   def self.inherited(klass)
