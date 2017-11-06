@@ -158,6 +158,7 @@ de:
       de: DEU
       it: ITA
       pt: POR
+      br: BRA
     subject_support: Ich brauche Hilfe für %{event}
   event_serie:
       created: Erfolgreich erstellt
