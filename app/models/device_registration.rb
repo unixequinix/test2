@@ -44,7 +44,7 @@ class DeviceRegistration < ApplicationRecord
     self.last_time_used = last_onsite&.device_created_at
 
     case
-      when (server_transactions != number_of_transactions) then "to_check"
+      when (server_transactions != number_of_transactions) && action != "device_initialization" then "to_check"
       when action.in?(%w[pack_device lock_device]) then "locked"
       when server_transactions.zero? && number_of_transactions.zero? then "staged"
       when action.eql?("device_initialization") then "live"
