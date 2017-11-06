@@ -32,6 +32,34 @@ RSpec.describe Customer, type: :model do
     end
   end
 
+  describe 'validations on' do
+    context "#password" do
+      it "invalid password" do
+        customer.password = "123456"
+        expect(customer).not_to be_valid
+        expect(customer.errors[:password]).to include("is too short (minimum is 7 characters)")
+      end
+
+      it "password is not present in anonymous customers" do
+        customer.password = nil
+        expect(customer).to be_valid
+      end
+
+      it "password is not present in registered customers" do
+        customer.anonymous = false
+        customer.password = nil
+        expect(customer).not_to be_valid
+        expect(customer.errors[:password]).to include("can't be blank")
+      end
+
+      it "skip password validation" do
+        customer.password = nil
+        customer.skip_password_validation = true
+        expect(customer).to be_valid
+      end
+    end
+  end
+
   describe ".claim" do
     let(:anon_customer) { create(:customer, event: event, anonymous: true) }
 

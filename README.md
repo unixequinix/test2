@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Gl0wnet/web-core.svg?token=dkW4HsWJ1eRgPpgUSjaB&branch=development)](https://travis-ci.com/Gl0wnet/web-core)
+[![Build Status](https://travis-ci.com/Gl0wnet/web-core.svg?token=FL7nHmADxkupBF5E3Sx6&branch=develop)](https://travis-ci.com/Gl0wnet/web-core)
 [![codecov](https://codecov.io/gh/Gl0wnet/web-core/branch/development/graph/badge.svg?token=FGUnCmXVXP)](https://codecov.io/gh/Gl0wnet/web-core)
 
 # Glownet core test

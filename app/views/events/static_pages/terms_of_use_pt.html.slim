@@ -1,0 +1,289 @@
+/ TODO: replace with pt translations
+.container-event-column
+  .wrapper-terms
+    h3 GLOWNET - WEBSITE TERMS OF USE
+    ul
+      li
+        h4 1. Introduction
+        ul
+          li
+            | 1.1 These terms and conditions (the Terms) set out the basis on which
+            | you may use our website to obtain a refund from a payment service
+            | provider for the event (Services) available at
+            = link_to @current_event.name, event_url(@current_event)
+          li
+            | 1.2 This Site is owned and operated by Glownet Limited, with
+            | registered no. 08245670 and registered address at 35B Wroughton Road,
+            | London, SW11 6BE. We are a technology service provider who provide
+            | cashless payment solutions for live events and event (we, us or
+            | our).
+          li
+            | 1.3 Your use of the Site will be governed by these Terms and any
+            | other documents contained in these Terms, which will form a legal
+            | contract between us and you. By browsing or using this Site you are
+            | agreeing to be legally bound by the Terms.
+          li
+            | 1.4 If you would like to contact us for any reason please do so using
+            | the following details:
+          li style=("list-style: none; display: inline")
+            ol
+              li Address: 35B Wroughton Road, London, SW11 6BE.
+              li
+                | If you need assistance with using this event portal, please email
+                | to
+                = mail_to @current_event.support_email
+      li
+        h4 2. Changes to the Terms
+        ul
+          li
+            | 2.1 We may revise the Terms from time to time in the event that
+            | changes in relevant laws and regulatory requirements or there are changes
+            | to our business practices.
+          li
+            | 2.2 Your use of the Site will be subject to the most recent version
+            | of the Terms available on the Site. We recommend that you read through
+            | the Terms available on the Site regularly so that you can be sure that
+            | you are aware of any changes that may apply to you.
+      li
+        h4 3. Access and use of the Site
+        ul
+          li
+            | 3.1 You should only use this Site if you are 18 years old or over. If
+            | you are not please make sure that your parent or legal guardian reads
+            | these terms, and that You have their permission to use the Site.
+          li
+            | 3.2 The Site is currently made available to you for your personal,
+            | non-commercial use, free of charge, although we reserve the right to
+            | charge for access to the Site in the future. We will give you reasonable
+            | notice before implementing any charges.
+          li
+            | 3.3 Access to the Site is permitted on a temporary basis. We may
+            | suspend, withdraw, discontinue or change all or any part of the Site
+            | without notice to you.
+          li
+            | 3.4 You must not misuse the Site by knowingly introducing viruses,
+            | trojans, worms, logic bombs or any other material which is malicious or
+            | technologically harmful. You must not attempt to gain unauthorised access
+            | to the Site, the server on which the Site is stored or any server,
+            | computer or database connected to the Site. You must not attack the Site
+            | via a denial-of-service attack or a distributed denial-of service attack.
+            | We will report any such breach to the relevant law enforcement
+            | authorities and we will co-operate with those authorities by disclosing
+            | your identity to them. In the event of such a breach, your right to use
+            | the Site will cease immediately.
+      li
+        | 3.5 You are responsible for making all arrangements necessary for you to
+        | have access to the Site.
+      li
+        h4 4. Account
+        ul
+          li
+            | 4.1 To access our Services made available on the Site, you will need
+            | to set up an account. You will be required to provide personal
+            | information about yourself (including name, email address, password,
+            | country, address, state, city, post code, phone, bank account details and
+            | wristband or event card identification numbers).
+          li
+            | 4.2 You agree that you will provide accurate, current and complete
+            | information about yourself, and maintain and promptly update your
+            | personal information contained in your account customer. For more
+            | information about how we will use your personal information please see
+            | our
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event)
+          li
+            | 4.3 You agree to not share your account password, and to keep your
+            | password confidential.
+      li
+        h4 5. Services
+        ul
+          li
+            | 5.1 We will provide access for you to obtain a refund for any credit
+            | on your event wristband or card. Please note the deadline for submitting
+            | refunds will be as indicated on the Site.
+          li
+            | 5.2 When you submit any refund application to us, you will be
+            | directed to a payment service provider where you will be required to
+            | provide personal information about yourself including your payment
+            | information to process your refund. Please read the payment service
+            | provider&rsquo;s terms and conditions and any privacy policy carefully
+            | before using their website and read any instructions before you claim
+            | your refund. The payment service provider is responsible for any refunds
+            | made to you and not us, please contact the event organiser directly if
+            | you need to speak to someone about any refund:
+            = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
+              span = @current_event.name
+          li
+            | 5.3 You will receive confirmation (if any) from the payment service
+            | provider regarding any successful refund, and not from us. We shall not
+            | be responsible for the actions or omissions of any payment service
+            | provider.
+          li
+            | 5.4 We are not the event organiser and we are not responsible for any
+            | issues relating to the event itself, including ticket purchases and
+            | refunds. If you need to speak to someone please contact the event
+            | organiser
+            = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
+              span = @current_event.name
+      li
+        h4 6. Intellectual property rights
+        ul
+          li
+            | 6.1 We are the owner or the licensee of all intellectual property
+            | rights in the Site. You may download extracts, of any page(s) from the
+            | Site, provided that:
+          li style=("list-style: none; display: inline")
+            ol
+              li
+                | the material shall not be reproduced or included in any other
+                | work or publication in any medium
+              li the material may not be modified or altered in any way
+              li
+                | you may only use the material for personal, non-commercial
+                | purposes
+              li
+                | the material may not be distributed or sold to any third party;
+                | and
+              li
+                | you do not remove any copyright or other proprietary notices
+                | contained in the material.
+          li
+            | 6.2. If you copy or use any part of the Site made available through
+            | it in breach of the Terms, your right to use the Site will cease
+            | immediately and you must destroy any copies of the materials you have
+            | made.
+      li
+        h4 7. Data protection and privacy
+        ul
+          li
+            | 7.1 Any personal information that we collect from you as you browse
+            | and use the Site will be used in accordance with our privacy policy. To
+            | find out more about the data we collect from you and how we use it please
+            | read our privacy policy available here
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event)
+          li
+            | 7.2 By accepting the Terms you also consent to our use of your
+            | personal data in accordance with our
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event)
+      li
+        h4 8. Complaints or Queries
+        ul
+          li
+            | 8.1 If you have any queries or complaints about the Site or the
+            | Services, please contact us using the contact information as detailed in
+            | Clause 1.4. We will use reasonable efforts to respond to you
+            | promptly.
+          li
+            | 8.2 If you have any queries or complaints about the event itself,
+            | including ticket purchases and refunds, if you need to speak to someone
+            | please contact the event organiser
+            = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
+              span = @current_event.name
+      li
+        h4 9. Links to and from the Site
+        ul
+          li
+            | 9.1 You may link to any page of the Site, provided you do so in a way
+            | that is fair and legal and does not damage our reputation or take
+            | advantage of it. You must not establish a link in such a way as to
+            | suggest any form of association, approval or endorsement on our part
+            | where none exists, nor establish a link to the Site in any website that
+            | is not owned by you.
+          li
+            | 9.2 We reserve the right to withdraw linking permission without
+            | notice.
+          li
+            | 9.3 Where the Site contains links to other websites and resources
+            | provided by third parties, these links are provided for your information
+            | only. We have no control over the content of those websites or resources
+            | and we are not responsible or liable for them in anyway.
+      li
+        h4 10. Availability
+        ul
+          li
+            | 10.1 We shall use our reasonable efforts to ensure that your
+            | experience of the Site is error free and fit for purpose, and the
+            | information we provide you via the Site is accurate. However we do not
+            | guarantee that the Site will always be available, be uninterrupted,
+            | secure or free from bugs or viruses, nor that the Site will be free from
+            | errors or omissions.
+          li
+            | 10.2 We shall not be liable for any delay or failure to perform
+            | resulting from causes outside of our reasonable control, including,
+            | without limitation, any failure to operate the Site, or supply Services
+            | to you due to unforeseen circumstances or cause beyond our control such
+            | as acts of god, war, terrorism, riots, embargoes, acts of civil or
+            | military authorities, fire, floods, accidents, strikes, epidemic or other
+            | natural disaster, shortages of transportation facilities, fuel, energy,
+            | labour, materials or a failure of public or private telecommunications
+            | networks.
+          li
+            | 10.3 If an event outside of our reasonable control takes place that
+            | affects the performance of our obligations under these Terms we will
+            | contact you as soon as reasonably possible to notify you and our
+            | obligations under these Terms will be suspended and the time for
+            | performance of our obligations will be extended for the duration of the
+            | event outside of our reasonable control.
+      li
+        h4 11. Limitation of our liability
+        ul
+          li
+            | 11.1 You acknowledge that the Site has not been developed to meet
+            | your individual requirements. You agree not to use the Site for resale
+            | purposes.
+          li
+            | 11.2 We only supply the Services for domestic and private use. You
+            | agree not to use the Services for any commercial, business or re-sale
+            | purpose, and we have no liability to you for any loss of profit, loss of
+            | business, business interruption, or loss of business opportunity.
+          li
+            | 11.3 If we fail to comply with these Terms, we are responsible for
+            | loss or damage you suffer that is a foreseeable result of our breach of
+            | the Terms or our negligence, but we are not responsible for any loss or
+            | damage that is not foreseeable. Loss or damage is foreseeable if it is an
+            | obvious consequence of our breach or if it was contemplated by you and us
+            | at the time we entered into this contract.
+          li
+            | 11.4 Unless prohibited by law, our maximum aggregate liability under
+            | or in connection with these Terms whether in contract, tort (including
+            | negligence) or otherwise, shall in all circumstances be limited to
+            | 45000&euro;.
+          li
+            | 11.5 You shall indemnify us in the event that we incur any claims,
+            | costs, damages, losses, or other liability as result of any your actions
+            | or omissions, or through using the Site in breach of these Terms.
+          li
+            | 11.6 Nothing in these Terms excludes or limits our liability
+            | for:
+          li style=("list-style: none; display: inline")
+            ol
+              li death or personal injury caused by our negligence,
+              li fraud or fraudulent misrepresentation, or
+              li
+                | any other liability which cannot be excluded or limited by
+                | law.
+      li
+        h4 12. General
+        ul
+          li
+            | 12.1 The Terms do not create or infer any rights that are enforceable
+            | by any person who is not a party to them.
+          li
+            | 12.2 We may transfer our rights and obligations under these Terms to
+            | another organisation, but this will not affect your rights or our
+            | obligations under these Terms. You may only transfer your rights or
+            | obligations under these Terms to another person if we agree in
+            | writing.
+          li
+            | 12.3 If we decide not to exercise or enforce any right that we have
+            | against you at a particular time, then this does not prevent us from
+            | later deciding to exercise or enforce that right.
+          li
+            | 12.4 Each of the conditions of these Terms operates separately. If
+            | any court or competent authority decides that any of them are unlawful or
+            | unenforceable, the remaining conditions will remain in full force and
+            | effect.
+          li
+            | 12.5 These Terms and any non-contractual obligations arising out of
+            | them shall be governed by and construed in accordance with your local law
+            | and the jurisdiction of the your local courts.
+  .mdl-cell.mdl-cell--5-col

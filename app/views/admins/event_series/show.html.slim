@@ -15,3 +15,11 @@
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Events" = link_to event.name, admins_event_path(event), class: "no_link"
   .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    =link_to set_serie_admins_event_series_path(@event_serie) do
+      button#copy_serie.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored
+        'Copy Data
+  .mdl-layout-spacer

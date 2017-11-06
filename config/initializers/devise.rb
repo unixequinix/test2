@@ -14,7 +14,7 @@ Devise.setup do |config|
   config.reconfirmable = false
   config.expire_all_remember_me_on_sign_out = false
   config.sign_out_all_scopes = false
-  config.password_length = 3..128
+  config.password_length =7..128
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete

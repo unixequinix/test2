@@ -157,6 +157,7 @@ en:
       de: DEU
       it: ITA
       pt: POR
+      br: BRA
     subject_support: Need help for %{event}
   event_serie:
       created: Succesfully created
@@ -164,6 +165,8 @@ en:
       cancelled: Cancelled successfully
       error: The form contains errors
       destroyed: Succesfully deleted
+      copy_serie: Copying data...
+      copy_serie_error: There were an error copying data
   footer:
     copyright: "© Glownet"
     privacy: Privacy policy

@@ -158,6 +158,7 @@ de:
       de: DEU
       it: ITA
       pt: POR
+      br: BRA
     subject_support: Ich brauche Hilfe für %{event}
   event_serie:
       created: Erfolgreich erstellt
@@ -165,6 +166,8 @@ de:
       cancelled: Erfolgreich abgebrochen
       error: Das Formular enthält Fehler
       destroyed: Erfolgreich zerstört
+      copy_serie: Daten kopieren ...
+      copy_serie_error: Beim Kopieren von Daten ist ein Fehler aufgetreten
   footer:
     copyright: "© Glownet"
     privacy: Datenschutzbestimmungen
