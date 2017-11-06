@@ -380,22 +380,7 @@ html
                             div[mc:edit= "std_footer"]
                               p
                                 strong
-                                  = t('email.footer_glownet')
-                                  | &nbsp;
-                                  = mail_to "support@glownet.com"
-                              p
-                                strong
                                   = t('email.footer_organizer')
                                   | &nbsp;
                                   = mail_to @event.support_email
-                        tr
-                          td#social[colspan="2" valign="middle"]
-                            div[mc:edit= "std_social"]
-                              = link_to t('email.our_company'), "https://www.linkedin.com/company/glownet?trk=prof-exp-company-name"
-                              span.separator style="padding-right: 5px;"  |
-                              = link_to t('email.follow_on_twitter'), "https://twitter.com/GlownetHQ"
-                              span.separator style="padding-right: 5px;"  |
-                              = link_to t('email.like_on_facebook'), "https://www.facebook.com/glowneteventtechnology"
-                              span.separator style="padding-right: 5px;"  |
-                              = link_to t('email.suscribe_on_you_tube'), "https://www.youtube.com/channel/UCruCrMlIVUrQxF64Ijqsqig"
           br
