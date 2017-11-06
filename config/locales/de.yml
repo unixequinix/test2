@@ -166,6 +166,8 @@ de:
       cancelled: Erfolgreich abgebrochen
       error: Das Formular enthält Fehler
       destroyed: Erfolgreich zerstört
+      copy_serie: Daten kopieren ...
+      copy_serie_error: Beim Kopieren von Daten ist ein Fehler aufgetreten
   footer:
     copyright: "© Glownet"
     privacy: Datenschutzbestimmungen

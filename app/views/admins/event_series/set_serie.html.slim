@@ -1,0 +1,32 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+      = form_for @event_serie, url: copy_serie_admins_event_series_path(@event_serie), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { select: :mdl_field, text: :mdl_text_edit } do |f|
+        .fieldset
+          .section-header
+            i.material-icons info_outline
+            span From:
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            = select_tag "event_serie[base_event_id]", options_from_collection_for_select(@events, :id, :name), include_blank: false, id: 'series', class: 'wrapper-customer-amount amount-input mdl-textfield__input' 
+          .section-header
+            i.material-icons info_outline
+            span To:
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            = select_tag "event_serie[current_event_id]", options_from_collection_for_select(@events, :id, :name), include_blank: false, id: 'series', class: 'wrapper-customer-amount amount-input mdl-textfield__input'
+        .form-inputs
+          label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='registered'
+            span.mdl-radio__label.form-label Registered customers
+            = radio_button_tag "event_serie[selection]", false, nil, id: 'registered', class: 'mdl-radio__button'
+        .form-inputs
+          label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='unregistered'
+            span.mdl-radio__label.form-label Unregistered customers
+            = radio_button_tag "event_serie[selection]", true, nil, id: 'unregistered', class: 'mdl-radio__button'
+        .form-inputs
+          label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='all'
+            span.mdl-radio__label.form-label All customers
+            = radio_button_tag "event_serie[selection]", '', nil, id: 'all', class: 'mdl-radio__button'
+        .form-actions
+          .col-sm-offset-3.col-sm-9
+            = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer

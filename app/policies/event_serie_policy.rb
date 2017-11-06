@@ -26,4 +26,12 @@ class EventSeriePolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def set_serie?
+    user.admin?
+  end
+
+  def copy_serie?
+    user.admin?
+  end
 end

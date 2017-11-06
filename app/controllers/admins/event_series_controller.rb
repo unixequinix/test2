@@ -1,5 +1,5 @@
 class Admins::EventSeriesController < Admins::BaseController
-  before_action :set_event_series, only: %i[show edit update destroy]
+  before_action :set_event_series, only: %i[show edit update destroy set_serie copy_serie]
 
   # GET /event_series
   # GET /event_series.json
@@ -24,7 +24,7 @@ class Admins::EventSeriesController < Admins::BaseController
   # POST /event_series
   # POST /event_series.json
   def create
-    @event_serie = EventSerie.new(event_series_params)
+    @event_serie = EventSerie.new(permitted_params)
     authorize(@event_serie)
 
     respond_to do |format|
@@ -42,7 +42,7 @@ class Admins::EventSeriesController < Admins::BaseController
   # PATCH/PUT /event_series/:id.json
   def update
     respond_to do |format|
-      if @event_serie.update(event_series_params)
+      if @event_serie.update(permitted_params)
         format.html { redirect_to [:admins, @event_serie], notice: 'Event series was successfully updated.' }
         format.json { render :show, status: :ok, location: [:admins, @event_serie] }
       else
@@ -62,6 +62,22 @@ class Admins::EventSeriesController < Admins::BaseController
     end
   end
 
+  def set_serie
+    @events = @event_serie.events
+  end
+
+  def copy_serie
+    if permitted_params[:selection].nil?
+      redirect_to set_serie_admins_event_series_path(@event_serie), alert: t('event_serie.copy_serie_error')
+    else
+      current_event = Event.find(permitted_params[:current_event_id])
+      base_event = Event.find(permitted_params[:base_event_id])
+
+      EventSerieCreator.perform_later(current_event, base_event, permitted_params[:selection])
+      redirect_to admins_event_series_index_path(@event_serie), notice: t('event_serie.copy_serie')
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -71,7 +87,7 @@ class Admins::EventSeriesController < Admins::BaseController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def event_series_params
-    params.require(:event_serie).permit(:name)
+  def permitted_params
+    params.require(:event_serie).permit(:name, :selection, :current_event_id, :base_event_id)
   end
 end

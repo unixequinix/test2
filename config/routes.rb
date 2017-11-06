@@ -29,7 +29,12 @@ Rails.application.routes.draw do
 
     resources :users
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
-    resources :event_series
+    resources :event_series do
+      member do
+        get :set_serie
+        post :copy_serie
+      end
+    end
 
     namespace :eventbrite do
       get :auth
