@@ -132,7 +132,7 @@ pt:
       subject: Reembolso em %{event}
       refund_number: Número de reembolso
       success: O seu reembolso está sendo porcessado
-    reset_senha:
+    reset_password:
       greet: Oi, %{name}!
       mail_body: Recebemos o seu pedido para mudar a sua senha. Clique no link em baixo para mudar.
       mail_link: Mudar a minha senha
@@ -262,7 +262,7 @@ pt:
   registration:
     edit:
       button: Atualização
-      senha_hint: Deixe-o em branco se você não quiser mudá-lo
+      password_hint: Deixe-o em branco se você não quiser mudá-lo
     new:
       button: Inscrição
       or: ou
@@ -272,7 +272,7 @@ pt:
     call_to_action: Faça login com seu perfil de conta social favorita ou simplesmente crie uma conta!
     create_account:
       link: Crie a sua conta aqui
-      lost_senha: Perdeu a sua senha?
+      lost_password: Perdeu a sua senha?
     log_in:
       link: Entre aqui
       title: Já tem uma conta?
@@ -283,7 +283,7 @@ pt:
       success: Até Breve!
     placeholder:
       email: ex. nickname@mail.com
-      senha: ex. · · · · · ·
+      password: ex. · · · · · ·
   social_login:
     facebook: Faça login com o Facebook
     google: Faça login com Google
