@@ -41,4 +41,4 @@
 
     - @refunds.each.with_index do |refund, index|
       .container-method id="method-#{refund.gateway}" class=(index.zero? ? "show-container" : "")
-        = render partial: "events/refunds/#{refund.gateway}", locals: { refund: refund }
+        = render partial: "events/refunds/#{refund.gateway}", locals: { refund: refund, bank_account: @bank_account }

@@ -23,8 +23,38 @@
       - if @gateway.bank_account?
         = f.input :refund_field_a_name
         = f.input :refund_field_b_name
+        button#add_extra_field.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored type='button' onclick="addExtraFields()"
+          'Add extra field
+        #extra_fields
+          - @gateway.extra_fields.each_with_index do |extra_field, index|
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = text_field_tag "payment_gateway[extra_fields][]", nil, id: "extra_field_#{index}", value: @gateway.extra_fields[index], class: "mdl-textfield__input"
+              label.mdl-textfield__label.string.optional for="extra_field_#{index}" #{extra_field.humanize}
+              button.mdl-button.mdl-js-button.mdl-button--icon.btn-remove-fields id="remove_extra_field_#{index}" type='button' onclick="removeExtraFields(this)"
+                i.mdl-textfield__icon.material-icons highlight_off
+
       = f.input :fee
       = f.input :minimum
 
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
+javascript:
+  function addExtraFields() {
+    let div = $('<div>', {class: 'mdl-textfield mdl-js-textfield'});
+    let container = $("#extra_fields").append(div);
+    let index = container.children('div').length + 1;
+    let class_name = "mdl-textfield__input";
+    let id = (`extra_field_${index}`);
+    let label = $(`<label class='mdl-textfield__label string optional' for=${id}></label>`);
+    let input = $(`<input type='text' id=${id} name='payment_gateway[extra_fields][]' />`).addClass(class_name);
+    let remove_button = $(`<button type='button' id='remove_${id}' class='mdl-button mdl-js-button mdl-button--icon btn-remove-fields'><icon class='mdl-textfield__icon material-icons'>highlight_off</icon></button>`).click(function(e) {
+      removeExtraFields(e.currentTarget);
+    });
+    div.append(input).append(label).append(remove_button);
+    componentHandler.upgradeDom();
+  };
+
+  function removeExtraFields(button) {
+    $(button.parentElement).remove();
+  };
