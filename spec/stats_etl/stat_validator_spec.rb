@@ -4,8 +4,8 @@ describe StatValidator do
   include StatValidator
 
   let(:event) { create(:event) }
-  let(:sale_transaction) { create(:credit_transaction, :with_sales, action: "sale", event: event) }
-  let(:sale_refund_transaction) { create(:credit_transaction, :with_sale_refunds, action: "sale_refund", event: event) }
+  let(:sale_transaction) { create(:credit_transaction, :with_sales, action: "sale", event: event, credits: 0) }
+  let(:sale_refund_transaction) { create(:credit_transaction, :with_sale_refunds, action: "sale_refund", event: event, credits: 0) }
 
   before(:each) do
     @sale_stats = []
@@ -17,6 +17,12 @@ describe StatValidator do
 
     sale_refund_transaction.sale_items.each do |sale_item|
       @sale_refund_stats << create(:stat, :with_sale_items, operation_transaction: sale_refund_transaction, sale_item: sale_item)
+    end
+  end
+
+  context "validate_all methods" do
+    it "should return nil error message" do
+      expect(StatValidator.validate_all(@sale_stats.first)).to be(nil)
     end
   end
 
@@ -35,8 +41,5 @@ describe StatValidator do
     expect(StatValidator.send(:validate_quantity_sale_refund, @sale_refund_stats.first)).to be(Stat.error_codes.key(1))
   end
 
-  it "should return an error on sale validation" do
-    @sale_refund_stats.first.sale_item_total_price = 0
-    expect(StatValidator.send(:validate_sales, @sale_refund_stats.first)).to be(Stat.error_codes.key(2))
-  end
+  it "should return an error on sale validation"
 end

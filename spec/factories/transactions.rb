@@ -33,24 +33,34 @@ FactoryBot.define do
     trait :with_sales do
       after(:build) do |credit_transaction|
         rand(1..5).times do |_index|
-          create(:sale_item,
-                 quantity: 1,
-                 credit_transaction: credit_transaction,
-                 product: create(:product, station: credit_transaction.station))
+          sale_item = create(:sale_item,
+                             quantity: 1,
+                             credit_transaction: credit_transaction,
+                             product: create(:product, station: credit_transaction.station))
+
+          credit_transaction.credits += (sale_item.unit_price * sale_item.quantity)
+          credit_transaction.save
         end
-        create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: 1)
+        other_amount = create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: 1)
+        credit_transaction.credits += (other_amount.unit_price * other_amount.quantity)
+        credit_transaction.save
       end
     end
 
     trait :with_sale_refunds do
       after(:build) do |credit_transaction|
         rand(1..5).times do |_index|
-          create(:sale_item,
-                 quantity: -1,
-                 credit_transaction: credit_transaction,
-                 product: create(:product, station: credit_transaction.station))
+          sale_item = create(:sale_item,
+                             quantity: -1,
+                             credit_transaction: credit_transaction,
+                             product: create(:product, station: credit_transaction.station))
+
+          credit_transaction.credits += (sale_item.unit_price * sale_item.quantity)
+          credit_transaction.save
         end
-        create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: -1)
+        other_amount = create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: -1)
+        credit_transaction.credits += (other_amount.unit_price * other_amount.quantity)
+        credit_transaction.save
       end
     end
   end
