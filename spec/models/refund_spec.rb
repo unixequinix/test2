@@ -119,4 +119,86 @@ RSpec.describe Refund, type: :model do
       expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:field_b] })
     end
   end
+
+  describe ".extra_params_fields" do
+    let(:event) { create(:event) }
+    subject { build(:refund, event: event, gateway: 'bank_account') }
+
+    before(:each) do
+      @payment_gateway = create(:payment_gateway, event: event, extra_fields: ['extra_param_1'])
+    end
+
+    it "works with a valid field" do
+      subject.extra_params = { extra_param_1: "ES80 2310 0001 1800 0001 2345" }
+      expect { subject.extra_params_fields }.not_to(change { subject.errors[:extra_params] })
+    end
+
+    it "checks field exists" do
+      subject.extra_params = { extra_param_2: "ES80 2310 0001 1800 0001 2345" }
+      expect { subject.extra_params_fields }.to change { subject.errors[:extra_params] }.from([]).to(["Field extra_param_1 not found"])
+    end
+
+    it "checks field is empty" do
+      subject.extra_params = { extra_param_1: "" }
+      expect { subject.extra_params_fields }.to change { subject.errors[:extra_params] }.from([]).to(["Field extra_param_1 not found"])
+    end
+
+    it "checks field is nil" do
+      subject.extra_params = { extra_param_1: nil }
+      expect { subject.extra_params_fields }.to change { subject.errors[:extra_params] }.from([]).to(["Field extra_param_1 not found"])
+    end
+  end
+
+  describe ".prepare_for_bank_account" do
+    let(:event) { create(:event) }
+    let(:payment_gateway) { create(:payment_gateway, event: event, extra_fields: ['extra_param_1']) }
+    subject { build(:refund, event: event, gateway: 'bank_account') }
+
+    it "removes empty spaces on field a" do
+      subject.field_a = "ES80 2310 0001 1800 0001 2345"
+      subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+      expect(subject.field_a).to eq("ES8023100001180000012345")
+    end
+
+    it "removes empty spaces on field b" do
+      subject.field_b = "1800 0001 2345"
+      subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+      expect(subject.field_b).to eq("180000012345")
+    end
+
+    it "removes empty spaces on extra fields" do
+      subject.extra_params = { extra_param_1: "extra field number one" }
+      subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+      expect(subject.extra_params["extra_param_1"]).to eq("extrafieldnumberone")
+    end
+
+    context "iban and bsb don't exist" do
+      it "checks iban field does not exists" do
+        subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+        expect(subject.iban).to be(nil)
+      end
+
+      it "checks bsb field does not exists" do
+        subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+        expect(subject.iban).to be(nil)
+      end
+    end
+
+    context "iban and bsb exist" do
+      before(:each) do
+        subject.iban = true
+        subject.bsb = true
+      end
+
+      it "checks iban field does not exists" do
+        subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+        expect(subject.iban).to be(true)
+      end
+
+      it "checks bsb field does not exists" do
+        subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
+        expect(subject.iban).to be(true)
+      end
+    end
+  end
 end

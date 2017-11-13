@@ -5,7 +5,7 @@ class PaymentGateway < ApplicationRecord
   GATEWAYS = {
     paypal: { actions: %i[topup refund], config: %i[login password signature] },
     vouchup: { actions: %i[topup refund], config: [] },
-    bank_account: { actions: %i[refund] }
+    bank_account: { actions: %i[refund], config: [] }
   }.freeze
 
   validates :name, uniqueness: { scope: :event_id }
@@ -27,6 +27,6 @@ class PaymentGateway < ApplicationRecord
   end
 
   def extra_fields_format
-    self.extra_fields = self.extra_fields&.reject(&:empty?)
+    self.extra_fields = extra_fields&.reject(&:empty?)
   end
 end
