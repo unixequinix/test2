@@ -3,8 +3,8 @@
 # Based on Ubuntu:16.04
 ############################################################
 
-FROM phusion/passenger-customizable
-ENV RUBY_VERSION 2.4.1
+FROM phusion/passenger-customizable:0.9.26
+ENV RUBY_VERSION 2.4.2
 RUN /pd_build/ruby-$RUBY_VERSION.sh
 RUN bash -lc "rvm --default use ruby-$RUBY_VERSION"
 
@@ -34,12 +34,19 @@ ENV LC_ALL en_US.UTF-8
 WORKDIR ${APP_HOME}
 ADD Gemfile* ${APP_HOME}/
 
-# Install gems to /bundle
-ENV BUNDLE_GEMFILE=${APP_HOME}/Gemfile \
-    BUNDLE_JOBS=2 \
-    BUNDLE_PATH=/bundle
+# Avoid bundle exec command
+ENTRYPOINT ["bundle", "exec"]
 
-RUN bundle install
+# Install gems to /bundle
+# ENV BUNDLE_GEMFILE=${APP_HOME}/Gemfile \
+#     BUNDLE_JOBS=2 \
+#     BUNDLE_PATH=/bundle
+ENV BUNDLE_PATH=/bundle \
+    BUNDLE_BIN=/bundle/bin \
+    GEM_HOME=/bundle
+ENV PATH="${BUNDLE_BIN}:${PATH}"
+
+RUN bundle check || bundle install --binstubs="$BUNDLE_BIN"
 
 # Copy app on path
 ADD . ${APP_HOME}/

@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 
 services:
   postgres:
@@ -6,7 +6,7 @@ services:
     ports:
       - "5433"
     volumes:
-      - /var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
@@ -16,16 +16,17 @@ services:
   redis:
     image: 'redis:3.2-alpine'
     volumes:
-      - /data
+      - redis:/data
 
   web:
     build: .
     image: glownet_web:latest
     volumes:
+      - rvm_gems:/bundle
       - .:/home/web
-    volumes_from:
-      - bundle
+      - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     environment:
+      - SSH_AUTH_SOCK
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_HOST
@@ -36,9 +37,6 @@ services:
     ports:
       - "3000:3000"
     links:
-      - redis:redis
-      - postgres:postgres
-    depends_on:
       - redis
       - postgres
     command:  bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -49,9 +47,8 @@ services:
     image: glownet_web:latest
     command: bundle exec sidekiq -C config/sidekiq.yml
     volumes:
+      - rvm_gems:/bundle
       - .:/home/web
-    volumes_from:
-      - bundle
     environment:
       - RAILS_ENV
       - JOB_WORKER_URL
@@ -59,7 +56,7 @@ services:
     links:
       - postgres
       - redis
-  bundle:
-    image: glownet_web
-    volumes:
-      - /bundle
+volumes:
+  db:
+  redis:
+  rvm_gems:
