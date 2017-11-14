@@ -15,7 +15,6 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   def create
     @gateway = @current_event.payment_gateways.new(permitted_params)
     @gateway.data = permitted_params
-
     authorize @gateway
     if @gateway.save
       redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.created")
@@ -58,7 +57,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params[:payment_gateway][:extra_fields] = params[:payment_gateway][:extra_fields] || []
+    params[:payment_gateway][:extra_fields] = params[:payment_gateway][:extra_fields] || (@gateway&.extra_fields || [])
     params[:payment_gateway][:fee] = params[:payment_gateway][:fee].to_f
     params[:payment_gateway][:minimum] = params[:payment_gateway][:minimum].to_f
     params.require(:payment_gateway).permit(:name,
