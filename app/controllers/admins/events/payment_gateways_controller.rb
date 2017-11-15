@@ -56,7 +56,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
     @config_atts = settings[:config]
   end
 
-  def permitted_params
+  def permitted_params # rubocop:disable Metrics/MethodLength
     params.require(:payment_gateway).permit(:name,
                                             :refund_field_a_name,
                                             :refund_field_b_name,
