@@ -23,8 +23,6 @@
       - if @gateway.bank_account?
         = f.input :refund_field_a_name
         = f.input :refund_field_b_name
-        button#add_extra_field.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored type='button' onclick="addExtraFields()"
-          'Add extra field
         #extra_fields
           - @gateway.extra_fields.each_with_index do |extra_field, index|
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
@@ -33,6 +31,8 @@
               button.mdl-button.mdl-js-button.mdl-button--icon.btn-remove-fields id="remove_extra_field_#{index}" type='button' onclick="removeExtraFields(this)"
                 i.mdl-textfield__icon.material-icons highlight_off
 
+        button#add_extra_field.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored type='button' onclick="addExtraFields()"
+          'Add extra field
       = f.input :fee
       = f.input :minimum
 

@@ -57,9 +57,6 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params[:payment_gateway][:extra_fields] = params[:payment_gateway][:extra_fields] || (@gateway&.extra_fields || [])
-    params[:payment_gateway][:fee] = params[:payment_gateway][:fee].to_f
-    params[:payment_gateway][:minimum] = params[:payment_gateway][:minimum].to_f
     params.require(:payment_gateway).permit(:name,
                                             :refund_field_a_name,
                                             :refund_field_b_name,
