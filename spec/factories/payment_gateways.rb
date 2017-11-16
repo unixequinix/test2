@@ -5,5 +5,6 @@ FactoryBot.define do
     fee 0
     minimum 0
     data JSON.parse('{}')
+    extra_fields []
   end
 end

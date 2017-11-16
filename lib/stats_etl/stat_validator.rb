@@ -6,15 +6,22 @@ module StatValidator
       @error_code = validate_date(stat.event, stat.date)
       @error_code ||= validate_quantity_sale(stat) if action == 'sale_refund'
       @error_code ||= validate_quantity_sale(stat) if action == 'sale'
-      @error_code ||= validate_sales(stat) if %w[sale sale_refund].include?(action)
+      # @error_code ||= validate_sales(stat) if %w[sale sale_refund].include?(action)
+
+      @error_code
     end
 
     private
 
     def validate_sales(stat)
-      total_price = stat.operation.credits
-      stats_sale_item_price = Stat.where(operation: stat.operation).pluck(:sale_item_total_price).sum
-      Stat.error_codes.key(2) if stats_sale_item_price.to_d != - total_price.to_d
+      # TODO: stats ETL for new credit transaction, expect to use line_counter instead of add
+      # sale_item_id on Stat table in order to find sale_item related to stat
+
+      # sale_item = stat.operation.sale_items.find_by!(line_counter: stat.line_counter)
+      # sale_item_total_price = sale_item.unit * sale_item.unit_price
+      # stat_sale_item_total_price = stat.sale_item_total_price
+
+      # Stat.error_codes.key(2) if stat_sale_item_total_price.to_d != sale_item_total_price.to_d
     end
 
     def validate_quantity_sale(stat)

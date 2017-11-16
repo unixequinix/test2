@@ -10,6 +10,7 @@ class Refund < ApplicationRecord
   validates :field_b, length: { within: 6..10 }, if: :bsb
   validates :fee, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :field_a, :field_b, presence: true, if: (-> { gateway.eql?("bank_account") })
+  validate :extra_params_fields
   validates :amount, :gateway, presence: true
 
   validate :correct_iban_and_swift, if: :iban
@@ -40,6 +41,7 @@ class Refund < ApplicationRecord
     return unless gateway.eql?("bank_account")
     self.field_a = atts[:field_a].gsub(/\s+/, '')
     self.field_b = atts[:field_b].gsub(/\s+/, '')
+    self.extra_params = atts[:extra_params].to_h.each { |key, val| atts[:extra_params][key] = val.gsub(/\s+/, '') }
     self.iban = true if event.iban?
     self.bsb = true if event.bsb?
   end
@@ -92,5 +94,12 @@ class Refund < ApplicationRecord
     validator = ISO::SWIFT.new(field_b)
     msg = validator.errors.map(&:to_s).map(&:humanize).to_sentence
     errors.add(:field_b, msg) unless validator.valid?
+  end
+
+  def extra_params_fields
+    return if event.payment_gateways&.bank_account.blank?
+    event.payment_gateways.bank_account.extra_fields.each do |field|
+      errors.add(:extra_params, "Field #{field} not found") if extra_params[field.to_s].blank?
+    end
   end
 end

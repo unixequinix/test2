@@ -2,6 +2,8 @@ class Events::RefundsController < Events::EventsController
   before_action :set_refund, only: %i[new create]
 
   def new
+    @bank_account = @current_event.payment_gateways.refund.bank_account
+
     if @current_event.open_refunds
       redirect_to event_path(@current_event), notice: "No refund options available" if @refunds.empty?
     else
@@ -13,8 +15,7 @@ class Events::RefundsController < Events::EventsController
     @payment_gateways = @current_event.payment_gateways.refund
     @refund = @refunds.find { |refund| refund.gateway.eql? permitted_params[:gateway] }
 
-    render(:new) && return if @refund.blank?
-
+    redirect_to new_event_refund_path(@current_event) if @refund.blank?
     @refund.prepare_for_bank_account(permitted_params)
 
     if @refund.update(ip: request.remote_ip)
@@ -26,8 +27,7 @@ class Events::RefundsController < Events::EventsController
       @refund.complete!
       redirect_to customer_root_path(@current_event), notice: t("refunds.success")
     else
-      flash.now[:error] = @refund.errors.full_messages.to_sentence
-      render :new
+      redirect_to new_event_refund_path(@current_event), alert: @refund.errors.full_messages.to_sentence
     end
   end
 
@@ -46,6 +46,6 @@ class Events::RefundsController < Events::EventsController
   end
 
   def permitted_params
-    params.require(:refund).permit(:field_a, :field_b, :gateway)
+    params.require(:refund).permit(:field_a, :field_b, :gateway, extra_params: {})
   end
 end

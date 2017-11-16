@@ -274,7 +274,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the refunds as JSON" do
       get :refunds, params: atts
-      expect(json.last).to eq(obj_to_json(customer.refunds.last, "RefundSerializer"))
+      expect(json).to eq(customer.refunds.map { |refund| obj_to_json(refund, "RefundSerializer") })
     end
   end
 
