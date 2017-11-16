@@ -41,7 +41,7 @@ class Refund < ApplicationRecord
     return unless gateway.eql?("bank_account")
     self.field_a = atts[:field_a].gsub(/\s+/, '')
     self.field_b = atts[:field_b].gsub(/\s+/, '')
-    self.extra_params = atts[:extra_params].to_h.each { |key, val| atts[:extra_params][key].tr('"', "'").gsub!(/[^0-9A-Za-z]/, '').downcase.to_sym = val.gsub(/\s+/, '') }
+    self.extra_params = atts[:extra_params].each { |key, val| atts[:extra_params][key].tr('"', "'").gsub!(/[^0-9A-Za-z]/, '').downcase.to_sym = val.gsub(/\s+/, '') }
     self.iban = true if event.iban?
     self.bsb = true if event.bsb?
   end
