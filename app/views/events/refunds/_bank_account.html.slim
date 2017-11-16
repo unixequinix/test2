@@ -6,5 +6,5 @@
   - unless bank_account.blank?
     = f.simple_fields_for(:extra_params) do |ff|
       - bank_account.extra_fields.each do |extra_field|
-        = ff.input extra_field.to_sym 
+        = ff.input extra_field.tr('"', "'").gsub!(/[^0-9A-Za-z]/, '').downcase.to_sym = val.gsub(/\s+/, '') 
   = f.button :submit, t('refunds.button'),  class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
