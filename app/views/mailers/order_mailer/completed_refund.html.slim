@@ -33,3 +33,11 @@ tr
         // Refund total
         td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
         td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.amount_money, unit: @event.currency, format: "%u %n"
+
+- if @refund.event_id.to_s === '190' && Rails.env === 'production'
+  tr
+    a href='http://www.poploadfestival.com/wp-content/uploads/2017/06/171105-Popload-TC_V7-FINAL-checkout-1.pdf'  Termos e Condições do Festival Popload
+
+- if @refund.event_id.to_s === '255' && Rails.env === 'staging'
+  tr
+    a href='http://www.poploadfestival.com/wp-content/uploads/2017/06/171105-Popload-TC_V7-FINAL-checkout-1.pdf'  Termos e Condições do Festival Popload
