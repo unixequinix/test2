@@ -87,7 +87,7 @@ br:
       body_invalid: Porém, se desejar saber o seu saldo atual, pode fazê-lo em qualquer ponto de vendas, ou carregar em qualquer outra estação. Também nos poderá contactar utilizando o ícone do intercom no canto inferior direito. Ou nos envie um email para
       body_credits: A sua última transação registrada foi "%{action}" em "%{station}" %{time} atrás
       body_balance: O seu saldo a essa hora era
-      refundable: Reembolsável
+      refundable: Reembolsável (sujeito a aplição de taxa de reembolso)
     credits_history:
       button: Transferir transações
       header: Histórico de transações
@@ -227,7 +227,7 @@ br:
     price: Preço
     products: Produtos
     total: Total
-    vat: IVA Incluído
+    vat: ''
     card_name: nome do cartão
     card_doc_type: tipo de documento
     card_doc_number: número do documento
