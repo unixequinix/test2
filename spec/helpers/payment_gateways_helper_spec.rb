@@ -13,7 +13,7 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
   end
 
   context "with vouchup" do
-    before { create(:payment_gateway, name: "vouchup", topup: true, event: event) }
+    before { @payment_gateway = create(:payment_gateway, name: "vouchup", topup: true, event: event) }
 
     context "orders redirection" do
       it "should not be new orders path" do
@@ -36,6 +36,8 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
     context "refunds redirection" do
       before(:each) do
         create(:gtag, event: event, customer: customer)
+        @payment_gateway.refund = true
+        @payment_gateway.save!
       end
 
       it "should not be new refunds path" do
@@ -50,7 +52,7 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
         expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include(customer.email.split("@").first)
       end
 
-      it "should contain the customer gatg_id" do
+      it "should contain the customer gtag_id" do
         expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include(customer.active_gtag.tag_uid)
       end
     end
