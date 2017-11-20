@@ -45,10 +45,6 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       @pack.pack_catalog_items.find_or_create_by(catalog_item: @item, amount: flag) if flag.to_i.eql?(1)
       @pack.pack_catalog_items.find_by(catalog_item: @item)&.destroy if flag.to_i.eql?(0)
 
-      # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
-      @pack.pack_catalog_items.map(&:save)
-      @pack.pack_catalog_items.select(&:marked_for_destruction?).map(&:destroy)
-
       redirect_to [:admins, @current_event, @pack], notice: t("alerts.updated")
     else
       flash.now[:alert] = t("alerts.error")

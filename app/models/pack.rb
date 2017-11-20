@@ -1,12 +1,12 @@
 class Pack < CatalogItem
   attr_accessor :alcohol_forbidden
 
-  has_many :pack_catalog_items, inverse_of: :pack, dependent: :destroy
-  has_many :catalog_items, through: :pack_catalog_items, dependent: :destroy
+  has_many :pack_catalog_items, dependent: :destroy
+  has_many :catalog_items, through: :pack_catalog_items
 
   scope(:credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) })
 
-  accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true, reject_if: proc { |att| att['amount'].blank? }
+  accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 
   validates :pack_catalog_items, associated: true, presence: true
 
