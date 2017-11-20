@@ -31,7 +31,9 @@ Rails.application.routes.draw do
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
     resources :event_series do
       member do
-        get :set_serie
+        put :add_event
+        delete :remove_event
+        get :copy_data
         post :copy_serie
       end
     end

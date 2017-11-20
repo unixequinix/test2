@@ -135,11 +135,11 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
     end
   end
 
-  describe "GET #set_serie" do
+  describe "GET #copy_data" do
     it "returns a success response" do
       event_serie = create(:event_serie)
 
-      get :set_serie, params: { id: event_serie.id }
+      get :copy_data, params: { id: event_serie.id }
       expect(response).to have_http_status(:ok)
     end
   end
@@ -153,28 +153,15 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
 
     context "with valid params" do
       it "returns a success response" do
-        post :copy_serie, params: {
-          id: @event_serie.id,
-          event_serie: {
-            selection: true,
-            current_event_id: @current_event.id,
-            base_event_id: @base_event.id
-          }
-        }
-        expect(response).to redirect_to admins_event_series_index_path(@event_serie)
+        post :copy_serie, params: { id: @event_serie.id, selection: "1 0", new_id: @current_event.id, old_id: @base_event.id }
+        expect(response).to redirect_to admins_event_series_path(@event_serie)
       end
     end
 
     context "with invalid params" do
       it "returns a success response" do
-        post :copy_serie, params: {
-          id: @event_serie.id,
-          event_serie: {
-            current_event_id: @current_event.id,
-            base_event_id: @base_event.id
-          }
-        }
-        expect(response).to redirect_to set_serie_admins_event_series_path(@event_serie)
+        post :copy_serie, params: { id: @event_serie.id, selection: "1 0", new_id: @current_event.id, old_id: @current_event.id }
+        expect(response).to redirect_to copy_data_admins_event_series_path(@event_serie)
       end
     end
   end

@@ -8,7 +8,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
   let(:atts) { { id: customer.to_param, event_id: event.to_param } }
   let(:invalid_attributes) { { email: "aaa" } }
-  let(:valid_attributes) { { first_name: "test customer", last_name: "foo", email: "foo@bar.com", password: "password" } }
+  let(:valid_attributes) { { first_name: "name", last_name: "foo", email: "foo@bar.com", password: "password", password_confirmation: "password" } }
 
   before { token_login(user, event) }
 
