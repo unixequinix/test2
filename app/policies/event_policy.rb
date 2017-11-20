@@ -87,6 +87,22 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
+  def universe_index?
+    admin_or_promoter
+  end
+
+  def universe_connect?
+    admin_or_promoter && event_open
+  end
+
+  def universe_disconnect?
+    admin_or_promoter
+  end
+
+  def universe_import_tickets?
+    admin_or_promoter && event_open
+  end
+
   def missing?
     admin_or_promoter
   end

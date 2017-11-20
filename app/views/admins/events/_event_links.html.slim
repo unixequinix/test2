@@ -80,6 +80,12 @@
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Eventbrite Settings
 
         li.floaty-list-item
+          = link_to admins_event_universe_path(@current_event) do
+            button#universe_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons format_underlined
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="universe_setting" Universe Settings
+
+        li.floaty-list-item
           = link_to admins_event_payment_gateways_path(@current_event) do
             button#payment_setting.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons euro_symbol
