@@ -31,13 +31,20 @@ Rails.application.routes.draw do
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
     resources :event_series do
       member do
-        get :set_serie
+        put :add_event
+        delete :remove_event
+        get :copy_data
         post :copy_serie
       end
     end
 
     namespace :eventbrite do
       get :auth
+    end
+
+    namespace :universe do
+      get :auth
+      post :webhooks
     end
 
     resources :locale do
@@ -104,6 +111,13 @@ Rails.application.routes.draw do
         get "eventbrite/disconnect_event", to: "eventbrite#disconnect_event"
         get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
         post "eventbrite/webhooks", to: "eventbrite#webhooks"
+
+        #Universe
+        get "universe", to: "universe#index"
+        get "universe/import_tickets", to: "universe#import_tickets"
+        get "universe/connect/:uv_event_id", to: "universe#connect", as: 'universe_connect'
+        get "universe/disconnect", to: "universe#disconnect"
+        get "universe/disconnect_event", to: "universe#disconnect_event"
 
         resources :inconsistencies do
           collection do

@@ -5,57 +5,103 @@ RSpec.describe Customer, type: :model do
   let(:customer) { create(:customer, event: event) }
 
   describe 'validations on' do
-    context "#email" do
-      it "includes format when email is present" do
-        customer.email = "invalidemail"
-        expect(customer).not_to be_valid
-        expect(customer.errors[:email]).to include("is invalid")
+    describe "#email" do
+      context "of registered customers" do
+        before { customer.update!(anonymous: false) }
+
+        it "must be present" do
+          customer.email = nil
+          expect(customer).not_to be_valid
+          expect(customer.errors[:email]).to include("can't be blank")
+        end
+
+        it "must be formatted correctly" do
+          customer.email = "invalid_email"
+          expect(customer).not_to be_valid
+          expect(customer.errors[:email]).to include("is invalid")
+        end
+
+        it "must be unique within its event" do
+          customer2 = build(:customer, event: event, email: customer.email)
+          expect(customer2).not_to be_valid
+          expect(customer2.errors[:email]).to include("has already been taken")
+        end
+
+        it "can be the same as another customer in another event" do
+          customer2 = build(:customer, email: customer.email)
+          expect(customer2).to be_valid
+        end
       end
 
-      it "does not include format when email is blank" do
-        customer.email = nil
-        expect(customer).to be_valid
-      end
+      context "of anonymous customers" do
+        before { customer.update!(anonymous: true) }
 
-      it "includes presence if customer is not anonymous" do
-        customer.anonymous = false
-        customer.email = nil
-        expect(customer).not_to be_valid
-        expect(customer.errors[:email]).to include("can't be blank")
-      end
+        it "can be blank" do
+          customer.email = nil
+          expect(customer).to be_valid
+        end
 
-      it "does not include presence if customer is anonymous" do
-        customer.anonymous = true
-        customer.email = nil
-        expect(customer).to be_valid
+        it "can be present" do
+          customer.email = "a@b.com"
+          expect(customer).to be_valid
+        end
+
+        it "if present, it must be formatted properly" do
+          customer.email = "invalid_email"
+          expect(customer).not_to be_valid
+          expect(customer.errors[:email]).to include("is invalid")
+        end
+
+        it "if present, it must be unique within its event" do
+          customer2 = build(:customer, event: event, email: customer.email, anonymous: true)
+          expect(customer2).not_to be_valid
+          expect(customer2.errors[:email]).to include("has already been taken")
+        end
+
+        it "if present, it can be the same as customers in other events" do
+          customer2 = build(:customer, email: customer.email, anonymous: true)
+          expect(customer2).to be_valid
+        end
       end
     end
-  end
 
-  describe 'validations on' do
-    context "#password" do
-      it "invalid password" do
-        customer.password = "123456"
-        expect(customer).not_to be_valid
-        expect(customer.errors[:password]).to include("is too short (minimum is 7 characters)")
+    describe "#password" do
+      context "of registered customers" do
+        before { customer.update!(anonymous: false) }
+
+        it "must be longer than 7 characters" do
+          customer.password = "aaa"
+          expect(customer).not_to be_valid
+          expect(customer.errors[:password]).to include("is too short (minimum is 7 characters)")
+        end
+
+        it "must be present" do
+          customer.password = nil
+          expect(customer).not_to be_valid
+          expect(customer.errors[:password]).to include("can't be blank")
+        end
+
+        it "must be confirmed" do
+          customer.password = "foobarbaz"
+          customer.password_confirmation = nil
+          expect(customer).not_to be_valid
+          expect(customer.errors[:password_confirmation]).to include("can't be blank")
+        end
       end
 
-      it "password is not present in anonymous customers" do
-        customer.password = nil
-        expect(customer).to be_valid
-      end
+      context "of anonymous customers" do
+        before { customer.update!(anonymous: true) }
 
-      it "password is not present in registered customers" do
-        customer.anonymous = false
-        customer.password = nil
-        expect(customer).not_to be_valid
-        expect(customer.errors[:password]).to include("can't be blank")
-      end
+        it "can be blank" do
+          customer.password = nil
+          expect(customer).to be_valid
+        end
 
-      it "skip password validation" do
-        customer.password = nil
-        customer.skip_password_validation = true
-        expect(customer).to be_valid
+        it "is not confirmed" do
+          customer.password = "foobarbaz"
+          customer.password_confirmation = nil
+          expect(customer).to be_valid
+        end
       end
     end
   end

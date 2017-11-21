@@ -1,5 +1,5 @@
 class Admins::EventSeriesController < Admins::BaseController
-  before_action :set_event_series, only: %i[show edit update destroy set_serie copy_serie]
+  before_action :set_event_series, only: %i[show edit update destroy copy_data copy_serie add_event remove_event]
 
   # GET /event_series
   # GET /event_series.json
@@ -10,7 +10,9 @@ class Admins::EventSeriesController < Admins::BaseController
 
   # GET /event_series/:id
   # GET /event_series/:id.json
-  def show; end
+  def show
+    @events = Event.where(event_serie: nil).where.not(state: "closed").order(:name)
+  end
 
   # GET /event_series/new
   def new
@@ -62,19 +64,31 @@ class Admins::EventSeriesController < Admins::BaseController
     end
   end
 
-  def set_serie
-    @events = @event_serie.events
+  def add_event
+    @event = Event.find(params[:event_id])
+    @event.update!(event_serie: @event_serie)
+    redirect_to request.referer, notice: "Event was succesfully added"
+  end
+
+  def remove_event
+    @event = Event.find(params[:event_id])
+    @event.update!(event_serie: nil)
+    redirect_to request.referer, notice: "Event was succesfully removed"
+  end
+
+  def copy_data
+    @events = @event_serie.events.order(:name)
   end
 
   def copy_serie
-    if permitted_params[:selection].nil?
-      redirect_to set_serie_admins_event_series_path(@event_serie), alert: t('event_serie.copy_serie_error')
-    else
-      current_event = Event.find(permitted_params[:current_event_id])
-      base_event = Event.find(permitted_params[:base_event_id])
+    new_event = Event.find(params[:new_id])
+    old_event = Event.find(params[:old_id])
 
-      EventSerieCreator.perform_later(current_event, base_event, permitted_params[:selection])
-      redirect_to admins_event_series_index_path(@event_serie), notice: t('event_serie.copy_serie')
+    if old_event == new_event
+      redirect_to copy_data_admins_event_series_path(@event_serie), alert: "Both events cannot be the same"
+    else
+      EventSerieCopier.perform_later(new_event, old_event, params[:selection].split(" "))
+      redirect_to admins_event_series_path(@event_serie), notice: "Event data copying... please wait"
     end
   end
 
@@ -88,6 +102,6 @@ class Admins::EventSeriesController < Admins::BaseController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def permitted_params
-    params.require(:event_serie).permit(:name, :selection, :current_event_id, :base_event_id)
+    params.require(:event_serie).permit(:name)
   end
 end

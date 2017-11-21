@@ -159,14 +159,6 @@ it:
       pt: POR
       br: BRA
     subject_support: Ho bisogno d´aiuto per %{event}
-  event_serie:
-      created: Creato con successo
-      updated: Aggiornato correttamente
-      cancelled: Annullato con successo
-      error: La maschera contiene errori
-      destroyed: Destroyed con successo
-      copy_serie: Copia dei dati ...
-      copy_serie_error: Si è verificato un errore durante la copia
   footer:
     copyright: "© Glownet"
     privacy: Politica di Privacy

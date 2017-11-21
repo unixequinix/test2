@@ -27,7 +27,15 @@ class EventSeriePolicy < ApplicationPolicy
     user.admin?
   end
 
-  def set_serie?
+  def add_event?
+    user.admin?
+  end
+
+  def remove_event?
+    user.admin?
+  end
+
+  def copy_data?
     user.admin?
   end
 

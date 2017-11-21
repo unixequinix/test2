@@ -160,14 +160,6 @@ es:
       pt: POR
       br: BRA
     subject_support: Necesito ayuda para %{event}
-  event_serie:
-      created: Creado con éxito
-      updated: Actualizado con éxito
-      cancelled: Cancelado con éxito
-      error: El formulario contiene errores
-      destroyed: Destruido con éxito
-      copy_serie: Copiando datos...
-      copy_serie_error: Hubo un error al copiar
   footer:
     copyright: "© Glownet"
     privacy: Política de privacidad

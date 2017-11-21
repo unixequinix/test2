@@ -71,36 +71,35 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def import
     authorize @current_event.gtags.new
-    path = admins_event_gtags_path(@current_event)
-    redirect_to(path, alert: "File not supplied") && return unless params[:file]
+    redirect_to(admins_event_gtags_path(@current_event), alert: "File not supplied") && return unless params[:file]
     file = params[:file][:data].tempfile.path
     company = @current_event.companies.find_or_create_by!(name: "Glownet")
     count = 0
 
     ticket_types = []
     CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << row.field("Type") }
-    ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by(name: name, company: company) }
-    ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
+    ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by!(name: name, company: company) }.map { |tt| [tt.name, tt.id] }.to_h # rubocop:disable Metrics/LineLength
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";") do |row|
-        ticket_type = ticket_types[row.field("Type")]
-        GtagCreator.perform_later(event: @current_event, tag_uid: row.field("UID"), ticket_type_id: ticket_type, credits: row.field("Balance").to_f)
+        ticket_type_id = ticket_types[row.field("Type")]
+        credits = row.field("Balance").to_f
+        customer = @current_event.customers.create! if credits.positive?
+
+        Creators::GtagJob.perform_later(@current_event, row.field("UID"), customer, credits, active: true, ticket_type_id: ticket_type_id)
         count += 1
       end
     rescue # rubocop:disable Lint/RescueWithoutErrorClass
-      return redirect_to(path, alert: t("alerts.import.error"))
+      return redirect_to(admins_event_gtags_path(@current_event), alert: t("alerts.import.error"))
     end
 
-    redirect_to(path, notice: t("alerts.import.delayed", count: count, item: "GTags"))
+    redirect_to(admins_event_gtags_path(@current_event), notice: t("alerts.import.delayed", count: count, item: "GTags"))
   end
 
   def sample_csv
     authorize @current_event.gtags.new
-    header = %w[UID Balance Type]
-    data = [%w[1218DECA31C9F92F 22.5 VIP], %w[E6312A015028B0FB General], %w[A43FE1C5E9A622C2]]
 
-    csv_file = CsvExporter.sample(header, data)
+    csv_file = CsvExporter.sample(%w[UID Type Balance], [%w[15GH56YTD4F6 VIP 22.5], %w[25GH56YTD4F6 General], %w[35GH56YTD4F6]])
     respond_to do |format|
       format.csv { send_data(csv_file) }
     end

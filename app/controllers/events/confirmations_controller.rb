@@ -9,9 +9,10 @@ class Events::ConfirmationsController < Devise::ConfirmationsController
   def show
     self.resource = resource_class.confirm_by_token(params[:confirmation_token])
     yield resource if block_given?
+    resource.skip_password_validation = true
 
     if resource.valid? && resource.errors.empty?
-      redirect_to after_confirmation_path_for(resource_name, resource)
+      redirect_to after_confirmation_path_for(resource)
     else
       redirect_to event_login_path(@current_event), alert: t('sessions.log_in.account_error')
     end
@@ -19,7 +20,7 @@ class Events::ConfirmationsController < Devise::ConfirmationsController
 
   private
 
-  def after_confirmation_path_for(_resource_name, resource)
+  def after_confirmation_path_for(resource)
     if current_customer.blank?
       sign_in(resource)
 
