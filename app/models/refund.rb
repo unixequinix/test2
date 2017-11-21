@@ -98,7 +98,7 @@ class Refund < ApplicationRecord
 
   def extra_params_fields
     return if event.payment_gateways&.bank_account.blank?
-    event.payment_gateways.bank_account.extra_fields.each do |field|
+    event.payment_gateways.bank_account.first.extra_fields.each do |field|
       errors.add(:extra_params, "Field #{field} not found") if extra_params[field.to_s].blank?
     end
   end
