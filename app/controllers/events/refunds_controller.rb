@@ -2,7 +2,7 @@ class Events::RefundsController < Events::EventsController
   before_action :set_refund, only: %i[new create]
 
   def new
-    @bank_account = @current_event.payment_gateways.refund.bank_account
+    @bank_account = @current_event.payment_gateways.refund.bank_account.first
 
     if @current_event.open_refunds
       redirect_to event_path(@current_event), notice: "No refund options available" if @refunds.empty?
