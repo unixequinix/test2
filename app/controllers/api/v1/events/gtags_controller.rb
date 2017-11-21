@@ -54,6 +54,8 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
           OR tickets.id IS NOT NULL)
           AND gtags.event_id = #{@current_event.id}
           #{"AND gtags.updated_at > '#{@modified}'" if @modified}
+        GROUP BY gtags.tag_uid, gtags.banned, gtags.redeemed, catalog_item_id, gtags.ticket_type_id, gtags.customer_id
+
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)
