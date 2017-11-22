@@ -22,9 +22,14 @@ RSpec.describe Customer, type: :model do
         end
 
         it "must be unique within its event" do
-          customer2 = build(:customer, event: event, email: customer.email)
+          customer2 = build(:customer, event: event, email: customer.email, anonymous: false)
           expect(customer2).not_to be_valid
           expect(customer2.errors[:email]).to include("has already been taken")
+        end
+
+        it "must be not be unique with other events" do
+          customer2 = build(:customer, email: customer.email, anonymous: false)
+          expect(customer2).to be_valid
         end
 
         it "can be the same as another customer in another event" do
@@ -36,30 +41,18 @@ RSpec.describe Customer, type: :model do
       context "of anonymous customers" do
         before { customer.update!(anonymous: true) }
 
-        it "can be blank" do
+        it "email can be blank" do
           customer.email = nil
           expect(customer).to be_valid
         end
 
-        it "can be present" do
-          customer.email = "a@b.com"
-          expect(customer).to be_valid
+        it "must be not unique within its event" do
+          customer2 = build(:customer, event: event)
+          expect(customer2).to be_valid
         end
 
-        it "if present, it must be formatted properly" do
-          customer.email = "invalid_email"
-          expect(customer).not_to be_valid
-          expect(customer.errors[:email]).to include("is invalid")
-        end
-
-        it "if present, it must be unique within its event" do
-          customer2 = build(:customer, event: event, email: customer.email, anonymous: true)
-          expect(customer2).not_to be_valid
-          expect(customer2.errors[:email]).to include("has already been taken")
-        end
-
-        it "if present, it can be the same as customers in other events" do
-          customer2 = build(:customer, email: customer.email, anonymous: true)
+        it "must be not unique with other events" do
+          customer2 = build(:customer)
           expect(customer2).to be_valid
         end
       end

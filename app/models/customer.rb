@@ -7,11 +7,12 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
          omniauth_providers: %i[facebook google_oauth2]
 
   validates :email, presence: true, unless: :anonymous?
-  validates :email, uniqueness: true, unless: :anonymous?
+  validates :email, uniqueness: { scope: :event_id }, unless: :anonymous?
   validates :email, format: { with: Devise.email_regexp }, unless: :anonymous?
 
-  validates :password, presence: true, confirmation: true, length: { within: Devise.password_length }, unless: :anonymous?
-  validates :password_confirmation, presence: true, unless: :anonymous?
+  attr_accessor :skip_password_validation
+  validates :password, presence: true, confirmation: true, length: { within: Devise.password_length }, unless: %i[skip_password_validation anonymous?]
+  validates :password_confirmation, presence: { unless: %i[skip_password_validation anonymous?] }
 
   belongs_to :event
 
