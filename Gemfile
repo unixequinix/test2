@@ -52,7 +52,7 @@ gem 'chartkick'
 gem 'groupdate'
 
 # Navigation
-gem 'kaminari'
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
 
 # APIs
 gem 'jbuilder', '~> 2.5'
