@@ -82,7 +82,9 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
               orders.status
             FROM order_items
               JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
-              JOIN orders ON orders.id = order_items.order_id AND orders.customer_id IN (#{ids.join(', ')})
+              JOIN orders ON orders.id = order_items.order_id
+                AND orders.customer_id IN (#{ids.join(', ')})
+                AND orders.status IN ('completed', 'refunded')
           ) o GROUP BY o.customer_id
         ) ord ON customers.id = ord.customer_id
 
