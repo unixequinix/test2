@@ -9,6 +9,19 @@ RSpec.describe Creators::EventSerieJob, type: :job do
   let!(:gtag) { create(:gtag, event: old_event, customer: registered_customer, active: true) }
   let!(:anonymous_gtag) { create(:gtag, event: old_event, customer: anonymous_customer, active: true) }
 
+  context "moving gtags" do
+    before { create(:gtag, event: old_event, customer: nil) }
+
+    it "can move unused gtags" do
+      expect { worker.perform_now(new_event, old_event, %w[0 1], "1") }.to change { new_event.gtags.count }.by(3)
+    end
+
+    it "doesn't move unused gtags if not selected" do
+      create(:gtag, event: old_event, customer: nil)
+      expect { worker.perform_now(new_event, old_event, %w[0 1], "0") }.to change { new_event.gtags.count }.by(2)
+    end
+  end
+
   context "moving all customers" do
     before(:each) do
       @params = [new_event, old_event, %w[0 1]]

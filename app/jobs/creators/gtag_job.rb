@@ -5,8 +5,7 @@ module Creators
     def perform(event, uid, balance = 0, atts = {})
       return if uid.blank?
 
-      gtag = create_gtag(uid, event)
-      gtag.update!(atts)
+      gtag = create_gtag(uid, event, atts)
 
       return unless balance.to_f.positive?
       customer = gtag.customer || event.customers.create!
