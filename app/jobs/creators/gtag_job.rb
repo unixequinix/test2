@@ -1,18 +1,17 @@
 module Creators
-  class GtagJob < ApplicationJob
+  class GtagJob < Base
     queue_as :medium
 
-    def perform(event, uid, customer, balance = 0, atts = {})
+    def perform(event, uid, balance = 0, atts = {})
       return if uid.blank?
 
-      begin
-        gtag = event.gtags.find_or_create_by(tag_uid: uid)
-        gtag.update!(atts.merge(customer: customer))
-      rescue ActiveRecord::RecordNotUnique
-        retry
-      end
+      gtag = create_gtag(uid, event)
+      gtag.update!(atts)
 
-      OrderCreator.perform_later(event, customer, balance) if balance.to_f.positive?
+      next unless balance.to_f.positive?
+      customer = gtag.customer || event.customers.create!
+      gtag.update!(customer: customer)
+      OrderCreator.perform_later(event, customer, balance)
     end
   end
 end

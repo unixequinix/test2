@@ -1,5 +1,5 @@
 module Creators
-  class OrderJob < ApplicationJob
+  class OrderJob < Base
     queue_as :medium
 
     def perform(event, customer, balance)

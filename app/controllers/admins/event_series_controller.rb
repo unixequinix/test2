@@ -87,7 +87,7 @@ class Admins::EventSeriesController < Admins::BaseController
     if old_event == new_event
       redirect_to copy_data_admins_event_series_path(@event_serie), alert: "Both events cannot be the same"
     else
-      EventSerieCopier.perform_later(new_event, old_event, params[:selection].split(" "))
+      Creators::EventSerieJob.perform_later(new_event, old_event, params[:selection].split(" "))
       redirect_to admins_event_series_path(@event_serie), notice: "Event data copying... please wait"
     end
   end
