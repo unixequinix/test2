@@ -8,7 +8,7 @@ module Creators
       gtag = create_gtag(uid, event)
       gtag.update!(atts)
 
-      next unless balance.to_f.positive?
+      return unless balance.to_f.positive?
       customer = gtag.customer || event.customers.create!
       gtag.update!(customer: customer)
       OrderCreator.perform_later(event, customer, balance)
