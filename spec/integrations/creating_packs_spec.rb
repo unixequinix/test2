@@ -11,14 +11,11 @@ RSpec.describe "Creating new Packs", js: true, type: :feature do
   end
 
   describe "Creating Packs correctly" do
-    before(:each) do
-      visit admins_event_packs_path(event)
+    it "Is located in /acceses" do
       find("#floaty").click
       find_link("new_pack_link").click
-    end
 
-    it "Is located in /acceses" do
-      expect(page).to have_current_path(new_admins_event_access_path(event))
+      expect(page).to have_current_path(new_admins_event_pack_path(event))
     end
   end
 end
