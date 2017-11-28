@@ -4,8 +4,8 @@ set :repo_url, "git@github.com:Gl0wnet/web-core.git"
 # While migrations looks like a concern of the database layer, migrations are strictly related to the framework. https://github.com/capistrano/rails
 set :migration_role, :app
 
-# Default branch is :master
-ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+# Default branch is HEAD
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/deploy"
