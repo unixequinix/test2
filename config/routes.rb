@@ -69,9 +69,18 @@ Rails.application.routes.draw do
         get :versions
       end
 
-      scope module: "events" do
+      scope module: :events do
+
+        resource :reports do
+          get :gate_close_money_recon
+          get :gate_close_billing
+          get :cashless
+          get :products_sale
+          get :gates
+          get :operators
+        end
+
         resources :stats, only: [:edit, :update] do
-          get :cashless, on: :collection
           get :stations, on: :collection
           get :issues, on: :collection
           put :update_multiple, on: :collection

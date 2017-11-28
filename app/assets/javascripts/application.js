@@ -1,4 +1,5 @@
 //= require jquery
+
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.purr
@@ -11,5 +12,3 @@
 //= require vendor/jquery-qrcode
 
 //= require_tree ./global
-
-

@@ -1,0 +1,105 @@
+
+
+- content_for(:title) do
+  | Cashless Report
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-cell.mdl-cell--10-col
+      h5 Leftover Balance (Refundable and Non-Refundable)
+      .mdl-grid
+        table#leftover_balance.display.mdl-data-table
+      br
+      hr
+      .mdl-cell.mdl-cell--10-col
+        h5 Credit Flow
+        .mdl-grid
+          table#credit_flow.display.mdl-data-table
+      br
+      hr
+      .mdl-cell.mdl-cell--10-col
+        h5 Topup & Refund by Station
+        .mdl-grid
+          table#topup_refund.display.mdl-data-table
+      br
+      hr
+      .mdl-cell.mdl-cell--10-col
+        h5 Sales by Station / Device
+        .mdl-grid
+          table#sales_by_station_device.display.mdl-data-table
+
+javascript:
+    $.fn.dataTable.ext.errMode = 'none';
+    $(document).ready(function(){
+
+        var data_leftover_balance = jQuery.parseJSON('#{ escape_javascript(@leftover_balance_data.html_safe)}')
+        var columns_leftover_balance = jQuery.parseJSON('#{@leftover_balance_column.html_safe}')
+
+        $('#leftover_balance').dataTable({
+            "paging": false,
+            "info": false,
+            "bFilter": false,
+            "data": data_leftover_balance,
+            "columns": columns_leftover_balance,
+            "order": [[0, 'asc']]
+        });
+
+        var data_credit_flow = jQuery.parseJSON('#{ escape_javascript(@credit_flow_data.html_safe)}')
+        var columns_credit_flow = jQuery.parseJSON('#{@credit_flow_column.html_safe}')
+
+        $('#credit_flow').dataTable({
+            "dom": '<"dt-buttons"Bf><"clear">lirtp',
+            "paging": false,
+            "info": false,
+            "bFilter": false,
+            "data": data_credit_flow,
+            "columns": columns_credit_flow,
+            "order": [[0, 'asc']],
+            "buttons": [
+                'copyHtml5',
+                'csvHtml5',
+                'print'
+            ]
+
+        });
+
+        var data_topup_refund = jQuery.parseJSON('#{ escape_javascript(@topup_refund_data.html_safe)}')
+        var columns_topup_refund = jQuery.parseJSON('#{@topup_refund_column.html_safe}')
+
+        $('#topup_refund').dataTable({
+            "dom": '<"dt-buttons"Bf><"clear">lirtp',
+            "paging": true,
+            "autoWidth": true,
+            "data": data_topup_refund,
+            "columns": columns_topup_refund,
+            "order": [[0, 'asc']],
+            "buttons": [
+                'copyHtml5',
+                'csvHtml5',
+                'print'
+            ]
+        });
+
+        var data_sales_by_station_device = jQuery.parseJSON('#{ escape_javascript(@sales_by_station_device_data.html_safe)}')
+        var columns_sales_by_station_device = jQuery.parseJSON('#{@sales_by_station_device_column.html_safe}')
+
+        $('#sales_by_station_device').dataTable({
+            "dom": '<"dt-buttons"Bf><"clear">lirtp',
+            "paging": true,
+            "info": true,
+            "data": data_sales_by_station_device,
+            "columns": columns_sales_by_station_device,
+            "order": [[0, 'asc']],
+            "buttons": [
+                'copyHtml5',
+                'csvHtml5',
+                'print'
+            ]
+        });
+
+        $(".dt-button").addClass("mdl-button mdl-js-button");
+        $(".dt-button").removeClass("dt-button");
+
+        $(".paginate_button").addClass("mdl-button mdl-js-button");
+        $(".paginate_button").removeClass("paginate_button");
+    });
