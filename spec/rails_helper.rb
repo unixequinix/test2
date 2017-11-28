@@ -3,6 +3,7 @@ require 'simplecov'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'pundit/rspec'
+require "action_mailer"
 require "email_spec"
 require "email_spec/rspec"
 

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Password recovery for admin users", js:true, type: :feature do
-
+RSpec.describe "Password recovery for admin users", js: true, type: :feature do
   let(:user) { create(:user, role: "admin", password: "oldpassword", password_confirmation: "oldpassword") }
   before do
     visit new_user_password_path
@@ -41,5 +40,4 @@ RSpec.describe "Password recovery for admin users", js:true, type: :feature do
     within("#new_user") { fill_in 'user_email', with: "non-existent@email.com" }
     find("input[name=commit]").click
   end
-
 end

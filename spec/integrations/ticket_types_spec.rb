@@ -1,62 +1,50 @@
 require 'rails_helper'
 
-RSpec.describe "Create a ticket type", type: :feature do
+RSpec.describe "Creating a ticket type", type: :feature, js: true do
   let(:user) { create(:user, role: :admin) }
   let(:event) { create(:event, state: "created") }
+  let!(:company) { create(:company, event: event) }
 
   before do
-    @company = create(:company, event: event)
     login_as(user, scope: :user)
-    visit admins_event_ticket_types_path(event)
-    find("#floaty").click
-    find_link("new_ticket_type").click
-  end
-  it "is located in ticket_types/new" do
-    expect(page).to have_current_path(new_admins_event_ticket_type_path(event))
+    visit new_admins_event_ticket_type_path(event)
   end
 
-  it "can be created by only filling name and company" do
-    expect do
-      within("#new_ticket_type") do
-        fill_in 'ticket_type_name', with: "TESTTICKETTYPENAME"
-        first('#ticket_type_company_id option').select_option
-      end
+  it "must contain name and company" do
+    within("#new_ticket_type") { fill_in 'ticket_type_name', with: "TESTTICKETTYPENAME" }
+    find("#ticket_type_company_id").select(company.name)
 
-      find("input[name=commit]").click
-    end.to change(TicketType, :count).by(1)
-
+    expect { find("input[name=commit]").click }.to change(TicketType, :count).by(1)
     expect(page).to have_current_path admins_event_ticket_types_path(event)
+    expect(TicketType.last.name).to eql("TESTTICKETTYPENAME")
+    expect(TicketType.last.company).to eql(company)
   end
 
-  it "can'b be done without filling a ticket type name" do
-    expect do
-      within("#new_ticket_type") do
-        first('#ticket_type_company_id option').select_option
-      end
+  it "can't be done without a name" do
+    within("#new_ticket_type") { first('#ticket_type_company_id option').select_option }
 
-      find("input[name=commit]").click
-    end.not_to change(TicketType, :count)
-
-    expect(page).to have_current_path admins_event_ticket_types_path(event)
+    expect { find("input[name=commit]").click }.not_to change(TicketType, :count)
   end
 
-  it "can be done filling everything" do
-    expect do
-      within("#new_ticket_type") do
-        fill_in 'ticket_type_name', with: "TESTTICKETTYPENAME"
-        fill_in 'ticket_type_company_code', with: "C0MP4NYC0D3"
-        first('#ticket_type_company_id option', minimum: 1).select_option
-        first('#ticket_type_catalog_item_id option', minimum: 1).select_option
-      end
+  it "allows to assign a catalog_item" do
+    within("#new_ticket_type") { fill_in 'ticket_type_name', with: "TESTTICKETTYPENAME" }
 
-      find("input[name=commit]").click
-    end.to change(TicketType, :count).by(1)
+    find("#ticket_type_company_id").select(company.name)
+    find("#ticket_type_catalog_item_id").select(event.credit.name)
 
-    ticket_type = event.ticket_types.find_by(name: "TESTTICKETTYPENAME")
-    expect(page).to have_current_path admins_event_ticket_types_path(event)
+    expect { find("input[name=commit]").click }.to change(TicketType, :count).by(1)
+    expect(TicketType.last.catalog_item).to eql(event.credit)
+  end
 
-    expect(ticket_type.name).to eq("TESTTICKETTYPENAME")
-    expect(ticket_type.company_code).to eq("C0MP4NYC0D3")
-    expect(ticket_type.company).to eq @company
+  it "allows to assign a company_code" do
+    within("#new_ticket_type") do
+      fill_in 'ticket_type_name', with: "TESTTICKETTYPENAME"
+      fill_in 'ticket_type_company_code', with: "TEST"
+    end
+
+    find("#ticket_type_company_id").select(company.name)
+
+    expect { find("input[name=commit]").click }.to change(TicketType, :count).by(1)
+    expect(TicketType.last.company_code).to eql("TEST")
   end
 end

@@ -13,9 +13,7 @@ RSpec.describe "Create an online order", type: :feature do
     create(:station_catalog_item, station: station, catalog_item: @item, price: 0.0)
 
     login_as(customer, scope: :customer)
-    visit customer_root_path(event)
-    expect(page).to have_current_path(customer_root_path(event))
-    find_link("new_top_up").click
+    visit new_event_order_path(event)
   end
 
   context "when total is 0" do
@@ -25,19 +23,27 @@ RSpec.describe "Create an online order", type: :feature do
         all("#amount-input-#{@item.id} option")[1].select_option
       end
       find("button[name=commit]").click
-      @order = event.orders.last
-      expect(page).to have_current_path(event_order_path(event, @order))
 
-      find_link("pay_link").click
+      order = event.orders.last
 
-      expect(@order.reload).to be_completed
-      expect(@order.order_items.map(&:catalog_item)).to include @item
-      expect(page).to have_current_path(success_event_order_path(event, @order))
+      expect(page).to have_current_path(event_order_path(event, order))
+      expect { find_link("pay_link").click }.to change { order.reload.completed? }.to(true)
+
+      expect(order.order_items.map(&:catalog_item)).to include @item
+      expect(page).to have_current_path(success_event_order_path(event, order))
+    end
+
+    it "completes the order" do
+      order = create(:order, event: event, customer: customer, completed_at: Time.current)
+
+      visit event_order_path(event, order)
+      expect { find_link("pay_link").click }.to change { order.reload.completed? }.to(true)
+      expect(page).to have_current_path(success_event_order_path(event, order))
     end
   end
 
   context "when total is positive" do
-    it "is buying items with total greater than 0" do
+    it "redirects to the payment gateway" do
       within("#checkout-form") do
         find("#amount-input-#{event.credit.id}", visible: false).set 50
         all("#amount-input-#{@item.id} option")[1].select_option
@@ -52,71 +58,25 @@ RSpec.describe "Create an online order", type: :feature do
       rescue ActionController::RoutingError
         expect(current_url).to include("paypal")
       end
-      @order.complete!
+
       expect(@order.order_items.map(&:catalog_item)).to include @item
     end
 
-    it "is topup with only credits" do
+    it "adds the credits to the customers balance" do
       within("#checkout-form") { find("#amount-input-#{event.credit.id}", visible: false).set 50 }
-
-      expect do
-        find("button[name=commit]").click
-        @order = event.orders.last
-        expect(page).to have_current_path(event_order_path(event, @order))
-
-        begin
-          find_link("pay_link").click
-        rescue ActionController::RoutingError
-          expect(current_url).to include("paypal")
-        end
-        @order.complete!
-        expect(@order.order_items.map(&:catalog_item)).to include event.credit
-      end.to change(customer, :global_credits).by(50)
-    end
-  end
-
-  it "is located in orders/new and topup with credits" do
-    expect(page).to have_current_path(new_event_order_path(event))
-    expect do
-      within("#checkout-form") do
-        fill_in 'input-range', with: 50
-      end
 
       find("button[name=commit]").click
       @order = event.orders.last
       expect(page).to have_current_path(event_order_path(event, @order))
-      @order.complete!
+
+      begin
+        find_link("pay_link").click
+      rescue ActionController::RoutingError
+        expect(current_url).to include("paypal")
+      end
+
+      expect { @order.complete! }.to change { customer.global_credits }.by(50)
       expect(@order.order_items.map(&:catalog_item)).to include event.credit
-    end.to change(customer, :global_credits)
-  end
-
-  it "is located in orders/new and buy items with total of 0" do
-    expect(page).to have_current_path(new_event_order_path(event))
-
-    within("#checkout-form") do
-      fill_in 'input-range', with: 0
-      all("#amount-input-#{@item.id} option")[1].select_option
     end
-
-    find("button[name=commit]").click
-    @order = event.orders.last
-    expect(page).to have_current_path(event_order_path(event, @order))
-    @order.complete!
-    expect(@order.order_items.map(&:catalog_item)).to include @item
-  end
-
-  it "is located in orders/new and buy items with total greater than 0" do
-    expect(page).to have_current_path(new_event_order_path(event))
-
-    within("#checkout-form") do
-      fill_in 'input-range', with: 50
-      all("#amount-input-#{@item.id} option")[1].select_option
-    end
-
-    find("button[name=commit]").click
-    @order = event.orders.last
-    expect(page).to have_current_path(event_order_path(event, @order))
-    @order.complete!
-    expect(@order.order_items.map(&:catalog_item)).to include @item
   end
 end

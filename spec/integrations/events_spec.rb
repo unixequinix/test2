@@ -14,6 +14,41 @@ RSpec.describe "Events in the admin panel", type: :feature do
         within("#new_event") { fill_in 'event_name', with: "jakefest" }
         expect { find("input[name=commit]").click }.to change(Event, :count).by(1)
       end
+
+      it "allows to select an event serie" do
+        event_serie = create(:event_serie)
+        visit new_admins_event_path
+
+        within("#new_event") { fill_in('event_name', with: "jakefest") }
+        find("#event_event_serie_id").select(event_serie.name)
+        find("input[name=commit]").click
+        expect(Event.find_by(name: "jakefest").event_serie).to eql(event_serie)
+      end
+
+      it "allows to select a timezone" do
+        within("#new_event") { fill_in('event_name', with: "jakefest") }
+        find("#event_timezone").select("(GMT+00:00) UTC")
+        find("input[name=commit]").click
+        expect(Event.find_by(name: "jakefest").timezone).to eql("UTC")
+      end
+
+      it "allows to select a start date" do
+        within("#new_event") { fill_in('event_name', with: "jakefest") }
+        find("#event_start_date_1i").select("2016")
+        find("#event_start_date_2i").select("January")
+        find("#event_start_date_3i").select("1")
+        find("input[name=commit]").click
+        expect(Event.find_by(name: "jakefest").start_date.to_date).to eql(Date.new(2016, 1, 1))
+      end
+
+      it "allows to select an end date" do
+        within("#new_event") { fill_in('event_name', with: "jakefest") }
+        find("#event_end_date_1i").select("2018")
+        find("#event_end_date_2i").select("January")
+        find("#event_end_date_3i").select("1")
+        find("input[name=commit]").click
+        expect(Event.find_by(name: "jakefest").end_date.to_date).to eql(Date.new(2018, 1, 1))
+      end
     end
 
     context "a sample event" do
