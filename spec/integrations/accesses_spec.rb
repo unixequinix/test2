@@ -1,162 +1,77 @@
 require 'rails_helper'
 
-RSpec.describe "Create new Accesses", js: true, type: :feature do
+RSpec.describe "Accesses in the admin panel", type: :feature do
   let(:event) { create(:event, state: "launched") }
-  let(:event_created) { create(:event, state: "created") }
   let(:user) { create(:user, role: :admin) }
-  let(:access) { create(:access) }
+  let(:access) { create(:access, event: event) }
 
   before(:each) do
     login_as(user, scope: :user)
   end
 
-  describe "Creating accesses correctly" do
-    it "Delete an Access on Access details view (EVENT CREATED)" do
-      visit admins_event_accesses_path(event_created)
-      find("#floaty").click
-      find_link("new_access_link").click
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "DELETE"
-        find("input[name=commit]").click
-      end
-      @access = event_created.accesses.last
-      visit admins_event_access_path(event_created, @access)
-      find("#floaty").click
-      find("#delete").click
-      page.accept_alert
-      sleep(1)
-      expect(event_created.accesses.count).to eq(0)
+  describe "delete: " do
+    before { visit admins_event_access_path(event, access) }
+
+    it "can be achieved if the event is in 'created' state" do
+      event.update! state: "created"
+      expect { find("#delete_access").click }.to change { event.accesses.count }.by(-1)
+      expect(page).to have_current_path admins_event_accesses_path(event)
     end
 
-    before(:each) do
-      visit admins_event_accesses_path(event)
-      find("#floaty").click
-      find_link("new_access_link").click
+    it "cannot be achieved if the event is in 'launched' state" do
+      event.update! state: "launched"
+      expect { find("#delete_access").click }.not_to change(event.accesses, :count)
+      expect(page).to have_current_path admins_events_path
     end
+  end
 
-    it "Is located in /acceses" do
-      expect(page).to have_current_path(new_admins_event_access_path(event))
-    end
+  describe "create: " do
+    before { visit new_admins_event_access_path(event) }
 
-    it "Can be created by filling Name and Mode" do
+    it "needs name and mode filled in" do
       within("#new_access") do
         first('#access_mode option', minimum: 1).select_option
         fill_in 'access_name', with: "TESTACCESS"
       end
 
       expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
+    end
+
+    it "redirects to accesses#index" do
+      within("#new_access") do
+        first('#access_mode option', minimum: 1).select_option
+        fill_in 'access_name', with: "TESTACCESS"
+      end
+
+      find("input[name=commit]").click
       expect(page).to have_current_path admins_event_accesses_path(event)
     end
 
-    it "Can not be created without filling Name" do
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-      end
-
+    it "doesn't allow for nameless accesses" do
+      within("#new_access") { first('#access_mode option', minimum: 1).select_option }
       expect { find("input[name=commit]").click }.not_to change(Access, :count)
-      expect(page).to have_current_path admins_event_accesses_path(event)
+    end
+  end
+
+  describe "index: " do
+    before do
+      create_list(:access, 5, event: event)
+      visit new_admins_event_access_path(event)
     end
 
-    it "Shows the same number of Accesses that created" do
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS1"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-
-      find("#floaty").click
-      find_link("new_access_link").click
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS2"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-
-      find("#floaty").click
-      find_link("new_access_link").click
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS3"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-      expect(event.accesses.count).to eq(3)
+    it "shows the same number of Accesses present in event" do
+      expect(event.accesses.count).to eq(5)
     end
+  end
 
-    it "Checks Name and Mode of Accesses" do
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS1"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-      expect(event.accesses.last.name).to eq("TESTACCESS1")
-      @mode = event.accesses.last.mode
-      expect(event.accesses.last.mode).to eq @mode
+  describe "edit: " do
+    it "cannot be edited as nameless" do
+      visit edit_admins_event_access_path(event, access)
 
-      visit admins_event_accesses_path(event)
-      find("#floaty").click
-      find_link("new_access_link").click
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS2"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-      expect(event.accesses.last.name).to eq("TESTACCESS2")
-      @mode = event.accesses.last.mode
-      expect(event.accesses.last.mode).to eq @mode
-
-      visit admins_event_accesses_path(event)
-      find("#floaty").click
-      find_link("new_access_link").click
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS3"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-      expect(event.accesses.last.name).to eq("TESTACCESS3")
-      @mode = event.accesses.last.mode
-      expect(event.accesses.last.mode).to eq @mode
-    end
-
-    it "Redirect to Access details view" do
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "TESTACCESS"
-      end
-      expect { find("input[name=commit]").click }.to change(Access, :count).by(1)
-      @access = event.accesses.last
-      visit admins_event_access_path(event, @access)
-      expect(page).to have_current_path admins_event_access_path(event, @access)
-    end
-
-    it "Delete an Access on Access details view (EVENT LAUNCHED)" do
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "DELETE"
-        find("input[name=commit]").click
-      end
-      @access = event.accesses.last
-      visit admins_event_access_path(event, @access)
-      find("#floaty").click
-      find("#delete").click
-      page.accept_alert
-      expect(event.accesses.count).not_to eq(0)
-    end
-
-    it "Cannot edit an Access and leave it without a name" do
-      within("#new_access") do
-        first('#access_mode option', minimum: 1).select_option
-        fill_in 'access_name', with: "EDIT"
-        find("input[name=commit]").click
-      end
-      @access = event.accesses.last
-      visit admins_event_access_path(event, @access)
-      find(".floaty-btn").click
-      find("#edit").click
-      fill_in 'access_name', with: ""
+      within("#edit_access_#{access.id}") { fill_in 'access_name', with: "" }
       find("input[name=commit]").click
 
-      expect(page).not_to have_current_path admins_event_accesses_path(event)
+      expect(page).to have_current_path(admins_event_access_path(event, access))
     end
   end
 end

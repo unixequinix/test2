@@ -127,6 +127,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rubocop', require: false
   gem 'guard-rspec', require: false
+  gem 'guard-brakeman', require: false
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
   gem 'terminal-notifier'

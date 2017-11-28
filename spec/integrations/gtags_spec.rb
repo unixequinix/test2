@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Create a gtag", type: :feature do
-  let(:user) { create(:user, role: "admin") }
+  let(:user) { create(:user, role: :admin) }
   let(:event) { create(:event, state: "created") }
 
   before do

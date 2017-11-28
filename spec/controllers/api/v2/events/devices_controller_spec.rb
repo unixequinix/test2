@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V2::Events::DevicesController, type: %i[controller api] do
   let(:event) { create(:event, open_api: true, state: "created") }
-  let(:user) { create(:user, role: "admin") }
+  let(:user) { create(:user, role: :admin) }
   let(:device) { create(:device) }
 
   let(:invalid_attributes) { { mac: nil } }

@@ -90,7 +90,7 @@ RSpec.configure do |config|
   # Helper specs: type: :helper
   # Mailer specs: type: :mailer
   # Routing specs: type: :routing
-  # Service specs: tyoe: :services
+  # Service specs: type: :services
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
