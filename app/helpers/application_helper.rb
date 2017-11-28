@@ -18,4 +18,10 @@ module ApplicationHelper
   def title
     Rails.env.production? ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end
+
+  def datetime(datetime)
+    Time.zone.parse(datetime)
+  rescue StandardError
+    nil
+  end
 end
