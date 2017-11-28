@@ -146,6 +146,7 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'simplecov', require: false
   gem 'codecov', require: false
+  gem 'email_spec'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

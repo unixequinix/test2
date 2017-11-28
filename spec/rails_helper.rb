@@ -3,6 +3,8 @@ require 'simplecov'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'pundit/rspec'
+require "email_spec"
+require "email_spec/rspec"
 
 ENV['RAILS_ENV'] ||= 'test'
 

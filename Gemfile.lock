@@ -203,6 +203,10 @@ GEM
     docile (1.1.5)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
+    email_spec (2.1.1)
+      htmlentities (~> 4.3.3)
+      launchy (~> 2.1)
+      mail (~> 2.6)
     erubi (1.7.0)
     execjs (2.7.0)
     factory_bot (4.8.2)
@@ -245,6 +249,7 @@ GEM
       guard (~> 2.0)
       rubocop (~> 0.20)
     hashie (3.5.6)
+    htmlentities (4.3.4)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -607,6 +612,7 @@ DEPENDENCIES
   country_select
   deep_cloneable
   devise
+  email_spec
   eventbrite!
   factory_bot_rails
   figaro

@@ -9,7 +9,7 @@
   *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
-        = link_to new_admins_user_path do
+        = link_to new_admins_user_path, id:"new_user_link" do
           button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons add
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" New
@@ -37,14 +37,14 @@
           tbody
             - @users.each do |user|
               tr
-                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to user.email, [:admins, user]
+                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to user.email, [:admins, user], id:"#{user.id}_email"
                 td.mdl-data-table__cell--non-numeric data-label="Username" = best_in_place user, :username, url: [:admins, user]
                 td.mdl-data-table__cell--non-numeric data-label="Role" = best_in_place user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, user]
                 td.mdl-data-table__cell--non-numeric data-label="Events" = user.events.count
                 td.mdl-data-table__cell--non-numeric data-label="Last Event" = link_to "#{user.events.last.name} (#{user.event_registrations.find_by(event: user.events.last).role})", [:admins, user.events.last] if user.events.last
                 td.table-actions
                   .table-action
-                    = link_to [:admins, user], method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                    = link_to [:admins, user], method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"#{user.id}_delete" do
                       button.material-icons delete_forever
 
     = render "layouts/pagination", objects: @users
