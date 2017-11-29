@@ -39,7 +39,7 @@
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
-        table.mdl-data-table.mdl-js-data-table.within-card
+        table.mdl-data-table.mdl-js-data-table.within-card#event_list
           thead
             tr
               th.mdl-data-table__cell--non-numeric Name
@@ -51,7 +51,7 @@
             - @events.each do |event|
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = link_to event.name, admins_event_path(event), class: "no_link", id:"#{event.id}_link"
+                  = link_to event.name, admins_event_path(event), class: "no_link", id:"event_#{event.id}_show"
                   - unless @alerts[event.id].to_i.zero?
                     = link_to admins_event_alerts_path(event) do
                       span.mdl-badge data-badge="#{@alerts[event.id]}"

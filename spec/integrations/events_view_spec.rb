@@ -14,7 +14,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
     it "click on 'all' label" do
       find("#filters_all").click
       expect(page).to have_current_path(admins_events_path(status: 'all'))
-      within 'table' do
+      within '#event_list' do
         expect(page).to have_text @event_launched.name.to_s
         expect(page).to have_text @event_created.name.to_s
         expect(page).to have_text @event_closed.name.to_s
@@ -24,7 +24,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
     it "click on 'created' label" do
       find("#filters_created").click
       expect(page).to have_current_path(admins_events_path(status: 'created'))
-      within 'table' do
+      within '#event_list' do
         expect(page).not_to have_text @event_launched.name.to_s
         expect(page).to have_text @event_created.name.to_s
         expect(page).not_to have_text @event_closed.name.to_s
@@ -34,7 +34,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
     it "click on 'closed' label" do
       find("#filters_closed").click
       expect(page).to have_current_path(admins_events_path(status: 'closed'))
-      within 'table' do
+      within '#event_list' do
         expect(page).not_to have_text @event_launched.name.to_s
         expect(page).not_to have_text @event_created.name.to_s
         expect(page).to have_text @event_closed.name.to_s
@@ -45,7 +45,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
       find("#filters_closed").click
       find("#filters_launched").click
       expect(page).to have_current_path(admins_events_path(status: 'launched'))
-      within 'table' do
+      within '#event_list' do
         expect(page).to have_text @event_launched.name.to_s
         expect(page).not_to have_text @event_created.name.to_s
         expect(page).not_to have_text @event_closed.name.to_s
@@ -57,7 +57,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
     it "type event name" do
       find("#search_icon").click
       within("#event_search") { fill_in 'fixed-header-drawer-exp', with: @event_created.name.to_s }.native.send_keys(:return)
-      within 'table' do
+      within '#event_list' do
         expect(page).not_to have_text @event_launched.name.to_s
         expect(page).to have_text @event_created.name.to_s
         expect(page).not_to have_text @event_closed.name.to_s
@@ -67,7 +67,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
     it "type non-existent event name" do
       find("#search_icon").click
       within("#event_search") { fill_in 'fixed-header-drawer-exp', with: "non-existent" }.native.send_keys(:return)
-      within 'table' do
+      within '#event_list' do
         expect(page).not_to have_text @event_launched.name.to_s
         expect(page).not_to have_text @event_created.name.to_s
         expect(page).not_to have_text @event_closed.name.to_s
@@ -77,7 +77,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
     it "don't type event name" do
       find("#search_icon").click
       within("#event_search") { fill_in 'fixed-header-drawer-exp', with: "" }.native.send_keys(:return)
-      within 'table' do
+      within '#event_list' do
         expect(page).to have_text @event_launched.name.to_s
         expect(page).to have_text @event_created.name.to_s
         expect(page).to have_text @event_closed.name.to_s
@@ -87,7 +87,7 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
 
   describe "actions in events view" do
     it "select an event" do
-      find("#{@event_launched.id}_link").click
+      find("#event_#{@event_launched.id}_show").click
       expect(page).to have_current_path(admins_event_path(@event_launched))
     end
   end
