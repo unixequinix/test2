@@ -12,7 +12,7 @@ RSpec.describe "Sign up process", type: :feature do
     end
 
     expect { find("input[name=commit]").click }.not_to change(User, :count)
-    expect(page).to have_current_path(admins_events_path)
+    expect(page).to have_current_path(admins_users_path)
   end
 
   it "is not valid if passwords dont match" do
