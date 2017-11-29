@@ -1,5 +1,4 @@
 module ReportsHelper
-
   def view_builder(operation_name, column_names, column_pivot, total = 'nill')
     sql = send "query_#{operation_name}", @current_event.id
     data = JSON.parse(Stat.connection.select_all(sql).to_json)
@@ -8,15 +7,14 @@ module ReportsHelper
     columns = column_names + data.map { |hash| hash[column_pivot] }.uniq.sort + ["total"]
     result2 = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
 
-    (total != 'nill') ? result3 = data.map {|i| i[total].to_i}.reduce(:+) : result3 = 0
+    result3 = total != 'nill' ? data.map { |i| i[total].to_i }.reduce(:+) : 0
 
     [result1, result2, result3]
   end
 
   def data_connection(query)
-    JSON.parse(Stat.connection.select_all("#{query}").to_json)
+    JSON.parse(Stat.connection.select_all(query.to_s).to_json)
   end
-
 
   # Gate Close -> Money Income ---------------------------------------------------------------------------------------
   def query_action_station_money(event_id)
@@ -152,9 +150,9 @@ module ReportsHelper
   end
 
   def pivot_leftover_balance(foo)
-    foo = foo.group_by { |h| [h["event_day"]]}
+    foo = foo.group_by { |h| [h["event_day"]] }
     foo.map do |_keys, arr|
-      result = { "event_day" => arr.first["event_day"].humanize}
+      result = { "event_day" => arr.first["event_day"].humanize }
       arr.each { |hash| result[hash["credit_name"]] = number_to_delimited((hash["amount"]).to_f) }
       result
     end
@@ -176,7 +174,7 @@ module ReportsHelper
   end
 
   def pivot_credit_flow(foo)
-    foo = foo.group_by { |h| [h["transaction_type"], h["credit_name"]]}
+    foo = foo.group_by { |h| [h["transaction_type"], h["credit_name"]] }
     foo.map do |_keys, arr|
       result = { "transaction_type" => arr.first["transaction_type"].humanize,
                  "credit_name" => arr.first["credit_name"].humanize,
@@ -191,7 +189,7 @@ module ReportsHelper
   def query_topup_refund(event_id)
     <<-SQL
       SELECT
-        COALESCE(name, action) as 
+        COALESCE(name, action) as
         transaction_type,
         location,
         station_type,
@@ -206,16 +204,16 @@ module ReportsHelper
   end
 
   def pivot_topup_refund(foo)
-    foo = foo.group_by { |h|
+    foo = foo.group_by do |h|
       [h["transaction_type"],
        h["location"],
        h["station_type"],
        h["station_name"],
        h["credit_name"]]
-    }
+    end
     foo.map do |_keys, arr|
       result = { "transaction_type" => arr.first["transaction_type"].humanize,
-                 #"location" => arr.first["location"].humanize,
+                 # "location" => arr.first["location"].humanize,
                  "station_type" => arr.first["station_type"].humanize,
                  "station_name" => arr.first["station_name"].humanize,
                  "credit_name" => arr.first["credit_name"].humanize,
@@ -245,7 +243,7 @@ module ReportsHelper
   def pivot_sales_by_station_device(foo)
     foo = foo.group_by { |h| [h["station_type"], h["station_name"], h["device_name"], h["credit_name"]] }
     foo.map do |_keys, arr|
-      result = {"station_type" => arr.first["station_type"].humanize,
+      result = { "station_type" => arr.first["station_type"].humanize,
                  "station_name" => arr.first["station_name"],
                  "device_name" => arr.first["device_name"],
                  "credit_name" => arr.first["credit_name"],
@@ -345,9 +343,9 @@ module ReportsHelper
   def pivot_products_sale_station(foo)
     foo = foo.group_by { |h| [h["station_type"], h["station_name"], h["product_name"], h["credit_name"]] }
     foo.map do |_keys, arr|
-    result = { "station_type" => arr.first["station_type"].humanize, "station_name" => arr.first["station_name"], "product_name" => arr.first["product_name"] , "total_quantity" => number_to_delimited(arr.map { |i| i["total_quantity"].to_i }.reduce(:+)), "total_amount" => number_to_delimited(arr.map { |i| i["total_amount"].to_f }.reduce(:+)) }
-    arr.each { |hash| result[hash["event_day"]] = {"q" => number_to_delimited((hash["total_quantity"]).to_i), "a" => number_to_delimited((hash["total_amount"]).to_f)} }
-    result
+      result = { "station_type" => arr.first["station_type"].humanize, "station_name" => arr.first["station_name"], "product_name" => arr.first["product_name"], "total_quantity" => number_to_delimited(arr.map { |i| i["total_quantity"].to_i }.reduce(:+)), "total_amount" => number_to_delimited(arr.map { |i| i["total_amount"].to_f }.reduce(:+)) }
+      arr.each { |hash| result[hash["event_day"]] = { "q" => number_to_delimited((hash["total_quantity"]).to_i), "a" => number_to_delimited((hash["total_amount"]).to_f) } }
+      result
     end
   end
 
@@ -378,20 +376,20 @@ module ReportsHelper
 
   # Gates -> Checkin Rate % --------------------------------------------------------------------------------------------
 
-  def get_rate_data(a,b)
-    data =[]
+  def get_rate_data(a, b)
+    data = []
 
-    a.each do |k,v|
+    a.each do |k, v|
       aux = {} # this is a hash
       aux["ticket_type"] = k
 
-      if b[k].nil?
-        r_aux = 0
-      else
-        r_aux = b[k]
-      end
-      r = (r_aux*100)/v
-      aux["rate"] = "#{r}"
+      r_aux = if b[k].nil?
+                0
+              else
+                b[k]
+              end
+      r = (r_aux * 100) / v
+      aux["rate"] = r.to_s
       data << aux
     end
 
@@ -450,10 +448,10 @@ module ReportsHelper
     foo.map do |_keys, arr|
       result = { "station_type" => arr.first["station_type"].humanize,
                  "station_name" => arr.first["station_name"],
-                 "catalog_item_name" => arr.first["catalog_item_name"] ,
+                 "catalog_item_name" => arr.first["catalog_item_name"],
                  "total_quantity" => number_to_delimited(arr.map { |i| i["total_quantity"].to_i }.reduce(:+)),
                  "total_amount" => number_to_delimited(arr.map { |i| i["total_amount"].to_f }.reduce(:+)) }
-      arr.each { |hash| result[hash["event_day"]] = {"q" => number_to_delimited((hash["total_quantity"]).to_i), "a" => number_to_delimited((hash["total_amount"]).to_f)} }
+      arr.each { |hash| result[hash["event_day"]] = { "q" => number_to_delimited((hash["total_quantity"]).to_i), "a" => number_to_delimited((hash["total_amount"]).to_f) } }
       result
     end
   end
@@ -485,15 +483,15 @@ module ReportsHelper
     SQL
   end
 
-  def pivot_access_ctrl_station (foo)
+  def pivot_access_ctrl_station(foo)
     foo = foo.group_by { |h| [h["station_type"], h["station_name"]] }
     foo.map do |_keys, arr|
       result = { "station_type" => arr.first["station_type"].humanize,
                  "station_name" => arr.first["station_name"],
                  "access_counter_in" => number_to_delimited(arr.map { |i| i["access_counter_in"].to_i }.reduce(:+)),
-                 "access_counter_out" => number_to_delimited(arr.map { |i| i["access_counter_out"].to_i }.reduce(:+))}
+                 "access_counter_out" => number_to_delimited(arr.map { |i| i["access_counter_out"].to_i }.reduce(:+)) }
 
-      arr.each { |hash| result[hash["event_day"]] = {"in" => number_to_delimited((hash["access_counter_in"]).to_i), "out" => number_to_delimited((hash["access_counter_out"]).to_i)}}
+      arr.each { |hash| result[hash["event_day"]] = { "in" => number_to_delimited((hash["access_counter_in"]).to_i), "out" => number_to_delimited((hash["access_counter_out"]).to_i) } }
       result
     end
   end
@@ -526,19 +524,18 @@ module ReportsHelper
     SQL
   end
 
-  def pivot_access_ctrl_min (foo)
+  def pivot_access_ctrl_min(foo)
     foo = foo.group_by { |h| [h["event_day"], h["time_fraction"]] }
     foo.map do |_keys, arr|
       result = { "event_day" => arr.first["event_day"],
                  "time_fraction" => arr.first["time_fraction"],
                  "access_counter_in" => number_to_delimited(arr.map { |i| i["access_counter_in"].to_i }.reduce(:+)),
-                 "access_counter_out" => number_to_delimited(arr.map { |i| i["access_counter_out"].to_i }.reduce(:+))}
+                 "access_counter_out" => number_to_delimited(arr.map { |i| i["access_counter_out"].to_i }.reduce(:+)) }
 
-      arr.each { |hash| result[hash["station_name"]] = {"in" => number_to_delimited((hash["access_counter_in"]).to_i), "out" => number_to_delimited((hash["access_counter_out"]).to_i)}}
+      arr.each { |hash| result[hash["station_name"]] = { "in" => number_to_delimited((hash["access_counter_in"]).to_i), "out" => number_to_delimited((hash["access_counter_out"]).to_i) } }
       result
     end
   end
-
 
   # Product Sales -> Overall Product Sale ----------------------------------------------------------------------------------
 
@@ -559,8 +556,8 @@ module ReportsHelper
   def pivot_products_sale_overall(foo)
     foo = foo.group_by { |h| [h["product_name"]] }
     foo.map do |_keys, arr|
-      result = { "product_name" => arr.first["product_name"] , "total_quantity" => number_to_delimited(arr.map { |i| i["quantity"].to_i }.reduce(:+)), "total_amount" => number_to_delimited(arr.map { |i| i["amount"].to_f }.reduce(:+)) }
-      arr.each { |hash| result[hash["event_day"]] = {"q" => number_to_delimited((hash["quantity"]).to_i), "a" => number_to_delimited((hash["amount"]).to_f)} }
+      result = { "product_name" => arr.first["product_name"], "total_quantity" => number_to_delimited(arr.map { |i| i["quantity"].to_i }.reduce(:+)), "total_amount" => number_to_delimited(arr.map { |i| i["amount"].to_f }.reduce(:+)) }
+      arr.each { |hash| result[hash["event_day"]] = { "q" => number_to_delimited((hash["quantity"]).to_i), "a" => number_to_delimited((hash["amount"]).to_f) } }
       result
     end
   end
@@ -597,7 +594,7 @@ module ReportsHelper
                  "event_day" => arr.first["event_day"],
                  "product_name" => arr.first["product_name"],
                  "total_quantity" => number_to_delimited(arr.map { |i| i["quantity"].to_i }.reduce(:+)) }
-      arr.each { |hash| result[hash["credit_name"]] =  number_to_delimited((hash["amount"]).to_f) }
+      arr.each { |hash| result[hash["credit_name"]] = number_to_delimited((hash["amount"]).to_f) }
       result
     end
   end
@@ -618,11 +615,10 @@ module ReportsHelper
     FROM stats
       WHERE event_id = #{event_id}
             AND origin = 'onsite'
-            AND NOT monetary_total_price ISNULL 
+            AND NOT monetary_total_price ISNULL
       GROUP BY 1,2,3,4,5,6,7,8,9
     SQL
   end
-
 
   def pivot_operators_money(foo)
     foo = foo.group_by {  |h| [h["station_type"], h["station_name"], h["operator_uid"], h["operator_name"], h["device_name"], h["event_day"], h["action"], h["catalog_item_name"]] }

@@ -8,7 +8,6 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "hotfix.glownet.com", user: "deploy", roles: %w[web app db]
 
-
 ask :branch, proc { `git rev-parse --abbrev-ref develop`.chomp }
 set :rails_env, "hotfix"
 

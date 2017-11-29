@@ -19,11 +19,10 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
   def gate_close_billing
     authorize(:stat, :gate_close_billing?)
     # Activations by Station and Event Day ---------------------------------------------------------------
-    @activations_data, @activations_column, @total_activations  = view_builder('activations',['station_name'], 'event_day', 'activations')
+    @activations_data, @activations_column, @total_activations = view_builder('activations', ['station_name'], 'event_day', 'activations')
 
     # Device Used ----------------------------------------------------------------------------------------
-    @devices_data, @devices_column, @total_devices  = view_builder('devices',['station_name'], 'event_day', 'devices_count')
-
+    @devices_data, @devices_column, @total_devices = view_builder('devices', ['station_name'], 'event_day', 'devices_count')
   end
 
   def cashless
@@ -39,8 +38,7 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     @topup_refund_data, @topup_refund_column = view_builder('topup_refund', %w[transaction_type station_type station_name credit_name], 'event_day')
 
     # Sales by Station / Device ----------------------------------------------------------------------------------------
-    @sales_by_station_device_data, @sales_by_station_device_column = view_builder('sales_by_station_device', %w[station_type station_name device_name credit_name],'event_day')
-
+    @sales_by_station_device_data, @sales_by_station_device_column = view_builder('sales_by_station_device', %w[station_type station_name device_name credit_name], 'event_day')
   end
 
   def products_sale
@@ -50,11 +48,11 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
 
     # Top Products by quantity -----------------------------
     data = data_connection(query_top_products_by_quantity(@current_event.id))
-    @top_products_by_quantity_data = data.map {|hash| [hash["product_name"], hash["quantity"].to_i]}
+    @top_products_by_quantity_data = data.map { |hash| [hash["product_name"], hash["quantity"].to_i] }
 
     # Top Products by amount -----------------------------
     data = data_connection(query_top_products_by_amount(@current_event.id))
-    @top_products_by_amount_data = data.map {|hash| [hash["product_name"], hash["amount"].to_f]}
+    @top_products_by_amount_data = data.map { |hash| [hash["product_name"], hash["amount"].to_f] }
 
     # Performance by Station -------------------------------------------------------------------------------------
     @perfomance_by_station_data = @current_event.stats.group(:station_name).group("to_char(date_trunc('hour', date ), 'HH24h DD-Mon-YY')").order("to_char(date_trunc('hour', date ), 'HH24h DD-Mon-YY')").where(credit_value: 1, action: 'sale').sum('-1 * credit_amount')
@@ -63,14 +61,14 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     data = data_connection(query_products_sale_station(@current_event.id))
     @products_sale_station_data = pivot_products_sale_station(data).to_json
 
-    columns = %w[station_type station_name product_name] + data.map { |hash| [hash["event_day"]+".q" , hash["event_day"]+".a"]}.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
+    columns = %w[station_type station_name product_name] + data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
     @products_sale_station_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
 
     # Products sale overall-----------------------------
     data = data_connection(query_products_sale_overall(@current_event.id))
     @products_sale_overall_data = pivot_products_sale_overall(data).to_json
 
-    columns = %w[product_name] + data.map { |hash| [hash["event_day"]+".q" , hash["event_day"]+".a"]}.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
+    columns = %w[product_name] + data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
     @products_sale_overall_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
   end
 
@@ -88,7 +86,6 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
 
     columns = %w[station_type station_name operator_uid operator_name device_name event_day action catalog_item_name] + data.map { |hash| hash["payment_method"] }.uniq + ["total_money"]
     @operators_money_columns = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
-
   end
 
   def gates
@@ -97,11 +94,11 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     @tickets_checkedin_data, @tickets_checkedin_column = view_builder('tickets_checkedin', %w[transaction_type ticket_type_name], 'event_day')
 
     # Checkin Rate % ---------------------------------------------------------------------------------------------------
-    complete_ticket_list = Event.find(@current_event.id).tickets.group(:ticket_type_id).count.map{ |id, count| [TicketType.find(id).name , count]}.to_h
-    checked_ticket_list = Event.find(@current_event.id).stats.where(:action => ["checkin","ticket_validation"]).group(:ticket_type_name).count
+    complete_ticket_list = Event.find(@current_event.id).tickets.group(:ticket_type_id).count.map { |id, count| [TicketType.find(id).name, count] }.to_h
+    checked_ticket_list = Event.find(@current_event.id).stats.where(action: %w[checkin ticket_validation]).group(:ticket_type_name).count
 
-    data = get_rate_data(complete_ticket_list,checked_ticket_list)
-    @data_checkin_rate = data.map {|hash| [hash["ticket_type"], hash["rate"].to_i]}
+    data = get_rate_data(complete_ticket_list, checked_ticket_list)
+    @data_checkin_rate = data.map { |hash| [hash["ticket_type"], hash["rate"].to_i] }
 
     # Tickets Checked-in - by Station ----------------------------------------------------------------------------------
     @checkedin_by_station_data, @checkedin_by_station_column = view_builder('checkedin_by_station', %w[transaction_type station_name ticket_type_name], 'event_day')
@@ -111,14 +108,14 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     data = JSON.parse(Stat.connection.select_all(acc_sql).to_json)
     @accreditation_data = pivot_accreditation(data).to_json
 
-    columns = %w[station_type station_name catalog_item_name] + data.map { |hash| [hash["event_day"]+".q" , hash["event_day"]+".a"]}.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
+    columns = %w[station_type station_name catalog_item_name] + data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
     @accreditation_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
 
     # Gates -> Access Control by Station -------------------------------------------------------------------------------
     data = JSON.parse(Stat.connection.select_all(query_access_ctrl_station(@current_event.id)).to_json)
     @access_ctrl_data = pivot_access_ctrl_station(data).to_json
 
-    columns = %w[station_type station_name] + data.map { |hash| [hash["event_day"]+".in" , hash["event_day"]+".out"]}.uniq.sort.flatten + ["Access_Counter_In"] + ["Access_Counter_Out"]
+    columns = %w[station_type station_name] + data.map { |hash| [hash["event_day"] + ".in", hash["event_day"] + ".out"] }.uniq.sort.flatten + ["Access_Counter_In"] + ["Access_Counter_Out"]
     @access_ctrl_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
 
     # Gates -> Access Control - 30min ----------------------------------------------------------------------------------
@@ -126,13 +123,13 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     @data = data
     @access_ctrl_min_data = pivot_access_ctrl_min(data).to_json
 
-    columns = %w[event_day time_fraction] + data.map { |hash| [hash["station_name"]+".in" , hash["station_name"]+".out"]}.uniq.sort.flatten + ["Access_Counter_In"] + ["Access_Counter_Out"]
+    columns = %w[event_day time_fraction] + data.map { |hash| [hash["station_name"] + ".in", hash["station_name"] + ".out"] }.uniq.sort.flatten + ["Access_Counter_In"] + ["Access_Counter_Out"]
     @access_ctrl_min_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
   end
 
   private
+
   def load_reports_resources
     @load_reports_resources = true
   end
-
 end

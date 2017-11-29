@@ -4,7 +4,7 @@ module ApplicationHelper
     new_object = f.object.send(association).klass.new
     id = new_object.object_id
     fields = f.fields_for(association, new_object, child_index: id) { |builder| render(association.to_s.singularize + "_fields", f: builder) }
-    link_to(name, "#", id:"add_fields", class: "add_fields", data: { id: id, fields: fields.delete("\n") })
+    link_to(name, "#", id: "add_fields", class: "add_fields", data: { id: id, fields: fields.delete("\n") })
   end
 
   def number_to_event_currency(number)
