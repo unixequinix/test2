@@ -19,15 +19,13 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-    respond_to do |format|
-      if @current_customer.update(permitted_params)
-        sign_in(@current_customer, bypass: true)
-        format.html { redirect_to customer_root_path(@current_event), notice: t("alerts.updated") }
-        format.json { render status: :ok, json: @current_customer }
-      else
-        format.html { render :change_password }
-        format.json { render json: { errors: @current_customer.errors }, status: :unprocessable_entity }
-      end
+    @current_customer.skip_password_validation = true
+
+    if @current_customer.update(account_update_params)
+      sign_in(@current_customer, bypass: true)
+      redirect_to customer_root_path(@current_event), notice: t("alerts.updated")
+    else
+      render :change_password
     end
   end
 
