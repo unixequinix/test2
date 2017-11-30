@@ -49,9 +49,8 @@ RSpec.describe "Creating a ticket type", type: :feature do
     end
   end
 
-
   describe "delete:" do
-    let(:ticket_type) { create(:ticket_type, event: event)}
+    let(:ticket_type) { create(:ticket_type, event: event) }
 
     before { visit admins_event_ticket_type_path(event, ticket_type) }
 
@@ -69,8 +68,6 @@ RSpec.describe "Creating a ticket type", type: :feature do
       event.update! state: "created"
       create_list(:ticket, 3, event: event, ticket_type: ticket_type)
       expect { find("#delete_ticket_type").click }.to change { event.reload.tickets.count }.by(-3)
-
     end
   end
 end
-

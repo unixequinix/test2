@@ -10,7 +10,7 @@ module Creators
       return unless balance.to_f.positive?
       customer = gtag.customer || event.customers.create!
       gtag.update!(customer: customer)
-      OrderCreator.perform_later(event, customer, balance)
+      OrderJob.perform_later(event, customer, balance)
     end
   end
 end
