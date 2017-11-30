@@ -207,6 +207,8 @@ Rails.application.routes.draw do
         get "/login", to: "sessions#new"
         post "/login", to: "sessions#create"
         delete "/logout", to: "sessions#destroy"
+        get "/resend_confirmation", to: "sessions#resend_confirmation"
+        post "/send_email", to: "sessions#send_email"
         get "/register", to: "registrations#new"
         get "/account", to: "registrations#edit"
         get "/change_password", to: "registrations#change_password"
