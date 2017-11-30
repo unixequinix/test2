@@ -4,8 +4,8 @@ FactoryBot.define do
     sequence(:last_name) { |n| "LastName #{n}" }
     sequence(:email) { |n| "email_#{n}@glownet.com" }
     agreed_on_registration true
-    password "password"
-    password_confirmation "password"
+    password "gl0wn3t"
+    password_confirmation "gl0wn3t"
     sequence(:phone) { |n| "1-800-#{n}" }
     country { %w[EN ES IT].sample }
     gender { %w[male female].sample }

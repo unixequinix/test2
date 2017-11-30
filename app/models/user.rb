@@ -8,7 +8,12 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validate :validate_username
-
+  validates :password, presence: true,
+                       length: { within: Devise.password_length },
+                       format: {
+                         with: /\A(?=.*\d)(?=.*[a-z])/x,
+                         message: 'must include at least one lowercase letter and one digit'
+                       }
   enum role: { glowball: 2, admin: 0, promoter: 1 }
 
   attr_accessor :login

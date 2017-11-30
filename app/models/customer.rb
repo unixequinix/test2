@@ -1,4 +1,4 @@
-class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :omniauthable, :trackable, :confirmable,
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
@@ -11,7 +11,13 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :email, format: { with: Devise.email_regexp }, unless: :anonymous?
 
   attr_accessor :skip_password_validation
-  validates :password, presence: true, confirmation: true, length: { within: Devise.password_length }, unless: %i[skip_password_validation anonymous?]
+  validates :password, presence: true, confirmation: true,
+                       length: { within: Devise.password_length },
+                       format: {
+                         with: /\A(?=.*\d)(?=.*[a-z])/x,
+                         message: 'must include at least one lowercase letter and one digit'
+                       },
+                       unless: %i[skip_password_validation anonymous?]
   validates :password_confirmation, presence: { unless: %i[skip_password_validation anonymous?] }
 
   belongs_to :event

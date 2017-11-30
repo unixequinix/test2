@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "the signin process", type: :feature do
-  let!(:user) { create(:user, email: "test@test.com", password: "foopassword", password_confirmation: "foopassword") }
+  let!(:user) { create(:user, email: "test@test.com", password: "foopassword1", password_confirmation: "foopassword1") }
   before { visit new_user_session_path }
 
   it "signs me in when correct data is supplied" do
