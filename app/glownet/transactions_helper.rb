@@ -8,12 +8,22 @@ module TransactionsHelper
     retry
   end
 
-  def apply_customers(event, customer_id, credential)
-    claimed = Customer.claim(event, customer_id, credential.customer_id)
-    return customer_id if claimed.present?
+  def decode_ticket(code, event)
+    return unless code
+    # Ticket is not found. perhaps is new sonar ticket?
+    id = SonarDecoder.valid_code?(code) && SonarDecoder.perform(code)
 
-    credential.update!(customer_id: customer_id) if customer_id.present?
-    credential.update!(customer_id: Customer.create!(event_id: event.id, anonymous: true).id) if credential.customer_id.blank?
-    credential.customer_id
+    # it is not sonar, it is not in DB. The ticket is not valid.
+    raise "Ticket with code #{code} not found and not sonar." unless id
+
+    # ticket is sonar. so insert it.
+    ctt = event.ticket_types.find_by(company_code: id)
+
+    begin
+      ticket = event.tickets.find_or_create_by(code: code, ticket_type: ctt)
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
+    ticket
   end
 end

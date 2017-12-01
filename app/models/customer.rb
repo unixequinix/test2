@@ -58,24 +58,24 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
       .order("first_name ASC")
   })
 
-  def self.claim(event, customer_id, anon_customer_id)
-    return false if anon_customer_id.blank? || customer_id.blank?
-    return true if customer_id == anon_customer_id
+  def self.claim(event, customer, anon_customers)
+    anon_customers = [anon_customers].flatten.compact
 
-    anon_customer = event.customers.find(anon_customer_id)
+    return customer if customer.blank? || anon_customers.map(&:id).uniq.all? { |id| id == customer.id }
 
-    message = "PROFILE FRAUD: customer #{anon_customer_id} is not anonymous when trying to claim"
-    Alert.propagate(event, event.customers.find(customer_id), message) && return unless anon_customer.anonymous?
+    message = "PROFILE FRAUD: customers #{anon_customers.map(&:id).to_sentence} are registered when trying to claim"
+    Alert.propagate(event, customer, message) && return if anon_customers.map(&:registered?).any?
 
-    anon_customer.transactions.update_all(customer_id: customer_id)
-    anon_customer.gtags.update_all(customer_id: customer_id)
-    anon_customer.tickets.update_all(customer_id: customer_id)
-    anon_customer.destroy!
+    anon_customers.each { |anon_customer| anon_customer.transactions.update_all(customer_id: customer.id) }
+    anon_customers.each { |anon_customer| anon_customer.gtags.update_all(customer_id: customer.id) }
+    anon_customers.each { |anon_customer| anon_customer.tickets.update_all(customer_id: customer.id) }
+    anon_customers.each(&:destroy!)
+    customer
   end
 
   def valid_balance?
-    positive = !global_credits.negative? && !global_refundable_credits.negative?
-    (active_gtag.blank? && positive) || (active_gtag&.valid_balance? && positive)
+    positive = (global_credits && global_refundable_credits) >= 0
+    (active_gtag.present? && positive) || (active_gtag&.valid_balance? && positive)
   end
 
   def registered?

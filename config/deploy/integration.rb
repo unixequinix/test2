@@ -8,8 +8,8 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "integration.glownet.com", user: "deploy", roles: %w[web app db]
 
-ask :branch, -> { `git rev-parse --abbrev-ref develop`.chomp }
-set :rails_env, "integration"
+ask(:branch, proc { `git rev-parse --abbrev-ref develop`.chomp })
+set(:rails_env, "integration")
 
 # role-based syntax
 # ==================

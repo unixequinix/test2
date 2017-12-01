@@ -13,13 +13,18 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
   before { token_login(user, event) }
 
   describe "POST #gtag_replacement" do
-    let(:new_gtag) { create(:gtag, tag_uid: "12345678", event: event) }
+    let(:new_gtag) { create(:gtag, tag_uid: "12345678", event: event, customer: create(:customer, event: event, anonymous: true)) }
     let(:new_atts) { atts.merge(new_tag_uid: new_gtag.tag_uid) }
 
     before { create(:gtag, tag_uid: "AAAAAAAA", event: event, customer: customer, active: true) }
 
     it "replaces the active gtag for the given customer" do
       expect { post :gtag_replacement, params: new_atts }.to change { customer.reload.active_gtag.tag_uid }.from("AAAAAAAA").to(new_gtag.tag_uid)
+    end
+
+    it "does not replace the gtag if new_gtag has registered customer" do
+      new_gtag.customer.update!(anonymous: false)
+      expect { post :gtag_replacement, params: new_atts }.not_to change(customer.reload.active_gtag, :tag_uid)
     end
 
     it "returns unprocessable_entity if new_tag_uid does not match any gtags" do
@@ -30,6 +35,12 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns unprocessable_entity if customer has no gtag" do
       customer.update! active_gtag: nil
+      post :gtag_replacement, params: new_atts
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "returns unprocessable_entity if new_gtag customer is registered" do
+      new_gtag.customer.update!(anonymous: false)
       post :gtag_replacement, params: new_atts
       expect(response).to have_http_status(:unprocessable_entity)
     end

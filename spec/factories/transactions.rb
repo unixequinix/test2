@@ -15,7 +15,7 @@ FactoryBot.define do
     payment_method { %w[bank_account epg].sample }
   end
 
-  factory :credit_transaction do
+  factory :operator_transaction do
     event
     station
     sequence(:action) { |n| "action #{n}" }
@@ -24,6 +24,18 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(14).upcase }
     operator_tag_uid { SecureRandom.hex(14).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
+  end
+
+  factory :credit_transaction do
+    event
+    station
+    sequence(:action) { |n| "action #{n}" }
+    sequence(:device_db_index)
+    transaction_origin Transaction::ORIGINS[:device]
+    device_created_at { Time.zone.now }
+    customer_tag_uid { SecureRandom.hex(12).upcase }
+    operator_tag_uid { SecureRandom.hex(12).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:credits)
     sequence(:refundable_credits)

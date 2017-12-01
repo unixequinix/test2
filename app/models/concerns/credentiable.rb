@@ -37,7 +37,7 @@ module Credentiable
 
   def assign_customer(new_customer, operator, origin = :portal)
     if customer.present?
-      Customer.claim(event, new_customer.id, customer.id)
+      Customer.claim(event, new_customer, customer)
       reload # this is necessary because the customer is updated in the background
     else
       update!(customer: new_customer)

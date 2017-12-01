@@ -1,14 +1,16 @@
-class Transactions::Credential::GtagReplacer < Transactions::Base
-  include TransactionsHelper
+module Transactions
+  class Credential::GtagReplacer < Transactions::Base
+    include TransactionsHelper
 
-  TRIGGERS = %w[gtag_replacement].freeze
+    TRIGGERS = %w[gtag_replacement].freeze
 
-  queue_as :medium_low
+    queue_as :medium_low
 
-  def perform(atts)
-    new_gtag = Gtag.find_by(id: atts[:gtag_id], event_id: atts[:event_id])
-    old_gtag = create_gtag(atts[:ticket_code], atts[:event_id])
+    def perform(transaction, _atts = {})
+      new_gtag = transaction.gtag
+      old_gtag = create_gtag(transaction.ticket_code, transaction.event_id)
 
-    old_gtag.replace!(new_gtag)
+      old_gtag.replace!(new_gtag)
+    end
   end
 end
