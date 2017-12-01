@@ -120,7 +120,7 @@
                       = link_to transaction.customer_tag_uid, admins_event_gtag_path(@current_event, transaction.gtag)
                     - else
                       = transaction.customer_tag_uid
-                  td data-label="At" = l Time.parse(transaction.device_created_at)
+                  td data-label="At" = l datetime(transaction.device_created_at) || datetime(transaction.device_created_at_fixed)
 
       .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
     .mdl-layout-spacer

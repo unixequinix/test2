@@ -8,6 +8,7 @@ default: &default
 
 development:
   <<: *default
+  pool: 10
   database: glownet_web_development
   username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
   host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>

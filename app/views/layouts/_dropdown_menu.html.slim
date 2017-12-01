@@ -9,7 +9,7 @@ div class="dropdown"
       i.mdl-color-text--teal-200.material-icons local_convenience_store
       |  Support
 
-div class="dropdown"
+div class="dropdown" id="user_dropdown"
   i.mdl-color-text--gray-50.material-icons account_circle
   span.title =  @current_user.username.mb_chars.capitalize.to_s
   div class ="dropdown-content"
@@ -32,6 +32,6 @@ div class="dropdown"
       = link_to admins_devices_path, class: "dropdown-item", id: "devices_layout_link" do
         i.mdl-color-text--teal-200.material-icons settings_cell
         |  Devices
-    = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "profile_layout_link" do
+    = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "log_out_link" do
       i.mdl-color-text--teal-200.material-icons power_settings_new
       |  Log out

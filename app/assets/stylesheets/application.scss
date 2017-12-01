@@ -1,6 +1,8 @@
 /*
 *= require jquery-ui/datepicker
 *= require_self
+*= requiere jquery.ui.core
+*= requiere jquery.ui.theme
 */
 
 @import "glownet/events";
@@ -12,5 +14,4 @@
 @import "glownet/tables";
 @import "vendor/remodal";
 @import "font-awesome";
-
 

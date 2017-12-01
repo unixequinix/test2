@@ -1,4 +1,4 @@
-class EventPolicy < ApplicationPolicy
+class EventPolicy < ApplicationPolicy # rubocop:disable Metrics/ClassLength
   def index?
     true
   end

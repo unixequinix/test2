@@ -81,13 +81,13 @@ class Admins::EventSeriesController < Admins::BaseController
   end
 
   def copy_serie
-    new_event = Event.find(params[:new_id])
-    old_event = Event.find(params[:old_id])
+    new_event = Event.find(copy_params[:new_id])
+    old_event = Event.find(copy_params[:old_id])
 
     if old_event == new_event
       redirect_to copy_data_admins_event_series_path(@event_serie), alert: "Both events cannot be the same"
     else
-      EventSerieCopier.perform_later(new_event, old_event, params[:selection].split(" "))
+      Creators::EventSerieJob.perform_later(new_event, old_event, copy_params[:customers].split(" "), copy_params[:gtags])
       redirect_to admins_event_series_path(@event_serie), notice: "Event data copying... please wait"
     end
   end
@@ -103,5 +103,9 @@ class Admins::EventSeriesController < Admins::BaseController
   # Never trust parameters from the scary internet, only allow the white list through.
   def permitted_params
     params.require(:event_serie).permit(:name)
+  end
+
+  def copy_params
+    params.require(:copy_data).permit(:gtags, :customers, :new_id, :old_id)
   end
 end

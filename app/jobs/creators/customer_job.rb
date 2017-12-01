@@ -1,18 +1,12 @@
 module Creators
-  class CustomerJob < ApplicationJob
+  class CustomerJob < Base
     queue_as :medium
 
-    def perform(event, atts, balance = 0)
-      return if event.blank? || atts.symbolize_keys!.empty?
+    def perform(old_customer, event)
+      customer = copy_customer(old_customer, event)
 
-      begin
-        customer = event.customers.find_or_initialize_by(email: atts[:email])
-        customer.update!(atts)
-      rescue ActiveRecord::RecordNotUnique
-        retry
-      end
-
-      OrderCreator.perform_later(event, customer, balance) if balance.to_f.positive?
+      balance = old_customer&.global_refundable_credits&.to_f
+      OrderJob.perform_later(event, customer, balance) if balance.to_f.positive?
     end
   end
 end

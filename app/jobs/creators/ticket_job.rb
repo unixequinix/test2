@@ -1,5 +1,5 @@
 module Creators
-  class TicketJob < ApplicationJob
+  class TicketJob < Base
     def perform(atts)
       ticket = Ticket.find_or_initialize_by(code: atts[:code], event_id: atts[:event_id])
       ticket.update(atts)

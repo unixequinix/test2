@@ -1,4 +1,6 @@
 class Admins::Events::StatsController < Admins::Events::BaseController
+  include ActiveSupport::NumberHelper
+
   before_action :set_stat, only: %i[edit update update_multiple]
   before_action :set_stats, except: %i[edit update issues]
   before_action :set_filters
@@ -23,10 +25,6 @@ class Admins::Events::StatsController < Admins::Events::BaseController
     else
       redirect_to edit_admins_event_stat_path(@current_event, @stat), alert: t("alerts.error")
     end
-  end
-
-  def cashless
-    cookies.signed[:user_id] = current_user.id
   end
 
   def stations

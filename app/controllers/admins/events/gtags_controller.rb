@@ -83,10 +83,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     begin
       CSV.foreach(file, headers: true, col_sep: ";") do |row|
         ticket_type_id = ticket_types[row.field("Type")]
-        credits = row.field("Balance").to_f
-        customer = @current_event.customers.create! if credits.positive?
-
-        Creators::GtagJob.perform_later(@current_event, row.field("UID"), customer, credits, active: true, ticket_type_id: ticket_type_id)
+        Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance").to_f, ticket_type_id: ticket_type_id)
         count += 1
       end
     rescue # rubocop:disable Lint/RescueWithoutErrorClass

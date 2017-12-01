@@ -3,7 +3,27 @@ class StatPolicy < ApplicationPolicy
     user.glowball?
   end
 
+  def gate_close_money_recon?
+    user.glowball?
+  end
+
+  def gate_close_billing?
+    user.glowball?
+  end
+
+  def products_sale?
+    user.glowball?
+  end
+
+  def operators?
+    user.glowball?
+  end
+
   def cashless?
+    user.glowball?
+  end
+
+  def gates?
     user.glowball?
   end
 

@@ -69,9 +69,18 @@ Rails.application.routes.draw do
         get :versions
       end
 
-      scope module: "events" do
+      scope module: :events do
+
+        resource :reports do
+          get :gate_close_money_recon
+          get :gate_close_billing
+          get :cashless
+          get :products_sale
+          get :gates
+          get :operators
+        end
+
         resources :stats, only: [:edit, :update] do
-          get :cashless, on: :collection
           get :stations, on: :collection
           get :issues, on: :collection
           put :update_multiple, on: :collection
@@ -198,6 +207,8 @@ Rails.application.routes.draw do
         get "/login", to: "sessions#new"
         post "/login", to: "sessions#create"
         delete "/logout", to: "sessions#destroy"
+        get "/resend_confirmation", to: "sessions#resend_confirmation"
+        post "/send_email", to: "sessions#send_email"
         get "/register", to: "registrations#new"
         get "/account", to: "registrations#edit"
         get "/change_password", to: "registrations#change_password"

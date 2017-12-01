@@ -82,7 +82,7 @@
                       icon.material-icons style="color: #009688; font-size: 20px" home
                   - if registration.last_time_used
                     .small
-                      span = Time.parse(registration.last_time_used).to_formatted_s(:short)
+                      span = datetime(registration.last_time_used)&.to_formatted_s(:short) || datetime(registration.created_at)&.to_formatted_s(:short)
                       | &nbsp;
                       icon.material-icons style="color: #009688; font-size: 20px" alarm
 

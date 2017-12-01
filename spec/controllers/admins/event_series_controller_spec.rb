@@ -38,7 +38,7 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # EventSerieController. Be sure to keep this updated too.
-  before { sign_in(create(:user, role: "admin")) }
+  before { sign_in(create(:user, role: :admin)) }
 
   describe "GET #index" do
     it "returns a success response" do
@@ -153,14 +153,14 @@ RSpec.describe Admins::EventSeriesController, type: :controller do
 
     context "with valid params" do
       it "returns a success response" do
-        post :copy_serie, params: { id: @event_serie.id, selection: "1 0", new_id: @current_event.id, old_id: @base_event.id }
+        post :copy_serie, params: { id: @event_serie.id, copy_data: { customers: "1 0", new_id: @current_event.id, old_id: @base_event.id } }
         expect(response).to redirect_to admins_event_series_path(@event_serie)
       end
     end
 
     context "with invalid params" do
       it "returns a success response" do
-        post :copy_serie, params: { id: @event_serie.id, selection: "1 0", new_id: @current_event.id, old_id: @current_event.id }
+        post :copy_serie, params: { id: @event_serie.id, copy_data: { customers: "1 0", new_id: @current_event.id, old_id: @current_event.id } }
         expect(response).to redirect_to copy_data_admins_event_series_path(@event_serie)
       end
     end

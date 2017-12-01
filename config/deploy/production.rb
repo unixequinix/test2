@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "gspot.glownet.com", user: "deploy", roles: %w[web app db]
 
-set :branch, "master"
+ask :branch, -> { `git rev-parse --abbrev-ref master`.chomp }
 set :rails_env, "production"
 
 set :sidekiq_processes, 1

@@ -3,40 +3,41 @@ class Events::SessionsController < Devise::SessionsController
 
   before_action :set_event
   before_action :resolve_locale
-  before_action :check_customer_confirmation, only: [:create]
-
+  skip_before_action :verify_authenticity_token
   layout "customer"
 
-  def create
-    resource = warden.authenticate!(auth_options)
+  before_action :check_user_confirmation, only: :create
 
-    if sign_in(resource)
-      yield resource if block_given?
-      message = { notice: t('sessions.log_in.success', event: @current_event.name) }
+  def send_email
+    user = @current_event.customers.find_by(email: sign_in_params[:email])
+    if user
+      user.resend_confirmation_instructions
+      redirect_to customer_root_path(@current_event)
     else
-      message = { alert: t('sessions.log_in.account_error') }
+      redirect_to event_resend_confirmation_path(@current_event), alert: "Account does not exists"
     end
+  end
 
-    redirect_to after_sign_in_path_for(resource), message
+  def resend_confirmation
+    self.resource = resource_class.new
   end
 
   private
 
+  def check_user_confirmation
+    user = @current_event.customers.find_by(email: sign_in_params[:email])
+    return unless user
+    redirect_to event_resend_confirmation_path(@current_event), alert: t('sessions.log_in.account_error') unless user.confirmed?
+  end
+
   def after_sign_in_path_for(resource)
+    flash[:notice] = t('sessions.log_in.success', event: @current_event.name)
     customer_root_path(resource.event)
   end
 
   def after_sign_out_path_for(_resource)
     flash[:notice] = t('sessions.log_out.success')
     event_login_path(@current_event)
-  end
-
-  def check_customer_confirmation
-    customer = @current_event.customers.find_by(email: sign_in_params[:email])
-    return if customer&.confirmed?
-
-    expire_data_after_sign_in!
-    redirect_to event_login_path(customer&.event || @current_event), alert: t('sessions.log_in.account_error')
   end
 
   def set_event

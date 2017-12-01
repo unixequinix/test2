@@ -6,6 +6,7 @@ html
     = stylesheet_link_tag "application", media: "all"
     = stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons"
     = stylesheet_link_tag "https://code.getmdl.io/1.2.1/material.teal-pink.min.css"
+    = stylesheet_link_tag "datatables" if @load_reports_resources
 
     = yield(:javascripts)
 
@@ -13,6 +14,7 @@ html
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
     = javascript_include_tag "//cdn.tinymce.com/4/tinymce.min.js"
     = javascript_include_tag "application"
+    = javascript_include_tag "datatables" if @load_reports_resources
 
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
@@ -44,7 +46,7 @@ html
           .mdl-layout-title.header-item = yield(:title)
           .mdl-layout-spacer
 
-          - if @q
+          - if @q && !@load_reports_resources
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons search
@@ -68,16 +70,30 @@ html
 
         - if policy(Stat).reports?
           nav.mdl-navigation.global-nav
-            span.nav-title REPORTS (BETA)
-            = link_to cashless_admins_event_stats_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
+            span.nav-title
+              | GATE CLOSE REPORTS (BETA):
+            = link_to gate_close_money_recon_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons money
+              |  Money Reconciliation
+            = link_to gate_close_billing_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons $
+              |  Billing
+        - if policy(Stat).reports?
+          nav.mdl-navigation.global-nav
+            span.nav-title
+              | REPORTS (BETA):
+            = link_to cashless_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons money
               |  Cashless
-            = link_to stations_admins_event_stats_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons insert_chart
-              |  Stations
-            = link_to issues_admins_event_stats_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons insert_chart
-              |  Issues
+            = link_to products_sale_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons show_chart
+              |  Products Sale
+            = link_to gates_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons show_chart
+              |  Gates
+            = link_to operators_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons person
+              |  Operators
 
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
@@ -146,7 +162,7 @@ html
           = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             |  Transactions
-            
+
         span.web-version = WEB_VERSION
 
       main.mdl-layout__content

@@ -7,7 +7,11 @@ RSpec.describe Customer, type: :model do
   describe 'validations on' do
     describe "#email" do
       context "of registered customers" do
-        before { customer.update!(anonymous: false) }
+        before do
+          customer.skip_password_validation = true
+          customer.update!(anonymous: false)
+          customer.skip_password_validation = false
+        end
 
         it "must be present" do
           customer.email = nil
@@ -60,12 +64,28 @@ RSpec.describe Customer, type: :model do
 
     describe "#password" do
       context "of registered customers" do
-        before { customer.update!(anonymous: false) }
+        before do
+          customer.update!(anonymous: false)
+        end
 
         it "must be longer than 7 characters" do
-          customer.password = "aaa"
+          customer.password = "Aa4"
+          customer.password_confirmation = "Aa4"
           expect(customer).not_to be_valid
           expect(customer.errors[:password]).to include("is too short (minimum is 7 characters)")
+        end
+
+        it "must include at least one lowercase letter and one digit" do
+          customer.password = "glownet"
+          customer.password_confirmation = "glownet"
+          expect(customer).not_to be_valid
+          expect(customer.errors[:password]).to include("must include at least one lowercase letter and one digit")
+        end
+
+        it "is valid password" do
+          customer.password = "gl0wn3T"
+          customer.password_confirmation = "gl0wn3T"
+          expect(customer).to be_valid
         end
 
         it "must be present" do
@@ -91,7 +111,7 @@ RSpec.describe Customer, type: :model do
         end
 
         it "is not confirmed" do
-          customer.password = "foobarbaz"
+          customer.password = "Gl0wn3T"
           customer.password_confirmation = nil
           expect(customer).to be_valid
         end
@@ -120,7 +140,7 @@ RSpec.describe Customer, type: :model do
 
     it "raises alert if anon_customer is not anonymous" do
       expect(Alert).to receive(:propagate).once
-      anon_customer.update! anonymous: false
+      anon_customer.update!(anonymous: false)
       Customer.claim(event, customer.id, anon_customer.id)
     end
 

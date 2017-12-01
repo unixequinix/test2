@@ -36,6 +36,7 @@ gem 'paperclip'
 gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
+gem 'jquery-datatables'
 
 # Authentication
 gem 'devise'
@@ -52,7 +53,7 @@ gem 'chartkick'
 gem 'groupdate'
 
 # Navigation
-gem 'kaminari'
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
 
 # APIs
 gem 'jbuilder', '~> 2.5'
@@ -127,6 +128,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rubocop', require: false
   gem 'guard-rspec', require: false
+  gem 'guard-brakeman', require: false
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
   gem 'terminal-notifier'
@@ -144,6 +146,7 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'simplecov', require: false
   gem 'codecov', require: false
+  gem 'email_spec'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -3,6 +3,9 @@ require 'simplecov'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'pundit/rspec'
+require "action_mailer"
+require "email_spec"
+require "email_spec/rspec"
 
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -90,7 +93,7 @@ RSpec.configure do |config|
   # Helper specs: type: :helper
   # Mailer specs: type: :mailer
   # Routing specs: type: :routing
-  # Service specs: tyoe: :services
+  # Service specs: type: :services
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work

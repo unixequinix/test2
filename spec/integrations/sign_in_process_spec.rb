@@ -1,17 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe "the signin process", type: :feature do
-  before :each do
-    @user = create(:user, email: "test@test.com", password: "foopassword", password_confirmation: "foopassword")
-    visit new_user_session_path
-  end
+  let!(:user) { create(:user, email: "test@test.com", password: "foopassword1", password_confirmation: "foopassword1") }
+  before { visit new_user_session_path }
 
   it "signs me in when correct data is supplied" do
     within("#new_user") do
       fill_in 'user_login', with: ''
       fill_in 'user_password', with: ''
-      fill_in 'user_login', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_login', with: user.email
+      fill_in 'user_password', with: user.password
     end
 
     find("input[name=commit]").click
@@ -22,7 +20,7 @@ RSpec.describe "the signin process", type: :feature do
     within("#new_user") do
       fill_in 'user_login', with: ''
       fill_in 'user_password', with: ''
-      fill_in 'user_login', with: @user.email
+      fill_in 'user_login', with: user.email
       fill_in 'user_password', with: "notgoodpassword"
     end
 
