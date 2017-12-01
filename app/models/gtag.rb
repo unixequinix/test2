@@ -29,8 +29,7 @@ class Gtag < ApplicationRecord
   end
 
   def replace!(new_gtag)
-    claimed = Customer.claim(event, customer_id, new_gtag.customer_id)
-    return if claimed.nil? # This means new_gtag has a registered customer
+    return if Customer.claim(event, customer, new_gtag.customer).nil?
 
     update!(banned: true, active: false)
     new_gtag.update!(active: true, customer: customer)

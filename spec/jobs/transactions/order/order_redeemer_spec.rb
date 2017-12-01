@@ -17,7 +17,7 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
     }
   end
 
-  it "reedems the online order" do
+  it "redeems the online order" do
     expect { worker.perform(atts) }.to change { order_item.reload.order.redeemed? }.from(false).to(true)
   end
 
@@ -25,15 +25,6 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
     order_item.update(redeemed: true)
     expect(Alert).to receive(:propagate).once
     worker.perform(atts)
-  end
-
-  it "assigns the order to the transaction" do
-    expect { worker.perform(atts) }.to change { transaction.reload.order }.from(nil).to(order)
-  end
-
-  it "assigns the order to the transaction even if already redeemed" do
-    order_item.update(redeemed: true)
-    expect { worker.perform(atts) }.to change { transaction.reload.order }.from(nil).to(order)
   end
 
   it "touches the customer after redeeming" do

@@ -6,8 +6,9 @@ class Transactions::Credential::GtagReplacer < Transactions::Base
   queue_as :medium_low
 
   def perform(atts)
-    new_gtag = Gtag.find_by(id: atts[:gtag_id], event_id: atts[:event_id])
-    old_gtag = create_gtag(atts[:ticket_code], atts[:event_id])
+    transaction = CredentialTransaction.find(atts[:transaction_id])
+    new_gtag = transaction.gtag
+    old_gtag = create_gtag(transaction.ticket_code, transaction.event_id)
 
     old_gtag.replace!(new_gtag)
   end

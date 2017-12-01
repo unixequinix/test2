@@ -4,7 +4,7 @@ RSpec.describe Transactions::Operator::PermissionCreator, type: :job do
   let(:worker) { Transactions::Operator::PermissionCreator.new }
   let(:event) { create(:event) }
   let(:gtag) { create(:gtag, event: event) }
-  let(:transaction) { create(:credential_transaction, event: event, action: "record_operator_permission") }
+  let(:transaction) { create(:operator_transaction, event: event, action: "record_operator_permission") }
   let(:params) { { gtag_id: gtag.id, event_id: event.id, role: "operator", action: transaction.action, transaction_id: transaction.id } }
 
   it "creates an operator_permission with group" do

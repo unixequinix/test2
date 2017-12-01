@@ -9,8 +9,6 @@ class Transactions::Order::OrderRedeemer < Transactions::Base
     item = customer.order_items.find_by(counter: atts[:order_item_counter])
     order = item.order
 
-    transaction.update!(order: order)
-
     Alert.propagate(transaction.event, order, "has been redeemed twice") && return if item.redeemed?
 
     item.update!(redeemed: true)

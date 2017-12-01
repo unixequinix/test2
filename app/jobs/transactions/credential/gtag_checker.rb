@@ -4,7 +4,8 @@ class Transactions::Credential::GtagChecker < Transactions::Base
   queue_as :medium_low
 
   def perform(atts)
-    gtag = Gtag.find(atts[:gtag_id])
-    gtag.redeemed? ? Alert.propagate(Event.find(atts[:event_id]), gtag, "has been redeemed twice") : gtag.update!(redeemed: true)
+    t = CredentialTransaction.find(atts[:transaction_id])
+    gtag = t.gtag
+    gtag.redeemed? ? Alert.propagate(t.event, gtag, "has been redeemed twice") : gtag.update!(redeemed: true)
   end
 end

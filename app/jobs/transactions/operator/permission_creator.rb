@@ -4,12 +4,13 @@ class Transactions::Operator::PermissionCreator < Transactions::Base
   queue_as :medium_low
 
   def perform(atts)
-    event = Event.find(atts[:event_id])
+    transaction = OperatorTransaction.find(atts[:transaction_id])
+    event = transaction.event
     station = event.stations.find_by(station_event_id: atts[:station_permission_id])
 
     begin
       permission = event.operator_permissions.find_or_create_by(role: atts[:role], group: atts[:group], station: station)
-      event.transactions.find(atts[:transaction_id]).update!(catalog_item_id: permission.id)
+      transaction.update!(catalog_item_id: permission.id)
     rescue ActiveRecord::RecordNotUnique
       retry
     end

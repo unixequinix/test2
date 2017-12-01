@@ -6,14 +6,15 @@ RSpec.describe Transactions::Credential::GtagReplacer, type: :job do
   let(:old_gtag) { create(:gtag, event: event, customer: customer) }
   let(:new_gtag) { create(:gtag, event: event, customer: create(:customer, event: event)) }
   let(:worker) { Transactions::Credential::GtagReplacer.new }
-  let(:atts) { { gtag_id: new_gtag.id, event_id: event.id, ticket_code: old_gtag.tag_uid } }
+  let(:transaction) { create(:credential_transaction, event: event, gtag: new_gtag, ticket_code: old_gtag.tag_uid) }
+  let(:atts) { { transaction_id: transaction.id } }
 
   it "actions include gtag_replacement" do
     expect(worker.class::TRIGGERS).to include("gtag_replacement")
   end
 
   it "creates the replaced gtag if not present" do
-    atts[:ticket_code] = SecureRandom.hex(7).upcase
+    transaction.update!(ticket_code: SecureRandom.hex(7).upcase)
     expect { worker.perform(atts) }.to change(Gtag, :count).by(1)
   end
 
