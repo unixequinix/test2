@@ -5,10 +5,6 @@ class Transactions::PostProcessor < ApplicationJob
 
   def perform(atts)
     transaction = Transaction.find(atts[:transaction_id])
-
-    # ticket validation is special, there is no gtag at all. So we deal with it here and return.
-    Transactions::Credential::TicketValidator.perform_later(atts) && return if transaction.action.eql?("ticket_validation")
-
     assign_resources(transaction)
 
     return if transaction.status_not_ok?

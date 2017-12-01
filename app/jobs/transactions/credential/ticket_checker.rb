@@ -1,5 +1,5 @@
 class Transactions::Credential::TicketChecker < Transactions::Base
-  TRIGGERS = %w[ticket_checkin].freeze
+  TRIGGERS = %w[ticket_checkin ticket_validation].freeze
 
   queue_as :medium_low
 
