@@ -63,7 +63,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     return customer if customer.blank? || anon_customers.map(&:id).uniq.all? { |id| id == customer.id }
 
-    message = "PROFILE FRAUD: customers #{anon_customers.map(&:id).to_sentence} are anonymous when trying to claim"
+    message = "PROFILE FRAUD: customers #{anon_customers.map(&:id).to_sentence} are registered when trying to claim"
     Alert.propagate(event, customer, message) && return if anon_customers.map(&:registered?).any?
 
     anon_customers.each { |anon_customer| anon_customer.transactions.update_all(customer_id: customer.id) }

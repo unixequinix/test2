@@ -21,13 +21,18 @@ module Transactions
     end
 
     def resolve_customer(event, transaction, ticket, gtag, order)
-      customers = [transaction, ticket, gtag, order].compact.map(&:customer).compact.uniq
-      customers_ok = customers.select(&:registered?).size < 2
+      customers = [transaction, ticket, gtag, order].compact.map(&:customer).compact.uniq.sort_by { |i| i.registered? ? 1 : 2 }
 
-      msg = "PROFILE FRAUD IN TRANSACTION #{transaction.id}: customers involved #{customers.map(&:id).to_sentence} are not the same or anonymous"
-      Alert.propagate(event, transaction, msg) && return unless customers_ok
+      if customers.count(&:registered?) > 1
+        msg = "PROFILE FRAUD IN TRANSACTION #{transaction.id}: customers involved #{customers.map(&:id).to_sentence} are not the same or anonymous"
+        Alert.propagate(event, transaction, msg)
+        return
+      end
 
-      Customer.claim(event, customers.select(&:registered?).first, customers.select(&:anonymous?)) || event.customers.create!
+
+      Customer.claim(event, customers.first, customers.slice(1..-1)) || event.customers.create!
     end
   end
 end
+
+

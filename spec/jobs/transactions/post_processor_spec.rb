@@ -7,12 +7,28 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   let(:customer) { create(:customer, event: event, anonymous: false) }
   let(:transaction) { create(:credit_transaction, event: event, customer_tag_uid: gtag.tag_uid) }
 
+
   describe ".resolve_customer" do
+    let(:ticket)  { create(:ticket, event: event, customer: create(:customer, event: event, anonymous: true)) }
+
     it "creates Alert if there are 2 different registered customers" do
       transaction.update! customer_id: customer.id
       gtag.update! customer: create(:customer, event: event, anonymous: false)
       expect(Alert).to receive(:propagate).once
+
       worker.perform(transaction)
+    end
+
+    it "will not create a new customer if none registered are present" do
+      gtag.update! customer: create(:customer, event: event, anonymous: true)
+      expect { worker.perform(transaction) }.not_to change(Customer, :count)
+    end
+
+    it "will choose one anonymous customer if none registered are present" do
+      gtag.update! customer: create(:customer, event: event, anonymous: true)
+      customers = [gtag, ticket].map(&:customer)
+      worker.perform(transaction)
+      [gtag, ticket].each { |credential| expect(customers).to include(credential.customer) }
     end
 
     it "does not create alert if both registered customers are the same" do
