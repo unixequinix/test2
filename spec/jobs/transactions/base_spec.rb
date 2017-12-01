@@ -53,28 +53,6 @@ RSpec.describe Transactions::Base, type: :job do
     end
   end
 
-  describe "descendants" do
-    before { atts[:transaction_id] = create(:credit_transaction, event: event).id }
-    after { base.execute_descendants(atts) }
-
-    it "should have all classes loaded" do
-      expect(base.descendants).not_to be_empty
-    end
-
-    it "should call perform_later on a subscriber class" do
-      atts[:action] = "sale"
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
-    end
-
-    it "should not call perform_later on anything if there is no subscriber" do
-      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_later)
-    end
-
-    it "should call execute_descendants on Stats::Base" do
-      # expect(Stats::Base).to receive(:execute_descendants).once.with(atts[:transaction_id], "test_action")
-    end
-  end
-
   describe "when passed sale_items in attributes" do
     before do
       atts.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, unit_price: 8.31 },
@@ -96,7 +74,7 @@ RSpec.describe Transactions::Base, type: :job do
 
       it "works even if jobs fail" do
         atts[:action] = "sale"
-        allow(Transactions::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
+        allow(Transactions::Credit::BalanceUpdater).to receive(:perform_now).and_raise("Error_1")
         expect { base.perform_now(atts) }.to raise_error("Error_1")
         atts.delete(:transaction_id)
         atts.delete(:customer_id)
@@ -111,8 +89,7 @@ RSpec.describe Transactions::Base, type: :job do
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
       atts[:action] = "sale"
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
-      allow(Stats::Sale).to receive(:perform_later).once
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_now).once
       base.perform_now(atts)
       atts2 = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
       base.perform_now(atts2)

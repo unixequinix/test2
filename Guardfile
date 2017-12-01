@@ -11,14 +11,14 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
 end
 
-guard :rubocop, all_on_start: false, cli: ['--display-cop-names', '--rails', '--auto-correct'] do
-  watch(%r{.+\.rb$})
-  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
-end
-
-guard :brakeman, run_on_start: false, quiet: true do
-  watch(%r{^app/.+\.(erb|haml|rhtml|rb|slim)$})
-  watch(%r{^config/.+\.rb$})
-  watch(%r{^lib/.+\.rb$})
-  watch('Gemfile')
-end
+#guard :rubocop, all_on_start: false, cli: ['--display-cop-names', '--rails', '--auto-correct'] do
+#  watch(%r{.+\.rb$})
+#  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+#end
+#
+#guard :brakeman, run_on_start: false, quiet: true do
+#  watch(%r{^app/.+\.(erb|haml|rhtml|rb|slim)$})
+#  watch(%r{^config/.+\.rb$})
+#  watch(%r{^lib/.+\.rb$})
+#  watch('Gemfile')
+#end
