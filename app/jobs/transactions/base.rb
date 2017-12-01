@@ -17,7 +17,7 @@ module Transactions
       rescue ActiveRecord::RecordNotUnique
         retry
       end
-      
+
       Transactions::PostProcessor.perform_later(transaction, params.slice(:customer_id, :role, :group, :station_permission_id))
     end
 
