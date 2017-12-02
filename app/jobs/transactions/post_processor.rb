@@ -6,9 +6,10 @@ module Transactions
 
     def perform(transaction, atts = {})
       event = transaction.event
+      code = transaction.ticket_code
 
       gtag = create_gtag(transaction.customer_tag_uid, event.id)
-      ticket = event.tickets.find_by(code: transaction.ticket_code) || decode_ticket(transaction.ticket_code, event)
+      ticket = transaction.action.eql?("gtag_replacement") ? nil : event.tickets.find_by(code: code) || decode_ticket(code, event)
       order = transaction.customer&.order_items&.find_by(counter: transaction.order_item_counter)&.order
       customer = resolve_customer(event, transaction, ticket, gtag, order)
 
@@ -29,10 +30,7 @@ module Transactions
         return
       end
 
-
       Customer.claim(event, customers.first, customers.slice(1..-1)) || event.customers.create!
     end
   end
 end
-
-

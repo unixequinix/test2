@@ -7,9 +7,8 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   let(:customer) { create(:customer, event: event, anonymous: false) }
   let(:transaction) { create(:credit_transaction, event: event, customer_tag_uid: gtag.tag_uid) }
 
-
   describe ".resolve_customer" do
-    let(:ticket)  { create(:ticket, event: event, customer: create(:customer, event: event, anonymous: true)) }
+    let(:ticket) { create(:ticket, event: event, customer: create(:customer, event: event, anonymous: true)) }
 
     it "creates Alert if there are 2 different registered customers" do
       transaction.update! customer_id: customer.id
@@ -73,6 +72,11 @@ RSpec.describe Transactions::PostProcessor, type: :job do
     let(:ticket) { create(:ticket, event: event) }
 
     before { transaction.update!(ticket_code: ticket.code) }
+
+    it "does not use ticket_code to find ticket if action is gtag_replacement" do
+      transaction.update(action: "gtag_replacement", ticket_code: gtag.tag_uid)
+      expect { worker.perform(transaction) }.not_to raise_error
+    end
 
     it "does not update the gtag if there is profile fraud" do
       gtag.update!(customer: customer)

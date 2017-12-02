@@ -23,4 +23,3 @@ RSpec.describe Transactions::Operator::PermissionCreator, type: :job do
     expect(event.transactions.where(catalog_item_id: event.operator_permissions.first.id)).to eq(event.transactions.where(id: transaction.id))
   end
 end
-
