@@ -71,10 +71,15 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   describe ".assign_resources" do
     let(:ticket) { create(:ticket, event: event) }
 
-    before { transaction.update!(ticket_code: ticket.code) }
+    before { transaction.update!(ticket_code: ticket.code, action: "ticket_checkin") }
 
     it "does not use ticket_code to find ticket if action is gtag_replacement" do
       transaction.update(action: "gtag_replacement", ticket_code: gtag.tag_uid)
+      expect { worker.perform(transaction) }.not_to raise_error
+    end
+
+    it "does not use ticket_code to find ticket if action is gtag_checkin" do
+      transaction.update(action: "gtag_checkin", ticket_code: gtag.tag_uid)
       expect { worker.perform(transaction) }.not_to raise_error
     end
 
@@ -84,7 +89,12 @@ RSpec.describe Transactions::PostProcessor, type: :job do
       expect { worker.perform(transaction) }.not_to change { gtag.reload.customer }.from(customer)
     end
 
-    it "assigns a ticket to the transaction if its found" do
+    it "assigns a ticket to the transaction if found" do
+      expect { worker.perform(transaction) }.to change { transaction.reload.ticket }.from(nil).to(ticket)
+    end
+
+    it "assigns a ticket to the transaction if action is ticket_validation" do
+      transaction.update!(ticket_code: ticket.code, action: "ticket_validation")
       expect { worker.perform(transaction) }.to change { transaction.reload.ticket }.from(nil).to(ticket)
     end
 
@@ -138,7 +148,7 @@ RSpec.describe Transactions::PostProcessor, type: :job do
       @ctt = create(:ticket_type, event: event, company_code: ctt_id)
       @decoded_ticket = build(:ticket, event: event, code: ticket_code, ticket_type: @ctt)
       allow(SonarDecoder).to receive(:perform).and_return(ctt_id)
-      transaction.update ticket_code: ticket_code
+      transaction.update ticket_code: ticket_code, action: "ticket_checkin"
     end
 
     it "calls decode_ticket before not finding" do

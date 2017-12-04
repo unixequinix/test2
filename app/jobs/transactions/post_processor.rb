@@ -9,7 +9,7 @@ module Transactions
       code = transaction.ticket_code
 
       gtag = create_gtag(transaction.customer_tag_uid, event.id)
-      ticket = transaction.action.eql?("gtag_replacement") ? nil : event.tickets.find_by(code: code) || decode_ticket(code, event)
+      ticket = event.tickets.find_by(code: code) || decode_ticket(code, event) if Credential::TicketChecker::TRIGGERS.include?(transaction.action)
       order = transaction.customer&.order_items&.find_by(counter: transaction.order_item_counter)&.order
       customer = resolve_customer(event, transaction, ticket, gtag, order)
 
@@ -25,7 +25,7 @@ module Transactions
       customers = [transaction, ticket, gtag, order].compact.map(&:customer).compact.uniq.sort_by { |i| i.registered? ? 1 : 2 }
 
       if customers.count(&:registered?) > 1
-        msg = "PROFILE FRAUD IN TRANSACTION #{transaction.id}: customers involved #{customers.map(&:id).to_sentence} are not the same or anonymous"
+        msg = "PROFILE FRAUD: customers involved #{customers.map(&:id).to_sentence} are not the same or anonymous"
         Alert.propagate(event, transaction, msg)
         return
       end
