@@ -71,7 +71,13 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def clone
     @station = @station.deep_clone(include: %i[station_catalog_items products topup_credits access_control_gates], validate: false)
-    @station.name = "#{@station.name} - #{@current_event.stations.where(name: @station.name).count}"
+    index = @station.name.index(' - ')
+    if index.nil?
+      name = @station.name
+    else
+      name = @station.name.byteslice(0...index)
+    end
+    @station.name = "#{name} - #{@current_event.stations.where("stations.name LIKE :l_name", {:l_name => "#{name}%"}).count}"
     @station.save!
     redirect_to [:admins, @current_event, @station], notice: t("alerts.created")
   end
