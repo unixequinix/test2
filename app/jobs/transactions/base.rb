@@ -33,6 +33,7 @@ module Transactions
       params[:device_created_at] = params[:device_created_at_fixed][0, 19]
       params.delete(:sale_items_attributes) if params[:sale_items_attributes].blank?
       params.delete(:order_id) if params[:order_id] == 0
+      params[:order_id] = OrderItem.find(params[:order_id]).order.id if params[:order_id]
       params
     end
 
