@@ -5,7 +5,7 @@
   *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
-        = link_to new_admins_event_operator_permission_path do
+        = link_to new_admins_event_operator_permission_path, id: "new_operator_permission_link" do
           button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons add
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
@@ -39,7 +39,7 @@
                       = link_to edit_admins_event_operator_permission_path(@current_event, permission) do
                         button.icon.material-icons id ="edit_#{permission.id}" edit
                     .table-action
-                      = link_to admins_event_operator_permission_path(@current_event, permission), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      = link_to admins_event_operator_permission_path(@current_event, permission), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_operator_permission_link" do
                         button.icon.material-icons id ="delete_#{permission.id}" delete
               span.mdl-tooltip data-mdl-for="edit_#{permission.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{permission.id}" Delete
