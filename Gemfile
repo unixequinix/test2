@@ -135,6 +135,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
+  gem 'json_expressions'
 end
 
 group :test do

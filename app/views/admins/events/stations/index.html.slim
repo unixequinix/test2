@@ -49,7 +49,7 @@
           tbody
             - @stations.each do |station|
               tr class="#{'resource-hidden' if station.hidden?}" data-event=@current_event.id data-station=station.id
-                td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station], id:"#{station.id}"
+                td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station], id:"station_#{station.id}"
                 td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
                 td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
                 td data-label="Items" = station.all_station_items.size

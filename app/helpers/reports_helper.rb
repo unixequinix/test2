@@ -1,4 +1,7 @@
-module ReportsHelper
+module ReportsHelper # rubocop:disable Metrics/ModuleLength
+  # rubocop:disable all
+  include ActiveSupport::NumberHelper
+
   def view_builder(operation_name, column_names, column_pivot, total = 'nill')
     sql = send "query_#{operation_name}", @current_event.id
     data = JSON.parse(Stat.connection.select_all(sql).to_json)
@@ -27,11 +30,11 @@ module ReportsHelper
           FROM stats
             WHERE NOT monetary_total_price ISNULL AND event_id = #{event_id}
           GROUP BY 1, 2, 3
-      SQL
+    SQL
   end
 
   def pivot_action_station_money(foo)
-    foo = foo.group_by { |h| [h["station_name"], h["action"]] }
+    foo = foo.group_by { |h| [ h["action"], h["station_name"] ] }
     foo.map do |_keys, arr|
       result = { "action" => arr.first["action"].humanize, "station_name" => arr.first["station_name"], "total" => number_to_delimited(arr.map { |i| i["money"].to_f }.reduce(:+)) }
       arr.each { |hash| result[hash["event_day"]] = number_to_delimited((hash["money"]).to_f) }
@@ -325,25 +328,39 @@ module ReportsHelper
   # Product Sales -> Product Sale by station ----------------------------------------------------------------------------------
   def query_products_sale_station(event_id)
     <<-SQL
+      SELECT
+        station_type,
+        station_name,
+        to_char(date_trunc('day', date - INTERVAL '8 hour'), 'DD-MM-YYYY') as event_day,
+        product_name,
+        credit_name,
+        sum(sale_item_quantity) as total_quantity,
+        -1*sum(credit_amount) as total_amount
+      FROM stats
+      WHERE event_id = #{event_id}
+      and action in ('sale', 'sale_refund')
+      GROUP BY 1,2,3,4,5
+    SQL
+  end
+
+  def query_products_sale_by_station(station_id)
+    <<-SQL
     SELECT
-      station_type,
-      station_name,
       to_char(date_trunc('day', date - INTERVAL '8 hour'), 'DD-MM-YYYY') as event_day,
       product_name,
       credit_name,
       sum(sale_item_quantity) as total_quantity,
       -1*sum(credit_amount) as total_amount
     FROM stats
-    WHERE event_id = #{event_id}
-    and action in ('sale', 'sale_refund')
-    GROUP BY 1,2,3,4,5
+    WHERE station_id = #{station_id}
+    GROUP BY 1,2,3
     SQL
   end
 
   def pivot_products_sale_station(foo)
     foo = foo.group_by { |h| [h["station_type"], h["station_name"], h["product_name"], h["credit_name"]] }
     foo.map do |_keys, arr|
-      result = { "station_type" => arr.first["station_type"].humanize, "station_name" => arr.first["station_name"], "product_name" => arr.first["product_name"], "total_quantity" => number_to_delimited(arr.map { |i| i["total_quantity"].to_i }.reduce(:+)), "total_amount" => number_to_delimited(arr.map { |i| i["total_amount"].to_f }.reduce(:+)) }
+      result = { "station_type" => arr.first["station_type"]&.humanize, "station_name" => arr.first["station_name"], "product_name" => arr.first["product_name"], "total_quantity" => number_to_delimited(arr.map { |i| i["total_quantity"].to_i }.reduce(:+)), "total_amount" => number_to_delimited(arr.map { |i| i["total_amount"].to_f }.reduce(:+)) }
       arr.each { |hash| result[hash["event_day"]] = { "q" => number_to_delimited((hash["total_quantity"]).to_i), "a" => number_to_delimited((hash["total_amount"]).to_f) } }
       result
     end
@@ -382,12 +399,7 @@ module ReportsHelper
     a.each do |k, v|
       aux = {} # this is a hash
       aux["ticket_type"] = k
-
-      r_aux = if b[k].nil?
-                0
-              else
-                b[k]
-              end
+      r_aux = b[k].to_i
       r = (r_aux * 100) / v
       aux["rate"] = r.to_s
       data << aux

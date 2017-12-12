@@ -179,6 +179,7 @@ Rails.application.routes.draw do
           post :clone
           post :hide
           post :unhide
+          get :reports
           scope module: :stations do
             resources :products, only: [:update, :index]
             resources :station_items, only: [:create, :update, :destroy] do

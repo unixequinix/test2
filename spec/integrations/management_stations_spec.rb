@@ -1,26 +1,23 @@
 require 'rails_helper'
 
-RSpec.describe "Management station test", js:true, type: :feature do
-
+RSpec.describe "Management station test", js: true, type: :feature do
   before(:each) do
-    user = create(:user, role:"glowball")
-    @event = create(:event, name:"Test Event", state:"created")
-    @operator_permissions = create(:station, event:@event, category:"operator_permissions", name:"Operator Permissions1")
-    @yellow_card = create(:station, event:@event, category:"yellow_card", name:"Yellow card")
+    user = create(:user, role: "glowball")
+    @event = create(:event, name: "Test Event", state: "created")
+    @operator_permissions = create(:station, event: @event, category: "operator_permissions", name: "Operator Permissions1")
+    @yellow_card = create(:station, event: @event, category: "yellow_card", name: "Yellow card")
     login_as(user, scope: :user)
-    visit admins_event_stations_path(@event, group:"event_management")
+    visit admins_event_stations_path(@event, group: "event_management")
   end
 
-
   describe "Create new management station" do
-
     before(:each) do
       find("#floaty").click
       find_link("new_station_link").click
     end
 
     it "is located in correct path " do
-      expect(page).to have_current_path(new_admins_event_station_path(@event, group:"event_management"))
+      expect(page).to have_current_path(new_admins_event_station_path(@event, group: "event_management"))
     end
 
     it "without filling name" do
@@ -32,7 +29,7 @@ RSpec.describe "Management station test", js:true, type: :feature do
     it "filling an existent name" do
       expect do
         within("#new_station") do
-          fill_in 'station_name', with: "#{@yellow_card.name}"
+          fill_in 'station_name', with: @yellow_card.name.to_s
         end
         find("input[name=commit]").click
       end.not_to change(Station, :count)
@@ -139,21 +136,20 @@ RSpec.describe "Management station test", js:true, type: :feature do
   end
 
   describe "actions on management station" do
-
     it "select an management station" do
-      find_by_id("#{@operator_permissions.id}").click
+      find("#station_#{@operator_permissions.id}").click
       expect(page).to have_current_path(admins_event_station_path(@event, @operator_permissions.id))
     end
 
     it "edit a management station" do
-      find_by_id("edit_#{@operator_permissions.id}").click
+      find("#edit_#{@operator_permissions.id}").click
       expect(page).to have_current_path(edit_admins_event_station_path(@event, @operator_permissions.id))
-      within("#edit_station_#{@operator_permissions.id}"){fill_in 'station_name', with:"OP"}
+      within("#edit_station_#{@operator_permissions.id}") { fill_in 'station_name', with: "OP" }
       find("input[name=commit]").click
       expect(page).to have_current_path(admins_event_station_path(@event, @operator_permissions.id))
       find("#undo_link").click
       within 'table' do
-        expect(page).not_to have_text "#{@operator_permissions.name}"
+        expect(page).not_to have_text @operator_permissions.name.to_s
         expect(page).to have_text "OP"
       end
     end
@@ -162,64 +158,61 @@ RSpec.describe "Management station test", js:true, type: :feature do
       find("#best_in_place_station_#{@operator_permissions.id}_hidden").click
       page.driver.browser.navigate.refresh
       within find(".resource-hidden") do
-        expect(page).not_to have_text "#{@yellow_card.name}"
-        expect(page).to have_text "#{@operator_permissions.name}"
+        expect(page).not_to have_text @yellow_card.name.to_s
+        expect(page).to have_text @operator_permissions.name.to_s
       end
     end
 
     it "clone a monetary station" do
       expect do
-        find_by_id("copy_#{@operator_permissions.id}").click
+        find("#copy_#{@operator_permissions.id}").click
       end.to change(Station, :count).by(1)
       expect(page).to have_current_path(admins_event_station_path(@event, Station.last.id))
     end
 
     it "delete an management station" do
       expect do
-        find_by_id("delete_#{@operator_permissions.id}").click
+        find("#delete_#{@operator_permissions.id}").click
         page.accept_alert
         sleep(1)
       end.to change(Station, :count).by(-1)
     end
-
-
   end
 
   describe "search for a management station" do
-
     it "type name" do
       find("#search_icon").click
-      within("#station_search") {fill_in 'fixed-header-drawer-exp', with: "#{@operator_permissions.name}"}.native.send_keys(:return)
+      within("#station_search") { fill_in 'fixed-header-drawer-exp', with: @operator_permissions.name.to_s }.native.send_keys(:return)
       within 'table' do
-        expect(page).not_to have_text "#{@yellow_card.name}"
-        expect(page).to have_text "#{@operator_permissions.name}"
+        expect(page).not_to have_text @yellow_card.name.to_s
+        expect(page).to have_text @operator_permissions.name.to_s
       end
     end
 
     it "type station category" do
       find("#search_icon").click
-      within("#station_search") {fill_in 'fixed-header-drawer-exp', with: "#{@operator_permissions.category}"}.native.send_keys(:return)
+      within("#station_search") { fill_in 'fixed-header-drawer-exp', with: @operator_permissions.category.to_s }.native.send_keys(:return)
       within 'table' do
-        expect(page).not_to have_text "#{@yellow_card.name}"
-        expect(page).to have_text "#{@operator_permissions.name}"
+        expect(page).not_to have_text @yellow_card.name.to_s
+        expect(page).to have_text @operator_permissions.name.to_s
       end
     end
 
     it "type non-existent station" do
       find("#search_icon").click
-      within("#station_search") {fill_in 'fixed-header-drawer-exp', with: "non-existent"}.native.send_keys(:return)
+      within("#station_search") { fill_in 'fixed-header-drawer-exp', with: "non-existent" }.native.send_keys(:return)
       within 'table' do
-        expect(page).not_to have_text "#{@yellow_card.name}"
-        expect(page).not_to have_text "#{@operator_permissions.name}"
+        expect(page).not_to have_text @yellow_card.name.to_s
+        expect(page).not_to have_text @operator_permissions.name.to_s
       end
     end
 
     it "don't type anything" do
       find("#search_icon").click
-      within("#station_search") {fill_in 'fixed-header-drawer-exp', with: ""}.native.send_keys(:return)
+      within("#station_search") { fill_in 'fixed-header-drawer-exp', with: "" }.native.send_keys(:return)
       within 'table' do
-        expect(page).to have_text "#{@yellow_card.name}"
-        expect(page).to have_text "#{@operator_permissions.name}"
+        expect(page).to have_text @yellow_card.name.to_s
+        expect(page).to have_text @operator_permissions.name.to_s
       end
     end
   end

@@ -20,6 +20,11 @@
             button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons content_copy
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone
+        li.floaty-list-item
+          = link_to admins_event_station_reports_path(@current_event, @station) do
+            button#reports.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons money
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="reports" Reports
         - unless @current_event.launched?
           li.floaty-list-item
             = link_to admins_event_station_path(@current_event, @station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do

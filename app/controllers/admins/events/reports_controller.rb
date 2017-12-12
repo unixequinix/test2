@@ -1,5 +1,5 @@
 class Admins::Events::ReportsController < Admins::Events::BaseController
-  include ActiveSupport::NumberHelper
+  # rubocop:disable all
   include ReportsHelper
 
   before_action :load_reports_resources

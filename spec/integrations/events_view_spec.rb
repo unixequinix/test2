@@ -15,9 +15,9 @@ RSpec.describe "Test on Events view", js: true, type: :feature do
       find("#filters_all").click
       expect(page).to have_current_path(admins_events_path(status: 'all'))
       within '#event_list' do
-        expect(page).to have_text @event_launched.name.to_s
-        expect(page).to have_text @event_created.name.to_s
-        expect(page).to have_text @event_closed.name.to_s
+        expect(page).to have_text @event_launched.name
+        expect(page).to have_text @event_created.name
+        expect(page).to have_text @event_closed.name
       end
     end
 

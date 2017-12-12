@@ -11,7 +11,7 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
               initial_topup_fee topup_fee maximum_gtag_balance stations_apply_orders stations_initialize_gtags]
 
     body = cols.map { |col| { name: col, value: @current_event.send(col) } }
-    production_env = Rails.env.production? || Rails.env.demo? || Rails.env.hotfix?
+    production_env = Rails.env.production? || Rails.env.demo? || Rails.env.hotfix? # rubocop:disable Rails/UnknownEnv
     fake_key = "11111111111111111111111111111111"
     value = production_env ? @current_event.gtag_key : fake_key
 

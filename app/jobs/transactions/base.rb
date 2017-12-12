@@ -32,7 +32,7 @@ module Transactions
       params[:device_created_at_fixed] = params[:device_created_at].gsub(/(?<hour>[\+,\-][0-9][0-9])(?<minute>[0-9][0-9])/, '\k<hour>:\k<minute>')
       params[:device_created_at] = params[:device_created_at_fixed][0, 19]
       params.delete(:sale_items_attributes) if params[:sale_items_attributes].blank?
-      params.delete(:order_id) if params[:order_id] == 0
+      params.delete(:order_id) if params[:order_id].to_i.zero?
       params[:order_id] = OrderItem.find(params[:order_id]).order.id if params[:order_id]
       params
     end

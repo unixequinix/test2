@@ -1,5 +1,18 @@
-class Admins::Events::StationsController < Admins::Events::BaseController
+class Admins::Events::StationsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
+  include ReportsHelper
+
   before_action :set_station, except: %i[index new create]
+
+  def reports
+    @load_reports_resources = true
+
+    data = data_connection(query_products_sale_by_station(@station.id))
+    @products_sale_station_data = pivot_products_sale_station(data).to_json
+
+    data = data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten
+    columns = %w[product_name] + data + ["total_quantity"] + ["total_amount"]
+    @products_sale_station_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
+  end
 
   def index
     @group = params[:group]&.to_sym
@@ -72,12 +85,12 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def clone
     @station = @station.deep_clone(include: %i[station_catalog_items products topup_credits access_control_gates], validate: false)
     index = @station.name.index(' - ')
-    if index.nil?
-      name = @station.name
-    else
-      name = @station.name.byteslice(0...index)
-    end
-    @station.name = "#{name} - #{@current_event.stations.where("stations.name LIKE :l_name", {:l_name => "#{name}%"}).count}"
+    name = if index.nil?
+             @station.name
+           else
+             @station.name.byteslice(0...index)
+           end
+    @station.name = "#{name} - #{@current_event.stations.where('stations.name LIKE :l_name', l_name: "#{name}%").count}"
     @station.save!
     redirect_to [:admins, @current_event, @station], notice: t("alerts.created")
   end
