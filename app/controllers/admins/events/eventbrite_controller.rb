@@ -1,7 +1,7 @@
 class Admins::Events::EventbriteController < Admins::Events::BaseController
   protect_from_forgery except: :webhooks
   skip_before_action :authenticate_user!, only: :webhooks
-  before_action :check_token
+  before_action :set_params
 
   def index
     authorize @current_event, :eventbrite_index?
@@ -84,7 +84,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
 
   private
 
-  def check_token
+  def set_params
     @token = @current_event.eventbrite_token
     return unless @token
     begin
