@@ -13,8 +13,9 @@ RSpec.describe Creators::TicketJob, type: :job do
     it "can create a ticket" do
       expect { worker.perform_now(atts) }.to change { event.tickets.count }.by(1)
     end
+
     it "can update a ticket" do
-      expect { worker.perform_now(old_atts) }.not_to change { event.tickets.count }
+      expect { worker.perform_now(old_atts) }.not_to change(Ticket, :count)
     end
   end
 end

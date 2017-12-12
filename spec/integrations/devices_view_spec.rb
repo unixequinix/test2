@@ -40,7 +40,7 @@ RSpec.describe "Devices view", js: true, type: :feature do
 
     it "delete a device with transactions" do
       expect do
-        find("##{@device2.id}_delete").click
+        find("#delete_#{@device2.id}").click
         page.accept_alert
         sleep(1)
       end.not_to change(Device, :count)

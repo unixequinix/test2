@@ -29,7 +29,7 @@ RSpec.describe Creators::CustomerFromGtagJob, type: :job do
     it "can't create order without credtis" do
       old_gtag.refundable_credits = 0.to_f
       old_gtag.save!
-      expect { worker.perform_now(old_gtag, event) }.not_to change { event.orders.count }
+      expect { worker.perform_now(old_gtag, event) }.not_to change(Order, :count)
     end
   end
 end

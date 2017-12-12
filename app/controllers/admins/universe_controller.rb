@@ -15,7 +15,7 @@ class Admins::UniverseController < Admins::BaseController
     client = Figaro.env.universe_client_id
     callback = Figaro.env.universe_app_uri
 
-    res = Net::HTTP.post_form(uri, code: params[:code], grant_type: "authorization_code", client_id: client, client_secret: secret, redirect_uri: callback)
+    res = Net::HTTP.post_form(uri, code: params[:code], grant_type: "authorization_code", client_id: client, client_secret: secret, redirect_uri: callback) # rubocop:disable Metrics/LineLength
     token = JSON.parse(res.body)["access_token"]
 
     event.update! universe_token: token
