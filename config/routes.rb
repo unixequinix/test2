@@ -17,10 +17,6 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   devise_for :users, controllers: { sessions: "admins/sessions", passwords: "admins/passwords"}
 
-  devise_scope :user do
-    get "/admins/sign_in", to: "admins/sessions#new"
-  end
-
   namespace :admins do
 
     authenticate :user, lambda { |u| u.admin? } do

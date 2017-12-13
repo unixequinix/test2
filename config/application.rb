@@ -16,7 +16,7 @@ module GlownetWeb
 
     Figaro.load
 
-    config.middleware.use Rack::Attack
+    config.middleware.use Rack::Attack::Recaptcha
 
     config.active_record.belongs_to_required_by_default = true
 

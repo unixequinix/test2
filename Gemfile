@@ -46,6 +46,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
 gem 'pundit'
 gem 'recaptcha', require: 'recaptcha/rails'
+gem 'rack-attack-recaptcha', '~> 0.0.3'
 
 # Design
 gem 'font-awesome-rails'
@@ -147,6 +148,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'codecov', require: false
   gem 'email_spec'
+  gem 'rack-test'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

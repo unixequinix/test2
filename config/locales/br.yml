@@ -14,6 +14,7 @@ br:
     placeholders:
       ticket_code: Número de Código do ingresso
   alerts:
+    request_captcha: Max requests exceeded.
     created: Criado com Sucesso
     cancelled: Cancelado com sucesso
     customer_without_transactions: O cliente não tem transações

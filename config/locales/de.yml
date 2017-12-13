@@ -14,6 +14,7 @@ de:
     placeholders:
       ticket_code: Code deines Tickets
   alerts:
+    request_captcha: Max-Anforderungen überschritten.
     created: Erfolgreich erstellt
     cancelled: Erfolgreich abgebrochen
     customer_without_transactions: Der Kunde hat keine Kredittransaktionen

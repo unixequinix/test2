@@ -32,6 +32,7 @@ end
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require "rack/test"
 
 require 'capybara/rspec'
 require 'capybara/rails'

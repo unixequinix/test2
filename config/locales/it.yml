@@ -13,6 +13,7 @@ it:
     placeholders:
       biglietto_code: Codice del biglietto
   alerts:
+    request_captcha: Richieste massime superate.
     created: Creato con successo
     cancelled: Cancellato con successo
     customer_without_transactions: Il cliente non ha operazioni di credito.
