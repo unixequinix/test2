@@ -6,7 +6,7 @@ module Creators
       customer = copy_customer(old_customer, event)
 
       balance = old_customer&.global_refundable_credits&.to_f
-      OrderJob.perform_later(event, customer, balance) if balance.to_f.positive?
+      Creators::OrderJob.perform_later(event, customer, balance) if balance.to_f.positive?
     end
   end
 end

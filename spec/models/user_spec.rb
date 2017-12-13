@@ -27,5 +27,14 @@ RSpec.describe Customer, type: :model do
       expect(user).not_to be_valid
       expect(user.errors[:password]).to include("can't be blank")
     end
+
+    it "password is not require on User update" do
+      # Force to reproduce devise behaviour with User model and Password on update action
+      user.password = nil
+      user.password_confirmation = nil
+      user.admin!
+      expect(user).to be_valid
+      expect(user.role).to eql('admin')
+    end
   end
 end

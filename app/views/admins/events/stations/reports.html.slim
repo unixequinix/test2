@@ -1,0 +1,61 @@
+- content_for(:title) do
+   = @station.name.to_s.humanize
+
+- content_for(:navigation_actions) do
+  = link_to admins_event_stations_path(group: @station.group), class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+- content_for(:actions) do
+  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_station_path(@current_event, @station) do
+          button#back.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons undo
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="back" Back
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Products Sale by Station "Q" = Quantity | "A" = Amount
+    br
+    table#products_sale_station.display.mdl-data-table
+
+  .mdl-layout-spacer
+
+
+javascript:
+  $.fn.dataTable.ext.errMode = 'none';
+  $(document).ready(function () {
+      var data_prod = jQuery.parseJSON('#{ escape_javascript(@products_sale_station_data.html_safe)}')
+      var columns_prod = jQuery.parseJSON('#{@products_sale_station_column.html_safe}')
+
+      $('#products_sale_station').dataTable({
+          "dom": '<"dt-buttons"Bf><"clear">lirtp',
+          "paging": true,
+          "autoWidth": true,
+          "data": data_prod,
+          "columns": columns_prod,
+          "order": [[0, 'desc']],
+          "buttons": [
+              'copyHtml5',
+              'csvHtml5',
+              'print'
+          ]
+      });
+
+
+      $(".dt-button").addClass("mdl-button mdl-js-button");
+      $(".dt-button").removeClass("dt-button");
+
+      $(".paginate_button").addClass("mdl-button mdl-js-button");
+      $(".paginate_button").removeClass("paginate_button");
+
+  });

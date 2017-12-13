@@ -3,7 +3,7 @@ module Creators
     queue_as :medium
 
     def perform(old_gtag, new_event)
-      gtag = create_gtag(old_gtag.tag_uid, new_event, old_gtag.attributes)
+      gtag = create_gtag(old_gtag.tag_uid, new_event, old_gtag.attributes.slice(:banned, :format, :active))
       old_customer = old_gtag.customer
       customer = gtag.customer
       customer ||= old_customer&.registered? ? copy_customer(old_customer, new_event) : new_event.customers.create!

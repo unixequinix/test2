@@ -3,10 +3,13 @@ class Events::SessionsController < Devise::SessionsController
 
   before_action :set_event
   before_action :resolve_locale
+    
   skip_before_action :verify_authenticity_token
   layout "customer"
 
+  before_action :check_captcha, only: :create
   before_action :check_user_confirmation, only: :create
+  before_action :reset_captcha, only: :destroy
 
   def send_email
     user = @current_event.customers.find_by(email: sign_in_params[:email])
@@ -23,6 +26,14 @@ class Events::SessionsController < Devise::SessionsController
   end
 
   private
+
+  def check_captcha
+    verify_recaptcha_if_under_attack
+  end
+
+  def reset_captcha
+    Rack::Attack.reset_throttle("/:event/login", current_customer)
+  end
 
   def check_user_confirmation
     user = @current_event.customers.find_by(email: sign_in_params[:email])

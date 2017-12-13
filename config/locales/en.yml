@@ -14,6 +14,7 @@ en:
     placeholders:
       ticket_code: Event Ticket Code Number
   alerts:
+    request_captcha: Max requests exceeded.
     created: Succesfully created
     cancelled: Cancelled successfully
     customer_without_transactions: The customer doesn't have credit transactions

@@ -46,6 +46,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
 gem 'pundit'
 gem 'recaptcha', require: 'recaptcha/rails'
+gem 'rack-attack-recaptcha', '~> 0.0.3'
 
 # Design
 gem 'font-awesome-rails'
@@ -112,7 +113,6 @@ group :development do
   gem 'capistrano-faster-assets', '~> 1.0'
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
-  gem 'xray-rails'
   gem 'letter_opener'
 end
 
@@ -136,6 +136,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
+  gem 'json_expressions'
 end
 
 group :test do
@@ -147,6 +148,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'codecov', require: false
   gem 'email_spec'
+  gem 'rack-test'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

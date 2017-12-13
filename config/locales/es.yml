@@ -14,6 +14,7 @@ es:
     placeholders:
       ticket_code: Código de Ticket
   alerts:
+    request_captcha: Has excedido el máximo de peticiones.
     created: Creado con éxito
     cancelled: Cancelado con éxito
     customer_without_transactions: The customer doesn't have credit transactions

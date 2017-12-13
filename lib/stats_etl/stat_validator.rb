@@ -4,7 +4,7 @@ module StatValidator
       action = stat.operation.action
 
       @error_code = validate_date(stat.event, stat.date)
-      @error_code ||= validate_quantity_sale(stat) if action == 'sale_refund'
+      @error_code ||= validate_quantity_sale_refund(stat) if action == 'sale_refund'
       @error_code ||= validate_quantity_sale(stat) if action == 'sale'
       # @error_code ||= validate_sales(stat) if %w[sale sale_refund].include?(action)
 

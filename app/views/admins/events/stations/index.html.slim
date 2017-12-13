@@ -49,7 +49,7 @@
           tbody
             - @stations.each do |station|
               tr class="#{'resource-hidden' if station.hidden?}" data-event=@current_event.id data-station=station.id
-                td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station]
+                td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station], id:"station_#{station.id}"
                 td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
                 td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
                 td data-label="Items" = station.all_station_items.size
@@ -57,16 +57,16 @@
                 td.table-actions
                   - unless station.category.eql?("customer_portal")
                     .table-action
-                      = link_to edit_admins_event_station_path(@current_event, station) do
-                        button.icon.material-icons id ="edit_#{station.id}" edit
+                      = link_to edit_admins_event_station_path(@current_event, station), id:"edit_#{station.id}" do
+                        button.icon.material-icons edit
                     .table-action
-                      = link_to admins_event_station_clone_path(@current_event, station), method: :post do
-                        button.icon.material-icons id ="copy_#{station.id}" content_copy
+                      = link_to admins_event_station_clone_path(@current_event, station), method: :post, id:"copy_#{station.id}"  do
+                        button.icon.material-icons content_copy
 
                     - unless @current_event.launched?
                       .table-action
-                        = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                          button.icon.material-icons id ="delete_#{station.id}" delete_forever
+                        = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{station.id}" do
+                          button.icon.material-icons delete_forever
 
               span.mdl-tooltip data-mdl-for="edit_#{station.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{station.id}" Delete

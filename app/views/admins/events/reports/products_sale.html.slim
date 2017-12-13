@@ -1,42 +1,40 @@
 - content_for(:title) do
   | Product Sale Reports
+
 .content-grid.mdl-grid
-  .mdl-cell.mdl-cell--12-col
-    .mdl-cell.mdl-cell--12-col
-      h5 Sales by Station Category
-      .mdl-grid
-        table#sales_by_station.display.mdl-data-table
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Sales by Station Category
+    table#sales_by_station.display.mdl-data-table
     br
     hr
     br
-    .mdl-cell.mdl-cell--12-col
-      h5 Products Performance
+    h5 Products Performance
     .mdl-grid
       .mdl-cell.mdl-cell--6-col
         .data-card-wide.mdl-card.mdl-shadow--2dp
-          = bar_chart @top_products_by_quantity_data, title: "Top 10 Product sales by Quantity", colors: ["#3F51B5"]
+          = bar_chart @top_products_by_quantity_data, title: "Top 10 Product sales by Quantity", colors: ["#3F51B5"], height: 40
       .mdl-cell.mdl-cell--6-col
-          .data-card-wide.mdl-card.mdl-shadow--2dp
-            = bar_chart @top_products_by_amount_data, title: "Top 10 Product sales in Credit Amount", colors: ["#00BCD4"]
-    .mdl-cell.mdl-cell--12-col
-      .data-card-wide.mdl-card.mdl-shadow--2dp
-        = column_chart @perfomance_by_station_data, title: "Performance of Stations in Amount", stacked: true
+        .data-card-wide.mdl-card.mdl-shadow--2dp
+          = bar_chart @top_products_by_amount_data, title: "Top 10 Product sales in Credit Amount", colors: ["#00BCD4"], height: 40
+
+    .data-card-wide.mdl-card.mdl-shadow--2dp
+      = column_chart @perfomance_by_station_data, title: "Performance of Stations in Amount", stacked: true, height: 50
     br
     hr
     br
-    .mdl-cell.mdl-cell--12-col
-      h5 Products Sale by Station
-      | "Q" = Quantity | "A" = Amount
-      .mdl-grid
-        table#products_sale_station.display.mdl-data-table
+    h5
+      | Products Sale by Station
+      .small "Q" = Quantity | "A" = Amount
+    table#products_sale_station.display.mdl-data-table
     br
     hr
     br
-      .mdl-cell.mdl-cell--12-col
-        h5 Overall Products Sale
-        | "Q" = Quantity | "A" = Amount
-        .mdl-grid
-          table#products_sale_overall.display.mdl-data-table
+    h5
+      | Overall Products Sale
+      .small "Q" = Quantity | "A" = Amount
+    table#products_sale_overall.display.mdl-data-table
+  .mdl-layout-spacer
 
 
 

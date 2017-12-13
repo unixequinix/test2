@@ -51,7 +51,7 @@
                     = link_to edit_admins_event_company_path(@current_event, company) do
                       button.icon.material-icons id ="edit_#{company.id}" edit
                   .table-action
-                    = link_to admins_event_company_path(@current_event, company), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                    = link_to admins_event_company_path(@current_event, company), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_company_link" do
                       button.icon.material-icons id ="delete_#{company.id}" delete_forever
 
               span.mdl-tooltip data-mdl-for="edit_#{company.id}" Edit

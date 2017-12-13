@@ -26,4 +26,8 @@ class StationPolicy < ApplicationPolicy
   def unhide?
     admin_or_promoter && event_open
   end
+
+  def reports?
+    admin_or_promoter
+  end
 end
