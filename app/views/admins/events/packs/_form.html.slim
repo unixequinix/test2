@@ -31,10 +31,12 @@
       = f.simple_fields_for :pack_catalog_items do |pack_catalog_item, index|
         - next if pack_catalog_item.object.catalog_item.is_a?(UserFlag)
         = render 'pack_catalog_item_fields', f: pack_catalog_item
+      = link_to_add_fields(("add item"), f, :pack_catalog_items)
 
     .form-actions
       .col-sm-offset-3.col-sm-9
         = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
 
 javascript:
   var ready;
