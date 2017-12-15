@@ -3,7 +3,7 @@ class Events::SessionsController < Devise::SessionsController
 
   before_action :set_event
   before_action :resolve_locale
-    
+
   skip_before_action :verify_authenticity_token
   layout "customer"
 
