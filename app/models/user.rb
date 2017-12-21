@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validate :validate_username
   validates :password, length: { within: Devise.password_length },
                        format: {
-                         with: /\A(?=.*\d)(?=.*[a-z])/x,
+                         with: /\A(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[a-z])\z/,
                          message: 'must include at least one lowercase letter and one digit'
                        }, if: (-> { password.present? })
   enum role: { glowball: 2, admin: 0, promoter: 1 }

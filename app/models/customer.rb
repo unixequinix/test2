@@ -14,7 +14,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :password, presence: true, confirmation: true,
                        length: { within: Devise.password_length },
                        format: {
-                         with: /\A(?=.*\d)(?=.*[a-z])/x,
+                         with: /\A(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[a-z])\z/,
                          message: 'must include at least one lowercase letter and one digit'
                        },
                        unless: %i[skip_password_validation anonymous?]

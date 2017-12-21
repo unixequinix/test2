@@ -2,6 +2,8 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   before_action :set_event, except: %i[index new sample_event create]
   before_action :set_event_series, only: %i[new edit]
 
+  REDIRECTS = { edit_event_style: :edit_event_style }.freeze
+
   def index
     @status = params[:status] || "launched"
     @q = policy_scope(Event).ransack(params[:q])
@@ -45,8 +47,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { render json: @current_event }
       else
-        params[:redirect_path] ||= :edit
-        format.html { render params[:redirect_path].to_sym, layout: "admin_event" }
+        format.html { render REDIRECTS[params[:redirect_path]] || :edit, layout: "admin_event" }
         format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
       end
     end

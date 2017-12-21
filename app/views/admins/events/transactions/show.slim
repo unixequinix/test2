@@ -190,4 +190,4 @@
                     td = item.class.to_s.humanize
                     td = item.credits
 
-      = render(partial: "admins/events/transactions/categories/#{@type}") if lookup_context.template_exists?("admins/events/transactions/categories/_#{@type}")
+      = render(partial: "admins/events/transactions/categories/#{@transaction.category}") if lookup_context.template_exists?("admins/events/transactions/categories/_#{@transaction.category}")
