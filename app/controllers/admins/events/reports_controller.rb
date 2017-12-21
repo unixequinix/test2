@@ -104,7 +104,7 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     @checkedin_by_station_data, @checkedin_by_station_column = view_builder('checkedin_by_station', %w[transaction_type station_name ticket_type_name], 'event_day')
 
     # Accreditation ----------------------------------------------------------------------------------------------------
-    acc_sql = send "query_accreditation", @current_event.id
+    acc_sql = method("query_accreditation").call(@current_event.id)
     data = JSON.parse(Stat.connection.select_all(acc_sql).to_json)
     @accreditation_data = pivot_accreditation(data).to_json
 

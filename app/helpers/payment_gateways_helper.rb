@@ -1,10 +1,10 @@
 module PaymentGatewaysHelper
   def store_redirection(event, type, options = {})
     if type == :refund
-      return send("new_event_#{type}_path", event) unless event.payment_gateways&.vouchup&.refund&.any?
+      return method("new_event_#{type}_path").call(event) unless event.payment_gateways&.vouchup&.refund&.any?
       params = { path: "/refund/#{event.slug}/customer-details", query: { email: current_customer.email, gtag: options[:gtag_uid] }.to_param }
     else
-      return send("new_event_#{type}_path", event) unless event.payment_gateways&.vouchup&.topup&.any?
+      return method("new_event_#{type}_path").call(event) unless event.payment_gateways&.vouchup&.topup&.any?
       params = { path: "/register/#{event.slug}/glownet/#{current_customer.id}" }
     end
 

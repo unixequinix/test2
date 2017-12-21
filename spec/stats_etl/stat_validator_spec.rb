@@ -28,17 +28,17 @@ describe StatValidator do
 
   it "should return an error on date validation" do
     date = event.end_date + 1.day
-    expect(StatValidator.send(:validate_date, event, date)).to be(Stat.error_codes.key(0))
+    expect(StatValidator.method(:validate_date).call(event, date)).to be(Stat.error_codes.key(0))
   end
 
   it "should return an error on quantity validation on sale" do
     @sale_stats.first.sale_item_quantity = -1
-    expect(StatValidator.send(:validate_quantity_sale, @sale_stats.first)).to be(Stat.error_codes.key(1))
+    expect(StatValidator.method(:validate_quantity_sale).call(@sale_stats.first)).to be(Stat.error_codes.key(1))
   end
 
   it "should return an error on quantity validation on sale refunds" do
     @sale_refund_stats.first.sale_item_quantity = 1
-    expect(StatValidator.send(:validate_quantity_sale_refund, @sale_refund_stats.first)).to be(Stat.error_codes.key(1))
+    expect(StatValidator.method(:validate_quantity_sale_refund).call(@sale_refund_stats.first)).to be(Stat.error_codes.key(1))
   end
 
   it "should return an error on sale validation"

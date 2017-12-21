@@ -89,6 +89,10 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
       it "includes old_event_keys" do
         expect(@body).to include("name" => "old_event_keys", "value" => "11111111111111111111111111111111")
       end
+
+      it "includes all_stations_apply_tickets" do
+        expect(@body).to include("name" => "all_stations_apply_tickets", "value" => false)
+      end
     end
 
     describe "gtag_type" do

@@ -43,11 +43,11 @@ RSpec.describe ReportsHelper, type: :helper do
   context "Validate Queries" do
     query_methods.each do |query_name|
       it "#{query_name} should return a string" do
-        expect(helper.send(query_name, event.id).class).to eql(String)
+        expect(helper.method(query_name).call(event.id).class).to eql(String)
       end
 
       it "#{query_name} should contain event_id = event.id" do
-        expect(helper.send(query_name, event.id)).to include(event.id.to_s)
+        expect(helper.method(query_name).call(event.id)).to include(event.id.to_s)
       end
     end
   end

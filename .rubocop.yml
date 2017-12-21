@@ -66,4 +66,13 @@ Rails:
 Rails/SkipsModelValidations:
   Enabled: false
 
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - demo
+    - staging
+    - hotfix
+    - integration
+    - sandbox
+
 

@@ -3,6 +3,16 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_transactions, except: %i[index show fix status_9 status_0 destroy]
   before_action :set_transaction, only: %i[show update fix status_9 status_0]
 
+  TRANSACTIONS = { user_flag: UserFlagTransaction,
+                   credit: CreditTransaction,
+                   money: MoneyTransaction,
+                   user_engagement: UserEngagementTransaction,
+                   device: DeviceTransaction,
+                   credential: CredentialTransaction,
+                   access: AccessTransaction,
+                   operator: OperatorTransaction,
+                   order: OrderTransaction }.freeze
+
   def download_raw_transactions
     respond_to do |format|
       format.csv { send_data(DownloadTransactionsQuery.new(@current_event).to_csv) }
@@ -72,7 +82,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def set_transactions
-    @transactions = "#{@type}_transaction".classify.constantize.where(event: @current_event)
+    @transactions = TRANSACTIONS[@type.to_sym].where(event: @current_event)
     authorize @transactions
     @q = @transactions.search(params[:q])
     @transactions = @q.result.page(params[:page]).includes(:customer, :station)

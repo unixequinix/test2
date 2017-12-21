@@ -3,9 +3,9 @@ module ReportsHelper # rubocop:disable Metrics/ModuleLength
   include ActiveSupport::NumberHelper
 
   def view_builder(operation_name, column_names, column_pivot, total = 'nill')
-    sql = send "query_#{operation_name}", @current_event.id
+    sql = method("query_#{operation_name}").call(@current_event.id)
     data = JSON.parse(Stat.connection.select_all(sql).to_json)
-    result1 = send("pivot_#{operation_name}", data).to_json
+    result1 = method("pivot_#{operation_name}").call(data).to_json
 
     columns = column_names + data.map { |hash| hash[column_pivot] }.uniq.sort + ["total"]
     result2 = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json

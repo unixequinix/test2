@@ -2,6 +2,8 @@ class Admins::Events::Stations::StationItemsController < Admins::Events::BaseCon
   before_action :set_station
   before_action :set_item, only: %i[update destroy]
 
+  ITEMS = { product: Product, station_catalog_item: StationCatalogItem, access_control_gate: AccessControlGate }.freeze
+
   def create
     @group = @station.group
     @items = @station.all_station_items
@@ -53,7 +55,7 @@ class Admins::Events::Stations::StationItemsController < Admins::Events::BaseCon
 
   def set_station
     @station = @current_event.stations.find(params[:station_id])
-    @klass = params[:item_type].camelcase.constantize
+    @klass = ITEMS[params[:item_type].to_sym]
   end
 
   def set_item
