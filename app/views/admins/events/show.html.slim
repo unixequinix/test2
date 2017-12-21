@@ -120,6 +120,9 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Credit Step
                   td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Tips
+                  td = best_in_place @current_event, :tips_enabled, best_in_place_checkbox([:admins, @current_event])
 
           .mdl-card__title
             .mdl-cell.mdl-cell--12-col
