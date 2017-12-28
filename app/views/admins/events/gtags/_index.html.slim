@@ -72,8 +72,8 @@
           tbody
             - @gtags.each do |gtag|
               tr class="#{"danger" if gtag.inconsistent? || gtag.missing_transactions?}"
-                td.mdl-data-table__cell--non-numeric data-label="Tag UID" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
-                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.name, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
+                td.mdl-data-table__cell--non-numeric data-label="Tag UID" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag), id: "gtag_#{gtag.id}_link"
+                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.name, admins_event_customer_path(@current_event, gtag.customer&.id), id: "customer_#{gtag.customer_id}_link" if gtag.customer
                 td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
                 td data-label="Credits" = number_to_token gtag.credits
                 td data-label="Virtual Credits" = number_to_token gtag.virtual_credits
@@ -87,7 +87,7 @@
                       button.icon.material-icons id ="edit_#{gtag.id}" edit
                   .table-action
                     = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{gtag.id}" delete_forever
+                      button.icon.material-icons id ="delete_#{gtag.id}_link" delete_forever
 
               span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
               span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
