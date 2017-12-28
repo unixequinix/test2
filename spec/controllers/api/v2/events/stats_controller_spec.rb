@@ -35,7 +35,7 @@ RSpec.describe Api::V2::Events::StatsController, type: %i[controller api] do
 
     it "returns the stat as JSON" do
       get :show, params: { event_id: event.id, id: stat.to_param }
-      expect(json).to eq(obj_to_json(stat, "Full::StatSerializer"))
+      expect(json).to eq(obj_to_json_v2(stat, "Full::StatSerializer"))
     end
   end
 end

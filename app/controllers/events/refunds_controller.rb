@@ -37,11 +37,11 @@ class Events::RefundsController < Events::EventsController
     @refunds = @current_event.payment_gateways.order(:id).refund.map do |gateway|
       fee = gateway.fee
       amount = @current_customer.orders.completed.where(gateway: gateway.name).sum(&:credits) - fee
-      amount = @current_customer.global_refundable_credits - fee if gateway.name.eql?("bank_account")
-      amount = [amount, @current_customer.global_refundable_credits - fee].min
+      amount = @current_customer.credits - fee if gateway.name.eql?("bank_account")
+      amount = [amount, @current_customer.credits - fee].min
       atts = { amount: amount, status: "started", fee: fee, gateway: gateway.name, event: @current_event }
 
-      @current_customer.refunds.new(atts) if amount.positive? && gateway.minimum <= @current_customer.global_refundable_credits
+      @current_customer.refunds.new(atts) if amount.positive? && gateway.minimum <= @current_customer.credits
     end.compact
   end
 

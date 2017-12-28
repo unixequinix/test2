@@ -96,7 +96,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def gtag_params
-      params.require(:gtag).permit(:tag_uid, :banned, :active, :credits, :refundable_credits, :final_balance, :final_refundable_balance, :customer_id, :redeemed, :ticket_type_id) # rubocop:disable Metrics/LineLength
+      params.require(:gtag).permit(:tag_uid, :banned, :customer_id, :redeemed, :ticket_type_id)
     end
   end
 end

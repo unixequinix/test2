@@ -176,8 +176,6 @@ de:
       standard: Gib die zweite Reihe (gelb unterlegt) von Nummern und Buchstaben ein
     info: 'Erlaubte Symbole: "0" - "9" y "A, B, C, D, E, F"'
     placeholder: 'Bsp.: BA6D7DC0'
-  header:
-    edit: Profil bearbeiten
   links:
     buttons:
       sign_in: Login

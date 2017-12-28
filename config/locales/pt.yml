@@ -196,8 +196,6 @@ pt:
       confirmation: "Ainda quer confirmar?"
       confirm: "Confirmar"
       cancel: "Cancelar"
-  header:
-    edit: Editar Cliente
   links:
     buttons:
       sign_in: Login

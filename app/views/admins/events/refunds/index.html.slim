@@ -6,7 +6,7 @@
     = f.search_field :field_a_or_field_b_or_customer_first_name_or_customer_last_name_or_customer_email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to admins_event_refunds_path(@current_event, format: "csv") do

@@ -26,7 +26,7 @@ RSpec.describe Api::V2::Events::CompaniesController, type: %i[controller api] do
     it "does not return companies from another event" do
       company.update!(event: create(:event))
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(company, "CompanySerializer"))
+      expect(json).not_to include(obj_to_json_v2(company, "CompanySerializer"))
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V2::Events::CompaniesController, type: %i[controller api] do
 
     it "returns the company as JSON" do
       get :show, params: { event_id: event.id, id: company.to_param }
-      expect(json).to eq(obj_to_json(company, "CompanySerializer"))
+      expect(json).to eq(obj_to_json_v2(company, "CompanySerializer"))
     end
   end
 

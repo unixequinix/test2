@@ -51,8 +51,8 @@ module Api::V2
 
     # POST api/v2/events/:event_id/customers/:id/topup
     def topup
-      credits = params[:credits]
-      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return if credits.blank? || credits.to_f.negative?
+      credits = params[:credits].to_f
+      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return unless credits.positive?
 
       @order = @customer.build_order([[@current_event.credit.id, credits]])
 
@@ -66,18 +66,13 @@ module Api::V2
 
     # POST api/v2/events/:event_id/customers/:id/virtual_topup
     def virtual_topup
-      credits = params[:credits]
-      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return if credits.blank? || credits.to_f.negative?
+      credits = params[:credits].to_f
+      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return unless credits.positive?
 
-      pack_name = params[:name] || 'Non refundable pack'
-      @pack = @current_event.packs.find_by(name: pack_name)
-      @pack ||= @current_event.packs.create(name: pack_name, pack_catalog_items_attributes: [{ catalog_item: @current_event.credit, amount: 1 }])
+      @order = @customer.build_order([[@current_event.virtual_credit.id, credits]])
 
-      @order = @customer.build_order([[@pack.id, credits]])
-
-      if @order.save!
+      if @order.save
         @order.complete!(params[:gateway])
-
         render json: @order, serializer: OrderSerializer
       else
         render json: @order.errors, status: :unprocessable_entity
@@ -111,6 +106,7 @@ module Api::V2
     # POST api/v2/events/:event_id/customers
     def create
       new_params = customer_params.merge(anonymous: false, agreed_on_registration: true)
+      new_params[:password_confirmation] = new_params[:password]
       new_params[:encrypted_password] = SecureRandom.hex(24) if new_params[:password].blank? && new_params[:password_confirmation].blank?
 
       @customer = @current_event.customers.new(new_params)
@@ -151,7 +147,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :phone, :postcode, :address, :city, :country, :gender, :password, :password_confirmation) # rubocop:disable Metrics/LineLength
+      params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :postcode, :address, :city, :country, :gender, :password)
     end
   end
 end

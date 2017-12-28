@@ -5,19 +5,30 @@ RSpec.describe Transactions::Base, type: :job do
   let(:event) { create(:event) }
   let(:gtag)  { create(:gtag, tag_uid: "AAAAAAAAAAAAAA", event: event) }
   let(:customer) { create(:customer, event: event) }
-  let(:atts) do
-    {
-      type: "credit",
-      action: "test_action",
-      credits: 30,
-      event_id: event.id,
-      device_created_at: Time.zone.now.to_s,
-      customer_tag_uid: gtag.tag_uid,
-      status_code: 0
-    }
-  end
+  let(:atts) { { type: "credit", action: "test_action", credits: 30, event_id: event.id, device_created_at: Time.current.to_s, customer_tag_uid: gtag.tag_uid, status_code: 0 } } # rubocop:disable Metrics/LineLength
 
   before { Transactions::Credit::BalanceUpdater }
+
+  describe "processing payment data" do
+    before(:each) do
+      atts[:payments] = [{ "amount" => 10, "credit_id" => event.credit.id, "final_balance" => 5 },
+                         { "amount" => 2, "credit_id" => event.virtual_credit.id, "final_balance" => 12 }]
+      base.perform_now(atts)
+      @t = gtag.transactions.credit.last
+    end
+
+    it "makes a hash of payments from an array" do
+      result = { event.credit.id.to_s => { "amount" => 10, "final_balance" => 5 },
+                 event.virtual_credit.id.to_s => { "amount" => 2, "final_balance" => 12 } }
+      expect(@t.payments).to eq(result)
+    end
+
+    it "makes a hash of payments from an array" do
+      result = { event.credit.id.to_s => { "amount" => 10, "final_balance" => 5 },
+                 event.virtual_credit.id.to_s => { "amount" => 2, "final_balance" => 12 } }
+      expect(@t.payments).to eq(result)
+    end
+  end
 
   describe "handling both station_id formats" do
     let(:station) { create(:station, event: event, station_event_id: 23) }
@@ -55,8 +66,8 @@ RSpec.describe Transactions::Base, type: :job do
 
   describe "when passed sale_items in attributes" do
     before do
-      atts.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, unit_price: 8.31 },
-                                          { product_id: create(:product).id, quantity: 1.0, unit_price: 2.72 }])
+      atts.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, standard_unit_price: 8.31 },
+                                          { product_id: create(:product).id, quantity: 1.0, standard_unit_price: 2.72 }])
     end
 
     it "saves sale_items" do
@@ -74,7 +85,7 @@ RSpec.describe Transactions::Base, type: :job do
 
       it "works even if jobs fail" do
         atts[:action] = "sale"
-        allow(Transactions::Credit::BalanceUpdater).to receive(:perform_now).and_raise("Error_1")
+        allow(Transactions::PostProcessor).to receive(:perform_later).and_raise("Error_1")
         expect { base.perform_now(atts) }.to raise_error("Error_1")
         atts.delete(:transaction_id)
         atts.delete(:customer_id)
@@ -89,7 +100,7 @@ RSpec.describe Transactions::Base, type: :job do
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
       atts[:action] = "sale"
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_now).once
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
       base.perform_now(atts)
       atts2 = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
       base.perform_now(atts2)

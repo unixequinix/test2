@@ -1,4 +1,6 @@
 class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
+  extend FriendlyId
+
   has_many :device_registrations, dependent: :destroy
   has_many :devices, through: :device_registrations, dependent: :destroy
   has_many :transactions, dependent: :restrict_with_error
@@ -22,16 +24,15 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :stats, dependent: :restrict_with_error
   has_many :alerts, dependent: :destroy
   has_many :device_caches, dependent: :destroy
+  has_many :pokes, dependent: :restrict_with_error
 
   has_one :credit, dependent: :destroy
+  has_one :virtual_credit, dependent: :destroy
 
   belongs_to :event_serie, optional: true
 
-  accepts_nested_attributes_for :credit
-
   scope(:with_state, ->(state) { where state: state })
 
-  extend FriendlyId
   friendly_id :name, use: :slugged
 
   has_paper_trail
@@ -61,6 +62,10 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
   validate :currency_symbol
+
+  def credits
+    [credit, virtual_credit].compact
+  end
 
   def self.try_to_open_refunds
     Event.where(state: 'launched', open_refunds: false).find_each do |event|
@@ -126,16 +131,13 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     eventbrite_token.present? && eventbrite_event.present?
   end
 
-  def credit_price
-    credit.value
-  end
-
   def portal_station
     stations.find_by(category: "customer_portal")
   end
 
   def initial_setup!
     create_credit!(value: 1, name: "CRD")
+    create_virtual_credit!(value: 1, name: "Virtual")
     companies.create!(name: "Glownet", hidden: true)
     user_flags.create!(name: "alcohol_forbidden")
     user_flags.create!(name: "banned")

@@ -37,6 +37,7 @@ gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'jquery-datatables'
+gem 'c3-rails'
 
 # Authentication
 gem 'devise'

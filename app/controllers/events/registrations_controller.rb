@@ -19,18 +19,21 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-    @current_customer.skip_password_validation = true
+    if @current_customer.update_without_password(account_update_params)
+      bypass_sign_in(@current_customer)
+      redirect_to customer_root_path(@current_event), notice: t("alerts.updated")
+    else
+      render :edit
+    end
+  end
 
-    if @current_customer.update(account_update_params)
-      sign_in(@current_customer, bypass: true)
+  def update_password
+    if @current_customer.update(password_params)
+      bypass_sign_in(@current_customer)
       redirect_to customer_root_path(@current_event), notice: t("alerts.updated")
     else
       render :change_password
     end
-  end
-
-  def change_password
-    redirect_to :event_login unless customer_signed_in?
   end
 
   private
@@ -58,19 +61,8 @@ class Events::RegistrationsController < Devise::RegistrationsController
     session.delete(:omniauth) && resource.valid?
   end
 
-  def configure_permitted_parameters
-    customer = %i[first_name last_name phone postcode address city country gender birthdate provider uid agreed_on_registration]
-
-    devise_parameter_sanitizer.permit(:account_update, keys: customer)
-    devise_parameter_sanitizer.permit(:sign_up, keys: customer)
-  end
-
   def after_update_path_for(_resource)
     customer_root_path(@current_event)
-  end
-
-  def update_resource(resource, params)
-    resource.update_without_password(params)
   end
 
   def set_event
@@ -78,7 +70,14 @@ class Events::RegistrationsController < Devise::RegistrationsController
     @current_customer = current_customer
   end
 
-  def permitted_params
+  def configure_permitted_parameters
+    customer = %i[first_name last_name phone postcode address city country gender birthdate provider uid agreed_on_registration]
+
+    devise_parameter_sanitizer.permit(:account_update, keys: customer)
+    devise_parameter_sanitizer.permit(:sign_up, keys: customer)
+  end
+
+  def password_params
     params.require(:customer).permit(:password, :password_confirmation)
   end
 end

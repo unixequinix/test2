@@ -21,10 +21,6 @@
                   = @operation.device_created_at
                 td.mdl-data-table__cell--non-numeric
                   = @operation.sale_items.count
-                td.mdl-data-table__cell--non-numeric
-                  = @operation.refundable_credits
-                td.mdl-data-table__cell--non-numeric
-                  = @operation.credits
       .mdl-cell.mdl-cell--4-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
           = render "form"

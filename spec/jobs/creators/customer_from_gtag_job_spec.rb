@@ -22,12 +22,12 @@ RSpec.describe Creators::CustomerFromGtagJob, type: :job do
   end
   context "creating orders" do
     it "can create order" do
-      old_gtag.refundable_credits = 10.to_f
+      old_gtag.credits = 10.to_f
       old_gtag.save!
       expect { worker.perform_now(old_gtag, event) }.to change { event.orders.count }.by(1)
     end
     it "can't create order without credtis" do
-      old_gtag.refundable_credits = 0.to_f
+      old_gtag.credits = 0.to_f
       old_gtag.save!
       expect { worker.perform_now(old_gtag, event) }.not_to change(Order, :count)
     end

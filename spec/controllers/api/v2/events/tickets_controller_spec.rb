@@ -27,7 +27,7 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
     it "does not return tickets from another event" do
       new_ticket = create(:ticket)
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(new_ticket, "TicketSerializer"))
+      expect(json).not_to include(obj_to_json_v2(new_ticket, "TicketSerializer"))
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
 
     it "returns the ticket as JSON" do
       get :show, params: { event_id: event.id, id: ticket.to_param }
-      expect(json).to eq(obj_to_json(ticket, "TicketSerializer"))
+      expect(json).to eq(obj_to_json_v2(ticket, "TicketSerializer"))
     end
   end
 

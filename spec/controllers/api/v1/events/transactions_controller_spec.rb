@@ -25,7 +25,8 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         credit_value: "1",
         final_balance: "4",
         final_refundable_balance: "4",
-        app_version: "5.7.0"
+        app_version: "5.7.0",
+        payments: [{}].to_json
       }
     ]
   end

@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  include StatsHelper
+  include PokesHelper
   include Eventable
 
   belongs_to :event
@@ -83,15 +83,15 @@ class Order < ApplicationRecord
   end
 
   def total
-    order_items.map(&:total).sum
+    order_items.sum(&:total)
   end
 
   def credits
-    order_items.map(&:credits).sum
+    order_items.sum(&:credits)
   end
 
-  def refundable_credits
-    order_items.map(&:refundable_credits).sum
+  def virtual_credits
+    order_items.sum(&:virtual_credits)
   end
 
   def online_refund(amount)
@@ -107,7 +107,7 @@ class Order < ApplicationRecord
   def max_credit_reached
     return unless customer
     return if cancelled?
-    max_credits_reached = customer.global_credits + credits > event.maximum_gtag_balance
+    max_credits_reached = customer.credits + credits > event.maximum_gtag_balance
     errors.add(:credits, I18n.t("alerts.max_credits_reached")) if max_credits_reached
   end
 end

@@ -1,4 +1,4 @@
-class Admins::Events::GtagsController < Admins::Events::BaseController
+class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance]
 
   def index
@@ -14,8 +14,9 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def show
-    @transactions = @gtag.transactions.includes(:event).order(:gtag_counter).onsite
+    @pokes = @gtag.pokes_as_customer.order(:gtag_counter).onsite
     @corrections = @gtag.transactions.where(action: "correction")
+    @transactions = @gtag.transactions.order(:gtag_counter).onsite
   end
 
   def new
@@ -59,6 +60,20 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     end
   end
 
+  def inconsistencies
+    @q = @current_event.gtags.inconsistent.order(:tag_uid).ransack(params[:q])
+    @gtags = @q.result
+    authorize @gtags
+    @gtags = @gtags.page(params[:page])
+  end
+
+  def missing_transactions
+    @q = @current_event.gtags.missing_transactions.order(:tag_uid).ransack(params[:q])
+    @gtags = @q.result
+    authorize @gtags
+    @gtags = @gtags.page(params[:page])
+  end
+
   def solve_inconsistent
     @gtag.solve_inconsistent
     redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was made consistent"
@@ -83,7 +98,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     begin
       CSV.foreach(file, headers: true, col_sep: ";") do |row|
         ticket_type_id = ticket_types[row.field("Type")]
-        Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance").to_f, ticket_type_id: ticket_type_id)
+        Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance").to_f, row.field("Virtual Balance").to_f, ticket_type_id: ticket_type_id) # rubocop:disable Metrics/LineLength
         count += 1
       end
     rescue # rubocop:disable Lint/RescueWithoutErrorClass
@@ -96,7 +111,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   def sample_csv
     authorize @current_event.gtags.new
 
-    csv_file = CsvExporter.sample(%w[UID Type Balance], [%w[15GH56YTD4F6 VIP 22.5], %w[25GH56YTD4F6 General], %w[35GH56YTD4F6]])
+    csv_file = CsvExporter.sample(%w[UID Type Balance Virtual Balance], [%w[15GH56YTD4F6 VIP 22.5], %w[25GH56YTD4F6 General 0 10], %w[35GH56YTD4F6]])
     respond_to do |format|
       format.csv { send_data(csv_file) }
     end

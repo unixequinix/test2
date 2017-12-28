@@ -2,7 +2,7 @@ class Admins::Events::Stations::StationItemsController < Admins::Events::BaseCon
   before_action :set_station
   before_action :set_item, only: %i[update destroy]
 
-  ITEMS = { product: Product, station_catalog_item: StationCatalogItem, access_control_gate: AccessControlGate }.freeze
+  ITEMS = { product: Product, station_catalog_item: StationCatalogItem, access_control_gate: AccessControlGate, topup_credit: TopupCredit }.freeze
 
   def create
     @group = @station.group

@@ -4,6 +4,9 @@ class Admins::Events::CatalogItemsController < Admins::Events::BaseController
     authorize @item
 
     if @item.update(permitted_params)
+
+      @current_event.virtual_credit.update(value: @item.value) if @item.is_a?(Credit)
+
       render json: @item
     else
       render json: @item.errors.to_json, status: :unprocessable_entity

@@ -9,7 +9,6 @@ class Events::ConfirmationsController < Devise::ConfirmationsController
   def show
     self.resource = resource_class.confirm_by_token(params[:confirmation_token])
     yield resource if block_given?
-    resource.skip_password_validation = true
 
     if resource.valid? && resource.errors.empty?
       redirect_to after_confirmation_path_for(resource)

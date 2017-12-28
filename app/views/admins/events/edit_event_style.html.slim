@@ -17,7 +17,7 @@
           input#uploadL.mdl-textfield__input placeholder="Logo" readonly="readonly" type="text" /
           .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
             i.material-icons attach_file
-            = f.input :logo, :input_html => { :id => 'uploadLogo', :type => 'file' }
+            = f.input :logo, input_html: { id: 'uploadLogo', type: 'file' }
 
         .mdl-card__supporting-text
           .mdl-cell.mdl-cell--2-col
@@ -33,7 +33,7 @@
           input#uploadB.mdl-textfield__input placeholder="Background" readonly="readonly" type="text" /
           .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
             i.material-icons attach_file
-            = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
+            = f.input :background, input_html: { id: 'uploadBackground', type: 'file'}
         .mdl-card__supporting-text
           - if @current_event.background?
             = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do

@@ -14,13 +14,13 @@ RSpec.describe Customer, type: :model do
     it "must include at least one lowercase letter" do
       user.password = "GLOWNET123"
       expect(user).not_to be_valid
-      expect(user.errors[:password]).to include("must include at least one lowercase letter and one digit")
+      expect(user.errors[:password]).to include("must include 1 lowercase letter and 1 digit")
     end
 
     it "must include at least one digit" do
       user.password = "glownet"
       expect(user).not_to be_valid
-      expect(user.errors[:password]).to include("must include at least one lowercase letter and one digit")
+      expect(user.errors[:password]).to include("must include 1 lowercase letter and 1 digit")
     end
 
     it "is valid password" do

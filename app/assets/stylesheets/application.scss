@@ -3,6 +3,7 @@
 *= require_self
 *= requiere jquery.ui.core
 *= requiere jquery.ui.theme
+*= require c3
 */
 
 @import "glownet/events";
@@ -14,5 +15,6 @@
 @import "glownet/tables";
 @import "vendor/recaptcha";
 @import "vendor/remodal";
+@import "vendor/pivottable/pivot.min";
 @import "font-awesome";
 

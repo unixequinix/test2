@@ -26,7 +26,7 @@ RSpec.describe Api::V2::Events::GtagsController, type: %i[controller api] do
     it "does not return gtags from another event" do
       new_gtag = create(:gtag)
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(new_gtag, "Simple::GtagSerializer"))
+      expect(json).not_to include(obj_to_json_v2(new_gtag, "Simple::GtagSerializer"))
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V2::Events::GtagsController, type: %i[controller api] do
 
     it "returns the gtag as JSON" do
       get :show, params: { event_id: event.id, id: gtag.to_param }
-      expect(json).to eq(obj_to_json(gtag, "GtagSerializer"))
+      expect(json).to eq(obj_to_json_v2(gtag, "GtagSerializer"))
     end
   end
 

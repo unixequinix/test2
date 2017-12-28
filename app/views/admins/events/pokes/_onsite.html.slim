@@ -1,0 +1,61 @@
+- closed ||= false
+
+- if pokes.any?
+  .mdl-grid.light-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title class="#{active ? "good_header" : "bad_header"}"
+          .mdl-cell.mdl-cell--6-col = title
+          .mdl-cell.mdl-cell--6-col.right
+            a.collapse-link-closed
+              - if closed
+                i.fa.fa-chevron-down
+              - else
+                i.fa.fa-chevron-up
+        .table-responsive style="display: #{closed ? 'none' : 'true'}"
+          table.mdl-data-table.mdl-js-data-table.within-card
+            thead
+              tr
+                th Counter
+                th.mdl-data-table__cell--non-numeric Action
+                th.mdl-data-table__cell--non-numeric Station
+                th.mdl-data-table__cell--non-numeric Product
+                - @current_event.credits.each do |credit|
+                  th.mdl-data-table__cell--non-numeric #{credit.name} Amount
+                  th #{credit.name} Balance
+                th Created
+                th
+            tbody
+              - prev_counter = 0
+              - pokes.each do |poke|
+                tr class="#{"danger" if poke.operation.status_not_ok?}"
+                  td #{poke.gtag_counter} - #{poke.line_counter}
+                  td.mdl-data-table__cell--non-numeric data-label="Action" = link_to "#{poke.action.humanize}: #{poke.description.to_s.humanize}", admins_event_transaction_path(@current_event, poke.operation, type: poke.operation.category)
+                  td.mdl-data-table__cell--non-numeric data-label="Station" = link_to poke.station.name, admins_event_station_path(@current_event, poke.station) if poke.station
+                  td.mdl-data-table__cell--non-numeric data-label="Product"
+                    - if poke.action == "sale"
+                      - name = poke.product ? "#{poke.sale_item_quantity} x #{poke.product.name}" : "Other Amount"
+                      = link_to name, admins_event_station_products_path(@current_event, poke.station, poke.product)
+                  - @current_event.credits.each do |credit|
+                    - if credit == poke.credit
+                      - money = poke.action.eql?("sale") ? -poke.credit_amount : poke.credit_amount
+                      td.mdl-data-table__cell--non-numeric = number_to_credit(money, credit)
+                      td = number_with_precision(poke.final_balance, precision: 2) if credit == poke.credit
+                    - else
+                      td
+                      td
+                  td data-label="Device Created At" = l poke.date
+                  td data-label="Actions"
+                    - if policy(poke).status_9? ||  policy(poke).status_0?
+                      - if poke.ok?
+                        = link_to status_9_admins_event_poke_path(@current_event, poke), class: "mdl-button mdl-button--icon" do
+                          button.icon.material-icons id="cancel_tr_#{poke.id}" close
+                      - else
+                        = link_to status_0_admins_event_poke_path(@current_event, poke), class: "mdl-button mdl-button--icon" do
+                          button.icon.material-icons id="accept_tr_#{poke.id}" check
+                span.mdl-tooltip data-mdl-for="cancel_tr_#{poke.id}" Invalidate
+                span.mdl-tooltip data-mdl-for="accept_tr_#{poke.id}" Accept
+                - prev_counter = poke.gtag_counter
+    .mdl-layout-spacer
+

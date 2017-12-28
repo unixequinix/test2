@@ -18,7 +18,7 @@ module StatValidator
       # sale_item_id on Stat table in order to find sale_item related to stat
 
       # sale_item = stat.operation.sale_items.find_by!(line_counter: stat.line_counter)
-      # sale_item_total_price = sale_item.unit * sale_item.unit_price
+      # sale_item_total_price = sale_item.unit * sale_item.standard_unit_price
       # stat_sale_item_total_price = stat.sale_item_total_price
 
       # Stat.error_codes.key(2) if stat_sale_item_total_price.to_d != sale_item_total_price.to_d

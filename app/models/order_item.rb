@@ -12,13 +12,11 @@ class OrderItem < ApplicationRecord
     amount * catalog_item.credits
   end
 
-  def total_formatted
-    format("%.2f", total)
+  def virtual_credits
+    amount * catalog_item.virtual_credits
   end
 
-  def refundable_credits
-    return credits unless catalog_item.is_a?(Pack)
-    return 0 unless catalog_item.only_credits?
-    total / catalog_item.catalog_items.first.value
+  def total_formatted
+    format("%.2f", total)
   end
 end

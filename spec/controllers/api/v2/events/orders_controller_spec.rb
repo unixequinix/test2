@@ -27,7 +27,7 @@ RSpec.describe Api::V2::Events::OrdersController, type: %i[controller api] do
     it "does not return orders from another event" do
       new_order = create(:order)
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(new_order, "OrderSerializer"))
+      expect(json).not_to include(obj_to_json_v2(new_order, "OrderSerializer"))
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Api::V2::Events::OrdersController, type: %i[controller api] do
 
     it "returns the order as JSON" do
       get :show, params: { event_id: event.id, id: order.to_param }
-      expect(json).to eq(obj_to_json(order, "OrderSerializer"))
+      expect(json).to eq(obj_to_json_v2(order, "OrderSerializer"))
     end
   end
 

@@ -3,13 +3,14 @@ class CreditTransaction < Transaction
 
   accepts_nested_attributes_for :sale_items
 
+  scope :sales, -> { where(action: "sale") }
+
   def description
-    refundables = " - R #{refundable_credits} #{event.credit.symbol}" if credits != refundable_credits
-    "#{action.humanize}: #{credits} #{event.credit.symbol} #{refundables}"
+    action.humanize
   end
 
   def self.mandatory_fields
-    super + %w[credits refundable_credits credit_value final_balance final_refundable_balance]
+    super + %w[payments]
   end
 
   def self.column_names

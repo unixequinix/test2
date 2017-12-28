@@ -190,8 +190,6 @@ es:
       confirmation: '¿Aún deseas dar de baja tu pulsera?'
       confirm: 'Confirmar'
       cancel: 'Cancelar'
-  header:
-    edit: Editar Perfil
   links:
     buttons:
       sign_in: Inicia Sesión

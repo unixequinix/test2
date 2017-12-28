@@ -7,10 +7,7 @@ module Creators
 
     def copy_customer(old_customer, new_event)
       customer_atts = old_customer&.attributes&.except!(*CUSTOMER_ATTS)&.to_h
-      customer = new_event.customers.find_or_initialize_by(customer_atts)
-      customer.skip_password_validation = true
-      customer.save!
-      customer
+      new_event.customers.find_or_create_by(customer_atts)
     rescue ActiveRecord::RecordNotUnique
       retry
     end

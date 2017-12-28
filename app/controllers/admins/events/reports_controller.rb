@@ -4,127 +4,60 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
 
   before_action :load_reports_resources
 
-  def gate_close_money_recon
-    authorize(:stat, :gate_close_money_recon?)
-    @total_money = @current_event.stats.sum(:monetary_total_price)
+  def show
+    authorize(:poke, :reports_billing?)
+    credit = @current_event.credit
 
-    # Money Income -----------------------------------------------------------------------------------
-    @action_station_money_data, @action_station_money_column = view_builder('action_station_money', %w[station_name action], 'event_day')
-
-    # Money Reconciliation by Operator ---------------------------------------------------------------
-    operator_recon_columns = %w[station_name event_day operator_uid operator_name device_name action catalog_item_name]
-    @operator_recon_data, @operator_recon_column = view_builder('operator_recon', operator_recon_columns, 'payment_method')
+    @total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
+    @total_credits = @current_event.pokes.where(credit: credit).is_ok.sum(:credit_amount)
+    @total_products_sale = @current_event.pokes.where(credit: credit).where(action: 'sale').is_ok.sum("sale_item_unit_price * sale_item_quantity")
+    @total_checkins = @current_event.tickets.where(redeemed: true).count
+    @total_activations = Poke.connection.select_all(query_activations(@current_event.id)).map { |h| h["Activations"] }.compact.sum
+    @total_devices = @current_event.pokes.is_ok.devices.map { |h| h["total_devices"] }.compact.sum
   end
 
-  def gate_close_billing
-    authorize(:stat, :gate_close_billing?)
-    # Activations by Station and Event Day ---------------------------------------------------------------
-    @activations_data, @activations_column, @total_activations = view_builder('activations', ['station_name'], 'event_day', 'activations')
+  def money_recon
+    @load_reports_resources = false
+    authorize(:poke, :reports_billing?)
+    money_cols = ["Action", "Description", "Location", "Station Name", "Money", "Payment Method", "Event Day"]
+    op_cols = ["Action", "Description", "Location", "Station Name", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
 
-    # Device Used ----------------------------------------------------------------------------------------
-    @devices_data, @devices_column, @total_devices = view_builder('devices', ['station_name'], 'event_day', 'devices_count')
-  end
-
-  def cashless
-    authorize(:stat, :cashless?)
-
-    # Leftover Balance (Refundable and Non-Refundable) -----------------------------------------------------------------
-    @leftover_balance_data, @leftover_balance_column = view_builder('leftover_balance', ['event_day'], 'credit_name')
-
-    # Credit Flow ------------------------------------------------------------------------------------------------------
-    @credit_flow_data, @credit_flow_column = view_builder('credit_flow', %w[transaction_type credit_name], 'event_day')
-
-    # Topup & Refund by Station ----------------------------------------------------------------------------------------
-    @topup_refund_data, @topup_refund_column = view_builder('topup_refund', %w[transaction_type station_type station_name credit_name], 'event_day')
-
-    # Sales by Station / Device ----------------------------------------------------------------------------------------
-    @sales_by_station_device_data, @sales_by_station_device_column = view_builder('sales_by_station_device', %w[station_type station_name device_name credit_name], 'event_day')
+    @money = prepare_pokes(money_cols,  @current_event.pokes.money_recon)
+    @operators = prepare_pokes(op_cols, @current_event.pokes.money_recon_operators)
   end
 
   def products_sale
-    authorize(:stat, :products_sale?)
-    # Sales by station category ----------------------------
-    @sales_by_station_data, @sales_by_station_column = view_builder('sales_by_station', %w[location station_type station_name credit_name], 'event_day')
-
-    # Top Products by quantity -----------------------------
-    data = data_connection(query_top_products_by_quantity(@current_event.id))
-    @top_products_by_quantity_data = data.map { |hash| [hash["product_name"], hash["quantity"].to_i] }
-
-    # Top Products by amount -----------------------------
-    data = data_connection(query_top_products_by_amount(@current_event.id))
-    @top_products_by_amount_data = data.map { |hash| [hash["product_name"], hash["amount"].to_f] }
-
-    # Performance by Station -------------------------------------------------------------------------------------
-    @perfomance_by_station_data = @current_event.stats.group(:station_name).group("to_char(date_trunc('hour', date ), 'HH24h DD-Mon-YY')").order("to_char(date_trunc('hour', date ), 'HH24h DD-Mon-YY')").where(credit_value: 1, action: 'sale').sum('-1 * credit_amount')
-
-    # Products sale by station -----------------------------
-    data = data_connection(query_products_sale_station(@current_event.id))
-    @products_sale_station_data = pivot_products_sale_station(data).to_json
-
-    columns = %w[station_type station_name product_name] + data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
-    @products_sale_station_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
-
-    # Products sale overall-----------------------------
-    data = data_connection(query_products_sale_overall(@current_event.id))
-    @products_sale_overall_data = pivot_products_sale_overall(data).to_json
-
-    columns = %w[product_name] + data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
-    @products_sale_overall_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
+    authorize(:poke, :reports?)
+    cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"] # rubocop:disable Metrics/LineLength
+    @products = prepare_pokes(cols, @current_event.pokes.products_sale)
   end
 
-  def operators
-    authorize(:stat, :operators?)
-
-    data = data_connection(query_operators_sale(@current_event.id))
-    @operators_sale_data = pivot_operators_sale(data).to_json
-
-    columns = %w[station_type station_name operator_uid operator_name device_name event_day product_name] + data.map { |hash| hash["credit_name"] }.uniq.sort + ["total_quantity"]
-    @operators_sale_columns = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
-
-    data = data_connection(query_operators_money(@current_event.id))
-    @operators_money_data = pivot_operators_money(data).to_json
-
-    columns = %w[station_type station_name operator_uid operator_name device_name event_day action catalog_item_name] + data.map { |hash| hash["payment_method"] }.uniq + ["total_money"]
-    @operators_money_columns = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
+  def cashless
+    authorize(:poke, :reports?)
+    cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device","Event Day"]
+    @credits = prepare_pokes(cols, @current_event.pokes.credit_flow)
   end
 
   def gates
-    authorize(:stat, :gates?)
-    # Tickets Checked In -----------------------------------------------------------------------------------------------
-    @tickets_checkedin_data, @tickets_checkedin_column = view_builder('tickets_checkedin', %w[transaction_type ticket_type_name], 'event_day')
+    authorize(:poke, :reports?)
+    ticket_cols = ["Action", "Station Type", "Station Name", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
+    rate_cols = ["Ticket Type", "Total Tickets", "Redeemed"]
+    access_cols = ["Station Type", "Station Name", "Event Day", "Date Time", "Direction", "Access"]
 
-    # Checkin Rate % ---------------------------------------------------------------------------------------------------
-    complete_ticket_list = Event.find(@current_event.id).tickets.group(:ticket_type_id).count.map { |id, count| [TicketType.find(id).name, count] }.to_h
-    checked_ticket_list = Event.find(@current_event.id).stats.where(action: %w[checkin ticket_validation]).group(:ticket_type_name).count
+    @checkin_ticket_type = prepare_pokes(ticket_cols, @current_event.pokes.checkin_ticket_type)
+    @checkin_rate = prepare_pokes(rate_cols, @current_event.ticket_types.checkin_rate)
+    @access_control = prepare_pokes(access_cols, @current_event.pokes.access)
+  end
 
-    data = get_rate_data(complete_ticket_list, checked_ticket_list)
-    @data_checkin_rate = data.map { |hash| [hash["ticket_type"], hash["rate"].to_i] }
+  def activations
+    authorize(:poke, :reports_billing?)
+    activations_sql = query_activations(@current_event.id)
+    @activations =  Poke.connection.select_all(activations_sql).to_json
+  end
 
-    # Tickets Checked-in - by Station ----------------------------------------------------------------------------------
-    @checkedin_by_station_data, @checkedin_by_station_column = view_builder('checkedin_by_station', %w[transaction_type station_name ticket_type_name], 'event_day')
-
-    # Accreditation ----------------------------------------------------------------------------------------------------
-    acc_sql = method("query_accreditation").call(@current_event.id)
-    data = JSON.parse(Stat.connection.select_all(acc_sql).to_json)
-    @accreditation_data = pivot_accreditation(data).to_json
-
-    columns = %w[station_type station_name catalog_item_name] + data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten + ["total_quantity"] + ["total_amount"]
-    @accreditation_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
-
-    # Gates -> Access Control by Station -------------------------------------------------------------------------------
-    data = JSON.parse(Stat.connection.select_all(query_access_ctrl_station(@current_event.id)).to_json)
-    @access_ctrl_data = pivot_access_ctrl_station(data).to_json
-
-    columns = %w[station_type station_name] + data.map { |hash| [hash["event_day"] + ".in", hash["event_day"] + ".out"] }.uniq.sort.flatten + ["Access_Counter_In"] + ["Access_Counter_Out"]
-    @access_ctrl_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
-
-    # Gates -> Access Control - 30min ----------------------------------------------------------------------------------
-    data = JSON.parse(Stat.connection.select_all(query_access_ctrl_min(@current_event.id)).to_json)
-    @data = data
-    @access_ctrl_min_data = pivot_access_ctrl_min(data).to_json
-
-    columns = %w[event_day time_fraction] + data.map { |hash| [hash["station_name"] + ".in", hash["station_name"] + ".out"] }.uniq.sort.flatten + ["Access_Counter_In"] + ["Access_Counter_Out"]
-    @access_ctrl_min_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
+  def devices
+    authorize(:poke, :reports_billing?)
+    @devices = prepare_pokes(["Station Name", "Event Day", "Total Devices"], @current_event.pokes.devices)
   end
 
   private
@@ -133,3 +66,5 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     @load_reports_resources = true
   end
 end
+
+

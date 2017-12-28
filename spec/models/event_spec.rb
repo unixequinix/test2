@@ -79,14 +79,6 @@ RSpec.describe Event, type: :model do
     end
   end
 
-  describe ".credit_price" do
-    it "returns the event credit value" do
-      subject.save
-      subject.create_credit!(value: 1, name: "CR")
-      expect(subject.credit_price).to eq(subject.credit.value)
-    end
-  end
-
   describe ".event_serie_id" do
     before do
       create(:event_serie, :with_events, associated_events: subject)

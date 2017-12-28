@@ -14,6 +14,10 @@ class Pack < CatalogItem
     pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "Credit" }).sum(:amount)
   end
 
+  def virtual_credits
+    pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "VirtualCredit" }).sum(:amount)
+  end
+
   def only_infinite_items?
     catalog_items.all? { |item| item.is_a?(Access) && item.infinite? }
   end

@@ -12,3 +12,9 @@
 //= require vendor/jquery-qrcode
 
 //= require_tree ./global
+
+//= require vendor/d3
+//= require c3
+//= require vendor/pivottable/pivot
+//= require vendor/pivottable/c3_renderers
+//= require vendor/pivottable/export_renderers

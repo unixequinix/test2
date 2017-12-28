@@ -1,18 +1,20 @@
-module Api::V1
-  class BaseController < ActionController::API
-    include ActionController::Serialization
-    include ActionController::HttpAuthentication::Basic::ControllerMethods
+module Api
+  module V1
+    class BaseController < ActionController::API
+      include ActionController::Serialization
+      include ActionController::HttpAuthentication::Basic::ControllerMethods
 
-    before_action :restrict_access_with_http
+      before_action :restrict_access_with_http
 
-    serialization_scope :view_context
+      serialization_scope :view_context
 
-    private
+      private
 
-    def restrict_access_with_http
-      authenticate_or_request_with_http_basic do |email, token|
-        user = User.find_by(email: email)
-        user&.access_token.eql?(token)
+      def restrict_access_with_http
+        authenticate_or_request_with_http_basic do |email, token|
+          user = User.find_by(email: email)
+          user&.access_token.eql?(token)
+        end
       end
     end
   end

@@ -100,12 +100,12 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    describe ".refundable_credits" do
-      it "returns the sum of the order_items refundable credits" do
-        allow(@access).to receive(:refundable_credits).and_return(10)
-        allow(@credit).to receive(:refundable_credits).and_return(23)
+    describe ".virtual_credits" do
+      it "returns the sum of the order_items virtual credits" do
+        allow(@access).to receive(:virtual_credits).and_return(10)
+        allow(@credit).to receive(:virtual_credits).and_return(23)
 
-        expect(subject.refundable_credits).to eq(33)
+        expect(subject.virtual_credits).to eq(33)
       end
     end
 

@@ -8,10 +8,10 @@
     .form-inputs.short-input
       = f.input :role, collection: OperatorPermission.roles.keys.map{ |key| [key.humanize, key] }, include_blank: false
       .group-select
-        = f.input :group, collection: OperatorPermission.groups.keys.map{ |key| [key.humanize, key] }, include_blank: true, input_html: {id: 'group'}
+        = f.input :group, collection: OperatorPermission.groups.keys.map{ |key| [key.humanize, key] }, include_blank: true
         #hidden-group Deselect the station below to activate again this option
       .station-select
-        = f.input :station_id, collection: @current_event.stations.collect { |station| [station.name.humanize, station.id] }, include_blank: true, input_html: {id: 'station'}
+        = f.input :station_id, collection: @current_event.stations.collect { |station| [station.name.humanize, station.id] }, include_blank: true
         #hidden-station Deselect the group above to activate again this option
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

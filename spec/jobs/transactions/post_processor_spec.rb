@@ -7,6 +7,23 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   let(:customer) { create(:customer, event: event, anonymous: false) }
   let(:transaction) { create(:credit_transaction, event: event, customer_tag_uid: gtag.tag_uid) }
 
+  describe "operator" do
+    before { transaction.update! operator_tag_uid: "1234567890" }
+
+    it "creates operator" do
+      expect { worker.perform(transaction) }.to change { event.customers.where(operator: true).count }.by(1)
+    end
+
+    it "creates operator linked to gtag" do
+      worker.perform(transaction)
+      expect(event.customers.where(operator: true).last.active_gtag.tag_uid).to eq("1234567890")
+    end
+
+    it "creates operator gtag" do
+      expect { worker.perform(transaction) }.to change { event.gtags.count }.by(1)
+    end
+  end
+
   describe ".resolve_customer" do
     let(:ticket) { create(:ticket, event: event, customer: create(:customer, event: event, anonymous: true)) }
 
@@ -18,9 +35,17 @@ RSpec.describe Transactions::PostProcessor, type: :job do
       worker.perform(transaction)
     end
 
+    it "does not create alert if both registered customers are the same" do
+      transaction.update! customer_id: customer.id
+      gtag.update! customer: customer
+      expect(Alert).not_to receive(:propagate)
+
+      worker.perform(transaction)
+    end
+
     it "will not create a new customer if none registered are present" do
       gtag.update! customer: create(:customer, event: event, anonymous: true)
-      expect { worker.perform(transaction) }.not_to change(Customer, :count)
+      expect { worker.perform(transaction) }.to change { event.customers.count }.by(1)
     end
 
     it "will choose one anonymous customer if none registered are present" do
@@ -30,20 +55,13 @@ RSpec.describe Transactions::PostProcessor, type: :job do
       [gtag, ticket].each { |credential| expect(customers).to include(credential.customer) }
     end
 
-    it "does not create alert if both registered customers are the same" do
-      transaction.update! customer_id: customer.id
-      anonymous_customer = create(:customer, event: event, anonymous: true)
-      gtag.update! customer: anonymous_customer
-      expect { worker.perform(transaction) }.to change(event.customers, :count).by(-1)
-    end
-
     it "deletes anonymous customer if present" do
       gtag.update! customer: customer
     end
 
     it "if not present in neither, creates one" do
       transaction.update!(customer: nil)
-      expect { worker.perform(transaction) }.to change { event.customers.count }.by(1)
+      expect { worker.perform(transaction) }.to change { event.customers.count }.by(2)
       expect(gtag.reload.customer).not_to be_nil
     end
 
@@ -128,15 +146,15 @@ RSpec.describe Transactions::PostProcessor, type: :job do
 
     it "should call perform_later on a subscriber class" do
       transaction.update(action: "sale")
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_now).once
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
     end
 
     it "should not call perform_later on anything if there is no subscriber" do
-      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_now)
+      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_later)
     end
 
-    pending "should call execute_descendants on Stats::Base" do
-      expect(Stats::Base).to receive(:execute_descendants).once.with(transaction.id, "test_action")
+    it "should call execute_descendants on Pokes::Base" do
+      expect(Pokes::Base).to receive(:execute_descendants).once.with(transaction)
     end
   end
 
@@ -176,6 +194,8 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   end
 
   describe ".create_gtag" do
+    before { transaction.update! operator_tag_uid: nil }
+
     it "does not create a Gtag when tag_uid is present in DB" do
       event.gtags << gtag
       expect { worker.perform(transaction) }.not_to change(Gtag, :count)
@@ -189,17 +209,17 @@ RSpec.describe Transactions::PostProcessor, type: :job do
 
   describe "executing operations" do
     before { transaction.update!(action: "sale") }
-    before { allow(Stats::Sale).to receive(:perform_later) }
+    before { allow(Pokes::Sale).to receive(:perform_later) }
 
     it "executes tasks workerd on triggers" do
       Transactions::Credit::BalanceUpdater.inspect
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_now).once.with(transaction, {})
+      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(transaction, {})
       worker.perform(transaction)
     end
 
     it "does not execute operations if status code is not 0" do
       transaction.update!(status_code: 2)
-      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_now)
+      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_later)
       worker.perform(transaction)
     end
   end

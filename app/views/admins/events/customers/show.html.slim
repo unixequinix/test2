@@ -8,7 +8,7 @@
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to admins_event_customers_path(format: "csv") do
@@ -60,23 +60,23 @@
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.global_credits
+            .mdl-card__title-text= number_to_token @customer.credits
           .mdl-card__supporting-text Server Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.global_refundable_credits
-          .mdl-card__supporting-text Server Refundable Balance
+            .mdl-card__title-text= number_to_token @customer.virtual_credits
+          .mdl-card__supporting-text Server Virtual Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
+            .mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
           .mdl-card__supporting-text Gtag Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_refundable_balance
-          .mdl-card__supporting-text Gtag Refundable Balance
+            .mdl-card__title-text = number_to_token @customer.active_gtag&.final_virtual_balance
+          .mdl-card__supporting-text Gtag Virtual Balance
   .mdl-layout-spacer
 
 - root = "admins/events/customers/sections/"
@@ -85,6 +85,6 @@
 = render(root + "refunds", customer: @customer) if @customer.refunds.present?
 = render(root + "orders", customer: @customer) if @customer.orders.any?
 hr
-= render(root + "online_transactions", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
+= render("admins/events/transactions/online", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
 - @customer.gtags.order(active: :desc, id: :asc).each do |gtag|
-  = render(root + "onsite_transactions", transactions: gtag.transactions.onsite, title: "Transactions for tag #{gtag.tag_uid}", active: gtag.active, closed: true )
+  = render("admins/events/pokes/onsite", pokes: gtag.pokes_as_customer.onsite.order(:gtag_counter), title: "Pokes for tag #{gtag.tag_uid}", active: gtag.active, closed: true )

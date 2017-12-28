@@ -12,4 +12,4 @@ Sidekiq.configure_client do |config|
   config.redis = { url: url, network_timeout: 5 }
 end
 
-ActiveJob::Base.queue_adapter = :inline if Rails.env.test? # || Rails.env.development?
+ActiveJob::Base.queue_adapter = :inline if Rails.env.test? || Rails.env.development?

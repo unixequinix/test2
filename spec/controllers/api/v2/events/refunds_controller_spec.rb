@@ -27,7 +27,7 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
     it "does not return refunds from another event" do
       new_refund = create(:refund)
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(new_refund, "RefundSerializer"))
+      expect(json).not_to include(obj_to_json_v2(new_refund, "RefundSerializer"))
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
 
     it "returns the refund as JSON" do
       get :show, params: { event_id: event.id, id: refund.to_param }
-      expect(json).to eq(obj_to_json(refund, "RefundSerializer"))
+      expect(json).to eq(obj_to_json_v2(refund, "RefundSerializer"))
     end
   end
 

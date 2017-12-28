@@ -4,6 +4,8 @@ class Credit < CatalogItem
 
   after_save :set_customer_portal_price
 
+  belongs_to :event
+
   def full_description
     "1 #{name} = #{value} #{event.currency}"
   end

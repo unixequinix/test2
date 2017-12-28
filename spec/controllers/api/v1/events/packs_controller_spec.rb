@@ -1,14 +1,16 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::PacksController, type: :controller do
+RSpec.describe Api::V1::Events::PacksController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:user) { create(:user) }
   let(:db_packs) { event.packs }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
 
   before do
-    create(:full_pack, event: event)
+    @pack = create(:full_pack, event: event)
     @new_pack = create(:full_pack, event: event, updated_at: Time.zone.now + 4.hours)
+    @pack.pack_catalog_items.find_by(catalog_item_id: event.credit.id).update(amount: 99)
+    @pack.pack_catalog_items.find_by(catalog_item_id: event.virtual_credit.id).update(amount: 55)
   end
 
   describe "GET index" do
@@ -24,17 +26,8 @@ RSpec.describe Api::V1::Events::PacksController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: params
-        pack_keys = %w[id name accesses credits user_flags operator_permissions]
-        JSON.parse(response.body).map { |pack| expect(pack.keys).to eq(pack_keys) }
-      end
-
-      context "with the 'If-Modified-Since' header" do
-        it "returns only the modified packs" do
-          request.headers["If-Modified-Since"] = (@new_pack.updated_at - 2.hours).to_formatted_s(:transactions)
-          get :index, params: params
-          packs = JSON.parse(response.body).map { |m| m["id"] }
-          expect(packs).to include(@new_pack.id)
-        end
+        pack_keys = %w[id name items]
+        pack_keys.each { |key| JSON.parse(response.body).map { |pack| expect(pack.keys).to include(key) } }
       end
 
       context "without the 'If-Modified-Since' header" do
@@ -42,6 +35,18 @@ RSpec.describe Api::V1::Events::PacksController, type: :controller do
           get :index, params: params
           api_packs = JSON.parse(response.body).map { |m| m["id"] }
           expect(api_packs).to eq(db_packs.map(&:id))
+        end
+
+        it "contains a new pack" do
+          expect(json).to include(obj_to_json_v1(@new_pack, "PackSerializer"))
+        end
+
+        it "contains a pack with credits" do
+          expect(json.find { |k| k['id'] == @pack.id }["items"].find { |h| h['id'] == event.credit.id }['amount']).to be(99)
+        end
+
+        it "contains a pack with virtual credits" do
+          expect(json.find { |k| k['id'] == @pack.id }["items"].find { |h| h['id'] == event.virtual_credit.id }['amount']).to be(55)
         end
       end
     end

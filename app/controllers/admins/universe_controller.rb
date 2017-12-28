@@ -25,7 +25,7 @@ class Admins::UniverseController < Admins::BaseController
   def webhooks
     JSON.parse(request.body)["cost_items"].to_a.each do |new_ticket|
       events = Event.where(universe_event: new_ticket["event_id"])
-      events.each { |event| UniverseImporter.perform_now(new_ticket, event) }
+      events.each { |event| UniverseImporter.perform_later(new_ticket, event) }
     end
     head(:ok)
   end

@@ -68,32 +68,11 @@ html
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
-        - if policy(Stat).reports?
+        - if policy(Poke).reports?
           nav.mdl-navigation.global-nav
-            span.nav-title
-              | GATE CLOSE REPORTS (BETA):
-            = link_to gate_close_money_recon_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
+            = link_to admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons money
-              |  Money Reconciliation
-            = link_to gate_close_billing_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons $
-              |  Billing
-        - if policy(Stat).reports?
-          nav.mdl-navigation.global-nav
-            span.nav-title
-              | REPORTS (BETA):
-            = link_to cashless_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons money
-              |  Cashless
-            = link_to products_sale_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              |  Products Sale
-            = link_to gates_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              |  Gates
-            = link_to operators_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons person
-              |  Operators
+              |  Reports
 
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS

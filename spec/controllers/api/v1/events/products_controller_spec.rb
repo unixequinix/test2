@@ -29,15 +29,6 @@ RSpec.describe Api::V1::Events::ProductsController, type: :controller do
         JSON.parse(response.body).map { |product| expect(product.keys).to eq(product_keys) }
       end
 
-      context "with the 'If-Modified-Since' header" do
-        it "returns only the modified products" do
-          request.headers["If-Modified-Since"] = (@new_product.updated_at - 2.hours).to_formatted_s(:transactions)
-          get :index, params: params
-          products = JSON.parse(response.body).map { |m| m["id"] }
-          expect(products).to include(@new_product.id)
-        end
-      end
-
       context "without the 'If-Modified-Since' header" do
         it "returns all the products" do
           get :index, params: params

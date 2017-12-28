@@ -11,20 +11,20 @@ RSpec.describe Creators::CustomerJob, type: :job do
       expect { worker.perform_now(old_customer, event) }.to change { event.customers.count }.by(1)
     end
     it "can add balances to customer" do
-      gtag.refundable_credits = 5.to_f
+      gtag.credits = 5.to_f
       gtag.save!
-      expect { worker.perform_now(old_customer, event) }.to change { old_customer.global_refundable_credits }.by(5)
+      expect { worker.perform_now(old_customer, event) }.to change { old_customer.credits }.by(5)
     end
   end
   context "creating orders" do
     it "can create order" do
       gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
+      gtag.credits = 5.to_f
       gtag.save!
       expect { worker.perform_now(old_customer, event) }.to change { event.orders.count }.by(1)
     end
     it "can't create order without credtis" do
-      gtag.refundable_credits = 0.to_f
+      gtag.credits = 0.to_f
       gtag.save!
       expect { worker.perform_now(old_customer, event) }.not_to change(Order, :count)
     end

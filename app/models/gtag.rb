@@ -2,7 +2,10 @@ class Gtag < ApplicationRecord
   include Credentiable
   include Alertable
   include Eventable
+
   belongs_to :ticket_type, optional: true
+
+  has_many :pokes_as_customer, class_name: "Poke", foreign_key: "customer_gtag_id", dependent: :restrict_with_error
 
   before_save :upcase_tag_uid
 
@@ -15,12 +18,14 @@ class Gtag < ApplicationRecord
                       length: { in: 8..14 }
 
   validates :format, presence: true
-  validates :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true, numericality: true
+  validates :credits, :virtual_credits, :final_balance, :final_virtual_balance, presence: true, numericality: true
 
   validate_associations
 
-  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits refundable_credits final_balance final_refundable_balance]) })
+  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits virtual_credits final_balance final_virtual_balance]) })
   scope :banned, (-> { where(banned: true) })
+  scope :inconsistent, (-> { where(inconsistent: true) })
+  scope :missing_transactions, (-> { where(missing_transactions: true) })
 
   alias_attribute :reference, :tag_uid
 
@@ -40,16 +45,33 @@ class Gtag < ApplicationRecord
     update!(active: true)
   end
 
-  def recalculate_balance
-    ts = transactions.onsite.credit.where(status_code: 0).order(:gtag_counter, :device_created_at)
-    self.credits = ts.sum(:credits)
-    self.refundable_credits = ts.sum(:refundable_credits)
-    self.final_balance = ts.last&.final_balance.to_f
-    self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
+  def recalculate_balance # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
+    ts = transactions.onsite.status_ok.credit.order(:gtag_counter, :device_created_at)
+    payments = ts.payments_with_credit(event.credit)
+    virtual_payments = ts.payments_with_credit(event.virtual_credit)
 
-    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_refundable_balance.negative?
+    if payments.present? || virtual_payments.present?
+      last = payments.last
+      virtual_last = virtual_payments.last
 
-    save if changed?
+      self.credits = payments.sum { |t| t.payments[event.credit.id.to_s]["amount"].to_f }
+      self.virtual_credits = virtual_payments.sum { |t| t.payments[event.virtual_credit.id.to_s]["amount"].to_f }
+      self.final_balance = last.payments[event.credit.id.to_s]["final_balance"].to_f if last
+      self.final_virtual_balance = virtual_last.payments[event.virtual_credit.id.to_s]["final_balance"].to_f if virtual_last
+    else
+      self.credits = ts.sum(:refundable_credits)
+      self.virtual_credits = ts.sum(:credits) - ts.sum(:refundable_credits)
+      self.final_balance = ts.last&.final_refundable_balance.to_f
+      self.final_virtual_balance = ts.last&.final_balance.to_f - ts.last&.final_refundable_balance.to_f
+    end
+
+    counters = transactions.onsite.order(:gtag_counter, :device_created_at).map(&:gtag_counter).compact.sort
+    self.missing_transactions = ((1..counters.last).to_a - counters).any? if counters.any?
+    self.inconsistent = !valid_balance?
+
+    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_virtual_balance.negative?
+
+    save! if changed?
   end
 
   def solve_inconsistent
@@ -58,20 +80,18 @@ class Gtag < ApplicationRecord
     atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, final_balance: 0, final_refundable_balance: 0)
     transaction ||= CreditTransaction.write!(event, "correction", :device, nil, nil, atts)
 
-    credits = ts.last&.final_balance.to_f - ts.map(&:credits).sum
-    refundable_credits = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).sum
+    creds = ts.last&.final_balance.to_f - ts.map(&:credits).compact.sum
+    refundable_creds = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).compact.sum
 
-    transaction.update! credits: credits, refundable_credits: refundable_credits
+    pay_atts = [{ credit_id: event.credit.id, amount: refundable_creds, final_balance: 0 }, { credit_id: event.virtual_credit.id, amount: creds - refundable_creds, final_balance: 0 }] # rubocop:disable Metrics/LineLength
+    transaction.update! credits: creds, refundable_credits: refundable_creds, payments: pay_atts || {}
+
     recalculate_balance
     transaction
   end
 
-  def refundable_money
-    refundable_credits.to_i * event.credit.value
-  end
-
   def valid_balance?
-    credits == final_balance && refundable_credits == final_refundable_balance
+    credits == final_balance && virtual_credits == final_virtual_balance
   end
 
   def assigned?

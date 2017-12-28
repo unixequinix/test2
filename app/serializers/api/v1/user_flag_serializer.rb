@@ -1,3 +1,7 @@
-class Api::V1::UserFlagSerializer < ActiveModel::Serializer
-  attributes :id, :name
+module Api
+  module V1
+    class UserFlagSerializer < ActiveModel::Serializer
+      attributes :id, :name
+    end
+  end
 end

@@ -68,9 +68,10 @@ Rails.application.routes.draw do
       scope module: :events do
 
         resource :reports do
-          get :gate_close_money_recon
-          get :gate_close_billing
+          get :money_recon
           get :cashless
+          get :activations
+          get :devices
           get :products_sale
           get :gates
           get :operators
@@ -137,6 +138,10 @@ Rails.application.routes.draw do
           get :status_9, on: :member
           get :status_0, on: :member
         end
+        resources :pokes, only: [] do
+          get :status_9, on: :member
+          get :status_0, on: :member
+        end
         resources :payment_gateways, except: :show do
           member do
             post :topup
@@ -157,6 +162,8 @@ Rails.application.routes.draw do
             get :solve_inconsistent
           end
           collection do
+            get :inconsistencies
+            get :missing_transactions
             get :sample_csv
             post :import
           end
@@ -209,6 +216,7 @@ Rails.application.routes.draw do
         get "/register", to: "registrations#new"
         get "/account", to: "registrations#edit"
         get "/change_password", to: "registrations#change_password"
+        patch "/update_password", to: "registrations#update_password"
         post "/register", to: "registrations#create"
         patch "/register", to: "registrations#update"
         get "/recover_password", to: "passwords#new"
@@ -288,7 +296,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :customers, :constraints => { :id => /.*/ } do
+          resources :customers, constraints: { id: /.*/ } do
             member do
               post :ban
               post :unban
@@ -343,7 +351,7 @@ Rails.application.routes.draw do
           resources :transactions, only: :create
           resources :device_transactions, only: :create
           resources :user_flags, only: :index
-          resources :tickets, only: [:index, :show], :constraints => { :id => /.*/ } do
+          resources :tickets, only: [:index, :show], constraints: { id: /.*/ } do
             get :banned, on: :collection
           end
           resources :gtags, only: [:index, :show] do

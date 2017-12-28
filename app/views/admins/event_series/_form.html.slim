@@ -1,5 +1,5 @@
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-  = simple_form_for([:admins, @event_serie], :url => url_for(:action => action, :controller => 'admins/event_series'), :method => method, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload }) do |f|
+  = simple_form_for([:admins, @event_serie], url: url_for(action: action, controller: 'admins/event_series'), method: method, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload }) do |f|
     .fieldset
       .section-header
         i.material-icons info_outline

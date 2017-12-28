@@ -1,11 +1,49 @@
 require "rails_helper"
 
 RSpec.describe PackCatalogItem, type: :model do
-  let(:pack) { create(:pack, :with_credit) }
+  let(:event) { create(:event) }
+  let(:pack) { create(:pack, :with_credit, event: event) }
   subject { create(:pack_catalog_item, pack: pack) }
 
   it "has a valid factory" do
     expect(subject).to be_valid
+  end
+
+  describe ".calculate_maximum_amount" do
+    it "should be the maximum_gtag_balance of the event if the catalog_item is a Credit" do
+      subject.catalog_item = event.credit
+      subject.amount = event.maximum_gtag_balance + 1
+      expect(subject).not_to be_valid
+      expect(subject.errors[:amount]).to include("must be less than or equal to #{event.maximum_gtag_balance}")
+    end
+
+    it "should be 42000000 if the catalog_item is a VirtualCredit" do
+      subject.catalog_item = event.virtual_credit
+      subject.amount = 42_000_001
+      expect(subject).not_to be_valid
+      expect(subject.errors[:amount]).to include("must be less than or equal to 42000000")
+    end
+
+    it "should be 127 if the catalog_item is a counter Access" do
+      subject.catalog_item = create(:access, event: event, mode: Access::COUNTER)
+      subject.amount = 128
+      expect(subject).not_to be_valid
+      expect(subject.errors[:amount]).to include("must be less than or equal to 127")
+    end
+
+    it "should be 127 if the catalog_item is an infinite Access" do
+      subject.catalog_item = create(:access, event: event, mode: Access::PERMANENT)
+      subject.amount = 2
+      expect(subject).not_to be_valid
+      expect(subject.errors[:amount]).to include("must be less than or equal to 1")
+    end
+
+    it "should be 1 if the catalog_item is a OperatorPermission" do
+      subject.catalog_item = create(:operator_permission, event: event, group: 0)
+      subject.amount = 2
+      expect(subject).not_to be_valid
+      expect(subject.errors[:amount]).to include("must be less than or equal to 1")
+    end
   end
 
   describe ".packception" do

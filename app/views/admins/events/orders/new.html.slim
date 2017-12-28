@@ -10,13 +10,13 @@
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.global_credits
+            h2.mdl-card__title-text = number_to_token @customer.credits
           .mdl-card__supporting-text Server Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.global_refundable_credits
-          .mdl-card__supporting-text Server Refundable Balance
+            h2.mdl-card__title-text = number_to_token @customer.virtual_credits
+          .mdl-card__supporting-text Server Virtual Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
@@ -25,7 +25,7 @@
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_refundable_balance
+            h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_virtual_balance
           .mdl-card__supporting-text Gtag Refundable Balance
   .mdl-layout-spacer
 

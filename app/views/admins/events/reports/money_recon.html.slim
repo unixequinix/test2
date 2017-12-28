@@ -1,0 +1,51 @@
+- content_for(:title) do
+  | Money Reconciliation
+
+- content_for(:navigation_actions) do
+  = link_to admins_event_reports_path(@current_event), class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Money Income
+    .mdl-grid
+      #money
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Operators Money Reconciliation
+    .mdl-grid
+      #operators
+  .mdl-layout-spacer
+
+javascript:
+    $(function () {
+        var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var money = jQuery.parseJSON('#{ escape_javascript(@money.html_safe)}');
+        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var numberFormat = $.pivotUtilities.numberFormat;
+        var frFormat = numberFormat({digitsAfterDecimal: 1});
+
+        $("#money").pivotUI(money, {
+            renderers: renderers,
+            cols: ["Event Day"], rows: ["Action"],
+            rendererName: "Table",
+            aggregators: { "Money": function () { return tpl.sum(frFormat)(["Money"]) } }
+        });
+
+        var operators = jQuery.parseJSON('#{ escape_javascript(@operators.html_safe)}');
+        $("#operators").pivotUI(operators, {
+            renderers: renderers,
+            cols: ["Payment Method"], rows: ["Action", "Operator UID", "Operator Name", "Device", "Event Day"],
+            rendererName: "Table",
+            aggregators: {
+                "Money": function () {
+                    return tpl.sum(frFormat)(["Money"])
+                }
+            }
+        });
+    });

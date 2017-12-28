@@ -35,7 +35,7 @@
     ul.container-payment-buttons
       - @refunds.each.with_index do |refund, index|
         li
-          .btn-payment-trigger [data-target="#{refund.gateway}" data-credits="#{number_to_token(refund.amount)}" data-money="#{number_to_event_currency(refund.amount_money)}" data-amount="#{number_to_token(refund.amount)}" data-fee="#{number_to_token(refund.fee)}" class=(index.zero? ? "button-selected" : "")]
+          .btn-payment-trigger [data-target="#{refund.gateway}" data-credits="#{number_to_token(refund.amount)}" data-money="#{number_to_event_currency(refund.amount_money)}" data-amount="#{number_to_token(refund.total)}" data-fee="#{number_to_token(refund.fee)}" class=(index.zero? ? "button-selected" : "")]
             = fa_icon t("orders.payment-buttons.#{refund.gateway}.icon")
             p #{t("orders.payment-buttons.#{refund.gateway}.name")} ( #{number_to_event_currency refund.amount_money} )
 

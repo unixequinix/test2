@@ -38,29 +38,28 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     end
 
     it "adds balances to customers" do
-      gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
-      gtag.save!
+      gtag.update! credits: 10, virtual_credits: 5
 
       expect { worker.perform_now(*@params) }.to change { new_event.orders.count }.by(1)
     end
 
-    it "creates order in new event with expected value for registered_customers" do
-      gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
-      gtag.save!
-
+    it "creates order in new event with expected credits for registered_customers" do
+      gtag.update! credits: 8.to_f
       worker.perform_now(*@params)
-      expect(registered_customer.global_refundable_credits).to eql(5.to_f)
+      expect(registered_customer.credits).to eql(8.to_f)
+    end
+
+    it "creates order in new event with expected virtual_credits for registered_customers" do
+      gtag.update! virtual_credits: 12.to_f
+      worker.perform_now(*@params)
+      expect(registered_customer.virtual_credits).to eql(12.to_f)
     end
 
     it "creates order in new event with expected value for anonymous_customers" do
-      gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
-      gtag.save!
+      gtag.update! credits: 10, virtual_credits: 5
 
       worker.perform_now(*@params)
-      expect(anonymous_customer.global_refundable_credits).to eql(0.to_f)
+      expect(anonymous_customer.credits).to eql(0.to_f)
     end
   end
 
@@ -83,17 +82,15 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     end
 
     it "create order in new event" do
-      gtag.update! credits: 10, refundable_credits: 5
+      gtag.update! credits: 10, virtual_credits: 5
       expect { worker.perform_now(*@params) }.to change { new_event.orders.count }.by(1)
     end
 
     it "create order in new event with expected value" do
-      gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
-      gtag.save!
+      gtag.update! credits: 10, virtual_credits: 5
 
       worker.perform_now(*@params)
-      expect(registered_customer.global_refundable_credits).to eql(5.to_f)
+      expect(registered_customer.credits).to eql(10.to_f)
     end
   end
 
@@ -118,20 +115,16 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     end
 
     it "creates order in new event" do
-      gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
-      gtag.save!
+      gtag.update! credits: 10, virtual_credits: 5
 
       expect { worker.perform_now(*@params) }.to change { new_event.orders.count }.by(0)
     end
 
     it "creates order in new event with expected value" do
-      gtag.credits = 10.to_f
-      gtag.refundable_credits = 5.to_f
-      gtag.save!
+      gtag.update! credits: 10, virtual_credits: 5
 
       worker.perform_now(*@params)
-      expect(anonymous_customer.global_refundable_credits).to eql(0.to_f)
+      expect(anonymous_customer.credits).to eql(0.to_f)
     end
   end
 end

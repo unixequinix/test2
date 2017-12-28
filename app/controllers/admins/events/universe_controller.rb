@@ -50,7 +50,7 @@ class Admins::Events::UniverseController < Admins::Events::BaseController
       atts = { event_id: uv_event, limit: tickets_api_limit, offset: tickets_api_limit * page_number }.to_param
       url = URI("https://www.universe.com/api/v2/guestlists?#{atts}")
       data = api_response(url)
-      data["data"]["guestlist"].each { |ticket| UniverseImporter.perform_now(ticket, @current_event) }
+      data["data"]["guestlist"].each { |ticket| UniverseImporter.perform_later(ticket, @current_event) }
     end
 
     redirect_to admins_event_universe_path(@current_event), notice: "All tickets imported" if update

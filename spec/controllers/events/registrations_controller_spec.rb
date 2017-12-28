@@ -1,3 +1,4 @@
+
 require 'rails_helper'
 
 RSpec.describe Events::RegistrationsController, type: :controller do
@@ -38,11 +39,6 @@ RSpec.describe Events::RegistrationsController, type: :controller do
       it 'GET new' do
         get :new, params: { event_id: event }
         expect(response).to be_ok
-      end
-
-      it 'GET change_password' do
-        get :change_password, params: { event_id: event }
-        expect(response).to redirect_to(:event_login)
       end
 
       it 'POST success create customer' do

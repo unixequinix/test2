@@ -15,6 +15,11 @@ module ApplicationHelper
     number_to_currency number, unit: @current_event.credit.symbol
   end
 
+  def number_to_credit(number, _credit)
+    result = number_with_delimiter(number_with_precision(number, precision: 2))
+    number.to_f.positive? ? "+#{result}" : result
+  end
+
   def title
     Rails.env.production? ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end

@@ -3,6 +3,8 @@ class Transaction < ApplicationRecord
 
   belongs_to :event
   belongs_to :station, optional: true
+  belongs_to :operator, class_name: "Customer", optional: true
+  belongs_to :operator_gtag, class_name: "Gtag", optional: true
   belongs_to :customer, optional: true
   belongs_to :gtag, optional: true
   belongs_to :catalog_item, optional: true
@@ -24,10 +26,14 @@ class Transaction < ApplicationRecord
   scope :with_event, ->(event) { where(event: event) }
   scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
   scope :status_ok, -> { where(status_code: 0) }
+  scope :status_not_ok, -> { where.not(status_code: 0) }
   scope :origin, ->(origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
+  scope :payments_with_credit, ->(credit) { where("payments ? '#{credit.id}'") }
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel", api: "api" }.freeze
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
+
+  validates :transaction_origin, :action, :device_created_at, presence: true
 
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone

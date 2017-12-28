@@ -12,8 +12,7 @@
         .wrapper-store
           .store-module-title = t("dashboard.orders.#{category.pluralize.humanize}")
           - catalog_items.each do |catalog_item|
-            - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
-            = render partial, catalog_item: catalog_item
+            = render catalog_item.is_a?(Credit) ? "credit" : "catalog_item", catalog_item: catalog_item
 
       .content-grid.mdl-grid
         .mdl-cell.mdl-cell--6-col

@@ -22,29 +22,22 @@ RSpec.describe OrderItem, type: :model do
     end
   end
 
-  describe ".refundable_credits" do
+  describe ".virtual_credits" do
     context "when catalog_item is not a pack" do
       it "returns credits" do
         subject.catalog_item = build(:credit)
         subject.amount = 99
-        expect(subject.refundable_credits).to eq(subject.credits)
+        expect(subject.virtual_credits).to eq(subject.virtual_credits)
       end
     end
 
     context "when catalog_item is a pack" do
-      it "returns 0 if the pack has accesses" do
-        pack = build(:full_pack)
-        subject.catalog_item = pack
-        allow(pack).to receive(:only_credits?).and_return(false)
-        expect(subject.refundable_credits).to eq(0)
-      end
-
-      it "returns only the credits paid for at their standard price" do
+      it "returns virtual credits of pack" do
         pack = create(:pack, :with_credit)
-        pack.pack_catalog_items.clear
-        pack.pack_catalog_items.create(catalog_item: create(:credit, event: pack.event, value: 5), amount: 10)
-        order_item = create(:order_item, total: 20, catalog_item: pack.reload, counter: 1)
-        expect(order_item.refundable_credits).to eq(4)
+        pack.pack_catalog_items.create(catalog_item: pack.event.virtual_credit, amount: 5)
+        subject.catalog_item = pack
+        subject.amount = 2
+        expect(subject.virtual_credits.to_f).to eq(10)
       end
     end
   end

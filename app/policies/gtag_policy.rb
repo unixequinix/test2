@@ -1,4 +1,12 @@
 class GtagPolicy < ApplicationPolicy
+  def missing_transactions?
+    all_allowed
+  end
+
+  def inconsistencies?
+    all_allowed
+  end
+
   def replace?
     all_allowed && event_open
   end

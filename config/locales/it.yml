@@ -175,8 +175,6 @@ it:
       standard: Introduci la seconda fila di numeri e lettere (evidenziata in giallo)
     info: 'Simboli ammessi: "0" - "9" y "A, B, C, D, E, F"'
     placeholder: 'es: BA6D7DC0'
-  header:
-    edit: Modificare profilo
   links:
     buttons:
       sign_in: Inizia sessione

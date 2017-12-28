@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Access, type: :model do
-  subject { build(:access, mode: "counter") }
+  let(:event) { create(:event) }
+  subject { build(:access, mode: "counter", event: event) }
 
   it "has a valid factory" do
     expect(subject).to be_valid
@@ -27,18 +28,22 @@ RSpec.describe Access, type: :model do
   context "before validations" do
     describe ".position " do
       it "adds the next memory_position to the new subject" do
-        event = create(:event)
-        create(:access, event: event)
+        subject.save!
         access = create(:access, event: event)
-        expect(access.memory_position).to eq(3)
+        expect(access.memory_position).to eq(subject.memory_position + subject.memory_length)
       end
     end
   end
 
   describe ".set_memory_length" do
-    it "sets the subject memory_length to 2 " do
-      subject.save!
+    it "sets the subject memory_length to 2 if counter " do
+      subject.update! mode: "counter"
       expect(subject.memory_length).to eq(2)
+    end
+
+    it "sets the subject memory_length to 1 if permanent " do
+      subject.update! mode: %w[permanent permanent_strict].sample
+      expect(subject.memory_length).to eq(1)
     end
   end
 end
