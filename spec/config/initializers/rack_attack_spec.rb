@@ -41,7 +41,7 @@ describe Rack::Attack do
 
     context "number of requests on /users/sign_in are lower than the limit" do
       it "does not change the request status" do
-        limit.times do |_i|
+        limit.times do
           get "/users/sign_in", headers: { "REMOTE_ADDR" => "1.2.3.7" }
           expect(last_response.status).to_not eq(429)
         end
@@ -59,7 +59,7 @@ describe Rack::Attack do
 
     context "number of requests on /:event/login are lower than the limit" do
       it "does not change the request status" do
-        limit.times do |_i|
+        limit.times do
           get "/#{event.slug}/login", headers: { "REMOTE_ADDR" => "1.2.3.7" }
           expect(last_response.status).to_not eq(429)
         end
