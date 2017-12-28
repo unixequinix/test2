@@ -1,66 +1,72 @@
 require 'rails_helper'
 
-RSpec.describe "Create a ticket", type: :feature do
-  let(:user) { create(:user, role: :admin) }
-  let(:event) { create(:event, state: "created") }
+RSpec.describe "Tickets in the admin panel", type: :feature do
+  let(:event) { create(:event, name: "EventoTickets", state: "launched") }
+  let(:user) { create(:user, role: "admin") }
+  let!(:ticket) { create(:ticket, code: "Ticket1", event: event) }
 
-  before do
-    @ticket_type = create(:ticket_type, event: event)
-
+  before(:each) do
     login_as(user, scope: :user)
-    visit admins_event_tickets_path(event)
-    find("#floaty").click
-    find_link("new_ticket_link").click
   end
 
-  it "is located in tickets/new " do
-    expect(page).to have_current_path(new_admins_event_ticket_path(event))
+  describe "create: " do
+    before { visit new_admins_event_ticket_path(event) }
+
+    it "cannot be created by only filling Ticket Type" do
+      expect { find("input[name=commit]").click }.not_to change(Ticket, :count)
+    end
+
+    it "cannot have the same Ticket Code than another ticket" do
+      fill_in 'ticket_code', with: "Ticket1"
+      expect { find("input[name=commit]").click }.not_to change(Ticket, :count)
+    end
+
+    it "can be created by filling Ticket Type and code" do
+      fill_in 'ticket_code', with: "Ticket3"
+      first('#ticket_ticket_type_id option', minimum: 1).select_option
+      expect { find("input[name=commit]").click }.to change(Ticket, :count).by(1)
+    end
+
+    it "can be created by filling all fields" do
+      fill_in 'ticket_code', with: "Ticket3"
+      first('#ticket_ticket_type_id option', minimum: 1).select_option
+      fill_in 'ticket_purchaser_first_name', with: "PurchaserName"
+      fill_in 'ticket_purchaser_last_name', with: "PurchaserSurname"
+      fill_in 'ticket_purchaser_email', with: "Purchaser@email.com"
+      expect { find("input[name=commit]").click }.to change(Ticket, :count).by(1)
+    end
   end
 
-  it "can be created by only filling code and ticket type" do
-    expect do
-      within("#new_ticket") do
-        fill_in 'ticket_code', with: "TESTCODE"
-        first('#ticket_ticket_type_id option', minimum: 1).select_option
-      end
+  describe "edit: " do
+    before { visit edit_admins_event_ticket_path(event, ticket) }
 
-      find("input[name=commit]").click
-    end.to change(Ticket, :count).by(1)
+    it "can edit a Ticket" do
+      fill_in 'ticket_code', with: "1234567890"
+      expect { find("input[name=commit]").click }.to change { ticket.reload.code }.to("1234567890")
+    end
 
-    expect(page).to have_current_path admins_event_ticket_path(event, Ticket.last.id)
+    it "cannot edit a Ticket and leave it without Ticket Code" do
+      fill_in 'ticket_code', with: ""
+      expect { find("input[name=commit]").click }.not_to change { ticket.reload.code }.from(ticket.code)
+    end
   end
 
-  it "can't be done without filling a ticket code" do
-    expect do
-      within("#new_ticket") do
-        first('#ticket_ticket_type_id option', minimum: 1).select_option
-      end
+  describe "delete: " do
+    before { visit admins_event_ticket_path(event, ticket) }
 
-      find("input[name=commit]").click
-    end.not_to change(Ticket, :count)
+    it "can be achieved if event is in 'created' state" do
+      event.update! state: "created"
+      expect { click_link("delete") }.to change(Ticket, :count).by(-1)
+    end
 
-    expect(page).to have_current_path admins_event_tickets_path(event)
-  end
+    it "cannot be achieved if event is in 'launched' state" do
+      event.update! state: "launched"
+      expect { click_link("delete") }.not_to change(Ticket, :count)
+    end
 
-  it "can be done filling everything" do
-    expect do
-      within("#new_ticket") do
-        fill_in 'ticket_code', with: "TESTCODE"
-        first('#ticket_ticket_type_id option', minimum: 1).select_option
-        fill_in 'ticket_purchaser_first_name', with: "purchasername"
-        fill_in 'ticket_purchaser_last_name', with: "purchasersurname"
-        fill_in 'ticket_purchaser_email', with: "purchaser@email.com"
-      end
-
-      find("input[name=commit]").click
-    end.to change(Ticket, :count).by(1)
-
-    ticket = event.tickets.find_by(code: "TESTCODE")
-    expect(page).to have_current_path(admins_event_ticket_path(event, ticket.id))
-
-    expect(ticket.purchaser_first_name).to eq("purchasername")
-    expect(ticket.purchaser_last_name).to eq("purchasersurname")
-    expect(ticket.purchaser_email).to eq("purchaser@email.com")
-    expect(ticket.ticket_type).to eq(@ticket_type)
+    it "cannot be achieved if event is in 'close' state" do
+      event.update! state: "closed"
+      expect { click_link("delete") }.not_to change(Ticket, :count)
+    end
   end
 end
