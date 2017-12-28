@@ -69,7 +69,7 @@ RSpec.describe "Accesses in the admin panel", type: :feature do
       visit edit_admins_event_access_path(event, access)
 
       within("#edit_access_#{access.id}") { fill_in 'access_name', with: "" }
-      find("input[name=commit]").click
+      expect { find("input[name=commit]").click }.not_to change { access.reload.name }.from(access.name)
 
       expect(page).to have_current_path(admins_event_access_path(event, access))
     end

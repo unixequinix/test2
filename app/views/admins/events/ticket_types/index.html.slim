@@ -47,14 +47,14 @@
                 td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
                 td.table-actions
                   .table-action
-                    = link_to admins_event_ticket_type_path(@current_event, ticket_type) do
-                      button.icon.material-icons id ="ticket_type_#{ticket_type.id}" info
+                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), id:"ticket_type_#{ticket_type.id}"do
+                      button.icon.material-icons info
                   .table-action
-                    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
-                      button.icon.material-icons id ="edit_#{ticket_type.id}" edit
+                    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type), id:"edit_#{ticket_type.id}" do
+                      button.icon.material-icons edit
                   .table-action
-                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{ticket_type.id}" delete_forever
+                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{ticket_type.id}"  do
+                      button.icon.material-icons delete_forever
 
               span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
               span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit
