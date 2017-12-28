@@ -40,6 +40,4 @@ describe StatValidator do
     @sale_refund_stats.first.sale_item_quantity = 1
     expect(StatValidator.method(:validate_quantity_sale_refund).call(@sale_refund_stats.first)).to be(Stat.error_codes.key(1))
   end
-
-  it "should return an error on sale validation"
 end
