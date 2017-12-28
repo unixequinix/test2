@@ -43,3 +43,21 @@ RSpec.shared_examples "UI stations" do
     end
   end
 end
+
+RSpec.shared_examples "edit station" do
+  describe "edit: " do
+    it "can be edited" do
+      visit edit_admins_event_station_path(event, station)
+
+      within("#edit_station_#{station.id}") { fill_in 'station_name', with: "FOO" }
+      expect { find("input[name=commit]").click }.to change { station.reload.name }.to("FOO")
+    end
+
+    it "cannot be edited as nameless" do
+      visit edit_admins_event_station_path(event, station)
+
+      within("#edit_station_#{station.id}") { fill_in 'station_name', with: "" }
+      expect { find("input[name=commit]").click }.not_to change { station.reload.name }.from(station.name)
+    end
+  end
+end
