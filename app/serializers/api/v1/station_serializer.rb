@@ -1,15 +1,7 @@
 module Api
   module V1
     class StationSerializer < ActiveModel::Serializer
-      attributes :id, :real_id, :type, :name, :hidden
-
-      def id
-        object.station_event_id
-      end
-
-      def real_id
-        object.id
-      end
+      attributes :id, :station_event_id, :type, :name, :hidden
 
       def attributes(*args)
         hash = super

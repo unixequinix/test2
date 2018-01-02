@@ -76,8 +76,8 @@ module Api
             json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
           FROM (
             SELECT
-              order_items.id as real_id,
-              counter AS id,
+              order_items.id,
+              counter,
               customer_id,
               amount,
               catalog_item_id,
@@ -88,7 +88,7 @@ module Api
               JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
               JOIN orders ON orders.id = order_items.order_id
                 AND orders.customer_id IN (#{ids.join(', ')})
-                AND orders.status IN ('completed', 'refunded')
+                AND orders.status IN ('completed')
           ) o GROUP BY o.customer_id
         ) ord ON customers.id = ord.customer_id
 
