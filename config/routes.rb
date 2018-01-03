@@ -132,22 +132,24 @@ Rails.application.routes.draw do
             get :resolvable
           end
         end
+
         resources :transactions, only: [:index, :show, :update, :destroy] do
           get :download_raw_transactions, on: :collection
           post :search, on: :collection
-          get :status_9, on: :member
-          get :status_0, on: :member
         end
+
         resources :pokes, only: [] do
           get :status_9, on: :member
           get :status_0, on: :member
         end
+
         resources :payment_gateways, except: :show do
           member do
             post :topup
             post :refund
           end
         end
+
         resources :customers, only: [:index, :show, :edit, :update] do
           member do
             resources :ticket_assignments, only: [:new, :create]
@@ -156,6 +158,7 @@ Rails.application.routes.draw do
             get :reset_password
           end
         end
+
         resources :gtags do
           member do
             get :recalculate_balance
@@ -168,6 +171,7 @@ Rails.application.routes.draw do
             post :import
           end
         end
+
         resources :tickets do
           member do
             get :ban
@@ -178,6 +182,7 @@ Rails.application.routes.draw do
             post :import
           end
         end
+
         resources :stations do
           post :clone
           post :hide
@@ -191,6 +196,7 @@ Rails.application.routes.draw do
             end
           end
         end
+
         resources :ticket_types, except: :show do
           get :unban, on: :member
         end

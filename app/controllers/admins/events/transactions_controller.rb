@@ -1,7 +1,6 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type, except: %i[index download_raw_transactions]
-  before_action :set_transactions, except: %i[index show fix status_9 status_0 destroy]
-  before_action :set_transaction, only: %i[show update fix status_9 status_0]
+  before_action :set_transaction, only: %i[show update fix]
 
   TRANSACTIONS = { user_flag: UserFlagTransaction,
                    credit: CreditTransaction,
@@ -27,6 +26,9 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def search
+    @transactions = params[:q] ? @current_event.transactions : @current_event.transactions.none
+    @q = @transactions.search(params[:q])
+    @transactions = @q.result.page(params[:page]).includes(:customer, :station)
     authorize @transactions
     render :index
   end
@@ -47,20 +49,6 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
     end
   end
 
-  def status_9
-    @transaction.update(status_code: 9, status_message: "cancelled by user #{current_user.email}")
-    @transaction.gtag&.recalculate_balance
-    return_url = request.referer || admins_event_transaction_path(@current_event, @transaction, type: @transaction.category)
-    redirect_to(return_url, notice: "Transaction cancelled successfully")
-  end
-
-  def status_0
-    @transaction.update(status_code: 0, status_message: "accepted by user #{current_user.email}")
-    @transaction.gtag&.recalculate_balance
-    return_url = request.referer || admins_event_transaction_path(@current_event, @transaction, type: @transaction.category)
-    redirect_to(return_url, notice: "Transaction accepted successfully")
-  end
-
   def destroy
     @transaction = @current_event.transactions.find(params[:id])
     authorize @transaction
@@ -79,13 +67,6 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   def set_type
     @type = params[:type] || (params[:q][:type])
     @type&.camelcase
-  end
-
-  def set_transactions
-    @transactions = TRANSACTIONS[@type.to_sym].where(event: @current_event)
-    authorize @transactions
-    @q = @transactions.search(params[:q])
-    @transactions = @q.result.page(params[:page]).includes(:customer, :station)
   end
 
   def permitted_params
