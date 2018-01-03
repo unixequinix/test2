@@ -52,6 +52,11 @@ RSpec.describe Refund, type: :model do
       expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
     end
 
+    it "creates a money transaction with negative price" do
+      expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
+      expect(customer.transactions.money.last.price).to eq(-subject.total_money)
+    end
+
     it "sends an email" do
       email = OrderMailer.completed_refund(subject)
       expect(OrderMailer).to receive(:completed_refund).with(subject).twice.and_return(email)

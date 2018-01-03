@@ -27,7 +27,7 @@ class Refund < ApplicationRecord
     return false if completed?
     update!(status: "completed")
 
-    atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: total_money }
+    atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: -total_money }
     MoneyTransaction.write!(event, "online_refund", :portal, customer, customer, atts)
 
     # Create negative online order (to be replaced by tasks/transactions or start downloading refunds)
