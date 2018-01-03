@@ -26,14 +26,14 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       end
 
       it "returns the necessary keys" do
-        cus_keys = %w[id updated_at first_name last_name email credentials orders]
-        cre_keys = %w[customer_id reference redeemed type]
-        order_keys = %w[real_id id customer_id amount catalog_item_id catalog_item_type redeemed status]
+        cus_keys = %w[id updated_at first_name last_name email credentials orders].sort
+        cre_keys = %w[customer_id reference redeemed type].sort
+        order_keys = %w[counter id customer_id amount catalog_item_id catalog_item_type redeemed status].sort
 
         JSON.parse(response.body).map do |gtag|
-          expect(gtag.keys).to eq(cus_keys)
-          expect(gtag["credentials"].map(&:keys).flatten.uniq).to eq(cre_keys)
-          expect(gtag["orders"].map(&:keys).flatten.uniq).to eq(order_keys)
+          expect(gtag.keys.sort).to eq(cus_keys)
+          expect(gtag["credentials"].map(&:keys).flatten.uniq.sort).to eq(cre_keys)
+          expect(gtag["orders"].map(&:keys).flatten.uniq.sort).to eq(order_keys)
         end
       end
 

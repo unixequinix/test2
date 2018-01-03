@@ -23,9 +23,15 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           @station.station_catalog_items.create(price: rand(1.0...20.0).round(2), catalog_item_id: access.id)
         end
 
-        it "returns all the box office stations" do
+        it "returns all the box office station ids" do
           get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
+          expect(stations).to include(@station.id)
+        end
+
+        it "returns all the box office station station_event_ids" do
+          get :index, params: params
+          stations = JSON.parse(response.body).first["stations"].map { |m| m["station_event_id"] }
           expect(stations).to include(@station.station_event_id)
         end
 
@@ -49,7 +55,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the pos stations" do
           get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to eq([@station.station_event_id])
+          expect(stations).to eq([@station.id])
         end
 
         it "returns the catalog items for each pos" do
@@ -70,7 +76,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the pos stations" do
           get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to eq([@station.station_event_id])
+          expect(stations).to eq([@station.id])
         end
 
         it "returns the credits for each station" do
@@ -97,7 +103,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the access control stations" do
           get :index, params: params
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to eq([@station.station_event_id])
+          expect(stations).to eq([@station.id])
         end
 
         it "returns the entitlements for each station" do
