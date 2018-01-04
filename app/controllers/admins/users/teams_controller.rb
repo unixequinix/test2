@@ -1,4 +1,4 @@
-class Admins::Users::TeamsController < ApplicationController
+class Admins::Users::TeamsController < ApplicationController # rubocop:disable Metrics/ClassLength
   layout 'admin'
 
   before_action :authenticate_user!
@@ -160,13 +160,8 @@ class Admins::Users::TeamsController < ApplicationController
   end
 
   def sample_csv
-    csv_file = CsvExporter.sample(
-      %w[MAC asset_tracker serie serial],
-      [%w[15C3135122 GeneralDevice N 01022222012], %w[34SS5C54Q1 MainDevice], %w[95Q16CV331]]
-    )
-    respond_to do |format|
-      format.csv { send_data(csv_file) }
-    end
+    csv_file = CsvExporter.sample(%w[MAC asset_tracker serie serial], [%w[15C3135122 N34 N 01022222012], %w[34SS5C54Q1 D22], %w[95Q16CV331]])
+    respond_to { |format| format.csv { send_data(csv_file) } }
   end
 
   private
