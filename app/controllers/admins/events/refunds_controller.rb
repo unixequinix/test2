@@ -20,6 +20,8 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     end
   end
 
+  def show; end
+
   def update
     respond_to do |format|
       if @refund.update(permitted_params)

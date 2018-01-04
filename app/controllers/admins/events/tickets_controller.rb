@@ -79,7 +79,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
         Creators::TicketJob.perform_later(ticket_atts)
         count += 1
       end
-    rescue # rubocop:disable Lint/RescueWithoutErrorClass
+    rescue StandardError
       return redirect_to(path, alert: t("alerts.import.error"))
     end
 

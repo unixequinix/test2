@@ -64,9 +64,8 @@ RSpec.describe Team, type: :model do
       expect(subject.events.live).to eq([@event1])
     end
 
-    it "is unable to destroy team" do
+    it "is unable to destroy team with devices attached" do
       expect { subject.destroy! }.to raise_error(ActiveRecord::RecordNotDestroyed)
-      expect(subject.errors[:devices]).to include("unable to destroy team with associated devices")
     end
   end
 end

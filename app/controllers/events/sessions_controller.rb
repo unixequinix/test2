@@ -25,6 +25,14 @@ class Events::SessionsController < Devise::SessionsController
     self.resource = resource_class.new
   end
 
+  def create
+    super
+  end
+
+  def destroy
+    super
+  end
+
   private
 
   def check_captcha

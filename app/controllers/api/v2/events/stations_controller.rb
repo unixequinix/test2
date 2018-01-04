@@ -1,6 +1,6 @@
 module Api::V2
   class Events::StationsController < BaseController
-    before_action :set_station, only: %i[show update destroy add_product remove_product update_product]
+    before_action :set_station, only: %i[show update destroy]
 
     # GET api/v2/events/:event_id/stations
     def index

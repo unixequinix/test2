@@ -35,6 +35,8 @@ class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop
     end
   end
 
+  def edit; end
+
   def update
     respond_to do |format|
       if @gtag.update(permitted_params)
@@ -101,7 +103,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController # rubocop
         Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance").to_f, row.field("Virtual Balance").to_f, ticket_type_id: ticket_type_id) # rubocop:disable Metrics/LineLength
         count += 1
       end
-    rescue # rubocop:disable Lint/RescueWithoutErrorClass
+    rescue StandardError
       return redirect_to(admins_event_gtags_path(@current_event), alert: t("alerts.import.error"))
     end
 

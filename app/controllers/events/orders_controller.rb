@@ -1,6 +1,10 @@
 class Events::OrdersController < Events::EventsController
   before_action :set_order, only: %i[show error success complete]
 
+  def error; end
+
+  def success; end
+
   def show
     @payment_gateways = @current_event.payment_gateways.topup
     redirect_to @current_event, notice: t("orders.already_finalised") unless @order.in_progress?

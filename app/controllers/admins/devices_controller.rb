@@ -12,6 +12,8 @@ class Admins::DevicesController < Admins::BaseController
     @device_events = DeviceTransaction.where(device_uid: @device.mac).includes(:event).group_by(&:event)
   end
 
+  def edit; end
+
   def update
     respond_to do |format|
       if @device.update(permitted_params)

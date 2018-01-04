@@ -1,6 +1,6 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type, except: %i[index download_raw_transactions]
-  before_action :set_transaction, only: %i[show update fix]
+  before_action :set_transaction, only: %i[show update]
 
   TRANSACTIONS = { user_flag: UserFlagTransaction,
                    credit: CreditTransaction,

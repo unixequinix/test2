@@ -4,8 +4,9 @@ class Api::V1::EventsController < Api::V1::BaseController
 
     status = device&.asset_tracker.blank? ? :accepted : :ok
 
-    if device.present? && device&.team.present?
-      events = device.team.events.live.includes(:device_registrations)&.merge(DeviceRegistration.not_allowed)&.where(device_registrations: { device_id: device.id })
+    if device.present? && device.team.present?
+      not_allowed = DeviceRegistration.not_allowed
+      events = device.team.events.live.includes(:device_registrations).merge(not_allowed).where(device_registrations: { device_id: device.id })
 
       render(status: status, json: events, serializer_params: { device: device }) && return if events.present?
       render json: { error: "Device has not any associated event" }, status: :unauthorized

@@ -1,12 +1,12 @@
 class Poke < ApplicationRecord
   belongs_to :event
-  belongs_to :operation, class_name: "Transaction", optional: true
+  belongs_to :operation, class_name: "Transaction", optional: true, inverse_of: :pokes
   belongs_to :device, optional: true
   belongs_to :station, optional: true
-  belongs_to :operator, class_name: "Customer", optional: true
-  belongs_to :operator_gtag, class_name: "Gtag", optional: true
+  belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :pokes_as_operator
+  belongs_to :operator_gtag, class_name: "Gtag", optional: true, inverse_of: :pokes_as_operator
   belongs_to :customer, optional: true
-  belongs_to :customer_gtag, class_name: "Gtag", optional: true
+  belongs_to :customer_gtag, class_name: "Gtag", optional: true, inverse_of: :pokes_as_customer
   belongs_to :ticket_type, optional: true
   belongs_to :company, optional: true
   belongs_to :product, optional: true

@@ -155,12 +155,7 @@ Rails.application.routes.draw do
           get :status_0, on: :member
         end
 
-        resources :payment_gateways, except: :show do
-          member do
-            post :topup
-            post :refund
-          end
-        end
+        resources :payment_gateways, except: :show
 
         resources :customers, only: [:index, :show, :edit, :update] do
           member do

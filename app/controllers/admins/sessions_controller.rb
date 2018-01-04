@@ -4,6 +4,14 @@ class Admins::SessionsController < Devise::SessionsController
   before_action :check_captcha, only: :create
   before_action :reset_captcha, only: :destroy
 
+  def create
+    super
+  end
+
+  def destroy
+    super
+  end
+
   private
 
   def check_captcha

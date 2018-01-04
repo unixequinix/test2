@@ -145,14 +145,14 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     @available_devices = @s.result
   end
 
-  def persist_query(cookie_keys, clear = false)
+  def persist_query(cookie_keys, clear = false) # rubocop:disable  Metrics/PerceivedComplexity
     cookie_keys.map { |key| cookies.delete(key) } && return if clear
 
     param = :p if cookie_keys.include?(:p)
     param = :q if cookie_keys.include?(:q)
 
     cookies[param] = params[param].to_json if params[param]
-    params[param].presence || JSON.load(cookies[param])
+    params[param].presence || (cookies[param].present? && JSON.parse(cookies[param]))
   end
 
   def devices_usage

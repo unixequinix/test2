@@ -1,5 +1,5 @@
 class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
-  before_action :set_gateway, only: %i[edit update destroy topup refund]
+  before_action :set_gateway, only: %i[edit update destroy]
   before_action :set_attributes, only: %i[new edit update]
 
   def index
@@ -24,6 +24,8 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
       render :new, name: permitted_params[:name]
     end
   end
+
+  def edit; end
 
   def update
     respond_to do |format|

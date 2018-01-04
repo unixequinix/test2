@@ -10,10 +10,10 @@ class Device < ApplicationRecord
   validates :team_id, presence: true
 
   def name
-    "#{mac}: #{asset_tracker.blank? ? 'Unnamed' : asset_tracker}"
+    "#{mac}: #{asset_tracker.presence || 'Unnamed'}"
   end
 
   def small_name
-    asset_tracker.blank? ? mac : asset_tracker
+    asset_tracker.presence || mac
   end
 end

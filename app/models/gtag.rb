@@ -5,7 +5,11 @@ class Gtag < ApplicationRecord
 
   belongs_to :ticket_type, optional: true
 
-  has_many :pokes_as_customer, class_name: "Poke", foreign_key: "customer_gtag_id", dependent: :restrict_with_error
+  has_many :pokes_as_customer, class_name: "Poke", foreign_key: "customer_gtag_id", dependent: :restrict_with_error, inverse_of: :customer_gtag
+  has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag
+
+  has_many :transactions, dependent: :restrict_with_error
+  has_many :transactions_as_operator, class_name: "Transaction", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag # rubocop:disable Metrics/LineLength
 
   before_save :upcase_tag_uid
 

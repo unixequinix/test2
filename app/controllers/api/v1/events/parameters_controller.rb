@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/PerceivedComplexity
 module Api
   module V1
     module Events
@@ -6,7 +5,7 @@ module Api
         before_action :set_modified
 
         # TODO: refactor, remove, i (jake) dont care, but this is not good code. This should be a call to events/:id
-        def index
+        def index # rubocop:disable Metrics/PerceivedComplexity
           render(status: 304, json: :none) && return if @modified && @current_event.updated_at.httpdate <= @modified
 
           cols = %w[uid_reverse sync_time_gtags sync_time_tickets transaction_buffer days_to_keep_backup sync_time_customers fast_removal_password
@@ -24,9 +23,8 @@ module Api
           body << { name: "gtag_key", value: value }
           body << { name: "cypher_enabled", value: @current_event.name.downcase.tr("ó", "o").include?("sonar") }
 
-          # rubocop:disable Style/NestedTernaryOperator
           serie = @current_event.event_serie
-          old_events = serie ? serie.events.where.not(id: @current_event.id).map { |e| dev_env ? fake_key : e.gtag_key }.uniq.join(";") : ""
+          old_events = serie ? serie.events.where.not(id: @current_event.id).map { |e| dev_env ? fake_key : e.gtag_key }.uniq.join(";") : "" # rubocop:disable Style/NestedTernaryOperator, Metrics/LineLength
           body << { name: "old_event_keys", value: old_events }
 
           render_entity(body.as_json, @current_event.updated_at&.httpdate)

@@ -13,6 +13,8 @@ class Admins::UsersController < ApplicationController
     authorize @users
   end
 
+  def show; end
+
   def new
     @user = User.new(email: params[:email])
     @email_disabled = true if params[:email].present?
@@ -30,6 +32,8 @@ class Admins::UsersController < ApplicationController
       render :new, layout: "welcome_admin"
     end
   end
+
+  def edit; end
 
   def update
     respond_to do |format|

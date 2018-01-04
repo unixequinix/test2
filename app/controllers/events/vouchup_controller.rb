@@ -5,4 +5,6 @@ class Events::VouchupController < Events::PaymentsController
     url = Rails.env.production? ? "vouch-up.com/pay" : "dev.vouch-up.com/pay"
     redirect_to URI.new("https://#{url}/#{@current_event.slug}/#{@order.id}")
   end
+
+  def refund; end
 end

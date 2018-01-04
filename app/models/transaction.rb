@@ -3,14 +3,16 @@ class Transaction < ApplicationRecord
 
   belongs_to :event
   belongs_to :station, optional: true
-  belongs_to :operator, class_name: "Customer", optional: true
-  belongs_to :operator_gtag, class_name: "Gtag", optional: true
+  belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :transactions_as_operator
+  belongs_to :operator_gtag, class_name: "Gtag", optional: true, inverse_of: :transactions_as_operator
   belongs_to :customer, optional: true
   belongs_to :gtag, optional: true
   belongs_to :catalog_item, optional: true
   belongs_to :ticket, optional: true
   belongs_to :order, optional: true
   belongs_to :order_item, optional: true
+
+  has_many :pokes, dependent: :restrict_with_error
 
   scope :credit, -> { where(type: "CreditTransaction") }
   scope :credential, -> { where(type: "CredentialTransaction") }

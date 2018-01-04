@@ -8,14 +8,16 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   belongs_to :event
 
-  has_one(:active_gtag, -> { where(active: true) }, class_name: "Gtag")
+  has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag", inverse_of: :customer
 
   has_many :orders, dependent: :restrict_with_error
   has_many :refunds, dependent: :restrict_with_error
   has_many :tickets, dependent: :nullify
   has_many :gtags, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
+  has_many :transactions_as_operator, class_name: "Transaction", foreign_key: "operator_id", dependent: :restrict_with_error, inverse_of: :operator
   has_many :pokes, dependent: :restrict_with_error
+  has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_id", dependent: :restrict_with_error, inverse_of: :operator
 
   with_options unless: :anonymous? do |reg|
     reg.validates :email, format: { with: RFC822::EMAIL }, allow_blank: false

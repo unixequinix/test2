@@ -14,6 +14,8 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     end
   end
 
+  def show; end
+
   def new
     @customer = @current_event.customers.find(params[:customer_id])
     @order = @current_event.orders.new(customer: @customer)

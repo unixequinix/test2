@@ -1,6 +1,6 @@
 class Admins::Events::Stations::ProductsController < Admins::Events::BaseController
   before_action :set_station
-  before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_product, only: %i[update]
 
   def index
     @q = @station.products.ransack(params[:q])
