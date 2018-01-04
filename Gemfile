@@ -83,7 +83,7 @@ gem 'phony_rails'
 gem 'tinymce-rails'
 
 # Payments
-gem 'activemerchant', github: "aspgems/active_merchant"
+gem 'activemerchant'
 
 # Asyncronous
 gem 'sinatra', github: 'sinatra/sinatra', require: false
