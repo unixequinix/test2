@@ -4,6 +4,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     persist_query(%i[p q], true)
   end
   before_action :set_devices, :devices_usage, only: %i[new]
+  before_action :set_device_registration_actions, only: %i[new create disable]
 
   def index
     @q = @current_event.device_registrations.ransack(params[:q])
@@ -13,7 +14,6 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   end
 
   def new
-    @actions = DeviceTransaction::INITIALIZATION_TYPES
     @devices_usage = devices_usage
     @device_registration = @current_event.device_registrations.new
     authorize @device_registration
@@ -23,13 +23,14 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     devices = Device.where(id: permitted_params["device_ids"]).map do |device|
       device_registration = @current_event.device_registrations.find_or_create_by(device_id: device.id)
       authorize device_registration
-      device_registration.update(allowed: false, action: permitted_params["action"])
+      device_registration.update(allowed: false, initialization_type: permitted_params["initialization_type"])
     end
 
     respond_to do |format|
       if devices
         flash[:notice] = t("alerts.created")
         @devices_usage = devices_usage
+        set_devices
 
         format.html { redirect_to new_admins_event_device_registration_path(@current_event) }
         format.json { render json: devices, status: :ok }
@@ -51,6 +52,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
       if !device_registrations.nil?
         flash[:notice] = t("alerts.destroyed")
         @devices_usage = devices_usage
+        set_devices
 
         format.html { redirect_to request.referer }
         format.json { render json: device_registrations, status: :ok }
@@ -132,6 +134,10 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     @device = @registration.device
   end
 
+  def set_device_registration_actions
+    @actions = DeviceTransaction::INITIALIZATION_TYPES
+  end
+
   def set_devices
     @current_device_registrations = @current_event.device_registrations.not_allowed.includes(:device).where(devices: { team_id: @current_user&.team&.id }) # rubocop:disable Metrics/LineLength
     device_ids = @current_user.events.includes(:device_registrations).where(device_registrations: { allowed: false }).pluck(:device_id).uniq
@@ -162,6 +168,6 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   end
 
   def permitted_params
-    params.require(:device_registration).permit(:action, device_ids: [])
+    params.require(:device_registration).permit(:initialization_type, device_ids: [])
   end
 end

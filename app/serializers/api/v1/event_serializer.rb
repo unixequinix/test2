@@ -6,7 +6,7 @@ module Api
       def initialization_type
         device = instance_options[:serializer_params][:device]
 
-        DeviceRegistration.find_by(device_id: device.id, event_id: object.id)&.action&.downcase
+        DeviceRegistration.find_by(device_id: device.id, event_id: object.id)&.initialization_type&.downcase
       end
 
       def start_date

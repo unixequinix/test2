@@ -45,6 +45,7 @@
     button.remodal-close data-remodal-action="close"
     h3.remodal__title Add device to the team
     = simple_form_for :device, url: add_devices_admins_user_team_path(current_user), html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+      p = f.input :asset_tracker, placeholder: true, as: :string, autofocus: true
       p = f.input :mac, placeholder: true, as: :string, autofocus: true
       .remodal__actions
         = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

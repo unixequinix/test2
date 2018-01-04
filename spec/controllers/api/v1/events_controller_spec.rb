@@ -67,7 +67,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           end
 
           it "returns the correct data" do
-            create(:device_registration, event: events[1], device: device, allowed: false, action: 'LITE_INITIALIZATION')
+            create(:device_registration, event: events[1], device: device, allowed: false, initialization_type: 'LITE_INITIALIZATION')
             get :index, params: { mac: device.mac }
             @body = JSON.parse(response.body)
             @body.each_with_index do |event, i|

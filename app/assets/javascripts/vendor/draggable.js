@@ -14,6 +14,7 @@ function draggableTableElems (attr) {
   });
 
   $('table.droppable' + sortableContainer).sortable({
+    cancel: 'td span',
     revert: 300,
     dropOnEmpty: true,
     connectWith: "table.droppable",

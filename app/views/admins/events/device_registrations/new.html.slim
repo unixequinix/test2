@@ -1,3 +1,7 @@
+- content_for :javascript do
+  = javascript_include_tag "specific/devices_draggable"
+
+
 - content_for(:navigation_actions) do
   = link_to admins_event_path(@current_event), class: "mdl-button mdl-button--icon" do
     span#undo_link.icon.material-icons undo
@@ -11,41 +15,17 @@
     .mdl-layout-spacer
     .mdl-grid
       .mdl-cell.mdl-cell--5-col
-          h4 Available devices 
+        h4 Available devices 
+        #available_devices_table
           = render 'form', resources: @available_devices
       .mdl-layout-spacer
       .mdl-cell.mdl-cell--5-col
-          h4 Event devices 
+        h4 Event devices 
+        #current_devices_table
           = render 'form', resources: @current_device_registrations, form_disable: true
   .mdl-layout-spacer
 
 javascript:
   $(document).on('ready', function() { 
-    var action; 
-
-    $('#device_registration_action').change(function() {
-      action = this.value;
-    });
-
-    draggableTableElems({
-      sortableItems: 'table > tbody > *', 
-      referenceParent: '#delete_devices_table',
-      inputSelector: 'td.table-actions div.table-action input',
-      callback: function(form, ids) {
-                  $.ajax({
-                    type: form.attr('_method'),
-                    url:  form.attr('action'),
-                    dataType: 'script',
-                    data: { 
-                      device_registration: {
-                        device_ids: ids,
-                        action: action
-                      }
-                    },
-                    success: function(rest) {
-                      componentHandler.upgradeAllRegistered();
-                    }
-                  });
-                },  
-    });
-  })
+    device_registration_draggable_table();
+  });

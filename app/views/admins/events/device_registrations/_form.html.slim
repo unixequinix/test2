@@ -41,13 +41,15 @@
         - resources.each do |resource|
           - device = resource.class.to_s == 'DeviceRegistration' ? resource.device : resource
           tr
-            td.mdl-data-table__cell--non-numeric data-label="Asset" = best_in_place device, :asset_tracker, url: [:admins, device]
-            td data-label="Mac" = device.mac            
+            td.mdl-data-table__cell--non-numeric data-label="Asset" 
+              span = best_in_place device, :asset_tracker, url: [:admins, device]
+            td data-label="Mac" 
+              span = device.mac            
             td data-label="Initialization" 
               - if form_disable
-                = best_in_place resource, :action, as: :select, collection: @actions.map { |action| [action.to_s, action.to_s.humanize] }, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
+                span = best_in_place resource, :action, as: :select, collection: @actions.map { |action| [action.to_s, action.to_s.humanize] }, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
               - else
-                '-
+                span -
             td.table-actions
               .table-action
                 = check_box_tag 'device_registration[device_ids][]', device.id, false, id: "device_registration_#{device.id}", style: 'visibility:hidden'
@@ -68,4 +70,6 @@ javascript:
       
       if(selected.length > 0) { $('#' + selector + '_form').submit(); }
     })
+
+    $("table.sortable").tablesorter(); 
   })

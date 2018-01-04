@@ -1,4 +1,4 @@
-class Admins::Users::TeamsController < ApplicationController # rubocop:disable Metrics/ClassLength
+class Admins::Users::TeamsController < ApplicationController
   layout 'admin'
 
   before_action :authenticate_user!
@@ -86,7 +86,11 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   def add_devices
     authorize @team
 
-    @device = Device.find_or_create_by(mac: device_permitted_params[:mac])
+    params = {}
+    device_permitted_params[:asset_tracker].blank? ? params : params[:asset_tracker] = device_permitted_params[:asset_tracker]
+    device_permitted_params[:mac].blank? ? params : params[:mac] = device_permitted_params[:mac]
+
+    @device = Device.find_or_create_by(params)
     @device.update(team_id: current_user.team.id) if @device.team_id.nil?
 
     respond_to do |format|
@@ -187,7 +191,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   end
 
   def device_permitted_params
-    params.require(:device).permit(:mac, :serie)
+    params.require(:device).permit(:mac, :asset_tracker, :serie)
   end
 
   def user_permitted_params

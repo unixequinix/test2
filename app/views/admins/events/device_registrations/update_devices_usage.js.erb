@@ -1,3 +1,9 @@
 $("#devices_usage").html("<%= escape_javascript(render partial: 'devices_usage', locals: { devices_usage: @devices_usage }) %>");
 
 $("#notifications").html("<%= escape_javascript(render partial: 'layouts/notifications', locals: { flash: flash }) %>");
+
+$("#available_devices_table").html("<%= escape_javascript(render partial: 'form', locals: { resources: @available_devices }) %>");
+
+$("#current_devices_table").html("<%= escape_javascript(render partial: 'form', locals: { resources: @current_device_registrations, form_disable: true }) %>");
+
+device_registration_draggable_table();
