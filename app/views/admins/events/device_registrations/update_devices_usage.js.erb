@@ -1,0 +1,3 @@
+$("#devices_usage").html("<%= escape_javascript(render partial: 'devices_usage', locals: { devices_usage: @devices_usage }) %>");
+
+$("#notifications").html("<%= escape_javascript(render partial: 'layouts/notifications', locals: { flash: flash }) %>");

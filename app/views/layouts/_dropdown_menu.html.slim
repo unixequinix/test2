@@ -16,6 +16,10 @@ div class="dropdown" id="user_dropdown"
     = link_to [:admins, @current_user], class: "dropdown-item", id: "profile_layout_link" do
       i.mdl-color-text--teal-200.material-icons account_circle
       | My Profile
+    - if current_user.team  
+      = link_to admins_user_team_path(current_user), class: "dropdown-item", id: "teams_layout_link" do
+        i.mdl-color-text--teal-200.material-icons group
+        | My Team
     = link_to admins_events_path, class: "dropdown-item", id: "events_layout_link" do
       i.mdl-color-text--teal-200.material-icons stars
       |  Events

@@ -58,7 +58,7 @@ class Admins::UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id] || params[:id])
     authorize @user
   end
 

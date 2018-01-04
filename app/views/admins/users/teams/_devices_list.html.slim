@@ -1,0 +1,15 @@
+- show_actions = (defined? show_actions).present? ? true : show_actions
+
+tbody
+  - @devices.each do |device|
+    tr
+      td.mdl-data-table__cell--non-numeric data-label="Asset" = link_to (device.asset_tracker.present? ? device.asset_tracker : "NONE"), admins_device_path(device)
+      td data-label="Serie" = device.serie || '-'
+      td data-label="Mac" = device.mac
+      td data-label="Serial" = device.serial || '-'
+      td.table-actions
+        - if show_actions
+        .table-action
+          = link_to edit_admins_device_path(device) do
+            button.icon.material-icons edit
+

@@ -9,7 +9,7 @@
         .field
           = f.input :email, placeholder: true
           = f.full_error "user_id", style: "visibility: visible"
-          = f.input :role, as: :select, collection: EventRegistration.roles.keys, include_blank: false, placeholder: true
+          = f.input :role, as: :select, collection: EventRegistration.roles.keys.map {|format| [format.humanize, format]}, include_blank: false, placeholder: true
 
         .form-actions
           = f.button :submit, "Invite", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

@@ -18,6 +18,9 @@
                   td.mdl-data-table__cell--non-numeric Slug
                   td = @current_event.slug
                 tr
+                  td.mdl-data-table__cell--non-numeric Team
+                  td = best_in_place @current_event, :team_id, as: :select, collection: Team.all.map{ |team| [team.id, team.name] }, url: [:admins, @current_event]
+                tr
                   td.mdl-data-table__cell--non-numeric Timezone
                   td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "(GMT#{zone.formatted_offset}) #{zone.name}"] }, url: [:admins, @current_event]
                 tr

@@ -1,6 +1,7 @@
 //= require jquery
 
 //= require jquery-ui
+//= require jquery-ui/widgets/sortable
 //= require jquery_ujs
 //= require jquery.purr
 //= require jquery-tablesorter
@@ -10,6 +11,7 @@
 
 //= require vendor/remodal.min
 //= require vendor/jquery-qrcode
+//= require vendor/draggable
 
 //= require_tree ./global
 

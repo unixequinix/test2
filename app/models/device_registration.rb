@@ -4,6 +4,9 @@ class DeviceRegistration < ApplicationRecord
 
   attr_accessor :operator, :station, :last_time_used
 
+  scope(:allowed, -> { where(allowed: true) })
+  scope(:not_allowed, -> { where.not(allowed: true) })
+
   def name
     device.asset_tracker.present? ? device.asset_tracker : device.mac
   end

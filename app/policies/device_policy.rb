@@ -22,4 +22,8 @@ class DevicePolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def remove_devices?
+    user.team == record.team || user.admin?
+  end
 end

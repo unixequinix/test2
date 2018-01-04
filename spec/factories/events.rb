@@ -14,6 +14,7 @@ FactoryBot.define do
     open_tickets true
     open_gtags true
     event_serie_id nil
+    team
 
     # Event states
 

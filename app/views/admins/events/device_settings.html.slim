@@ -126,4 +126,14 @@
                   td.mdl-data-table__cell--non-numeric Sync Time Customers
                   td = best_in_place @current_event, :sync_time_customers, url: [:admins, @current_event]
       .mdl-layout-spacer
+    - if @devices.present?
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text
+              i.material-icons devices
+              | Available Devices
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              = render 'admins/users/teams/devices_list', devices: @devices, show_actions: false
   .mdl-layout-spacer

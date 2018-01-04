@@ -7,8 +7,20 @@ class DeviceRegistrationPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def new
+    user.admin?
+  end
+
+  def create?
+    user&.team&.devices&.include?(record.device) || admin_or_device_register
+  end
+
   def destroy?
     user.admin?
+  end
+
+  def disable?
+    user&.team&.devices&.include?(record.device) || user.admin?
   end
 
   def transactions?

@@ -28,6 +28,14 @@
             tr
               td.mdl-data-table__cell--non-numeric Login count
               td = @user.sign_in_count
+            tr
+              td.mdl-data-table__cell--non-numeric Team
+              td
+                - if @user.team.present?
+                  = link_to @user.team&.name, admins_user_team_path(@user, @user.team) 
+                - else
+                  = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
+                    button.icon.material-icons id="create_team" group_add
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

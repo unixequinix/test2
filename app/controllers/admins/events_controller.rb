@@ -77,6 +77,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def device_settings
+    @devices = @current_event&.team&.devices || []
     @device_caches = @current_event.device_caches
     render layout: "admin_event"
   end
@@ -104,6 +105,8 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     @current_event.update_attribute :state, "closed"
     @current_event.companies.update_all(hidden: true)
     @current_event.payment_gateways.delete_all
+    @current_event.device_registration.update_all(allowed: true)
+
     redirect_to [:admins, @current_event], notice: t("alerts.updated")
   end
 
@@ -208,6 +211,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :refunds_end_date,
                                   :event_serie_id,
                                   :accounting_code,
+                                  :team_id,
                                   credit_attributes: %i[id name value])
   end
 end

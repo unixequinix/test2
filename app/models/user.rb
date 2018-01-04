@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations, dependent: :destroy
+  has_one :user_team, dependent: :destroy
+  has_one :team, through: :user_team, foreign_key: "team_id"
 
   before_create :generate_access_token
 
@@ -15,6 +17,14 @@ class User < ApplicationRecord
   enum role: { glowball: 2, admin: 0, promoter: 1 }
 
   attr_accessor :login
+
+  def team_role
+    team_leader? ? 'leader' : 'guest'
+  end
+
+  def team_leader?
+    user_team&.leader?
+  end
 
   def devise_mailer
     UserMailer

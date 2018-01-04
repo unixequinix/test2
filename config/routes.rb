@@ -23,7 +23,17 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
 
-    resources :users
+    resources :users do
+      resource :team, controller: "users/teams", except: [:index] do
+        get :sample_csv
+        post :import_devices
+        post :add_users
+        post :add_devices
+        delete  :remove_devices
+        delete :remove_users
+      end
+    end
+    
     resources :devices, only: [:index, :show, :edit, :update, :destroy]
     resources :event_series do
       member do
@@ -91,14 +101,16 @@ Rails.application.routes.draw do
         end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :device_registrations, only: [:index, :show, :destroy] do
+        resources :device_registrations, only: [:index, :show, :destroy, :new, :create, :update] do
           get :download_db, on: :member
           get :resolve_time, on: :member
           get :transactions, on: :member
+          put :disable, on: :collection
         end
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
+        resources :devices, only: [:new, :create]
         resources :device_caches, only: :destroy
         resources :operator_permissions
         resources :packs do

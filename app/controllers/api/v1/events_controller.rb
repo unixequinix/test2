@@ -1,18 +1,16 @@
 class Api::V1::EventsController < Api::V1::BaseController
   def index
-    @events = params[:filter].to_s.eql?("active") ? Event.where(state: :launched) : Event.all
-    @events = @events.where(open_devices_api: true)
+    device = Device.find_by(mac: params[:mac])
 
-    render(stats: :ok, json: @events, each_serializer: Api::V1::EventSerializer) && return if params[:mac].blank?
+    status = device&.asset_tracker.blank? ? :accepted : :ok
 
-    begin
-      device = Device.find_or_create_by(mac: params[:mac])
-    rescue ActiveRecord::RecordNotUnique
-      retry
+    if device.present? && device&.team.present?
+      events = device.team.events.live.includes(:device_registrations)&.merge(DeviceRegistration.not_allowed)&.where(device_registrations: { device_id: device.id })
+
+      render(status: status, json: events, serializer_params: { device: device }) && return if events.present?
+      render json: { error: "Device has not any associated event" }, status: :unauthorized
+    else
+      render json: { error: "Device does not belong to a team" }, status: :unauthorized
     end
-
-    status = device.asset_tracker.blank? ? :accepted : :ok
-
-    render status: status, json: @events, each_serializer: Api::V1::EventSerializer
   end
 end
