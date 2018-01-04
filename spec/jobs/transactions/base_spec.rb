@@ -5,7 +5,7 @@ RSpec.describe Transactions::Base, type: :job do
   let(:event) { create(:event) }
   let(:gtag)  { create(:gtag, tag_uid: "AAAAAAAAAAAAAA", event: event) }
   let(:customer) { create(:customer, event: event) }
-  let(:atts) { { type: "credit", action: "test_action", credits: 30, event_id: event.id, device_created_at: Time.current.to_s, customer_tag_uid: gtag.tag_uid, status_code: 0 } } # rubocop:disable Metrics/LineLength
+  let(:atts) { { type: "CreditTransaction", action: "test_action", credits: 30, event_id: event.id, device_created_at: Time.current.to_s, customer_tag_uid: gtag.tag_uid, status_code: 0 } } # rubocop:disable Metrics/LineLength
 
   before { Transactions::Credit::BalanceUpdater }
 
@@ -27,22 +27,6 @@ RSpec.describe Transactions::Base, type: :job do
       result = { event.credit.id.to_s => { "amount" => 10, "final_balance" => 5 },
                  event.virtual_credit.id.to_s => { "amount" => 2, "final_balance" => 12 } }
       expect(@t.payments).to eq(result)
-    end
-  end
-
-  describe "handling both station_id formats" do
-    let(:station) { create(:station, event: event, station_event_id: 23) }
-
-    it "will work with old format" do
-      atts[:station_id] = station.station_event_id
-      expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
-      expect(event.transactions.last.station).to eq(station)
-    end
-
-    it "will work with new format" do
-      atts[:real_station_id] = station.id
-      expect { base.perform_now(atts) }.to change(Transaction, :count).by(1)
-      expect(event.transactions.last.station).to eq(station)
     end
   end
 
@@ -102,7 +86,7 @@ RSpec.describe Transactions::Base, type: :job do
       atts[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
       base.perform_now(atts)
-      atts2 = atts.merge(type: "credit", device_created_at: atts[:device_created_at])
+      atts2 = atts.merge(type: "CreditTransaction", device_created_at: atts[:device_created_at])
       base.perform_now(atts2)
     end
   end

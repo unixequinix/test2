@@ -4,15 +4,12 @@ module Transactions
 
     queue_as :medium_low
 
-    def perform(transaction, atts = {})
-      customer = transaction.event.customers.find(atts[:customer_id])
-      item = customer.order_items.find_by(counter: transaction.order_item_counter)
-      order = item.order
-
-      Alert.propagate(transaction.event, order, "has been redeemed twice") && return if item.redeemed?
+    def perform(transaction, _atts = {})
+      item = transaction.order_item
+      Alert.propagate(transaction.event, item.order, "has been redeemed twice") && return if item.redeemed?
 
       item.update!(redeemed: true)
-      customer.touch
+      item.order.customer.touch
     end
   end
 end

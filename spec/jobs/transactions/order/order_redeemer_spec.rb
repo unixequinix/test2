@@ -6,8 +6,8 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
   let(:customer) { create(:customer, event: event) }
   let(:catalog_item) { event.credit }
   let(:order) { create(:order, customer: customer, event: event) }
-  let(:order_item) { create(:order_item, order: order, catalog_item: catalog_item, counter: 1) }
-  let(:transaction) { create(:order_transaction, event: event, order: order, order_item_counter: order_item.counter) }
+  let(:order_item) { create(:order_item, order: order, catalog_item: catalog_item) }
+  let(:transaction) { create(:order_transaction, event: event, order: order, order_item: order_item) }
   let(:atts) { { customer_id: customer.id } }
 
   it "redeems the online order" do
