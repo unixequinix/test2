@@ -9,6 +9,7 @@ module Transactions
       Alert.propagate(transaction.event, item.order, "has been redeemed twice") && return if item.redeemed?
 
       item.update!(redeemed: true)
+      transaction.update(order: item.order)
       item.order.customer.touch
     end
   end

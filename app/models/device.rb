@@ -7,7 +7,6 @@ class Device < ApplicationRecord
   has_many :device_transactions, dependent: :restrict_with_error
   validates :mac, uniqueness: true, allow_blank: false
   validates :mac, presence: true
-  validates :team_id, presence: true
 
   def name
     "#{mac}: #{asset_tracker.presence || 'Unnamed'}"
