@@ -23,7 +23,7 @@ module Api
 
         def validate_params(keys, category, index = 0)
           return [:category] unless category
-          mandatory = Transaction.class_for_type(category).mandatory_fields
+          mandatory = category.constantize.mandatory_fields
           missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
           "Missing keys for position #{index}: #{missing}" if missing.present?
         end

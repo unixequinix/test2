@@ -62,10 +62,6 @@ class Transaction < ApplicationRecord
     type.gsub("Transaction", "").underscore
   end
 
-  def self.class_for_type(type)
-    "#{type}_transaction".classify.constantize
-  end
-
   def description
     "#{category.humanize}: #{action.humanize}"
   end
