@@ -32,21 +32,22 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-- if @current_user.team_leader?
-  .remodal data-remodal-id="add-user-modal"
-    button.remodal-close data-remodal-action="close"
-    h3.remodal__title Add user to the team
-    = simple_form_for :user, url: add_users_admins_user_team_path(current_user), html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
-      p = f.input :email, placeholder: true, as: :string, autofocus: true
-      .remodal__actions
-        = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  - if @current_user.team_leader?
+    .remodal data-remodal-id="add-user-modal"
+      button.remodal-close data-remodal-action="close"
+      h3.remodal__title Add user to the team
+      = simple_form_for :user, url: add_users_admins_user_team_path(current_user), html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+        p = f.input :email, placeholder: true, as: :string, autofocus: true
+        .remodal__actions
+          = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
   .remodal data-remodal-id="add-modal"
     button.remodal-close data-remodal-action="close"
     h3.remodal__title Add device to the team
     = simple_form_for :device, url: add_devices_admins_user_team_path(current_user), html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
-      p = f.input :asset_tracker, placeholder: true, as: :string, autofocus: true
       p = f.input :mac, placeholder: true, as: :string, autofocus: true
+      p = f.input :asset_tracker, placeholder: true, as: :string
+      p = f.input :serial, placeholder: true, as: :string
       .remodal__actions
         = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 

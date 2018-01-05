@@ -14,12 +14,11 @@
       = render 'devices_usage', devices_usage: @devices_usage                
     .mdl-layout-spacer
     .mdl-grid
-      .mdl-cell.mdl-cell--5-col
+      .mdl-cell.mdl-cell--6-col
         h4 Available devices 
         #available_devices_table
           = render 'form', resources: @available_devices
-      .mdl-layout-spacer
-      .mdl-cell.mdl-cell--5-col
+      .mdl-cell.mdl-cell--6-col
         h4 Event devices 
         #current_devices_table
           = render 'form', resources: @current_device_registrations, form_disable: true

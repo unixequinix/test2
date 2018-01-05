@@ -4,6 +4,7 @@ RSpec.describe "the signin process", type: :feature do
   before :each do
     @user = create(:user, role: 2)
     create(:event)
+    create(:team, leader: @user)
     login_as(@user, scope: :user)
   end
 
@@ -16,6 +17,6 @@ RSpec.describe "the signin process", type: :feature do
     find_link("users_layout_link").click
     expect(page).to have_current_path("/admins/users")
     find_link("devices_layout_link").click
-    expect(page).to have_current_path("/admins/devices")
+    expect(page).to have_current_path("/admins/users/#{@user.id}/team/devices")
   end
 end

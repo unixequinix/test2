@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     end
 
     resources :users do
-      resource :team, controller: "users/teams", except: [:index] do
+      resource :team, controller: "users/teams" do
+        resources :devices, controller: "users/teams/devices", except: [:new, :create]
+
         get :sample_csv
         post :import_devices
         post :add_users
@@ -34,7 +36,6 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :devices, only: [:index, :show, :edit, :update, :destroy]
     resources :event_series do
       member do
         put :add_event

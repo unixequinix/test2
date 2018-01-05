@@ -35,7 +35,7 @@
               - device = registration.device
               tr
                 td.mdl-data-table__cell--non-numeric
-                  span style="font-size: 1.3em" = best_in_place device, :asset_tracker, url: [:admins, device]
+                  span style="font-size: 1.3em" = best_in_place device, :asset_tracker, url: [:admins, @current_user, :team, device]
                   .small = link_to device.mac, [:admins, @current_event, registration]
                 - if current_user.admin?
                   td.mdl-data-table__cell--non-numeric = registration.app_version if registration.app_version

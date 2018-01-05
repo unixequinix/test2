@@ -1,4 +1,4 @@
-class Admins::DevicesController < Admins::BaseController
+class Admins::Users::Teams::DevicesController < Admins::BaseController
   before_action :set_device, only: %i[show edit update destroy]
 
   def index
@@ -18,7 +18,7 @@ class Admins::DevicesController < Admins::BaseController
     respond_to do |format|
       if @device.update(permitted_params)
         format.json { render json: @device }
-        format.html { redirect_to [:admins, @device] }
+        format.html { redirect_to [:admins, current_user, :team, @device] }
       else
         format.json { render status: :unprocessable_entity, json: :no_content }
         format.html { render :edit }
@@ -29,10 +29,10 @@ class Admins::DevicesController < Admins::BaseController
   def destroy
     respond_to do |format|
       if @device.destroy
-        format.html { redirect_to admins_devices_path, notice: t("alerts.destroyed") }
+        format.html { redirect_to admins_user_team_devices_path(current_user), notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
-        format.html { redirect_to [:admins, @device], alert: @device.errors.full_messages.to_sentence }
+        format.html { redirect_to [:admins, current_user, :team, @device], alert: @device.errors.full_messages.to_sentence }
         format.json { render json: { errors: @device.errors }, status: :unprocessable_entity }
       end
     end

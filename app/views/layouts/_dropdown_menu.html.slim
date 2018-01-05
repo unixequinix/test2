@@ -33,7 +33,8 @@ div class="dropdown" id="user_dropdown"
       = link_to admins_users_path, class: "dropdown-item", id: "users_layout_link" do
         i.mdl-color-text--teal-200.material-icons people
         |  Users
-      = link_to admins_devices_path, class: "dropdown-item", id: "devices_layout_link" do
+    - if @current_user.team.present?
+      = link_to admins_user_team_devices_path(@current_user), class: "dropdown-item", id: "devices_layout_link" do
         i.mdl-color-text--teal-200.material-icons settings_cell
         |  Devices
     = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "log_out_link" do

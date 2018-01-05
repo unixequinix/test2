@@ -30,11 +30,15 @@
         .mdl-cell.mdl-cell--4-col.right
           button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.form-submit id=selector
             = selector.humanize
+
+      = render "layouts/pagination", objects: resources
+
       table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card.droppable.sortable id="#{selector}_table"
         thead
           tr
             th.mdl-data-table__cell--non-numeric Asset
             th.mdl-data-table__cell--non-numeric Mac
+            th.mdl-data-table__cell--non-numeric Serial
             th.mdl-data-table__cell--non-numeric Initialization
             th
 
@@ -42,12 +46,14 @@
           - device = resource.class.to_s == 'DeviceRegistration' ? resource.device : resource
           tr
             td.mdl-data-table__cell--non-numeric data-label="Asset" 
-              span = best_in_place device, :asset_tracker, url: [:admins, device]
+              span = best_in_place device, :asset_tracker, url: [:admins, @current_user, :team, device]
             td data-label="Mac" 
-              span = device.mac            
+              span = device.mac   
+            td data-label="Serial" 
+              span = device.serial          
             td data-label="Initialization" 
               - if form_disable
-                span = best_in_place resource, :action, as: :select, collection: @actions.map { |action| [action.to_s, action.to_s.humanize] }, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
+                span = best_in_place resource, :initialization_type, as: :select, collection: @actions.map { |action| [action.to_s, action.to_s.humanize] }, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
               - else
                 span -
             td.table-actions

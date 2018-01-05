@@ -147,8 +147,8 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     @r = @current_device_registrations.ransack(persist_query([:p]))
     @s = @available_devices.empty? ? Device.none.ransack(persist_query([:q])) : @available_devices.search(persist_query([:q]))
 
-    @current_device_registrations = @r.result
-    @available_devices = @s.result
+    @current_device_registrations = @r.result.page
+    @available_devices = @s.result.page(params[:page])
   end
 
   def persist_query(cookie_keys, clear = false) # rubocop:disable  Metrics/PerceivedComplexity

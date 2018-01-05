@@ -1,4 +1,8 @@
 class TeamPolicy < ApplicationPolicy
+  def devices?
+    check_user_team
+  end
+
   def show?
     check_user_team
   end

@@ -62,6 +62,13 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
     end
   end
 
+  def devices
+    authorize(@team)
+    @q = @team.devices.ransack(params[:q])
+    @devices = @q.result.includes(:events)
+    @devices = @devices.page(params[:page])
+  end
+
   def import_devices
     authorize @team
 
@@ -89,6 +96,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
     params = {}
     device_permitted_params[:asset_tracker].blank? ? params : params[:asset_tracker] = device_permitted_params[:asset_tracker]
     device_permitted_params[:mac].blank? ? params : params[:mac] = device_permitted_params[:mac]
+    device_permitted_params[:serial].blank? ? params : params[:serial] = device_permitted_params[:serial]
 
     @device = Device.find_or_create_by(params)
     @device.update(team_id: current_user.team.id) if @device.team_id.nil?
@@ -186,7 +194,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   end
 
   def device_permitted_params
-    params.require(:device).permit(:mac, :asset_tracker, :serie)
+    params.require(:device).permit(:mac, :asset_tracker, :serie, :serial)
   end
 
   def user_permitted_params

@@ -110,9 +110,9 @@
                   td data-label="Counter" = transaction.gtag_counter || transaction.counter
                   td data-label="Station" = transaction.station&.name
                   td data-label="Device"
-                    - if transaction.device_uid.present?
+                    - if transaction.device_uid.present? && @current_user&.team == device&.team
                       - device = Device.find_by_mac(transaction.device_uid)
-                      = link_to(device.asset_tracker, admins_device_path(device)) if device
+                      = link_to(device.asset_tracker, admins_user_team_device_path(@current_user, device)) if device
                   td data-label="Customer Tag"
                     - if transaction.customer
                       = link_to transaction.customer.name, admins_event_customer_path(@current_event, transaction.customer)
