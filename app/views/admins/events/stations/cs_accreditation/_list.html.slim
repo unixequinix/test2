@@ -4,7 +4,6 @@
       tr
         th.mdl-data-table__cell--non-numeric Type
         th.mdl-data-table__cell--non-numeric Name
-        th Price
         th Hidden
         - unless @current_event.launched?
           th
@@ -14,7 +13,6 @@
         tr class="#{'resource-hidden' if item.hidden?}"
           td.mdl-data-table__cell--non-numeric = item.catalog_item.type
           td.mdl-data-table__cell--non-numeric = item.catalog_item.name
-          td = number_to_event_currency item.catalog_item.price
           td = best_in_place item, :hidden, best_in_place_checkbox(admins_event_station_station_item_path(@current_event, item.station_id, item, item_type: "station_catalog_item"))
           - unless @current_event.launched?
             td.table-actions

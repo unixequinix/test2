@@ -19,6 +19,12 @@ module Api
         end
       end
 
+      def cs_accreditation(hash)
+        hash[:catalog] = object.station_catalog_items.map do |ci|
+          { catalog_item_id: ci.catalog_item_id, catalog_item_type: ci.catalog_item.type, price: 0, hidden: ci.hidden? }
+        end
+      end
+
       def pos(hash)
         hash[:products] = object.products.map do |sp|
           { product_id: sp.id, price: sp.price.round(2), position: sp.position, hidden: sp.hidden? }
