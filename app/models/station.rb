@@ -1,5 +1,5 @@
 class Station < ApplicationRecord
-  ASSOCIATIONS = { accreditation:  %i[customer_portal box_office staff_accreditation cs_accreditation],
+  ASSOCIATIONS = { accreditation:  %i[customer_portal box_office],
                    cs_accreditation:  %i[staff_accreditation cs_accreditation],
                    pos: %i[bar vendor],
                    topup: %i[top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],

@@ -60,7 +60,7 @@ RSpec.describe "Accreditation stations info view tests", type: :feature do
       within("#new_station_catalog_item") do
         all('#station_catalog_item_catalog_item_id option')[2].select_option
       end
-      expect { find("input[name=commit]").click }.to change(staff_accreditation.station_catalog_items, :count).by(1)
+      expect { find("input[name=commit]").click }.to change(staff_accreditation.reload.station_catalog_items, :count).by(1)
     end
   end
 
