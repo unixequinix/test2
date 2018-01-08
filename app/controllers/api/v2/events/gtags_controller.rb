@@ -89,9 +89,13 @@ module Api::V2
     def set_gtag
       gtags = @current_event.gtags
       gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
-
-      @gtag = gtags.find(gtag_id)
-      authorize @gtag
+      
+      begin
+        @gtag = gtags.find(gtag_id)
+        authorize @gtag
+      rescue Exception => e
+        rollbar_ignore
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

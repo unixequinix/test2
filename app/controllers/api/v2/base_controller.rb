@@ -5,6 +5,8 @@ module Api::V2
     include ActionController::HttpAuthentication::Token::ControllerMethods
 
     rescue_from Pundit::NotAuthorizedError, with: :render_unauthorized
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     before_action :authenticate     # Authenticate all requests.
     before_action :destroy_session  # APIs are stateless
@@ -31,6 +33,18 @@ module Api::V2
       @current_event = Event.friendly.find(params[:event_id] || params[:id])
       render json: { error: "Event '#{params[:event_id]}' not found" }, status: :bad_request unless @current_event
       render json: { error: "Event '#{@current_event.name}' does not have the API open" }, status: :unauthorized unless @current_event.open_api?
+    end
+
+    def render_unprocessable_entity_response(exception)
+      render json: exception.record.errors, status: :unprocessable_entity
+    end
+
+    def render_not_found_response(exception)
+      render json: { error: exception.message }, status: :not_found
+    end
+
+    def rollbar_ignore
+      raise Rollbar::Ignore
     end
   end
 end
