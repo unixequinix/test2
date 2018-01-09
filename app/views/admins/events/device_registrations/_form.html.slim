@@ -47,11 +47,11 @@
           tr
             td.mdl-data-table__cell--non-numeric data-label="Asset" 
               span = best_in_place device, :asset_tracker, url: [:admins, @current_user, :team, device]
-            td data-label="Mac" 
+            td.mdl-data-table__cell--non-numeric data-label="Mac"
               span = device.mac   
-            td data-label="Serial" 
+            td.mdl-data-table__cell--non-numeric data-label="Serial"
               span = device.serial          
-            td data-label="Initialization" 
+            td.mdl-data-table__cell--non-numeric data-label="Initialization"
               - if form_disable
                 span = best_in_place resource, :initialization_type, as: :select, collection: @actions.map { |action| [action.to_s, action.to_s.humanize] }, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
               - else

@@ -134,6 +134,7 @@
           table.mdl-data-table.mdl-js-data-table.within-card.sortable
             thead
               tr
+                th.mdl-data-table__cell--non-numeric Event
                 th.mdl-data-table__cell--non-numeric Asset Number
                 th Serie
                 th Mac
@@ -141,6 +142,5 @@
                 th
             = render 'devices_list', devices: @devices
 
-  / = render "layouts/pagination", objects: @devices
   .mdl-layout-spacer
 
