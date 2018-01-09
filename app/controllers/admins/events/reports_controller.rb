@@ -10,7 +10,7 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
 
     @total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
     @total_credits = @current_event.pokes.where(credit: credit).is_ok.sum(:credit_amount)
-    @total_products_sale = @current_event.pokes.where(credit: credit).where(action: 'sale').is_ok.sum("sale_item_unit_price * sale_item_quantity")
+    @total_products_sale = -@current_event.pokes.where(credit: credit).where(action: 'sale').is_ok.sum(:credit_amount)
     @total_checkins = @current_event.tickets.where(redeemed: true).count
     @total_activations = Poke.connection.select_all(query_activations(@current_event.id)).map { |h| h["Activations"] }.compact.sum
     @total_devices = @current_event.pokes.is_ok.devices.map { |h| h["total_devices"] }.compact.sum
@@ -28,8 +28,10 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
 
   def products_sale
     authorize(:poke, :reports?)
-    cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"] # rubocop:disable Metrics/LineLength
+    cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"] # rubocop:disable Metrics/LineLength 
     @products = prepare_pokes(cols, @current_event.pokes.products_sale)
+    stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"] 
+    @products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock)
   end
 
   def cashless

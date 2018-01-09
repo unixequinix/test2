@@ -11,7 +11,6 @@ class Pokes::Sale < Pokes::Base
         global_index += 1
         payment[:final_balance] = t.payments[credit_id].to_h["final_balance"]
         atts = extract_credit_atts(credit_id, payment, extract_sale_item_atts(item, global_index, description: t.action, action: "sale"))
-
         atts[:credit_amount] = -atts[:credit_amount]
 
         create_poke(extract_atts(t, atts))
