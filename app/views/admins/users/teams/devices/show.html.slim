@@ -23,6 +23,9 @@
           tr
             td.mdl-data-table__cell--non-numeric Mac
             td = @device.mac
+          tr
+            td.mdl-data-table__cell--non-numeric Current Team
+            td = @device.team&.name || "NONE"
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

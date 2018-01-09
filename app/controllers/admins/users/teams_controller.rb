@@ -92,13 +92,8 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
   def add_devices
     authorize @team
-
-    params = {}
-    device_permitted_params[:asset_tracker].blank? ? params : params[:asset_tracker] = device_permitted_params[:asset_tracker]
-    device_permitted_params[:mac].blank? ? params : params[:mac] = device_permitted_params[:mac]
-    device_permitted_params[:serial].blank? ? params : params[:serial] = device_permitted_params[:serial]
-
-    @device = Device.find_or_create_by(params)
+    @device = Device.find_or_create_by(mac: device_permitted_params[:mac])
+    @device.update!(device_permitted_params)
 
     respond_to do |format|
       if @device.team_id.nil? && @device.update(team_id: current_user.team.id)
@@ -126,12 +121,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   def add_users
     authorize @team
     user = User.find_by(email: user_permitted_params[:email])
-
-    message = if user.present? && user.team.blank?
-                t("teams.add_users.added")
-              else
-                t("teams.add_users.exists")
-              end
+    message = user.present? && user.team.blank? ? t("teams.add_users.added") : t("teams.add_users.exists")
 
     respond_to do |format|
       if user.present? && current_user.team.users << user
