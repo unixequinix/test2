@@ -1,4 +1,4 @@
-class Admins::EventsController < Admins::BaseController
+class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   before_action :set_event, except: %i[index new sample_event create]
   before_action :set_event_series, only: %i[new edit]
 
@@ -146,7 +146,7 @@ class Admins::EventsController < Admins::BaseController
     Time.use_zone(@current_event.timezone) { yield }
   end
 
-  def permitted_params
+  def permitted_params # rubocop:disable Metrics/MethodLength
     params.require(:event).permit(:action,
                                   :state,
                                   :name,

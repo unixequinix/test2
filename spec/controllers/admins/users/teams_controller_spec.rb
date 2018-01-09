@@ -249,7 +249,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
 
         it "should not create a new device record on team because device already belong to a team" do
           team2 = create(:team)
-          device = create(:device, mac: device_valid_attributes[:mac], serie: device_valid_attributes[:serie], team: team2)
+          create(:device, mac: device_valid_attributes[:mac], serie: device_valid_attributes[:serie], team: team2)
 
           expect { post :add_devices, params: { user_id: user.id, device: device_valid_attributes } }.to change(Device, :count).by(0)
           expect(flash[:alert]).to be_present
