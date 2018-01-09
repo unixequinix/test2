@@ -5,13 +5,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
 
   def reports
     @load_reports_resources = true
+    authorize(:poke, :reports?)
 
-    data = data_connection(query_products_sale_by_station(@station.id))
-    @products_sale_station_data = pivot_products_sale_station(data).to_json
-
-    data = data.map { |hash| [hash["event_day"] + ".q", hash["event_day"] + ".a"] }.uniq.sort.flatten
-    columns = %w[product_name] + data + ["total_quantity"] + ["total_amount"]
-    @products_sale_station_column = (columns.map { |i| { "data" => i, "title" => i.humanize } }).to_json
+    cols = ["Description", "Product Name", "Credit Name", "Credits", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
+    @products = prepare_pokes(cols, @station.pokes.products_sale)
   end
 
   def index

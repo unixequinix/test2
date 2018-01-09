@@ -20,42 +20,34 @@
           i.material-icons#changeIcon build
 
 
-
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    h5 Products Sale by Station "Q" = Quantity | "A" = Amount
-    br
-    table#products_sale_station.display.mdl-data-table
-
+    h5 Sales for #{@station.name}
+    .mdl-grid
+      #products
   .mdl-layout-spacer
 
-
 javascript:
-  $.fn.dataTable.ext.errMode = 'none';
-  $(document).ready(function () {
-      var data_prod = jQuery.parseJSON('#{ escape_javascript(@products_sale_station_data.html_safe)}')
-      var columns_prod = jQuery.parseJSON('#{@products_sale_station_column.html_safe}')
+    $(function () {
+        var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var products = jQuery.parseJSON('#{ escape_javascript(@products.html_safe)}');
+        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var numberFormat = $.pivotUtilities.numberFormat;
+        var frFormat = numberFormat({digitsAfterDecimal: 0});
+        var frFormat_1 = numberFormat({digitsAfterDecimal: 1});
 
-      $('#products_sale_station').dataTable({
-          "dom": '<"dt-buttons"Bf><"clear">lirtp',
-          "paging": true,
-          "autoWidth": true,
-          "data": data_prod,
-          "columns": columns_prod,
-          "order": [[0, 'desc']],
-          "buttons": [
-              'copyHtml5',
-              'csvHtml5',
-              'print'
-          ]
-      });
-
-
-      $(".dt-button").addClass("mdl-button mdl-js-button");
-      $(".dt-button").removeClass("dt-button");
-
-      $(".paginate_button").addClass("mdl-button mdl-js-button");
-      $(".paginate_button").removeClass("paginate_button");
-
-  });
+        $("#products").pivotUI(products, {
+            renderers: renderers,
+            cols: ["Event Day", "Credit Name"], rows: ["Product Name"],
+            rendererName: "Table",
+            aggregators: {
+                "Credits": function () {
+                    return tpl.sum(frFormat_1)(["Credits"])
+                },
+                "Quantity": function () {
+                    return tpl.sum(frFormat)(["Quantity"])
+                }
+            }
+        });
+    });
