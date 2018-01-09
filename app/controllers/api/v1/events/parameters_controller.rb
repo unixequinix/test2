@@ -10,7 +10,7 @@ module Api
 
           cols = %w[uid_reverse sync_time_gtags sync_time_tickets transaction_buffer days_to_keep_backup sync_time_customers fast_removal_password
                     private_zone_password sync_time_server_date sync_time_basic_download sync_time_event_parameters gtag_type gtag_deposit_fee
-                    topup_fee initial_topup_fee maximum_gtag_balance stations_apply_orders stations_initialize_gtags all_stations_apply_tickets
+                    topup_fee initial_topup_fee maximum_gtag_balance stations_apply_orders stations_initialize_gtags stations_apply_tickets
                     tips_enabled]
 
           body = cols.map { |col| { name: col, value: @current_event.method(col).call } }

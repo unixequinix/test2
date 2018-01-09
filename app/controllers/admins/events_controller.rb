@@ -197,7 +197,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :gtag_format,
                                   :stations_initialize_gtags,
                                   :stations_apply_orders,
-                                  :all_stations_apply_tickets,
+                                  :stations_apply_tickets,
                                   :tips_enabled,
                                   :app_version,
                                   :open_api,
