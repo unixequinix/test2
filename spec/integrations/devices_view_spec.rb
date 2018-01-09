@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Devices view", type: :feature do
   let(:user) { create(:user, role: "glowball") }
   let!(:team) { create(:team, leader: user) }
-  let!(:device) { create(:device, asset_tracker: "E15") }
+  let!(:device) { create(:device, asset_tracker: "E15", team: team) }
 
   before(:each) do
     login_as(user, scope: :user)
