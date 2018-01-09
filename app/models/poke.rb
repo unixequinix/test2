@@ -49,11 +49,11 @@ class Poke < ApplicationRecord
       .group(:description, :credit_name, grouping_operators_stations_devices, "product_name")
   }
 
-  scope :products_sale_stock, lambda { 
-    select(:description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_stations_devices, "COALESCE(products.name, 'Other Amount') as product_name") # rubocop:disable Metrics/LineLength 
-      .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product) 
-      .where(action: 'sale').is_ok 
-      .group(:description, :sale_item_quantity, grouping_operators_stations_devices, "product_name") 
+  scope :products_sale_stock, lambda {
+    select(:description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_stations_devices, "COALESCE(products.name, 'Other Amount') as product_name") # rubocop:disable Metrics/LineLength
+      .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
+      .where(action: 'sale').is_ok
+      .group(:description, :sale_item_quantity, grouping_operators_stations_devices, "product_name")
   }
 
   scope :credit_flow, lambda {

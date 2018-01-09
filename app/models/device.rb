@@ -9,8 +9,8 @@ class Device < ApplicationRecord
   has_one :event, through: :device_registration, dependent: :destroy
   has_many :device_transactions, dependent: :restrict_with_error
 
-  validates :mac, uniqueness: true, allow_blank: { case_sensitive: false }
-  validates :mac, presence: true
+  validates :asset_tracker, uniqueness: { case_sensitive: false, scope: :team_id }, allow_blank: true
+  validates :mac, uniqueness: { case_sensitive: false, scope: :team_id }, presence: true
 
   def name
     "#{mac}: #{asset_tracker.presence || 'Unnamed'}"
