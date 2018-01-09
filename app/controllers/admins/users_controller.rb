@@ -25,6 +25,7 @@ class Admins::UsersController < ApplicationController
     @user = User.new(permitted_params.merge(role: "promoter"))
     if verify_recaptcha(model: @user) && @user.save
       EventRegistration.where(email: @user.email).update_all(user_id: @user.id)
+      UserTeam.where(email: @user.email).update_all(user_id: @user.id)
       sign_in(@user, scope: :user)
       redirect_to admins_events_path, notice: t("alerts.created")
     else

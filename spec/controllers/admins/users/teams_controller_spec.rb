@@ -337,6 +337,18 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           create(:team, leader: user)
         end
 
+        context "added user is not registered" do
+          it "create user team without confirmed user" do
+            expect { post :add_users, params: { user_id: user.id, user: { email: 'fake@email.com' } } }.to change(UserTeam, :count).by(1)
+          end
+
+          it "send email to unregistered user" do
+            expect do
+              post :add_users, params: { user_id: user.id, user: { email: 'fake@email.com' } }
+            end.to change(ActionMailer::Base.deliveries, :count).by(1)
+          end
+        end
+
         it "redirects to user team path" do
           post :add_users, params: { user_id: user.id, user: user_valid_attributes }
           expect(response).to redirect_to(admins_user_team_path(user.id))

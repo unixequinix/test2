@@ -1,8 +1,10 @@
 class UserTeam < ApplicationRecord
   belongs_to :team
-  belongs_to :user
+  belongs_to :user, optional: true
 
   before_destroy :users_length
+  validates :user_id, uniqueness: { scope: %i[team_id] }, allow_nil: true
+  validates :email, uniqueness: { scope: %i[team_id] }, format: Devise.email_regexp
 
   private
 

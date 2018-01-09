@@ -17,6 +17,13 @@ class UserMailer < Devise::Mailer
     mail(to: registration.email, subject: "You have been invited to join #{@event.name} list of operators")
   end
 
+  def invite_to_team(registration)
+    @registration = registration
+
+    headers["X-No-Spam"] = "True"
+    mail(to: @registration.email, subject: "You have been invited to join #{@registration&.team&.name} team list of operators")
+  end
+
   def reset_password_instructions(record, token, _opts = {})
     @name = record.username
     @token = token

@@ -8,8 +8,6 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   before_action :set_team, except: %i[new create sample_csv]
   before_action :set_devices, only: :show
 
-  after_action :verify_authorized # disable not to raise exception when action does not have authorize method
-
   def show
     @grouped_devices = @team_devices.group_by(&:serie)
     authorize @team
@@ -22,7 +20,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
   def create
     @team = current_user.build_user_team.build_team(team_permitted_params)
-    @team.user_teams.new(user_id: current_user.id, leader: true)
+    @team.user_teams.new(user_id: current_user.id, email: current_user.email, leader: true)
     authorize @team
 
     respond_to do |format|
@@ -85,7 +83,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
     end
 
     respond_to do |format|
-      format.html { redirect_to admins_user_team_path(current_user), notice: 'Devices added' }
+      format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_users.added") }
       format.json { render status: :ok, json: @team }
     end
   end
@@ -120,14 +118,22 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
   def add_users
     authorize @team
-    user = User.find_by(email: user_permitted_params[:email])
-    message = user.present? && user.team.blank? ? t("teams.add_users.added") : t("teams.add_users.exists")
+    user_team = UserTeam.create(
+      team_id: @team.id,
+      user_id: User.find_by(email: user_permitted_params[:email])&.id,
+      email: user_permitted_params[:email]
+    )
 
     respond_to do |format|
-      if user.present? && current_user.team.users << user
-        format.html { redirect_to admins_user_team_path(current_user), notice: message }
+      if @current_user.team.user_teams << user_team
+        if user_team.user.present?
+          format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_users.added") }
+        else
+          UserMailer.invite_to_team(user_team).deliver_now
+          format.html { redirect_to admins_user_team_path(current_user), notice: "Invitation sent to '#{user_permitted_params[:email]}'" }
+        end
       else
-        format.html { redirect_to admins_user_team_path(current_user), alert: message }
+        format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_users.exists") }
       end
     end
   end
@@ -168,6 +174,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
   def sample_csv
     csv_file = CsvExporter.sample(%w[MAC asset_tracker serie serial], [%w[15C3135122 N34 N 01022222012], %w[34SS5C54Q1 D22], %w[95Q16CV331]])
+
     respond_to { |format| format.csv { send_data(csv_file) } }
   end
 

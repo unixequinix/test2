@@ -2,7 +2,7 @@ class Admins::Users::Teams::DevicesController < Admins::BaseController
   before_action :set_device, only: %i[show edit update destroy]
 
   def index
-    @q = Device.ransack(params[:q])
+    @q = @current_user&.team&.devices&.ransack(params[:q])
     @devices = @q.result.includes(:events)
     authorize(@devices)
     @devices = @devices.page(params[:page])
@@ -46,6 +46,6 @@ class Admins::Users::Teams::DevicesController < Admins::BaseController
   end
 
   def permitted_params
-    params.require(:device).permit(:mac, :asset_tracker)
+    params.require(:device).permit(:mac, :asset_tracker, :serie)
   end
 end
