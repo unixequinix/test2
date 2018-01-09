@@ -1,4 +1,4 @@
-class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
+class Admins::EventsController < Admins::BaseController
   before_action :set_event, except: %i[index new sample_event create]
   before_action :set_event_series, only: %i[new edit]
 
@@ -9,8 +9,9 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result
     authorize(@events)
-    @events = @events.with_state(@status) if @status != "all" && params[:q].blank?
-    @events = @events.page(params[:page])
+    @events = @events.with_state(@status) if @status.in?(Event.states.keys) && params[:q].blank?
+    @events = @current_user.events if @status.eql?("users") && params[:q].blank?
+    @events = @events.order(state: :asc, start_date: :desc).page(params[:page])
     @alerts = Alert.where(event_id: @events).unresolved.group(:event_id).count
   end
 
@@ -145,7 +146,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     Time.use_zone(@current_event.timezone) { yield }
   end
 
-  def permitted_params # rubocop:disable Metrics/MethodLength
+  def permitted_params
     params.require(:event).permit(:action,
                                   :state,
                                   :name,
