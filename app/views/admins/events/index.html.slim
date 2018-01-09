@@ -31,12 +31,13 @@
   .mdl-cell.mdl-cell--8-col
     .mdl-grid
       .mdl-cell.mdl-cell--9-col#event-list
+        - if @current_user.glowball?
+          = link_to "My", admins_events_path(status: "users"), class: "filters__item", id: "filters_users"
         = link_to_unless @status == "all", "All", admins_events_path(status: "all"), class: "filters__item", id:"filters_all"
         = link_to_unless @status == "created", "Created", admins_events_path(status: "created"), class: "filters__item", id:"filters_created"
         = link_to_unless @status == "launched", "Launched", admins_events_path(status: "launched"), class: "filters__item", id:"filters_launched"
         = link_to_unless @status == "closed", "Closed", admins_events_path(status: "closed"), class: "filters__item", id:"filters_closed"
-        - if @current_user.glowball?
-          = link_to "My", admins_events_path(status: "users"), class: "filters__item", id:"filters_users"
+
       .mdl-cell.mdl-cell--3-col.italic.small.right = page_entries_info @events
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
