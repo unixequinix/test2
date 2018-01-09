@@ -40,9 +40,10 @@ class Transaction < ApplicationRecord
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone
     now = Time.zone.now.to_formatted_s(:transactions)
+    counter = customer&.transactions&.where(transaction_origin: Transaction::ORIGINS[origin])&.maximum(:counter).to_i + 1
     attributes = { event: event,
                    action: action,
-                   counter: customer&.transactions&.maximum(:counter).to_i + 1,
+                   counter: counter,
                    customer: customer,
                    status_code: 0,
                    status_message: "OK",
@@ -51,7 +52,10 @@ class Transaction < ApplicationRecord
                    device_created_at: now,
                    device_created_at_fixed: now,
                    operator_tag_uid: operator&.email }.merge(atts)
-    create!(attributes)
+
+    transaction = create!(attributes)
+    Pokes::Base.execute_descendants(transaction)
+    transaction
   end
 
   def name

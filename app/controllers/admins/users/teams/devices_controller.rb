@@ -2,7 +2,8 @@ class Admins::Users::Teams::DevicesController < Admins::BaseController
   before_action :set_device, only: %i[show edit update destroy]
 
   def index
-    @q = @current_user&.team&.devices&.ransack(params[:q])
+    @q = @current_user.glowball? ? Device.all : @current_user&.team&.devices
+    @q = @q&.ransack(params[:q])
     @devices = @q.result.includes(:events)
     authorize(@devices)
     @devices = @devices.page(params[:page])

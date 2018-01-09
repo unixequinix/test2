@@ -14,7 +14,7 @@ module Transactions
 
       gtag = create_gtag(transaction.customer_tag_uid, event.id)
       ticket = event.tickets.find_by(code: code) || decode_ticket(code, event) if Credential::TicketChecker::TRIGGERS.include?(transaction.action)
-      order = transaction.customer&.order_items&.find_by(counter: transaction.order_item_counter)&.order
+      order = transaction.order_item&.order
       customer = resolve_customer(event, transaction, ticket, gtag, order)
 
       ts = { gtag: gtag, ticket: ticket, order: order, customer: customer, operator: operator, operator_gtag: operator_tag }.reject { |_, v| v.nil? }

@@ -14,8 +14,7 @@ RSpec.describe "Stations", type: :feature do
 
     describe "Create new monetary station" do
       before(:each) do
-        find("#floaty").click
-        find_link("new_station_link").click
+        click_link("new_station_link")
       end
 
       it "is located in correct path " do
@@ -68,8 +67,7 @@ RSpec.describe "Stations", type: :feature do
 
     describe "Create new management station" do
       before(:each) do
-        find("#floaty").click
-        find_link("new_station_link").click
+        click_link("new_station_link")
       end
 
       it "Ticket Validation" do
@@ -127,9 +125,9 @@ RSpec.describe "Stations", type: :feature do
 
     describe "Create new access station" do
       before(:each) do
-        find("#floaty").click
-        find_link("new_station_link").click
+        click_link("new_station_link")
       end
+
       it "Incident Report" do
         within("#new_station") do
           fill_in 'station_name', with: "INCIDENTREPORT"

@@ -14,7 +14,7 @@ RSpec.describe "Test on Events view", type: :feature do
     let!(:event_closed) { create(:event, state: "closed", name: "Event Closed") }
 
     it "click on 'all' label" do
-      find("#filters_all").click
+      click_link("filters_all")
       expect(page).to have_current_path(admins_events_path(status: 'all'))
       within '#event_list' do
         expect(page).to have_text event.name
@@ -24,7 +24,7 @@ RSpec.describe "Test on Events view", type: :feature do
     end
 
     it "click on 'created' label" do
-      find("#filters_created").click
+      click_link("filters_created")
       expect(page).to have_current_path(admins_events_path(status: 'created'))
       within '#event_list' do
         expect(page).not_to have_text event.name.to_s
@@ -34,7 +34,7 @@ RSpec.describe "Test on Events view", type: :feature do
     end
 
     it "click on 'closed' label" do
-      find("#filters_closed").click
+      click_link("filters_closed")
       expect(page).to have_current_path(admins_events_path(status: 'closed'))
       within '#event_list' do
         expect(page).not_to have_text event.name.to_s
@@ -44,8 +44,8 @@ RSpec.describe "Test on Events view", type: :feature do
     end
 
     it "click on 'launched' label" do
-      find("#filters_closed").click
-      find("#filters_launched").click
+      click_link("filters_closed")
+      click_link("filters_launched")
       expect(page).to have_current_path(admins_events_path(status: 'launched'))
       within '#event_list' do
         expect(page).to have_text event.name.to_s

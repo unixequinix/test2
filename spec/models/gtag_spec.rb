@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe Gtag, type: :model do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
+  let!(:station) { create(:station, event: event, category: "customer_portal") }
+
   subject { create(:gtag, event: event, customer: customer) }
 
   it "has a valid factory" do
@@ -105,11 +107,23 @@ RSpec.describe Gtag, type: :model do
         expect(transaction.action).to eq("correction")
       end
 
+      it "with gtag_counter 0" do
+        expect(transaction.gtag_counter).to be_zero
+      end
+
+      it "with a final_balance of 0" do
+        expect(transaction.payments[event.credit.id.to_s]["final_balance"]).to be_zero
+      end
+
+      it "with a final_balance of virtual_credits of 0" do
+        expect(transaction.payments[event.virtual_credit.id.to_s]["final_balance"]).to be_zero
+      end
+
       it "with a final_balance of 0" do
         expect(transaction.final_balance).to be_zero
       end
 
-      it "with a final_virtual_balance of 0" do
+      it "with a final_refundable_balance of 0" do
         expect(transaction.final_refundable_balance).to be_zero
       end
     end

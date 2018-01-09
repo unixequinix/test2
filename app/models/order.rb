@@ -17,28 +17,12 @@ class Order < ApplicationRecord
 
   validate_associations
 
-  # TODO: Change this to enum
   scope(:not_refund, -> { where.not(gateway: "refund") })
-  scope(:in_progress, -> { where(status: "in_progress") })
-  scope(:completed, -> { where(status: "completed") })
-  scope(:refunded, -> { where(status: "refunded") })
-  scope(:cancelled, -> { where(status: "cancelled") })
-  scope(:failed, -> { where(status: "failed") })
+
+  enum status: { started: 1, in_progress: 2, completed: 3, refunded: 4, failed: 5, cancelled: 6 }
 
   def name
     "Order: ##{number}"
-  end
-
-  def refund?
-    gateway.eql?("refund")
-  end
-
-  def refunded?
-    status.eql?("refunded")
-  end
-
-  def completed?
-    status.eql?("completed")
   end
 
   def complete!(gateway = "unknown", payment = {}.to_json, send_email = false)
@@ -56,18 +40,6 @@ class Order < ApplicationRecord
 
   def cancel!(payment)
     update!(status: "cancelled", refund_data: payment)
-  end
-
-  def cancelled?
-    status.eql?("cancelled")
-  end
-
-  def failed?
-    status.eql?("failed")
-  end
-
-  def in_progress?
-    status.eql?("in_progress")
   end
 
   def number

@@ -10,13 +10,13 @@ RSpec.describe "the signin process", type: :feature do
 
   it "checks all root page links" do
     visit admins_events_path
-    find_link("events_layout_link").click
+    click_link("events_layout_link")
     expect(page).to have_current_path("/admins/events")
-    find_link("event_series_layout_link").click
+    click_link("event_series_layout_link")
     expect(page).to have_current_path("/admins/event_series")
-    find_link("users_layout_link").click
+    click_link("users_layout_link")
     expect(page).to have_current_path("/admins/users")
-    find_link("devices_layout_link").click
+    click_link("devices_layout_link")
     expect(page).to have_current_path("/admins/users/#{@user.id}/team/devices")
   end
 end

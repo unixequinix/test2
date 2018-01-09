@@ -26,17 +26,17 @@ RSpec.describe "Create an online order", type: :feature do
       order = event.orders.last
 
       expect(page).to have_current_path(event_order_path(event, order))
-      expect { find_link("pay_link").click }.to change { order.reload.completed? }.to(true)
+      expect { click_link("pay_link") }.to change { order.reload.completed? }.to(true)
 
       expect(order.order_items.map(&:catalog_item)).to include item
       expect(page).to have_current_path(success_event_order_path(event, order))
     end
 
     it "completes the order" do
-      order = create(:order, event: event, customer: customer, completed_at: Time.current)
+      order = create(:order, event: event, customer: customer, completed_at: Time.current, status: "in_progress")
 
       visit event_order_path(event, order)
-      expect { find_link("pay_link").click }.to change { order.reload.completed? }.to(true)
+      expect { click_link("pay_link") }.to change { order.reload.completed? }.to(true)
       expect(page).to have_current_path(success_event_order_path(event, order))
     end
   end
@@ -53,7 +53,7 @@ RSpec.describe "Create an online order", type: :feature do
       expect(page).to have_current_path(event_order_path(event, order))
 
       begin
-        find_link("pay_link").click
+        click_link("pay_link")
       rescue ActionController::RoutingError
         expect(current_url).to include("paypal")
       end
@@ -69,7 +69,7 @@ RSpec.describe "Create an online order", type: :feature do
       expect(page).to have_current_path(event_order_path(event, order))
 
       begin
-        find_link("pay_link").click
+        click_link("pay_link")
       rescue ActionController::RoutingError
         expect(current_url).to include("paypal")
       end

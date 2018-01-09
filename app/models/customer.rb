@@ -88,15 +88,13 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def credits
-    # TODO: This method will need to take into account refunds when we stop creating negative online orders
     order_total = orders.where(status: %w[completed refunded]).includes(:order_items).reject(&:redeemed?).sum(&:credits)
-    active_gtag&.credits.to_f + order_total
+    order_total + active_gtag&.credits.to_f
   end
 
   def virtual_credits
-    # TODO: This method will need to take into account refunds when we stop creating negative online orders
     order_total = orders.where(status: %w[completed refunded]).includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
-    active_gtag&.virtual_credits.to_f + order_total
+    order_total + active_gtag&.virtual_credits.to_f
   end
 
   def money
@@ -120,10 +118,8 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def build_order(items, atts = {})
-    atts[:event] = event
-    order = orders.new(atts)
+    order = orders.new(atts.merge(event: event, status: "in_progress"))
     last_counter = order_items.pluck(:counter).sort.last.to_i
-
     items.each.with_index do |arr, index|
       arr.unshift(event.credit.id) if arr.size.eql?(1)
       item_id, amount = arr
@@ -144,10 +140,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
-    accesses = Access.where(id: catalog_items).infinite.pluck(:id)
-    packs = Pack.joins(:catalog_items)
-                .where(id: catalog_items, catalog_items: { type: "Access" })
-                .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
+    accesses = event.accesses.where(id: catalog_items).infinite.pluck(:id)
+    packs = event.packs.joins(:catalog_items)
+                 .where(id: catalog_items, catalog_items: { type: "Access" })
+                 .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
 
     accesses + packs
   end

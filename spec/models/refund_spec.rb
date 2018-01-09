@@ -44,10 +44,6 @@ RSpec.describe Refund, type: :model do
       expect { subject.complete! }.not_to raise_error
     end
 
-    it "creates a refunded order" do
-      expect { subject.complete! }.to change(event.orders.where(status: "refunded"), :count).by(1)
-    end
-
     it "creates a money transaction" do
       expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
     end
@@ -55,6 +51,15 @@ RSpec.describe Refund, type: :model do
     it "creates a money transaction with negative price" do
       expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
       expect(customer.transactions.money.last.price).to eq(-subject.total_money)
+    end
+
+    it "creates a credit transaction" do
+      expect { subject.complete! }.to change(event.transactions.credit, :count).by(1)
+    end
+
+    it "creates a credit transaction with negative amount" do
+      expect { subject.complete! }.to change(event.transactions.credit, :count).by(1)
+      expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(-subject.total.to_f)
     end
 
     it "sends an email" do

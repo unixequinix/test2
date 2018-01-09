@@ -23,7 +23,7 @@ RSpec.describe "Password recovery for admin users", type: :feature do
     end
 
     expect(page).to have_current_path(admins_events_path)
-    find("#log_out_link").click
+    click_link("log_out_link")
     expect(page).to have_current_path(new_user_session_path)
 
     within("#new_user") do

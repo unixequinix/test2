@@ -1,9 +1,5 @@
 class Events::OrdersController < Events::EventsController
-  before_action :set_order, only: %i[show error success complete]
-
-  def error; end
-
-  def success; end
+  before_action :set_order, except: %i[new create]
 
   def show
     @payment_gateways = @current_event.payment_gateways.topup

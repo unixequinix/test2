@@ -23,16 +23,15 @@ class Refund < ApplicationRecord
                refunds.status, refunds.field_a, refunds.field_b, refunds.created_at, refunds.ip").where(customers: { event_id: event.id })
   })
 
-  def complete!(refund_data = {}.to_json)
+  def complete!(_refund_data = {}.to_json)
     return false if completed?
     update!(status: "completed")
 
     atts = { items_amount: amount_money, payment_gateway: gateway, payment_method: "online", price: -total_money }
     MoneyTransaction.write!(event, "online_refund", :portal, customer, customer, atts)
 
-    # Create negative online order (to be replaced by tasks/transactions or start downloading refunds)
-    order = customer.build_order([[event.credit.id, -total]])
-    order.update!(status: "refunded", gateway: gateway, completed_at: Time.zone.now, payment_data: refund_data)
+    atts = { payments: { event.credit.id => { amount: -total, final_balance: customer.credits } }, customer: customer }
+    CreditTransaction.write!(event, "refund", :portal, nil, nil, atts)
 
     OrderMailer.completed_refund(self).deliver_later
   end

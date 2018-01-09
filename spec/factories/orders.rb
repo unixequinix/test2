@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :order do
     event
+    gateway "paypal"
     customer { build(:customer, event: event) }
 
     trait :with_different_items do

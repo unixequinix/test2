@@ -16,24 +16,6 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".refund?" do
-    it "returns true if the gateway is refund" do
-      expect { subject.gateway = "refund" }.to change { subject.refund? }.from(false).to(true)
-    end
-  end
-
-  describe ".refunded?" do
-    it "returns true if the gateway is refund" do
-      expect { subject.status = "refunded" }.to change { subject.refunded? }.from(false).to(true)
-    end
-  end
-
-  describe ".completed?" do
-    it "returns true if the status is completed" do
-      expect { subject.status = "completed" }.to change { subject.completed? }.from(false).to(true)
-    end
-  end
-
   describe ".fail!" do
     it "marks the order as faild" do
       expect { subject.fail!("paypal", {}.to_json) }.to change { subject.reload.status }.to("failed")
@@ -43,12 +25,6 @@ RSpec.describe Order, type: :model do
   describe ".cancel!" do
     it "marks the order as canceld" do
       expect { subject.cancel!({}.to_json) }.to change { subject.reload.status }.to("cancelled")
-    end
-  end
-
-  describe ".cancelled?" do
-    it "returns true if the status is cancelled" do
-      expect { subject.status = "cancelled" }.to change { subject.cancelled? }.from(false).to(true)
     end
   end
 

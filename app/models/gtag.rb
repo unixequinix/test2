@@ -80,16 +80,21 @@ class Gtag < ApplicationRecord
 
   def solve_inconsistent
     ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
-    transaction = transactions.credit.find_by(gtag_counter: 0)
-    atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, final_balance: 0, final_refundable_balance: 0)
-    transaction ||= CreditTransaction.write!(event, "correction", :device, nil, nil, atts)
-
     creds = ts.last&.final_balance.to_f - ts.map(&:credits).compact.sum
     refundable_creds = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).compact.sum
 
-    pay_atts = [{ credit_id: event.credit.id, amount: refundable_creds, final_balance: 0 }, { credit_id: event.virtual_credit.id, amount: creds - refundable_creds, final_balance: 0 }] # rubocop:disable Metrics/LineLength
-    transaction.update! credits: creds, refundable_credits: refundable_creds, payments: pay_atts || {}
+    pay_atts = { event.credit.id => { amount: refundable_creds, final_balance: 0 }, event.virtual_credit.id => { amount: creds - refundable_creds, final_balance: 0 } } # rubocop:disable Metrics/LineLength
+    atts = assignation_atts.merge(gtag_counter: 0,
+                                  gtag_id: id,
+                                  credits: creds,
+                                  refundable_credits: refundable_creds,
+                                  payments: pay_atts,
+                                  final_balance: 0,
+                                  final_refundable_balance: 0)
 
+    transaction = transactions.credit.find_by(gtag_counter: 0, action: "correction")
+    transaction ||= CreditTransaction.write!(event, "correction", :device, nil, nil, atts)
+    transaction.update!(gtag_counter: 0)
     recalculate_balance
     transaction
   end

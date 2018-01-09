@@ -5,7 +5,7 @@ RSpec.describe Events::OrdersController, type: :controller do
   let(:customer) { create(:customer, event: event) }
   let(:catalog_item) { create(:catalog_item, event: event) }
   let(:station) { create(:station, event: event) }
-  let(:order) { create(:order, customer: customer, event: event) }
+  let(:order) { create(:order, customer: customer, event: event, status: "in_progress") }
 
   describe 'render templates' do
     context 'when customer is logged in' do

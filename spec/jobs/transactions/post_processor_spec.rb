@@ -131,7 +131,7 @@ RSpec.describe Transactions::PostProcessor, type: :job do
     it "assign an order to the transaction if found" do
       order = customer.build_order([[10]])
       order.complete!
-      transaction.update!(order_item_counter: order.order_items.first.counter, customer: customer)
+      transaction.update!(order_item_id: order.order_items.first.id, customer: customer)
       expect { worker.perform(transaction) }.to change { transaction.reload.order }.from(nil).to(order)
     end
   end

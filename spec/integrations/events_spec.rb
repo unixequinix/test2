@@ -92,12 +92,12 @@ RSpec.describe "Events in the admin panel", type: :feature do
 
     it "can be done only if state is created" do
       event.update! state: "created"
-      expect { find("#delete_event_link").click }.to change(Event, :count).by(-1)
+      expect { click_link("delete_event_link") }.to change(Event, :count).by(-1)
     end
 
     it "cannot be done if state is not 'created'" do
       event.update! state: "closed"
-      expect { find("#delete_event_link").click }.not_to change(Event, :count)
+      expect { click_link("delete_event_link") }.not_to change(Event, :count)
     end
   end
 end

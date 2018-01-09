@@ -88,7 +88,7 @@ module Api
               JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
               JOIN orders ON orders.id = order_items.order_id
                 AND orders.customer_id IN (#{ids.join(', ')})
-                AND orders.status IN ('completed')
+                AND orders.status = 3
           ) o GROUP BY o.customer_id
         ) ord ON customers.id = ord.customer_id
 

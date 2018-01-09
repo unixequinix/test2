@@ -2,8 +2,7 @@
 RSpec.shared_examples "UI stations" do
   describe "Create new station" do
     before(:each) do
-      find("#floaty").click
-      find_link("new_station_link").click
+      click_link("new_station_link")
     end
 
     it "is located in correct path " do
