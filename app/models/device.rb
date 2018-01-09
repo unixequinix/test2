@@ -9,7 +9,7 @@ class Device < ApplicationRecord
   has_one :event, through: :device_registration, dependent: :destroy
   has_many :device_transactions, dependent: :restrict_with_error
 
-  validates :mac, uniqueness: true, allow_blank: false
+  validates :mac, uniqueness: true, allow_blank: { case_sensitive: false }
   validates :mac, presence: true
 
   def name
