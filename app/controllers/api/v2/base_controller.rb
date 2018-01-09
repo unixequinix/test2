@@ -42,9 +42,5 @@ module Api::V2
     def render_not_found_response(exception)
       render json: { error: exception.message }, status: :not_found
     end
-
-    def rollbar_ignore
-      raise Rollbar::Ignore
-    end
   end
 end

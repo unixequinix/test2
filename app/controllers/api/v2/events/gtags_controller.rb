@@ -88,13 +88,12 @@ module Api::V2
     # Use callbacks to share common setup or constraints between actions.
     def set_gtag
       gtags = @current_event.gtags
-      gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
+
+      Rollbar.silenced do
+        gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
       
-      begin
         @gtag = gtags.find(gtag_id)
         authorize @gtag
-      rescue Exception => e
-        rollbar_ignore
       end
     end
 
