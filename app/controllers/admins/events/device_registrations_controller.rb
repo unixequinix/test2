@@ -24,7 +24,9 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
     devices = Device.where(id: permitted_params["device_ids"]).map do |device|
       device_registration = @current_event.device_registrations.find_or_create_by(device_id: device.id)
       authorize device_registration
-      device_registration.update(allowed: false, initialization_type: permitted_params["initialization_type"])
+
+      initialization_type = permitted_params["initialization_type"].presence || @actions.first.to_s
+      device_registration.update(allowed: false, initialization_type: initialization_type)
     end
 
     respond_to do |format|
@@ -141,6 +143,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
 
   def set_devices
     @current_device_registrations = @current_event.device_registrations.not_allowed.includes(:device).where(devices: { team_id: @current_user&.team&.id }) # rubocop:disable Metrics/LineLength
+
     device_ids = @current_user&.team&.devices&.includes(:device_registrations)&.where(device_registrations: { allowed: false })&.pluck(:id)
     @available_devices = @current_user&.team&.devices&.where&.not(id: device_ids) || []
 
@@ -164,7 +167,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
 
   def devices_usage
     @current_event.device_registrations.not_allowed.group_by { |dr| dr.device.serie }.map do |k, v|
-      { k => { 'used' => v.count, 'total' => @current_user.team.devices.count } }
+      { k => { 'used' => v.count, 'total' => @current_user&.team&.devices&.count } }
     end
   end
 
