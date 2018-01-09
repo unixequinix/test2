@@ -41,7 +41,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           get :show, params: { user_id: user.id }
           expect(response).to redirect_to(admins_user_path(user.id))
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include("You do not belong to any team")
+          expect(flash[:alert]).to include(I18n.t("teams.not_belong"))
         end
       end
 
@@ -87,7 +87,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           get :new, params: { user_id: user.id }
           expect(response).to redirect_to(admins_user_path(user.id))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include("You already belong to a team")
+          expect(flash[:notice]).to include(I18n.t("teams.already_belong"))
         end
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :create, params: { user_id: user.id, team: team_valid_attributes }
           expect(response).to redirect_to(admins_user_team_path(user))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include("Team was successfully created")
+          expect(flash[:notice]).to include(I18n.t("teams.created"))
         end
 
         it "should create a new team record" do
@@ -136,7 +136,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :create, params: { user_id: user.id, team: team_valid_attributes }
           expect(response).to redirect_to(admins_user_path(user.id))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include("You already belong to a team")
+          expect(flash[:notice]).to include(I18n.t("teams.already_belong"))
         end
       end
     end
@@ -192,6 +192,8 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         it "redirect to admins user path on success" do
           delete :destroy, params: { user_id: user.id }
           expect(response).to redirect_to(admins_user_path(user))
+          expect(flash[:alert]).to be_present
+          expect(flash[:alert]).to include(I18n.t("teams.not_belong"))
         end
       end
 
@@ -225,7 +227,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :add_devices, params: { user_id: user.id, device: device_valid_attributes }
           expect(response).to redirect_to(admins_user_path(user))
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include("You do not belong to any team")
+          expect(flash[:alert]).to include(I18n.t("teams.not_belong"))
         end
       end
 
@@ -238,11 +240,20 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :add_devices, params: { user_id: user.id, device: device_valid_attributes }
           expect(response).to redirect_to(admins_user_team_path(user.id))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include("Device added")
+          expect(flash[:notice]).to include(I18n.t("teams.add_devices.added"))
         end
 
         it "should create a new device record on team" do
           expect { post :add_devices, params: { user_id: user.id, device: device_valid_attributes } }.to change(Device, :count).by(1)
+        end
+
+        it "should not create a new device record on team because device already belong to a team" do
+          team2 = create(:team)
+          device = create(:device, mac: device_valid_attributes[:mac], serie: device_valid_attributes[:serie], team: team2)
+
+          expect { post :add_devices, params: { user_id: user.id, device: device_valid_attributes } }.to change(Device, :count).by(0)
+          expect(flash[:alert]).to be_present
+          expect(flash[:alert]).to include(I18n.t("teams.add_devices.already_belong"))
         end
       end
     end
@@ -266,7 +277,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           delete :remove_devices, params: { user_id: user.id }
           expect(response).to redirect_to(admins_user_path(user))
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include("You do not belong to any team")
+          expect(flash[:alert]).to include(I18n.t("teams.not_belong"))
         end
       end
 
@@ -280,7 +291,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           delete :remove_devices, params: { user_id: user.id }
           expect(response).to redirect_to(admins_user_team_path(user.id))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include("Devices removed")
+          expect(flash[:notice]).to include(I18n.t("teams.remove_devices.removed"))
         end
 
         it "should destroy device record from team" do
@@ -313,7 +324,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :add_users, params: { user_id: user.id, user: user_valid_attributes }
           expect(response).to redirect_to(admins_user_path(user))
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include("You do not belong to any team")
+          expect(flash[:alert]).to include(I18n.t("teams.not_belong"))
         end
 
         it "should not create a new device record on team" do
@@ -330,7 +341,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :add_users, params: { user_id: user.id, user: user_valid_attributes }
           expect(response).to redirect_to(admins_user_team_path(user.id))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include("User added to team")
+          expect(flash[:notice]).to include(I18n.t("teams.add_users.added"))
         end
 
         it "should not create a new device record on team if user is not leader" do
@@ -364,11 +375,12 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           delete :remove_users, params: { user_id: user.id, user: user_valid_attributes }
           expect(response).to redirect_to(admins_user_path(user))
           expect(flash[:alert]).to be_present
+          expect(flash[:alert]).to include(I18n.t("teams.not_belong"))
         end
 
         it "should not destroy user team if user does not belong to team" do
+          create(:user_team, team: create(:team), user: User.find_by(user_valid_attributes), leader: true)
           expect { delete :remove_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(UserTeam, :count).by(0)
-          expect(flash[:alert]).to be_present
         end
       end
 
@@ -387,7 +399,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
             delete :remove_users, params: { user_id: user.id, user: { email: user.email } }
             expect(response).to redirect_to(root_path)
             expect(flash[:notice]).to be_present
-            expect(flash[:notice]).to include("You have been removed successfully from team")
+            expect(flash[:notice]).to include(I18n.t("teams.remove_users.current_user"))
           end
 
           it "should destroy user team record from team" do
@@ -398,7 +410,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
             delete :remove_users, params: { user_id: user.id, user: { email: @guest_user.email } }
             expect(response).to redirect_to(admins_user_team_path(user))
             expect(flash[:notice]).to be_present
-            expect(flash[:notice]).to include("User has been removed successfully from team")
+            expect(flash[:notice]).to include(I18n.t("teams.remove_users.user"))
           end
 
           it "should destroy user team record from team" do
@@ -410,6 +422,58 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           expect { delete :remove_users, params: { user_id: user.id, user: { email: user.email } } }.to change(UserTeam, :count).by(0)
           expect(flash[:alert]).to be_present
           expect(flash[:alert]).to include("You are not authorized to perform this action")
+        end
+      end
+    end
+  end
+
+  describe "PUT #change_role" do
+    context "user is not logged in" do
+      it "redirects to sign_in path" do
+        put :change_role, params: { user_id: user.id, team: team_valid_attributes }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context "user is logged in" do
+      before do
+        sign_in(user)
+      end
+
+      context "user does not belong to any team" do
+        it "redirect to admins user path on success" do
+          put :change_role, params: { user_id: user.id, user: user_valid_attributes }
+          expect(response).to redirect_to(admins_user_path(user))
+        end
+      end
+
+      context "user belongs to a team and is a leader" do
+        before do
+          @team = create(:team, leader: user)
+          @user_team = create(:user_team, team: @team, user: User.find_by(user_valid_attributes), leader: false)
+        end
+
+        it "updates role successfully" do
+          put :change_role, params: { user_id: user.id, user: user_valid_attributes }
+          expect(@user_team.reload.leader).to eq(true)
+          expect(flash[:notice]).to be_present
+          expect(flash[:notice]).to include(I18n.t("teams.role_changed"))
+        end
+      end
+
+      context "user belongs to a team and is not a leader" do
+        before do
+          @team = create(:team)
+          create(:user_team, team: @team, user: user, leader: false)
+          @user_team = create(:user_team, team: @team, user: User.find_by(user_valid_attributes), leader: false)
+        end
+
+        it "updates role is not allowed" do
+          put :change_role, params: { user_id: user.id, user: user_valid_attributes }
+          expect(@user_team.reload.leader).to eq(false)
+          expect do
+            Pundit.authorize(user, @team, :change_role?)
+          end.to raise_error(Pundit::NotAuthorizedError)
         end
       end
     end

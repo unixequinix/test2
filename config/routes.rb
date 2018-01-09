@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         post :import_devices
         post :add_users
         post :add_devices
+        put :change_role
         delete  :remove_devices
         delete :remove_users
       end

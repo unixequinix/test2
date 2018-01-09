@@ -285,3 +285,24 @@ es:
           password_confirmation: Confirmación de contraseña
           phone: Número de Teléfono
           postcode: Código Postal
+  teams:
+    created: Se ha creado el equipo con éxito.
+    destroyed: Se ha borrado el equipo con éxito.
+    not_belong: No perteneces a ningḉun equipo.
+    already_belong: Ya perteneces a un equipo.
+    unable_change_role: No se ha podido modificar el rol.
+    role_changed: Se ha modificado el rol con éxito.
+    remove_users:
+      current_user: Has sido eliminado del equipo con éxito.
+      user: Usuario eliminado con éxito del equipo.
+    add_users:
+      added: Usuario añadido con éxito al equipo.
+      exists: Usuario ya pertence a un equipo.
+    add_devices:
+      added: Dispositivo añadido con éxito.
+      already_belong: Dispositivo ya forma parte de un equipo.
+      import: 
+        not_supplied: Tipo de archivo no soportado.
+    remove_devices:
+      removed: Dispositivos eliminados con éxito del equipo.
+      failed: Algo no funcionó.

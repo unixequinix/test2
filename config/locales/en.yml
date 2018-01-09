@@ -304,6 +304,29 @@ en:
       two_words_connector: " and "
       last_word_connector: ", and "
 
+  teams:
+    created: Team was successfully created.
+    destroyed: Team destroyed.
+    not_belong: You do not belong to any team.
+    already_belong: You already belong to a team.
+    unable_change_role: Unable to change role.
+    role_changed: Role changed succesfully.
+    remove_users:
+      current_user: You have been removed successfully from team.
+      user: User has been removed successfully from team.
+    add_users:
+      added: User added to team successfully.
+      exists: User already belongs to a team.
+    add_devices:
+      added: Device added successfully.
+      already_belong: Device is already part of a team.
+      import: 
+        not_supplied: Extension file not suported.
+    remove_devices:
+      removed: Devices removed successfully.
+      failed: Something went wrong.
+
+
   number:
     # Used in NumberHelper.number_to_delimited()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'

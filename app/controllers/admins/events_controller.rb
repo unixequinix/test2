@@ -211,7 +211,6 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :refunds_end_date,
                                   :event_serie_id,
                                   :accounting_code,
-                                  :team_id,
                                   credit_attributes: %i[id name value])
   end
 end

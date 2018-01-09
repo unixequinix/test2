@@ -8,11 +8,11 @@ class DeviceRegistrationPolicy < ApplicationPolicy
   end
 
   def new
-    user.admin?
+    user&.team.present? || user.admin?
   end
 
   def create?
-    user&.team&.devices&.include?(record.device) || admin_or_device_register
+    user&.team.present? && user&.team&.devices&.include?(record.device) || admin_or_device_register
   end
 
   def destroy?

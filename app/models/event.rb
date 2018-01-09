@@ -30,7 +30,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_one :virtual_credit, dependent: :destroy
 
   belongs_to :event_serie, optional: true
-  belongs_to :team, optional: true
 
   scope :with_state, ->(state) { where state: state }
   scope :live, -> { where(state: 'launched', open_devices_api: true) }

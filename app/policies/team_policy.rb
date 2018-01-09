@@ -47,6 +47,10 @@ class TeamPolicy < ApplicationPolicy
     user&.team.present?
   end
 
+  def change_role?
+    check_user_team && user.team_leader? || user.admin?
+  end
+
   def check_user_team
     user.team.present? && user.team == record
   end

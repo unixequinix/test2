@@ -4,4 +4,8 @@ module EventsHelper
     no = render "layouts/checkbox_no"
     { collection: { false: no, true: yes }, place_holder: no, as: :checkbox, url: url } # rubocop:disable Lint/BooleanSymbol
   end
+
+  def associated_device_registration(event, device)
+    DeviceRegistration.find_by(event: event, device: device)
+  end
 end

@@ -27,7 +27,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
     respond_to do |format|
       if @team.save
-        format.html { redirect_to admins_user_team_path(current_user), notice: 'Team was successfully created.' }
+        format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.created") }
         format.json { render :show, status: :created, location: [:admins, current_user, @team] }
       else
         format.html { render :new }
@@ -53,7 +53,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
     respond_to do |format|
       if @team.destroy
-        format.html { redirect_to admins_user_path(current_user), notice: 'Team destroyed' }
+        format.html { redirect_to admins_user_path(current_user), notice: t("teams.destroyed") }
         format.json { render status: :ok, json: @team }
       else
         format.html { redirect_to admins_user_team_path(current_user), alert: @team.errors.full_messages }
@@ -73,7 +73,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
     authorize @team
 
     file = params[:file][:data].tempfile.path
-    redirect_to(admins_user_team_path(current_user), alert: "File not supplied") && return unless file.include?("csv")
+    redirect_to(admins_user_team_path(current_user), alert: t("teams.add_devices.import.not_supplied")) && return unless file.include?("csv")
 
     CSV.foreach(file, headers: true, col_sep: ";") do |row|
       current_user.team.devices.find_or_create_by(
@@ -99,13 +99,12 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
     device_permitted_params[:serial].blank? ? params : params[:serial] = device_permitted_params[:serial]
 
     @device = Device.find_or_create_by(params)
-    @device.update(team_id: current_user.team.id) if @device.team_id.nil?
 
     respond_to do |format|
-      if @device.save
-        format.html { redirect_to admins_user_team_path(current_user), notice: 'Device added.' }
+      if @device.team_id.nil? && @device.update(team_id: current_user.team.id)
+        format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_devices.added") }
       else
-        format.html { redirect_to admins_user_team_path(current_user), alert: 'Device is already part of a team.' }
+        format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_devices.already_belong") }
       end
     end
   end
@@ -117,9 +116,9 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
     respond_to do |format|
       if @devices.destroy_all
-        format.html { redirect_to admins_user_team_path(current_user), notice: 'Devices removed.' }
+        format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.remove_devices.removed") }
       else
-        format.html { redirect_to request.referer, alert: 'Something went wrong.' }
+        format.html { redirect_to request.referer, alert: t("teams.remove_devices.failed") }
       end
     end
   end
@@ -129,9 +128,9 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
     user = User.find_by(email: user_permitted_params[:email])
 
     message = if user.present? && user.team.blank?
-                'User added to team'
+                t("teams.add_users.added")
               else
-                'User already belongs to a team'
+                t("teams.add_users.exists")
               end
 
     respond_to do |format|
@@ -149,13 +148,10 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
     if current_user.team == user.team && current_user == user
       path = root_path
-      message = 'You have been removed successfully from team'
+      message = t("teams.remove_users.current_user")
     elsif current_user.team == user.team
       path = admins_user_team_path(current_user)
-      message = 'User has been removed successfully from team'
-    else
-      path = root_path
-      message = 'User does not belong to this team'
+      message = t("teams.remove_users.user")
     end
 
     respond_to do |format|
@@ -163,6 +159,19 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
         format.html { redirect_to path, notice: message }
       else
         format.html { redirect_to root_path, alert: 'You should not be here' }
+      end
+    end
+  end
+
+  def change_role
+    authorize @team
+    user_team = @team.users.find_by(email: user_permitted_params[:email]).user_team
+
+    respond_to do |format|
+      if user_team.update(leader: !user_team.leader)
+        format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.role_changed") }
+      else
+        format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.unable_change_role") }
       end
     end
   end
@@ -176,11 +185,11 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
 
   def set_team
     @team = current_user.team
-    redirect_to admins_user_path(current_user), alert: 'You do not belong to any team' if @team.blank?
+    redirect_to admins_user_path(current_user), alert: t("teams.not_belong") if @team.blank?
   end
 
   def check_team
-    redirect_to admins_user_path(current_user), notice: 'You already belong to a team' if current_user.team.present?
+    redirect_to admins_user_path(current_user), notice: t("teams.already_belong") if current_user.team.present?
   end
 
   def set_devices

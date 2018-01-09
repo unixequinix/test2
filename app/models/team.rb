@@ -6,7 +6,8 @@ class Team < ApplicationRecord
   has_many :guest_teams, -> { where(leader: false) }, dependent: :destroy, class_name: "UserTeam", inverse_of: :team
   has_many :guests, through: :guest_teams, class_name: "User", source: "user"
   has_many :devices, dependent: :restrict_with_error
-  has_many :events, dependent: :nullify
+  has_many :users, through: :user_teams, dependent: :nullify
+  has_many :events, through: :users
 
   validates :name, presence: true
   validate :validate_initial_user

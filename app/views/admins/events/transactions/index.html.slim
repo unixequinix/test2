@@ -112,7 +112,10 @@
                   td data-label="Device"
                     - if transaction.device_uid.present?
                       - device = Device.find_by_mac(transaction.device_uid)
-                      = link_to(device.asset_tracker, admins_user_team_device_path(@current_user, device)) if device
+                      - if device && device_owner?(@current_user, device)
+                        = link_to(device.asset_tracker, admins_user_team_device_path(@current_user, device))
+                      - else
+                        = link_to(device.asset_tracker, admins_event_device_registration_path(@current_event, associated_device_registration(@current_event, device)))
                   td data-label="Customer Tag"
                     - if transaction.customer
                       = link_to transaction.customer.name, admins_event_customer_path(@current_event, transaction.customer)

@@ -2,8 +2,9 @@ require "rails_helper"
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:device) { create(:device) }
-  let(:team) { create(:team) }
+  let(:team) { create(:team, leader: user2) }
   let(:events) { create_list(:event, 3, open_devices_api: true) }
 
   describe "GET index" do
@@ -28,16 +29,12 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
         it "returns unauthorized error if has not any event device registered" do
           team.devices << device
-          events[0].team = team
-          events[0].save!
           get :index, params: { mac: device.mac }
           expect(response).to be_unauthorized
         end
 
         it "returns unauthorized error if has not any active associated event" do
           team.devices << device
-          events[0].team = team
-          events[0].save!
           create(:device_registration, event: events[0], device: device, allowed: true)
           get :index, params: { mac: device.mac }
           expect(response).to be_unauthorized
@@ -46,9 +43,8 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         context "returns events list" do
           before do
             team.devices << device
-            events[0].team = team
-            events[0].save!
             create(:device_registration, event: events[0], device: device, allowed: false)
+            events.map { |event| create(:event_registration, event: event, user: user2) }
           end
 
           it "returns active associated events" do
@@ -75,7 +71,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
               body_event_atts = {
                 id: body_event.id,
                 name: body_event.name,
-                initialization_type: i == 1 ? 'LITE_INITIALIZATION' : nil,
+                initialization_type: i == 1 ? 'lite_initialization' : nil,
                 start_date: Time.use_zone(body_event.timezone) { body_event.start_date },
                 end_date: Time.use_zone(body_event.timezone) { body_event.end_date },
                 staging_start: body_event.start_date - 7.days,

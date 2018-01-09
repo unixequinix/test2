@@ -32,7 +32,7 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-  - if @current_user.team_leader?
+  - if @current_user.team_leader? || @current_user.admin?
     .remodal data-remodal-id="add-user-modal"
       button.remodal-close data-remodal-action="close"
       h3.remodal__title Add user to the team
@@ -93,9 +93,13 @@
                 td
                 td.mdl-data-table__cell--non-numeric = user.username 
                 td.mdl-data-table__cell--non-numeric = user.email
-                td.mdl-data-table__cell--non-numeric = user.team_role
+                td.mdl-data-table__cell--non-numeric
+                  - if !user.team_leader? || @current_user.admin?
+                    = link_to user.team_role, change_role_admins_user_team_path(@current_user, user: { email: user.email }), method: :put, title: 'Change role' 
+                  - else
+                    = user.team_role
                 td 
-                  - if user == @current_user || @current_user.team_leader?
+                  - if user == @current_user || @current_user.team_leader? || @current_user.admin?
                     = link_to remove_users_admins_user_team_path(@current_user, user: { email: user.email }), method: :delete, class: "mdl-button mdl-button--icon" do
                       span.icon.material-icons delete
 

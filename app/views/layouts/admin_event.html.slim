@@ -124,11 +124,11 @@ html
 
         nav.mdl-navigation.global-nav
           span.nav-title SUPPORT
-          - if @current_event.team.present?
+          - if current_user.team.present?
             = link_to new_admins_event_device_registration_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons devices
               |  Devices
-            - if @current_event.team==@current_user.team
+            - if @current_user.team
               = link_to admins_user_team_path(@current_user), class: "mdl-navigation__link" do
                 i.mdl-color-text--teal-200.material-icons contacts
                 |  Team

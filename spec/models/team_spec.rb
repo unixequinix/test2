@@ -49,8 +49,8 @@ RSpec.describe Team, type: :model do
   describe "devices flow" do
     before do
       subject.save!
-      @event1 = create(:event, open_devices_api: true, state: 'launched', team: subject)
-      @event2 = create(:event, open_devices_api: false, state: 'launched', team: subject)
+      @event1 = create(:event, open_devices_api: true, state: 'launched')
+      @event2 = create(:event, open_devices_api: false, state: 'launched')
       devices = create_list(:device, 3, team: subject, serie: 'serie1')
       create(:device_registration, device: devices.first, event: @event1, allowed: true)
       create(:device_registration, device: devices.last, event: @event2, allowed: false)
@@ -60,7 +60,19 @@ RSpec.describe Team, type: :model do
       expect(subject.devices_series).to eq(['serie1'])
     end
 
+    it "should return all associated events" do
+      create(:event_registration, event: @event1, user: subject.users.first)
+      create(:event_registration, event: @event2, user: subject.users.first)
+      expect(subject.events).to match_array([@event2, @event1])
+    end
+
+    it "should return empty associated events" do
+      create(:event_registration, event: @event2, user: subject.users.first)
+      expect(subject.events.live).to eq([])
+    end
+
     it "should return associated events" do
+      create(:event_registration, event: @event1, user: subject.users.first)
       expect(subject.events.live).to eq([@event1])
     end
 
