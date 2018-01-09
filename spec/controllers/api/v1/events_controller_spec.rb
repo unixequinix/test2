@@ -3,61 +3,52 @@ require "rails_helper"
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
-  let(:device) { create(:device) }
+  let(:device) { create(:device, asset_tracker: "TEST22") }
   let(:team) { create(:team, leader: user2) }
   let(:events) { create_list(:event, 3, open_devices_api: true) }
 
   describe "GET index" do
     context "with authentication" do
       before do
+        team.devices << device
         http_login(user.email, user.access_token)
       end
 
-      context "device does not belong to a team" do
-        it "returns unauthorized error" do
-          get :index, params: { mac: device.mac }
-          expect(response).to be_unauthorized
-        end
-      end
-
       context "device belongs to a team" do
-        it "returns unauthorized error if has not any associated event" do
-          team.devices << device
+        it "returns empty array when there is no associated event" do
           get :index, params: { mac: device.mac }
+          expect(response).to be_ok
+          expect(JSON.parse(response.body)).to be_empty
+        end
+
+        it "returns unauthorized when device is not found" do
+          get :index, params: { mac: "NOTFOUND" }
           expect(response).to be_unauthorized
         end
 
-        it "returns unauthorized error if has not any event device registered" do
-          team.devices << device
-          get :index, params: { mac: device.mac }
-          expect(response).to be_unauthorized
-        end
-
-        it "returns unauthorized error if has not any active associated event" do
-          team.devices << device
-          create(:device_registration, event: events[0], device: device, allowed: true)
-          get :index, params: { mac: device.mac }
+        it "returns unauthorized when device has no team" do
+          allow(device).to receive(:team).and_return(nil)
+          get :index, params: { mac: "NOTFOUND" }
           expect(response).to be_unauthorized
         end
 
         context "returns events list" do
           before do
-            team.devices << device
             create(:device_registration, event: events[0], device: device, allowed: false)
             events.map { |event| create(:event_registration, event: event, user: user2) }
           end
 
           it "returns active associated events" do
             get :index, params: { mac: device.mac }
-            @body = JSON.parse(response.body)
-            expect(@body).not_to be_empty
-            expect(@body.map { |m| m["name"] }).to eq([events[0].name])
+            body = JSON.parse(response.body)
+            expect(body).not_to be_empty
+            expect(body.map { |m| m["name"] }).to eq([events[0].name])
           end
 
           it "returns the necessary keys" do
             get :index, params: { mac: device.mac }
-            @body = JSON.parse(response.body)
-            @body.map do |event|
+            body = JSON.parse(response.body)
+            body.map do |event|
               expect(event.keys).to eq(%w[id name initialization_type start_date end_date staging_start staging_end])
             end
           end
@@ -65,8 +56,8 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           it "returns the correct data" do
             create(:device_registration, event: events[1], device: device, allowed: false, initialization_type: 'LITE_INITIALIZATION')
             get :index, params: { mac: device.mac }
-            @body = JSON.parse(response.body)
-            @body.each_with_index do |event, i|
+            body = JSON.parse(response.body)
+            body.each_with_index do |event, i|
               body_event = events[i]
               body_event_atts = {
                 id: body_event.id,

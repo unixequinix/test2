@@ -2,14 +2,12 @@ class Api::V1::EventsController < Api::V1::BaseController
   def index
     device = Device.find_by(mac: params[:mac])
 
-    status = device&.asset_tracker.blank? ? :accepted : :ok
-
     if device.present? && device.team.present?
-      not_allowed = DeviceRegistration.not_allowed
-      events = device.team.events.live.includes(:device_registrations).merge(not_allowed).where(device_registrations: { device_id: device.id })
+      status = device.asset_tracker.blank? ? :accepted : :ok
+      events = [device.event].compact
+      events = device.team.events.live if events.empty?
 
-      render(status: status, json: events, serializer_params: { device: device }) && return if events.present?
-      render json: { error: "Device has not any associated event" }, status: :unauthorized
+      render(status: status, json: events, serializer_params: { device: device })
     else
       render json: { error: "Device does not belong to a team" }, status: :unauthorized
     end
