@@ -24,8 +24,8 @@ module Api
             t_atts = atts.merge(counter: counter, device: device, server_transactions: server_count)
             @current_event.device_transactions.create!(t_atts)
 
-            next unless action.eql?("lock_device")
-            registration.update!(allowed: true)
+            registration.update!(allowed: true) if action.eql?("lock_device")
+            registration.update!(allowed: false) if action.eql?("device_initialization")
           end
 
           render(status: :created, json: :created)
