@@ -428,6 +428,14 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           it "should destroy user team record from team" do
             expect { delete :remove_users, params: { user_id: user.id, user: { email: @guest_user.email } } }.to change(UserTeam, :count).by(-1)
           end
+
+          it "is not authorize to do that action" do
+            user.user_team.update(leader: false)
+            delete :remove_users, params: { user_id: user.id, user: { email: @guest_user.email } }
+            expect do
+              Pundit.authorize(user, user.team, :remove_users?)
+            end.to raise_error(Pundit::NotAuthorizedError)
+          end
         end
 
         it "should not destroy user team record from team if it the last one" do
@@ -483,9 +491,6 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         it "updates role is not allowed" do
           put :change_role, params: { user_id: user.id, user: user_valid_attributes }
           expect(@user_team.reload.leader).to eq(false)
-          expect do
-            Pundit.authorize(user, @team, :change_role?)
-          end.to raise_error(Pundit::NotAuthorizedError)
         end
       end
     end

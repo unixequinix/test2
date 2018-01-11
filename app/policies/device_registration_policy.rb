@@ -7,7 +7,7 @@ class DeviceRegistrationPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def new
+  def new?
     user&.team.present? || user.admin?
   end
 
@@ -20,7 +20,7 @@ class DeviceRegistrationPolicy < ApplicationPolicy
   end
 
   def disable?
-    user&.team&.devices&.include?(record.device) || user.admin?
+    user&.team.present? && user&.team&.devices&.include?(record.device) || admin_or_device_register
   end
 
   def transactions?

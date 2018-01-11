@@ -91,13 +91,17 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   def add_devices
     authorize @team
     @device = Device.find_or_create_by(mac: device_permitted_params[:mac])
-    @device.update!(device_permitted_params)
+    @device&.update!(device_permitted_params) if @device.valid?
 
     respond_to do |format|
       if @device.team_id.nil? && @device.update(team_id: current_user.team.id)
         format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_devices.added") }
       else
-        format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_devices.already_belong") }
+        if @device.valid?
+          format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_devices.already_belong") }
+        else
+          format.html { redirect_to admins_user_team_path(current_user), alert: @device.errors.full_messages.to_sentence }
+        end
       end
     end
   end

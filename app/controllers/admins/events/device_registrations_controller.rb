@@ -14,10 +14,8 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   end
 
   def new
-    @devices_usage = devices_usage
-    @device_registration = @current_event.device_registrations.new
-
     authorize @device_registration
+    @devices_usage = devices_usage
   end
 
   def create
@@ -57,7 +55,6 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         @devices_usage = devices_usage
         set_devices
 
-        format.html { redirect_to request.referer }
         format.json { render json: device_registrations, status: :ok }
         format.js { render action: 'update_devices_usage' }
       else
@@ -142,6 +139,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   end
 
   def set_devices
+    @device_registration = @current_event.device_registrations.new
     @current_device_registrations = @current_event.device_registrations.not_allowed.includes(:device).where(devices: { team_id: @current_user&.team&.id }) # rubocop:disable Metrics/LineLength
 
     device_ids = @current_user&.team&.devices&.includes(:device_registrations)&.where(device_registrations: { allowed: false })&.pluck(:id)

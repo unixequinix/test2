@@ -8,11 +8,11 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def new?
-    user.team.nil?
+    user.team.blank?
   end
 
   def create?
-    user.team.nil?
+    user.team.blank?
   end
 
   def update?
