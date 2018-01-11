@@ -37,23 +37,23 @@ class Poke < ApplicationRecord
   }
 
   scope :money_recon_operators, lambda {
-    select(:action, :description, :payment_method, event_day_query_as_event_day, dimensions_operators_stations_devices, "sum(monetary_total_price) as monetary_total_price") # rubocop:disable Metrics/LineLength
+    select(:action, :description, :payment_method, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "sum(monetary_total_price) as monetary_total_price") # rubocop:disable Metrics/LineLength
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag).has_money.is_ok
-      .group(:action, :description, :payment_method, :operator_id, grouping_operators_stations_devices)
+      .group(:action, :description, :payment_method, grouping_operators_devices, grouping_station)
   }
 
   scope :products_sale, lambda {
-    select(:description, :credit_name, event_day_query_as_event_day, dimensions_operators_stations_devices, "COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount", "sum(sale_item_quantity) as sale_item_quantity") # rubocop:disable Metrics/LineLength
+    select(:description, :credit_name, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount", "sum(sale_item_quantity) as sale_item_quantity") # rubocop:disable Metrics/LineLength
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .where(action: 'sale').is_ok
-      .group(:description, :credit_name, grouping_operators_stations_devices, "product_name")
+      .group(:description, :credit_name, grouping_operators_devices, grouping_station, "product_name")
   }
 
   scope :products_sale_stock, lambda {
-    select(:description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_stations_devices, "COALESCE(products.name, 'Other Amount') as product_name") # rubocop:disable Metrics/LineLength
+    select(:operator_id, :description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name") # rubocop:disable Metrics/LineLength
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .where(action: 'sale').is_ok
-      .group(:description, :sale_item_quantity, grouping_operators_stations_devices, "product_name")
+      .group(:operator_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
   }
 
   scope :credit_flow, lambda {
@@ -71,10 +71,10 @@ class Poke < ApplicationRecord
   }
 
   scope :access, lambda {
-    select(event_day_query_as_event_day, "to_char(date_trunc('hour', date), 'DD-MM-YYYY HHh') as date_time, stations.category as station_type, stations.name as station_name, CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction") # rubocop:disable Metrics/LineLength
+    select(event_day_query_as_event_day, dimensions_station, "to_char(date_trunc('hour', date), 'DD-MM-YYYY HHh') as date_time, CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction") # rubocop:disable Metrics/LineLength
       .joins(:station)
       .where.not(access_direction: nil).is_ok
-      .group(:station_type, :station_name, "#{event_day_query}, date_time, station_type, station_name, direction")
+      .group(grouping_station, "#{event_day_query}, date_time, direction")
   }
 
   scope :devices, -> { select("stations.name as station_name", event_day_query_as_event_day, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) } # rubocop:disable Metrics/LineLength
@@ -89,12 +89,20 @@ class Poke < ApplicationRecord
     "to_char(date_trunc('day', date - INTERVAL '8 hour'), 'DD-MM-YYYY')"
   end
 
-  def self.dimensions_operators_stations_devices
-    "gtags.tag_uid as operator_uid, CONCAT(customers.first_name, ' ', customers.last_name) as operator_name, stations.location as location, stations.category as station_type, stations.name as station_name, devices.asset_tracker as device_name" # rubocop:disable Metrics/LineLength
+  def self.dimensions_operators_devices
+    "gtags.tag_uid as operator_uid, CONCAT(customers.first_name, ' ', customers.last_name) as operator_name, devices.asset_tracker as device_name" # rubocop:disable Metrics/LineLength
   end
 
-  def self.grouping_operators_stations_devices
-    "#{event_day_query}, operator_uid, operator_name, location, station_type, station_name, device_name"
+  def self.grouping_operators_devices
+    "#{event_day_query}, operator_uid, operator_name, device_name"
+  end
+
+  def self.dimensions_station
+    "stations.location as location, stations.category as station_type, stations.name as station_name"
+  end    
+
+  def self.grouping_station
+    "location, station_type, station_name"
   end
 
   def error?

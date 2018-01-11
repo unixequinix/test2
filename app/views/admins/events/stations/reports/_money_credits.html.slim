@@ -1,0 +1,42 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Money in #{station.name}
+    .mdl-grid
+      #money
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Credits
+    .mdl-grid
+      #credits
+  .mdl-layout-spacer
+
+javascript:
+    $(function () {
+        var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var numberFormat = $.pivotUtilities.numberFormat;
+        var frFormat = numberFormat({digitsAfterDecimal: 1});
+
+		var money = jQuery.parseJSON('#{ escape_javascript(money.html_safe)}');
+
+        $("#money").pivotUI(money, {
+            renderers: renderers,
+            cols: ["Event Day"], rows: ["Action"],
+            rendererName: "Table",
+            aggregators: { "Money": function () { return tpl.sum(frFormat)(["Money"]) } }
+        });
+
+        var credits = jQuery.parseJSON('#{ escape_javascript(credits.html_safe)}');
+
+      	$("#credits").pivotUI(credits, {
+            renderers: renderers,
+            cols: ["Event Day", "Credit Name"], rows: ["Action"],
+            rendererName: "Table",
+            aggregators: { "Credits": function () { return tpl.sum()(["Credits"]) } }
+        });
+
+    });

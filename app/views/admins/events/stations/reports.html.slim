@@ -18,36 +18,11 @@
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
-
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Sales for #{@station.name}
-    .mdl-grid
-      #products
-  .mdl-layout-spacer
-
-javascript:
-    $(function () {
-        var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
-        var products = jQuery.parseJSON('#{ escape_javascript(@products.html_safe)}');
-        var tpl = $.pivotUtilities.aggregatorTemplates;
-        var numberFormat = $.pivotUtilities.numberFormat;
-        var frFormat = numberFormat({digitsAfterDecimal: 0});
-        var frFormat_1 = numberFormat({digitsAfterDecimal: 1});
-
-        $("#products").pivotUI(products, {
-            renderers: renderers,
-            cols: ["Event Day", "Credit Name"], rows: ["Product Name"],
-            rendererName: "Table",
-            aggregators: {
-                "Credits": function () {
-                    return tpl.sum(frFormat_1)(["Credits"])
-                },
-                "Quantity": function () {
-                    return tpl.sum(frFormat)(["Quantity"])
-                }
-            }
-        });
-    });
+- if @station.type == 'pos'
+  = render "admins/events/stations/reports/pos", station: @station, products: @products, products_stock: @products_stock
+- if @station.type == 'access'
+  = render "admins/events/stations/reports/access", station: @station, access_control: @access_control
+- if @station.type == 'credential'
+  = render "admins/events/stations/reports/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
+- if @station.type == 'money_credit'
+  = render "admins/events/stations/reports/money_credits", station: @station, money: @money, credits: @credits

@@ -19,10 +19,10 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
   def money_recon
     @load_reports_resources = false
     authorize(:poke, :reports_billing?)
-    money_cols = ["Action", "Description", "Location", "Station Name", "Money", "Payment Method", "Event Day"]
-    op_cols = ["Action", "Description", "Location", "Station Name", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
 
+    money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day"]
     @money = prepare_pokes(money_cols,  @current_event.pokes.money_recon)
+    op_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
     @operators = prepare_pokes(op_cols, @current_event.pokes.money_recon_operators)
   end
 
@@ -42,12 +42,11 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
 
   def gates
     authorize(:poke, :reports?)
-    ticket_cols = ["Action", "Station Type", "Station Name", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
-    rate_cols = ["Ticket Type", "Total Tickets", "Redeemed"]
-    access_cols = ["Station Type", "Station Name", "Event Day", "Date Time", "Direction", "Access"]
-
+    ticket_cols = ["Action", "Location", "Station Type", "Station Name", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
     @checkin_ticket_type = prepare_pokes(ticket_cols, @current_event.pokes.checkin_ticket_type)
+    rate_cols = ["Ticket Type", "Total Tickets", "Redeemed"]
     @checkin_rate = prepare_pokes(rate_cols, @current_event.ticket_types.checkin_rate)
+    access_cols = ["Location", "Station Type", "Station Name", "Event Day", "Date Time", "Direction", "Access"]
     @access_control = prepare_pokes(access_cols, @current_event.pokes.access)
   end
 

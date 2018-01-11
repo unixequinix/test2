@@ -1,0 +1,30 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Access Control for #{station.name}
+    .mdl-grid
+      #access_control
+  .mdl-layout-spacer
+
+javascript:
+    $(function () {
+        var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var numberFormat = $.pivotUtilities.numberFormat;
+        var frFormat = numberFormat({digitsAfterDecimal: 0});
+
+        var access_control = jQuery.parseJSON('#{ escape_javascript(access_control.html_safe) }');
+
+        $("#access_control").pivotUI(access_control, {
+            renderers: renderers,
+            cols:["Station Name", "Direction"], rows: ["Event Day", "Date Time"],
+            rendererName: "Table",
+            aggregators: {
+                "Access": function () {
+                    return tpl.sum(frFormat)(["Access"])}
+                }
+
+
+        });
+
+    });

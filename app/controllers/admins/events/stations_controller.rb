@@ -7,8 +7,18 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
     @load_reports_resources = true
     authorize(:poke, :reports?)
 
-    cols = ["Description", "Product Name", "Credit Name", "Credits", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
-    @products = prepare_pokes(cols, @station.pokes.products_sale)
+    money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
+    @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators)
+    credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device","Event Day"]
+    @credits = prepare_pokes(credit_cols, @station.pokes.credit_flow)
+    product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"] # rubocop:disable Metrics/LineLength 
+    @products = prepare_pokes(product_cols, @station.pokes.products_sale)
+    stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"] 
+    @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock)
+    access_cols = ["Event Day", "Date Time", "Direction", "Access"]
+    @access_control = prepare_pokes(access_cols, @station.pokes.access)
+    ticket_cols = ["Action", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
+    @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type)
   end
 
   def index
