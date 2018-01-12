@@ -4,3 +4,8 @@ Recaptcha.configure do |config|
 end
 
 Recaptcha.configuration.skip_verify_env.push('development')
+Recaptcha.configuration.skip_verify_env.push('staging')
+Recaptcha.configuration.skip_verify_env.push('hotfix')
+Recaptcha.configuration.skip_verify_env.push('demo')
+Recaptcha.configuration.skip_verify_env.push('sandbox')
+Recaptcha.configuration.skip_verify_env.push('integration')
