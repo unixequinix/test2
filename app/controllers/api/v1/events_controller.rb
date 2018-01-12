@@ -1,6 +1,6 @@
 class Api::V1::EventsController < Api::V1::BaseController
   def index
-    device = Device.find_by(mac: params[:mac])
+    device = Device.find_by(mac: params.slice(:mac).to_unsafe_h[:mac])
 
     if device.present? && device.team.present?
       status = device.asset_tracker.blank? ? :accepted : :ok
