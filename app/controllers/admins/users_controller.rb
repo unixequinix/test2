@@ -23,7 +23,7 @@ class Admins::UsersController < ApplicationController
 
   def create
     @user = User.new(permitted_params.merge(role: "promoter"))
-    if verify_recaptcha(model: @user) && @user.save
+    if @user.save
       EventRegistration.where(email: @user.email).update_all(user_id: @user.id)
       UserTeam.where(email: @user.email).update_all(user_id: @user.id)
       sign_in(@user, scope: :user)
