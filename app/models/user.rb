@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :trackable, authentication_keys: [:login]
+  devise :database_authenticatable, :recoverable, :validatable, :trackable, authentication_keys: [:login]
 
   has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations, dependent: :destroy
@@ -10,9 +10,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validates :password, presence: true,
-                       confirmation: true,
-                       length: { within: Devise.password_length },
+  validates :password, length: { within: Devise.password_length },
                        format: { with: /\A(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[a-z])\z/, message: 'must include 1 lowercase letter and 1 digit' },
                        unless: (-> { password.nil? })
 

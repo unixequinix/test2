@@ -9,7 +9,7 @@
             = f.input :login, autofocus: true
             = f.input :password
             .recaptcha
-              = recaptcha_tags_if_under_attack if Rails.env.production?
+              = recaptcha_tags_if_under_attack unless Rails.env.development?
             = f.button :submit, "Log in", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
       .register-action
         = link_to 'Sign Up', new_admins_user_path
