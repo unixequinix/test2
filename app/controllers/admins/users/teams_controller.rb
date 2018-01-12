@@ -97,11 +97,9 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
       if @device.team_id.nil? && @device.update(team_id: current_user.team.id)
         format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_devices.added") }
       else
-        if @device.valid?
-          format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_devices.already_belong") }
-        else
-          format.html { redirect_to admins_user_team_path(current_user), alert: @device.errors.full_messages.to_sentence }
-        end
+        format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_devices.already_belong") } if @device.valid?
+
+        format.html { redirect_to admins_user_team_path(current_user), alert: @device.errors.full_messages.to_sentence }
       end
     end
   end

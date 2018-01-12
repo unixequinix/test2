@@ -99,7 +99,7 @@ class Poke < ApplicationRecord
 
   def self.dimensions_station
     "stations.location as location, stations.category as station_type, stations.name as station_name"
-  end    
+  end
 
   def self.grouping_station
     "location, station_type, station_name"

@@ -13,10 +13,10 @@ class Station < ApplicationRecord
              touchpoint: [:touchpoint] }.freeze
 
   TYPES = { money_credit:  %i[customer_portal box_office top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
-                   cs_accreditation:  %i[staff_accreditation cs_accreditation],
-                   pos: %i[bar vendor],
-                   credential: %i[check_in ticket_validation],
-                   access: [:access_control] }.freeze
+            cs_accreditation:  %i[staff_accreditation cs_accreditation],
+            pos: %i[bar vendor],
+            credential: %i[check_in ticket_validation],
+            access: [:access_control] }.freeze
 
   CATEGORIES = GROUPS.values.flatten.map(&:to_s)
 
