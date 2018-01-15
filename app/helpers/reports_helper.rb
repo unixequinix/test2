@@ -5,6 +5,10 @@ module ReportsHelper
     data.map { |stat| PokeSerializer.new(stat).to_h.slice(*atts) }.to_json
   end
 
+  def prep(atts, data)
+    data.map { |stat| PokeSerializer.new(stat).to_h.slice(*atts) }
+  end
+
   def query_activations(event_id)
     <<-SQL
       SELECT

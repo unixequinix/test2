@@ -12,12 +12,13 @@ class Station < ApplicationRecord
              monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze
 
-  TYPES = { money_credit:  %i[customer_portal box_office top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
-            cs_accreditation:  %i[staff_accreditation cs_accreditation],
-            pos: %i[bar vendor],
-            credential: %i[check_in ticket_validation],
-            access: [:access_control] }.freeze
-
+  TYPES = { money_credit:  %i[top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
+                   money: %i[customer_portal],
+                   box_office: %i[box_office], 
+                   pos: %i[bar vendor],
+                   credential: %i[check_in ticket_validation staff_accreditation cs_accreditation],
+                   access: [:access_control] }.freeze
+  
   CATEGORIES = GROUPS.values.flatten.map(&:to_s)
 
   belongs_to :event

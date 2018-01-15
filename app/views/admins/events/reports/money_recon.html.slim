@@ -9,6 +9,40 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency(@total_money)
+            .mdl-card__supporting-text
+              span.good_info = "Total Money Income"
+ 
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency(@topup)
+            .mdl-card__supporting-text
+              span.good_info = "Total Top-Ups"
+
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency(@refund)
+            .mdl-card__supporting-text
+              span.good_info = "Total Refunds"
+
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency(@online_money_left)
+            .mdl-card__supporting-text
+              span.good_info = "Online Left-over Balance"
+
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
     h5 Money Income
     .mdl-grid
       #money

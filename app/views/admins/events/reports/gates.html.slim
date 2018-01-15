@@ -9,6 +9,26 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = @total_checkins
+            .mdl-card__supporting-text
+              span.good_info = "Total Check-in´s"
+ 
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = @total_access
+            .mdl-card__supporting-text
+              span.good_info = "Total Accesses"
+
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
     h5 Tickets Check-in
     .mdl-grid
       #checkin_ticket_type

@@ -9,6 +9,26 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_token(@sale_credit)
+            .mdl-card__supporting-text
+              span.good_info = "Total Sales in Credits"
+ 
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_token(@sale_virtual)
+            .mdl-card__supporting-text
+              span.good_info = "Total Sales in Virtual Credits"
+
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
     h5 Products Sale
     .mdl-grid
       #products
@@ -25,11 +45,12 @@
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
-        var products = jQuery.parseJSON('#{ escape_javascript(@products.html_safe)}');
         var tpl = $.pivotUtilities.aggregatorTemplates;
         var numberFormat = $.pivotUtilities.numberFormat;
         var frFormat = numberFormat({digitsAfterDecimal: 0});
         var frFormat_1 = numberFormat({digitsAfterDecimal: 1});
+
+        var products = jQuery.parseJSON('#{ escape_javascript(@products.html_safe)}');
 
         $("#products").pivotUI(products, {
             renderers: renderers,

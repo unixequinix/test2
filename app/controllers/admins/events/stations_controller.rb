@@ -1,7 +1,7 @@
 class Admins::Events::StationsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
   include ReportsHelper
 
-  before_action :set_station, except: %i[index new create]
+  before_action :set_station, :set_variables, except: %i[index new create]
 
   def reports
     @load_reports_resources = true
@@ -37,10 +37,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
     @items = @station.all_station_items
     @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
     @transactions = @current_event.transactions.where(station: @station).status_ok.credit
-    @sales = @transactions.credit.where(action: "sale").sum(:credits).abs
-    @refunds = @transactions.credit.where(action: "sale_refund").sum(:credits).abs
-    @operators = @transactions.pluck(:operator_tag_uid).uniq.count
-    @devices = @current_event.devices.where(mac: @transactions.pluck(:device_uid).uniq)
+    @sales = - @station.pokes.where(credit: @all_credits).sales.is_ok.sum(:credit_amount)
+    @sales_credits = - @station.pokes.where(credit: @credit).sales.is_ok.sum(:credit_amount)
+    @operators = @station.pokes.pluck(:operator_id).uniq.count
+    @devices = @station.pokes.pluck(:device_id).uniq.count
   end
 
   def new
@@ -128,5 +128,11 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
 
   def permitted_params
     params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden)
+  end
+
+  def set_variables
+    @credit = @current_event.credit
+    @virtual = @current_event.virtual_credit 
+    @all_credits = [@credit, @virtual]
   end
 end

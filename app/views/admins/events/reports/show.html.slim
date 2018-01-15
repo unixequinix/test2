@@ -66,6 +66,22 @@
               span.good_info = "Total Devices Used"
               br
               span = "Devices Used Detail"
-
-
   .mdl-layout-spacer
+
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Sales by Hour
+    .mdl-grid
+      = line_chart @sales
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Record Credit by Hour
+    .mdl-grid
+      = column_chart @record_credit
+  .mdl-layout-spacer
+

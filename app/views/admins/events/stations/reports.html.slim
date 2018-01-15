@@ -26,3 +26,7 @@
   = render "admins/events/stations/reports/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
 - if @station.type == 'money_credit'
   = render "admins/events/stations/reports/money_credits", station: @station, money: @money, credits: @credits
+- if @station.type == 'money'
+  = render "admins/events/stations/reports/money", station: @station, money: @money
+- if @station.type == 'box_office'
+  = render "admins/events/stations/reports/box_office", station: @station, money: @money, checkin_ticket_type: @checkin_ticket_type
