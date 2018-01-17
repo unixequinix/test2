@@ -83,7 +83,7 @@ module Api
               catalog_item_id,
               catalog_items.type as catalog_item_type,
               redeemed,
-              orders.status
+              'completed' as status
             FROM order_items
               JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
               JOIN orders ON orders.id = order_items.order_id
