@@ -35,9 +35,9 @@ javascript:
 
         $("#checkin_ticket_type").pivotUI(checkin_ticket_type, {
             renderers: renderers,
-            cols: ["Event Day"], rows: ["Station Name", "Ticket Type"],
+            cols: ["Event Day"], rows: ["Station Name", "Catalog Item"],
             rendererName: "Table",
-            aggregators: { "Total Tickets": function () { return tpl.sum(frFormat)(["Total Tickets"]) } }
+            aggregators: { "Catalog Item": function () { return tpl.sum(frFormat)(["Total Tickets"]) } }
         });
 
     });

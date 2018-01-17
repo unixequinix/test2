@@ -22,7 +22,7 @@ class Poke < ApplicationRecord
   scope :sale_refunds, -> { where(action: "sale_refund") }
 
   fees = %w[initial_fee topup_fee gtag_deposit_fee gtag_return_fee]
-  scope :fees, -> { where(action: fees) }
+  scope :fees, -> { where(action: 'fee') }
  
   scope :initial_fees, -> { where(action: "initial_fee") }
   scope :topup_fees, -> { where(action: "topup_fee") }
@@ -38,13 +38,13 @@ class Poke < ApplicationRecord
 
   scope :money_recon, lambda {
     select(:action, :description, :payment_method, event_day_query_as_event_day, "stations.category as station_type", "stations.name as station_name", "sum(monetary_total_price) as monetary_total_price") # rubocop:disable Metrics/LineLength
-      .joins(:station).has_money.is_ok
+      .left_joins(:station).has_money.is_ok
       .group(:action, :description, :payment_method, "#{event_day_query}, station_type, station_name")
   }
 
   scope :money_recon_operators, lambda {
     select(:action, :description, :payment_method, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "sum(monetary_total_price) as monetary_total_price") # rubocop:disable Metrics/LineLength
-      .joins(:station, :device, :operator).left_outer_joins(:operator_gtag).has_money.is_ok
+      .left_joins(:station, :device, :operator).left_outer_joins(:operator_gtag).has_money.is_ok
       .group(:action, :description, :payment_method, grouping_operators_devices, grouping_station)
   }
 
@@ -56,10 +56,10 @@ class Poke < ApplicationRecord
   }
 
   scope :products_sale_stock, lambda {
-    select(:operator_id, :description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name") # rubocop:disable Metrics/LineLength
+    select(:operation_id, :description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name") # rubocop:disable Metrics/LineLength
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .where(action: 'sale').is_ok
-      .group(:operator_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
+      .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
   }
 
   scope :credit_flow, lambda {
@@ -70,10 +70,10 @@ class Poke < ApplicationRecord
   }
 
   scope :checkin_ticket_type, lambda {
-    select(:action, :description, event_day_query_as_event_day, "stations.category as station_type, stations.name as station_name, devices.asset_tracker as device_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets") # rubocop:disable Metrics/LineLength
-      .joins(:station, :ticket_type, :device)
-      .where(action: %w[checkin checkpoint]).is_ok
-      .group(:action, :description, "#{event_day_query}, station_type, station_name, device_name, ticket_type_name")
+    select(:action, :description, event_day_query_as_event_day, dimensions_station, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets, sum(pokes.monetary_total_price) as monetary_total_price") # rubocop:disable Metrics/LineLength
+      .joins(:station, :device, :catalog_item).left_joins(:ticket_type)
+      .where(action: %w[checkin purchase]).is_ok
+      .group(:action, :description, grouping_station, "#{event_day_query}, device_name, catalog_item_name, ticket_type_name")
   }
 
   scope :access, lambda {

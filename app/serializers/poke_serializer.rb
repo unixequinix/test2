@@ -21,6 +21,7 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :direction, key: "Direction"
   attribute :access_direction, key: "Access"
   attribute :ticket_type_name, key: "Ticket Type"
+  attribute :catalog_item_name, key: "Catalog Item"
   attribute :total_tickets, key: "Total Tickets"
   attribute :redeemed, key: "Redeemed"
 
@@ -118,5 +119,9 @@ class PokeSerializer < ActiveModel::Serializer
 
   def redeemed
     object.try(:redeemed)
+  end
+
+  def catalog_item_name
+    object.try(:catalog_item_name)
   end
 end

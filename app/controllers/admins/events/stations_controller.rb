@@ -17,7 +17,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
     @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock)
     access_cols = ["Event Day", "Date Time", "Direction", "Access"]
     @access_control = prepare_pokes(access_cols, @station.pokes.access)
-    ticket_cols = ["Action", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
+    ticket_cols = ["Action", "Catalog Item", "Total Tickets", "Money", "Event Day", "Operator UID", "Operator Name", "Device"]
     @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type)
   end
 

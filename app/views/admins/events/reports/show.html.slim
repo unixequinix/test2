@@ -74,7 +74,7 @@
   .mdl-cell.mdl-cell--10-col
     h5 Sales by Hour
     .mdl-grid
-      = line_chart @sales
+      = column_chart @sales
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
@@ -82,6 +82,7 @@
   .mdl-cell.mdl-cell--10-col
     h5 Record Credit by Hour
     .mdl-grid
-      = column_chart @record_credit
+      = column_chart @record_credit, colors: ["orange", "#999"]
+
   .mdl-layout-spacer
 

@@ -15,7 +15,7 @@
             .mdl-card__title.mdl-card--expand
               h3.mdl-card__title-text = @total_checkins
             .mdl-card__supporting-text
-              span.good_info = "Total Check-in´s"
+              span.good_info = "Total Ticket Check-in´s"
  
       .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
@@ -29,11 +29,11 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    h5 Tickets Check-in
+    h5 Check-in and Box office purchase
     .mdl-grid
       #checkin_ticket_type
     br
-    h5 Check-in Rate
+    h5 Ticket Check-in Rate
     .mdl-grid
       #checkin_rate
     br
@@ -55,9 +55,9 @@ javascript:
 
         $("#checkin_ticket_type").pivotUI(checkin_ticket_type, {
             renderers: renderers,
-            cols: ["Event Day"], rows: ["Station Name", "Ticket Type"],
+            cols: ["Event Day"], rows: ["Station Name", "Catalog Item"],
             rendererName: "Table",
-            aggregators: { "Total Tickets": function () { return tpl.sum(frFormat)(["Total Tickets"]) } }
+            aggregators: { "Catalog Items": function () { return tpl.sum(frFormat)(["Total Tickets"]) } }
         });
 
         var checkin_rate = jQuery.parseJSON('#{ escape_javascript(@checkin_rate.html_safe) }');
