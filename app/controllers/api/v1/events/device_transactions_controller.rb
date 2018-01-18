@@ -12,7 +12,7 @@ module Api
             new_atts[:server_transactions] = server_count
             new_atts[:app_version] = params[:app_version]
             new_atts[:action] = action if action.in?(DeviceTransaction::ACTIONS)
-
+            new_atts[:initialization_type] = atts[:initialization_type]
             device = Device.find_or_create_by!(mac: atts[:device_uid].downcase)
             registration = @current_event.device_registrations.find_or_create_by!(device: device)
             registration.update!(new_atts)
@@ -37,7 +37,7 @@ module Api
           all_params = params.permit!.to_h.symbolize_keys
           all_params = [all_params[:device_transaction]] + [all_params[:_json]].flatten
           all_params.compact.flatten.map do |atts|
-            atts.symbolize_keys.slice(:action, :device_uid, :initialization_type, :number_of_transactions, :battery, :app_version)
+            atts.symbolize_keys.slice(:action, :device_uid, :initialization_type, :number_of_transactions, :battery)
           end
         end
       end
