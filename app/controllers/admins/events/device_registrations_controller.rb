@@ -23,7 +23,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
       device_registration = @current_event.device_registrations.find_or_create_by(device_id: device.id)
       authorize device_registration
 
-      initialization_type = permitted_params["initialization_type"].presence || @actions.first.to_s
+      initialization_type = params[:device_registration][:action] || permitted_params["initialization_type"].presence || @actions.first.to_s
       device_registration.update(allowed: false, initialization_type: initialization_type)
     end
 
@@ -55,6 +55,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         @devices_usage = devices_usage
         set_devices
 
+        format.html { redirect_to new_admins_event_device_registration_path(@current_event) }
         format.json { render json: device_registrations, status: :ok }
         format.js { render action: 'update_devices_usage' }
       else
