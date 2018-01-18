@@ -16,35 +16,35 @@
             i.material-icons file_download
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download CSV
       li.floaty-list-item
-        = link_to new_admins_event_gtag_assignment_path(@current_event, @customer) do
+        = link_to new_admins_event_gtag_assignment_path(@current_event, @customer), id:"assign_gtag_link" do
           button#gtag.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons loyalty
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="gtag" Assign Gtag
       li.floaty-list-item
-        = link_to new_admins_event_ticket_assignment_path(@current_event, @customer) do
+        = link_to new_admins_event_ticket_assignment_path(@current_event, @customer), id:"assign_ticket_link" do
           button#ticket.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons bookmark_border
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ticket" Assign Ticket
       li.floaty-list-item
-        = link_to download_transactions_admins_event_customer_path(@current_event, @customer) do
+        = link_to download_transactions_admins_event_customer_path(@current_event, @customer), id:"credit_history_link" do
           button#credit_history.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="credit_history" Credit History
       - if @customer.provider.blank?
         li.floaty-list-item
-          = link_to reset_password_admins_event_customer_path(@current_event, @customer) do
+          = link_to reset_password_admins_event_customer_path(@current_event, @customer), id:"reset_password_link" do
             button#pass.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons lock_open
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="pass" Reset Password
       - if current_user.admin?
         li.floaty-list-item
-          = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id) do
+          = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id), id:"new_order_link" do
             button#new_order.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add_shopping_cart
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" New Order
       - if current_user.admin? && !@customer.anonymous?
         li.floaty-list-item
-          = link_to edit_admins_event_customer_path(@current_event, @customer) do
+          = link_to edit_admins_event_customer_path(@current_event, @customer), id:"edit_customer_link" do
             button#edit_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_customer" Edit Customer
