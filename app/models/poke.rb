@@ -18,17 +18,17 @@ class Poke < ApplicationRecord
   scope :topups, -> { where(action: "topup") }
   scope :refunds, -> { where(action: "refund") }
   scope :sales, -> { where(action: "sale") }
-  scope :record_credit, -> {where(action: "record_credit")}
+  scope :record_credit, -> { where(action: "record_credit") }
   scope :sale_refunds, -> { where(action: "sale_refund") }
 
   fees = %w[initial_fee topup_fee gtag_deposit_fee gtag_return_fee]
   scope :fees, -> { where(action: 'fee') }
- 
+
   scope :initial_fees, -> { where(action: "initial_fee") }
   scope :topup_fees, -> { where(action: "topup_fee") }
   scope :deposit_fees, -> { where(action: "gtag_deposit_fee") }
   scope :return_fees, -> { where(action: "gtag_return_fee") }
-  scope :online_orders, -> { where(action:"record_credit", description: "order") }
+  scope :online_orders, -> { where(action: "record_credit", description: "order") }
 
   scope :has_money, -> { where.not(monetary_total_price: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
@@ -77,7 +77,7 @@ class Poke < ApplicationRecord
   }
 
   scope :access, lambda {
-    select(event_day_query_as_event_day, dimensions_station, date_time_query,"CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction") # rubocop:disable Metrics/LineLength
+    select(event_day_query_as_event_day, dimensions_station, date_time_query, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction") # rubocop:disable Metrics/LineLength
       .joins(:station)
       .where.not(access_direction: nil).is_ok
       .group(grouping_station, "#{event_day_query}, date_time, direction")
@@ -85,9 +85,9 @@ class Poke < ApplicationRecord
 
   scope :devices, -> { select("stations.name as station_name", event_day_query_as_event_day, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) } # rubocop:disable Metrics/LineLength
 
-  scope :sales_h, -> {select(date_time_query, "-1*sum(credit_amount) as credit_amount").sales.is_ok.group("date_time")}
+  scope :sales_h, -> { select(date_time_query, "-1*sum(credit_amount) as credit_amount").sales.is_ok.group("date_time") }
 
-  scope :record_credit_h, -> {select(date_time_query, "sum(credit_amount) as credit_amount").record_credit.is_ok.group("date_time")}
+  scope :record_credit_h, -> { select(date_time_query, "sum(credit_amount) as credit_amount").record_credit.is_ok.group("date_time") }
 
   has_paper_trail on: %i[update destroy]
 

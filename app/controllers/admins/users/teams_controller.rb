@@ -91,7 +91,7 @@ class Admins::Users::TeamsController < ApplicationController # rubocop:disable M
   def add_devices
     authorize @team
     @device = Device.find_or_create_by(mac: device_permitted_params[:mac])
-    @device&.update!(device_permitted_params) if @device.valid?
+    @device&.update!(device_permitted_params) if @device.new_record?
 
     respond_to do |format|
       if @device.team_id.nil? && @device.update(team_id: current_user.team.id)

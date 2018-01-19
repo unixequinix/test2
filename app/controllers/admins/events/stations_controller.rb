@@ -132,7 +132,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
 
   def set_variables
     @credit = @current_event.credit
-    @virtual = @current_event.virtual_credit 
+    @virtual = @current_event.virtual_credit
     @all_credits = [@credit, @virtual]
   end
 end
