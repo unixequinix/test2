@@ -5,7 +5,7 @@ module Api
       attribute :counter, key: :id
 
       def catalog_item_type
-        catalog_item.class.to_s if catalog_item
+        object.catalog_item.class.to_s if object.catalog_item
       end
 
       def status
