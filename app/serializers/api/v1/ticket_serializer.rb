@@ -7,6 +7,10 @@ module Api
         object.ticket_type&.catalog_item_id
       end
 
+      def catalog_item_type
+        object.ticket_type&.catalog_item.class.to_s
+      end
+
       def customer
         CustomerSerializer.new(object.customer).as_json if object.customer
       end
