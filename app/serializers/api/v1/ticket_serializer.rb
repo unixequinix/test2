@@ -8,7 +8,7 @@ module Api
       end
 
       def catalog_item_type
-        object.ticket_type&.catalog_item.class.to_s
+        object.ticket_type&.catalog_item.class.to_s if object.ticket_type&.catalog_item
       end
 
       def customer
