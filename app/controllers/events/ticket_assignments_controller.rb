@@ -10,6 +10,12 @@ class Events::TicketAssignmentsController < Events::EventsController
     render(:new) && return unless @ticket.validate_assignation
 
     @ticket.assign_customer(@current_customer, @current_customer)
+
+    # Remove integration absolut-manifesto when event finish
+    if @current_event.id.eql?(266)
+      @ticket.customer.update(gtmid: @ticket.gtmid)
+    end
+
     redirect_to(customer_root_path(@current_event), notice: t("credentials.assigned", item: "Ticket"))
   end
 

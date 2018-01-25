@@ -47,6 +47,7 @@ gem 'omniauth-google-oauth2'
 gem 'pundit'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'rack-attack-recaptcha', '~> 0.0.3'
+gem 'staccato'
 
 # Design
 gem 'font-awesome-rails'

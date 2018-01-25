@@ -76,6 +76,10 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
 
       CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
         ticket_atts = { event_id: @current_event.id, code: row.field("reference"), ticket_type_id: ticket_types[row.field("ticket_type")], purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") } # rubocop:disable Metrics/LineLength
+
+        # Remove instegration absolut-manifesto when event finish
+        ticket_atts.merge!({ gtmid: row.field("gtmid") }) if @current_event.id.eql?(266)
+
         Creators::TicketJob.perform_later(ticket_atts)
         count += 1
       end

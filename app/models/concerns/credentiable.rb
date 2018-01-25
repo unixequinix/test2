@@ -44,6 +44,10 @@ module Credentiable
     end
 
     new_customer.touch
+
+    # Remove instegration absolut-manifesto when event finish
+    new_customer.update(gtmid: self&.gtmid) if self.class.name.eql?("Ticket") && self.event.id.eql?(266)
+    
     write_assignation_transaction("assigned", operator, origin)
   end
 
