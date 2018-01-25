@@ -90,7 +90,7 @@ class Admins::Users::TeamsController < ApplicationController
 
   def add_devices
     authorize @team
-    @device = Device.find_or_create_by(mac: device_permitted_params[:mac])
+    @device = Device.find_or_initialize_by(mac: device_permitted_params[:mac])
     @device&.update!(device_permitted_params) if @device.new_record?
 
     respond_to do |format|
