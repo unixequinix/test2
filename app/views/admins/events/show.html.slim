@@ -1,110 +1,10 @@
 = render "event_modals"
 
+
+
 .mdl-grid.light-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .mdl-grid
-      .mdl-cell.mdl-cell--4-col
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          - if @current_event.alerts.any?
-            .mdl-card__title
-              .mdl-cell.mdl-cell--8-col Alerts
-              .mdl-cell.mdl-cell--4-col
-                .tools
-                  .tool-item
-                    = link_to admins_event_alerts_path(@current_event), style: "overflow: visible" do
-                      span#alerts.material-icons add_alert
-                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="alerts" See All
-                      - if @current_event.alerts.unresolved.any?
-                        span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
-
-          .mdl-card__title
-            .mdl-cell.mdl-cell--8-col State: #{@current_event.state.humanize}
-            .mdl-cell.mdl-cell--4-col
-              .tools
-                .tool-item
-                  - if @current_event.created?
-                    = link_to '#launch-modal' do
-                      span#launch_link.material-icons flight_takeoff
-                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="launch_link" Launch
-
-                  - if @current_event.launched?
-                    = link_to '#close-modal' do
-                      span#close_link.material-icons flight_landing
-                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="close_link" Close
-
-          .mdl-card__title
-            .mdl-cell.mdl-cell--8-col Settings
-            .mdl-cell.mdl-cell--4-col
-              .tools
-                .tool-item
-                  = link_to edit_admins_event_path(@current_event) do
-                    span#edit_event.material-icons edit
-                    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_event" Edit
-
-          .mdl-card__title
-            .mdl-cell.mdl-cell--8-col Device Settings
-            .mdl-cell.mdl-cell--4-col
-              .tools
-                .tool-item
-                  = link_to device_settings_admins_event_path(@current_event) do
-                    span#device_settings.material-icons phonelink_setup
-                    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Edit
-
-          .mdl-card__title
-            .mdl-cell.mdl-cell--8-col Style
-            .mdl-cell.mdl-cell--4-col
-              .tools
-                .tool-item
-                  = link_to edit_event_style_admins_event_path(@current_event) do
-                    span#edit5.material-icons brush
-                    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit5" Edit
-        br
-        .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-cell.mdl-cell--12-col
-              i.material-icons bookmark_border
-              | Ticketing Integrations
-          .mdl-card__supporting-text
-            .table-responsive
-              table.mdl-data-table.mdl-js-data-table.within-card
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric Eventbrite
-                    td
-                      .tools
-                        .tool-item
-                          = link_to admins_event_eventbrite_path(@current_event) do
-                            span#eventbrite_setting.material-icons gesture
-                            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Settings
-                  tr
-                    td.mdl-data-table__cell--non-numeric Universe
-                    td
-                      .tools
-                        .tool-item
-                          = link_to admins_event_universe_path(@current_event) do
-                            span#universe_setting.material-icons format_underlined
-                            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="universe_setting" Settings
-
-        - if policy(@current_event).versions?
-          br
-          .transaction-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title
-              .mdl-cell.mdl-cell--8-col
-                i.material-icons build
-                | Latest Changes
-
-              .mdl-cell.mdl-cell--4-col
-                .tools
-                  .tool-item
-                    = link_to versions_admins_event_path(@current_event) do
-                      span#versions.material-icons layers
-                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="versions" See All
-
-            .mdl-card__supporting-text = render "versions"
-
-
-
       .mdl-cell.mdl-cell--8-col
         .mdl-grid
           .mdl-cell.mdl-cell--4-col
@@ -300,4 +200,91 @@
               .mdl-card__supporting-text = line_chart @sales
 
 
-  .mdl-layout-spacer
+          - if policy(@current_event).versions?
+            .mdl-cell.mdl-cell--12-col
+              .transaction-card-wide.mdl-card.mdl-shadow--2dp
+                .mdl-card__title
+                  .mdl-cell.mdl-cell--8-col
+                    i.material-icons build
+                    | Latest Changes
+
+                  .mdl-cell.mdl-cell--4-col
+                    .tools
+                      .tool-item
+                        = link_to versions_admins_event_path(@current_event) do
+                          span#versions.material-icons layers
+                          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="versions" See All
+
+                .mdl-card__supporting-text = render "versions"
+
+      .mdl-cell.mdl-cell--4-col
+        .mdl-grid
+          .mdl-cell.mdl-cell--12-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--8-col State: #{@current_event.state.humanize}
+                .mdl-cell.mdl-cell--4-col
+                  .tools
+                    .tool-item
+                      - if @current_event.created?
+                        = link_to '#launch-modal' do
+                          span#launch_link.material-icons flight_takeoff
+                          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="launch_link" Launch Event
+
+                      - if @current_event.launched?
+                        = link_to '#close-modal' do
+                          span#close_link.material-icons flight_takeoff
+                          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="close_link" Close Event
+
+              .mdl-card__title
+                .mdl-cell.mdl-cell--8-col Settings
+                .mdl-cell.mdl-cell--4-col
+                  .tools
+                    .tool-item
+                      = link_to edit_admins_event_path(@current_event) do
+                        span#edit_event.material-icons edit
+                        span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_event" Edit
+
+              .mdl-card__title
+                .mdl-cell.mdl-cell--8-col Device Settings
+                .mdl-cell.mdl-cell--4-col
+                  .tools
+                    .tool-item
+                      = link_to device_settings_admins_event_path(@current_event) do
+                        span#device_settings.material-icons phonelink_setup
+                        span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Edit
+
+              .mdl-card__title
+                .mdl-cell.mdl-cell--8-col Style
+                .mdl-cell.mdl-cell--4-col
+                  .tools
+                    .tool-item
+                      = link_to edit_event_style_admins_event_path(@current_event) do
+                        span#edit5.material-icons brush
+                        span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit5" Edit
+            br
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons bookmark_border
+                  | Ticketing Integrations
+              .mdl-card__supporting-text
+                .table-responsive
+                  table.mdl-data-table.mdl-js-data-table.within-card
+                    tbody
+                      tr
+                        td.mdl-data-table__cell--non-numeric Eventbrite
+                        td
+                          .tools
+                            .tool-item
+                              = link_to admins_event_eventbrite_path(@current_event) do
+                                span#eventbrite_setting.material-icons gesture
+                                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Settings
+                      tr
+                        td.mdl-data-table__cell--non-numeric Universe
+                        td
+                          .tools
+                            .tool-item
+                              = link_to admins_event_universe_path(@current_event) do
+                                span#universe_setting.material-icons format_underlined
+                                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="universe_setting" Settings

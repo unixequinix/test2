@@ -56,6 +56,14 @@ html
           = yield(:navigation_actions)
 
           = render partial: "layouts/dropdown_menu"
+
+          = link_to admins_event_alerts_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
+            span#alerts.i.mdl-color-text--white.material-icons add_alert
+            span.mdl-tooltip data-mdl-for="alerts" Alerts
+            - if @current_event.alerts.unresolved.any?
+              span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
+            div style="width: 10px;"
+
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
