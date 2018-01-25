@@ -3,6 +3,10 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def resend_confirmation?
+    all_allowed && event_open
+  end
+
   def virtual_topup?
     all_allowed && event_open
   end

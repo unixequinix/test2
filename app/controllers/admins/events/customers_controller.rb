@@ -47,6 +47,11 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     end
   end
 
+  def resend_confirmation
+    @customer.send_confirmation_instructions
+    redirect_to [:admins, @current_event, @customer], notice: "Confirmation email sent"
+  end
+
   private
 
   def permitted_params

@@ -166,6 +166,7 @@ Rails.application.routes.draw do
             resources :gtag_assignments, only: [:new, :create]
             get :download_transactions
             get :reset_password
+            get :resend_confirmation
           end
         end
 
