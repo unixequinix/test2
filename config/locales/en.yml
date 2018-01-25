@@ -75,6 +75,8 @@ en:
       disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
       complete: Complete
       cancel: Cancel
+      initial_topup_fee: Initial topup fee
+      payment_gateway_fee: Payment gateway fee
     admissions:
       call_to_action: Do you want to remove this ticket?
       call_to_action_started: The event just started so you cannot change the ticket
@@ -214,7 +216,7 @@ en:
       paypal:
         icon: paypal
         name: PayPal
-      vouchup:
+      wiredlion:
         icon: globe
         name: Rest of payment methods
     price: Price

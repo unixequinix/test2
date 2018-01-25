@@ -85,6 +85,6 @@
           .mdl-card__supporting-text Gtag Virtual Balance
   .mdl-layout-spacer
 
-= render("admins/events/transactions/online", transactions: @corrections, title: "Corrections" ) if @corrections.any?
 = render("admins/events/pokes/onsite", pokes: @pokes, title: "Onsite Pokes", active: true ) if @pokes.any?
-= render("admins/events/transactions/onsite", transactions: @transactions, title: "Transactions (DEBUG)", closed: true ) if @transactions.any? && @current_user.glowball?
+
+= render("admins/events/transactions/list", transactions: @transactions, title: "Gtag Transactions (DEBUG)", closed: true ) if @transactions.any? && @current_user.glowball?

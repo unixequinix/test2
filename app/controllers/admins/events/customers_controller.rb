@@ -14,7 +14,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   end
 
   def show
-    @online_transactions = @customer.transactions.includes(:event).online
+    @transactions = @customer.transactions.debug
+    @pokes = @customer.pokes.order(:source, :gtag_counter, :date)
   end
 
   def update
@@ -30,8 +31,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   end
 
   def reset_password
-    password = "123456"
-    @customer.update(password: password, password_confirmation: password)
+    password = "a123456"
+    @customer.update!(password: password, password_confirmation: password)
     redirect_to admins_event_customer_path(@current_event, @customer), notice: "Password reset to '#{password}'"
   end
 

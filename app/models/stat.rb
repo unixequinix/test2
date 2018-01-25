@@ -2,7 +2,7 @@ class Stat < StatsBase
   # rubocop:disable all
   include StatValidator
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :station, optional: true
   belongs_to :operation, class_name: 'Transaction'
 

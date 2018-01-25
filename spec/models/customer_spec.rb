@@ -166,18 +166,6 @@ RSpec.describe Customer, type: :model do
       expect(@order.save).to be_truthy
     end
 
-    describe "when creating refunds" do
-      before { @items = [[@accesses.first.id, -11], [@accesses.first.id, -5]] }
-
-      it "creates order_items with negative total" do
-        expect(customer.build_order(@items).order_items.map(&:total).sum).to be_negative
-      end
-
-      it "creates order_items with negative amount" do
-        expect(customer.build_order(@items).order_items.map(&:amount).sum).to be_negative
-      end
-    end
-
     it "creates a valid order" do
       expect(@order).to be_valid
     end
@@ -193,24 +181,6 @@ RSpec.describe Customer, type: :model do
       it "which are valid" do
         expect(@order_items).not_to be_empty
         @order_items.each { |oi| expect(oi).to be_valid }
-      end
-
-      it "with correct price" do
-        @order_items.each do |order_item|
-          catalog_item = order_item.catalog_item
-          expect(order_item.total).to eq(catalog_item.price * 11)
-        end
-      end
-
-      it "with non price" do
-        item = create(:user_flag, event: event)
-        @station.station_catalog_items.create!(catalog_item: item, price: 1)
-        order = customer.build_order([[item.id, 1]])
-
-        order.order_items.each do |order_item|
-          catalog_item = order_item.catalog_item
-          expect(order_item.total).to eq(catalog_item.price * 1)
-        end
       end
 
       it "with correct counters" do
@@ -245,8 +215,9 @@ RSpec.describe Customer, type: :model do
         expect(customer.credits).to eq(total)
       end
 
-      it "takes into account orders refunded" do
-        total = create_list(:order, 2, customer: customer, status: "refunded", event: event).sum(&:credits)
+      it "does not takes into account orders refunded" do
+        create_list(:order, 2, customer: customer, status: "refunded", event: event)
+        total = create_list(:order, 2, customer: customer, status: "completed", event: event).sum(&:credits)
         create(:order, customer: customer, status: "cancelled", event: event)
         expect(customer.credits).to eq(total)
       end
@@ -254,6 +225,17 @@ RSpec.describe Customer, type: :model do
       it "does not take into account redeemed orders" do
         OrderItem.where(order: create_list(:order, 3, customer: customer, status: "completed", event: event)).update_all(redeemed: true)
         expect(customer.credits).to be_zero
+      end
+
+      it "takes into account completed refunds as negative" do
+        total = create_list(:refund, 2, customer: customer, status: "completed", event: event).sum(&:total)
+        create(:refund, customer: customer, status: "started", event: event)
+        expect(customer.credits).to eq(-total)
+      end
+
+      it "does not take into account other refunds" do
+        create_list(:refund, 2, customer: customer, status: "started", event: event).sum(&:amount)
+        expect(customer.credits).to eq(0)
       end
     end
 

@@ -1,6 +1,9 @@
-class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
+class Admins::EventsController < Admins::BaseController
+  include ReportsHelper
+
   before_action :set_event, except: %i[index new sample_event create]
   before_action :set_event_series, only: %i[new edit]
+  before_action :set_versions, only: %i[show edit]
 
   REDIRECTS = { edit_event_style: :edit_event_style }.freeze
 
@@ -24,7 +27,19 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     render layout: "admin_event"
   end
 
+  def refund_fields
+    render layout: "admin_event"
+  end
+
   def show
+    @total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
+    @total_credits = @current_event.pokes.where(credit: @all_credits).is_ok.sum(:credit_amount)
+    @total_products_sale = -@current_event.pokes.where(credit: @all_credits).sales.is_ok.sum(:credit_amount)
+    @total_checkins = @current_event.tickets.where(redeemed: true).count
+    @total_activations = Poke.connection.select_all(query_activations(@current_event.id)).map { |h| h["Activations"] }.compact.sum
+    @total_devices = @current_event.pokes.is_ok.devices.map { |h| h["total_devices"] }.compact.sum
+
+    @sales = @current_event.pokes.sales.is_ok.where(credit: @current_event.catalog_items.credits).group_by_hour(:date).sum("-1 * credit_amount")
     render layout: "admin_event"
   end
 
@@ -45,7 +60,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def update
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
-        format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
+        format.html { redirect_to edit_admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { render json: @current_event }
       else
         format.html { render REDIRECTS[params[:redirect_path]] || :edit, layout: "admin_event" }
@@ -57,8 +72,9 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def destroy
     transactions = @current_event.transactions
     SaleItem.where(credit_transaction_id: transactions).delete_all
-    Transaction.where(id: @current_event.transactions).delete_all
-    Transaction.where(catalog_item_id: @current_event.catalog_items).update_all(catalog_item_id: nil)
+    Transaction.where(id: transactions).delete_all
+    catalog_items = @current_event.catalog_items.pluck(:id)
+    Transaction.where(catalog_item_id: catalog_items).update_all(catalog_item_id: nil)
     @current_event.device_transactions.delete_all
     @current_event.tickets.delete_all
     @current_event.gtags.delete_all
@@ -67,12 +83,12 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def versions
-    @versions = @current_event.versions.page(params[:page])
+    @versions = @current_event.versions.reorder(created_at: :desc).page(params[:page])
     render layout: "admin_event"
   end
 
   def sample_event
-    @event = SampleEvent.run
+    @event = SampleEvent.run(@current_user)
     @event.event_registrations.create!(user: current_user, email: current_user.email, role: :promoter)
     authorize(@event)
     redirect_to [:edit, :admins, @event], notice: t("alerts.created")
@@ -100,13 +116,12 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   def launch
     @current_event.update_attribute :state, "launched"
-    redirect_to [:admins, @current_event], notice: t("alerts.updated")
+    redirect_to request.referer, notice: t("alerts.updated")
   end
 
   def close
     @current_event.update_attribute :state, "closed"
     @current_event.companies.update_all(hidden: true)
-    @current_event.payment_gateways.delete_all
     @current_event.device_registrations.update_all(allowed: true)
 
     redirect_to [:admins, @current_event], notice: t("alerts.updated")
@@ -143,11 +158,15 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize(@current_event)
   end
 
+  def set_versions
+    @versions = @current_event.versions.reorder(created_at: :desc).limit(10)
+  end
+
   def use_time_zone
     Time.use_zone(@current_event.timezone) { yield }
   end
 
-  def permitted_params # rubocop:disable Metrics/MethodLength
+  def permitted_params
     params.require(:event).permit(:action,
                                   :state,
                                   :name,
@@ -184,13 +203,16 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :format,
                                   :gtag_type,
                                   :gtag_deposit,
-                                  :initial_topup_fee,
-                                  :topup_fee,
+                                  :onsite_initial_topup_fee,
+                                  :online_initial_topup_fee,
+                                  :every_topup_fee,
+                                  :refund_fee,
+                                  :refund_minimum,
+                                  :auto_refunds,
                                   :ultralight_c,
                                   :maximum_gtag_balance,
                                   :credit_step,
                                   :gtag_deposit_fee,
-                                  :topup_fee,
                                   :card_return_fee,
                                   :token,
                                   :owner_id,
@@ -213,6 +235,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :refunds_end_date,
                                   :event_serie_id,
                                   :accounting_code,
-                                  credit_attributes: %i[id name value])
+                                  credit_attributes: %i[id name value],
+                                  refund_fields: [])
   end
 end

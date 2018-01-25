@@ -47,6 +47,6 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:refund).permit(:state, :field_a, :field_b)
+    params.require(:refund).permit(:state, fields: {})
   end
 end

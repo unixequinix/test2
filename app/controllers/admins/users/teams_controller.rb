@@ -1,4 +1,4 @@
-class Admins::Users::TeamsController < ApplicationController # rubocop:disable Metrics/ClassLength
+class Admins::Users::TeamsController < ApplicationController
   layout 'admin'
 
   before_action :authenticate_user!

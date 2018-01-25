@@ -220,7 +220,7 @@ br:
       paypal:
         icon: paypal
         name: PayPal
-      vouchup:
+      wiredlion:
         icon: globo
         name: Restantes métodos de pagamento
     price: Preço

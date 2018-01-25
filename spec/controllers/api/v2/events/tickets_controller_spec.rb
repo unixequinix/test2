@@ -11,6 +11,11 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
 
   before { token_login(user, event) }
 
+  describe "topups" do
+    let(:atts) { { id: ticket.to_param, event_id: event.to_param } }
+    include_examples "controller topups"
+  end
+
   describe "GET #index" do
     before { create_list(:ticket, 10, event: event) }
 

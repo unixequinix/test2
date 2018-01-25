@@ -22,7 +22,7 @@ module Api
         # * have online orders with status 'completed' or 'cancelled' or
         # * have tickets at all or (right now we dont check this!)
         # * have tags with ticket_type which has a catalog_item
-        def customers_sql # rubocop:disable Metrics/MethodLength
+        def customers_sql
           cids = @modified.present? ? @current_event.customers.where("updated_at > ?", @modified).pluck(:id) : @current_event.customers.pluck(:id)
           order_cids = @current_event.orders.where(status: %w[completed cancelled], customer_id: cids).pluck(:customer_id)
           gtag_cids = @current_event.gtags.where(active: true, customer_id: cids).where.not(ticket_type: nil).pluck(:customer_id)
@@ -79,11 +79,11 @@ module Api
               order_items.id,
               counter,
               customer_id,
-              amount,
+              order_items.amount,
               catalog_item_id,
-              catalog_items.type as catalog_item_type,
+              catalog_items.type AS catalog_item_type,
               redeemed,
-              'completed' as status
+              'completed' AS status
             FROM order_items
               JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
               JOIN orders ON orders.id = order_items.order_id

@@ -1,6 +1,354 @@
-= render "event_links"
+= render "event_modals"
 
-.content-grid.mdl-grid
+- content_for(:navigation_actions) do
+  = link_to admins_event_path(@current_event), class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.mdl-grid.light-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col = render "form", event: @current_event
+  .mdl-cell.mdl-cell--10-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--6-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-cell.mdl-cell--4-col
+              i.material-icons info_outline
+              | Info
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Name
+                  td = best_in_place @current_event, :name, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Slug
+                  td = @current_event.slug
+                tr
+                  td.mdl-data-table__cell--non-numeric Event Series
+                  td = best_in_place @current_event, :event_serie_id, as: :select, collection: EventSerie.all.pluck(:id, :name).insert(0, ["", "-"]), url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Timezone
+                  td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "(GMT#{zone.formatted_offset}) #{zone.name}"] }, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Start date
+                  td = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
+                tr
+                  td.mdl-data-table__cell--non-numeric End date
+                  td = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
+                tr
+                  td.mdl-data-table__cell--non-numeric Support email
+                  td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
+
+                - if current_user.glowball?
+                  tr
+                    td.mdl-data-table__cell--non-numeric Accounting Code
+                    td = best_in_place @current_event, :accounting_code, url: [:admins, @current_event]
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--12-col
+              i.material-icons info_outline
+              | Official Info
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Official Name
+                  td = best_in_place @current_event, :official_name, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Official Address
+                  td = best_in_place @current_event, :official_address, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Registration Number
+                  td = best_in_place @current_event, :registration_num, url: [:admins, @current_event]
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--12-col
+              i.material-icons signal_cellular_null
+              | API Controls
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Online Services
+                  td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Devices
+                  td = best_in_place @current_event, :open_devices_api, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Ticketing
+                  td = best_in_place @current_event, :open_ticketing_api, best_in_place_checkbox([:admins, @current_event])
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--12-col
+              i.material-icons build
+              | Customer Mandatory Fields
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Phone Mandatory
+                  td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Address Mandatory
+                  td = best_in_place @current_event, :address_mandatory, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Gender Mandatory
+                  td = best_in_place @current_event, :gender_mandatory, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Birthday Mandatory
+                  td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
+
+        - if @current_event.created?
+          br
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title style="color: red !important"
+              .mdl-cell.mdl-cell--12-col
+                i.material-icons error_outline
+                | DANGER ZONE
+
+            .mdl-card__supporting-text
+              = link_to admins_event_path(@current_event), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_event_link" do
+                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored type='button'
+                  'DELETE FOREVER
+
+
+
+      .mdl-cell.mdl-cell--6-col
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-cell.mdl-cell--10-col
+              i.material-icons local_atm
+              | Money Settings (editable)
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Value
+                  td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description, class: "currency_exchange"
+                tr
+                  td.mdl-data-table__cell--non-numeric Currency
+                  td#currency = best_in_place @current_event, :currency, as: :select, collection: Money::Currency.all.map {|c| [c.id.to_s.upcase, "#{c.symbol} : #{c.name}"]}, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Credit Name (Singular form)
+                  td#credit_name = best_in_place @current_event.credit, :name, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
+                tr
+                  td.mdl-data-table__cell--non-numeric Credit Symbol
+                  td = best_in_place @current_event.credit, :symbol, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
+                tr
+                  td.mdl-data-table__cell--non-numeric Maximum Gtag Balance
+                  td
+                    = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric Credit Step
+                  td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--4-col
+              i.material-icons info_outline
+              | Fees
+
+          .mdl-card__supporting-text
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :gtag_deposit_fee, "yes", @current_event.gtag_deposit_fee.present?, class: "gtag_deposit_fee", id: "gtag_deposit_fee_checkbox"
+                    | &nbsp; Gtag deposit
+                  td
+                    = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], class: "event_fee", id: "gtag_deposit_fee", style: @current_event.gtag_deposit_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :every_topup_fee, "yes", @current_event.every_topup_fee.present?, class: "every_topup_fee", id: "every_topup_fee_checkbox"
+                    | &nbsp; Every Topup
+                  td
+                    = best_in_place @current_event, :every_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "every_topup_fee", style: @current_event.every_topup_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :onsite_initial_topup_fee, "yes", @current_event.onsite_initial_topup_fee.present?, class: "onsite_initial_topup_fee", id: "onsite_initial_topup_fee_checkbox"
+                    | &nbsp; <b>Onsite</b> Initial Topup
+                  td
+                    = best_in_place @current_event, :onsite_initial_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "onsite_initial_topup_fee", style: @current_event.onsite_initial_topup_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :online_initial_topup_fee, "yes", @current_event.online_initial_topup_fee.present?, class: "online_initial_topup_fee", id: "online_initial_topup_fee_checkbox"
+                    | &nbsp; <b>Online</b> Initial Topup fee
+                  td
+                    = best_in_place @current_event, :online_initial_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "online_initial_topup_fee", style: @current_event.online_initial_topup_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--10-col
+              i.material-icons local_atm
+              | Tips
+            .mdl-cell.mdl-cell--2-col = best_in_place @current_event, :tips_enabled, best_in_place_checkbox([:admins, @current_event])
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--10-col
+              i.material-icons add_shopping_cart
+              | Online Topups
+            .mdl-cell.mdl-cell--2-col = best_in_place @current_event, :open_topups, best_in_place_checkbox([:admins, @current_event])
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--10-col
+              i.material-icons remove_shopping_cart
+              | Online Refunds
+            .mdl-cell.mdl-cell--2-col = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
+
+          .mdl-card__supporting-text#online_refunds_settings style= "#{@current_event.open_refunds? ? "" : "display: none"}"
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :refund_fee, "yes", @current_event.refund_fee.present?, class: "refund_fee", id: "every_refund_fee_checkbox"
+                    | &nbsp; Fee
+                  td
+                    = best_in_place @current_event, :refund_fee, url: [:admins, @current_event], class: "event_fee", id: "refund_fee", style: @current_event.refund_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+                  tr
+                    td.mdl-data-table__cell--non-numeric
+                      = check_box_tag :refund_minimum, "yes", @current_event.refund_minimum.present?, class: "refund_minimum", id: "refund_minimum_checkbox"
+                      | &nbsp; Minimum
+                    td
+                      = best_in_place @current_event, :refund_minimum, url: [:admins, @current_event], class: "event_fee", id: "refund_minimum", style: @current_event.refund_minimum.nil? ? "display: none" : ""
+                      |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric Automatic Refunds
+                  td = best_in_place @current_event, :auto_refunds, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Bank Format for Refunds
+                  td = best_in_place @current_event, :bank_format, as: :select, collection: Event.bank_formats.keys.map {|format| [format.to_sym, format.upcase]}, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    | Refund Fields
+                    - if @current_event.refund_fields.any?
+                      | &nbsp; - #{@current_event.refund_fields.to_sentence}
+                  td
+                    = link_to refund_fields_admins_event_path(@current_event) do
+                      span
+                        i.material-icons edit
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    | Refunds Start Date
+                    span.small
+                      | &nbsp;(EG: YYYY-MM-DD HH:MM )
+                  td
+                    = best_in_place @current_event, :refunds_start_date, url: [:admins, @current_event], display_with: lambda {|v| v&.to_formatted_s(:human)}, value: @current_event.refunds_start_date&.to_formatted_s(:human)
+                    span
+                      - if @current_event.refunds_start_date.present?
+                        i.material-icons done
+                      - else
+                        i.material-icons clear
+                  tr
+                    td.mdl-data-table__cell--non-numeric
+                      | Refunds End Date
+                      span.small
+                        | &nbsp;(EG: YYYY-MM-DD HH:MM )
+                    td
+                      = best_in_place @current_event, :refunds_end_date, url: [:admins, @current_event], display_with: lambda {|v| v&.to_formatted_s(:human)}, value: @current_event.refunds_end_date&.to_formatted_s(:human)
+                      span
+                        - if @current_event.refunds_end_date.present?
+                          i.material-icons done
+                        - else
+                          i.material-icons clear
+          .mdl-card__title
+            .mdl-cell.mdl-cell--10-col
+              i.material-icons launch
+              | Customer Portal
+            .mdl-cell.mdl-cell--2-col= best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])
+
+          .mdl-card__supporting-text#customer_portal_settings style="#{@current_event.open_portal? ? "" : "display: none"}"
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Customer Portal InterCom
+                  td = best_in_place @current_event, :open_portal_intercom, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric Ticket Assignation
+                  td = best_in_place @current_event, :open_tickets, best_in_place_checkbox([:admins, @current_event])
+                tr
+                  td.mdl-data-table__cell--non-numeric GTag Assignation
+                  td = best_in_place @current_event, :open_gtags, best_in_place_checkbox([:admins, @current_event])
+
   .mdl-layout-spacer
+
+javascript:
+    $('.event_fee').bind('ajax:success', function() {
+        var number = $(this).text();
+        if(number >= 0) { $(this).text(parseFloat(number).toFixed(2)) }
+    });
+
+    function updateEvent(origin, value){ $.ajax({type: "PUT", url: "#{admins_event_path(@current_event)}", data: {event: {[origin]: value}}, async: false}); }
+
+    function doFees(origin){
+        $("." + origin).on("change", function (event) {
+            elem = $("#" + origin);
+
+            if (this.checked) {
+                elem.text("0.0");
+                updateEvent(origin, "0");
+                elem.fadeIn();
+            } else {
+                updateEvent(origin, "");
+                elem.fadeOut();
+            }
+        });
+    }
+    doFees("onsite_initial_topup_fee");
+    doFees("online_initial_topup_fee");
+    doFees("every_topup_fee");
+    doFees("refund_fee");
+    doFees("refund_minimum");
+    doFees("gtag_deposit_fee");
+
+    $("#best_in_place_event_#{@current_event.id}_open_portal").bind("ajax:success", function () {
+        if ($(this).attr("data-bip-value") == "true") {
+            $("#customer_portal_settings").fadeIn();
+        } else{
+            $("#customer_portal_settings").fadeOut();
+        }
+    });
+
+    $("#best_in_place_event_#{@current_event.id}_open_topups").bind("ajax:success", function () {
+        if ($(this).attr("data-bip-value") == "true") {
+            $("#online_topups_settings").fadeIn();
+        } else {
+            $("#online_topups_settings").fadeOut();
+        }
+    });
+
+    $("#best_in_place_event_#{@current_event.id}_open_refunds").bind("ajax:success", function () {
+        if ($(this).attr("data-bip-value") == "true") {
+            $("#online_refunds_settings").fadeIn();
+        } else {
+            $("#online_refunds_settings").fadeOut();
+        }
+    });
+
+    var exchange = $('.currency_exchange');
+    var currency = $('#currency');
+    var credit_name = $('#credit_name');
+
+    exchange.bind('ajax:success', function (event, data) {
+        var result = $.parseJSON(data);
+        exchange.text("1 #{@current_event.credit.name} = " + result.value +  " #{@current_event.currency}")
+    });
+
+    currency.bind('ajax:success', function (event, data) {
+        var result = $.parseJSON(data);
+        exchange.text("1 #{@current_event.credit.name} = #{@current_event.credit.value} " + result.currency)
+    });
+
+    credit_name.bind('ajax:success', function (event, data) {
+        var result = $.parseJSON(data);
+        exchange.text("1 " + result.name + " = #{@current_event.credit.value}  #{@current_event.currency}")
+    });

@@ -40,7 +40,7 @@ class Admins::Events::ReportsController < Admins::Events::BaseController
     @sale_credit = -@current_event.pokes.where(credit: @credit).sales.is_ok.sum(:credit_amount)
     @sale_virtual = -@current_event.pokes.where(credit: @virtual).sales.is_ok.sum(:credit_amount)
 
-    cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"] # rubocop:disable Metrics/LineLength 
+    cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
     @products = prepare_pokes(cols, @current_event.pokes.products_sale)
     stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"] 
     @products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock)

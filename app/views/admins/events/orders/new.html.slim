@@ -35,11 +35,60 @@
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
       = simple_form_for [:admins, @current_event, @order], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         = f.input :customer_id, as: :hidden, input_html: { value: @customer.id }
-        .form-inputs
-          = f.input :credits, autofocus: true
+        .fieldset
+          .section-header
+            i.material-icons turned_in
+            span User Flags
+          .form-inputs
+            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='alcohol_forbidden'
+              span.mdl-switch__label.form-label Alcohol Forbidden
+              = f.input :alcohol_forbidden, id: "alcohol_flag", value: false, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: @order.order_items.select {|i| i.catalog_item.eql?(@alcohol_flag) }.first&.amount&.eql?(1) }
+
+            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='initial_topup'
+              span.mdl-switch__label.form-label Initial Topup Paid
+              = f.input :initial_topup, id: "initial_topup_flag", value: false, as: :boolean, :input_html => { :id => 'initial_topup', checked: @order.order_items.select {|i| i.catalog_item.eql?(@topup_flag) }.first&.amount&.eql?(1) }
+
+        - if f.error(:credits).present?
+          .fieldset
+            .section-header style="font-size: 12px; color: #d50000;"
+              i.material-icons error_outline
+              | Credits &nbsp;#{f.error(:credits)}
+
+        .fieldset
+          .section-header
+            i.material-icons create_new_folder
+            span Items
+          = f.simple_fields_for :order_items do |order_item, index|
+            - next if order_item.object.catalog_item.is_a?(UserFlag)
+            = render 'order_item_fields', f: order_item
+          = link_to_add_fields(("add item"), f, :order_items)
 
         .form-actions
-          = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
-  .mdl-layout-spacer
+          .col-sm-offset-3.col-sm-9
+            = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
+
+    javascript:
+        var ready;
+
+        ready = function () {
+            $('form').on('click', '.btn-remove-fields', function (event) {
+                $(this).prev('input[type=hidden]').val('true');
+                $(this).closest('fieldset').hide();
+                return event.preventDefault();
+
+            });
+
+            return $('form').on('click', '.add_fields', function (event) {
+                var regexp, time;
+                time = new Date().getTime();
+                regexp = new RegExp($(this).data('id'), 'g');
+                $(this).before($(this).data('fields').replace(regexp, time));
+                return event.preventDefault();
+            });
+        };
+
+        $(document).ready(ready);
+        $(document).on('turbolinks:load', ready);
+  .mdl-layout-spacer
 

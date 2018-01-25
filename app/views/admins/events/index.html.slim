@@ -33,6 +33,7 @@
       .mdl-cell.mdl-cell--9-col#event-list
         - if @current_user.glowball?
           = link_to "My", admins_events_path(status: "users"), class: "filters__item", id: "filters_users"
+          | | &nbsp;
         = link_to_unless @status == "all", "All", admins_events_path(status: "all"), class: "filters__item", id:"filters_all"
         = link_to_unless @status == "created", "Created", admins_events_path(status: "created"), class: "filters__item", id:"filters_created"
         = link_to_unless @status == "launched", "Launched", admins_events_path(status: "launched"), class: "filters__item", id:"filters_launched"
@@ -50,6 +51,8 @@
               th.mdl-data-table__cell--non-numeric Start
               th.mdl-data-table__cell--non-numeric End
               th Since
+              - if @current_user.admin?
+                th Devices API
           tbody
             - @events.each do |event|
               tr
@@ -62,5 +65,7 @@
                 td.mdl-data-table__cell--non-numeric data-label="Start" = event.start_date.to_date.to_formatted_s(:short)
                 td.mdl-data-table__cell--non-numeric data-label="End" = event.end_date.to_date.to_formatted_s(:short)
                 td data-label="Since" #{time_ago_in_words event.created_at} ago
+                - if @current_user.admin?
+                  td data-label="Devices API"  = best_in_place event, :open_devices_api, best_in_place_checkbox([:admins, event]) if event.launched?
     = render "layouts/pagination", objects: @events
   .mdl-layout-spacer

@@ -1,6 +1,6 @@
 class DeviceRegistration < ApplicationRecord
   belongs_to :device
-  belongs_to :event
+  belongs_to :event, counter_cache: true
 
   attr_accessor :operator, :station, :last_time_used
 
@@ -15,7 +15,7 @@ class DeviceRegistration < ApplicationRecord
     current_time.present? ? current_time - updated_at : 0
   end
 
-  def resolve_time!(start_date = event.start_date.to_formatted_s(:transactions), end_date = event.end_date.to_formatted_s(:transactions), actions = %w[sale sale_refund]) # rubocop:disable Metrics/LineLength
+  def resolve_time!(start_date = event.start_date.to_formatted_s(:transactions), end_date = event.end_date.to_formatted_s(:transactions), actions = %w[sale sale_refund])
     device_ts = event.transactions.where(device_uid: device.mac).order(:device_db_index)
     bad_ids = device_ts.onsite.where(action: actions).where.not(device_created_at: (start_date..end_date)).pluck(:id)
     diff = nil

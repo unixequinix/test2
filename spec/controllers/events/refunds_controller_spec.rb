@@ -15,15 +15,9 @@ RSpec.describe Events::RefundsController, type: :controller do
         expect(response).to redirect_to(:customer_root)
       end
 
-      it 'GET new with no refunds' do
-        get :new, params: { event_id: event }
-        expect(response).to redirect_to(:customer_root)
-      end
-
       it 'GET new' do
-        create(:order, customer: customer, event: event)
         get :new, params: { event_id: event }
-        expect(response).to redirect_to(:customer_root)
+        expect(response).to be_ok
       end
     end
 

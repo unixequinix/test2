@@ -1,4 +1,4 @@
-class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
+class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseController
   before_action :set_registration, only: %i[resolve_time show download_db destroy transactions update]
   before_action except: %i[new] do
     persist_query(%i[p q], true)
@@ -141,7 +141,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
 
   def set_devices
     @device_registration = @current_event.device_registrations.new
-    @current_device_registrations = @current_event.device_registrations.not_allowed.includes(:device).where(devices: { team_id: @current_user&.team&.id }) # rubocop:disable Metrics/LineLength
+    @current_device_registrations = @current_event.device_registrations.not_allowed.includes(:device).where(devices: { team_id: @current_user&.team&.id })
 
     device_ids = @current_user&.team&.devices&.includes(:device_registrations)&.where(device_registrations: { allowed: false })&.pluck(:id)
     @available_devices = @current_user&.team&.devices&.where&.not(id: device_ids) || []

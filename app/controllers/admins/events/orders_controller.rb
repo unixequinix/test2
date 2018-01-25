@@ -1,5 +1,6 @@
 class Admins::Events::OrdersController < Admins::Events::BaseController
   before_action :set_order, only: %i[show destroy]
+  before_action :set_other, only: %i[new create]
 
   def index
     @orders = @current_event.orders.order(id: :desc)
@@ -17,21 +18,28 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
   def show; end
 
   def new
-    @customer = @current_event.customers.find(params[:customer_id])
+    @catalog_items_collection = @current_event.catalog_items.not_user_flags.group_by { |item| item.type.underscore.humanize.pluralize }
     @order = @current_event.orders.new(customer: @customer)
     authorize @order
   end
 
   def create
-    @customer = @current_event.customers.find(permitted_params[:customer_id])
-    @order = @customer.build_order([[@current_event.credit.id, permitted_params[:credits]]])
+    atts = permitted_params.dup
+    alcohol_flag = atts.delete(:alcohol_forbidden)
+    topup_flag = atts.delete(:initial_topup)
+    @order = @current_event.orders.new(atts)
     authorize @order
 
     if @order.save
+      @order.order_items.create(catalog_item: @alcohol_flag, amount: 1) if alcohol_flag.to_i.eql?(1)
+      @order.order_items.create(catalog_item: @topup_flag, amount: 1) if topup_flag.to_i.eql?(1)
       @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
       OrderTransaction.write!(@current_event, "order_created", :admin, @customer, current_user, order_id: @order.id)
-      redirect_to [:admins, @current_event, @customer], notice: t("alerts.created")
+      redirect_to [:admins, @current_event, @order], notice: t("alerts.created")
     else
+      @catalog_items_collection = @current_event.catalog_items.not_user_flags.group_by { |item| item.type.underscore.humanize.pluralize }
+      @order.order_items.build(catalog_item: @alcohol_flag, amount: alcohol_flag) if alcohol_flag.to_i.eql?(1)
+      @order.order_items.build(catalog_item: @topup_flag, amount: topup_flag) if topup_flag.to_i.eql?(1)
       flash.now[:alert] = t("alerts.error")
       render :new
     end
@@ -49,7 +57,13 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     authorize @order
   end
 
+  def set_other
+    @alcohol_flag = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+    @topup_flag = @current_event.user_flags.find_by(name: "intial_topup")
+    @customer = @current_event.customers.find(params[:customer_id] || params[:order][:customer_id])
+  end
+
   def permitted_params
-    params.require(:order).permit(:status, :customer_id, :credits)
+    params.require(:order).permit(:status, :customer_id, :credits, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
   end
 end

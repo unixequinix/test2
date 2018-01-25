@@ -1,4 +1,4 @@
-class Admins::Events::TicketsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
+class Admins::Events::TicketsController < Admins::Events::BaseController
   before_action :set_ticket, except: %i[index new create import sample_csv]
 
   def index
@@ -15,6 +15,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
 
   def show
     @catalog_item = @ticket.ticket_type&.catalog_item
+    @transactions = @ticket.transactions.debug
   end
 
   def new
@@ -56,7 +57,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
     end
   end
 
-  def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def import # rubocop:disable Metrics/AbcSize
     authorize @current_event.tickets.new
     path = admins_event_tickets_path(@current_event)
     redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
@@ -75,7 +76,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
       ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
 
       CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
-        ticket_atts = { event_id: @current_event.id, code: row.field("reference"), ticket_type_id: ticket_types[row.field("ticket_type")], purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") } # rubocop:disable Metrics/LineLength
+        ticket_atts = { event_id: @current_event.id, code: row.field("reference"), ticket_type_id: ticket_types[row.field("ticket_type")], purchaser_first_name: row.field("first_name"), purchaser_last_name: row.field("last_name"), purchaser_email: row.field("email") }
         Creators::TicketJob.perform_later(ticket_atts)
         count += 1
       end
@@ -89,7 +90,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
   def sample_csv
     authorize @current_event.tickets.new
     header = %w[ticket_type company_code company_name reference first_name last_name email]
-    data = [["VIP Night", "098", "Glownet", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet", "4433221100", "Arya", "Stark", "arya@stark.com"]] # rubocop:disable Metrics/LineLength
+    data = [["VIP Night", "098", "Glownet", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet", "4433221100", "Arya", "Stark", "arya@stark.com"]]
 
     respond_to do |format|
       format.csv { send_data(CsvExporter.sample(header, data)) }
@@ -120,6 +121,6 @@ class Admins::Events::TicketsController < Admins::Events::BaseController # ruboc
   end
 
   def permitted_params
-    params.require(:ticket).permit(:code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id) # rubocop:disable Metrics/LineLength
+    params.require(:ticket).permit(:code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id)
   end
 end

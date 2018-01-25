@@ -1,6 +1,7 @@
 module Api::V2
-  class Events::CustomersController < BaseController # rubocop:disable Metrics/ClassLength
+  class Events::CustomersController < BaseController
     before_action :set_customer, except: %i[index create]
+    before_action :check_credits, only: %i[topup virtual_topup]
 
     # POST api/v2/events/:event_id/customers/:id/ban
     def gtag_replacement
@@ -52,9 +53,7 @@ module Api::V2
     # POST api/v2/events/:event_id/customers/:id/topup
     def topup
       credits = params[:credits].to_f
-      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return unless credits.positive?
-
-      @order = @customer.build_order([[@current_event.credit.id, credits]])
+      @order = @customer.build_order([[@current_event.credit.id, credits]], params.permit(:price_money, :fee))
 
       if @order.save
         @order.complete!(params[:gateway])
@@ -67,9 +66,7 @@ module Api::V2
     # POST api/v2/events/:event_id/customers/:id/virtual_topup
     def virtual_topup
       credits = params[:credits].to_f
-      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) && return unless credits.positive?
-
-      @order = @customer.build_order([[@current_event.virtual_credit.id, credits]])
+      @order = @customer.build_order([[@current_event.virtual_credit.id, credits]], params.permit(:price_money, :fee))
 
       if @order.save
         @order.complete!(params[:gateway])
@@ -136,6 +133,10 @@ module Api::V2
     end
 
     private
+
+    def check_credits
+      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) unless params[:credits].to_f.positive?
+    end
 
     def set_customer
       customers = @current_event.customers

@@ -1,27 +1,15 @@
 require "rails_helper"
 
 RSpec.describe PaymentGatewaysHelper, type: :helper do
-  let(:event) { create(:event) }
+  let(:event) { create(:event, auto_refunds: true) }
   let(:customer) { create(:customer, event: event) }
 
   before(:each) { sign_in customer }
 
-  context "without vouchup" do
-    it "returns new orders path if no vouchup is found in payment_gateways" do
-      expect(helper.store_redirection(event, :order)).to eql(new_event_order_path(event))
-    end
-  end
-
-  context "with vouchup" do
-    before { @payment_gateway = create(:payment_gateway, name: "vouchup", topup: true, event: event) }
-
+  context "with wiredlion" do
     context "orders redirection" do
-      it "should not be new orders path" do
-        expect(helper.store_redirection(event, :order)).not_to eql(new_event_order_path(event))
-      end
-
-      it "should contain the glownet portion of the URL" do
-        expect(helper.store_redirection(event, :order)).to include("glownet")
+      it "should be to wiredlion" do
+        expect(helper.store_redirection(event, :order)).to include("wiredlion")
       end
 
       it "should contain the glownet portion of the URL" do
@@ -36,12 +24,10 @@ RSpec.describe PaymentGatewaysHelper, type: :helper do
     context "refunds redirection" do
       before(:each) do
         create(:gtag, event: event, customer: customer)
-        @payment_gateway.refund = true
-        @payment_gateway.save!
       end
 
       it "should not be new refunds path" do
-        expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).not_to eql(new_event_order_path(event))
+        expect(helper.store_redirection(event, :refund, gtag_uid: customer.active_gtag.tag_uid)).not_to eql(new_event_refund_path(event))
       end
 
       it "should contain the glownet portion of the URL" do

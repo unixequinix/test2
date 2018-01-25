@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.4.2'
+ruby '2.5.0'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
@@ -23,7 +23,7 @@ gem 'nilify_blanks'
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'deep_cloneable'
-gem 'pg' # Use pg as the database for Active Record
+gem 'pg', '< 1.0' # Use pg as the database for Active Record
 gem 'json'
 gem 'paper_trail'
 
@@ -81,9 +81,6 @@ gem 'jquery-tablesorter'
 gem 'country_select'
 gem 'phony_rails'
 gem 'tinymce-rails'
-
-# Payments
-gem 'activemerchant'
 
 # Asyncronous
 gem 'sinatra', github: 'sinatra/sinatra', require: false

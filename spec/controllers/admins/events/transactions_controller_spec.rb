@@ -14,6 +14,4 @@ RSpec.describe Admins::Events::TransactionsController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
   end
-
-  # TODO: GET #show
 end

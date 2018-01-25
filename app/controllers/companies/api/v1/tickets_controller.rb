@@ -64,8 +64,8 @@ module Companies::Api
       @ticket = tickets.find_by(id: params[:id])
 
       render(status: :not_found, json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." }) && return unless @ticket
-      render(status: :unprocessable_entity, json: { status: "unprocessable_entity", error: "The ticket type doesn't belongs to your company" }) && return unless validate_ticket_type! # rubocop:disable Metrics/LineLength
-      render(status: :unprocessable_entity, json: { status: "unprocessable_entity", errors: @ticket.errors.full_messages }) && return unless @ticket.update(ticket_params) # rubocop:disable Metrics/LineLength
+      render(status: :unprocessable_entity, json: { status: "unprocessable_entity", error: "The ticket type doesn't belongs to your company" }) && return unless validate_ticket_type!
+      render(status: :unprocessable_entity, json: { status: "unprocessable_entity", errors: @ticket.errors.full_messages }) && return unless @ticket.update(ticket_params)
       render(json: Companies::TicketSerializer.new(@ticket))
     end
 

@@ -5,7 +5,7 @@ RSpec.describe Transactions::Base, type: :job do
   let(:event) { create(:event) }
   let(:gtag)  { create(:gtag, tag_uid: "AAAAAAAAAAAAAA", event: event) }
   let(:customer) { create(:customer, event: event) }
-  let(:atts) { { type: "CreditTransaction", action: "test_action", credits: 30, event_id: event.id, device_created_at: Time.current.to_s, customer_tag_uid: gtag.tag_uid, status_code: 0 } } # rubocop:disable Metrics/LineLength
+  let(:atts) { { type: "CreditTransaction", action: "test_action", credits: 30, event_id: event.id, device_created_at: Time.current.to_s, customer_tag_uid: gtag.tag_uid, status_code: 0 } }
 
   before { Transactions::Credit::BalanceUpdater }
 

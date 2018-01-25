@@ -64,12 +64,6 @@ RSpec.describe "Events in the admin panel", type: :feature do
       it "creates and event and then redirects you to it" do
         expect(page).to have_current_path(edit_admins_event_path(@event))
       end
-
-      it "allows to change the name" do
-        within("#edit_event_#{@event.id}") { fill_in 'event_name', with: "somename" }
-        expect { find("input[name=commit]").click }.to change { @event.reload.name }.to("somename")
-        expect(page).to have_current_path(admins_event_path(@event))
-      end
     end
 
     context "by promoter" do
@@ -88,7 +82,7 @@ RSpec.describe "Events in the admin panel", type: :feature do
   end
 
   describe "delete:" do
-    before { visit admins_event_path(event) }
+    before { visit edit_admins_event_path(event) }
 
     it "can be done only if state is created" do
       event.update! state: "created"

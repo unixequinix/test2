@@ -2,7 +2,7 @@ module Api
   module V1
     module Events
       class DeviceTransactionsController < Api::V1::Events::BaseController
-        def create # rubocop:disable Metrics/MethodLength
+        def create
           permitted_params.each do |atts|
             next if atts.empty?
             action = atts[:action].downcase

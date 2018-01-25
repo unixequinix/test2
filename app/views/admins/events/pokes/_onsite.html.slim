@@ -17,7 +17,7 @@
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
               tr
-                th Counter
+                th
                 th.mdl-data-table__cell--non-numeric Action
                 th.mdl-data-table__cell--non-numeric Station
                 th.mdl-data-table__cell--non-numeric Product
@@ -30,7 +30,11 @@
               - prev_counter = 0
               - pokes.each do |poke|
                 tr class="#{"danger" if poke.operation.status_not_ok?}"
-                  td #{poke.gtag_counter} - #{poke.line_counter}
+                  td.mdl-data-table__cell--non-numeric
+                    - if poke.gtag_counter
+                      | #{poke.gtag_counter} - #{poke.line_counter}
+                    - else
+                      = poke.line_counter
                   td.mdl-data-table__cell--non-numeric data-label="Action" = link_to "#{poke.action.humanize}: #{poke.description.to_s.humanize}", admins_event_transaction_path(@current_event, poke.operation, type: poke.operation.category)
                   td.mdl-data-table__cell--non-numeric data-label="Station" = link_to poke.station.name, admins_event_station_path(@current_event, poke.station) if poke.station
                   td.mdl-data-table__cell--non-numeric data-label="Product"

@@ -1,8 +1,9 @@
 class Order < ApplicationRecord
   include PokesHelper
   include Eventable
+  include Creditable
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :customer, touch: true
 
   has_many :order_items, dependent: :destroy, inverse_of: :order
@@ -32,6 +33,11 @@ class Order < ApplicationRecord
 
     OrderMailer.completed_order(self).deliver_later if send_email && !customer.anonymous?
     MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
+
+    return unless event.online_initial_topup_fee.present? && !customer.initial_topup_fee_paid?
+    flag = event.user_flags.find_by(name: "initial_topup")
+    order_items.create!(catalog_item: flag, amount: 1, counter: customer.order_items.maximum(:counter).to_i + 1)
+    customer.update!(initial_topup_fee_paid: true)
   end
 
   def fail!(gateway, payment)
@@ -42,20 +48,8 @@ class Order < ApplicationRecord
     update!(status: "cancelled", refund_data: payment)
   end
 
-  def number
-    id.to_s.rjust(7, "0")
-  end
-
   def redeemed?
     order_items.pluck(:redeemed).all?
-  end
-
-  def total_formatted
-    format("%.2f", total)
-  end
-
-  def total
-    order_items.sum(&:total)
   end
 
   def credits
@@ -64,14 +58,6 @@ class Order < ApplicationRecord
 
   def virtual_credits
     order_items.sum(&:virtual_credits)
-  end
-
-  def online_refund(amount)
-    case gateway
-      when "paypal" then
-        paypal = ActiveMerchant::Billing::PaypalExpressGateway.new(event.payment_gateways.paypal.first.data.symbolize_keys)
-        paypal.refund(amount * 100, payment_data["PaymentInfo"]["TransactionID"], currency: event.currency)
-    end
   end
 
   private

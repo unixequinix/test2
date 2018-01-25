@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         get :create_admin
         get :create_customer_support
         get :versions
+        get :refund_fields
       end
 
       scope module: :events do
@@ -256,8 +257,7 @@ Rails.application.routes.draw do
       resources :gtags, only: [:show] do
         patch :ban, on: :member
       end
-      resources :orders, except: [:destroy] do
-        get :complete, on: :member
+      resources :orders, only: [] do
         get :success, on: :member
         get :error, on: :member
         get :abstract_error, on: :collection
@@ -266,17 +266,6 @@ Rails.application.routes.draw do
       get :credits_history, to: "credits_histories#history"
       get :privacy_policy, to: "static_pages#privacy_policy"
       get :terms_of_use, to: "static_pages#terms_of_use"
-
-      # Paypal
-      get :paypal_setup_purchase, to: "paypal#setup_purchase"
-      get :paypal_purchase, to: "paypal#purchase"
-      post :paypal_refund, to: "paypal#refund"
-
-      # Vouchup
-      get :vouchup_purchase, to: "vouchup#purchase"
-      post :vouchup_success, to: "vouchup#success"
-      post :vouchup_error, to: "vouchup#error"
-      post :vouchup_refund, to: "vouchup#refund"
 
       # Bank Account
       resources :refunds
@@ -300,12 +289,14 @@ Rails.application.routes.draw do
 
           resources :tickets do
             post :topup, on: :member
+            post :virtual_topup, on: :member
           end
 
           resources :gtags do
             member do
               post :replace
               post :topup
+              post :virtual_topup
               post :ban
               post :unban
             end

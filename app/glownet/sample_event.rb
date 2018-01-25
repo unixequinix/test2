@@ -1,11 +1,12 @@
-class SampleEvent # rubocop:disable all
-  # rubocop:disable all
-  def self.run
-    @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}", start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_ticketing_api: true, open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
+class SampleEvent
+  def self.run(user = nil)
+    name = user ? "#{user.username || user.email} fest #{user.events.count + 1}" : "Event v#{Time.zone.now.to_s(:number)}"
+    name += " v#{Time.zone.now.to_s(:number)}" if Event.find_by(name: name)
+    @event = Event.create(name: name, start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_ticketing_api: true, open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
     @event.initial_setup!
 
-    data = %w(customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations)
-    data.each { |d| eval("create_#{d}") }
+    data = %w[customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations]
+    data.each { |d| method("create_#{d}").call }
 
     @event
   end
@@ -77,7 +78,7 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_access_control_stations
-    accesses = %w(Day Night VIP)
+    accesses = %w[Day Night VIP]
     accesses.each do |access_name|
       item = @event.catalog_items.find_by(name: access_name)
       station = @event.stations.create!(name: "#{access_name} IN", category: "access_control")

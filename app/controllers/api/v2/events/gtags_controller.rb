@@ -1,6 +1,7 @@
 module Api::V2
   class Events::GtagsController < BaseController
-    before_action :set_gtag, only: %i[topup show update destroy ban unban replace]
+    before_action :set_gtag, only: %i[virtual_topup topup show update destroy ban unban replace]
+    before_action :check_credits, only: %i[topup virtual_topup]
 
     # POST api/v2/events/:event_id/gtags/:id/replace
     def replace
@@ -33,7 +34,21 @@ module Api::V2
     def topup
       @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
 
-      @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]])
+      @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:price_money, :fee))
+
+      if @order.save
+        @order.complete!(params[:gateway])
+        render json: @order, serializer: OrderSerializer
+      else
+        render json: @order.errors, status: :unprocessable_entity
+      end
+    end
+
+    # POST api/v2/events/:event_id/gtags/:id/virtual_topup
+    def virtual_topup
+      @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
+
+      @order = @gtag.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:price_money, :fee))
 
       if @order.save
         @order.complete!(params[:gateway])
@@ -84,6 +99,10 @@ module Api::V2
     end
 
     private
+
+    def check_credits
+      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) unless params[:credits].to_f.positive?
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_gtag

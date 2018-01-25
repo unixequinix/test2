@@ -1,3 +1,4 @@
+
 require 'rails_helper'
 
 RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
@@ -10,6 +11,8 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
   let(:valid_attributes) { { first_name: "name", last_name: "foo", email: "foo@bar.com", password: "password1", password_confirmation: "password1" } }
 
   before { token_login(user, event) }
+
+  include_examples "controller topups"
 
   describe "POST #gtag_replacement" do
     let(:new_gtag) { create(:gtag, tag_uid: "12345678", event: event, customer: create(:customer, event: event, anonymous: true)) }
@@ -157,101 +160,6 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
       new_atts[:code] = "INVALIDTAG"
       post :assign_ticket, params: new_atts
       expect(response).to have_http_status(:unprocessable_entity)
-    end
-  end
-
-  describe "POST #topup" do
-    let(:new_atts) { atts.merge(credits: 100, gateway: "paypal") }
-
-    before do
-      station = create :station, name: "Customer Portal", category: "customer_portal", event: event
-      station.station_catalog_items.create! catalog_item: event.credit, price: 10
-    end
-
-    it "returns a success response" do
-      post :topup, params: new_atts
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "returns the customer as JSON" do
-      post :topup, params: new_atts
-      expect(json).to eq(obj_to_json_v2(customer.reload.orders.last, "OrderSerializer"))
-    end
-
-    it "creates an order for the customer" do
-      expect { post :topup, params: new_atts }.to change { customer.reload.orders.count }.by(1)
-    end
-
-    it "sums to the credit of the customer" do
-      expect { post :topup, params: new_atts }.to change { customer.credits }.by(100)
-    end
-
-    it "return unprocessable entity if credits are not present" do
-      new_atts[:credits] = nil
-      post :topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "return unprocessable entity if credits are negative" do
-      new_atts[:credits] = -10
-      post :topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "sets the new orders gateway accordingly" do
-      new_atts[:gateway] = "somethingcrazy"
-      post :topup, params: new_atts
-      expect(customer.reload.orders.last.gateway).to eq("somethingcrazy")
-    end
-  end
-
-  describe "POST #virtual_topup" do
-    let(:new_atts) { atts.merge(credits: 10, gateway: "paypal") }
-
-    before do
-      station = create :station, name: "Customer Portal", category: "customer_portal", event: event
-      station.station_catalog_items.create! catalog_item: event.credit, price: 1
-    end
-
-    it "returns a success response" do
-      post :virtual_topup, params: new_atts
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "returns the customer orders as JSON" do
-      post :virtual_topup, params: new_atts
-      expect(json).to eq(obj_to_json_v2(customer.reload.orders.last, "OrderSerializer"))
-    end
-
-    it "creates an order for the customer" do
-      expect { post :virtual_topup, params: new_atts }.to change { customer.reload.orders.count }.by(1)
-    end
-
-    it "sums to the virtual credits of the customer" do
-      expect { post :virtual_topup, params: new_atts }.to change { customer.virtual_credits }.by(10.0)
-    end
-
-    it "return unprocessable entity if credits are not present" do
-      new_atts[:credits] = nil
-      post :virtual_topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "return unprocessable entity if credits are negative" do
-      new_atts[:credits] = -10
-      post :virtual_topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "sets the new orders gateway accordingly" do
-      new_atts[:gateway] = "somethingcrazy"
-      post :virtual_topup, params: new_atts
-      expect(customer.reload.orders.last.gateway).to eq("somethingcrazy")
-    end
-
-    it "sets the order catalog_item to virtual_credit" do
-      post :virtual_topup, params: new_atts
-      expect(customer.reload.order_items.last.catalog_item).to eq(event.virtual_credit)
     end
   end
 

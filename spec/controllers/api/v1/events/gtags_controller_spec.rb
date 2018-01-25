@@ -98,7 +98,8 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       before do
         @pack = create(:pack, :with_access, event: event)
         @customer = create(:customer, event: event)
-        @gtag = create(:gtag, event: event, customer: @customer)
+        @ctt = create(:ticket_type, company: create(:company, event: event), event: event, catalog_item: @pack)
+        @gtag = create(:gtag, event: event, ticket_type: @ctt, customer: @customer)
         @gtag2 = create(:gtag, event: event, customer: @customer, active: false)
         @order = create(:order, customer: @customer, status: "completed", event: event)
         @item = create(:order_item, order: @order, catalog_item: @pack, counter: 1)
@@ -117,10 +118,10 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w[reference redeemed banned customer]
+          gtag_keys = %w[reference redeemed banned catalog_item_id catalog_item_type ticket_type_id customer]
           customer_keys = %w[id first_name last_name email orders credentials]
-          order_keys = %w[catalog_item_id amount status redeemed id]
-          credential_keys = %w[reference type redeemed banned]
+          order_keys = %w[id counter catalog_item_id catalog_item_type amount status redeemed]
+          credential_keys = %w[reference type redeemed banned ticket_type_id]
 
           expect(gtag.keys).to eq(gtag_keys)
           expect(gtag["customer"].keys).to eq(customer_keys)
@@ -135,17 +136,26 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
             reference: @gtag.tag_uid,
             redeemed: @gtag.redeemed,
             banned: @gtag.banned,
+            catalog_item_id: @gtag.ticket_type.catalog_item.id,
+            catalog_item_type: @gtag.ticket_type.catalog_item.class.to_s,
+            ticket_type_id: @gtag.ticket_type_id,
             customer: {
               id:  @gtag.customer.id,
-              credentials: [{ reference: @gtag.tag_uid, type: "gtag", banned: @gtag.banned, redeemed: @gtag.redeemed }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
-              orders: [{ catalog_item_id: @item.catalog_item_id,
+              orders: [{ id: @item.id,
+                         counter: @item.counter,
+                         catalog_item_id: @item.catalog_item_id,
+                         catalog_item_type: @item.catalog_item.class.to_s,
                          amount: @item.amount,
                          status: @item.order.status,
-                         redeemed: @item.redeemed,
-                         id: @item.counter }]
+                         redeemed: @item.redeemed }],
+              credentials: [{ reference: @gtag.tag_uid,
+                              type: "gtag",
+                              redeemed: @gtag.redeemed,
+                              banned: @gtag.banned,
+                              ticket_type_id: @gtag.ticket_type_id }]
             }
           }.as_json
 

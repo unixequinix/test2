@@ -38,7 +38,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--8-col
+  .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-fix
         table.mdl-data-table.mdl-js-data-table.within-card
@@ -64,7 +64,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--8-col
+  .mdl-cell.mdl-cell--10-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col Purchaser
@@ -86,7 +86,7 @@
   - customer = @ticket.customer
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--8-col
+    .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
         .mdl-card__title
           .mdl-cell.mdl-cell--4-col Ticket Registrations
@@ -110,7 +110,7 @@
 - if @catalog_item
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--8-col
+    .mdl-cell.mdl-cell--10-col
       .admin-card-wide.mdl-card.mdl-shadow--2dp
         .mdl-card__title
           .mdl-cell.mdl-cell--4-col Items Included
@@ -125,6 +125,8 @@
               td.mdl-data-table__cell--non-numeric = link_to_unless @catalog_item.is_a?(UserFlag), @catalog_item.name.humanize, [:admins, @current_event, @catalog_item]
               td = number_to_token @catalog_item.credits
     .mdl-layout-spacer
+
+= render("admins/events/transactions/list", transactions: @transactions, title: "Ticket Transactions (DEBUG)", closed: true ) if @transactions.any? && @current_user.glowball?
 
 javascript:
   $('#qrcode').qrcode({render: 'image', text: '#{@ticket.reference}'});

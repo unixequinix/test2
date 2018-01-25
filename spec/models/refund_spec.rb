@@ -8,20 +8,6 @@ RSpec.describe Refund, type: :model do
     expect(subject).to be_valid
   end
 
-  describe "bank_account" do
-    before { subject.gateway = "bank_account" }
-
-    it "validates field_a" do
-      subject.field_a = nil
-      expect(subject).not_to be_valid
-    end
-
-    it "validates field_b" do
-      subject.field_b = nil
-      expect(subject).not_to be_valid
-    end
-  end
-
   describe ".complete!" do
     let(:credit) { create(:credit, value: 10) }
     let(:event) { create(:event) }
@@ -59,7 +45,7 @@ RSpec.describe Refund, type: :model do
 
     it "creates a credit transaction with negative amount" do
       expect { subject.complete! }.to change(event.transactions.credit, :count).by(1)
-      expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(-subject.total.to_f)
+      expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(-subject.amount.to_f)
     end
 
     it "sends an email" do
@@ -91,7 +77,7 @@ RSpec.describe Refund, type: :model do
     before { allow(event.credit).to receive(:value).and_return(10) }
 
     it "calculates amount" do
-      expect(subject.amount_money).to eql(subject.amount * 10)
+      expect(subject.price_money).to eql(subject.amount * 10)
     end
 
     it "calculates fee" do
@@ -105,81 +91,64 @@ RSpec.describe Refund, type: :model do
 
   describe ".correct_iban_and_swift" do
     it "works with a valid iban" do
-      subject.field_a = "ES80 2310 0001 1800 0001 2345"
-      expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:field_a] })
+      subject.fields[:iban] = "ES80 2310 0001 1800 0001 2345"
+      expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:iban] })
     end
 
     it "checks iban length" do
-      subject.field_a = "AA"
-      expect { subject.correct_iban_and_swift }.to change { subject.errors[:field_a] }.from([]).to(["Too short"])
+      subject.fields[:iban] = "AA"
+      expect { subject.correct_iban_and_swift }.to change { subject.errors[:iban] }.from([]).to(["Too short"])
     end
 
     it "checks iban country code and check digits" do
-      subject.field_a = "ZZ111111111111"
-      expect { subject.correct_iban_and_swift }.to change { subject.errors[:field_a] }.from([]).to(["Unknown country code and Bad check digits"])
+      subject.fields[:iban] = "ZZ111111111111"
+      expect { subject.correct_iban_and_swift }.to change { subject.errors[:iban] }.from([]).to(["Unknown country code and Bad check digits"])
     end
 
     it "checks swift length and format" do
-      subject.field_b = "BBVAESMMRELL"
-      expect { subject.correct_iban_and_swift }.to change { subject.errors[:field_b] }.from([]).to(["Too long and Bad format"])
+      subject.fields[:swift] = "BBVAESMMRELL"
+      expect { subject.correct_iban_and_swift }.to change { subject.errors[:swift] }.from([]).to(["Too long and Bad format"])
     end
 
     it "works with a valid swift code" do
-      subject.field_b = "BBVAESMMREL"
-      expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:field_b] })
+      subject.fields[:swift] = "BBVAESMMREL"
+      expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:swift] })
     end
   end
 
-  describe ".extra_params_fields" do
-    let(:event) { create(:event) }
+  describe ".fields" do
+    let(:event) { create(:event, refund_fields: ['extra_param_1']) }
     subject { build(:refund, event: event, gateway: 'bank_account') }
 
-    before(:each) do
-      @payment_gateway = create(:payment_gateway, event: event, extra_fields: ['extra_param_1'])
-    end
-
     it "works with a valid field" do
-      subject.extra_params = { extra_param_1: "ES80 2310 0001 1800 0001 2345" }
-      expect { subject.extra_params_fields }.not_to(change { subject.errors[:extra_params] })
+      subject.fields = { extra_param_1: "ES80 2310 0001 1800 0001 2345" }
+      expect { subject.extra_params_fields }.not_to(change { subject.errors[:fields] })
     end
 
     it "checks field exists" do
-      subject.extra_params = { extra_param_2: "ES80 2310 0001 1800 0001 2345" }
-      expect { subject.extra_params_fields }.to change { subject.errors[:extra_params] }.from([]).to(["Field extra_param_1 not found"])
+      subject.fields = { extra_param_2: "ES80 2310 0001 1800 0001 2345" }
+      expect { subject.extra_params_fields }.to change { subject.errors[:fields] }.from([]).to(["Field extra_param_1 not found"])
     end
 
     it "checks field is empty" do
-      subject.extra_params = { extra_param_1: "" }
-      expect { subject.extra_params_fields }.to change { subject.errors[:extra_params] }.from([]).to(["Field extra_param_1 not found"])
+      subject.fields = { extra_param_1: "" }
+      expect { subject.extra_params_fields }.to change { subject.errors[:fields] }.from([]).to(["Field extra_param_1 not found"])
     end
 
     it "checks field is nil" do
-      subject.extra_params = { extra_param_1: nil }
-      expect { subject.extra_params_fields }.to change { subject.errors[:extra_params] }.from([]).to(["Field extra_param_1 not found"])
+      subject.fields = { extra_param_1: nil }
+      expect { subject.extra_params_fields }.to change { subject.errors[:fields] }.from([]).to(["Field extra_param_1 not found"])
     end
   end
 
   describe ".prepare_for_bank_account" do
     let(:event) { create(:event) }
-    let(:payment_gateway) { create(:payment_gateway, event: event, extra_fields: ['extra_param_1']) }
     subject { build(:refund, event: event, gateway: 'bank_account') }
 
-    it "removes empty spaces on field a" do
-      subject.field_a = "ES80 2310 0001 1800 0001 2345"
-      subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
-      expect(subject.field_a).to eq("ES8023100001180000012345")
-    end
-
-    it "removes empty spaces on field b" do
-      subject.field_b = "1800 0001 2345"
-      subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
-      expect(subject.field_b).to eq("180000012345")
-    end
-
     it "removes empty spaces on extra fields" do
-      subject.extra_params = { extra_param_1: "extra field number one" }
+      subject.fields = { extra_param_1: "extra field number one" }
       subject.prepare_for_bank_account(subject.attributes.symbolize_keys)
-      expect(subject.extra_params["extra_param_1"]).to eq("extrafieldnumberone")
+      expect(subject.fields["extra_param_1"]).to eq("extrafieldnumberone")
     end
 
     context "iban and bsb don't exist" do

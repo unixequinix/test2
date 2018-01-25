@@ -1,247 +1,303 @@
-= render "event_links"
+= render "event_modals"
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      .mdl-cell.mdl-cell--6-col
+      .mdl-cell.mdl-cell--4-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-cell.mdl-cell--12-col
-              i.material-icons info_outline
-              | Info
-
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Slug
-                  td = @current_event.slug
-                tr
-                  td.mdl-data-table__cell--non-numeric Timezone
-                  td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map{ |zone| [zone.name, "(GMT#{zone.formatted_offset}) #{zone.name}"] }, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Start date
-                  td = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
-                tr
-                  td.mdl-data-table__cell--non-numeric End date
-                  td = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
-                tr
-                  td.mdl-data-table__cell--non-numeric Support email
-                  td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
+          - if @current_event.alerts.any?
+            .mdl-card__title
+              .mdl-cell.mdl-cell--8-col Alerts
+              .mdl-cell.mdl-cell--4-col
+                .tools
+                  .tool-item
+                    = link_to admins_event_alerts_path(@current_event), style: "overflow: visible" do
+                      span#alerts.material-icons add_alert
+                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="alerts" See All
+                      - if @current_event.alerts.unresolved.any?
+                        span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
 
           .mdl-card__title
-            .mdl-cell.mdl-cell--12-col
-              i.material-icons build
-              | Customer Mandatory Fields
-
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Phone Mandatory
-                  td = best_in_place @current_event, :phone_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Address Mandatory
-                  td = best_in_place @current_event, :address_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Gender Mandatory
-                  td = best_in_place @current_event, :gender_mandatory, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Birthday Mandatory
-                  td = best_in_place @current_event, :birthdate_mandatory, best_in_place_checkbox([:admins, @current_event])
-
-          .mdl-card__title
+            .mdl-cell.mdl-cell--8-col State: #{@current_event.state.humanize}
             .mdl-cell.mdl-cell--4-col
-              i.material-icons insert_photo
-              | Style
-            .mdl-cell.mdl-cell--8-col
+              .tools
+                .tool-item
+                  - if @current_event.created?
+                    = link_to '#launch-modal' do
+                      span#launch_link.material-icons flight_takeoff
+                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="launch_link" Launch
+
+                  - if @current_event.launched?
+                    = link_to '#close-modal' do
+                      span#close_link.material-icons flight_takeoff
+                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="close_link" Close
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--8-col Settings
+            .mdl-cell.mdl-cell--4-col
+              .tools
+                .tool-item
+                  = link_to edit_admins_event_path(@current_event) do
+                    span#edit_event.material-icons edit
+                    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_event" Edit
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--8-col Device Settings
+            .mdl-cell.mdl-cell--4-col
+              .tools
+                .tool-item
+                  = link_to device_settings_admins_event_path(@current_event) do
+                    span#device_settings.material-icons phonelink_setup
+                    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="device_settings" Edit
+
+          .mdl-card__title
+            .mdl-cell.mdl-cell--8-col Style
+            .mdl-cell.mdl-cell--4-col
               .tools
                 .tool-item
                   = link_to edit_event_style_admins_event_path(@current_event) do
                     span#edit5.material-icons brush
-                    span.mdl-tooltip data-mdl-for="edit5" Edit Style
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Gtag formats used
-                  td = @current_event.gtag_format.to_s.humanize
-                tr
-                  td.mdl-data-table__cell--non-numeric Logo
-                  td
-                    - if @current_event.logo?
-                      = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
-                        button#delete_logo.icon.material-icons delete
-                      i.material-icons done
-                    - else
-                      i.material-icons clear
-
-                tr
-                  td.mdl-data-table__cell--non-numeric Background
-                  td
-                    - if @current_event.background?
-                      = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('alerts.confirm_delete') } do
-                        button#delete_background.icon.material-icons delete
-                      i.material-icons done
-                    - else
-                      i.material-icons clear
-
-                span.mdl-tooltip data-mdl-for="delete_background" Delete Background
-                span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
-
-      .mdl-cell.mdl-cell--6-col
-        .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
+                    span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit5" Edit
+        br
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-cell.mdl-cell--12-col
-              i.material-icons local_atm
-              | Money Settings (editable)
-
+              i.material-icons bookmark_border
+              | Ticketing Integrations
           .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Value
-                  td = best_in_place_if @current_event.created?, @current_event.credit, :value, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit), display_as: :full_description, class: "currency_exchange"
-                tr
-                  td.mdl-data-table__cell--non-numeric Currency
-                  td#currency = best_in_place @current_event, :currency, as: :select, collection: Money::Currency.all.map { |c| [c.id.to_s.upcase, "#{c.symbol} : #{c.name}"] }, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Credit Name (Singular form)
-                  td#credit_name = best_in_place @current_event.credit, :name, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
-                tr
-                  td.mdl-data-table__cell--non-numeric Credit Symbol
-                  td = best_in_place @current_event.credit, :symbol, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
-                tr
-                  td.mdl-data-table__cell--non-numeric Maximum Gtag Balance
-                  td
-                    = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
-                    |  #{@current_event.credit.symbol}
-                tr
-                  td.mdl-data-table__cell--non-numeric Credit Step
-                  td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Tips
-                  td = best_in_place @current_event, :tips_enabled, best_in_place_checkbox([:admins, @current_event])
-
-          .mdl-card__title
-            .mdl-cell.mdl-cell--12-col
-              i.material-icons local_atm
-              | Fees (editable)
-
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Gtag deposit fee
-                  td
-                    = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], class: "event_fee"
-                    |  #{@current_event.credit.symbol}
-                tr
-                  td.mdl-data-table__cell--non-numeric Initial Topup fee
-                  td
-                    = best_in_place @current_event, :initial_topup_fee, url: [:admins, @current_event], class: "event_fee"
-                    |  #{@current_event.credit.symbol}
-                tr
-                  td.mdl-data-table__cell--non-numeric Topup fee
-                  td
-                    = best_in_place @current_event, :topup_fee, url: [:admins, @current_event], class: "event_fee"
-                    |  #{@current_event.credit.symbol}
-
-          .mdl-card__title
-            .mdl-cell.mdl-cell--12-col
-              i.material-icons signal_cellular_null
-              | API Controls
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Online Services
-                  td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Devices
-                  td = best_in_place @current_event, :open_devices_api, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Ticketing
-                  td = best_in_place @current_event, :open_ticketing_api, best_in_place_checkbox([:admins, @current_event])
-
-
-          - if @current_event.created?
-            .mdl-card__supporting-text
-              .small style="padding: 0 25px;" If you are looking for the event setting, you must first #{link_to 'launch', '#launch-modal'} the event
-          - else
-            .mdl-card__title
-              .mdl-cell.mdl-cell--12-col
-                i.material-icons line_style
-                | Event Controls
-            .mdl-card__supporting-text
-              table.table-show.mdl-data-table.mdl-js-data-table.within-card
+            .table-responsive
+              table.mdl-data-table.mdl-js-data-table.within-card
                 tbody
                   tr
-                    td.mdl-data-table__cell--non-numeric Customer Portal
-                    td = best_in_place @current_event, :open_portal, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric Customer Portal InterCom
-                    td = best_in_place @current_event, :open_portal_intercom, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric Ticket Assignation
-                    td = best_in_place @current_event, :open_tickets, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric GTag Assignation
-                    td = best_in_place @current_event, :open_gtags, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric Online Topups
-                    td = best_in_place @current_event, :open_topups, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric Online Refunds
-                    td = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric
-                      | Refunds Start Date
-                      span.small
-                        | &nbsp;(EG: YYYY-MM-DD HH:MM )
+                    td.mdl-data-table__cell--non-numeric Eventbrite
                     td
-                      = best_in_place @current_event, :refunds_start_date, url: [:admins, @current_event], display_with: lambda {|v| v&.to_formatted_s(:human)}, value: @current_event.refunds_start_date&.to_formatted_s(:human)
-                      span
-                        - if @current_event.refunds_start_date.present?
-                          i.material-icons done
-                        - else
-                          i.material-icons clear
+                      .tools
+                        .tool-item
+                          = link_to admins_event_eventbrite_path(@current_event) do
+                            span#eventbrite_setting.material-icons gesture
+                            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Settings
                   tr
-                    td.mdl-data-table__cell--non-numeric
-                      | Refunds End Date
-                      span.small
-                        | &nbsp;(EG: YYYY-MM-DD HH:MM )
+                    td.mdl-data-table__cell--non-numeric Universe
                     td
-                      = best_in_place @current_event, :refunds_end_date, url: [:admins, @current_event], display_with: lambda {|v| v&.to_formatted_s(:human)}, value: @current_event.refunds_end_date&.to_formatted_s(:human)
-                      span
-                        - if @current_event.refunds_end_date.present?
-                          i.material-icons done
-                        - else
-                          i.material-icons clear
+                      .tools
+                        .tool-item
+                          = link_to admins_event_universe_path(@current_event) do
+                            span#universe_setting.material-icons format_underlined
+                            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="universe_setting" Settings
+
+        - if policy(@current_event).versions?
+          br
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              .mdl-cell.mdl-cell--8-col
+                i.material-icons build
+                | Latest Changes
+
+              .mdl-cell.mdl-cell--4-col
+                .tools
+                  .tool-item
+                    = link_to versions_admins_event_path(@current_event) do
+                      span#versions.material-icons layers
+                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="versions" See All
+
+            .mdl-card__supporting-text = render "versions"
+
+
+
+      .mdl-cell.mdl-cell--8-col
+        .mdl-grid
+          .mdl-cell.mdl-cell--4-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons loyalty
+                  | Credentials
+              .mdl-card__supporting-text
+                .table-responsive
+                  table.mdl-data-table.mdl-js-data-table.within-card
+                    tbody
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags]
+                        td
+                          = @current_event.gtags_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :gtag] do
+                            span.material-icons add_circle_outline
+
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets]
+                        td
+                          = @current_event.tickets_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :ticket] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types]
+                        td
+                          = @current_event.ticket_types_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :ticket_type] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Companies", [:admins, @current_event, :companies]
+                        td
+                          = @current_event.companies_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :company] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers]
+                        td = @current_event.customers_count
+
+          .mdl-cell.mdl-cell--4-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons import_export
+                  | Store
+              .mdl-card__supporting-text
+                .table-responsive
+                  table.mdl-data-table.mdl-js-data-table.within-card
+                    tbody
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions]
+                        td
+                          = @current_event.operator_permissions_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :operator_permission] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Accesses", [:admins, @current_event, :accesses]
+                        td
+                          = @current_event.accesses_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :access] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Packs", [:admins, @current_event, :packs]
+                        td
+                          = @current_event.packs_count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :pack] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Orders", [:admins, @current_event, :orders]
+                        td
+                          = @current_event.orders_count
+                      tr
+                        td.mdl-data-table__cell--non-numeric = link_to "Refunds", [:admins, @current_event, :refunds]
+                        td = @current_event.refunds_count
+
+
+
+          .mdl-cell.mdl-cell--4-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons local_activity
+                  | Stations - #{@current_event.stations_count}
+              .mdl-card__supporting-text
+
+                .table-responsive
+                  table.mdl-data-table.mdl-js-data-table.within-card
+                    tbody
+                      tr
+                        td.mdl-data-table__cell--non-numeric =link_to "Access", admins_event_stations_path(@current_event, group: "access")
+                        td
+                          = @current_event.stations.where(category: Station::GROUPS[:access]).count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :station, group: "access"] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric =link_to "Monetary", admins_event_stations_path(@current_event, group: "monetary")
+                        td
+                          = @current_event.stations.where(category: Station::GROUPS[:monetary]).count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :station, group: "monetary"] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric =link_to "Management", admins_event_stations_path(@current_event, group: "event_management")
+                        td
+                          = @current_event.stations.where(category: Station::GROUPS[:event_management]).count
+                          | &nbsp;
+                          = link_to [:new, :admins, @current_event, :station, group: "event_management"] do
+                            span.material-icons add_circle_outline
+                      tr
+                        td.mdl-data-table__cell--non-numeric Glownet
+                        td = @current_event.stations.where(category: Station::GROUPS[:glownet]).count
+                      tr
+                        td.mdl-data-table__cell--non-numeric Touchpoint
+                        td = @current_event.stations.where(category: Station::GROUPS[:touchpoint]).count
+
+          .mdl-cell.mdl-cell--4-col
+            = link_to money_recon_admins_event_reports_path(@current_event) do
+              .customer-card.mdl-card.mdl-shadow--2dp
+                .mdl-card__title.mdl-card--expand
+                  h3.mdl-card__title-text = number_to_event_currency(@total_money)
+                .mdl-card__supporting-text
+                  span.good_info = "Money Income"
+                  br
+                  span = "Money Reconciliation"
+
+          .mdl-cell.mdl-cell--4-col
+            = link_to products_sale_admins_event_reports_path(@current_event) do
+              .customer-card.mdl-card.mdl-shadow--2dp
+                .mdl-card__title.mdl-card--expand
+                  h3.mdl-card__title-text = number_to_token(@total_products_sale)
+                .mdl-card__supporting-text
+                  span.good_info = "Total Sale"
+                  br
+                  span = "Product Sale Report"
+
+          .mdl-cell.mdl-cell--4-col
+            = link_to cashless_admins_event_reports_path(@current_event) do
+              .customer-card.mdl-card.mdl-shadow--2dp
+                .mdl-card__title.mdl-card--expand
+                  h3.mdl-card__title-text = number_to_token(@total_credits)
+                .mdl-card__supporting-text
+                  span.good_info = "Credits left over"
+                  br
+                  span = "Cashless Report"
+
+          .mdl-cell.mdl-cell--4-col
+            = link_to gates_admins_event_reports_path(@current_event) do
+              .customer-card.mdl-card.mdl-shadow--2dp
+                .mdl-card__title.mdl-card--expand
+                  h3.mdl-card__title-text = @total_checkins
+                .mdl-card__supporting-text
+                  span.good_info = "Total Check-in's"
+                  br
+                  span = "Gates Report"
+
+          .mdl-cell.mdl-cell--4-col
+            = link_to activations_admins_event_reports_path(@current_event) do
+              .customer-card.mdl-card.mdl-shadow--2dp
+                .mdl-card__title.mdl-card--expand
+                  h3.mdl-card__title-text = @total_activations
+                .mdl-card__supporting-text
+                  span.good_info = "Total Activations"
+                  br
+                  span = "Activations Detail"
+
+          .mdl-cell.mdl-cell--4-col
+            = link_to devices_admins_event_reports_path(@current_event) do
+              .customer-card.mdl-card.mdl-shadow--2dp
+                .mdl-card__title.mdl-card--expand
+                  h3.mdl-card__title-text = @total_devices
+                .mdl-card__supporting-text
+                  span.good_info = "Total Devices Used"
+                  br
+                  span = "Devices Used Detail"
+
+
+          .mdl-cell.mdl-cell--12-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons import_export
+                  | Sales By hour
+              .mdl-card__supporting-text = line_chart @sales
+
 
   .mdl-layout-spacer
-
-javascript:
-  $('.event_fee').bind('ajax:success', function() {
-    $(this).text((parseFloat($(this).text())).toFixed(2))
-  });
-
-  var exchange = $('.currency_exchange');
-  var currency = $('#currency');
-  var credit_name = $('#credit_name');
-
-  exchange.bind('ajax:success', function (event, data) {
-      var result = $.parseJSON(data);
-      exchange.text("1 #{@current_event.credit.name} = " + result.value +  " #{@current_event.currency}")
-  });
-
-  currency.bind('ajax:success', function (event, data) {
-      var result = $.parseJSON(data);
-      exchange.text("1 #{@current_event.credit.name} = #{@current_event.credit.value} " + result.currency)
-  });
-
-  credit_name.bind('ajax:success', function (event, data) {
-      var result = $.parseJSON(data);
-      exchange.text("1 " + result.name + " = #{@current_event.credit.value}  #{@current_event.currency}")
-  });

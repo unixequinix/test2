@@ -84,7 +84,5 @@
 = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?
 = render(root + "refunds", customer: @customer) if @customer.refunds.present?
 = render(root + "orders", customer: @customer) if @customer.orders.any?
-hr
-= render("admins/events/transactions/online", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
-- @customer.gtags.order(active: :desc, id: :asc).each do |gtag|
-  = render("admins/events/pokes/onsite", pokes: gtag.pokes_as_customer.onsite.order(:gtag_counter), title: "Pokes for tag #{gtag.tag_uid}", active: gtag.active, closed: true )
+= render("admins/events/pokes/onsite", pokes: @pokes, title: "Pokes", active: true, closed: false )
+= render("admins/events/transactions/list", transactions: @transactions, title: "Customer Transactions (DEBUG)", closed: true ) if @transactions.present? && @current_user.glowball?

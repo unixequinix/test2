@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Orders on admin panel", js: true, type: :feature do
+RSpec.describe "Orders on admin panel", type: :feature do
   let(:event) { create(:event, state: "launched") }
   let(:user) { create(:user, role: "admin") }
   let!(:order1) { create(:order, :with_credit, status: "completed", event: event) }
@@ -27,8 +27,7 @@ RSpec.describe "Orders on admin panel", js: true, type: :feature do
       all('tbody')[0].all('tr')[6].all('a')[1].click
       expect(page).to have_current_path(admins_event_customer_path(event, @customer))
     end
-
-  end  
+  end
 
   describe "verify information from orders list: " do
     before { visit admins_event_orders_path(event) }
@@ -46,7 +45,7 @@ RSpec.describe "Orders on admin panel", js: true, type: :feature do
       expect(@amount).to eq(event.orders[6].total.to_f)
     end
     it "verify Order state" do
-      @status = all('tbody')[0].all('tr')[0].all('td')[3].text.downcase
+      @status = all('tbody')[0].all('tr')[0].all('td')[4].text.downcase
       expect(@status).to eq(event.orders[6].status)
     end
   end
@@ -70,7 +69,7 @@ RSpec.describe "Orders on admin panel", js: true, type: :feature do
       @total_cancelled = all('h3')[3].text.split(' ')[0].to_f
       expect(@total_cancelled).to eq(event.orders[6].total.to_f)
     end
-  end 
+  end
 
   describe "verify number of orders: " do
     before { visit admins_event_orders_path(event) }
@@ -87,6 +86,5 @@ RSpec.describe "Orders on admin panel", js: true, type: :feature do
     it "verify number of Cancelled Orders" do
       expect(Order.cancelled.count).to eq(1)
     end
-    
-  end 
+  end
 end

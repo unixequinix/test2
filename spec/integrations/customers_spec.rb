@@ -31,15 +31,6 @@ RSpec.describe "Customers", type: :feature do
       expect(page).to have_current_path(admins_event_customer_path(event, customer))
     end
 
-    it "create new order" do
-      find("#floaty").click
-      find_link("new_order_link").click
-      expect(page).to have_current_path(new_admins_event_order_path(event, customer_id: customer.id))
-      within("#new_order") { fill_in 'order_credits', with: "10" }
-      expect { find("input[name=commit]").click }.to change(customer.orders, :count).by(1)
-      expect(page).to have_current_path(admins_event_customer_path(event, customer))
-    end
-
     it "assign a gtag to customer" do
       find("#floaty").click
       find_link("assign_gtag_link").click

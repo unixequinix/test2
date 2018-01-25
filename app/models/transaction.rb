@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   include Alertable
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :station, optional: true
   belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :transactions_as_operator
   belongs_to :operator_gtag, class_name: "Gtag", optional: true, inverse_of: :transactions_as_operator
@@ -12,7 +12,7 @@ class Transaction < ApplicationRecord
   belongs_to :order, optional: true
   belongs_to :order_item, optional: true
 
-  has_many :pokes, dependent: :restrict_with_error
+  has_many :pokes, dependent: :restrict_with_error, foreign_key: :operation_id, inverse_of: :operation
 
   scope :credit, -> { where(type: "CreditTransaction") }
   scope :credential, -> { where(type: "CredentialTransaction") }
@@ -31,6 +31,7 @@ class Transaction < ApplicationRecord
   scope :status_not_ok, -> { where.not(status_code: 0) }
   scope :origin, ->(origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
   scope :payments_with_credit, ->(credit) { where("payments ? '#{credit.id}'") }
+  scope :debug, -> { includes(:event).order(:transaction_origin, :counter, :gtag_counter, :device_created_at) }
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel", api: "api" }.freeze
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze

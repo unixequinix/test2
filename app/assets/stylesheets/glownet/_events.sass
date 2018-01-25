@@ -1,5 +1,22 @@
 @import colors
 
+.fixed-background
+  background: no-repeat center center fixed
+  background-size: cover
+  -o-background-size: cover
+  -moz-background-size: cover
+  -webkit-background-size: cover
+
+.dashboard_link
+  &:hover
+    .customer-card
+      background-color: #f2f2f2
+
+      .mdl-card__title.mdl-card--expand
+        .mdl-card__title-text
+          color: #4d5965
+
+
 .danger
   td
     background-color: #ffe3e1
@@ -38,8 +55,8 @@
   height: 80px
 
 .mdl-layout__header-row
-  a.mdl-button
-    .material-icons
+  mdl-button
+    a.material-icons
       color: #e7e7e7
 
     &:hover

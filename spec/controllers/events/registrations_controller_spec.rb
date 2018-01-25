@@ -5,7 +5,7 @@ RSpec.describe Events::RegistrationsController, type: :controller do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
   let(:customer_valid_atts) do
-    { email: 'email@email.com', password: 'password1', password_confirmation: 'password1', first_name: 'first_name', last_name: 'last_name', agreed_on_registration: true } # rubocop:disable Metrics/LineLength
+    { email: 'email@email.com', password: 'password1', password_confirmation: 'password1', first_name: 'first_name', last_name: 'last_name', agreed_on_registration: true }
   end
   let(:customer_invalid_atts) do
     { email: 'email@email.com', password: 'password', first_name: 'first_name', last_name: 'last_name', agreed_on_registration: false }

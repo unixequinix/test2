@@ -15,6 +15,10 @@ class GtagPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def virtual_topup?
+    all_allowed && event_open
+  end
+
   def solve_inconsistent?
     all_allowed && event_open
   end

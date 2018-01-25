@@ -10,6 +10,11 @@ RSpec.describe Api::V2::Events::GtagsController, type: %i[controller api] do
 
   before { token_login(user, event) }
 
+  describe "topups" do
+    let(:atts) { { id: gtag.to_param, event_id: event.to_param } }
+    include_examples "controller topups"
+  end
+
   describe "GET #index" do
     before { create_list(:gtag, 10, event: event) }
 

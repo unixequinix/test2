@@ -48,7 +48,7 @@ RSpec.describe Gtag, type: :model do
     end
 
     context "the old way" do
-      before { create_list(:credit_transaction, 3, gtag: subject, transaction_origin: "onsite", credits: 100, refundable_credits: 30, final_balance: 100, final_refundable_balance: 10, payments: {}) } # rubocop:disable Metrics/LineLength
+      before { create_list(:credit_transaction, 3, gtag: subject, transaction_origin: "onsite", credits: 100, refundable_credits: 30, final_balance: 100, final_refundable_balance: 10, payments: {}) }
 
       it "changes the gtags credits" do
         expect { subject.recalculate_balance }.to change { subject.credits.to_f }.from(0.00).to(90)

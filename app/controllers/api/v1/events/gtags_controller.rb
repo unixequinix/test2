@@ -30,7 +30,7 @@ module Api
         # * have customer with orders or (right now we check for not anonymous)
         # * have ticket_type with catalog_item
         # * has a customer with tickets
-        def gtags_sql # rubocop:disable Metrics/MethodLength
+        def gtags_sql
           sql = <<-SQL
             SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
 

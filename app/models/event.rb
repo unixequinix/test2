@@ -1,4 +1,4 @@
-class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Event < ApplicationRecord
   extend FriendlyId
 
   has_many :device_registrations, dependent: :destroy
@@ -9,7 +9,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :ticket_types, dependent: :destroy
   has_many :companies, dependent: :destroy
   has_many :gtags, dependent: :destroy
-  has_many :payment_gateways, dependent: :destroy
   has_many :stations, dependent: :destroy
   has_many :device_transactions, dependent: :destroy
   has_many :user_flags, dependent: :destroy
@@ -42,21 +41,24 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
   enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
+  USER_FLAGS = %w[alcohol_forbidden banned initial_topup].freeze
+  DEFAULT_STATIONS = { cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", hospitality_top_up: "Glownet Food", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
+
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
 
-  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50", panel: "200x" }, default_url: ':default_event_image_url') # rubocop:disable Metrics/LineLength
-  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ':default_event_background_url') # rubocop:disable Metrics/LineLength
+  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", panel: "200x" }, default_url: ':default_event_image_url')
+  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ':default_event_background_url')
 
   before_create :generate_tokens
   before_save :round_fees
 
   validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, :currency, presence: true
-  validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
-  validates :gtag_deposit_fee, :initial_topup_fee, :topup_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 }
+  validates :onsite_initial_topup_fee, :online_initial_topup_fee, :gtag_deposit_fee, :every_topup_fee, :refund_fee, :refund_minimum, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? } # rubocop:disable Metrics/LineLength
+  validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? }
   validate :end_date_after_start_date
   validate :refunds_start_after_end_date
   validate :refunds_end_after_refunds_start
@@ -120,14 +122,6 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     Gem::Version.new(app_version) <= Gem::Version.new(device_version.delete("^0-9\."))
   end
 
-  def topups?
-    payment_gateways.map(&:topup).any?
-  end
-
-  def refunds?
-    payment_gateways.map(&:refund).any?
-  end
-
   def eventbrite?
     eventbrite_token.present? && eventbrite_event.present?
   end
@@ -140,18 +134,10 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
     create_credit!(value: 1, name: "CRD")
     create_virtual_credit!(value: 1, name: "Virtual")
     companies.create!(name: "Glownet", hidden: true)
-    user_flags.create!(name: "alcohol_forbidden")
-    user_flags.create!(name: "banned")
+    USER_FLAGS.each { |name| user_flags.create!(name: name) }
+    DEFAULT_STATIONS.each { |category, name| stations.create! category: category, name: name }
     station = stations.create! name: "Customer Portal", category: "customer_portal"
     station.station_catalog_items.create(catalog_item: credit, price: 1)
-    stations.create! name: "CS Topup/Refund", category: "cs_topup_refund"
-    stations.create! name: "CS Accreditation", category: "cs_accreditation"
-    stations.create! name: "Glownet Food", category: "hospitality_top_up"
-    stations.create! name: "Touchpoint", category: "touchpoint"
-    stations.create! name: "Operator Permissions", category: "operator_permissions"
-    stations.create! name: "Gtag Recycler", category: "gtag_recycler"
-    stations.create! name: "Gtag Replacement", category: "gtag_replacement"
-    stations.create! name: "Yellow Card", category: "yellow_card"
   end
 
   def start_end_dates_range
@@ -160,10 +146,16 @@ class Event < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   private
 
+  def should_generate_new_friendly_id?
+    false || super
+  end
+
   def round_fees
-    self.initial_topup_fee = initial_topup_fee.to_f.round(2)
-    self.gtag_deposit_fee = gtag_deposit_fee.to_f.round(2)
-    self.topup_fee = topup_fee.to_f.round(2)
+    self.onsite_initial_topup_fee = onsite_initial_topup_fee.to_f.round(2) if onsite_initial_topup_fee.present?
+    self.online_initial_topup_fee = online_initial_topup_fee.to_f.round(2) if online_initial_topup_fee.present?
+    self.gtag_deposit_fee = gtag_deposit_fee.to_f.round(2) if gtag_deposit_fee.present?
+    self.every_topup_fee = every_topup_fee.to_f.round(2) if every_topup_fee.present?
+    self.refund_fee = refund_fee.to_f.round(2) if refund_fee.present?
   end
 
   def end_date_after_start_date

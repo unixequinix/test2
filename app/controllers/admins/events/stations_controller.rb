@@ -1,4 +1,4 @@
-class Admins::Events::StationsController < Admins::Events::BaseController # rubocop:disable Metrics/ClassLength
+class Admins::Events::StationsController < Admins::Events::BaseController
   include ReportsHelper
 
   before_action :set_station, :set_variables, except: %i[index new create]
@@ -11,7 +11,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
     @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators)
     credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day"]
     @credits = prepare_pokes(credit_cols, @station.pokes.credit_flow)
-    product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"] # rubocop:disable Metrics/LineLength
+    product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
     @products = prepare_pokes(product_cols, @station.pokes.products_sale)
     stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
     @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock)
@@ -36,7 +36,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController # rubo
     authorize @station
     @items = @station.all_station_items
     @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
-    @transactions = @current_event.transactions.where(station: @station).status_ok.credit
+    @transactions = @station.transactions
     @sales = - @station.pokes.where(credit: @all_credits).sales.is_ok.sum(:credit_amount)
     @sales_credits = - @station.pokes.where(credit: @credit).sales.is_ok.sum(:credit_amount)
     @operators = @station.pokes.pluck(:operator_id).uniq.count

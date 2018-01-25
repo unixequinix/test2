@@ -20,7 +20,7 @@ html
 
     = csrf_meta_tags
 
-  body class=("#{controller_name} #{action_name}")
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{@current_event.background.url})")
     - if @current_user.present? && @current_user.admin? == false
       javascript:
         var current_user_email = "#{@current_user&.email}";
@@ -56,14 +56,6 @@ html
           = yield(:navigation_actions)
 
           = render partial: "layouts/dropdown_menu"
-
-          = link_to admins_event_alerts_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
-            span#alerts.i.mdl-color-text--gray-50.material-icons add_alert
-            span.mdl-tooltip data-mdl-for="alerts" Alerts
-            - if @current_event.alerts.unresolved.any?
-              span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
-            div style="width: 10px;"
-
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
@@ -128,10 +120,6 @@ html
             = link_to new_admins_event_device_registration_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons devices
               |  Devices
-            - if @current_user.team
-              = link_to admins_user_team_path(@current_user), class: "mdl-navigation__link" do
-                i.mdl-color-text--teal-200.material-icons contacts
-                |  Team
             - if policy(@current_event.device_registrations).index?
               = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
                 i.mdl-color-text--teal-200.material-icons bug_report
@@ -143,9 +131,6 @@ html
             = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
               |  Users
-          = link_to device_settings_admins_event_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons phonelink_setup
-            |  Device Settings
           = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             |  Transactions
@@ -159,22 +144,62 @@ html
         .page-content.remodal-bg
           = yield
 
-= yield(:actions)
-= yield(:javascript)
+  = yield(:actions)
+  = yield(:javascript)
 
-javascript:
-  var floaty = $('#floaty');
-  floaty.on('mouseenter click', floatyMouseEnter);
-  floaty.on('mouseleave', floatyMouseLeave);
+  javascript:
+    var floaty = $('#floaty');
+    floaty.on('mouseenter click', floatyMouseEnter);
+    floaty.on('mouseleave', floatyMouseLeave);
 
-  function floatyMouseEnter() {
-    $('#button').toggleClass('on');
-    $('#changeIcon').html('clear');
-    $('#actions-list').toggleClass('show');
-  }
+    function floatyMouseEnter() {
+      $('#button').toggleClass('on');
+      $('#changeIcon').html('clear');
+      $('#actions-list').toggleClass('show');
+    }
 
-  function floatyMouseLeave() {
-    $('#button').removeClass('on');
-    $('#changeIcon').html('build');
-    $('#actions-list').removeClass('show');
-  }
+    function floatyMouseLeave() {
+      $('#button').removeClass('on');
+      $('#changeIcon').html('build');
+      $('#actions-list').removeClass('show');
+    }
+
+  javascript:
+      (function (apiKey) {
+          (function (p, e, n, d, o) {
+              var v, w, x, y, z;
+              o = p[d] = p[d] || {};
+              o._q = [];
+              v = ['initialize', 'identify', 'updateOptions', 'pageLoad'];
+              for (w = 0, x = v.length; w < x; ++w) (function (m) {o[m] = o[m] || function () {o._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0)));};})(v[w]);
+              y = e.createElement(n);
+              y.async = !0;
+              y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+              z = e.getElementsByTagName(n)[0];
+              z.parentNode.insertBefore(y, z);
+          })(window, document, 'script', 'pendo');
+
+          // Call this whenever information about your visitors becomes available
+          // Please use Strings, Numbers, or Bools for value types.
+          pendo.initialize({
+              visitor: {
+                  id: '#{current_user.id}'   // Required if user is logged in
+                  // email:        // Optional
+                  // role:         // Optional
+
+                  // You can add any additional visitor level key-values here,
+                  // as long as it's not one of the above reserved names.
+              },
+
+              account: {
+                  // id:           'ACCOUNT-UNIQUE-ID' // Highly recommended
+                  // name:         // Optional
+                  // planLevel:    // Optional
+                  // planPrice:    // Optional
+                  // creationDate: // Optional
+
+                  // You can add any additional account level key-values here,
+                  // as long as it's not one of the above reserved names.
+              }
+          });
+      })('0907a857-90ea-47a7-79a4-4a24faa1a650');

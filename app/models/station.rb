@@ -2,17 +2,17 @@ class Station < ApplicationRecord
   ASSOCIATIONS = { accreditation:  %i[customer_portal box_office],
                    cs_accreditation:  %i[staff_accreditation cs_accreditation],
                    pos: %i[bar vendor],
-                   topup: %i[top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
+                   topup: %i[top_up_refund hospitality_top_up cs_topup_refund],
                    access: [:access_control] }.freeze
 
   GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
              event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions
-                                  hospitality_top_up cs_topup_refund cs_gtag_balance_fix cs_accreditation gtag_replacement yellow_card],
+                                  hospitality_top_up cs_topup_refund cs_accreditation gtag_replacement yellow_card],
              glownet: %i[gtag_recycler envelope_linker],
              monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze
 
-  TYPES = { money_credit:  %i[top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
+  TYPES = { money_credit:  %i[top_up_refund hospitality_top_up cs_topup_refund],
             money: %i[customer_portal],
             box_office: %i[box_office],
             pos: %i[bar vendor],
@@ -21,7 +21,7 @@ class Station < ApplicationRecord
 
   CATEGORIES = GROUPS.values.flatten.map(&:to_s)
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
 
   has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy

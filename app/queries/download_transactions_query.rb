@@ -9,7 +9,7 @@ class DownloadTransactionsQuery
 
   def to_csv
     CSV.generate do |csv|
-      csv << ["Event Name", "Transaction Origin", "Transaction Category", "Event Day", "Date Time", "Station Name", "Station Location", "Station Category", "Station Address", "Station Official Name", "Device UID", "Customer gTag ID", "Operator gTag ID", "Product Price", "Product Name", "Product has Acohol?", "Product description", "Product VAT", "Transaction Type", "Total Transaction Amount", "Total Transaction Amount Refundable", "Final Balance", "Final Balance Refundable", "Quantity", "Unit Price", "Other Amount Sale", "Products Amount Sale", "Amount"] # rubocop:disable Metrics/LineLength
+      csv << ["Event Name", "Transaction Origin", "Transaction Category", "Event Day", "Date Time", "Station Name", "Station Location", "Station Category", "Station Address", "Station Official Name", "Device UID", "Customer gTag ID", "Operator gTag ID", "Product Price", "Product Name", "Product has Acohol?", "Product description", "Product VAT", "Transaction Type", "Total Transaction Amount", "Total Transaction Amount Refundable", "Final Balance", "Final Balance Refundable", "Quantity", "Unit Price", "Other Amount Sale", "Products Amount Sale", "Amount"]
       all.each { |row| csv << row }
     end
   end

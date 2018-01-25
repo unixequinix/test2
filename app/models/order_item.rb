@@ -2,7 +2,8 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :catalog_item
 
-  validates :total, :counter, presence: true
+  validates :counter, :amount, presence: true, numericality: true
+  validates :amount, numericality: { greater_than: 0 }, unless: -> { catalog_item.is_a?(UserFlag) }
 
   def single_credits?
     catalog_item.is_a?(Credit)

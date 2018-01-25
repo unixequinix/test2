@@ -1,5 +1,5 @@
 class CatalogItem < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :station, optional: true
 
   has_many :station_catalog_items, dependent: :destroy
@@ -37,9 +37,5 @@ class CatalogItem < ApplicationRecord
 
   def virtual_credits
     0
-  end
-
-  def price
-    station_catalog_items.find_by(station: event.portal_station)&.price&.to_f
   end
 end

@@ -1,4 +1,4 @@
-class EventPolicy < ApplicationPolicy # rubocop:disable Metrics/ClassLength
+class EventPolicy < ApplicationPolicy
   def index?
     true
   end
@@ -25,6 +25,10 @@ class EventPolicy < ApplicationPolicy # rubocop:disable Metrics/ClassLength
 
   def edit?
     admin_or_promoter && event_open
+  end
+
+  def refund_fields?
+    admin_or_promoter
   end
 
   def versions?

@@ -1,5 +1,3 @@
-= render "event_links"
-
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
@@ -26,12 +24,19 @@
                 td.mdl-data-table__cell--non-numeric data-label="Changes"
                   - changes.each do |attribute, values|
                     div
-                      | #{attribute.humanize}: From
-                      '
-                      b = values.first || "Blank"
-                      '
-                      | to
-                      '
-                      b = values.last
+                      - if attribute.eql?("event_serie_id")
+                        - from_serie = EventSerie.find_by(id: values.first)
+                        - to_serie = EventSerie.find_by(id: values.last)
+                        b = from_serie ? link_to(from_serie.name, [:admins, from_serie]) : "Blank"
+                        '
+                        | to
+                        '
+                        b = to_serie ? link_to(to_serie.name, [:admins, to_serie]) : "Blank"
+                      - else
+                        b = values.first.present? ? values.first : "Blank"
+                        '
+                        | to
+                        '
+                        b = values.last.present? ? values.last : "Blank"
     = render "layouts/pagination", objects: @versions
   .mdl-layout-spacer

@@ -28,7 +28,7 @@ module Api
         private
 
         # * have ticket_type with catalog_item
-        def tickets_sql(only_banned = false) # rubocop:disable Metrics/MethodLength
+        def tickets_sql(only_banned = false)
           sql = <<-SQL
             SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))
             FROM (

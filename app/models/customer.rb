@@ -1,4 +1,4 @@
-class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :omniauthable, :trackable, :confirmable,
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
@@ -6,7 +6,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
          sign_in_after_reset_password: true,
          omniauth_providers: %i[facebook google_oauth2]
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
 
   has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag", inverse_of: :customer
 
@@ -88,8 +88,9 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def credits
-    order_total = orders.where(status: %w[completed refunded]).includes(:order_items).reject(&:redeemed?).sum(&:credits)
-    order_total + active_gtag&.credits.to_f
+    order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
+    refund_total = refunds.completed.sum(&:total)
+    order_total - refund_total + active_gtag&.credits.to_f
   end
 
   def virtual_credits
@@ -119,7 +120,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def build_order(items, atts = {})
     order = orders.new(atts.merge(event: event, status: "in_progress"))
-    last_counter = order_items.pluck(:counter).sort.last.to_i
+    last_counter = order_items.maximum(:counter).to_i
     items.each.with_index do |arr, index|
       arr.unshift(event.credit.id) if arr.size.eql?(1)
       item_id, amount = arr
@@ -128,8 +129,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
-      total = amount * item.price.to_f
-      order.order_items.new(catalog_item: item, amount: amount, total: total, counter: counter)
+      order.order_items.new(catalog_item: item, amount: amount, counter: counter)
     end
     order
   end

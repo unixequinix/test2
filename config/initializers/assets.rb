@@ -13,6 +13,6 @@ Rails.application.config.assets.version = '2.1'
 assets = %w( .svg .eot .woff .ttf welcome_admin.css admin.css cable.js customer.css customer.js layout.css datatables.css datatables.js)
 Rails.application.config.assets.precompile += assets
 
-specific = %w( specific/events-form.js specific/intercom.js specific/devices_draggable.js)
+specific = %w( specific/intercom.js specific/devices_draggable.js)
 Rails.application.config.assets.precompile += specific
 

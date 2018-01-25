@@ -9,7 +9,7 @@ class Gtag < ApplicationRecord
   has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag
 
   has_many :transactions, dependent: :restrict_with_error
-  has_many :transactions_as_operator, class_name: "Transaction", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag # rubocop:disable Metrics/LineLength
+  has_many :transactions_as_operator, class_name: "Transaction", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag
 
   before_save :upcase_tag_uid
 
@@ -49,7 +49,7 @@ class Gtag < ApplicationRecord
     update!(active: true)
   end
 
-  def recalculate_balance # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
+  def recalculate_balance # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     ts = transactions.onsite.status_ok.credit.order(:gtag_counter, :device_created_at)
     payments = ts.payments_with_credit(event.credit)
     virtual_payments = ts.payments_with_credit(event.virtual_credit)
@@ -83,7 +83,7 @@ class Gtag < ApplicationRecord
     creds = ts.last&.final_balance.to_f - ts.map(&:credits).compact.sum
     refundable_creds = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).compact.sum
 
-    pay_atts = { event.credit.id => { amount: refundable_creds, final_balance: 0 }, event.virtual_credit.id => { amount: creds - refundable_creds, final_balance: 0 } } # rubocop:disable Metrics/LineLength
+    pay_atts = { event.credit.id => { amount: refundable_creds, final_balance: 0 }, event.virtual_credit.id => { amount: creds - refundable_creds, final_balance: 0 } }
     atts = assignation_atts.merge(gtag_counter: 0,
                                   gtag_id: id,
                                   credits: creds,

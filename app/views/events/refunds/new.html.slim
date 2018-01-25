@@ -9,13 +9,13 @@
     table.table-order
       tr.border-bottom
         td = t('refunds.product_description')
-        td.table-amount#refund_amount = number_to_token(@refunds.first.total)
+        td.table-amount#refund_amount = number_to_token(@refund.total)
       tr.border-bottom
         td = t('refunds.fee')
-        td.table-amount#refund_fee = number_to_token(@refunds.first.fee)
+        td.table-amount#refund_fee = number_to_token(@refund.fee)
       tr.border-bottom
         td = t('refunds.total_credits')
-        td.table-amount#refund_credits = number_to_token(@refunds.first.amount)
+        td.table-amount#refund_credits = number_to_token(@refund.amount)
       tr.border-bottom
         td
         td.table-amount @ #{number_to_token(@current_event.credit.value)} / #{@current_event.currency}
@@ -23,22 +23,15 @@
         td
           .total-text = t('orders.total')
           .vat-text = t('orders.vat')
-        td.total-amount#refund_money = number_to_event_currency(@refunds.first.amount_money)
+        td.total-amount#refund_money = number_to_event_currency(@refund.amount_money)
 
 .mdl-cell.mdl-cell--12-col
 .customer-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__supporting-text
+    = simple_form_for [@current_event, @refund], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit } do |f|
+      = f.input :gateway, :as => :hidden, :input_html => { :value => "bank_account" }
 
-    h4
-      #payment-anchor = t('orders.payment')
-
-    ul.container-payment-buttons
-      - @refunds.each.with_index do |refund, index|
-        li
-          .btn-payment-trigger [data-target="#{refund.gateway}" data-credits="#{number_to_token(refund.amount)}" data-money="#{number_to_event_currency(refund.amount_money)}" data-amount="#{number_to_token(refund.total)}" data-fee="#{number_to_token(refund.fee)}" class=(index.zero? ? "button-selected" : "")]
-            = fa_icon t("orders.payment-buttons.#{refund.gateway}.icon")
-            p #{t("orders.payment-buttons.#{refund.gateway}.name")} ( #{number_to_event_currency refund.amount_money} )
-
-    - @refunds.each.with_index do |refund, index|
-      .container-method id="method-#{refund.gateway}" class=(index.zero? ? "show-container" : "")
-        = render partial: "events/refunds/#{refund.gateway}", locals: { refund: refund, bank_account: @bank_account }
+      = f.simple_fields_for(:fields) do |ff|
+        - @current_event.refund_fields.each do |extra_field|
+          = ff.input extra_field.to_sym
+      = f.button :submit, t('refunds.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"

@@ -358,6 +358,10 @@ ul.container-purchase-order {
     margin-right: 1%;
 }
 
+.order__price {
+    float: right;
+}
+
 .order__header {
     border-bottom: 1px solid gray;
     .mdl-grid {

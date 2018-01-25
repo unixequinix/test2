@@ -48,7 +48,7 @@ RSpec.describe Pokes::Checkin, type: :job do
   describe "when processing tickets_validations" do
     let(:credential) { ticket }
     let(:catalog_item) { credential.ticket_type.catalog_item }
-    let(:transaction) { create(:credential_transaction, action: "ticket_validation", event: event, ticket: ticket, gtag: nil, customer_tag_uid: nil) } # rubocop:disable Metrics/LineLength
+    let(:transaction) { create(:credential_transaction, action: "ticket_validation", event: event, ticket: ticket, gtag: nil, customer_tag_uid: nil) }
 
     include_examples "a catalog_item"
     include_examples "a ticket_type"

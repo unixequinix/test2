@@ -17,6 +17,7 @@
           thead
             tr
               th
+              th.mdl-data-table__cell--non-numeric Origin
               th.mdl-data-table__cell--non-numeric Action
               th.mdl-data-table__cell--non-numeric Station
               - @current_event.credits.each do |credit|
@@ -26,7 +27,8 @@
           tbody
             - transactions.each do |transaction|
               tr class="#{"danger" if transaction.status_not_ok?}"
-                td data-label="Counters" = transaction.gtag_counter
+                td data-label="Counters" = transaction.gtag_counter || transaction.counter
+                td.mdl-data-table__cell--non-numeric = transaction.transaction_origin.humanize
                 td.mdl-data-table__cell--non-numeric data-label="Action"
                   - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
                   = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do

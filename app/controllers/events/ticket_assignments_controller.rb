@@ -6,7 +6,7 @@ class Events::TicketAssignmentsController < Events::EventsController
   def create
     @code = permitted_params[:reference].strip
     @ticket = @current_event.tickets.find_or_initialize_by(code: @code)
-    @ticket.errors.add(:reference, I18n.t("credentials.same_credential", item: "Ticket")) if @current_customer.can_purchase_item?(@ticket.ticket_type&.catalog_item) # rubocop:disable Metrics/LineLength
+    @ticket.errors.add(:reference, I18n.t("credentials.same_credential", item: "Ticket")) if @current_customer.can_purchase_item?(@ticket.ticket_type&.catalog_item)
     render(:new) && return unless @ticket.validate_assignation
 
     @ticket.assign_customer(@current_customer, @current_customer)

@@ -7,7 +7,7 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
   let(:refund) { create(:refund, event: event, customer: customer) }
 
   let(:invalid_attributes) { { amount: nil } }
-  let(:valid_attributes) { { amount: 100, status: "started", field_a: "barrr", field_b: "fooo", customer_id: customer.id, gateway: "paypal" } }
+  let(:valid_attributes) { { amount: 100, status: "started", fields: { iban: "barrr", swift: "fooo" }, customer_id: customer.id, gateway: "paypal" } }
 
   before { token_login(user, event) }
 
