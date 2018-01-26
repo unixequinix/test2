@@ -26,6 +26,12 @@ class Order < ApplicationRecord
     "Order: ##{number}"
   end
 
+  def set_counters
+    last_counter = customer.order_items.maximum(:counter).to_i
+    order_items.each.with_index { |item, index| item.counter = last_counter + index + 1 }
+    self
+  end
+
   def complete!(gateway = "unknown", payment = {}.to_json, send_email = false)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
 

@@ -120,18 +120,13 @@ class Customer < ApplicationRecord
 
   def build_order(items, atts = {})
     order = orders.new(atts.merge(event: event, status: "in_progress"))
-    last_counter = order_items.maximum(:counter).to_i
-    items.each.with_index do |arr, index|
+
+    items.each do |arr|
       arr.unshift(event.credit.id) if arr.size.eql?(1)
       item_id, amount = arr
-      amount = amount.to_f
-      next if amount.zero?
-
-      item = event.catalog_items.find(item_id)
-      counter = last_counter + index + 1
-      order.order_items.new(catalog_item: item, amount: amount, counter: counter)
+      order.order_items.new(catalog_item: event.catalog_items.find(item_id), amount: amount.to_f) unless amount.to_f.zero?
     end
-    order
+    order.set_counters
   end
 
   def can_purchase_item?(catalog_item)

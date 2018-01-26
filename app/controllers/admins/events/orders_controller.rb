@@ -28,11 +28,11 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     alcohol_flag = atts.delete(:alcohol_forbidden)
     topup_flag = atts.delete(:initial_topup)
     @order = @current_event.orders.new(atts)
+    @order.order_items.new(catalog_item: @alcohol_flag, amount: 1) if alcohol_flag.to_i.eql?(1)
+    @order.order_items.new(catalog_item: @topup_flag, amount: 1) if topup_flag.to_i.eql?(1)
     authorize @order
 
-    if @order.save
-      @order.order_items.create(catalog_item: @alcohol_flag, amount: 1) if alcohol_flag.to_i.eql?(1)
-      @order.order_items.create(catalog_item: @topup_flag, amount: 1) if topup_flag.to_i.eql?(1)
+    if @order.set_counters.save
       @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
       OrderTransaction.write!(@current_event, "order_created", :admin, @customer, current_user, order_id: @order.id)
       redirect_to [:admins, @current_event, @order], notice: t("alerts.created")
