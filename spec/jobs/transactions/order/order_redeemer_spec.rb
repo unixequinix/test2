@@ -10,6 +10,8 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
   let(:transaction) { create(:order_transaction, event: event, order: order, order_item: order_item) }
   let(:atts) { { customer_id: customer.id } }
 
+  before { order.order_items = [] }
+
   it "redeems the online order" do
     expect { worker.perform(transaction, atts) }.to change { order_item.reload.order.redeemed? }.from(false).to(true)
   end

@@ -4,6 +4,10 @@ FactoryBot.define do
     gateway "paypal"
     customer { build(:customer, event: event) }
 
+    after :build do |order|
+      order.order_items << build(:order_item, :with_credit, order: order, amount: rand(1..100))
+    end
+
     trait :with_different_items do
       after :build do |order|
         order.order_items << build(:order_item, :with_access, order: order, amount: rand(1..100))

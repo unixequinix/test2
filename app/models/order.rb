@@ -13,7 +13,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_items, allow_destroy: true
 
   validates :number, :status, presence: true
-  validates :order_items, length: { minimum: 1, message: "must contain something" }
+  validates :order_items, presence: true
 
   validate :max_credit_reached
 

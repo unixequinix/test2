@@ -17,20 +17,22 @@ RSpec.describe Pokes::Purchase, type: :job do
     context "portal_purchase action, " do
       let(:order) { create(:order, :with_different_items, event: event) }
 
-      before { transaction.update! action: "portal_purchase", order: order, catalog_item: nil }
+      before do
+        transaction.update! action: "portal_purchase", order: order, catalog_item: nil
+      end
 
       it "creates as many stats as order_items present" do
-        expect { worker.perform_now(transaction) }.to change(Poke, :count).by(2)
+        expect { worker.perform_now(transaction) }.to change(Poke, :count).by(3)
       end
 
       it "differentiates stats by line_counter" do
         stats = worker.perform_now(transaction)
-        expect(stats.map(&:line_counter).sort).to eql([1, 2])
+        expect(stats.map(&:line_counter).sort).to eql([1, 2, 3])
       end
 
       it "names action purchase" do
         stats = worker.perform_now(transaction)
-        expect(stats.map(&:action).sort).to eql(%w[purchase purchase])
+        expect(stats.map(&:action).sort).to eql(%w[purchase purchase purchase])
       end
 
       it "sets monetary_quantity to 1" do
