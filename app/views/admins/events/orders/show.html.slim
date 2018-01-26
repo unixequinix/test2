@@ -36,6 +36,32 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Amount
+            td = number_to_token @o
+          tr
+            td.mdl-data-table__cell--non-numeric Gateway
+            td = @order.gateway
+          tr
+            td.mdl-data-table__cell--non-numeric State
+            td = @order.status
+          tr
+            td.mdl-data-table__cell--non-numeric IP
+            td = @order.ip
+          tr
+            td.mdl-data-table__cell--non-numeric Created
+            td = l @order.created_at if @order.created_at
+          tr
+            td.mdl-data-table__cell--non-numeric Completed
+            td = l @order.completed_at if @order.completed_at
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col Order Items
         .mdl-cell.mdl-cell--8-col
@@ -48,8 +74,9 @@
             th Redeemed
         tbody
           - @order.order_items.each do |order_item|
+            - no_link = order_item.catalog_item.is_a?(UserFlag) || order_item.catalog_item.is_a?(VirtualCredit)
             tr
-              td.mdl-data-table__cell--non-numeric = link_to_unless order_item.catalog_item.is_a?(UserFlag), order_item.catalog_item.name.humanize, [:admins, @current_event, order_item.catalog_item]
+              td.mdl-data-table__cell--non-numeric = link_to_unless no_link, order_item.catalog_item.name.humanize, [:admins, @current_event, order_item.catalog_item]
               td = number_with_delimiter order_item.amount
               td = order_item.catalog_item.type
               td = best_in_place order_item, :redeemed, best_in_place_checkbox([:admins, @current_event, @order, order_item])

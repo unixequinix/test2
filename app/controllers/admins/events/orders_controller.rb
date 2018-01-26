@@ -28,8 +28,8 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
     alcohol_flag = atts.delete(:alcohol_forbidden)
     topup_flag = atts.delete(:initial_topup)
     @order = @current_event.orders.new(atts)
-    @order.order_items.new(catalog_item: @alcohol_flag, amount: 1) if alcohol_flag.to_i.eql?(1)
-    @order.order_items.new(catalog_item: @topup_flag, amount: 1) if topup_flag.to_i.eql?(1)
+    @order.order_items.build(catalog_item: @alcohol_flag, amount: 1) if alcohol_flag.to_i.eql?(1)
+    @order.order_items.build(catalog_item: @topup_flag, amount: 1) if topup_flag.to_i.eql?(1)
     authorize @order
 
     if @order.set_counters.save
@@ -64,6 +64,6 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:order).permit(:status, :customer_id, :credits, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
+    params.require(:order).permit(:amount, :fee, :status, :customer_id, :credits, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
   end
 end

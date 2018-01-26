@@ -38,6 +38,14 @@
         .fieldset
           .section-header
             i.material-icons turned_in
+            span Money Paid by customer
+          .form-inputs
+            = f.input :amount
+            = f.input :fee
+
+        .fieldset
+          .section-header
+            i.material-icons turned_in
             span User Flags
           .form-inputs
             label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='alcohol_forbidden'
