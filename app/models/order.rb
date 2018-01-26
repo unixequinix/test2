@@ -10,7 +10,7 @@ class Order < ApplicationRecord
   has_many :catalog_items, through: :order_items, dependent: :destroy
   has_many :transactions, dependent: :restrict_with_error
 
-  accepts_nested_attributes_for :order_items
+  accepts_nested_attributes_for :order_items, allow_destroy: true
 
   validates :number, :status, presence: true
 
