@@ -6,10 +6,11 @@ module Transactions
 
     def perform(transaction, _atts = {})
       ticket = transaction.ticket
+      # Remove integration absolut-manifesto when event finish
       transaction.customer.update(gtmid: ticket.gtmid) if transaction.event.id.eql?(266) && ticket.gtmid.present?
       ticket.redeemed? ? Alert.propagate(transaction.event, ticket, "has been redeemed twice") : ticket.update!(redeemed: true)
 
-      if transaction.event.id.eql?(266) && transaction.is_a?(CredentialTransaction) && transaction.action.eql?('ticket_checkin')
+      if transaction.event.id.eql?(266) && transaction.type.eql?("CredentialTransaction") && transaction.action.eql?('ticket_checkin')
 
         params = {
           document_hostname: (Rails.env.production? ? 'absolutmanifesto.com' : 'testmanifest.com'),
@@ -25,7 +26,7 @@ module Transactions
         hit = tracker.build_event(params)
         hit.add_custom_dimension(1, transaction.customer.gtmid)
         hit.add_custom_dimension(2, 'Glownet')
-        hit.track!
+        Rails.logger.info("GAGTM: #{Staccato.as_url(hit)}") if hit.track!
       end
     end
   end

@@ -9,8 +9,8 @@ module Transactions
 
     def perform(transaction, _atts = {})
       transaction.gtag.recalculate_balance
-      # Remove instegration absolut-manifesto when event finish
-      if transaction.event.id.eql?(266) && transaction.is_a?(CreditTransaction) && transaction.action.eql?('sale')
+      # Remove integration absolut-manifesto when event finish
+      if transaction.event.id.eql?(266) && transaction.type.eql?("CreditTransaction") && transaction.action.eql?('sale')
 
         sale_item = SaleItem.find_by(credit_transaction_id: transaction.id)
         product = sale_item&.product
@@ -29,7 +29,7 @@ module Transactions
         hit = tracker.build_event(params)
         hit.add_custom_dimension(1, transaction.customer.gtmid)
         hit.add_custom_dimension(2, 'Glownet')
-        hit.track!
+        Rails.logger.info("GAGTM: #{Staccato.as_url(hit)}") if hit.track!
       end
 
       return unless transaction.customer_tag_uid == transaction.operator_tag_uid
