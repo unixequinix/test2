@@ -62,6 +62,12 @@
               i.material-icons error_outline
               | Credits &nbsp;#{f.error(:credits)}
 
+        - if f.error(:order_items).present?
+          .fieldset
+            .section-header style="font-size: 12px; color: #d50000;"
+              i.material-icons error_outline
+              | Items &nbsp;#{f.error(:order_items)}
+
         .fieldset
           .section-header
             i.material-icons create_new_folder
