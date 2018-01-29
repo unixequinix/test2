@@ -32,4 +32,4 @@ tr
       tr
         // Refund total
         td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
-        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.amount_money, unit: @event.currency, format: "%u %n"
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.price_money, unit: @event.currency, format: "%u %n"

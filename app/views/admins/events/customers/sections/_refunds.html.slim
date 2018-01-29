@@ -23,7 +23,7 @@
                 td data-label="State" = refund.status.humanize
                 td data-label="Amount" = refund.amount
                 td data-label="Fee" = number_to_token refund.fee
-                td data-label="Money" = number_to_event_currency refund.amount_money
+                td data-label="Money" = number_to_event_currency refund.price_money
                 td data-label="Created at" = l refund.created_at
                 td
                   - if current_user.admin?

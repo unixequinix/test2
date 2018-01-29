@@ -23,7 +23,7 @@
         td
           .total-text = t('orders.total')
           .vat-text = t('orders.vat')
-        td.total-amount#refund_money = number_to_event_currency(@refund.amount_money)
+        td.total-amount#refund_money = number_to_event_currency(@refunds.first.price_money)
 
 .mdl-cell.mdl-cell--12-col
 .customer-card-wide.mdl-card.mdl-shadow--2dp
