@@ -68,6 +68,6 @@ class Admins::UsersController < ApplicationController
   end
 
   def permitted_params
-    params.require(:user).permit(:role, :email, :username, :access_token, :password, :password_confirmation)
+    params.require(:user).permit(:role, :email, :username, :access_token, :password, :password_confirmation, :avatar)
   end
 end

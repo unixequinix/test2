@@ -19,6 +19,9 @@ class Customer < ApplicationRecord
   has_many :pokes, dependent: :restrict_with_error
   has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_id", dependent: :restrict_with_error, inverse_of: :operator
 
+  has_attached_file(:avatar, styles: { thumb: '50x50#', medium: '200x200#', big: '500x500#' }, default_url: ':default_user_avatar_url')
+  validates_attachment_content_type :avatar, content_type: %r{\Aimage/.*\Z}
+
   with_options unless: :anonymous? do |reg|
     reg.validates :email, format: { with: RFC822::EMAIL }, allow_blank: false
     reg.validates :email, uniqueness: { scope: [:event_id] }, allow_blank: false

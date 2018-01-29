@@ -18,6 +18,10 @@ Paperclip.interpolates :default_event_image_url do |attachment, style|
   ActionController::Base.helpers.asset_path('glownet-event-logo.png')
 end
 
+Paperclip.interpolates :default_user_avatar_url do |attachment, style|
+  ActionController::Base.helpers.asset_path('default_user_avatar.png')
+end
+
 Paperclip.interpolates :default_event_background_url do |attachment, style|
   ActionController::Base.helpers.asset_path('background-default.jpg')
 end

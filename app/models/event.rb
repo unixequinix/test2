@@ -35,7 +35,7 @@ class Event < ApplicationRecord
 
   friendly_id :name, use: :slugged
 
-  has_paper_trail
+  has_paper_trail on: :update
 
   enum state: { created: 1, launched: 2, closed: 3 }
   enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
@@ -174,7 +174,6 @@ class Event < ApplicationRecord
   end
 
   def generate_tokens
-    self.token = SecureRandom.hex(6).upcase
     self.gtag_key = SecureRandom.hex(16).upcase
   end
 end

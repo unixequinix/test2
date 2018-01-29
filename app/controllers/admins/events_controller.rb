@@ -91,7 +91,7 @@ class Admins::EventsController < Admins::BaseController
     @event = SampleEvent.run(@current_user)
     @event.event_registrations.create!(user: current_user, email: current_user.email, role: :promoter)
     authorize(@event)
-    redirect_to [:edit, :admins, @event], notice: t("alerts.created")
+    redirect_to [:admins, @event], notice: t("alerts.created")
   end
 
   def device_settings

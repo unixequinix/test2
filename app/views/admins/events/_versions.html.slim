@@ -1,35 +1,34 @@
-.table-responsive
-  table.mdl-data-table.mdl-js-data-table.within-card
-    thead
-      tr
-        th.mdl-data-table__cell--non-numeric Event
-        th.mdl-data-table__cell--non-numeric Changes
-    tbody
-      - @versions.each do |version|
-        - changes = version.changeset
-        - changes.delete("updated_at")
-        - user = User.find_by(id: version.whodunnit)
+.papertrail_changeset
+  - @versions.each do |version|
+    - changes = version.changeset
+    - changes.delete("updated_at")
+    - user = User.find_by(id: version.whodunnit)
 
-        tr
-          td.mdl-data-table__cell--non-numeric data-label="Created At"
-            | #{version.event} by #{user ? link_to(user.username, [:admins, user]) : "Unknown"}
-            .extra_small = l version.created_at
-          td.mdl-data-table__cell--non-numeric data-label="Changes"
-            - changes.each do |attribute, values|
-              div
-                | #{attribute.humanize}: From
-                '
-                - if attribute.eql?("event_serie_id")
-                  - from_serie = EventSerie.find_by(id: values.first)
-                  - to_serie = EventSerie.find_by(id: values.last)
-                  b = from_serie ? link_to(from_serie.name, [:admins, from_serie]) : "Blank"
-                  '
-                  | to
-                  '
-                  b = to_serie ? link_to(to_serie.name, [:admins, to_serie]) : "Blank"
-                - else
-                  b = values.first.present? ? values.first : "Blank"
-                  '
-                  | to
-                  '
-                  b = values.last.present? ? values.last : "Blank"
+
+    - changes.each do |attribute, values|
+      .papertrail_change
+        .papertrail_avatar
+          - if user
+            = image_tag user.avatar.url(:thumb)
+          - else
+            = image_tag "default_user_avatar.png"
+        .papertrail_body
+          | #{user ? link_to(user.username, [:admins, user]) : "Unknown"} updated #{attribute.humanize} from
+          '
+          - if attribute.eql?("event_serie_id")
+            - from_serie = EventSerie.find_by(id: values.first)
+            - to_serie = EventSerie.find_by(id: values.last)
+            b = from_serie ? link_to(from_serie.name, [:admins, from_serie]) : "Blank"
+            '
+            | to
+            '
+            b = to_serie ? link_to(to_serie.name, [:admins, to_serie]) : "Blank"
+          - else
+            b = values.first.present? ? values.first : "Blank"
+            '
+            | to
+            '
+            b = values.last.present? ? values.last : "Blank"
+
+          .papertrail_timestamp
+            | #{time_ago_in_words version.created_at} ago

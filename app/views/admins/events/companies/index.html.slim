@@ -18,13 +18,6 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-- if policy(@current_event).event_settings?
-  .mdl-grid
-    .mdl-cell.mdl-cell--12-col
-      h1 style="color: #999; text-align: center;"
-        = best_in_place @current_event, :token, url: [:admins, @current_event]
-        .small Event Token
-
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col

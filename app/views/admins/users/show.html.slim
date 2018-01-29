@@ -6,36 +6,44 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--8-col
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .table-fix
-        table.mdl-data-table.mdl-js-data-table.within-card
-          tbody
-            tr
-              td.mdl-data-table__cell--non-numeric Username
-              td = best_in_place @user, :username, url: [:admins, @user]
-            tr
-              td.mdl-data-table__cell--non-numeric Email
-              td = best_in_place @user, :email, url: [:admins, @user]
-            tr
-              td.mdl-data-table__cell--non-numeric Access token
-              td = best_in_place @user, :access_token, url: [:admins, @user]
-            tr
-              td.mdl-data-table__cell--non-numeric Role
-              td = @user.role.humanize
-            tr
-              td.mdl-data-table__cell--non-numeric Last Logged in
-              td = l(@user.last_sign_in_at) if @user.last_sign_in_at
-            tr
-              td.mdl-data-table__cell--non-numeric Login count
-              td = @user.sign_in_count
-            tr
-              td.mdl-data-table__cell--non-numeric Team
-              td
-                - if @user.team.present?
-                  = link_to @user.team&.name, admins_user_team_path(@user, @user.team) 
-                - else
-                  = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
-                    button.icon.material-icons id="create_team" group_add
+    .mdl-grid
+      .mdl-cell.mdl-cell--4-col
+        .avatar_image= image_tag @user.avatar.url(:medium), width: "200px", height: "200px"
+        .avatar_edit
+          = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { file: :mdl_upload } do |f|
+            = f.input :avatar, as: :file
+            = f.submit "Change", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+      .mdl-cell.mdl-cell--8-col
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
+          .table-fix
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Username
+                  td = best_in_place @user, :username, url: [:admins, @user]
+                tr
+                  td.mdl-data-table__cell--non-numeric Email
+                  td = best_in_place @user, :email, url: [:admins, @user]
+                tr
+                  td.mdl-data-table__cell--non-numeric Access token
+                  td = best_in_place @user, :access_token, url: [:admins, @user]
+                tr
+                  td.mdl-data-table__cell--non-numeric Role
+                  td = @user.role.humanize
+                tr
+                  td.mdl-data-table__cell--non-numeric Last Logged in
+                  td = l(@user.last_sign_in_at) if @user.last_sign_in_at
+                tr
+                  td.mdl-data-table__cell--non-numeric Login count
+                  td = @user.sign_in_count
+                tr
+                  td.mdl-data-table__cell--non-numeric Team
+                  td
+                    - if @user.team.present?
+                      = link_to @user.team&.name, admins_user_team_path(@user, @user.team)
+                    - else
+                      = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
+                        button.icon.material-icons id="create_team" group_add
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

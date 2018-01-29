@@ -8,6 +8,9 @@ class User < ApplicationRecord
 
   before_create :generate_access_token
 
+  has_attached_file(:avatar, styles: { thumb: '50x50#', medium: '200x200#', big: '500x500#' }, default_url: ':default_user_avatar_url')
+  validates_attachment_content_type :avatar, content_type: %r{\Aimage/.*\Z}
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :password, length: { within: Devise.password_length },

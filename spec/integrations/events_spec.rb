@@ -62,7 +62,7 @@ RSpec.describe "Events in the admin panel", type: :feature do
       end
 
       it "creates and event and then redirects you to it" do
-        expect(page).to have_current_path(edit_admins_event_path(@event))
+        expect(page).to have_current_path(admins_event_path(@event))
       end
     end
 
