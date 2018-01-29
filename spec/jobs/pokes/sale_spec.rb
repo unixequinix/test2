@@ -21,10 +21,22 @@ RSpec.describe Pokes::Sale, type: :job do
       expect(worker.perform_now(transaction).map(&:action).uniq).to eq(["sale"])
     end
 
-    it "sets description to action" do
+    it "sets description to action on normal items" do
       description = worker::TRIGGERS.sample
       transaction.update! action: description
       expect(worker.perform_now(transaction).map(&:description).uniq).to eq([description])
+    end
+
+    it "sets the description to other_amount on sale_items with no product and type 'other_amount'" do
+      transaction.sale_items.update_all(sale_item_type: "other_amount")
+      poke = [worker.perform_now(transaction)].flatten.first
+      expect(poke.description).to eq("other_amount")
+    end
+
+    it "sets the description to tip on sale_items with no product and type 'tip'" do
+      transaction.sale_items.update_all(sale_item_type: "tip")
+      poke = [worker.perform_now(transaction)].flatten.first
+      expect(poke.description).to eq("tip")
     end
   end
 
@@ -43,8 +55,8 @@ RSpec.describe Pokes::Sale, type: :job do
     include_examples "a credit"
 
     it "sets credit_amount to negative of sale_item" do
-      @poke = [worker.perform_now(transaction)].flatten.first
-      expect(@poke.credit_amount).to eql(-transaction.sale_items.first.payments[@poke.credit_id.to_s][:amount])
+      poke = [worker.perform_now(transaction)].flatten.first
+      expect(poke.credit_amount).to eql(-transaction.sale_items.first.payments[poke.credit_id.to_s][:amount])
     end
   end
 
