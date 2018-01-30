@@ -35,14 +35,6 @@ class EventPolicy < ApplicationPolicy
     true
   end
 
-  def edit_event_style?
-    admin_or_promoter && event_open
-  end
-
-  def device_settings?
-    admin_or_promoter
-  end
-
   def launch?
     admin_or_promoter && event_open
   end

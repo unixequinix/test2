@@ -67,8 +67,12 @@ html
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
-        - if policy(Poke).reports?
-          nav.mdl-navigation.global-nav
+        nav.mdl-navigation.global-nav
+          = link_to edit_admins_event_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons edit
+            |  Settings
+
+          - if policy(Poke).reports?
             = link_to admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
               |  Reports

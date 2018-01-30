@@ -204,8 +204,10 @@
           .mdl-cell.mdl-cell--12-col
             .transaction-card-wide.mdl-card.mdl-shadow--2dp
               .mdl-card__title
-                .mdl-cell.mdl-cell--8-col = @current_event.state.humanize
-                .mdl-cell.mdl-cell--4-col.right
+                .mdl-cell.mdl-cell--6-col
+                  i.material-icons bookmark_border
+                  = @current_event.state.humanize
+                .mdl-cell.mdl-cell--6-col.right
                   - if @current_event.created?
                     = link_to '#launch-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                       | Launch
@@ -213,22 +215,6 @@
                   - if @current_event.launched?
                     = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                       | Close
-
-              .mdl-card__supporting-text
-                .mdl-grid
-                  .mdl-cell.mdl-cell--4-col.middle
-                    = link_to edit_admins_event_path(@current_event) do
-                      span#edit_event.material-icons edit
-                      span.mdl-tooltip.mdl-tooltip--down data-mdl-for="edit_event" Settings
-                  .mdl-cell.mdl-cell--4-col.middle
-                    = link_to device_settings_admins_event_path(@current_event) do
-                      span#device_settings.material-icons phonelink_setup
-                      span.mdl-tooltip.mdl-tooltip--down data-mdl-for="device_settings" Device Settings
-                  .mdl-cell.mdl-cell--4-col.middle
-                    = link_to edit_event_style_admins_event_path(@current_event) do
-                      span#edit5.material-icons brush
-                      span.mdl-tooltip.mdl-tooltip--down data-mdl-for="edit5" Style
-
             br
             .transaction-card-wide.mdl-card.mdl-shadow--2dp
               .mdl-card__title

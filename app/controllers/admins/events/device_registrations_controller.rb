@@ -15,6 +15,8 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
 
   def new
     authorize @device_registration
+    @device_caches = @current_event.device_caches
+
     @devices_usage = devices_usage
   end
 

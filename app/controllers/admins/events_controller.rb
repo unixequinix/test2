@@ -5,8 +5,6 @@ class Admins::EventsController < Admins::BaseController
   before_action :set_event_series, only: %i[new edit]
   before_action :set_versions, only: %i[show edit]
 
-  REDIRECTS = { edit_event_style: :edit_event_style }.freeze
-
   def index
     @status = params[:status] || "launched"
     @q = policy_scope(Event).ransack(params[:q])
@@ -63,7 +61,7 @@ class Admins::EventsController < Admins::BaseController
         format.html { redirect_to edit_admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { render json: @current_event }
       else
-        format.html { render REDIRECTS[params[:redirect_path]] || :edit, layout: "admin_event" }
+        format.html { render :edit, layout: "admin_event" }
         format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
       end
     end
@@ -94,16 +92,6 @@ class Admins::EventsController < Admins::BaseController
     redirect_to [:admins, @event], notice: t("alerts.created")
   end
 
-  def device_settings
-    @devices = @current_user&.team&.devices || []
-    @device_caches = @current_event.device_caches
-    render layout: "admin_event"
-  end
-
-  def edit_event_style
-    render layout: "admin_event"
-  end
-
   def resolve_time
     @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
     render layout: "admin_event"
@@ -129,7 +117,7 @@ class Admins::EventsController < Admins::BaseController
 
   def remove_db
     @current_event.update(params[:db] => nil)
-    redirect_to device_settings_admins_event_path(@current_event)
+    redirect_to new_admins_event_device_registration(@current_event)
   end
 
   def remove_logo

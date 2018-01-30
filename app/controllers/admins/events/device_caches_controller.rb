@@ -7,10 +7,10 @@ class Admins::Events::DeviceCachesController < Admins::Events::BaseController
 
     respond_to do |format|
       if @device_cache.destroy
-        format.html { redirect_to device_settings_admins_event_path(@current_event), notice: t("alerts.destroyed") }
+        format.html { redirect_to new_admins_event_device_registration(@current_event), notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
-        format.html { redirect_to device_settings_admins_event_path(@current_event), alert: @device_cache.errors.full_messages.to_sentence }
+        format.html { redirect_to new_admins_event_device_registration(@current_event), alert: @device_cache.errors.full_messages.to_sentence }
         format.json { render json: { errors: @device_cache.errors }, status: :unprocessable_entity }
       end
     end

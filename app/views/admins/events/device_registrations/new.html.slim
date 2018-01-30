@@ -24,6 +24,44 @@
           = render 'form', resources: @current_device_registrations, form_disable: true
   .mdl-layout-spacer
 
+
+- if @device_caches.any?
+  .mdl-grid.light-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .mdl-grid
+        .mdl-cell.mdl-cell--12-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text Device Caches
+            .mdl-card__supporting-text
+              .table-responsive
+                table.mdl-data-table.mdl-js-data-table.within-card
+                  thead
+                    tr
+                      th.mdl-data-table__cell--non-numeric Version
+                      th.mdl-data-table__cell--non-numeric Category
+                      th Last Updated
+                      th File Size
+                      th &nbsp;
+                  tbody
+                    - @device_caches.each do |device_cache|
+                      tr
+                        td.mdl-data-table__cell--non-numeric data-label="Version" = device_cache.app_version
+                        td.mdl-data-table__cell--non-numeric data-label="Category" = device_cache.category.humanize
+                        td data-label="Last Updated" = l(device_cache.updated_at)
+                        td data-label="File Size" = number_to_human_size(device_cache.file_file_size)
+                        td.table-actions
+                          .table-action
+                            = link_to admins_event_device_cache_path(@current_event, device_cache), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                              button.icon.material-icons id ="delete_#{device_cache.id}" delete_forever
+                          .table-action
+                            = link_to device_cache.file.url do
+                              button.icon.material-icons id ="download_#{device_cache.id}" file_download
+
+                      span.mdl-tooltip data-mdl-for="delete_#{device_cache.id}" Delete
+                      span.mdl-tooltip data-mdl-for="download_#{device_cache.id}" Download
+
 javascript:
   $(document).on('ready', function() { 
     device_registration_draggable_table();
