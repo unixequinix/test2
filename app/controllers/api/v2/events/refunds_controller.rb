@@ -28,10 +28,12 @@ module Api::V2
 
     # POST api/v2/events/:event_id/refunds
     def create
+      params[:refund][:gateway] ||= "other"
       @refund = @current_event.refunds.new(refund_params)
       authorize @refund
 
       if @refund.save
+        @refund.complete!
         render json: @refund, status: :created, location: [:admins, @current_event, @refund]
       else
         render json: @refund.errors, status: :unprocessable_entity
@@ -63,7 +65,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def refund_params
-      params.require(:refund).permit(:amount, :status, :fee, :customer_id, :gateway, fields: {})
+      params.require(:refund).permit(:amount, :fee, :customer_id, :gateway, fields: {})
     end
   end
 end

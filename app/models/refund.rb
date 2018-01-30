@@ -8,15 +8,21 @@ class Refund < ApplicationRecord
   belongs_to :customer
 
   validates :gateway, presence: true
+  validates :amount, presence: true, numericality: { greater_than: 0 }
+  validates :fee, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :extra_params_fields
 
   validate :correct_iban_and_swift, if: :iban
 
   validate_associations
 
-  scope :completed, -> { where status: "completed" }
+  enum status: { started: 1, completed: 2, cancelled: 3 }
 
-  def complete!(_refund_data = {}.to_json)
+  def name
+    "Refund: ##{id}"
+  end
+
+  def complete!(_refund_data = {}.to_json, send_email = false)
     return false if completed?
     update!(status: "completed")
 
@@ -26,7 +32,7 @@ class Refund < ApplicationRecord
     atts = { payments: { event.credit.id => { amount: -amount, final_balance: customer.credits } }, customer: customer }
     CreditTransaction.write!(event, "refund", :portal, customer, customer, atts)
 
-    OrderMailer.completed_refund(self).deliver_later
+    OrderMailer.completed_refund(self).deliver_later if send_email && !customer.anonymous?
   end
 
   def prepare_for_bank_account(atts)
@@ -34,11 +40,6 @@ class Refund < ApplicationRecord
     self.fields = atts[:fields].to_h.each { |key, val| atts[:fields][key] = val.gsub(/\s+/, '') }
     self.iban = true if event.iban?
     self.bsb = true if event.bsb?
-  end
-
-  # TODO: Change this to enum
-  def completed?
-    status.eql?("completed")
   end
 
   def price_money
