@@ -68,7 +68,7 @@ html
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
         nav.mdl-navigation.global-nav
-          = link_to edit_admins_event_path(@current_event), class: "mdl-navigation__link" do
+          = link_to "#settings-modal", class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons edit
             |  Settings
 
@@ -150,6 +150,7 @@ html
           = render 'layouts/notifications'
 
         .page-content.remodal-bg
+          = render "layouts/settings"
           = yield
 
   = yield(:actions)

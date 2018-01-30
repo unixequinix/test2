@@ -58,7 +58,7 @@ class Admins::EventsController < Admins::BaseController
   def update
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
-        format.html { redirect_to edit_admins_event_path(@current_event), notice: t("alerts.updated") }
+        format.html { redirect_to [:admins, @current_event], notice: t("alerts.updated") }
         format.json { render json: @current_event }
       else
         format.html { render :edit, layout: "admin_event" }
