@@ -69,8 +69,12 @@ html
 
         nav.mdl-navigation.global-nav
           = link_to "#settings-modal", class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons edit
+            i.mdl-color-text--teal-200.material-icons settings
             |  Settings
+
+          = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons ev_station
+            |  Stations
 
           - if policy(Poke).reports?
             = link_to admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
@@ -112,18 +116,6 @@ html
           = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons undo
             |  Refunds
-
-        nav.mdl-navigation.global-nav
-          span.nav-title STATIONS
-          = link_to admins_event_stations_path(@current_event, group: "access"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons play_for_work
-            |  Access
-          = link_to admins_event_stations_path(@current_event, group: "monetary"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons attach_money
-            |  Monetary
-          = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons local_activity
-            |  Management
 
         nav.mdl-navigation.global-nav
           span.nav-title SUPPORT

@@ -22,14 +22,15 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def index
-    @group = params[:group]&.to_sym
-    q = @current_event.stations
-    q = @group.blank? ? q.all : q.where(category: Station::GROUPS[@group])
-    q = q.order(hidden: :asc, name: :asc)
-
-    @q = q.ransack(params[:q])
+    @q = @current_event.stations.includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
+                       .order(:hidden, :category, :name)
+                       .where.not(category: "touchpoint")
+                       .ransack(params[:q])
     @stations = @q.result
     authorize @stations
+    set_groups
+    @station = @current_event.stations.new
+    @stations = @stations.group_by(&:group)
   end
 
   def show
@@ -48,18 +49,31 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def new
     @station = @current_event.stations.new
     authorize @station
-    @group = params[:group]
+    set_groups
   end
 
   def create
     @station = @current_event.stations.new(permitted_params)
     authorize @station
-    @group = @station.group
+    set_groups
+
     if @station.save
       redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.created")
     else
       flash.now[:alert] = t("alerts.error")
       render :new
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @station.update(permitted_params)
+        format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
+        format.json { render status: :ok, json: @station }
+      else
+        format.html { render :edit }
+        format.json { render json: @station.errors.to_json, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -76,18 +90,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     respond_to do |format|
       format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
       format.json { render json: @station }
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @station.update(permitted_params)
-        format.html { redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated") }
-        format.json { render status: :ok, json: @station }
-      else
-        format.html { render :edit }
-        format.json { render json: @station.errors.to_json, status: :unprocessable_entity }
-      end
     end
   end
 
@@ -133,6 +135,13 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   private
+
+  def set_groups
+    @group = params[:group]
+    groups = Station::GROUPS
+    groups = groups.slice(@group.to_sym) if @group
+    @categories = groups.to_a.map { |key, arr| [key.to_s.humanize, arr.map { |s| [s.to_s.humanize, s] }] }
+  end
 
   def set_station
     id = params[:id] || params[:station_id]

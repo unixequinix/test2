@@ -1,13 +1,8 @@
-- content_for(:navigation_actions) do
-  = link_to admins_event_stations_path(@current_event, group: @group), class: "mdl-button mdl-button--icon" do
-    span#undo_link.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo_link" Back
-
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-  = simple_form_for [:admins, @current_event, station], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+  = simple_form_for [:admins, @current_event, @station], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .form-inputs
       = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-      = f.input :group, as: :hidden, input_html: { value: @group }
+      = f.input :group, as: :hidden, input_html: { value: group }
       = f.input :name, placeholder: true
       = f.input :location, placeholder: true
       = f.input :reporting_category
@@ -17,7 +12,7 @@
       label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
         span.mdl-switch__label.form-label Hidden
         = f.input :hidden, :input_html => { :id => 'hidden' }
-      - if station.new_record?
-        = f.input :category, collection: Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }.map { |g| [g.to_s.humanize, g] }, include_blank: false
+      - if @station.new_record?
+        = f.input :category, collection: @categories, include_blank: false, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.category == obj }
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

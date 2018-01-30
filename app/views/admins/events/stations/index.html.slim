@@ -1,74 +1,106 @@
 - content_for(:title) do
   | #{@group.to_s.humanize} Stations
 
-
 - content_for(:search) do
   = search_form_for @q, url: admins_event_stations_path(@current_event) do |f|
     = f.search_field :name_or_category_or_location_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
-- if @group
-  - content_for(:actions) do
-    *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
-      ul.floaty-list#actions-list
-        li.floaty-list-item
-          = link_to new_admins_event_station_path(group: @group), id:"new_station_link" do
-            button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons add
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+- content_for(:actions) do
+  *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to "#station-form", id:"new_station_link" do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
 
-        li.floaty-list-item
-          button#hide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
-            i.material-icons flip_to_back
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="hide_multiple" Hide Selected
+      li.floaty-list-item
+        button#hide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
+          i.material-icons flip_to_back
+          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="hide_multiple" Hide Selected
 
-        li.floaty-list-item
-          button#unhide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
-            i.material-icons flip_to_front
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unhide_multiple" Unhide Selected
+      li.floaty-list-item
+        button#unhide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
+          i.material-icons flip_to_front
+          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unhide_multiple" Unhide Selected
 
-      ul.floaty-btn#button
-        li
-          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-            i.material-icons#changeIcon build
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
 
+
+.remodal data-remodal-id="station-form"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title New Station
+  = render "form", group: nil
+
+- classes = { access: "bad", event_management: "neutral", glownet: "good", monetary: "neutral2"}
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .table-responsive
-        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card#stations_list
-          thead
-            tr
-              th.mdl-data-table__cell--non-numeric Name
-              th.mdl-data-table__cell--non-numeric Type
-              th.mdl-data-table__cell--non-numeric Location
-              th Items
-              th Hidden
-              th
-
-          tbody
-            - @stations.each do |station|
-              tr class="#{'resource-hidden' if station.hidden?}" data-event=@current_event.id data-station=station.id
-                td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station], id:"station_#{station.id}"
-                td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
-                td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
-                td data-label="Items" = station.all_station_items.size
-                td data-label="Hidden" = best_in_place station, :hidden, best_in_place_checkbox([:admins, @current_event, station])
-                td.table-actions
-                  - unless station.category.eql?("customer_portal")
-                    .table-action
-                      = link_to edit_admins_event_station_path(@current_event, station), id:"edit_#{station.id}" do
-                        button.icon.material-icons edit
-                    .table-action
-                      = link_to admins_event_station_clone_path(@current_event, station), method: :post, id:"copy_#{station.id}"  do
-                        button.icon.material-icons content_copy
-
-                    - unless @current_event.launched?
-                      .table-action
-                        = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{station.id}" do
-                          button.icon.material-icons delete_forever
-
-              span.mdl-tooltip data-mdl-for="edit_#{station.id}" Edit
-              span.mdl-tooltip data-mdl-for="delete_#{station.id}" Delete
-              span.mdl-tooltip data-mdl-for="copy_#{station.id}" Clone
+  - classes.keys.sort.each do |key|
+    .mdl-cell.mdl-cell--2-col
+      .customer-card.mdl-card.mdl-shadow--2dp.asset_btn class="#{classes[key.to_sym]}_header" name="#{key}-station-table"
+        span style="position: absolute; right: 10px; top: 10px" id="add-station-#{key}"
+          = link_to [:new, :admins, @current_event, :station, group: key] do
+            span.material-icons add_circle_outline
+        span.mdl-tooltip.mdl-tooltip--down data-mdl-for="add-station-#{key}" Add
+        .mdl-card__title.mdl-card--expand
+          h2 style="text-align: center; width: 100%; color: #999" = number_with_delimiter(@stations[key.to_s]&.size || 0)
+        .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
   .mdl-layout-spacer
+
+- classes.keys.sort.each do |group|
+  .content-grid.mdl-grid.asset-table id="#{group}-station-table"
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title
+          .mdl-cell.mdl-cell--12-col
+            i.material-icons bookmark_border
+            = group.to_s.humanize
+
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card#stations_list
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Name
+                th.mdl-data-table__cell--non-numeric Type
+                th.mdl-data-table__cell--non-numeric Location
+                th Items
+                th Hidden
+                th
+
+            tbody
+              - @stations[group.to_s].to_a.each do |station|
+                tr class="#{'resource-hidden' if station.hidden?}" data-event=@current_event.id data-station=station.id
+                  td.mdl-data-table__cell--non-numeric data-label="Name"= link_to station.name, [:admins, @current_event, station], id:"station_#{station.id}"
+                  td.mdl-data-table__cell--non-numeric data-label="Type" = station.category.humanize
+                  td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
+                  td data-label="Items" = station.all_station_items.size
+                  td data-label="Hidden" = best_in_place station, :hidden, best_in_place_checkbox([:admins, @current_event, station])
+                  td.table-actions
+                    - unless station.category.eql?("customer_portal")
+                      .table-action
+                        = link_to edit_admins_event_station_path(@current_event, station), id:"edit_#{station.id}" do
+                          button.icon.material-icons edit
+                      .table-action
+                        = link_to admins_event_station_clone_path(@current_event, station), method: :post, id:"copy_#{station.id}"  do
+                          button.icon.material-icons content_copy
+
+                      - unless @current_event.launched?
+                        .table-action
+                          = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{station.id}" do
+                            button.icon.material-icons delete_forever
+
+                span.mdl-tooltip data-mdl-for="edit_#{station.id}" Edit
+                span.mdl-tooltip data-mdl-for="delete_#{station.id}" Delete
+                span.mdl-tooltip data-mdl-for="copy_#{station.id}" Clone
+    .mdl-layout-spacer
+
+javascript:
+    $(".asset_btn").on("click",function(){
+        type = ($(this).attr('name'));
+        $('#' + type).css("display", "flex");
+        $('.asset-table').not('#' + type).hide();
+    });
