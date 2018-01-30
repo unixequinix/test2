@@ -2,6 +2,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   include ReportsHelper
 
   before_action :set_station, :set_variables, except: %i[index new create]
+  before_action :set_groups, only: %i[index new create edit update]
 
   def reports
     @load_reports_resources = true
@@ -28,7 +29,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
                        .ransack(params[:q])
     @stations = @q.result
     authorize @stations
-    set_groups
     @station = @current_event.stations.new
     @stations = @stations.group_by(&:group)
   end
@@ -49,13 +49,11 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def new
     @station = @current_event.stations.new
     authorize @station
-    set_groups
   end
 
   def create
     @station = @current_event.stations.new(permitted_params)
     authorize @station
-    set_groups
 
     if @station.save
       redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.created")
@@ -64,6 +62,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
       render :new
     end
   end
+
+  def edit; end
 
   def update
     respond_to do |format|

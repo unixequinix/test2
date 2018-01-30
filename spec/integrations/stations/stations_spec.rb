@@ -18,7 +18,7 @@ RSpec.describe "Stations", type: :feature do
       end
 
       it "is located in correct path " do
-        expect(page).to have_current_path(new_admins_event_station_path(event, group: "monetary"))
+        expect(page).to have_current_path(admins_event_stations_path(event, group: "monetary"))
       end
 
       it "without filling name" do

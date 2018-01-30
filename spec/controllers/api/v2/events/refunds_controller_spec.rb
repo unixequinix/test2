@@ -2,12 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
   let(:event) { create(:event, open_api: true, state: "created") }
+  let!(:customer_portal) { create(:station, category: "customer_portal", event: event) }
   let(:user) { create(:user) }
   let(:customer) { create(:customer, event: event) }
   let(:refund) { create(:refund, event: event, customer: customer) }
 
   let(:invalid_attributes) { { amount: nil } }
-  let(:valid_attributes) { { amount: 100, status: "started", fields: { iban: "barrr", swift: "fooo" }, customer_id: customer.id, gateway: "paypal" } }
+  let(:valid_attributes) { { amount: 100, fields: { iban: "barrr", swift: "fooo" }, customer_id: customer.id, gateway: "paypal" } }
 
   before { token_login(user, event) }
 

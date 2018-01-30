@@ -6,7 +6,7 @@ RSpec.shared_examples "UI stations" do
     end
 
     it "is located in correct path " do
-      expect(page).to have_current_path(new_admins_event_station_path(event, group: station.group))
+      expect(page).to have_current_path(admins_event_stations_path(event, group: station.group))
     end
 
     it "fails without filling name" do

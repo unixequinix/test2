@@ -11,7 +11,7 @@ RSpec.describe Refund, type: :model do
   describe ".complete!" do
     let(:credit) { create(:credit, value: 10) }
     let(:event) { create(:event) }
-    let(:customer) { create(:customer, event: event) }
+    let(:customer) { create(:customer, event: event, anonymous: false) }
     let(:customer_portal) { create(:station, event: event, category: "customer_portal", name: "customer_portal") }
     subject { create(:refund, event: event, customer: customer, gateway: "bank_account") }
 
@@ -51,7 +51,7 @@ RSpec.describe Refund, type: :model do
     it "sends an email" do
       email = OrderMailer.completed_refund(subject)
       expect(OrderMailer).to receive(:completed_refund).with(subject).twice.and_return(email)
-      subject.complete!
+      subject.complete!({}, true)
     end
   end
 

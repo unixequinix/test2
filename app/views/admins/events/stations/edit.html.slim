@@ -1,9 +1,9 @@
 - content_for(:title) do
-  | Edit #{@group.humanize} Station
+  | Edit #{@group&.humanize} Station
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    = render "form", station: @station
+    = render "form", group: @group
   .mdl-layout-spacer
 
