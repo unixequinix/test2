@@ -3,6 +3,8 @@ class TicketType < ApplicationRecord
 
   has_many :tickets, dependent: :destroy
   has_many :gtags, dependent: :nullify
+  has_many :station_ticket_types, dependent: :destroy
+  has_many :stations, through: :station_ticket_types
 
   belongs_to :event, counter_cache: true
   belongs_to :catalog_item, optional: true

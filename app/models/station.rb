@@ -23,6 +23,8 @@ class Station < ApplicationRecord
 
   belongs_to :event, counter_cache: true
 
+  has_many :station_ticket_types, dependent: :destroy
+  has_many :ticket_types, through: :station_ticket_types
   has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy
   has_many :products, dependent: :destroy

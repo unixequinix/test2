@@ -4,6 +4,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
   let(:event) { create(:event, open_devices_api: true) }
   let(:user) { create(:user) }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
+  let(:ticket_type) { create(:ticket_type, event: event) }
 
   describe "GET index" do
     context "with authentication" do
@@ -90,6 +91,11 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           end
           expect(s_ws_items).to eq(s_db_items)
         end
+        it "does not return ticket types of the station" do
+          get :index, params: params
+          ticket_types_ids = JSON.parse(response.body).first["stations"].map { |m| m["ticket_types_ids"] }
+          expect(ticket_types_ids).to eq([nil])
+        end
       end
 
       context "when the station is an access_control" do
@@ -118,6 +124,44 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           }
 
           expect(ws_ent).to eq(db_ent)
+        end
+      end
+
+      context "when the station is a check_in" do
+        before do
+          @station = create(:station, category: "check_in", event: event)
+          @ticket_type = create(:ticket_type, event: event)
+          @station.ticket_types << @ticket_type
+        end
+
+        it "returns all the check_in stations" do
+          get :index, params: params
+          stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
+          expect(stations).to eq([@station.id])
+        end
+
+        it "returns ticket_types of the station" do
+          get :index, params: params
+          ticket_types_ids = JSON.parse(response.body).first["stations"].map { |m| m["ticket_types_ids"] }
+          expect(ticket_types_ids).to eq([[@ticket_type.id]])
+        end
+      end
+
+      context "when the station is a ticket_validation" do
+        before do
+          @station = create(:station, category: "ticket_validation", event: event)
+        end
+
+        it "returns ticket types of the station" do
+          @station.ticket_types << ticket_type
+          get :index, params: params
+          ticket_types_ids = JSON.parse(response.body).first["stations"].map { |m| m["ticket_types_ids"] }
+          expect(ticket_types_ids).to eq([[ticket_type.id]])
+        end
+        it "returns 0 ticket types of the station" do
+          get :index, params: params
+          ticket_types_ids = JSON.parse(response.body).first["stations"].map { |m| m["ticket_types_ids"] }
+          expect(ticket_types_ids).to eq([[]])
         end
       end
     end

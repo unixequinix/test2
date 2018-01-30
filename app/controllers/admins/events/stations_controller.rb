@@ -41,6 +41,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @sales_credits = - @station.pokes.where(credit: @credit).sales.is_ok.sum(:credit_amount)
     @operators = @station.pokes.pluck(:operator_id).uniq.count
     @devices = @station.pokes.pluck(:device_id).uniq.count
+    @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types).includes(:company)
+    @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types).includes(:company)
   end
 
   def new
@@ -89,9 +91,22 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     end
   end
 
+  def add_ticket_types
+    ticket_types = @current_event.ticket_types.find(permitted_params['ticket_type_ids']) + @station.ticket_types
+    @station.update(ticket_types: ticket_types)
+    redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated")
+  end
+
+  def remove_ticket_types
+    ticket_types = @station.ticket_types.where.not(id: permitted_params['ticket_type_ids']).pluck(:id)
+    @station.update(ticket_type_ids: ticket_types)
+    redirect_to admins_event_station_path(@current_event, @station), notice: t("alerts.updated")
+  end
+
   def clone
     @station = @station.deep_clone(include: %i[station_catalog_items products topup_credits access_control_gates], validate: false)
     index = @station.name.index(' - ')
+    # TODO: Please, please. This is fucking embarrassing code
     name = if index.nil?
              @station.name
            else
@@ -127,7 +142,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden)
+    params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden, ticket_type_ids: [])
   end
 
   def set_variables

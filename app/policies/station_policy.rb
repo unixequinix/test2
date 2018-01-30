@@ -15,6 +15,14 @@ class StationPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
+  def add_ticket_types?
+    admin_or_promoter && event_open
+  end
+
+  def remove_ticket_types?
+    admin_or_promoter && event_open
+  end
+
   def reports?
     admin_or_promoter
   end

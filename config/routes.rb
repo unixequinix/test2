@@ -196,6 +196,8 @@ Rails.application.routes.draw do
           post :clone
           post :hide
           post :unhide
+          put :add_ticket_types
+          put :remove_ticket_types
           get :reports
           scope module: :stations do
             resources :products, only: [:update, :index]

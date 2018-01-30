@@ -2,6 +2,7 @@ module Api
   module V1
     class StationSerializer < ActiveModel::Serializer
       attributes :id, :station_event_id, :type, :name, :hidden
+      attribute :ticket_types_ids, if: :condition?
 
       def attributes(*args)
         hash = super
@@ -9,8 +10,16 @@ module Api
         hash
       end
 
+      def ticket_types_ids
+        object.ticket_types.pluck(:id)
+      end
+
       def type
         object.category
+      end
+
+      def condition?
+        type.in?(%w[ticket_validation check_in])
       end
 
       def accreditation(hash)
