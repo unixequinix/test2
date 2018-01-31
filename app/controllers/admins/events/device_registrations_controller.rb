@@ -1,23 +1,19 @@
 class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseController
   before_action :set_registration, only: %i[resolve_time show download_db destroy transactions update]
-  before_action except: %i[new] do
+  before_action do
     persist_query(%i[p q], true)
   end
-  before_action :set_devices, :devices_usage, only: %i[new]
-  before_action :set_device_registration_actions, only: %i[new create disable]
+  before_action :set_devices, :devices_usage, only: %i[index]
+  before_action :set_device_registration_actions, only: %i[index create disable]
 
   def index
     @q = @current_event.device_registrations.ransack(params[:q])
     @registrations = @q.result.includes(:device)
     authorize @registrations
-    @registrations = @registrations.group_by(&:status)
-  end
 
-  def new
-    authorize @device_registration
     @device_caches = @current_event.device_caches
-
     @devices_usage = devices_usage
+    @registrations = @registrations.group_by(&:status)
   end
 
   def create
@@ -35,11 +31,11 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         @devices_usage = devices_usage
         set_devices
 
-        format.html { redirect_to new_admins_event_device_registration_path(@current_event) }
+        format.html { redirect_to admins_event_device_registration_path(@current_event) }
         format.json { render json: devices, status: :ok }
         format.js { render action: 'update_devices_usage' }
       else
-        format.html { render :new }
+        format.html { render :index }
         format.json { render json: { errors: devices.errors }, status: :unprocessable_entity }
       end
     end
@@ -97,6 +93,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   def show
     @device_transactions = @current_event.device_transactions.where(device_uid: @device.mac).order(:created_at)
     @device_stations = @current_event.transactions.where(device_uid: @device.mac).page(params[:page]).group(:station_id).count
+    @registration.load_last_results
   end
 
   def update
@@ -105,7 +102,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         format.html { redirect_to new_admins_event_device_registration_path(@current_event), notice: t("alerts.updated") }
         format.json { render json: @registration }
       else
-        format.html { render :new }
+        format.html { render :index }
         format.json { render json: { errors: @device.errors }, status: :unprocessable_entity }
       end
     end

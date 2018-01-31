@@ -43,7 +43,43 @@
       .small Server Transactions
   .mdl-layout-spacer
 
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Status
+            td style="color: #999" = @registration.status.humanize
+          tr
+            td.mdl-data-table__cell--non-numeric Mac
+            td style="color: #999" = @device.mac
+          tr.small
+            td.mdl-data-table__cell--non-numeric Last Connection
+            td style="color: #999" = l @registration.updated_at
+          tr.small
+            td.mdl-data-table__cell--non-numeric Last Time
+            td style="color: #999" = l(@registration.current_time) if @registration.current_time
+          tr.small
+            td.mdl-data-table__cell--non-numeric Time Difference
+            td style="color: #999" = distance_of_time_in_words @registration.time_diff
 
+          - if @registration.operator
+            tr.small
+              td.mdl-data-table__cell--non-numeric Operator
+              td style="color: #999" = @registration.operator
+          - if @registration.station
+            tr.small
+              td.mdl-data-table__cell--non-numeric Station
+              td style="color: #999" = @registration.station
+          - if @registration.last_time_used
+            tr.small
+              td.mdl-data-table__cell--non-numeric Last time used
+              td style="color: #999" = datetime(@registration.last_time_used)&.to_formatted_s(:short) || datetime(@registration.created_at)&.to_formatted_s(:short)
+
+
+  .mdl-layout-spacer
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
@@ -53,19 +89,7 @@
           h5 = best_in_place @device, :asset_tracker, url: [:admins, @current_user, :team, @device], html_attrs: {disabled: !device_owner?(@current_user, @device)}
           .small = @registration.app_version
         .mdl-cell.mdl-cell--6-col.right
-          table style="float: right"
-            tr
-              td &nbsp;
-              td style="color: #999" = @device.mac
-            tr.small
-              td Last Connection
-              td style="color: #999" = l @registration.updated_at
-            tr.small
-              td Last Time
-              td style="color: #999" = l(@registration.current_time) if @registration.current_time
-            tr.small
-              td Time Difference
-              td style="color: #999" = distance_of_time_in_words @registration.time_diff
+
 
 
       - if @device_transactions.any?

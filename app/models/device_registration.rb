@@ -38,13 +38,8 @@ class DeviceRegistration < ApplicationRecord
     end
   end
 
-  # TODO: refactor into 2 methods
-  def status
-    last_onsite = event.transactions.onsite.where(device_uid: device.mac).order(:device_created_at).last
-    self.operator = last_onsite&.operator_tag_uid
-    self.station = last_onsite&.station&.name
-    self.last_time_used = last_onsite&.device_created_at
 
+  def status
     case
       when (server_transactions != number_of_transactions) && action != "device_initialization" then "to_check"
       when action.in?(%w[pack_device lock_device]) then "locked"
@@ -52,5 +47,12 @@ class DeviceRegistration < ApplicationRecord
       when action.eql?("device_initialization") then "live"
       else "no_idea"
     end
+  end
+
+  def load_last_results
+    last_onsite = event.transactions.onsite.where(device_uid: device.mac).order(:device_created_at).last
+    self.operator = last_onsite&.operator_tag_uid
+    self.station = last_onsite&.station&.name
+    self.last_time_used = last_onsite&.device_created_at
   end
 end
