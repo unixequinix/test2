@@ -31,7 +31,7 @@ RSpec.describe "Accreditation stations info view tests", type: :feature do
       end
       expect { find("input[name=commit]").click }.not_to change(station.station_catalog_items, :count)
     end
-    
+
     it "new catalog item with incorrect price" do
       within("#new_station_catalog_item") do
         fill_in 'station_catalog_item_price', with: "NaN"

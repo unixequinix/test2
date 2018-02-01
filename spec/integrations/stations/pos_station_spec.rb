@@ -28,7 +28,7 @@ RSpec.describe "POS stations info view tests", type: :feature do
       within("#new_product") { fill_in 'product_name', with: "Beer" }
       expect { find("input[name=commit]").click }.not_to change(station.products, :count)
     end
-    
+
     it "new product with incorrect price" do
       within("#new_product") do
         fill_in 'product_price', with: "NaN"
@@ -56,7 +56,7 @@ RSpec.describe "POS stations info view tests", type: :feature do
       within("#new_product") { fill_in 'product_price', with: "20" }
       expect { find("input[name=commit]").click }.not_to change(vendor.products, :count)
     end
-    
+
     it "new product with existent name" do
       within("#new_product") { fill_in 'product_price', with: product_vendor.name }
       expect { find("input[name=commit]").click }.not_to change(vendor.products, :count)
