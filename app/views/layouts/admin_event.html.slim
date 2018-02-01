@@ -123,14 +123,6 @@ html
 
         nav.mdl-navigation.global-nav
           span.nav-title SUPPORT
-          - if policy(@current_event.device_registrations).index?
-            = link_to new_admins_event_device_registration_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons devices
-              |  Devices
-            - if current_user.team.present?
-              = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
-                i.mdl-color-text--teal-200.material-icons bug_report
-                |  Asset Tracker
           - if policy(@current_event).event_settings?
             = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
