@@ -200,7 +200,7 @@
             .transaction-card-wide.mdl-card.mdl-shadow--2dp
               .mdl-card__title
                 .mdl-cell.mdl-cell--6-col
-                  i.material-icons bookmark_border
+                  i.material-icons flight_takeoff
                   = @current_event.state.humanize
                 .mdl-cell.mdl-cell--6-col.right
                   - if @current_event.created?
@@ -210,32 +210,23 @@
                   - if @current_event.launched?
                     = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                       | Close
-            br
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+
               .mdl-card__title
                 .mdl-cell.mdl-cell--12-col
                   i.material-icons bookmark_border
                   | Ticketing Integrations
+
               .mdl-card__supporting-text
                 .table-responsive
                   table.mdl-data-table.mdl-js-data-table.within-card
                     tbody
                       tr
                         td.mdl-data-table__cell--non-numeric Eventbrite
-                        td
-                          .tools
-                            .tool-item
-                              = link_to admins_event_eventbrite_path(@current_event) do
-                                span#eventbrite_setting.material-icons gesture
-                                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="eventbrite_setting" Settings
+                        td = link_to "Connect", admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
                       tr
                         td.mdl-data-table__cell--non-numeric Universe
-                        td
-                          .tools
-                            .tool-item
-                              = link_to admins_event_universe_path(@current_event) do
-                                span#universe_setting.material-icons format_underlined
-                                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="universe_setting" Settings
+                        td = link_to "Connect", admins_event_universe_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+
 
             - if policy(@current_event).versions? && @versions.any?
               br
