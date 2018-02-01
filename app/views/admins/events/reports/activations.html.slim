@@ -6,13 +6,7 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Activations Detail
-    .mdl-grid
-      #activations
-  .mdl-layout-spacer
+= render "report_card", title: "Activations Detail", chart_id: "activations"
 
 javascript:
     $(function () {

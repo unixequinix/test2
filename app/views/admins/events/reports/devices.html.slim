@@ -6,13 +6,7 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Devices Use Detail
-    .mdl-grid
-      #devices
-  .mdl-layout-spacer
+= render "report_card", title: "Devices Use Detail", chart_id: "devices"
 
 javascript:
     $(function () {

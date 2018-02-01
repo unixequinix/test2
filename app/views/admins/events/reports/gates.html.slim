@@ -10,45 +10,25 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = @total_checkins
-            .mdl-card__supporting-text
-              span.good_info = "Total Ticket Check-in´s"
+      .mdl-cell.mdl-cell--2-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = @total_checkins
+          .mdl-card__supporting-text
+            span.good_info = "Total Ticket Check-in´s"
 
-      .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = @total_access
-            .mdl-card__supporting-text
-              span.good_info = "Total Accesses"
+      .mdl-cell.mdl-cell--2-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = @total_access
+          .mdl-card__supporting-text
+            span.good_info = "Total Accesses"
 
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Ticket Check-in Rate
-    .mdl-grid
-      #checkin_rate
-  .mdl-layout-spacer
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Check-in and Box office purchase
-    .mdl-grid
-      #checkin_ticket_type
-  .mdl-layout-spacer
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Access Control
-    .mdl-grid
-      #access_control
   .mdl-layout-spacer
 
-
+= render "report_card", title: "Ticket Check-in Rate", chart_id: "checkin_rate"
+= render "report_card", title: "Check-in and Box office purchase", chart_id: "checkin_ticket_type"
+= render "report_card", title: "Access Control", chart_id: "access_control"
 
 javascript:
     $(function () {

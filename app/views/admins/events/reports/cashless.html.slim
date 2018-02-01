@@ -11,49 +11,34 @@
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
       .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@record_credit)
-            .mdl-card__supporting-text
-              span.good_info = "Total Credits Recorded"
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@record_credit)
+          .mdl-card__supporting-text
+            span.good_info = "Total Credits Recorded"
       .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@record_credit_virtual)
-            .mdl-card__supporting-text
-              span.good_info = "Total Virtual Credits Recorded"
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@record_credit_virtual)
+          .mdl-card__supporting-text
+            span.good_info = "Total Virtual Credits Recorded"
       .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@fees)
-            .mdl-card__supporting-text
-              span.good_info = "Total Fees"
-
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@fees)
+          .mdl-card__supporting-text
+            span.good_info = "Total Fees"
       .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@orders)
-            .mdl-card__supporting-text
-              span.good_info = "Total Orders Redeemed"
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@orders)
+          .mdl-card__supporting-text
+            span.good_info = "Total Orders Redeemed"
 
   .mdl-layout-spacer
 
-
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Credit Flow
-    .mdl-grid
-      #credits
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Credit Flow by Station
-    .mdl-grid
-      #credits_detail
-  .mdl-layout-spacer
+= render "report_card", title: "Credit Flow", chart_id: "credits"
+= render "report_card", title: "Credit Flow by Station", chart_id: "credits_detail"
 
 
 javascript:

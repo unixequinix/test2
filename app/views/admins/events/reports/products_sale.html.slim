@@ -10,60 +10,42 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@sale_credit)
-            .mdl-card__supporting-text
-              span.good_info = "Total Sales in Credits"
-
-      .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@sale_virtual)
-            .mdl-card__supporting-text
-              span.good_info = "Total Sales in Virtual Credits"
-
-      .mdl-cell.mdl-cell--3-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token(@avg_products_sale)
-            .mdl-card__supporting-text
-              span.good_info = "Avg. Sale per User"
-
+      .mdl-cell.mdl-cell--4-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@sale_credit)
+          .mdl-card__supporting-text
+            span.good_info = "Total Sales in Credits"
+      .mdl-cell.mdl-cell--4-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@sale_virtual)
+          .mdl-card__supporting-text
+            span.good_info = "Total Sales in Virtual Credits"
+      .mdl-cell.mdl-cell--4-col
+        .customer-card.mdl-card.mdl-shadow--2dp
+          .mdl-card__title.mdl-card--expand
+            h3.mdl-card__title-text = number_to_token(@avg_products_sale)
+          .mdl-card__supporting-text
+            span.good_info = "Avg. Sale per User"
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .content-grid.mdl-grid.reports-grid
-
-      .mdl-cell.mdl-cell--12-col
-        h5 Top 10 Products Sold
-        .mdl-grid
-          .mdl-cell.mdl-cell--6-col
-                  canvas#top_products
-          .mdl-cell.mdl-cell--6-col
-                  canvas#top_products_q
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Products Sale
-    .mdl-grid
-      #products
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid.reports-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Products Sale Stock
-    .mdl-grid
-      #products_stock
+  .mdl-cell.mdl-cell--10-col.reports-grid
+    .mdl-card__title
+      .mdl-card__title-text Top 10 Products Sold
+    .mdl-card__supporting-text
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          canvas#top_products
+        .mdl-cell.mdl-cell--6-col
+          canvas#top_products_q
   .mdl-layout-spacer
 
 
+= render "report_card", title: "Products Sale", chart_id: "products"
+= render "report_card", title: "Products Sale Stock", chart_id: "products_stock"
 
 javascript:
     $(function () {
