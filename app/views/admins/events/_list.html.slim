@@ -1,0 +1,25 @@
+.table-responsive
+  table.mdl-data-table.mdl-js-data-table.within-card#event_list
+    thead
+      tr
+        th.mdl-data-table__cell--non-numeric Name
+        th.mdl-data-table__cell--non-numeric Status
+        th.mdl-data-table__cell--non-numeric Start
+        th.mdl-data-table__cell--non-numeric End
+        th Since
+        - if @current_user.admin?
+          th Devices API
+    tbody
+      - events.each do |event|
+        tr
+          td.mdl-data-table__cell--non-numeric data-label="Name"
+            = link_to event.name, admins_event_path(event), class: "no_link", id:"event_#{event.id}_show"
+            - unless @alerts[event.id].to_i.zero?
+              = link_to admins_event_alerts_path(event) do
+                span.mdl-badge data-badge="#{@alerts[event.id]}"
+          td.mdl-data-table__cell--non-numeric data-label="Status" = event.state
+          td.mdl-data-table__cell--non-numeric data-label="Start" = event.start_date.to_date.to_formatted_s(:short)
+          td.mdl-data-table__cell--non-numeric data-label="End" = event.end_date.to_date.to_formatted_s(:short)
+          td data-label="Since" #{time_ago_in_words event.created_at} ago
+          - if @current_user.admin?
+            td data-label="Devices API"  = best_in_place event, :open_devices_api, best_in_place_checkbox([:admins, event]) if event.launched?

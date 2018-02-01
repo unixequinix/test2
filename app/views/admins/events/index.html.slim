@@ -26,46 +26,21 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-.content-grid.mdl-grid
+.mdl-grid.light-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--8-col
-    .mdl-grid
-      .mdl-cell.mdl-cell--9-col#event-list
-        - if @current_user.glowball?
-          = link_to "My", admins_events_path(status: "users"), class: "filters__item", id: "filters_users"
-          | | &nbsp;
-        = link_to_unless @status == "all", "All", admins_events_path(status: "all"), class: "filters__item", id:"filters_all"
-        = link_to_unless @status == "created", "Created", admins_events_path(status: "created"), class: "filters__item", id:"filters_created"
-        = link_to_unless @status == "launched", "Launched", admins_events_path(status: "launched"), class: "filters__item", id:"filters_launched"
-        = link_to_unless @status == "closed", "Closed", admins_events_path(status: "closed"), class: "filters__item", id:"filters_closed"
+  .mdl-cell.mdl-cell--10-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+        .mdl-tabs__tab-bar
+          = link_to "All", "#users-panel", class: "mdl-tabs__tab is-active", id:"filters_users"
+          = link_to "Created", "#created-panel", class: "mdl-tabs__tab", id:"filters_created"
+          = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab", id:"filters_launched"
+          = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id:"filters_closed"
 
-      .mdl-cell.mdl-cell--3-col.italic.small.right = page_entries_info @events
+        .mdl-tabs__panel.is-active id="users-panel"
+          = render "list", events: @events
 
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .table-responsive
-        table.mdl-data-table.mdl-js-data-table.within-card#event_list
-          thead
-            tr
-              th.mdl-data-table__cell--non-numeric Name
-              th.mdl-data-table__cell--non-numeric Status
-              th.mdl-data-table__cell--non-numeric Start
-              th.mdl-data-table__cell--non-numeric End
-              th Since
-              - if @current_user.admin?
-                th Devices API
-          tbody
-            - @events.each do |event|
-              tr
-                td.mdl-data-table__cell--non-numeric data-label="Name"
-                  = link_to event.name, admins_event_path(event), class: "no_link", id:"event_#{event.id}_show"
-                  - unless @alerts[event.id].to_i.zero?
-                    = link_to admins_event_alerts_path(event) do
-                      span.mdl-badge data-badge="#{@alerts[event.id]}"
-                td.mdl-data-table__cell--non-numeric data-label="Status" = event.state
-                td.mdl-data-table__cell--non-numeric data-label="Start" = event.start_date.to_date.to_formatted_s(:short)
-                td.mdl-data-table__cell--non-numeric data-label="End" = event.end_date.to_date.to_formatted_s(:short)
-                td data-label="Since" #{time_ago_in_words event.created_at} ago
-                - if @current_user.admin?
-                  td data-label="Devices API"  = best_in_place event, :open_devices_api, best_in_place_checkbox([:admins, event]) if event.launched?
-    = render "layouts/pagination", objects: @events
+        - @events.group_by(&:state).each do |state, events|
+          .mdl-tabs__panel id="#{state}-panel"
+            = render "list", events: events
   .mdl-layout-spacer

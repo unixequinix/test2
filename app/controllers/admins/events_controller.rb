@@ -6,13 +6,9 @@ class Admins::EventsController < Admins::BaseController
   before_action :set_versions, only: %i[show edit]
 
   def index
-    @status = params[:status] || "launched"
     @q = policy_scope(Event).ransack(params[:q])
-    @events = @q.result
+    @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
     authorize(@events)
-    @events = @events.with_state(@status) if @status.in?(Event.states.keys) && params[:q].blank?
-    @events = @current_user.events if @status.eql?("users") && params[:q].blank?
-    @events = @events.order(state: :asc, start_date: :desc).page(params[:page])
     @alerts = Alert.where(event_id: @events).unresolved.group(:event_id).count
   end
 

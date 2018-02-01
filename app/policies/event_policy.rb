@@ -130,7 +130,7 @@ class EventPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       case
-        when user.admin? then scope.all.order(:name)
+        when user.glowball? then scope.all.order(:name)
         else user.events.order(:name)
       end
     end
