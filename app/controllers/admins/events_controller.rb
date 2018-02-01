@@ -9,6 +9,7 @@ class Admins::EventsController < Admins::BaseController
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
     authorize(@events)
+    @event = Event.new
     @alerts = Alert.where(event_id: @events).unresolved.group(:event_id).count
   end
 
@@ -31,7 +32,6 @@ class Admins::EventsController < Admins::BaseController
     all_credits = [credit, virtual]
 
     token_symbol = @current_event.credit.symbol
-    currency_symbol = @current_event.currency_symbol
 
     activations = Poke.connection.select_all(query_activations(@current_event.id)).map { |h| h["Activations"] }.compact.sum
     total_sale = -@current_event.pokes.where(credit: all_credits).sales.is_ok.sum(:credit_amount)

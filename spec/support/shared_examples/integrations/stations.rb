@@ -1,10 +1,6 @@
 
 RSpec.shared_examples "UI stations" do
   describe "Create new station" do
-    before(:each) do
-      click_link("new_station_link")
-    end
-
     it "is located in correct path " do
       expect(page).to have_current_path(admins_event_stations_path(event, group: station.group))
     end

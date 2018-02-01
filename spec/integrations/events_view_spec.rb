@@ -9,68 +9,7 @@ RSpec.describe "Test on Events view", type: :feature do
     visit root_path
   end
 
-  describe "filter events by state" do
-    let!(:event_created) { create(:event, state: "created", name: "Event Created") }
-    let!(:event_closed) { create(:event, state: "closed", name: "Event Closed") }
-
-    it "click on 'all' label" do
-      click_link("filters_all")
-      expect(page).to have_current_path(admins_events_path(status: 'all'))
-      within '#event_list' do
-        expect(page).to have_text event.name
-        expect(page).to have_text event_created.name
-        expect(page).to have_text event_closed.name
-      end
-    end
-
-    it "click on 'created' label" do
-      click_link("filters_created")
-      expect(page).to have_current_path(admins_events_path(status: 'created'))
-      within '#event_list' do
-        expect(page).not_to have_text event.name.to_s
-        expect(page).to have_text event_created.name.to_s
-        expect(page).not_to have_text event_closed.name.to_s
-      end
-    end
-
-    it "click on 'closed' label" do
-      click_link("filters_closed")
-      expect(page).to have_current_path(admins_events_path(status: 'closed'))
-      within '#event_list' do
-        expect(page).not_to have_text event.name.to_s
-        expect(page).not_to have_text event_created.name.to_s
-        expect(page).to have_text event_closed.name.to_s
-      end
-    end
-
-    it "click on 'launched' label" do
-      click_link("filters_closed")
-      click_link("filters_launched")
-      expect(page).to have_current_path(admins_events_path(status: 'launched'))
-      within '#event_list' do
-        expect(page).to have_text event.name.to_s
-        expect(page).not_to have_text event_created.name.to_s
-        expect(page).not_to have_text event_closed.name.to_s
-      end
-    end
-  end
-
-  describe "actions in events view" do
-    it "select an event" do
-      click_link("event_#{event.id}_show")
-      expect(page).to have_current_path(admins_event_path(event))
-    end
-  end
-
   describe "create new event" do
-    before do
-      click_link("new_event_link")
-    end
-
-    it "path is correct" do
-      expect(page).to have_current_path(new_admins_event_path)
-    end
-
     it "filling name" do
       within("#new_event") { fill_in 'event_name', with: "NewEvent" }
       expect { find("input[name=commit]").click }.to change(Event, :count).by(1)

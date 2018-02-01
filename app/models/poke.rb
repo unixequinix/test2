@@ -91,11 +91,12 @@ class Poke < ApplicationRecord
 
   scope :devices, -> { select("stations.name as station_name", event_day_query_as_event_day, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
 
-  scope :record_credit_sale_h, -> {
-select(date_time_query, "sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale, sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit")
-  .credit_ops.is_ok
-  .group("date_time")
-  .order("date_time")}
+  scope :record_credit_sale_h, lambda {
+    select(date_time_query, "sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale, sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit")
+      .credit_ops.is_ok
+      .group("date_time")
+      .order("date_time")
+  }
 
   has_paper_trail on: %i[update destroy]
 

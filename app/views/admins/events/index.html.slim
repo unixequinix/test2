@@ -5,26 +5,19 @@
 - content_for(:title) do
   .mdl-layout-title.header-item Events
 
-- content_for(:actions) do
-  *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
-    ul.floaty-list#actions-list
-      - unless Rails.env.production?
+- unless Rails.env.production?
+  - content_for(:actions) do
+    *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
+      ul.floaty-list#actions-list
         li.floaty-list-item
           = link_to sample_event_admins_events_path, id: "sample_event_link" do
             button#add-fake.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add_box
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add-fake" Sample Event
-
-      li.floaty-list-item
-        = link_to new_admins_event_path, id: "new_event_link" do
-          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons add
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
-
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
+      ul.floaty-btn#button
+        li
+          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+            i.material-icons#changeIcon build
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
@@ -36,11 +29,17 @@
           = link_to "Created", "#created-panel", class: "mdl-tabs__tab", id:"filters_created"
           = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab", id:"filters_launched"
           = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id:"filters_closed"
-
-        .mdl-tabs__panel.is-active id="users-panel"
-          = render "list", events: @events
+          = link_to "#event-form", class: "mdl-tabs__tab" do
+            span.material-icons add_circle_outline
 
         - @events.group_by(&:state).each do |state, events|
           .mdl-tabs__panel id="#{state}-panel"
             = render "list", events: events
+
+        .mdl-tabs__panel id="event-form"
+          = render "form", event: @event
+
+        .mdl-tabs__panel.is-active id="users-panel"
+          = render "list", events: @events
+
   .mdl-layout-spacer

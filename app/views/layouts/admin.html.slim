@@ -35,7 +35,16 @@ html
               .mdl-textfield__expandable-holder = yield(:search)
             div style="width: 30px;"
 
-          = render partial: "layouts/dropdown_menu"
+          .dropdown
+            i.mdl-color-text--gray-50.material-icons help_outline
+            span.title Help
+            .dropdown-content
+              = link_to "http://learning.glownet.com", target: :_blank, class: "dropdown-item", id: "courses_layout_link" do
+                i.mdl-color-text--teal-200.material-icons book
+                | My Courses
+              = link_to "https://glownet.atlassian.net/servicedesk/customer/portal/4/group/10", target: :_blank, class: "dropdown-item", id: "support_layout_link" do
+                i.mdl-color-text--teal-200.material-icons local_convenience_store
+                |  Support
 
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
@@ -65,7 +74,7 @@ html
             = link_to admins_user_team_devices_path(@current_user), class: "mdl-navigation__link", id: "devices_layout_link" do
               i.mdl-color-text--teal-200.material-icons settings_cell
               |  Devices
-          = link_to destroy_user_session_path, method: :delete, class: "mdl-navigation__link", id: "log_out_link" do
+          = link_to destroy_user_session_path, method: :delete, class: "mdl-navigation__link", id: "log_out_link", data: { confirm: "Are you sure?" } do
             i.mdl-color-text--teal-200.material-icons power_settings_new
             |  Log out
 

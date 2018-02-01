@@ -13,10 +13,6 @@ RSpec.describe "Stations", type: :feature do
     include_examples "UI stations"
 
     describe "Create new monetary station" do
-      before(:each) do
-        click_link("new_station_link")
-      end
-
       it "is located in correct path " do
         expect(page).to have_current_path(admins_event_stations_path(event, group: "monetary"))
       end
@@ -66,10 +62,6 @@ RSpec.describe "Stations", type: :feature do
     include_examples "UI stations"
 
     describe "Create new management station" do
-      before(:each) do
-        click_link("new_station_link")
-      end
-
       it "Ticket Validation" do
         within("#new_station") do
           fill_in 'station_name', with: "TESTTICKETVALIDATION"
@@ -124,10 +116,6 @@ RSpec.describe "Stations", type: :feature do
     include_examples "UI stations"
 
     describe "Create new access station" do
-      before(:each) do
-        click_link("new_station_link")
-      end
-
       it "Incident Report" do
         within("#new_station") do
           fill_in 'station_name', with: "INCIDENTREPORT"

@@ -1,0 +1,16 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, event], html: { multipart: true }, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+    .fieldset
+      .section-header
+        i.material-icons info_outline
+        span Event Info
+      .form-inputs
+        = f.input :name, placeholder: true, autofocus: true
+        = f.input :event_serie_id, as: :select, collection: @event_series
+        = f.input :timezone, as: :time_zone, include_blank: false
+        = f.input :start_date, as: :datetime
+        = f.input :end_date, as: :datetime
+        = f.input :team_id, collection: [current_user.team], selected: current_user.team
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
