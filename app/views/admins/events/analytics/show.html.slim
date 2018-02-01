@@ -1,0 +1,44 @@
+- content_for(:title) do
+  | Analytics
+
+.mdl-grid.light-grid
+  .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect.reports-grid.full-height
+    .mdl-tabs__tab-bar
+      = link_to money_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab is-active" do
+        | Money
+        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+          span.mdl-ripple
+      = link_to credits_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+        | Credits
+        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+          span.mdl-ripple
+      = link_to sales_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+        | Sales
+        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+          span.mdl-ripple
+      = link_to checkin_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+        | Checkin
+        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+          span.mdl-ripple
+      = link_to access_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+        | Access
+        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+          span.mdl-ripple
+
+    #load-report
+
+javascript:
+  $(window).load(function(e) {
+    $(".is-active").click();
+  });
+
+  $(document).ready(function() {
+    $(".mdl-tabs__tab").click(function(e) {
+      var elem = e.currentTarget;
+      var elems = $(".mdl-tabs__tab");
+
+      elems.splice($.inArray(elem, elems), 1);
+      elems.removeClass("is-active");
+      $(elem).addClass("is-active");
+    });
+  });

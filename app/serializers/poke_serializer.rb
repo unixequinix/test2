@@ -24,6 +24,8 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :catalog_item_name, key: "Catalog Item"
   attribute :total_tickets, key: "Total Tickets"
   attribute :redeemed, key: "Redeemed"
+  attribute :sale, key: "Sales"
+  attribute :record_credit, key: "Record Credits"
 
   def action
     object.try(:action)&.humanize
@@ -123,5 +125,13 @@ class PokeSerializer < ActiveModel::Serializer
 
   def catalog_item_name
     object.try(:catalog_item_name)
+  end
+
+  def sale
+    object.try(:sale)
+  end
+
+  def record_credit
+    object.try(:record_credit)
   end
 end

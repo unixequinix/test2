@@ -155,6 +155,8 @@ GEM
       capybara (~> 2.5)
     case_transform (0.2)
       activesupport
+    chart-js-rails (0.1.4)
+      railties (> 3.1)
     chartkick (2.2.5)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
@@ -575,6 +577,8 @@ GEM
     wkhtmltopdf-binary (0.12.3.1)
     xpath (3.0.0)
       nokogiri (~> 1.8)
+    xray-rails (0.3.1)
+      rails (>= 3.1.0)
 
 PLATFORMS
   ruby
@@ -599,6 +603,7 @@ DEPENDENCIES
   capistrano-sidekiq!
   capybara
   capybara-slow_finder_errors
+  chart-js-rails
   chartkick
   codecov
   cookies_eu
@@ -682,6 +687,7 @@ DEPENDENCIES
   whenever
   wicked_pdf
   wkhtmltopdf-binary
+  xray-rails
 
 RUBY VERSION
    ruby 2.5.0p0

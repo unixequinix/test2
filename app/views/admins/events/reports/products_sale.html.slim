@@ -16,7 +16,7 @@
               h3.mdl-card__title-text = number_to_token(@sale_credit)
             .mdl-card__supporting-text
               span.good_info = "Total Sales in Credits"
- 
+
       .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
@@ -24,9 +24,30 @@
             .mdl-card__supporting-text
               span.good_info = "Total Sales in Virtual Credits"
 
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_token(@avg_products_sale)
+            .mdl-card__supporting-text
+              span.good_info = "Avg. Sale per User"
+
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .content-grid.mdl-grid.reports-grid
+
+      .mdl-cell.mdl-cell--12-col
+        h5 Top 10 Products Sold
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+                  canvas#top_products
+          .mdl-cell.mdl-cell--6-col
+                  canvas#top_products_q
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid.reports-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     h5 Products Sale
@@ -34,7 +55,7 @@
       #products
   .mdl-layout-spacer
 
-.content-grid.mdl-grid
+.content-grid.mdl-grid.reports-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     h5 Products Sale Stock
@@ -42,30 +63,89 @@
       #products_stock
   .mdl-layout-spacer
 
+
+
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
-        var tpl = $.pivotUtilities.aggregatorTemplates;
-        var numberFormat = $.pivotUtilities.numberFormat;
-        var frFormat = numberFormat({digitsAfterDecimal: 0});
-        var frFormat_1 = numberFormat({digitsAfterDecimal: 1});
+        var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: 0});
+        var frFormat_1 = $.pivotUtilities.numberFormat({digitsAfterDecimal: 2});
+        var sum = $.pivotUtilities.aggregatorTemplates.sum;
 
         var products = jQuery.parseJSON('#{ escape_javascript(@products.html_safe)}');
 
-        $("#products").pivotUI(products, {
+        $("#products").pivot(products, {
             renderers: renderers,
-            cols: ["Event Day", "Credit Name"], rows: ["Station Name", "Product Name"],
+            cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type","Station Name", "Product Name"],
             rendererName: "Table",
-            aggregators: { "Credits": function () { return tpl.sum(frFormat_1)(["Credits"]) }}
+            aggregator: sum(frFormat_1)(["Credits"])
         });
 
-        var products_stock = jQuery.parseJSON('#{ escape_javascript(@products_stock.html_safe)}'); 
- 
-        $("#products_stock").pivotUI(products_stock, { 
-            renderers: renderers, 
-            cols: ["Event Day"], rows: ["Station Name", "Product Name"], 
-            rendererName: "Table", 
-            aggregators: { "Quantity": function () { return tpl.sum(frFormat)(["Quantity"]) } 
-            } 
+        var products_stock = jQuery.parseJSON('#{ escape_javascript(@products_stock.html_safe)}');
+
+        $("#products_stock").pivot(products_stock, {
+            renderers: renderers,
+            cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name", "Product Name"],
+            rendererName: "Table",
+            aggregators: sum(frFormat)(["Quantity"])
         });
+
+        var color_scale = ["#ade8e9","#add8e9", "#adc8e9", "#adb8e9","#ada8e9", "#bcea98", "#ccda98", "#dcca98", "#ecba98", "#fcaa98"]
+        var data = #{ @top_products.html_safe }
+        var credit_symbol = '#{ @token_symbol }'
+        var product_name = data.map(function(e) {
+          return e.product_name;
+          });
+        var credit_amount = data.map(function(e) {
+          return e.credit_amount;
+          });
+        new Chart(document.getElementById("top_products"), {
+          type: 'doughnut',
+          data: {
+            labels: product_name,
+            datasets: [
+              {
+                label: "Product" + credit_symbol,
+                backgroundColor: color_scale,
+                data: credit_amount
+              }
+            ]
+          },
+          options: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: 'by Credits ' + credit_symbol
+            }
+          }
+      });
+
+      var data_q = #{ @top_quantity.html_safe }
+      var product_name_q = data_q.map(function(e) {
+        return e.product_name;
+        });
+      var quantity = data_q.map(function(e) {
+        return e.quantity;
+        });
+
+      new Chart(document.getElementById("top_products_q"), {
+        type: 'doughnut',
+        data: {
+          labels: product_name_q,
+          datasets: [
+            {
+              label: "Product",
+              backgroundColor: color_scale,
+              data: quantity
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'by Quantity'
+          }
+        }
     });
+  });

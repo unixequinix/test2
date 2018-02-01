@@ -36,7 +36,7 @@ Rails.application.routes.draw do
         delete :remove_users
       end
     end
-    
+
     resources :event_series do
       member do
         put :add_event
@@ -78,6 +78,8 @@ Rails.application.routes.draw do
 
       scope module: :events do
 
+        resource :settings, only: :show
+
         resource :reports do
           get :money_recon
           get :cashless
@@ -87,7 +89,13 @@ Rails.application.routes.draw do
           get :gates
           get :operators
         end
-
+        resource :analytics do
+          get :money
+          get :credits
+          get :sales
+          get :checkin
+          get :access
+        end
         resources :stats, only: [:edit, :update] do
           get :stations, on: :collection
           get :issues, on: :collection

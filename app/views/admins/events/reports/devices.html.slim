@@ -6,7 +6,7 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
-.content-grid.mdl-grid
+.content-grid.mdl-grid.reports-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     h5 Devices Use Detail
@@ -17,15 +17,15 @@
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
-        var devices = jQuery.parseJSON('#{ escape_javascript(@devices.html_safe)}');
-        var tpl = $.pivotUtilities.aggregatorTemplates;
-        var numberFormat = $.pivotUtilities.numberFormat;
-        var frFormat = numberFormat({digitsAfterDecimal: 0});
+        var sum = $.pivotUtilities.aggregatorTemplates.sum;
+        var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: 0});
 
-        $("#devices").pivotUI(devices, {
+        var devices = jQuery.parseJSON('#{ escape_javascript(@devices.html_safe)}');
+
+        $("#devices").pivot(devices, {
             renderers: renderers,
             cols: ["Event Day"], rows: ["Station Name"],
             rendererName: "Table",
-            aggregators: { "Total Devices": function () { return tpl.sum(frFormat)(["Total Devices"]) } }
+            aggregator: sum(frFormat)(["Total Devices"])
         });
     });

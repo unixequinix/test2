@@ -29,4 +29,27 @@ module ReportsHelper
       GROUP BY 1,2,3,4
     SQL
   end
+
+  def query_top_quantity(event_id)
+    <<-SQL
+    SELECT
+      coalesce(name, 'Other Amount') as product_name,
+      sum(sale_item_quantity) as quantity
+    FROM (
+           SELECT
+             operation_id,
+             sale_item_quantity,
+             product_id
+
+           FROM pokes
+           WHERE event_id = #{event_id}
+                 AND action = 'sale'
+           GROUP BY 1, 2, 3
+         ) q
+      LEFT JOIN products ON q.product_id = products.id
+    GROUP BY 1
+    ORDER BY 2 DESC
+    LIMIT 10
+    SQL
+  end
 end

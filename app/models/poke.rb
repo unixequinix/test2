@@ -20,13 +20,14 @@ class Poke < ApplicationRecord
   scope :sales, -> { where(action: "sale") }
   scope :record_credit, -> { where(action: "record_credit") }
   scope :sale_refunds, -> { where(action: "sale_refund") }
+  scope :credit_ops, -> { where(action: %w[record_credit sale]) }
   scope :fees, -> { where(action: 'fee') }
-
   scope :initial_fees, -> { where(action: "initial_fee") }
   scope :topup_fees, -> { where(action: "topup_fee") }
   scope :deposit_fees, -> { where(action: "gtag_deposit_fee") }
   scope :return_fees, -> { where(action: "gtag_return_fee") }
-  scope :online_orders, -> { where(action: "record_credit", description: "order") }
+  scope :online_orders, -> { where(action: "record_credit", description: %w[record_credit order_appliend_onsite]) }
+
   scope :has_money, -> { where.not(monetary_total_price: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
@@ -47,15 +48,24 @@ class Poke < ApplicationRecord
   scope :products_sale, lambda {
     select(:description, :credit_name, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount", "sum(sale_item_quantity) as sale_item_quantity")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
-      .where(action: 'sale').is_ok
+      .sales.is_ok
       .group(:description, :credit_name, grouping_operators_devices, grouping_station, "product_name")
   }
 
   scope :products_sale_stock, lambda {
     select(:operation_id, :description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
-      .where(action: 'sale').is_ok
+      .sales.is_ok
       .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
+  }
+
+  scope :top_products, lambda {
+    select("COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount")
+      .left_outer_joins(:product)
+      .sales.is_ok
+      .group("product_name")
+      .order("credit_amount desc")
+      .limit(10)
   }
 
   scope :credit_flow, lambda {
@@ -81,9 +91,11 @@ class Poke < ApplicationRecord
 
   scope :devices, -> { select("stations.name as station_name", event_day_query_as_event_day, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
 
-  scope :sales_h, -> { select(date_time_query, "-1*sum(credit_amount) as credit_amount").sales.is_ok.group("date_time") }
-
-  scope :record_credit_h, -> { select(date_time_query, "sum(credit_amount) as credit_amount").record_credit.is_ok.group("date_time") }
+  scope :record_credit_sale_h, -> {
+select(date_time_query, "sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale, sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit")
+  .credit_ops.is_ok
+  .group("date_time")
+  .order("date_time")}
 
   has_paper_trail on: %i[update destroy]
 
@@ -96,7 +108,7 @@ class Poke < ApplicationRecord
   end
 
   def self.date_time_query
-    "to_char(date_trunc('hour', date), 'DD-MM-YYYY HHh') as date_time"
+    "to_char(date_trunc('hour', date), 'HHh DD-MM-YY') as date_time"
   end
 
   def self.dimensions_operators_devices

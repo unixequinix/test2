@@ -38,6 +38,7 @@ gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'jquery-datatables'
 gem 'c3-rails'
+gem 'chart-js-rails'
 
 # Authentication
 gem 'devise'
@@ -135,6 +136,7 @@ group :development, :test do
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'json_expressions'
+  gem 'xray-rails'
 end
 
 group :test do

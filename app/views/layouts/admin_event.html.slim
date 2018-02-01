@@ -6,7 +6,7 @@ html
     = stylesheet_link_tag "application", media: "all"
     = stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons"
     = stylesheet_link_tag "https://code.getmdl.io/1.2.1/material.teal-pink.min.css"
-    = stylesheet_link_tag "datatables" if @load_reports_resources
+    = stylesheet_link_tag "reports" if @load_reports_resources
 
     = yield(:javascripts)
 
@@ -14,7 +14,8 @@ html
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
     = javascript_include_tag "//cdn.tinymce.com/4/tinymce.min.js"
     = javascript_include_tag "application"
-    = javascript_include_tag "datatables" if @load_reports_resources
+    = javascript_include_tag "https://unpkg.com/jspdf@latest/dist/jspdf.min.js" if @load_reports_resources
+    = javascript_include_tag "https://cdn.plot.ly/plotly-latest.min.js" if @load_reports_resources
 
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
@@ -69,21 +70,12 @@ html
 
         nav.mdl-navigation.global-nav
           = link_to "#settings-modal", class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons settings
+            i.mdl-color-text--teal-200.material-icons edit
             |  Settings
 
-          = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons ev_station
-            |  Stations
-
-          = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons devices
-            |  Devices
-
-          - if policy(Poke).reports?
-            = link_to admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              |  Reports
+          = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons timeline
+            |  Analytics
 
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
@@ -122,7 +114,27 @@ html
             |  Refunds
 
         nav.mdl-navigation.global-nav
+          span.nav-title STATIONS
+          = link_to admins_event_stations_path(@current_event, group: "access"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons play_for_work
+            |  Access
+          = link_to admins_event_stations_path(@current_event, group: "monetary"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons attach_money
+            |  Monetary
+          = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons local_activity
+            |  Management
+
+        nav.mdl-navigation.global-nav
           span.nav-title SUPPORT
+          - if policy(@current_event.device_registrations).index?
+            = link_to new_admins_event_device_registration_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons devices
+              |  Devices
+            - if current_user.team.present?
+              = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
+                i.mdl-color-text--teal-200.material-icons bug_report
+                |  Asset Tracker
           - if policy(@current_event).event_settings?
             = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
@@ -142,7 +154,6 @@ html
           = yield
 
   = yield(:actions)
-  = yield(:javascript)
 
   javascript:
     var floaty = $('#floaty');

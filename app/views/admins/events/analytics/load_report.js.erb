@@ -1,0 +1,1 @@
+$("#load-report").html("<%= escape_javascript(render partial: 'report', locals: { name: @name, cols: String(@cols), rows: String(@rows), metric: String(@metric), decimals: @decimals, data: @data }) %>");

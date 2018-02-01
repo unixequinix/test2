@@ -8,7 +8,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .mdl-grid
       .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
@@ -16,7 +16,7 @@
               h3.mdl-card__title-text = number_to_event_currency(@total_money)
             .mdl-card__supporting-text
               span.good_info = "Total Money Income"
- 
+
       .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
@@ -38,48 +38,64 @@
             .mdl-card__supporting-text
               span.good_info = "Online Left-over Balance"
 
+      .mdl-cell.mdl-cell--3-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = number_to_event_currency(@avg_topups)
+            .mdl-card__supporting-text
+              span.good_info = "Avg. TopUp per User"
+
+  .mdl-layout-spacer
+
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col.reports-grid
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .mdl-card__title
+          .mdl-card__title-text
+            | Money Flow
+    .mdl-grid
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--10-col
+        #money
+      .mdl-layout-spacer
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Money Income
+  .mdl-cell.mdl-cell--12-col.reports-grid
     .mdl-grid
-      #money
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Operators Money Reconciliation
+      .mdl-cell.mdl-cell--12-col
+        .mdl-card__title
+          .mdl-card__title-text
+            | Money Flow by Stations
     .mdl-grid
-      #operators
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--10-col
+        #money_by_stations
+      .mdl-layout-spacer
   .mdl-layout-spacer
 
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
         var money = jQuery.parseJSON('#{ escape_javascript(@money.html_safe)}');
-        var tpl = $.pivotUtilities.aggregatorTemplates;
-        var numberFormat = $.pivotUtilities.numberFormat;
-        var frFormat = numberFormat({digitsAfterDecimal: 1});
+        var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: 2});
+        var sum = $.pivotUtilities.aggregatorTemplates.sum;
 
-        $("#money").pivotUI(money, {
-            renderers: renderers,
+        $("#money").pivot(money, {
             cols: ["Event Day"], rows: ["Action"],
             rendererName: "Table",
-            aggregators: { "Money": function () { return tpl.sum(frFormat)(["Money"]) } }
+            aggregator: sum(frFormat)(["Money"])
         });
 
-        var operators = jQuery.parseJSON('#{ escape_javascript(@operators.html_safe)}');
-        $("#operators").pivotUI(operators, {
+        $("#money_by_stations").pivot(money, {
             renderers: renderers,
-            cols: ["Payment Method"], rows: ["Action", "Operator UID", "Operator Name", "Device", "Event Day"],
+            cols: ["Event Day", "Payment Method"], rows: ["Location","Station Type","Station Name","Action"],
             rendererName: "Table",
-            aggregators: {
-                "Money": function () {
-                    return tpl.sum(frFormat)(["Money"])
-                }
-            }
+            aggregator: sum(frFormat)(["Money"])
         });
+
     });

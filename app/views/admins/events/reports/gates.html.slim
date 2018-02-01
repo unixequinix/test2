@@ -16,7 +16,7 @@
               h3.mdl-card__title-text = @total_checkins
             .mdl-card__supporting-text
               span.good_info = "Total Ticket Check-in´s"
- 
+
       .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
@@ -26,17 +26,23 @@
 
   .mdl-layout-spacer
 
-.content-grid.mdl-grid
+.content-grid.mdl-grid.reports-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Ticket Check-in Rate
+    .mdl-grid
+      #checkin_rate
+  .mdl-layout-spacer
+.content-grid.mdl-grid.reports-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     h5 Check-in and Box office purchase
     .mdl-grid
       #checkin_ticket_type
-    br
-    h5 Ticket Check-in Rate
-    .mdl-grid
-      #checkin_rate
-    br
+  .mdl-layout-spacer
+.content-grid.mdl-grid.reports-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
     h5 Access Control
     .mdl-grid
       #access_control
@@ -47,43 +53,34 @@
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var sum = $.pivotUtilities.aggregatorTemplates.sum;
+        var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: 0});
+
         var checkin_ticket_type = jQuery.parseJSON('#{ escape_javascript(@checkin_ticket_type.html_safe)}');
-        var tpl = $.pivotUtilities.aggregatorTemplates;
-        var numberFormat = $.pivotUtilities.numberFormat;
-        var frFormat = numberFormat({digitsAfterDecimal: 0});
 
-
-        $("#checkin_ticket_type").pivotUI(checkin_ticket_type, {
+        $("#checkin_ticket_type").pivot(checkin_ticket_type, {
             renderers: renderers,
             cols: ["Event Day"], rows: ["Station Name", "Catalog Item"],
             rendererName: "Table",
-            aggregators: { "Catalog Items": function () { return tpl.sum(frFormat)(["Total Tickets"]) } }
+            aggregator: sum(frFormat)(["Total Tickets"])
         });
 
         var checkin_rate = jQuery.parseJSON('#{ escape_javascript(@checkin_rate.html_safe) }');
 
-        $("#checkin_rate").pivotUI(checkin_rate, {
+        $("#checkin_rate").pivot(checkin_rate, {
             renderers: renderers,
-            rows: ["Ticket Type"],
+            rows: ["Ticket Type", "Redeemed"],
             rendererName: "Table",
-            aggregators: {
-                "Total Tickets": function () { return tpl.sum(frFormat)(["Total Tickets"]) },
-                "Redeemed": function () { return tpl.sum(frFormat)(["Redeemed"]) }
-            }
+            aggregator: sum(frFormat)(["Total Tickets"])
         });
 
         var access_control = jQuery.parseJSON('#{ escape_javascript(@access_control.html_safe) }');
 
-        $("#access_control").pivotUI(access_control, {
+        $("#access_control").pivot(access_control, {
             renderers: renderers,
             cols:["Station Name", "Direction"], rows: ["Event Day", "Date Time"],
             rendererName: "Table",
-            aggregators: {
-                "Access": function () {
-                    return tpl.sum(frFormat)(["Access"])}
-                }
-
-
+            aggregator: sum(frFormat)(["Access"])
         });
 
     });

@@ -38,7 +38,8 @@
 
   .mdl-layout-spacer
 
-.content-grid.mdl-grid
+
+.content-grid.mdl-grid.reports-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     h5 Credit Flow
@@ -46,16 +47,33 @@
       #credits
   .mdl-layout-spacer
 
+.content-grid.mdl-grid.reports-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    h5 Credit Flow by Station
+    .mdl-grid
+      #credits_detail
+  .mdl-layout-spacer
+
+
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
         var credits = jQuery.parseJSON('#{ escape_javascript(@credits.html_safe)}');
-        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var sum = $.pivotUtilities.aggregatorTemplates.sum;
+        var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: 1});
 
-        $("#credits").pivotUI(credits, {
+        $("#credits").pivot(credits, {
             renderers: renderers,
             cols: ["Event Day", "Credit Name"], rows: ["Action"],
             rendererName: "Table",
-            aggregators: { "Credits": function () { return tpl.sum()(["Credits"]) } }
+            aggregator: sum(frFormat)(["Credits"])
+        });
+
+        $("#credits_detail").pivot(credits, {
+            renderers: renderers,
+            cols: ["Event Day", "Credit Name"], rows: ["Location","Action","Station Type","Station Name"],
+            rendererName: "Table",
+            aggregator: sum(frFormat)(["Credits"])
         });
     });

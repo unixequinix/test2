@@ -5,7 +5,8 @@
   = link_to admins_event_reports_path(@current_event), class: "mdl-button mdl-button--icon" do
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
-.content-grid.mdl-grid
+
+.content-grid.mdl-grid.reports-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     h5 Activations Detail
@@ -16,16 +17,15 @@
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var sum = $.pivotUtilities.aggregatorTemplates.sum;
+        var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: 0});
+
         var activations = jQuery.parseJSON('#{ escape_javascript(@activations.html_safe)}');
-        var tpl = $.pivotUtilities.aggregatorTemplates;
-        var numberFormat = $.pivotUtilities.numberFormat;
-        var frFormat = numberFormat({digitsAfterDecimal: 0});
 
-
-        $("#activations").pivotUI(activations, {
+        $("#activations").pivot(activations, {
             renderers: renderers,
             cols: ["Event Day"], rows: ["Station Name"],
             rendererName: "Table",
-            aggregators: { "Activations": function () { return tpl.sum(frFormat)(["Activations"]) } }
+            aggregator: sum(frFormat)(["Activations"])
         });
     });

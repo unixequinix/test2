@@ -30,14 +30,25 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def show
+    credit = @current_event.credit
+    virtual = @current_event.virtual_credit
+    all_credits = [credit, virtual]
+
+    token_symbol = @current_event.credit.symbol
+    currency_symbol = @current_event.currency_symbol
+
+    activations = Poke.connection.select_all(query_activations(@current_event.id)).map { |h| h["Activations"] }.compact.sum
+    total_sale = -@current_event.pokes.where(credit: all_credits).sales.is_ok.sum(:credit_amount)
+
     @total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
-    @total_credits = @current_event.pokes.where(credit: @all_credits).is_ok.sum(:credit_amount)
-    @total_products_sale = -@current_event.pokes.where(credit: @all_credits).sales.is_ok.sum(:credit_amount)
+    @total_credits = @current_event.pokes.where(credit: all_credits).is_ok.sum(:credit_amount)
+    @total_products_sale = total_sale
     @total_checkins = @current_event.tickets.where(redeemed: true).count
-    @total_activations = Poke.connection.select_all(query_activations(@current_event.id)).map { |h| h["Activations"] }.compact.sum
+    @total_activations = activations
     @total_devices = @current_event.pokes.is_ok.devices.map { |h| h["total_devices"] }.compact.sum
 
-    @sales = @current_event.pokes.sales.is_ok.where(credit: @current_event.catalog_items.credits).group_by_hour(:date).sum("-1 * credit_amount")
+    @token_symbol = token_symbol
+    @record_credit_sales = @current_event.pokes.record_credit_sale_h.is_ok.where(credit: all_credits).to_json
     render layout: "admin_event"
   end
 
