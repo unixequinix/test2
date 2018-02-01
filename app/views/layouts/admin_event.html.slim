@@ -53,6 +53,7 @@ html
               .mdl-textfield__expandable-holder = yield(:search)
             div style="width: 30px;"
 
+
           = yield(:navigation_actions)
 
           = render partial: "layouts/dropdown_menu"
@@ -64,18 +65,28 @@ html
               span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
             div style="width: 10px;"
 
+          = link_to "#settings-modal", class: "mdl-button mdl-button--icon", style: "overflow: visible" do
+            span#settings.i.mdl-color-text--white.material-icons settings
+            span.mdl-tooltip data-mdl-for="settings" Settings
+            - if @current_event.alerts.unresolved.any?
+              span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
+            div style="width: 10px;"
+
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
         nav.mdl-navigation.global-nav
-          = link_to "#settings-modal", class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons edit
-            |  Settings
 
           = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons timeline
             |  Analytics
+          = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons ev_station
+            |  Stations
+          = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons devices
+            |  Devices
 
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS

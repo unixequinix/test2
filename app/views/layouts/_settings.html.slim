@@ -209,6 +209,20 @@
           td
             = best_in_place @current_event, :online_initial_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "online_initial_topup_fee", style: @current_event.online_initial_topup_fee.nil? ? "display: none" : ""
             |  #{@current_event.credit.symbol}
+        tr
+          td.mdl-data-table__cell--non-numeric
+            = check_box_tag :refund_fee, "yes", @current_event.refund_fee.present?, class: "refund_fee", id: "every_refund_fee_checkbox"
+            | &nbsp; Refund Fee
+          td
+            = best_in_place @current_event, :refund_fee, url: [:admins, @current_event], class: "event_fee", id: "refund_fee", style: @current_event.refund_fee.nil? ? "display: none" : ""
+            |  #{@current_event.credit.symbol}
+        tr
+          td.mdl-data-table__cell--non-numeric
+            = check_box_tag :refund_minimum, "yes", @current_event.refund_minimum.present?, class: "refund_minimum", id: "refund_minimum_checkbox"
+            | &nbsp; Refund Minimum
+          td
+            = best_in_place @current_event, :refund_minimum, url: [:admins, @current_event], class: "event_fee", id: "refund_minimum", style: @current_event.refund_minimum.nil? ? "display: none" : ""
+            |  #{@current_event.credit.symbol}
 
   .mdl-card__title
     .mdl-cell.mdl-cell--10-col
@@ -233,20 +247,6 @@
             | Enable
             b &nbsp; online refunds
           td = best_in_place @current_event, :open_refunds, best_in_place_checkbox([:admins, @current_event])
-        tr
-          td.mdl-data-table__cell--non-numeric
-            = check_box_tag :refund_fee, "yes", @current_event.refund_fee.present?, class: "refund_fee", id: "every_refund_fee_checkbox"
-            | &nbsp; Fee
-          td
-            = best_in_place @current_event, :refund_fee, url: [:admins, @current_event], class: "event_fee", id: "refund_fee", style: @current_event.refund_fee.nil? ? "display: none" : ""
-            |  #{@current_event.credit.symbol}
-        tr
-          td.mdl-data-table__cell--non-numeric
-            = check_box_tag :refund_minimum, "yes", @current_event.refund_minimum.present?, class: "refund_minimum", id: "refund_minimum_checkbox"
-            | &nbsp; Minimum
-          td
-            = best_in_place @current_event, :refund_minimum, url: [:admins, @current_event], class: "event_fee", id: "refund_minimum", style: @current_event.refund_minimum.nil? ? "display: none" : ""
-            |  #{@current_event.credit.symbol}
         tr
           td.mdl-data-table__cell--non-numeric Automatic Refunds
           td = best_in_place @current_event, :auto_refunds, best_in_place_checkbox([:admins, @current_event])
