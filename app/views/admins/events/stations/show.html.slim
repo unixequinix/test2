@@ -17,12 +17,12 @@
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="reports" Reports
       - unless @station.category.eql?("customer_portal")
         li.floaty-list-item
-          = link_to edit_admins_event_station_path(@current_event, @station) do
+          = link_to edit_admins_event_station_path(@current_event, @station), id:"edit_station_link" do
             button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
         li.floaty-list-item
-          = link_to admins_event_station_clone_path(@current_event, @station), method: :post do
+          = link_to admins_event_station_clone_path(@current_event, @station), method: :post, id:"clone_link" do
             button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons content_copy
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone

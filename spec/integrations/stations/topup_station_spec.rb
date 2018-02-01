@@ -7,6 +7,7 @@ RSpec.describe "Topup stations info view tests", type: :feature do
 
   before(:each) do
     login_as(user, scope: :user)
+    visit admins_event_station_path(event, station)
   end
 
   include_examples "edit station"

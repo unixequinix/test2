@@ -5,7 +5,7 @@ RSpec.describe "Tests on ticket type view", type: :feature do
   let(:event) { create(:event, state: "created") }
   let!(:company) { create(:company, event: event) }
   let(:catalog_item) { create(:catalog_item, event: event) }
-  let!(:ticket_type) { create(:ticket_type, event: event, catalog_item: catalog_item, name: "Friday") }
+  let!(:ticket_type) { create(:ticket_type, event: event, catalog_item: catalog_item, name: "Friday", company:company) }
   let(:ticket) { create(:ticket, event: event, ticket_type: ticket_type) }
 
   before do
@@ -61,13 +61,26 @@ RSpec.describe "Tests on ticket type view", type: :feature do
   end
 
   describe "edit: " do
-    it "cannot be edited as nameless" do
-      visit edit_admins_event_ticket_type_path(event, ticket_type)
-
+    before(:each) {visit edit_admins_event_ticket_type_path(event, ticket_type)}
+    
+    it "cannot be edited as nameless" do  
       within("#edit_ticket_type_#{ticket_type.id}") { fill_in 'ticket_type_name', with: "" }
       expect { find("input[name=commit]").click }.not_to change { ticket_type.reload.name }.from(ticket_type.name)
-
       expect(page).to have_current_path(admins_event_ticket_type_path(event, ticket_type))
+    end
+    
+    it "cannot be edited as existent name" do 
+      existent_ticket_type = create(:ticket_type, event: event, catalog_item: catalog_item, name:"Saturday", company:company)
+      within("#edit_ticket_type_#{ticket_type.id}") { fill_in 'ticket_type_name', with: existent_ticket_type.name}
+      expect { find("input[name=commit]").click }.not_to change { ticket_type.reload.name }.from(ticket_type.name)
+      expect(page).to have_current_path(admins_event_ticket_type_path(event, ticket_type))
+    end
+    
+    it "edit name and catalog item" do
+      within("#edit_ticket_type_#{ticket_type.id}") {fill_in 'ticket_type_name', with: "Saturday"}
+      find("#ticket_type_catalog_item_id").select(event.virtual_credit.name)
+      expect { find("input[name=commit]").click }.to change { ticket_type.reload.name }.to("Saturday")
+      expect(page).to have_current_path(admins_event_ticket_types_path(event))
     end
   end
 
@@ -76,9 +89,22 @@ RSpec.describe "Tests on ticket type view", type: :feature do
       click_link("ticket_type_#{ticket_type.id}")
       expect(page).to have_current_path(admins_event_ticket_type_path(event, ticket_type))
     end
-
-    it "delete a ticket type" do
-      expect { click_link("delete_#{ticket_type.id}") }.to change(TicketType, :count).by(-1)
+    it "load edit view" do
+      click_link("edit_#{ticket_type.id}")
+      expect(page).to have_current_path(edit_admins_event_ticket_type_path(event, ticket_type))
+    end
+    describe  "delete a ticket type" do
+      it "can be done if event status is created" do
+        expect { click_link("delete_#{ticket_type.id}") }.to change(TicketType, :count).by(-1)
+      end
+      it "cannot be done if event status is launched" do
+        event.update! state: "launched"
+        expect { click_link("delete_#{ticket_type.id}") }.not_to change(TicketType, :count)
+      end
+      it "cannot be done if event status is closed" do
+        event.update! state: "closed"
+        expect { click_link("delete_#{ticket_type.id}") }.not_to change(TicketType, :count)
+      end
     end
   end
 end

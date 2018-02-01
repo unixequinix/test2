@@ -19,7 +19,7 @@ RSpec.describe "Users view", type: :feature do
     end
   end
 
-  describe "actions in user view" do
+  describe "actions in user" do
     before { visit admins_users_path }
 
     it "select a user" do

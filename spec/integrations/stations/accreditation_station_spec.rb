@@ -9,6 +9,7 @@ RSpec.describe "Accreditation stations info view tests", type: :feature do
 
   before(:each) do
     login_as(user, scope: :user)
+    visit admins_event_station_path(event, station)
   end
 
   include_examples "edit station"
@@ -26,6 +27,14 @@ RSpec.describe "Accreditation stations info view tests", type: :feature do
 
     it "new catalog item without price" do
       within("#new_station_catalog_item") do
+        all('#station_catalog_item_catalog_item_id option')[2].select_option
+      end
+      expect { find("input[name=commit]").click }.not_to change(station.station_catalog_items, :count)
+    end
+    
+    it "new catalog item with incorrect price" do
+      within("#new_station_catalog_item") do
+        fill_in 'station_catalog_item_price', with: "NaN"
         all('#station_catalog_item_catalog_item_id option')[2].select_option
       end
       expect { find("input[name=commit]").click }.not_to change(station.station_catalog_items, :count)
@@ -81,7 +90,7 @@ RSpec.describe "Accreditation stations info view tests", type: :feature do
       expect { click_link("delete_#{station_catalog_item.id}") }.to change(station.station_catalog_items, :count).by(-1)
     end
 
-    it "a=cannot be done if event is launched" do
+    it "cannot be done if event is launched" do
       event.update! state: "launched"
       expect { click_link("delete_#{station_catalog_item.id}") }.not_to change(station.station_catalog_items, :count)
     end

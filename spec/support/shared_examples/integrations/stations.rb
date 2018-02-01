@@ -45,18 +45,26 @@ end
 
 RSpec.shared_examples "edit station" do
   describe "edit: " do
+    
+    before(:each) do
+      click_link("edit_station_link")
+    end
+    
     it "can be edited" do
-      visit edit_admins_event_station_path(event, station)
-
       within("#edit_station_#{station.id}") { fill_in 'station_name', with: "FOO" }
       expect { find("input[name=commit]").click }.to change { station.reload.name }.to("FOO")
     end
 
     it "cannot be edited as nameless" do
-      visit edit_admins_event_station_path(event, station)
-
       within("#edit_station_#{station.id}") { fill_in 'station_name', with: "" }
       expect { find("input[name=commit]").click }.not_to change { station.reload.name }.from(station.name)
+    end
+  end
+  
+  describe "clone:" do
+    it "can be done" do
+      expect { click_link("clone_link") }.to change(Station, :count).by(1)
+      expect(page).to have_current_path(admins_event_station_path(event, Station.last.id))
     end
   end
 end

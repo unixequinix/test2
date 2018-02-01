@@ -8,6 +8,7 @@ RSpec.describe "POS stations info view tests", type: :feature do
 
   before(:each) do
     login_as(user, scope: :user)
+    visit admins_event_station_path(event, station)
   end
 
   include_examples "edit station"
@@ -25,6 +26,14 @@ RSpec.describe "POS stations info view tests", type: :feature do
 
     it "new product without price" do
       within("#new_product") { fill_in 'product_name', with: "Beer" }
+      expect { find("input[name=commit]").click }.not_to change(station.products, :count)
+    end
+    
+    it "new product with incorrect price" do
+      within("#new_product") do
+        fill_in 'product_price', with: "NaN"
+        fill_in 'product_name', with: "Beer"
+      end
       expect { find("input[name=commit]").click }.not_to change(station.products, :count)
     end
   end
@@ -45,6 +54,11 @@ RSpec.describe "POS stations info view tests", type: :feature do
 
     it "new product without name" do
       within("#new_product") { fill_in 'product_price', with: "20" }
+      expect { find("input[name=commit]").click }.not_to change(vendor.products, :count)
+    end
+    
+    it "new product with existent name" do
+      within("#new_product") { fill_in 'product_price', with: product_vendor.name }
       expect { find("input[name=commit]").click }.not_to change(vendor.products, :count)
     end
   end
