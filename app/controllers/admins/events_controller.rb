@@ -117,7 +117,7 @@ class Admins::EventsController < Admins::BaseController
 
   def remove_db
     @current_event.update(params[:db] => nil)
-    redirect_to new_admins_event_device_registration(@current_event)
+    redirect_to admins_event_device_registrations_path(@current_event)
   end
 
   def remove_logo

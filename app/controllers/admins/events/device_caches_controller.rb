@@ -4,16 +4,8 @@ class Admins::Events::DeviceCachesController < Admins::Events::BaseController
   def destroy
     @device_cache.file.destroy
     @device_cache.file.clear
-
-    respond_to do |format|
-      if @device_cache.destroy
-        format.html { redirect_to new_admins_event_device_registration(@current_event), notice: t("alerts.destroyed") }
-        format.json { render json: true }
-      else
-        format.html { redirect_to new_admins_event_device_registration(@current_event), alert: @device_cache.errors.full_messages.to_sentence }
-        format.json { render json: { errors: @device_cache.errors }, status: :unprocessable_entity }
-      end
-    end
+    @device_cache.destroy
+    redirect_to admins_event_device_registrations_path(@current_event)
   end
 
   private
