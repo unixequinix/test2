@@ -40,6 +40,38 @@ html
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
         nav.mdl-navigation.global-nav
+          = link_to [:admins, @current_user], class: "mdl-navigation__link", id: "profile_layout_link" do
+            i.mdl-color-text--teal-200.material-icons account_circle
+            | My Profile
+          - if current_user.team
+            = link_to admins_user_team_path(current_user), class: "mdl-navigation__link", id: "teams_layout_link" do
+              i.mdl-color-text--teal-200.material-icons group
+              | My Team
+          = link_to admins_events_path(status: "users"), class: "mdl-navigation__link", id: "events_layout_link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Events
+          = link_to admins_event_series_index_path, class: "mdl-navigation__link", id: "event_series_layout_link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Event Series
+          - if @current_user.glowball?
+            nav.mdl-navigation.global-nav
+              span.nav-title ADMIN
+            = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons markunread_mailbox
+              |  Sidekiq
+            = link_to admins_users_path, class: "mdl-navigation__link", id: "users_layout_link" do
+              i.mdl-color-text--teal-200.material-icons people
+              |  Users
+            = link_to admins_user_team_devices_path(@current_user), class: "mdl-navigation__link", id: "devices_layout_link" do
+              i.mdl-color-text--teal-200.material-icons settings_cell
+              |  Devices
+          = link_to destroy_user_session_path, method: :delete, class: "mdl-navigation__link", id: "log_out_link" do
+            i.mdl-color-text--teal-200.material-icons power_settings_new
+            |  Log out
+
+
+
+
         span.web-version = WEB_VERSION
 
       main.mdl-layout__content
