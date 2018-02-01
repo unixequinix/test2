@@ -68,9 +68,6 @@ html
           = link_to "#settings-modal", class: "mdl-button mdl-button--icon", style: "overflow: visible" do
             span#settings.i.mdl-color-text--white.material-icons settings
             span.mdl-tooltip data-mdl-for="settings" Settings
-            - if @current_event.alerts.unresolved.any?
-              span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
-            div style="width: 10px;"
 
       .mdl-layout__drawer
 
