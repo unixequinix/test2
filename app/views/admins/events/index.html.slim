@@ -25,21 +25,23 @@
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
         .mdl-tabs__tab-bar
-          = link_to "All", "#users-panel", class: "mdl-tabs__tab is-active", id:"filters_users"
-          = link_to "Created", "#created-panel", class: "mdl-tabs__tab", id:"filters_created"
-          = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab", id:"filters_launched"
+          - if @current_user.glowball?
+            = link_to "All", "#all-panel", class: "mdl-tabs__tab", id:"filters_users"
+          = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id:"filters_created"
+          = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab is-active", id:"filters_launched"
           = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id:"filters_closed"
           = link_to "#event-form", class: "mdl-tabs__tab" do
             span.material-icons add_circle_outline
 
         - @events.group_by(&:state).each do |state, events|
-          .mdl-tabs__panel id="#{state}-panel"
+          .mdl-tabs__panel id="#{state}-panel" class="#{'is-active' if state == 'launched'}"
             = render "list", events: events
 
         .mdl-tabs__panel id="event-form"
           = render "form", event: @event
 
-        .mdl-tabs__panel.is-active id="users-panel"
-          = render "list", events: @events
+        - if @current_user.glowball?
+          .mdl-tabs__panel id="all-panel"
+            = render "list", events: Event.all.order(state: :asc, start_date: :desc, name: :asc)
 
   .mdl-layout-spacer

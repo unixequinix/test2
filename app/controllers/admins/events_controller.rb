@@ -6,7 +6,7 @@ class Admins::EventsController < Admins::BaseController
   before_action :set_versions, only: %i[show edit]
 
   def index
-    @q = policy_scope(Event).ransack(params[:q])
+    @q = @current_user.events.ransack(params[:q])
     @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
     authorize(@events)
     @event = Event.new
