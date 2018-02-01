@@ -5,37 +5,6 @@
   = search_form_for @q, url: admins_event_stations_path(@current_event) do |f|
     = f.search_field :name_or_category_or_location_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
-- content_for(:actions) do
-  *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
-    ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to "#station-form", id:"new_station_link" do
-          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons add
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
-
-      li.floaty-list-item
-        button#hide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
-          i.material-icons flip_to_back
-          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="hide_multiple" Hide Selected
-
-      li.floaty-list-item
-        button#unhide_multiple.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored data-type="station"
-          i.material-icons flip_to_front
-          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="unhide_multiple" Unhide Selected
-
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
-
-
-.remodal data-remodal-id="station-form"
-  button.remodal-close data-remodal-action="close"
-  h3.remodal__title New Station
-  = render "form", group: nil
-
-
 .mdl-grid.light-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
@@ -44,6 +13,11 @@
         .mdl-tabs__tab-bar
           - @stations.keys.sort.reverse.each.with_index do |group, index|
             = link_to group.to_s.humanize, "##{group}-panel", class: "mdl-tabs__tab #{'is-active' if index.zero?}"
+          = link_to "#station-form", class: "mdl-tabs__tab" do
+            span.material-icons add_circle_outline
+
+        .mdl-tabs__panel id="station-form"
+          = render "form", group: nil
 
         - @stations.keys.sort.reverse.each.with_index do |group, index|
           .mdl-tabs__panel id="#{group}-panel" class="#{'is-active' if index.zero?}"
@@ -51,6 +25,7 @@
               .mdl-cell.mdl-cell--12-col
                 i.material-icons bookmark_border
                 = group.to_s.humanize
+
             .mdl-card__supporting-text
               .table-responsive
                 table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
