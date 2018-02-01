@@ -1,4 +1,4 @@
-class Transaction < ApplicationRecord
+class Transaction < StatsBase
   include Alertable
 
   belongs_to :event, counter_cache: true
