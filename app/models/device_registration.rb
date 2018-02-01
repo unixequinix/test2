@@ -38,7 +38,6 @@ class DeviceRegistration < ApplicationRecord
     end
   end
 
-
   def status
     case
       when (server_transactions != number_of_transactions) && action != "device_initialization" then "to_check"

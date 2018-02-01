@@ -31,7 +31,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         @devices_usage = devices_usage
         set_devices
 
-        format.html { redirect_to admins_event_device_registration_path(@current_event) }
+        format.html { redirect_to admins_event_device_registrations_path(@current_event) }
         format.json { render json: devices, status: :ok }
         format.js { render action: 'update_devices_usage' }
       else
@@ -53,7 +53,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         @devices_usage = devices_usage
         set_devices
 
-        format.html { redirect_to new_admins_event_device_registration_path(@current_event) }
+        format.html { redirect_to admins_event_device_registrations_path(@current_event) }
         format.json { render json: device_registrations, status: :ok }
         format.js { render action: 'update_devices_usage' }
       else
@@ -99,7 +99,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   def update
     respond_to do |format|
       if @registration.update(permitted_params)
-        format.html { redirect_to new_admins_event_device_registration_path(@current_event), notice: t("alerts.updated") }
+        format.html { redirect_to admins_event_device_registrations_path(@current_event), notice: t("alerts.updated") }
         format.json { render json: @registration }
       else
         format.html { render :index }

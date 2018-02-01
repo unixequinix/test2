@@ -14,7 +14,7 @@
     - search_fields = "mac_or_asset_tracker_cont".to_sym
     - search_key = :q
 
-  = search_form_for search, url: new_admins_event_device_registration_path(@current_event), as: search_key do |s|
+  = search_form_for search, url: admins_event_device_registrations_path(@current_event), as: search_key do |s|
     .mdl-card__title
       i.material-icons search
       .mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
