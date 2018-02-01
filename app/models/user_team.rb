@@ -6,6 +6,8 @@ class UserTeam < ApplicationRecord
   validates :user_id, uniqueness: { scope: %i[team_id] }, allow_nil: true
   validates :email, uniqueness: { scope: %i[team_id] }, format: Devise.email_regexp, allow_blank: true
 
+  scope :leader, -> { where(leader: true) }
+
   private
 
   def users_length

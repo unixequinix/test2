@@ -140,7 +140,7 @@ class Admins::Users::TeamsController < ApplicationController
     end
   end
 
-  def remove_users
+  def remove_users # rubocop:disable Metrics/PerceivedComplexity
     authorize @team
     user = User.find_by(email: user_permitted_params[:email])
 
@@ -154,6 +154,7 @@ class Admins::Users::TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.users.destroy(user)
+        @team.user_teams.order(:created_at).first.update(leader: true) if @team.user_teams.leader.none?
         format.html { redirect_to path, notice: message }
       else
         format.html { redirect_to root_path, alert: 'You should not be here' }
