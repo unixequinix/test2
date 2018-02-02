@@ -68,6 +68,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     anon_customers.each { |anon_customer| anon_customer.transactions.update_all(customer_id: customer.id) }
     anon_customers.each { |anon_customer| anon_customer.gtags.update_all(customer_id: customer.id) }
+    anon_customers.each { |anon_customer| anon_customer.orders.update_all(customer_id: customer.id) }
     anon_customers.each { |anon_customer| anon_customer.tickets.update_all(customer_id: customer.id) }
     anon_customers.each(&:destroy!)
     customer
