@@ -5,7 +5,7 @@ module Transactions
     queue_as :medium_low
 
     def perform(transaction, atts = {})
-      customer = transaction.event.customers.find(atts[:customer_id])
+      customer = transaction.customer
       item = customer.order_items.find_by(counter: transaction.order_item_counter)
       order = item.order
 
