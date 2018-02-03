@@ -72,7 +72,6 @@ Rails.application.routes.draw do
         post :remove_background
         get :create_admin
         get :create_customer_support
-        get :versions
         get :refund_fields
       end
 

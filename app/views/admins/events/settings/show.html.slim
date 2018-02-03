@@ -210,21 +210,4 @@
                       tr
                         td.mdl-data-table__cell--non-numeric Touchpoint
                         td = @current_event.stations.where(category: Station::GROUPS[:touchpoint]).count
-
-        - if policy(@current_event).versions?
-          br
-          .transaction-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title
-              .mdl-cell.mdl-cell--8-col
-                i.material-icons build
-                | Latest Changes
-
-              .mdl-cell.mdl-cell--4-col
-                .tools
-                  .tool-item
-                    = link_to versions_admins_event_path(@current_event) do
-                      span#versions.material-icons layers
-                      span.mdl-tooltip.mdl-tooltip--left data-mdl-for="versions" See All
-
-            .mdl-card__supporting-text = render "admins/events/versions"
   .mdl-layout-spacer

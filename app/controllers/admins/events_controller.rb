@@ -3,7 +3,7 @@ class Admins::EventsController < Admins::BaseController
 
   before_action :set_event, except: %i[index new sample_event create]
   before_action :set_event_series, only: %i[new edit]
-  before_action :set_versions, only: %i[show edit]
+  before_action :set_versions, only: %i[show]
 
   def index
     @q = @current_user.events.ransack(params[:q])
@@ -87,11 +87,6 @@ class Admins::EventsController < Admins::BaseController
     redirect_to admins_events_path(status: params[:status]), notice: t("alerts.destroyed")
   end
 
-  def versions
-    @versions = @current_event.versions.reorder(created_at: :desc).page(params[:page])
-    render layout: "admin_event"
-  end
-
   def sample_event
     @event = SampleEvent.run(@current_user)
     @event.event_registrations.create!(user: current_user, email: current_user.email, role: :promoter)
@@ -154,7 +149,7 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def set_versions
-    @versions = @current_event.versions.reorder(created_at: :desc).limit(10)
+    @versions = @current_event.versions.reorder(created_at: :desc)
   end
 
   def use_time_zone

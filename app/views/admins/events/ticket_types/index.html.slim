@@ -18,6 +18,28 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col
+          i.material-icons bookmark_border
+          | Ticketing Integrations
+
+      .mdl-card__supporting-text
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card
+            tbody
+              tr
+                td.mdl-data-table__cell--non-numeric Eventbrite
+                td = link_to "Connect", admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+              tr
+                td.mdl-data-table__cell--non-numeric Universe
+                td = link_to "Connect", admins_event_universe_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+  .mdl-layout-spacer
+
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col

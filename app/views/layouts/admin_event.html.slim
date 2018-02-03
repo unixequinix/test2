@@ -64,10 +64,6 @@ html
               span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
             div style="width: 10px;"
 
-          = link_to "#settings-modal", class: "mdl-button mdl-button--icon", style: "overflow: visible" do
-            span#settings.i.mdl-color-text--white.material-icons settings
-            span.mdl-tooltip data-mdl-for="settings" Settings
-
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
@@ -135,9 +131,6 @@ html
       main.mdl-layout__content
         #notifications
           = render 'layouts/notifications'
-
-        .page-content.remodal-bg
-          = render "layouts/settings"
           = yield
 
   = yield(:actions)

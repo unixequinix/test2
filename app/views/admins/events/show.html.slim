@@ -1,205 +1,19 @@
 = render "admins/events/event_modals"
 
-- content_for(:title) do
-  | Dashboard
-
 .mdl-grid.light-grid
-  .mdl-cell.mdl-cell--12-col
-    .mdl-grid
-      .mdl-cell.mdl-cell--8-col
-        .mdl-grid
-          .mdl-cell.mdl-cell--4-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons loyalty
-                  | Credentials
-              .mdl-card__supporting-text
-                .table-responsive
-                  table.mdl-data-table.mdl-js-data-table.within-card
-                    tbody
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags]
-                        td
-                          = @current_event.gtags_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :gtag] do
-                            span.material-icons add_circle_outline
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+        .mdl-tabs__tab-bar
+          = link_to "Dashboard", "#dashboard-panel", class: "mdl-tabs__tab is-active"
+          = link_to "History", "#history-panel", class: "mdl-tabs__tab"
+          = link_to "Resources", "#resources-panel", class: "mdl-tabs__tab"
+          = link_to "Settings", "#settings-panel", class: "mdl-tabs__tab"
 
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets]
-                        td
-                          = @current_event.tickets_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :ticket] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types]
-                        td
-                          = @current_event.ticket_types_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :ticket_type] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Companies", [:admins, @current_event, :companies]
-                        td
-                          = @current_event.companies_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :company] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers]
-                        td = @current_event.customers_count
-
-          .mdl-cell.mdl-cell--4-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons import_export
-                  | Store
-              .mdl-card__supporting-text
-                .table-responsive
-                  table.mdl-data-table.mdl-js-data-table.within-card
-                    tbody
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions]
-                        td
-                          = @current_event.operator_permissions_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :operator_permission] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Accesses", [:admins, @current_event, :accesses]
-                        td
-                          = @current_event.accesses_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :access] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Packs", [:admins, @current_event, :packs]
-                        td
-                          = @current_event.packs_count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :pack] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Orders", [:admins, @current_event, :orders]
-                        td
-                          = @current_event.orders_count
-                      tr
-                        td.mdl-data-table__cell--non-numeric = link_to "Refunds", [:admins, @current_event, :refunds]
-                        td = @current_event.refunds_count
-
-
-
-          .mdl-cell.mdl-cell--4-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons local_activity
-                  | Stations - #{@current_event.stations_count}
-              .mdl-card__supporting-text
-
-                .table-responsive
-                  table.mdl-data-table.mdl-js-data-table.within-card
-                    tbody
-                      tr
-                        td.mdl-data-table__cell--non-numeric =link_to "Access", admins_event_stations_path(@current_event, group: "access")
-                        td
-                          = @current_event.stations.where(category: Station::GROUPS[:access]).count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :station, group: "access"] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric =link_to "Monetary", admins_event_stations_path(@current_event, group: "monetary")
-                        td
-                          = @current_event.stations.where(category: Station::GROUPS[:monetary]).count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :station, group: "monetary"] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric =link_to "Management", admins_event_stations_path(@current_event, group: "event_management")
-                        td
-                          = @current_event.stations.where(category: Station::GROUPS[:event_management]).count
-                          | &nbsp;
-                          = link_to [:new, :admins, @current_event, :station, group: "event_management"] do
-                            span.material-icons add_circle_outline
-                      tr
-                        td.mdl-data-table__cell--non-numeric Glownet
-                        td = @current_event.stations.where(category: Station::GROUPS[:glownet]).count
-                      tr
-                        td.mdl-data-table__cell--non-numeric Touchpoint
-                        td = @current_event.stations.where(category: Station::GROUPS[:touchpoint]).count
-
-          .mdl-cell.mdl-cell--4-col
-            = link_to money_recon_admins_event_reports_path(@current_event) do
-              .customer-card.mdl-card.mdl-shadow--2dp
-                .mdl-card__title.mdl-card--expand
-                  h3.mdl-card__title-text = number_to_event_currency(@total_money)
-                .mdl-card__supporting-text
-                  span.good_info = "Money Income"
-                  br
-                  span = "Money Reconciliation"
-          .mdl-cell.mdl-cell--4-col
-            = link_to cashless_admins_event_reports_path(@current_event) do
-              .customer-card.mdl-card.mdl-shadow--2dp
-                .mdl-card__title.mdl-card--expand
-                  h3.mdl-card__title-text = number_to_token(@total_credits)
-                .mdl-card__supporting-text
-                  span.good_info = "Credits left over"
-                  br
-                  span = "Cashless Report"
-          .mdl-cell.mdl-cell--4-col
-            = link_to products_sale_admins_event_reports_path(@current_event) do
-              .customer-card.mdl-card.mdl-shadow--2dp
-                .mdl-card__title.mdl-card--expand
-                  h3.mdl-card__title-text = number_to_token(@total_products_sale)
-                .mdl-card__supporting-text
-                  span.good_info = "Total Sale"
-                  br
-                  span = "Product Sale Report"
-
-          .mdl-cell.mdl-cell--4-col
-            = link_to gates_admins_event_reports_path(@current_event) do
-              .customer-card.mdl-card.mdl-shadow--2dp
-                .mdl-card__title.mdl-card--expand
-                  h3.mdl-card__title-text = @total_checkins
-                .mdl-card__supporting-text
-                  span.good_info = "Total Check-in's"
-                  br
-                  span = "Gates Report"
-
-          .mdl-cell.mdl-cell--4-col
-            = link_to activations_admins_event_reports_path(@current_event) do
-              .customer-card.mdl-card.mdl-shadow--2dp
-                .mdl-card__title.mdl-card--expand
-                  h3.mdl-card__title-text = @total_activations
-                .mdl-card__supporting-text
-                  span.good_info = "Total Activations"
-                  br
-                  span = "Activations Detail"
-
-          .mdl-cell.mdl-cell--4-col
-            = link_to devices_admins_event_reports_path(@current_event) do
-              .customer-card.mdl-card.mdl-shadow--2dp
-                .mdl-card__title.mdl-card--expand
-                  h3.mdl-card__title-text = @total_devices
-                .mdl-card__supporting-text
-                  span.good_info = "Total Devices Used"
-                  br
-                  span = "Devices Used Detail"
-          .mdl-cell.mdl-cell--12-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons import_export
-                  | Credit Transactions #{@token_symbol}
-              canvas#myChart
-
-      .mdl-cell.mdl-cell--4-col
-        .mdl-grid
-          .mdl-cell.mdl-cell--12-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+        #dashboard-panel.mdl-tabs__panel.is-active
+          .mdl-grid
+            .mdl-cell.mdl-cell--12-col
               .mdl-card__title
                 .mdl-cell.mdl-cell--6-col
                   i.material-icons flight_takeoff
@@ -213,39 +27,204 @@
                     = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                       | Close
 
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons bookmark_border
-                  | Ticketing Integrations
+            .mdl-cell.mdl-cell--4-col
+              = link_to money_recon_admins_event_reports_path(@current_event) do
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = number_to_event_currency(@total_money)
+                  .mdl-card__supporting-text
+                    span.good_info = "Money Income"
+                    br
+                    span = "Money Reconciliation"
+            .mdl-cell.mdl-cell--4-col
+              = link_to cashless_admins_event_reports_path(@current_event) do
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = number_to_token(@total_credits)
+                  .mdl-card__supporting-text
+                    span.good_info = "Credits left over"
+                    br
+                    span = "Cashless Report"
+            .mdl-cell.mdl-cell--4-col
+              = link_to products_sale_admins_event_reports_path(@current_event) do
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = number_to_token(@total_products_sale)
+                  .mdl-card__supporting-text
+                    span.good_info = "Total Sale"
+                    br
+                    span = "Product Sale Report"
 
-              .mdl-card__supporting-text
-                .table-responsive
-                  table.mdl-data-table.mdl-js-data-table.within-card
-                    tbody
-                      tr
-                        td.mdl-data-table__cell--non-numeric Eventbrite
-                        td = link_to "Connect", admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
-                      tr
-                        td.mdl-data-table__cell--non-numeric Universe
-                        td = link_to "Connect", admins_event_universe_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+            .mdl-cell.mdl-cell--4-col
+              = link_to gates_admins_event_reports_path(@current_event) do
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = @total_checkins
+                  .mdl-card__supporting-text
+                    span.good_info = "Total Check-in's"
+                    br
+                    span = "Gates Report"
 
+            .mdl-cell.mdl-cell--4-col
+              = link_to activations_admins_event_reports_path(@current_event) do
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = @total_activations
+                  .mdl-card__supporting-text
+                    span.good_info = "Total Activations"
+                    br
+                    span = "Activations Detail"
 
-            - if policy(@current_event).versions? && @versions.any?
-              br
+            .mdl-cell.mdl-cell--4-col
+              = link_to devices_admins_event_reports_path(@current_event) do
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = @total_devices
+                  .mdl-card__supporting-text
+                    span.good_info = "Total Devices Used"
+                    br
+                    span = "Devices Used Detail"
+            .mdl-cell.mdl-cell--12-col
               .transaction-card-wide.mdl-card.mdl-shadow--2dp
                 .mdl-card__title
-                  .mdl-cell.mdl-cell--8-col
-                    i.material-icons build
-                    | Latest Changes
+                  .mdl-cell.mdl-cell--12-col
+                    i.material-icons import_export
+                    | Credit Transactions #{@token_symbol}
+                canvas#myChart
 
-                  .mdl-cell.mdl-cell--4-col
-                    .tools
-                      .tool-item
-                        = link_to versions_admins_event_path(@current_event) do
-                          span#versions.material-icons layers
-                          span.mdl-tooltip.mdl-tooltip--left data-mdl-for="versions" See All
+        #history-panel.mdl-tabs__panel
+          = render "versions"
 
-                .mdl-card__supporting-text = render "versions"
+
+
+        #resources-panel.mdl-tabs__panel
+          .mdl-grid
+            .mdl-cell.mdl-cell--4-col
+              .transaction-card-wide.mdl-card.mdl-shadow--2dp
+                .mdl-card__title
+                  .mdl-cell.mdl-cell--12-col
+                    i.material-icons loyalty
+                    | Credentials
+                .mdl-card__supporting-text
+                  .table-responsive
+                    table.mdl-data-table.mdl-js-data-table.within-card
+                      tbody
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags]
+                          td
+                            = @current_event.gtags_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :gtag] do
+                              span.material-icons add_circle_outline
+
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets]
+                          td
+                            = @current_event.tickets_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :ticket] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types]
+                          td
+                            = @current_event.ticket_types_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :ticket_type] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Companies", [:admins, @current_event, :companies]
+                          td
+                            = @current_event.companies_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :company] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers]
+                          td = @current_event.customers_count
+
+            .mdl-cell.mdl-cell--4-col
+              .transaction-card-wide.mdl-card.mdl-shadow--2dp
+                .mdl-card__title
+                  .mdl-cell.mdl-cell--12-col
+                    i.material-icons import_export
+                    | Store
+                .mdl-card__supporting-text
+                  .table-responsive
+                    table.mdl-data-table.mdl-js-data-table.within-card
+                      tbody
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions]
+                          td
+                            = @current_event.operator_permissions_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :operator_permission] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Accesses", [:admins, @current_event, :accesses]
+                          td
+                            = @current_event.accesses_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :access] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Packs", [:admins, @current_event, :packs]
+                          td
+                            = @current_event.packs_count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :pack] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Orders", [:admins, @current_event, :orders]
+                          td
+                            = @current_event.orders_count
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Refunds", [:admins, @current_event, :refunds]
+                          td = @current_event.refunds_count
+
+
+            .mdl-cell.mdl-cell--4-col
+              .transaction-card-wide.mdl-card.mdl-shadow--2dp
+                .mdl-card__title
+                  .mdl-cell.mdl-cell--12-col
+                    i.material-icons local_activity
+                    | Stations - #{@current_event.stations_count}
+                .mdl-card__supporting-text
+
+                  .table-responsive
+                    table.mdl-data-table.mdl-js-data-table.within-card
+                      tbody
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Access", admins_event_stations_path(@current_event, group: "access")
+                          td
+                            = @current_event.stations.where(category: Station::GROUPS[:access]).count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :station, group: "access"] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Monetary", admins_event_stations_path(@current_event, group: "monetary")
+                          td
+                            = @current_event.stations.where(category: Station::GROUPS[:monetary]).count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :station, group: "monetary"] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Management", admins_event_stations_path(@current_event, group: "event_management")
+                          td
+                            = @current_event.stations.where(category: Station::GROUPS[:event_management]).count
+                            | &nbsp;
+                            = link_to [:new, :admins, @current_event, :station, group: "event_management"] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric Glownet
+                          td = @current_event.stations.where(category: Station::GROUPS[:glownet]).count
+                        tr
+                          td.mdl-data-table__cell--non-numeric Touchpoint
+                          td = @current_event.stations.where(category: Station::GROUPS[:touchpoint]).count
+
+        #settings-panel.mdl-tabs__panel
+          = render "layouts/settings"
+
+  .mdl-layout-spacer
 
 javascript:
   var data = #{ @record_credit_sales.html_safe }

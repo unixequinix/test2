@@ -1,34 +1,46 @@
-.papertrail_changeset
-  - @versions.each do |version|
-    - changes = version.changeset
-    - changes.delete("updated_at")
-    - user = User.find_by(id: version.whodunnit)
+.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-card__supporting-text
+      .papertrail_changeset
+        - @versions.each do |version|
+          - changes = version.changeset
+          - changes.delete("updated_at")
+          - user = User.find_by(id: version.whodunnit)
 
 
-    - changes.each do |attribute, values|
-      .papertrail_change
-        .papertrail_avatar
-          - if user
-            = image_tag user.avatar.url(:thumb)
-          - else
-            = image_tag "default_user_avatar.png"
-        .papertrail_body
-          | #{user ? link_to(user.username, [:admins, user]) : "Unknown"} updated #{attribute.humanize} from
-          '
-          - if attribute.eql?("event_serie_id")
-            - from_serie = EventSerie.find_by(id: values.first)
-            - to_serie = EventSerie.find_by(id: values.last)
-            b = from_serie ? link_to(from_serie.name, [:admins, from_serie]) : "Blank"
-            '
-            | to
-            '
-            b = to_serie ? link_to(to_serie.name, [:admins, to_serie]) : "Blank"
-          - else
-            b = values.first.present? ? values.first : "Blank"
-            '
-            | to
-            '
-            b = values.last.present? ? values.last : "Blank"
+          - changes.each do |attribute, values|
+            .papertrail_change
+              .papertrail_avatar
+                - if user
+                  = image_tag user.avatar.url(:thumb)
+                - else
+                  = image_tag "default_user_avatar.png"
+              .papertrail_body
+                | #{user ? link_to(user.username, [:admins, user]) : "Unknown"} updated #{attribute.humanize} from
+                '
+                - if attribute.eql?("refund_fields")
+                  b = values.first.present? ? values.first.to_sentence : "Blank"
+                  '
+                  | to
+                  '
+                  b = values.last.present? ? values.last.to_sentence : "Blank"
 
-          .papertrail_timestamp
-            | #{time_ago_in_words version.created_at} ago
+                - elsif attribute.eql?("event_serie_id")
+                  - from_serie = EventSerie.find_by(id: values.first)
+                  - to_serie = EventSerie.find_by(id: values.last)
+                  b = from_serie ? link_to(from_serie.name, [:admins, from_serie]) : "Blank"
+                  '
+                  | to
+                  '
+                  b = to_serie ? link_to(to_serie.name, [:admins, to_serie]) : "Blank"
+                - else
+                  b = values.first.present? ? values.first : "Blank"
+                  '
+                  | to
+                  '
+                  b = values.last.present? ? values.last : "Blank"
+
+                .papertrail_timestamp
+                  | #{time_ago_in_words version.created_at} ago
+  .mdl-layout-spacer
