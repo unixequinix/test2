@@ -72,9 +72,6 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     anon_customers.each { |anon_customer| anon_customer.tickets.update_all(customer_id: customer.id) }
     anon_customers.each(&:destroy!)
 
-    max_counter = customer.order_items.where(redeemed: true).maximum(:counter)
-    customer.order_items.where(redeemed: false).each.with_index { |item, index| item.update!(counter: max_counter.to_i + index + 1)}
-
     customer
   end
 
