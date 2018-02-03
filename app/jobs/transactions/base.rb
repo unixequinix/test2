@@ -17,8 +17,7 @@ module Transactions
         begin
           transaction.update! params.slice(*klass.column_names.compact.map(&:to_sym))
         rescue ActiveRecord::InvalidForeignKey
-          customer_id = Event.find(params[:event_id]).gtags.find_by(tag_uid: params[:customer_tag_uid]).customer_id
-          transaction.update! params.slice(*klass.column_names.compact.map(&:to_sym)).merge(customer_id: customer_id)
+          transaction.update! params.slice(*klass.column_names.compact.map(&:to_sym)).merge(customer_id: nil)
         end
 
       rescue ActiveRecord::RecordNotUnique
