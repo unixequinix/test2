@@ -2,20 +2,31 @@ require "rails_helper"
 
 RSpec.describe Refund, type: :model do
   let(:event) { build(:event, credit: build(:credit)) }
-  subject { build(:refund, event: event) }
+  let(:customer) { create(:customer, event: event, anonymous: false) }
+  let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
 
-  it "has a valid factory" do
-    expect(subject).to be_valid
+  subject { build(:refund, event: event, customer: customer, amount: 10, fee: 1) }
+
+  describe "The factory" do
+    before do
+      gtag.update!(credits: 150)
+    end
+
+    it "is a valid factory" do
+      expect(subject).to be_valid
+    end
   end
 
   describe ".complete!" do
     let(:credit) { create(:credit, value: 10) }
     let(:event) { create(:event) }
     let(:customer) { create(:customer, event: event, anonymous: false) }
+    let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
     let(:customer_portal) { create(:station, event: event, category: "customer_portal", name: "customer_portal") }
     subject { create(:refund, event: event, customer: customer, gateway: "bank_account") }
 
     before do
+      gtag.update!(credits: 150)
       event.credit = credit
       credit.station_catalog_items.create! station: customer_portal, price: "100"
     end
@@ -77,15 +88,15 @@ RSpec.describe Refund, type: :model do
     before { allow(event.credit).to receive(:value).and_return(10) }
 
     it "calculates amount" do
-      expect(subject.price_money).to eql(subject.amount * 10)
+      expect(subject.price_money).to eql(subject.amount.to_f * 10)
     end
 
     it "calculates fee" do
-      expect(subject.fee_money).to eql(subject.fee * 10)
+      expect(subject.fee_money).to eql(subject.fee.to_f * 10)
     end
 
     it "calculates total" do
-      expect(subject.total_money).to eql(subject.total * 10)
+      expect(subject.total_money).to eql(subject.total.to_f * 10)
     end
   end
 

@@ -164,7 +164,11 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
   end
 
   describe "GET #refunds" do
-    before { create_list(:refund, 3, event: event, customer: customer) }
+    let(:new_gtag) { create(:gtag, event: event, customer: customer) }
+    before do
+      new_gtag.update!(credits: 150)
+      create_list(:refund, 3, event: event, customer: customer)
+    end
 
     it "returns a success response" do
       get :refunds, params: atts

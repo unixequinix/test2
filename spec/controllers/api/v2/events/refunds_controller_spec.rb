@@ -5,15 +5,19 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
   let!(:customer_portal) { create(:station, category: "customer_portal", event: event) }
   let(:user) { create(:user) }
   let(:customer) { create(:customer, event: event) }
+  let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
   let(:refund) { create(:refund, event: event, customer: customer) }
 
   let(:invalid_attributes) { { amount: nil } }
   let(:valid_attributes) { { amount: 100, fields: { iban: "barrr", swift: "fooo" }, customer_id: customer.id, gateway: "paypal" } }
 
-  before { token_login(user, event) }
+  before do
+    token_login(user, event)
+    gtag.update!(credits: 150)
+  end
 
   describe "GET #index" do
-    before { create_list(:refund, 10, event: event) }
+    before { create_list(:refund, 3, event: event, customer: customer) }
 
     it "returns a success response" do
       get :index, params: { event_id: event.id }
@@ -22,11 +26,14 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
 
     it "returns all refunds" do
       get :index, params: { event_id: event.id }
-      expect(json.size).to be(10)
+      expect(json.size).to be(3)
     end
 
     it "does not return refunds from another event" do
-      new_refund = create(:refund)
+      new_event = create(:event, open_api: true, state: "created")
+      new_customer = create(:customer, event: new_event)
+      create(:gtag, customer: new_customer, event: new_event, credits: 150)
+      new_refund = create(:refund, customer: new_customer, event: new_event, amount: 10, fee: 0)
       get :index, params: { event_id: event.id }
       expect(json).not_to include(obj_to_json_v2(new_refund, "RefundSerializer"))
     end

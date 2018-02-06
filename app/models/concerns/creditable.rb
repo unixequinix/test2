@@ -10,19 +10,19 @@ module Creditable
   end
 
   def total_formatted
-    format("%.2f", total)
+    format("%.2f", total.to_f)
   end
 
   def total
-    amount + fee
+    amount.to_f + fee.to_f
   end
 
   def fee_money
-    fee * event.credit.value
+    fee.to_f * event.credit.value
   end
 
   def total_money
-    total * event.credit.value
+    total.to_f * event.credit.value
   end
 
   private

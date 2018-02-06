@@ -13,6 +13,7 @@ class Refund < ApplicationRecord
   validate :extra_params_fields
 
   validate :correct_iban_and_swift, if: :iban
+  validate :balance_checker
 
   validate_associations
 
@@ -59,5 +60,12 @@ class Refund < ApplicationRecord
     event.refund_fields.each do |field|
       errors.add(:fields, "Field #{field} not found") if fields[field.to_s].blank?
     end
+  end
+
+  private
+
+  def balance_checker
+    return unless customer
+    errors[:base] << "Customer does not have enough balance on the account" if customer.credits < total
   end
 end
