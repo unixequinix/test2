@@ -77,7 +77,7 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def valid_balance?
     positive = (global_credits && global_refundable_credits) >= 0
-    (active_gtag.present? && active_gtag&.valid_balance? && positive
+    active_gtag&.valid_balance? && !active_gtag&.banned? && positive
   end
 
   def registered?
