@@ -1,5 +1,10 @@
 .mdl-tabs__panel.is-active id="#{name}_report"
 .content-grid.mdl-grid
+  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--2-col
+    button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
+      | RAW DATA
+.content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col.reports-table
     #table
@@ -25,6 +30,24 @@ javascript:
        rows: rows,
        rendererName: "Table",
        aggregators: { [name]: function () { return sum(frFormat)(metric) } }
+    });
+
+    $(".raw-button").click(function(){
+      var fields = Object.keys(data[0])
+      var replacer = function(key, value) { return value === null ? '' : value }
+      var csv = data.map(function(row){
+        return fields.map(function(fieldName){
+          return JSON.stringify(row[fieldName], replacer)
+        }).join(',')
+      })
+      csv.unshift(fields.join(','))
+      csv = csv.join('\r\n');
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+      hiddenElement.target = '_blank';
+      hiddenElement.download = "#{ name }" + '_raw_data.csv';
+      hiddenElement.click();
+
     });
 
   });
