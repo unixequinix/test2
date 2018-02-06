@@ -71,7 +71,7 @@ class Gtag < ApplicationRecord
   end
 
   def valid_balance?
-    credits == final_balance && refundable_credits == final_refundable_balance
+    credits == final_balance && refundable_credits == final_refundable_balance && !banned?
   end
 
   def assigned?
