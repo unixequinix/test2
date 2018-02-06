@@ -1,12 +1,34 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
   include ReportsHelper
 
-  before_action :set_station, :set_variables, except: %i[index new create]
+  before_action :set_station, except: %i[index new create]
   before_action :set_groups, only: %i[index new create edit update]
 
-  def reports
+  def index
+    @q = @current_event.stations.includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
+                       .order(:hidden, :category, :name)
+                       .where.not(category: "touchpoint")
+                       .ransack(params[:q])
+    @stations = @q.result
+    authorize @stations
+    @station = @current_event.stations.new
+    @stations = @stations.group_by(&:group)
+  end
+
+  def show # rubocop:disable Metrics/AbcSize
+    authorize @station
     @load_reports_resources = true
-    authorize(:poke, :reports?)
+
+    @items = @station.all_station_items
+    @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
+    @transactions = @station.transactions
+    @pokes = @station.pokes
+    @sales = - @station.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
+    @sales_credits = - @station.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
+    @operators = @station.pokes.pluck(:operator_id).uniq.count
+    @devices = @station.pokes.pluck(:device_id).uniq.count
+    @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types).includes(:company)
+    @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types).includes(:company)
 
     money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
     @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators)
@@ -20,30 +42,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @access_control = prepare_pokes(access_cols, @station.pokes.access)
     ticket_cols = ["Action", "Catalog Item", "Total Tickets", "Money", "Event Day", "Operator UID", "Operator Name", "Device"]
     @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type)
-  end
-
-  def index
-    @q = @current_event.stations.includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
-                       .order(:hidden, :category, :name)
-                       .where.not(category: "touchpoint")
-                       .ransack(params[:q])
-    @stations = @q.result
-    authorize @stations
-    @station = @current_event.stations.new
-    @stations = @stations.group_by(&:group)
-  end
-
-  def show
-    authorize @station
-    @items = @station.all_station_items
-    @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
-    @transactions = @station.transactions
-    @sales = - @station.pokes.where(credit: @all_credits).sales.is_ok.sum(:credit_amount)
-    @sales_credits = - @station.pokes.where(credit: @credit).sales.is_ok.sum(:credit_amount)
-    @operators = @station.pokes.pluck(:operator_id).uniq.count
-    @devices = @station.pokes.pluck(:device_id).uniq.count
-    @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types).includes(:company)
-    @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types).includes(:company)
   end
 
   def new
@@ -108,12 +106,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def clone
     @station = @station.deep_clone(include: %i[station_catalog_items products topup_credits access_control_gates], validate: false)
     index = @station.name.index(' - ')
-    # TODO: Please, please. This is fucking embarrassing code
-    name = if index.nil?
-             @station.name
-           else
-             @station.name.byteslice(0...index)
-           end
+    name = index.nil? ? @station.name : @station.name.byteslice(0...index)
     @station.name = "#{name} - #{@current_event.stations.where('stations.name LIKE :l_name', l_name: "#{name}%").count}"
     @station.save!
     redirect_to [:admins, @current_event, @station], notice: t("alerts.created")
@@ -152,11 +145,5 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden, ticket_type_ids: [])
-  end
-
-  def set_variables
-    @credit = @current_event.credit
-    @virtual = @current_event.virtual_credit
-    @all_credits = [@credit, @virtual]
   end
 end

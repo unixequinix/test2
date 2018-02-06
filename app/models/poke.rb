@@ -100,6 +100,21 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
+  def self.totals(event)
+    # TODO: change checkins from tickets to checkin pokes
+    {
+      money: event.pokes.is_ok.sum(:monetary_total_price),
+      credits: event.pokes.where(credit: event.credits).is_ok.sum(:credit_amount),
+      product_sales: -event.pokes.where(credit: event.credits).sales.is_ok.sum(:credit_amount),
+      checkins: event.tickets.where(redeemed: true).count,
+      activations: PokesQuery.new(event).activations,
+      devices: event.pokes.is_ok.devices.map { |h| h["total_devices"] }.compact.sum,
+      record_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
+      top_products: event.pokes.top_products.where(credit: event.credits).to_json,
+      top_quantity: PokesQuery.new(event).top_quantities
+    }
+  end
+
   def self.event_day_query_as_event_day
     "#{event_day_query}  as event_day"
   end

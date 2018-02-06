@@ -1,18 +1,6 @@
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Product Sale for #{station.name}
-    .mdl-grid
-      #products
-  .mdl-layout-spacer
+= render "admins/events/reports/report_card", title: "Product Sale", chart_id: "products"
 
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Sale Stock
-    .mdl-grid
-      #products_stock
-  .mdl-layout-spacer
+= render "admins/events/reports/report_card", title: "Sales Stock", chart_id: "products_stock"
 
 javascript:
     $(function () {
@@ -30,13 +18,13 @@ javascript:
             aggregators: { "Credits": function () { return tpl.sum(frFormat_1)(["Credits"]) }}
         });
 
-        var products_stock = jQuery.parseJSON('#{ escape_javascript(products_stock.html_safe)}'); 
- 
-        $("#products_stock").pivotUI(products_stock, { 
-            renderers: renderers, 
-            cols: ["Event Day"], rows: ["Product Name"], 
-            rendererName: "Table", 
-            aggregators: { "Quantity": function () { return tpl.sum(frFormat)(["Quantity"]) } 
-            } 
+        var products_stock = jQuery.parseJSON('#{ escape_javascript(products_stock.html_safe)}');
+
+        $("#products_stock").pivotUI(products_stock, {
+            renderers: renderers,
+            cols: ["Event Day"], rows: ["Product Name"],
+            rendererName: "Table",
+            aggregators: { "Quantity": function () { return tpl.sum(frFormat)(["Quantity"]) }
+            }
         });
     });

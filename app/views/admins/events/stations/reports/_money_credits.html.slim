@@ -1,18 +1,5 @@
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Money in #{station.name}
-    .mdl-grid
-      #money
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Credits
-    .mdl-grid
-      #credits
-  .mdl-layout-spacer
+= render "admins/events/reports/report_card", title: "Money", chart_id: "money"
+= render "admins/events/reports/report_card", title: "Credits", chart_id: "credits"
 
 javascript:
     $(function () {

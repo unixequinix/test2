@@ -1,10 +1,4 @@
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Money in #{station.name}
-    .mdl-grid
-      #money
-  .mdl-layout-spacer
+= render "admins/events/reports/report_card", title: "Money in #{station.name}", chart_id: "money"
 
 javascript:
     $(function () {

@@ -2,7 +2,7 @@ class Admins::Events::AnalyticsController < Admins::Events::BaseController
   # rubocop:disable all
   include ReportsHelper
 
-  before_action :load_reports_resources, :set_variables
+  before_action :load_reports_resources
   before_action :skip_authorization, only: %i[money access credits checkin sales]
 
   def show
@@ -41,15 +41,6 @@ class Admins::Events::AnalyticsController < Admins::Events::BaseController
 
   def load_reports_resources
     @load_reports_resources = true
-  end
-
-  def set_variables
-    @credit = @current_event.credit
-    @virtual = @current_event.virtual_credit
-    @all_credits = [@credit, @virtual]
-
-    @token_symbol = @current_event.credit.symbol
-    @currency_symbol = @current_event.currency_symbol
   end
 
   private

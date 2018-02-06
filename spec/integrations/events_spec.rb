@@ -1,5 +1,4 @@
 require 'rails_helper'
-
 RSpec.describe "Events in the admin panel", type: :feature do
   let(:user) { create(:user, role: :admin) }
   let(:event) { create(:event, state: "created") }

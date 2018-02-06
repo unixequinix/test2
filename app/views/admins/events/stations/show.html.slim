@@ -11,10 +11,6 @@
   *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
     ul.floaty-list#actions-list
       li.floaty-list-item
-        = link_to admins_event_station_reports_path(@current_event, @station) do
-          button#reports.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons show_chart
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="reports" Reports
       - unless @station.category.eql?("customer_portal")
         li.floaty-list-item
           = link_to edit_admins_event_station_path(@current_event, @station), id:"edit_station_link" do
@@ -37,7 +33,7 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-- if @transactions.any? and @station.type == 'pos'
+- if @station.type == 'pos' and !@pokes.nil?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
@@ -66,7 +62,7 @@
               h3.mdl-card__title-text = number_to_token @sales / @operators
             .mdl-card__supporting-text
               | Avg Sale Per Operator
-              .small = "(By #{@transactions.pluck(:operator_tag_uid).uniq.count} operators)"
+              .small = "(By #{@pokes.pluck(:operator_gtag_id).uniq.count} operators)"
     .mdl-layout-spacer
 
 .content-grid.mdl-grid
@@ -123,6 +119,19 @@
               = render 'ticket_types', resources: @current_ticket_types, form_disable: true
     .mdl-layout-spacer
 
+-unless @pokes.nil?
+  - if @station.type == 'pos'
+    = render "admins/events/stations/reports/pos", station: @station, products: @products, products_stock: @products_stock
+  - if @station.type == 'access'
+    = render "admins/events/stations/reports/access", station: @station, access_control: @access_control
+  - if @station.type == 'credential'
+    = render "admins/events/stations/reports/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
+  - if @station.type == 'money_credit'
+    = render "admins/events/stations/reports/money_credits", station: @station, money: @money, credits: @credits
+  - if @station.type == 'money'
+    = render "admins/events/stations/reports/money", station: @station, money: @money
+  - if @station.type == 'box_office'
+    = render "admins/events/stations/reports/box_office", station: @station, money: @money, checkin_ticket_type: @checkin_ticket_type
+
   javascript:
       $(document).on('ready', function() { ticket_types_draggable_table() });
-

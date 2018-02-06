@@ -1,11 +1,4 @@
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Access Control for #{station.name}
-    .mdl-grid
-      #access_control
-  .mdl-layout-spacer
-
+= render "admins/events/reports/report_card", title: "Access Control for #{station.name}", chart_id: "access_control"
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
@@ -23,7 +16,6 @@ javascript:
                 "Access": function () {
                     return tpl.sum(frFormat)(["Access"])}
                 }
-
 
         });
 
