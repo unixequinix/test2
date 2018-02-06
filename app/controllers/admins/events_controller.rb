@@ -3,7 +3,7 @@ class Admins::EventsController < Admins::BaseController
 
   before_action :set_event, except: %i[index new sample_event create]
   before_action :set_event_series, only: %i[new edit]
-  before_action :set_versions, only: %i[show]
+  before_action :set_versions_and_totals, only: %i[show]
 
   def index
     @q = @current_user.events.ransack(params[:q])
@@ -27,7 +27,6 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def show
-    @totals = Poke.totals(@current_event)
     render layout: "admin_event"
   end
 
@@ -46,12 +45,16 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def update
+    params[:event] ||= {}
+    params[:event][:refund_fields] = [] if params[:event].blank?
+
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
         format.html { redirect_to [:admins, @current_event], notice: t("alerts.updated") }
         format.json { render json: @current_event }
       else
-        format.html { render :edit, layout: "admin_event" }
+        set_versions_and_totals
+        format.html { render :show, layout: "admin_event" }
         format.json { render json: @current_event.errors.to_json, status: :unprocessable_entity }
       end
     end
@@ -131,8 +134,9 @@ class Admins::EventsController < Admins::BaseController
     authorize(@current_event)
   end
 
-  def set_versions
+  def set_versions_and_totals
     @versions = @current_event.versions.reorder(created_at: :desc)
+    @totals = Poke.totals(@current_event)
   end
 
   def use_time_zone
