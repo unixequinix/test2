@@ -17,17 +17,25 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
   end
 
   def create
-    devices = Device.where(id: permitted_params["device_ids"]).map do |device|
-      device_registration = @current_event.device_registrations.find_or_create_by(device_id: device.id)
-      authorize device_registration
+    message = t("alerts.created")
+    message_style = :notice
 
-      initialization_type = params[:device_registration][:action] || permitted_params["initialization_type"].presence || @actions.first.to_s
-      device_registration.update(allowed: false, initialization_type: initialization_type)
+    devices = Device.where(id: permitted_params["device_ids"]).map do |device|
+      if device.device_registrations.where(allowed: false).none?
+        device_registration = @current_event.device_registrations.find_or_create_by(device_id: device.id)
+        authorize device_registration
+        initialization_type = params[:device_registration][:action] || permitted_params["initialization_type"].presence || @actions.first.to_s
+        device_registration.update(allowed: false, initialization_type: initialization_type)
+      else
+        skip_authorization
+        message = "Unable to add the device. Device already belongs to another event."
+        message_style = :alert
+      end
     end
 
     respond_to do |format|
       if devices
-        flash[:notice] = t("alerts.created")
+        flash[message_style] = message
         @devices_usage = devices_usage
         set_devices
 
