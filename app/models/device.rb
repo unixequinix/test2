@@ -21,6 +21,6 @@ class Device < ApplicationRecord
   private
 
   def downcase_mac
-    self.mac = mac.present? ? mac.downcase : nil
+    self.mac = mac.to_s.downcase
   end
 end

@@ -22,4 +22,14 @@ RSpec.describe Device, type: :model do
     device.save
     expect(device.mac).to eql("foo")
   end
+
+  it "works with blank macs" do
+    device.update(mac: "")
+    expect(device.mac).to eql("")
+  end
+
+  it "works with nil macs" do
+    device.update(mac: nil)
+    expect(device.mac).to eql(nil)
+  end
 end
