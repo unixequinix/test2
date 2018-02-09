@@ -6,4 +6,20 @@ RSpec.describe Device, type: :model do
   it "has a valid factory" do
     expect(device).to be_valid
   end
+
+  it "downcases mac on create" do
+    device = Device.create!(mac: "FOO", asset_tracker: "Blah")
+    expect(device.mac).to eql("foo")
+  end
+
+  it "downcases mac on update" do
+    device.update(mac: "FOO")
+    expect(device.mac).to eql("foo")
+  end
+
+  it "downcases mac on save" do
+    device.mac = "FOO"
+    device.save
+    expect(device.mac).to eql("foo")
+  end
 end
