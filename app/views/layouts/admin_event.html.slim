@@ -64,6 +64,10 @@ html
               span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
             div style="width: 10px;"
 
+          = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
+            span#settings.i.mdl-color-text--white.material-icons settings
+            span.mdl-tooltip data-mdl-for="settings" Settings
+
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path

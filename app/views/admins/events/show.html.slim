@@ -8,8 +8,6 @@
         .mdl-tabs__tab-bar
           = link_to "Dashboard", "#dashboard-panel", class: "mdl-tabs__tab is-active"
           = link_to "Resources", "#resources-panel", class: "mdl-tabs__tab"
-          = link_to "Settings", "#settings-panel", class: "mdl-tabs__tab"
-          = link_to "History", "#history-panel", class: "mdl-tabs__tab"
 
         #dashboard-panel.mdl-tabs__panel.is-active
           .mdl-grid
@@ -31,8 +29,4 @@
           
         #resources-panel.mdl-tabs__panel
           = render "resources"
-        #settings-panel.mdl-tabs__panel
-          = render "layouts/settings"
-        #history-panel.mdl-tabs__panel
-          = render "versions"
   .mdl-layout-spacer
