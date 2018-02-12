@@ -62,15 +62,15 @@
 
 javascript:
   $(document).ready(function() { 
-    var selector = "#{selector}"
+    var selector = "#{selector}";
     
     $('#' + selector).click(function(e) {
       e.preventDefault();
 
-      var selected = $('tr.is-selected')
+      var selected = $('tr.is-selected');
       
       selected.each(function(i, elem) {
-        var input = $(elem).find('td.table-actions div.table-action input')[0]
+        var input = $(elem).find('td.table-actions div.table-action input')[0];
         input.checked ? $(input).removeAttr('checked') : $(input).attr("checked", true)
       });
       
@@ -78,4 +78,4 @@ javascript:
     })
 
     $("table.sortable").tablesorter(); 
-  })
+  });

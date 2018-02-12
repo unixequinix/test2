@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
     resources :users do
       resource :team, controller: "users/teams" do
-        resources :devices, controller: "users/teams/devices", except: [:new, :create]
+        resources :devices, controller: "users/teams/devices"
 
         get :sample_csv
         post :import_devices

@@ -13,6 +13,7 @@ class Device < ApplicationRecord
   validates :mac, uniqueness: { case_sensitive: true, scope: :team_id }, presence: true
 
   before_save :format_mac
+
   def name
     "#{mac}: #{asset_tracker.presence || 'Unnamed'}"
   end

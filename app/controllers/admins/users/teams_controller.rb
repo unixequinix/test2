@@ -10,6 +10,7 @@ class Admins::Users::TeamsController < ApplicationController
 
   def show
     @grouped_devices = @team_devices.group_by(&:serie)
+    @device = Device.new(team: @team)
     authorize @team
   end
 
@@ -85,36 +86,6 @@ class Admins::Users::TeamsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_users.added") }
       format.json { render status: :ok, json: @team }
-    end
-  end
-
-  def add_devices
-    authorize @team
-    @device = Device.find_or_initialize_by(mac: device_permitted_params[:mac])
-    @device&.update!(device_permitted_params) if @device.new_record?
-
-    respond_to do |format|
-      if @device.team_id.nil? && @device.update(team_id: current_user.team.id)
-        format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_devices.added") }
-      else
-        format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_devices.already_belong") } if @device.valid?
-
-        format.html { redirect_to admins_user_team_path(current_user), alert: @device.errors.full_messages.to_sentence }
-      end
-    end
-  end
-
-  def remove_devices
-    @devices = @team.devices.left_joins(:device_registrations).where(device_registrations: { id: nil })
-
-    authorize @team
-
-    respond_to do |format|
-      if @devices.destroy_all
-        format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.remove_devices.removed") }
-      else
-        format.html { redirect_to request.referer, alert: t("teams.remove_devices.failed") }
-      end
     end
   end
 

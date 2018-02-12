@@ -31,14 +31,6 @@ class TeamPolicy < ApplicationPolicy
     check_user_team && user.team_leader? && record.users.count > 1 || user.admin?
   end
 
-  def add_devices?
-    check_user_team || user.admin?
-  end
-
-  def remove_devices?
-    check_user_team || user.admin?
-  end
-
   def import_devices?
     check_user_team || user.admin?
   end

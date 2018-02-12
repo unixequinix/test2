@@ -65,7 +65,7 @@ class Admins::Events::DeviceRegistrationsController < Admins::Events::BaseContro
         format.json { render json: device_registrations, status: :ok }
         format.js { render action: 'update_devices_usage' }
       else
-        format.html { render :new }
+        format.html { render :index }
         format.json { render json: { errors: device_registrations.errors }, status: :unprocessable_entity }
       end
     end

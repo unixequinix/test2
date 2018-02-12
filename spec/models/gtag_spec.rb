@@ -47,26 +47,6 @@ RSpec.describe Gtag, type: :model do
       end
     end
 
-    context "the old way" do
-      before { create_list(:credit_transaction, 3, gtag: subject, transaction_origin: "onsite", credits: 100, refundable_credits: 30, final_balance: 100, final_refundable_balance: 10, payments: {}) }
-
-      it "changes the gtags credits" do
-        expect { subject.recalculate_balance }.to change { subject.credits.to_f }.from(0.00).to(90)
-      end
-
-      it "changes the gtags virtual_credits" do
-        expect { subject.recalculate_balance }.to change { subject.virtual_credits.to_f }.from(0.00).to(210)
-      end
-
-      it "changes the gtags final_balance" do
-        expect { subject.reload.recalculate_balance }.to change { subject.reload.final_balance.to_f }.from(0.00).to(10)
-      end
-
-      it "changes the gtags final_virtual_balance" do
-        expect { subject.reload.recalculate_balance }.to change { subject.reload.final_virtual_balance.to_f }.from(0.00).to(90)
-      end
-    end
-
     it "creates an alert if final_balance is negative" do
       allow(subject).to receive(:final_balance).and_return(-10)
       expect(Alert).to receive(:propagate).once

@@ -14,20 +14,20 @@ RSpec.describe "Customer account in customer portal", type: :feature do
       within("#edit_customer_#{customer.id}") do
         fill_in 'customer_first_name', with: "New"
       end
-      expect { find("input[name=commit]").click }.to change { customer.reload.first_name }.to("New")
+      expect { find("input[name=commit]").click }.to change(customer, :first_name).to("New")
     end
     it "last name" do
       within("#edit_customer_#{customer.id}") do
         fill_in 'customer_last_name', with: "New"
       end
-      expect { find("input[name=commit]").click }.to change { customer.reload.last_name }.to("New")
+      expect { find("input[name=commit]").click }.to change(customer, :last_name).to("New")
     end
     it "with blank" do
       within("#edit_customer_#{customer.id}") do
         fill_in 'customer_first_name', with: ""
         fill_in 'customer_last_name', with: ""
       end
-      expect { find("input[name=commit]").click }.not_to change { customer.reload.last_name }
+      expect { find("input[name=commit]").click }.not_to change(customer, :last_name)
     end
   end
 
@@ -54,7 +54,7 @@ RSpec.describe "Customer account in customer portal", type: :feature do
         fill_in 'customer_password', with: "passw0rd"
         fill_in 'customer_password_confirmation', with: "passw0rd"
       end
-      expect { find("input[name=commit]").click }.to change { customer.reload.encrypted_password }
+      expect { find("input[name=commit]").click }.to change(customer, :encrypted_password)
     end
 
     it "with empty field" do
@@ -62,7 +62,7 @@ RSpec.describe "Customer account in customer portal", type: :feature do
       within("#edit_customer_#{customer.id}") do
         fill_in 'customer_password', with: "passw0rd"
       end
-      expect { find("input[name=commit]").click }.not_to change { customer.reload.encrypted_password }
+      expect { find("input[name=commit]").click }.not_to change(customer, :encrypted_password)
     end
 
     it "with different password confirmation" do
@@ -71,7 +71,7 @@ RSpec.describe "Customer account in customer portal", type: :feature do
         fill_in 'customer_password', with: "passw0rd"
         fill_in 'customer_password_confirmation', with: "diff3r3nt"
       end
-      expect { find("input[name=commit]").click }.not_to change { customer.reload.encrypted_password }
+      expect { find("input[name=commit]").click }.not_to change(customer, :encrypted_password)
     end
 
     it "with only letter" do
@@ -80,7 +80,7 @@ RSpec.describe "Customer account in customer portal", type: :feature do
         fill_in 'customer_password', with: "password"
         fill_in 'customer_password_confirmation', with: "password"
       end
-      expect { find("input[name=commit]").click }.not_to change { customer.reload.encrypted_password }
+      expect { find("input[name=commit]").click }.not_to change(customer, :encrypted_password)
     end
 
     it "with only numbers" do
@@ -89,7 +89,7 @@ RSpec.describe "Customer account in customer portal", type: :feature do
         fill_in 'customer_password', with: "1234567"
         fill_in 'customer_password_confirmation', with: "1234567"
       end
-      expect { find("input[name=commit]").click }.not_to change { customer.reload.encrypted_password }
+      expect { find("input[name=commit]").click }.not_to change(customer, :encrypted_password)
     end
   end
 end

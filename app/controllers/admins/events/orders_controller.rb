@@ -58,8 +58,8 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
   end
 
   def set_other
-    @alcohol_flag = @current_event.user_flags.find_by(name: "alcohol_forbidden")
-    @topup_flag = @current_event.user_flags.find_by(name: "intial_topup")
+    @alcohol_flag = @current_event.user_flags.find_or_create_by(name: "alcohol_forbidden")
+    @topup_flag = @current_event.user_flags.find_or_create_by(name: "initial_topup")
     @customer = @current_event.customers.find(params[:customer_id] || params[:order][:customer_id])
   end
 
