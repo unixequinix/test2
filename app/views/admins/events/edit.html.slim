@@ -16,10 +16,9 @@
             tbody
               tr
                 td.mdl-data-table__cell--non-numeric Name
-                td = simple_form_for [:admins, @current_event], html: { multipart: true }, wrapper: :mdl_field_floating do |f|
-                  .form-inputs.short-input
-                    p = f.input :name, as: :string, autofocus: true
-                  .form-actions
+                td
+                  = simple_form_for [:admins, @current_event], html: { multipart: true }, wrapper: :mdl_field_floating do |f|
+                    = f.input :name, as: :string
                     = f.submit "Update", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
               tr
                 td.mdl-data-table__cell--non-numeric Slug
