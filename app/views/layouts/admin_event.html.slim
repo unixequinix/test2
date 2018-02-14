@@ -13,8 +13,8 @@ html
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
     = javascript_include_tag "//cdn.tinymce.com/4/tinymce.min.js"
     = javascript_include_tag "application"
-    = javascript_include_tag "https://unpkg.com/jspdf@latest/dist/jspdf.min.js" if @load_reports_resources
-    = javascript_include_tag "https://cdn.plot.ly/plotly-latest.min.js" if @load_reports_resources
+    = javascript_include_tag "https://unpkg.com/jspdf@latest/dist/jspdf.min.js" if @load_analytics_resources
+    = javascript_include_tag "https://cdn.plot.ly/plotly-latest.min.js" if @load_analytics_resources
 
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
@@ -45,7 +45,7 @@ html
           .mdl-layout-title.header-item = yield(:title)
           .mdl-layout-spacer
 
-          - if @q && !@load_reports_resources
+          - if @q && !@load_analytics_resources
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons id="search_icon" search
@@ -73,17 +73,18 @@ html
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
         nav.mdl-navigation.global-nav
-
-          = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons timeline
-            |  Analytics
           = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons store_mall_directory
             |  Stations
           = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons phone_android
             |  Devices
-
+          = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons equalizer
+            |  Analytics
+          = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons timeline
+            |  Custom Analytics
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do

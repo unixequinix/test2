@@ -1,4 +1,4 @@
-= render "admins/events/reports/report_card", title: "Access Control for #{station.name}", chart_id: "access_control"
+= render "admins/events/stations/analytics/report_card", title: "Access Control for #{station.name}", chart_id: "access_control"
 javascript:
     $(function () {
         var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);

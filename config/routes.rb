@@ -79,16 +79,14 @@ Rails.application.routes.draw do
 
         resource :settings, only: :show
 
-        resource :reports do
-          get :money_recon
-          get :cashless
-          get :activations
-          get :devices
-          get :products_sale
-          get :gates
-          get :operators
-        end
         resource :analytics do
+          get :money
+          get :cashless
+          get :sales
+          get :gates
+        end
+
+        resource :custom_analytics do
           get :money
           get :credits
           get :sales
@@ -205,7 +203,7 @@ Rails.application.routes.draw do
           post :unhide
           put :add_ticket_types
           put :remove_ticket_types
-          get :reports
+          get :analytics
           scope module: :stations do
             resources :products, only: [:update, :index]
             resources :station_items, only: [:create, :update, :destroy] do

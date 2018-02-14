@@ -2,30 +2,79 @@
   | Analytics
 
 .mdl-grid.light-grid
-  .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect.reports-grid
-    .mdl-tabs__tab-bar
-      = link_to money_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab is-active" do
-        | Money
-        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-          span.mdl-ripple
-      = link_to credits_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-        | Credits
-        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-          span.mdl-ripple
-      = link_to sales_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-        | Sales
-        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-          span.mdl-ripple
-      = link_to checkin_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-        | Checkin
-        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-          span.mdl-ripple
-      = link_to access_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-        | Access
-        span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-          span.mdl-ripple
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+        .mdl-tabs__tab-bar
+          = link_to "Dashboard", "#dashboard-panel", class: "mdl-tabs__tab is-active"
 
-    #load-report
+          = link_to money_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+            | Money
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
+          = link_to cashless_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+            | Credits
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
+          = link_to sales_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+            | Sales
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
+          = link_to gates_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+            | Gates
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
+
+        #dashboard-panel.mdl-tabs__panel.is-active
+          .mdl-cell.mdl-cell--12-col
+            .mdl-grid
+              .mdl-cell.mdl-cell--3-col
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = number_to_event_currency(@totals[:money])
+                  .mdl-card__supporting-text
+                    span.good_info = "Money Income"
+              .mdl-cell.mdl-cell--3-col
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = number_to_token(@totals[:credits])
+                  .mdl-card__supporting-text
+                    span.good_info = "Credits left over"
+              .mdl-cell.mdl-cell--3-col
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = number_to_token(@totals[:product_sales])
+                  .mdl-card__supporting-text
+                    span.good_info = "Total Sale"
+              .mdl-cell.mdl-cell--3-col
+                .customer-card.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title.mdl-card--expand
+                    h3.mdl-card__title-text = @totals[:checkins]
+                  .mdl-card__supporting-text
+                    span.good_info = "Total Check-in's"
+          .mdl-cell.mdl-cell--12-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons import_export
+                  | Credit Transactions #{@current_event.credit.symbol}
+              canvas#myChart
+
+          .mdl-cell.mdl-cell--12-col
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
+              .mdl-card__title
+                .mdl-cell.mdl-cell--12-col
+                  i.material-icons import_export
+                  | Top 10 Products Sold
+              .mdl-grid
+                .mdl-cell.mdl-cell--6-col
+                  canvas#top_products
+                .mdl-cell.mdl-cell--6-col
+                  canvas#top_products_q
+
+        #load-view
+  .mdl-layout-spacer
 
 javascript:
   $(window).load(function(e) {
@@ -36,9 +85,108 @@ javascript:
     $(".mdl-tabs__tab").click(function(e) {
       var elem = e.currentTarget;
       var elems = $(".mdl-tabs__tab");
-
       elems.splice($.inArray(elem, elems), 1);
       elems.removeClass("is-active");
+      elem.text == 'Dashboard' ? $('#load-view').hide() : $('#load-view').show();
       $(elem).addClass("is-active");
     });
+  });
+
+  $(function () {
+      var data =
+      #{ @totals[:record_credits].html_safe }
+      var credit_symbol = '#{ @current_event.credit.symbol }'
+      var date_time = data.map(function (e) {
+          return e.date_time;
+      });
+      var record_credits = data.map(function (e) {
+          return e.record_credit;
+      });
+      var sales = data.map(function (e) {
+          return -e.sale;
+      });
+
+      new Chart(document.getElementById("myChart"), {
+          type: 'bar',
+          data: {
+              labels: date_time,
+              datasets: [{
+                  label: "Sales " + (credit_symbol),
+                  type: "line",
+                  borderColor: "#fcaa98",
+                  data: sales,
+                  fill: false
+              }, {
+                  label: "Record Credits " + (credit_symbol),
+                  type: "bar",
+                  backgroundColor: "#add8e9",
+                  data: record_credits,
+              }
+              ]
+          },
+          options: {
+              legend: {display: true}
+          }
+      });
+      var color_scale = ["#ade8e9", "#add8e9", "#adc8e9", "#adb8e9", "#ada8e9", "#bcea98", "#ccda98", "#dcca98", "#ecba98", "#fcaa98"]
+      var data =
+      #{ @totals[:top_products].html_safe }
+      var credit_symbol = '#{ @current_event.credit.symbol }'
+      var product_name = data.map(function (e) {
+          return e.product_name;
+      });
+      var credit_amount = data.map(function (e) {
+          return e.credit_amount;
+      });
+
+      new Chart(document.getElementById("top_products"), {
+          type: 'doughnut',
+          data: {
+              labels: product_name,
+              datasets: [
+                  {
+                      label: "Product" + credit_symbol,
+                      backgroundColor: color_scale,
+                      data: credit_amount
+                  }
+              ]
+          },
+          options: {
+              legend: {display: false},
+              title: {
+                  display: true,
+                  text: 'by Credits ' + credit_symbol
+              }
+          }
+      });
+
+      var data_q =
+      #{ @totals[:top_quantity].html_safe }
+      var product_name_q = data_q.map(function (e) {
+          return e.product_name;
+      });
+      var quantity = data_q.map(function (e) {
+          return e.quantity;
+      });
+
+      new Chart(document.getElementById("top_products_q"), {
+          type: 'doughnut',
+          data: {
+              labels: product_name_q,
+              datasets: [
+                  {
+                      label: "Product",
+                      backgroundColor: color_scale,
+                      data: quantity
+                  }
+              ]
+          },
+          options: {
+              legend: {display: false},
+              title: {
+                  display: true,
+                  text: 'by Quantity'
+              }
+          }
+      });
   });

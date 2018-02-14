@@ -23,7 +23,7 @@ class StationPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
-  def reports?
+  def analytics?
     admin_or_promoter
   end
 end

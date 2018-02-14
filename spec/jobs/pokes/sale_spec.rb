@@ -40,7 +40,7 @@ RSpec.describe Pokes::Sale, type: :job do
     end
   end
 
-  it "creates one Stat per payment of sale item" do
+  it "creates one Poke per payment of sale item" do
     expect { worker.perform_now(transaction) }.to change(Poke, :count).by(6)
   end
 

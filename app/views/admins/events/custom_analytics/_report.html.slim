@@ -1,18 +1,17 @@
+
 .mdl-tabs__panel.is-active id="#{name}_report"
-.content-grid.mdl-grid
-  .mdl-cell.mdl-cell--8-col
-  .mdl-cell.mdl-cell--1-col
-    button.mdl-button.mdl-js-button.mdl-button--raised.export-button
-      | EXPORT
-  .mdl-cell.mdl-cell--2-col
-    button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
-      | RAW DATA
-  .mdl-cell.mdl-cell--1-col
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col.reports-table
-    #table
-  .mdl-layout-spacer
+  .content-grid.mdl-grid
+    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--1-col.right
+      button.mdl-button.mdl-js-button.mdl-button--raised.export-button
+        | EXPORT
+    .mdl-cell.mdl-cell--1-col.right
+      button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
+        | RAW DATA
+
+
+    .mdl-cell.mdl-cell--12-col.reports-grid
+      #table
 
 javascript:
 
@@ -42,9 +41,9 @@ javascript:
       var csv = data.map(function(row){
         return fields.map(function(fieldName){
           return JSON.stringify(row[fieldName], replacer)
-        }).join('\t')
+        }).join(';')
       })
-      csv.unshift(fields.join(','))
+      csv.unshift(fields.join('";"'))
       csv = csv.join('\r\n');
       var hiddenElement = document.createElement('a');
       hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);

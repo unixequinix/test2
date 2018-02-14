@@ -1,9 +1,9 @@
 class PokePolicy < ApplicationPolicy
-  def reports?
+  def analytics?
     user.glowball?
   end
 
-  def reports_billing?
+  def analytics_billing?
     user.glowball?
   end
 

@@ -1,57 +1,102 @@
-class Admins::Events::AnalyticsController < Admins::Events::BaseController
-  # rubocop:disable all
-  include ReportsHelper
+module Admins
+  module Events
+    class AnalyticsController < Admins::Events::BaseController
+      include AnalyticsHelper
+      include ApplicationHelper
 
-  before_action :load_reports_resources
-  before_action :skip_authorization, only: %i[money access credits checkin sales]
+      before_action :authorize_billing
 
-  def show
-    authorize(:poke, :reports_billing?)
-  end
+      def show
+        @totals = Poke.totals(@current_event)
+      end
 
-  def money
-    cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day','Operator UID', 'Operator Name','Device', 'Money']
-    @money = prepare_pokes(cols,  @current_event.pokes.money_recon_operators)
-    prepare_data params[:action], @money, [['Event Day'], ['Action'], ['Money'], 1]
-  end
+      def money
+        total_topup = @current_event.pokes.topups.is_ok.sum(:monetary_total_price)
+        activations = PokesQuery.new(@current_event).activations
+        total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
+        topup_online = @current_event.pokes.is_ok.online.sum(:monetary_total_price)
+        refund = -@current_event.pokes.is_ok.refunds.sum(:monetary_total_price)
+        online_money_left = @current_event.pokes.is_ok.online.sum(:monetary_total_price) - @current_event.pokes.is_ok.online_orders.sum(:credit_amount) * @current_event.credit.value
+        avg_topups = total_topup / activations
 
-  def credits
-    cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Device','Event Day', 'Credit Name', 'Credits']
-    @credits = prepare_pokes(cols, @current_event.pokes.credit_flow)
-    prepare_data params[:action], @credits, [['Event Day'], ['Action'], ['Credits'], 1]
-  end
+        @totals = { total_topup: total_topup, total_money: total_money, topup_online: topup_online, refund: refund, online_money_left: online_money_left, avg_topups: avg_topups }.map { |k, v| [k, number_to_event_currency(v)] }
+        money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day"]
+        money = prepare_pokes(money_cols, @current_event.pokes.money_recon)
+        @views = [
+          { chart_id: "money", title: "Money Flow", cols: ["Payment Method"], rows: ["Action"], data: money, metric: ["Money"], decimals: 1 },
+          { chart_id: "money_by_stations", title: "Money Flow by Stations", cols: ["Event Day", "Payment Method"], rows: ["Location", "Station Type", "Station Name", "Action"], data: money, metric: ["Money"], decimals: 1 }
+        ]
+        prepare_data(params["action"])
+      end
 
-  def sales
-    cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-    @sales = prepare_pokes(cols, @current_event.pokes.products_sale)
-    prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type','Station Name'], ['Credits'], 1]
-  end
+      def cashless
+        record_credit = @current_event.pokes.where(credit: @current_event.credit).record_credit.is_ok.sum(:credit_amount)
+        record_credit_virtual = @current_event.pokes.where(credit: @current_event.virtual_credit).record_credit.is_ok.sum(:credit_amount)
+        fees = - @current_event.pokes.fees.is_ok.sum(:credit_amount)
+        orders = @current_event.pokes.online_orders.is_ok.sum(:credit_amount)
 
-  def checkin
-    cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Operator UID', 'Operator Name', 'Device','Catalog Item', 'Ticket Type', 'Total Tickets']
-    @checkin = prepare_pokes(cols, @current_event.pokes.checkin_ticket_type)
-    prepare_data params[:action], @checkin, [['Event Day'], ['Catalog Item'], ['Total Tickets'], 0]
-  end
+        cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day"]
+        credits = prepare_pokes(cols, @current_event.pokes.credit_flow)
 
-  def access
-    cols = ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Direction', 'Access']
-    @access = prepare_pokes(cols, @current_event.pokes.access)
-    prepare_data params[:action], @access, [ ['Station Name','Direction'], ['Event Day', 'Date Time'], ['Access'], 0]
-  end
+        @totals = { record_credit: record_credit, record_credit_virtual: record_credit_virtual, fees: fees, orders: orders }.map { |k, v| [k, number_to_token(v)] }
+        @views = [
+          { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: ["Action"], data: credits, metric: ["Credits"], decimals: 1 },
+          { chart_id: "credits_detail", title: "Credit Flow by Station", cols: ["Event Day", "Credit Name"], rows: ["Location", "Action", "Station Type", "Station Name"], data: credits, metric: ["Credits"], decimals: 1 }
+        ]
+        prepare_data(params["action"])
+      end
 
-  def load_reports_resources
-    @load_reports_resources = true
-  end
+      def sales
+        sale_credit = -@current_event.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
+        sale_virtual = -@current_event.pokes.where(credit: @current_event.virtual_credit).sales.is_ok.sum(:credit_amount)
+        total_sale = -@current_event.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
+        activations = PokesQuery.new(@current_event).activations
+        avg_products_sale = total_sale / activations
 
-  private
+        cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
+        products = prepare_pokes(cols, @current_event.pokes.products_sale)
+        stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
+        products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock)
 
-  def prepare_data name, data, array
-    @data = data
-    @cols, @rows, @metric, @decimals = array
-    @name = name
+        @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale, avg_products_sale: avg_products_sale }.map { |k, v| [k, number_to_token(v)] }
+        @views = [
+          { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name", "Product Name"], data: products, metric: ["Credits"], decimals: 1 },
+          { chart_id: "products_stock", title: "Products Sale Stock", cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name", "Product Name"], data: products_stock, metric: ["Quantity"], decimals: 0 }
+        ]
+        prepare_data(params["action"])
+      end
 
-    respond_to do |format|
-      format.js { render action: :load_report }
+      def gates
+        total_checkins = @current_event.tickets.where(redeemed: true).count
+        total_access = @current_event.pokes.sum(:access_direction)
+
+        rate_cols = ["Ticket Type", "Total Tickets", "Redeemed"]
+        checkin_rate = prepare_pokes(rate_cols, @current_event.ticket_types.checkin_rate)
+        ticket_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Catalog Item", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
+        checkin_ticket_type = prepare_pokes(ticket_cols, @current_event.pokes.checkin_ticket_type)
+        access_cols = ["Location", "Station Type", "Station Name", "Event Day", "Date Time", "Direction", "Access"]
+        access_control = prepare_pokes(access_cols, @current_event.pokes.access)
+
+        @totals = { total_checkins: total_checkins, total_access: total_access }.map { |k, v| [k, v.to_i] }
+        @views = [{ chart_id: "checkin_rate", title: "Ticket Check-in Rate", cols: [], rows: ["Ticket Type", "Redeemed"], data: checkin_rate, metric: ["Total Tickets"], decimals: 0 },
+                  { chart_id: "checkin_ticket_type", title: "Check-in and Box office purchase", cols: ["Event Day"], rows: ["Station Name", "Catalog Item"], data: checkin_ticket_type, metric: ["Total Tickets"], decimals: 0 },
+                  { chart_id: "access_control", title: "Access Control", cols: ["Station Name", "Direction"], rows: ["Event Day", "Date Time"], data: access_control, metric: ["Access"], decimals: 0 }]
+        prepare_data(params["action"])
+      end
+
+      private
+
+      def authorize_billing
+        authorize(:poke, :analytics_billing?)
+        @load_analytics_resources = true
+      end
+
+      def prepare_data(name)
+        @name = name
+        respond_to do |format|
+          format.js { render action: :load_view }
+        end
+      end
     end
   end
 end

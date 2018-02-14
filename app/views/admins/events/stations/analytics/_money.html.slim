@@ -1,5 +1,4 @@
-= render "admins/events/reports/report_card", title: "Money", chart_id: "money"
-= render "admins/events/reports/report_card", title: "Credits", chart_id: "credits"
+= render "admins/events/stations/analytics/report_card", title: "Money in #{station.name}", chart_id: "money"
 
 javascript:
     $(function () {
@@ -8,22 +7,13 @@ javascript:
         var numberFormat = $.pivotUtilities.numberFormat;
         var frFormat = numberFormat({digitsAfterDecimal: 1});
 
-		var money = jQuery.parseJSON('#{ escape_javascript(money.html_safe)}');
+  		var money = jQuery.parseJSON('#{ escape_javascript(money.html_safe)}');
 
         $("#money").pivotUI(money, {
             renderers: renderers,
             cols: ["Event Day"], rows: ["Action"],
             rendererName: "Table",
             aggregators: { "Money": function () { return tpl.sum(frFormat)(["Money"]) } }
-        });
-
-        var credits = jQuery.parseJSON('#{ escape_javascript(credits.html_safe)}');
-
-      	$("#credits").pivotUI(credits, {
-            renderers: renderers,
-            cols: ["Event Day", "Credit Name"], rows: ["Action"],
-            rendererName: "Table",
-            aggregators: { "Credits": function () { return tpl.sum()(["Credits"]) } }
         });
 
     });
