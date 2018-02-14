@@ -16,7 +16,11 @@
             tbody
               tr
                 td.mdl-data-table__cell--non-numeric Name
-                td = best_in_place @current_event, :name, url: [:admins, @current_event]
+                td = simple_form_for [:admins, @current_event], html: { multipart: true }, wrapper: :mdl_field_floating do |f|
+                  .form-inputs.short-input
+                    p = f.input :name, as: :string, autofocus: true
+                  .form-actions
+                    = f.submit "Update", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
               tr
                 td.mdl-data-table__cell--non-numeric Slug
                 td = @current_event.slug
