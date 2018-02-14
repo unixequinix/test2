@@ -7,12 +7,12 @@
 javascript:
 
   $(document).ready(function() {
-    var data = JSON.parse("#{ escape_javascript(data.html_safe)}")
-    var cols = JSON.parse("#{escape_javascript(cols.to_json.html_safe)}")
-    var rows = JSON.parse("#{escape_javascript(rows.to_json.html_safe)}")
-    var metric = JSON.parse("#{escape_javascript(metric.to_json.html_safe)}")
-    var decimals = #{decimals}
-    var chart_id = "#"+"#{chart_id}"
+    var data = JSON.parse("#{escape_javascript(data.html_safe)}");
+    var cols = JSON.parse("#{escape_javascript(cols.to_json.html_safe)}");
+    var rows = JSON.parse("#{escape_javascript(rows.to_json.html_safe)}");
+    var metric = JSON.parse("#{escape_javascript(metric.to_json.html_safe)}");
+    var decimals = #{decimals};
+    var chart_id = "#"+"#{chart_id}";
     var renderers = $.extend($.pivotUtilities.renderers);
     var sum = $.pivotUtilities.aggregatorTemplates.sum;
     var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: decimals});
