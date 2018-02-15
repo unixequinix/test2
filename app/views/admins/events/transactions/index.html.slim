@@ -2,7 +2,7 @@
   | #{@type.to_s.humanize} Transactions
 
 - content_for(:actions) do
-  .floaty
+  .floaty#floaty
     ul.floaty-list#actions-list
       - if current_user.admin?
         li.floaty-list-item

@@ -4,7 +4,7 @@
     = @team.name
 
 - content_for(:actions) do
-  .floaty
+  .floaty#floaty
     ul.floaty-list#actions-list
       - if @current_user.team_leader?
         li.floaty-list-item

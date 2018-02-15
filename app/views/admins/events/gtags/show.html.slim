@@ -4,7 +4,7 @@
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  .floaty
+  .floaty#floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to admins_event_gtag_path(@current_event, @gtag), method: :delete, data: { confirm: 'Are you sure you want to delete this gtag?' } do
