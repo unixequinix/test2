@@ -25,7 +25,7 @@ module Transactions
       params = atts.dup.symbolize_keys
       params[:payments] = preformat_payments(atts[:payments])
       params[:sale_items_attributes].to_a.each { |item| item[:payments] = preformat_payments(item["payments"]) }
-      params[:transaction_origin] = Transaction::ORIGINS[:device]
+      params[:transaction_origin] = "onsite"
 
       # device_created_at_fixed formatting should go, since data should come in the right format.
       params.delete(:sale_items_attributes) if params[:sale_items_attributes].to_a.empty?

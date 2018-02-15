@@ -36,7 +36,7 @@ module Credentiable
     update_attribute(:banned, false)
   end
 
-  def assign_customer(new_customer, operator, origin = :portal)
+  def assign_customer(new_customer, operator = nil)
     if customer.present?
       Customer.claim(event, new_customer, customer)
       reload # this is necessary because the customer is updated in the background
@@ -45,17 +45,12 @@ module Credentiable
     end
 
     new_customer.touch
-    write_assignation_transaction("assigned", operator, origin)
+    CredentialTransaction.write!(event, "#{model_name.element}_assigned", customer, operator, assignation_atts)
   end
 
-  def unassign_customer(operator = nil, origin = :portal)
+  def unassign_customer(operator = nil)
     customer&.touch
-    write_assignation_transaction("unassigned", operator, origin)
+    CredentialTransaction.write!(event, "#{model_name.element}_unassigned", customer, operator, assignation_atts)
     update!(customer: nil)
-  end
-
-  def write_assignation_transaction(action, operator, origin = :portal)
-    action = "#{model_name.element}_#{action}"
-    CredentialTransaction.write!(event, action, origin, customer, operator, assignation_atts)
   end
 end

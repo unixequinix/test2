@@ -39,7 +39,7 @@ class Order < ApplicationRecord
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
 
     OrderMailer.completed_order(self).deliver_later if send_email && !customer.anonymous?
-    MoneyTransaction.write!(event, "portal_purchase", :portal, customer, customer, atts)
+    MoneyTransaction.write!(event, "portal_purchase", customer, customer, atts)
 
     return unless event.online_initial_topup_fee.present? && !customer.initial_topup_fee_paid?
     flag = event.user_flags.find_by(name: "initial_topup")

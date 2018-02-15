@@ -4,7 +4,7 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -20,7 +20,7 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -32,7 +32,7 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -82,7 +82,7 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -94,7 +94,7 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -108,7 +108,7 @@ FactoryBot.define do
     order
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -123,7 +123,7 @@ FactoryBot.define do
     sequence(:device_db_index)
     message "i love Glownet! "
     sequence(:priority)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -138,7 +138,7 @@ FactoryBot.define do
     sequence(:device_db_index)
     user_flag_active true
     user_flag "yellow_flag"
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
@@ -150,7 +150,7 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }

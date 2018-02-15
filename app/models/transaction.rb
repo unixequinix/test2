@@ -21,34 +21,31 @@ class Transaction < StatsBase
   scope :ban, -> { where(type: "BanTransaction") }
   scope :orders, -> { where(type: "OrderTransaction") }
   scope :device, -> { where(type: "DeviceTransaction") }
-  scope :onsite, -> { where(transaction_origin: ORIGINS[:device]) }
-  scope :online, -> { where.not(transaction_origin: ORIGINS[:device]) }
-  scope :api, -> { where(transaction_origin: [ORIGINS[:api]]) }
+  scope :onsite, -> { where(transaction_origin: "onsite") }
+  scope :online, -> { where.not(transaction_origin: "online") }
 
   scope :with_event, ->(event) { where(event: event) }
   scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
   scope :status_ok, -> { where(status_code: 0) }
   scope :status_not_ok, -> { where.not(status_code: 0) }
-  scope :origin, ->(origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
   scope :payments_with_credit, ->(credit) { where("payments ? '#{credit.id}'") }
   scope :debug, -> { includes(:event).order(:transaction_origin, :counter, :gtag_counter, :device_created_at) }
 
-  ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel", api: "api" }.freeze
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
 
   validates :transaction_origin, :action, :device_created_at, presence: true
 
-  def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
+  def self.write!(event, action, customer, operator, atts)
     Time.zone = event.timezone
     now = Time.zone.now.to_formatted_s(:transactions)
-    counter = customer&.transactions&.where(transaction_origin: Transaction::ORIGINS[origin])&.maximum(:counter).to_i + 1
+    counter = customer&.transactions&.where(transaction_origin: "online")&.maximum(:counter).to_i + 1
     attributes = { event: event,
                    action: action,
                    counter: counter,
                    customer: customer,
                    status_code: 0,
                    status_message: "OK",
-                   transaction_origin: Transaction::ORIGINS[origin],
+                   transaction_origin: "online",
                    station: event.portal_station,
                    device_created_at: now,
                    device_created_at_fixed: now,

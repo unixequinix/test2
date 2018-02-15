@@ -31,7 +31,7 @@ class Poke < ApplicationRecord
   scope :has_money, -> { where.not(monetary_total_price: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
-  scope :online, -> { where(source: %w[customer_portal admin_panel]) }
+  scope :online, -> { where(source: "online") }
 
   scope :money_recon, lambda {
     select(:action, :description, :payment_method, event_day_query_as_event_day, "stations.category as station_type", "stations.name as station_name", "sum(monetary_total_price) as monetary_total_price")

@@ -34,7 +34,7 @@ module Api::V2
 
       render(json: @gtag.errors, status: :unprocessable_entity) && return unless @gtag.validate_assignation
 
-      @gtag.assign_customer(@customer, @current_user, :api) unless @gtag.customer == @customer
+      @gtag.assign_customer(@customer, @current_user) unless @gtag.customer == @customer
       @gtag.make_active! if params[:active].eql?("true")
 
       render json: @customer, serializer: Full::CustomerSerializer
@@ -46,7 +46,7 @@ module Api::V2
       @ticket = @current_event.tickets.find_or_initialize_by(code: @code)
       render(json: @ticket.errors, status: :unprocessable_entity) && return unless @ticket.validate_assignation
 
-      @ticket.assign_customer(@customer, @current_user, :api) unless @ticket.customer == @customer
+      @ticket.assign_customer(@customer, @current_user) unless @ticket.customer == @customer
       render json: @customer, serializer: Full::CustomerSerializer
     end
 

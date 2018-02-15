@@ -82,8 +82,8 @@ class Gtag < ApplicationRecord
                                   final_refundable_balance: 0)
 
     transaction = transactions.credit.find_by(gtag_counter: 0, action: "correction")
-    transaction ||= CreditTransaction.write!(event, "correction", :device, nil, nil, atts)
-    transaction.update!(gtag_counter: 0)
+    transaction ||= CreditTransaction.write!(event, "correction", nil, nil, atts)
+    transaction.update!(gtag_counter: 0, transaction_origin: "onsite")
     recalculate_balance
     transaction
   end

@@ -10,7 +10,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         event_id: "1",
         customer_tag_uid: "324",
         type: "CreditTransaction",
-        transaction_origin: Transaction::ORIGINS[:device],
+        transaction_origin: "onsite",
         action: "test_type",
         operator_tag_uid: "A54DSF8SD3JS0",
         station_id: "34",

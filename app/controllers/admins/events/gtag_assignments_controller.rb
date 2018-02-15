@@ -15,7 +15,7 @@ module Admins
 
         render(:new) && return unless @gtag.validate_assignation
 
-        @gtag.assign_customer(@customer, current_user, :admin)
+        @gtag.assign_customer(@customer, current_user)
         @gtag.make_active! if permitted_params[:active].present?
 
         redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Tag"))
@@ -24,7 +24,7 @@ module Admins
       def destroy
         @gtag = @current_event.gtags.find(params[:id])
         authorize @gtag.customer, :destroy_credential?
-        @gtag.unassign_customer(current_user, :admin)
+        @gtag.unassign_customer(current_user)
         flash[:notice] = t("credentials.unassigned", item: "Gtag")
         redirect_to request.referer
       end

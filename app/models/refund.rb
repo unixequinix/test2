@@ -28,10 +28,10 @@ class Refund < ApplicationRecord
     update!(status: "completed")
 
     atts = { items_amount: price_money, payment_gateway: gateway, payment_method: "online", price: -total_money }
-    MoneyTransaction.write!(event, "online_refund", :portal, customer, customer, atts)
+    MoneyTransaction.write!(event, "online_refund", customer, customer, atts)
 
     atts = { payments: { event.credit.id => { amount: -amount, final_balance: customer.credits } }, customer: customer }
-    CreditTransaction.write!(event, "refund", :portal, customer, customer, atts)
+    CreditTransaction.write!(event, "refund", customer, customer, atts)
 
     OrderMailer.completed_refund(self).deliver_later if send_email && !customer.anonymous?
   end

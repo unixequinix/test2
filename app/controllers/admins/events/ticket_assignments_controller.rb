@@ -15,7 +15,7 @@ module Admins
         @ticket.errors.add(:reference, I18n.t("credentials.already_assigned", item: "Ticket")) if @ticket.customer_not_anonymous?
 
         if @ticket.validate_assignation
-          @ticket.assign_customer(@customer, current_user, :admin)
+          @ticket.assign_customer(@customer, current_user)
           redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("credentials.assigned", item: "Ticket"))
         else
           flash.now[:errors] = @ticket.errors.full_messages.to_sentence
@@ -26,7 +26,7 @@ module Admins
       def destroy
         @ticket = @current_event.tickets.find(params[:id])
         authorize @ticket.customer, :destroy_credential?
-        @ticket.unassign_customer(current_user, :admin)
+        @ticket.unassign_customer(current_user)
         flash[:notice] = t("credentials.unassigned", item: "Ticket")
         redirect_to request.referer
       end
