@@ -4,7 +4,7 @@
     = @team.name
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty
     ul.floaty-list#actions-list
       - if @current_user.team_leader?
         li.floaty-list-item

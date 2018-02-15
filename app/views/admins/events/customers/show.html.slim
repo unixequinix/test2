@@ -8,7 +8,7 @@
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
+  .floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to admins_event_customers_path(format: "csv") do

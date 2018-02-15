@@ -7,7 +7,7 @@
 
 - unless Rails.env.production?
   - content_for(:actions) do
-    *{class: (current_user.admin? ? 'floaty' : 'floaty-intercom'), id: 'floaty'}
+    .floaty
       ul.floaty-list#actions-list
         li.floaty-list-item
           = link_to sample_event_admins_events_path, id: "sample_event_link" do
