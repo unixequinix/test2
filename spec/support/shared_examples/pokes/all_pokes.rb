@@ -28,34 +28,9 @@ RSpec.shared_examples "a poke" do
     expect(poke.operation_id).to eql(transaction.id)
   end
 
-  it "sets source to onsite if transaction_origin is onsite" do
-    transaction.update!(transaction_origin: "onsite")
+  it "sets source to transactions transaction_origin" do
     poke = [worker.perform_now(transaction)].flatten.first
-    expect(poke.source).to eql("onsite")
-  end
-
-  it "sets source to online if transaction_origin is customer_portal" do
-    transaction.update!(transaction_origin: "customer_portal")
-    poke = [worker.perform_now(transaction)].flatten.first
-    expect(poke.source).to eql("online")
-  end
-
-  it "sets source to online if transaction_origin is admin_panel" do
-    transaction.update!(transaction_origin: "admin_panel")
-    poke = [worker.perform_now(transaction)].flatten.first
-    expect(poke.source).to eql("online")
-  end
-
-  it "sets source to online if transaction_origin is admin_panel" do
-    transaction.update!(transaction_origin: "api")
-    poke = [worker.perform_now(transaction)].flatten.first
-    expect(poke.source).to eql("online")
-  end
-
-  it "sets source to unknown if transaction_origin is anything else" do
-    transaction.update!(transaction_origin: "foo")
-    poke = [worker.perform_now(transaction)].flatten.first
-    expect(poke.source).to eql("unknown")
+    expect(poke.source).to eql(transaction.transaction_origin)
   end
 
   it "sets event_id to transactions" do

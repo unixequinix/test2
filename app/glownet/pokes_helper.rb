@@ -47,13 +47,10 @@ module PokesHelper
 
   def extract_atts(transaction, extra_atts = {})
     return {}.merge(extra_atts) unless transaction
-    source = "unknown"
-    source = "onsite" if transaction.transaction_origin.eql?("onsite")
-    source = "online" if transaction.transaction_origin.in?(%w[admin_panel customer_portal api])
 
     { operation_id: transaction.id,
       source: source,
-      date: transaction.device_created_at,
+      date: transaction.transaction_origin,
       action: transaction.action,
       event_id: transaction.event_id,
       line_counter: 1,
