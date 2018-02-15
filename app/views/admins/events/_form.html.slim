@@ -10,7 +10,6 @@
         = f.input :timezone, as: :time_zone, include_blank: false
         = f.input :start_date, as: :datetime
         = f.input :end_date, as: :datetime
-        = f.input :team_id, collection: [current_user.team], selected: current_user.team
     .form-actions
       .col-sm-offset-3.col-sm-9
         = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
