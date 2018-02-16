@@ -49,8 +49,8 @@ module PokesHelper
     return {}.merge(extra_atts) unless transaction
 
     { operation_id: transaction.id,
-      source: source,
-      date: transaction.transaction_origin,
+      source: transaction.transaction_origin,
+      date: transaction.device_created_at,
       action: transaction.action,
       event_id: transaction.event_id,
       line_counter: 1,
