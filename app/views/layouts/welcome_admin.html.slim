@@ -3,20 +3,23 @@ html
   head
     title = title
 
-    = stylesheet_link_tag "layout"
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
-    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
-    link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet" /
+    = stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons"
+    = stylesheet_link_tag "https://code.getmdl.io/1.2.1/material.teal-pink.min.css"
+    = stylesheet_link_tag "layout"
+
     script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"
     script src="//cdn.tinymce.com/4/tinymce.min.js"
-    meta content="width=device-width, initial-scale=1.0" name="viewport" /
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
     = csrf_meta_tags
 
-  body class=("#{controller_name} #{action_name}") style="background-color: #b2dfdb"
-    .container-main
-      #notifications
-        = render 'layouts/notifications'
-      = yield
+  body class=("fixed-background") style=("background-image: url(#{image_path('background-default.jpg')})")
+    #notifications = render 'layouts/notifications'
+
+    .login-bg
+      .login-card.mdl-card.mdl-shadow--2dp
+        .admin-login-logo= image_tag("glownet-event-logo.png")
+        = yield
 
 

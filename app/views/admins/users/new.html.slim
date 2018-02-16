@@ -1,25 +1,19 @@
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--4-col
-    .login-header= image_tag("glownet-event-logo.png")
-    .demo-card-wide.mdl-card.mdl-shadow--2dp.login-card
-      .mdl-card__supporting-text
-        = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
-          .field
-            - if @email_disabled
-              = hidden_field_tag :email_disabled, true
-              = f.input :email, readonly: true
-            - else
-              = f.input :email, placeholder: true
+.mdl-card__supporting-text
+  = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+    .field
+      - if @email_disabled
+        = hidden_field_tag :email_disabled, true
+        = f.input :email, readonly: true
+      - else
+        = f.input :email, placeholder: true
 
-          .field
-            = f.input :username, placeholder: true, autofocus: true
-          .field
-            = f.input :password, autocomplete: "off"
-          .field
-            = f.input :password_confirmation, autocomplete: "off"
-          .field
-            = recaptcha_tags unless Rails.env.development?
-          .form-actions
-            = f.button :submit, "Register", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
-  .mdl-layout-spacer
+    .field
+      = f.input :username, placeholder: true, autofocus: true
+    .field
+      = f.input :password, autocomplete: "off"
+    .field
+      = f.input :password_confirmation, autocomplete: "off"
+    .field
+      = recaptcha_tags unless Rails.env.development?
+    .form-actions
+      = f.button :submit, "Register", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
