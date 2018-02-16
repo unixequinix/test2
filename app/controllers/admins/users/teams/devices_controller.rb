@@ -36,11 +36,11 @@ module Admins
         end
 
         def create
-          @device = Device.new(permitted_params)
+          @device = Device.new(permitted_params.merge(team_id: @current_user.team&.id))
           authorize @device
 
           respond_to do |format|
-            if @device.save
+            if @current_user.team && @device.save
               format.json { render json: @device }
               format.html { redirect_to [:admins, current_user, :team, @device] }
             else
