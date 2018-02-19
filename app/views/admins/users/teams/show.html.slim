@@ -94,7 +94,7 @@
                   - else
                     = user.team_role
                 td 
-                  - if user == @current_user || @current_user.team_leader? || @current_user.admin?
+                  - if user == @current_user || @current_user.team_leader? || @current_user.admin? and !@team.users.one?
                     = link_to remove_users_admins_user_team_path(@current_user, user: { email: user.email }), method: :delete, class: "mdl-button mdl-button--icon" do
                       span.icon.material-icons delete
 

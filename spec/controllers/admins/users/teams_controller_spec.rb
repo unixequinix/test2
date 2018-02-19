@@ -202,8 +202,12 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           create(:team, leader: user)
         end
 
-        it "destroys successfully" do
-          expect { delete :destroy, params: { user_id: user.id } }.to change(Team, :count).by(-1)
+        it "destroys successfully if user is not the last" do
+          expect { delete :destroy, params: { user_id: user.id } }.to change(Team, :count).by(-1) unless user.team.users.one?
+        end
+
+        it "does not destroy the user if its last" do
+          expect { delete :destroy, params: { user_id: user.id } }.not_to change(Team, :count) if user.team.users.one?
         end
       end
     end
