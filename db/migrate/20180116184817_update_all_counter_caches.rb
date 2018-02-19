@@ -3,7 +3,6 @@ class UpdateAllCounterCaches < ActiveRecord::Migration[5.1]
     Event.find_each do |event|
       Event.reset_counters(event.id, :device_registrations)
       Event.reset_counters(event.id, :devices)
-      Event.reset_counters(event.id, :transactions)
       Event.reset_counters(event.id, :tickets)
       Event.reset_counters(event.id, :catalog_items)
       Event.reset_counters(event.id, :ticket_types)
@@ -20,7 +19,6 @@ class UpdateAllCounterCaches < ActiveRecord::Migration[5.1]
       Event.reset_counters(event.id, :refunds)
       Event.reset_counters(event.id, :event_registrations)
       Event.reset_counters(event.id, :users)
-      Event.reset_counters(event.id, :stats)
       Event.reset_counters(event.id, :alerts)
       Event.reset_counters(event.id, :device_caches)
       Event.reset_counters(event.id, :pokes)
