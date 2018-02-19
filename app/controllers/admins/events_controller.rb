@@ -198,7 +198,6 @@ module Admins
                                     :app_version,
                                     :open_api,
                                     :open_devices_api,
-                                    :open_ticketing_api,
                                     :open_portal,
                                     :open_portal_intercom,
                                     :open_refunds,
