@@ -16,6 +16,6 @@ FactoryBot.define do
     event
     sequence(:name) { |n| "Credit #{n}" }
     value 1
-    symbol "$"
+    symbol "C"
   end
 end

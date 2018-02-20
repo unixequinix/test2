@@ -10,6 +10,7 @@ class CatalogItem < ApplicationRecord
 
   validates :name, presence: true
   validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
+  validates :symbol, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }, length: { minimum: 1, maximum: 3 }
 
   scope(:accesses, -> { where(type: "Access") })
   scope(:operator_permissions, -> { where(type: "OperatorPermission") })
