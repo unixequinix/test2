@@ -80,21 +80,17 @@ RSpec.describe Refund, type: :model do
       credit.station_catalog_items.create! station: customer_portal, price: "100"
     end
 
-    it "completes the order" do
+    it "cancels the order" do
       expect(subject).not_to be_cancelled
       subject.cancel!
       expect(subject).to be_cancelled
-    end
-
-    it "works with no refund data" do
-      expect { subject.cancel! }.not_to raise_error
     end
 
     it "creates a money transaction" do
       expect { subject.cancel! }.to change(event.transactions.money, :count).by(1)
     end
 
-    it "creates a money transaction with negative price" do
+    it "creates a money transaction with positive price" do
       expect { subject.cancel! }.to change(event.transactions.money, :count).by(1)
       expect(customer.transactions.money.last.price).to eq(subject.total_money)
     end
@@ -103,7 +99,7 @@ RSpec.describe Refund, type: :model do
       expect { subject.cancel! }.to change(event.transactions.credit, :count).by(1)
     end
 
-    it "creates a credit transaction with negative amount" do
+    it "creates a credit transaction with positive amount" do
       expect { subject.cancel! }.to change(event.transactions.credit, :count).by(1)
       expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(subject.amount.to_f)
     end
@@ -112,6 +108,12 @@ RSpec.describe Refund, type: :model do
       email = OrderMailer.cancelled_refund(subject)
       expect(OrderMailer).to receive(:cancelled_refund).with(subject).twice.and_return(email)
       subject.cancel!(true)
+    end
+
+    it "works when customer balance is 0" do
+      subject.update!(amount: 150)
+      subject.complete!
+      expect { subject.cancel! }.to change { customer.reload.credits }.from(0).to(150)
     end
   end
 
