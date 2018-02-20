@@ -12,6 +12,10 @@ RSpec.describe Api::V2::Events::GtagsController, type: %i[controller api] do
 
   describe "topups" do
     let(:atts) { { id: gtag.to_param, event_id: event.to_param } }
+    let!(:customer) { create(:customer, event: event, anonymous: false) }
+
+    before { gtag.update! customer: customer }
+
     include_examples "controller topups"
   end
 

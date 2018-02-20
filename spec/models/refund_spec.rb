@@ -62,7 +62,56 @@ RSpec.describe Refund, type: :model do
     it "sends an email" do
       email = OrderMailer.completed_refund(subject)
       expect(OrderMailer).to receive(:completed_refund).with(subject).twice.and_return(email)
-      subject.complete!({}, true)
+      subject.complete!(true)
+    end
+  end
+
+  describe ".cancel!" do
+    let(:credit) { create(:credit, value: 10) }
+    let(:event) { create(:event) }
+    let(:customer) { create(:customer, event: event, anonymous: false) }
+    let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
+    let(:customer_portal) { create(:station, event: event, category: "customer_portal", name: "customer_portal") }
+    subject { create(:refund, event: event, customer: customer, gateway: "bank_account") }
+
+    before do
+      gtag.update!(credits: 150)
+      event.credit = credit
+      credit.station_catalog_items.create! station: customer_portal, price: "100"
+    end
+
+    it "completes the order" do
+      expect(subject).not_to be_cancelled
+      subject.cancel!
+      expect(subject).to be_cancelled
+    end
+
+    it "works with no refund data" do
+      expect { subject.cancel! }.not_to raise_error
+    end
+
+    it "creates a money transaction" do
+      expect { subject.cancel! }.to change(event.transactions.money, :count).by(1)
+    end
+
+    it "creates a money transaction with negative price" do
+      expect { subject.cancel! }.to change(event.transactions.money, :count).by(1)
+      expect(customer.transactions.money.last.price).to eq(subject.total_money)
+    end
+
+    it "creates a credit transaction" do
+      expect { subject.cancel! }.to change(event.transactions.credit, :count).by(1)
+    end
+
+    it "creates a credit transaction with negative amount" do
+      expect { subject.cancel! }.to change(event.transactions.credit, :count).by(1)
+      expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(subject.amount.to_f)
+    end
+
+    it "sends an email" do
+      email = OrderMailer.cancelled_refund(subject)
+      expect(OrderMailer).to receive(:cancelled_refund).with(subject).twice.and_return(email)
+      subject.cancel!(true)
     end
   end
 

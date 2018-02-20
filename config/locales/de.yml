@@ -133,7 +133,8 @@ de:
     refund:
       subject: Rückerstattung der Guthaben von %{event}
       refund_number: Nummer der Rückerstattung
-      success: Deine Rückerstattung wurde erfolgreich bearbeitet
+      success: Deine Rückzahlung wurde erfolgreich bearbeitet
+      cancel: Deine Rückzahlung wurde annulliert
     reset_password:
       greet: Hallo, %{name}!
       mail_body: 'Du hast eine Passwortänderung angefordert. Du kannst dies unter dem folgendem Link tun:'

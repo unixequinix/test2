@@ -134,6 +134,7 @@ es:
       subject: Devolución de fondos de %{event}
       refund_number: Número de devolución
       success: Tu devolución está siendo procesada
+      cancel: Tu devolución ha sido cancelada
     reset_password:
       greet: ¡Hola, %{name}!
       mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'

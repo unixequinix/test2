@@ -21,8 +21,6 @@ tr
         tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
           //Product quantity
           td style="vertical-align: middle; font-size: 14px; color: #616161;" = pluralize(order_item.amount, order_item.catalog_item.name)
-           //Product price
-          td style="width: 30%; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = number_to_currency order_item.total, unit: @event.currency, format: "%u %n"
       tr
         //Product total
         td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')

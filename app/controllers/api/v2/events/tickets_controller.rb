@@ -28,7 +28,7 @@ module Api::V2
       @order = @ticket.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:price_money, :fee))
 
       if @order.save
-        @order.complete!(params[:gateway])
+        @order.complete!(params[:gateway], {}, params[:send_email])
         render json: @order, serializer: OrderSerializer
       else
         render json: @order.errors, status: :unprocessable_entity
@@ -42,7 +42,7 @@ module Api::V2
       @order = @ticket.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:price_money, :fee))
 
       if @order.save
-        @order.complete!(params[:gateway])
+        @order.complete!(params[:gateway], {}, params[:send_email])
         render json: @order, serializer: OrderSerializer
       else
         render json: @order.errors, status: :unprocessable_entity

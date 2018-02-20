@@ -23,9 +23,9 @@ class Refund < ApplicationRecord
     "Refund: ##{id}"
   end
 
-  def complete!(_refund_data = {}.to_json, send_email = false)
+  def complete!(send_email = false)
     return false if completed?
-    update!(status: "completed")
+    completed!
 
     atts = { items_amount: price_money, payment_gateway: gateway, payment_method: "online", price: -total_money }
     MoneyTransaction.write!(event, "online_refund", customer, customer, atts)
@@ -34,6 +34,19 @@ class Refund < ApplicationRecord
     CreditTransaction.write!(event, "refund", customer, customer, atts)
 
     OrderMailer.completed_refund(self).deliver_later if send_email && !customer.anonymous?
+  end
+
+  def cancel!(send_email = false)
+    return false if cancelled?
+    cancelled!
+
+    atts = { items_amount: -price_money, payment_gateway: gateway, payment_method: "online", price: total_money }
+    MoneyTransaction.write!(event, "online_refund", customer, customer, atts)
+
+    atts = { payments: { event.credit.id => { amount: amount, final_balance: customer.credits } }, customer: customer }
+    CreditTransaction.write!(event, "refund", customer, customer, atts)
+
+    OrderMailer.cancelled_refund(self).deliver_later if send_email && !customer.anonymous?
   end
 
   def prepare_for_bank_account(atts)

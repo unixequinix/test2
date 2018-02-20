@@ -133,6 +133,7 @@ it:
       subject: Devoluzione di fondi di  %{event}
       refund_number: Numero di devoluzione
       success: La tua devoluzione è in corso di elaborazione
+      success: La tua devoluzione è stata completata
     reset_password:
       greet: Ciao, %{name}!
       mail_body: ‘Hai richiesto di cambiare la tua password . Puoi farlo attraverso del seguente link:'

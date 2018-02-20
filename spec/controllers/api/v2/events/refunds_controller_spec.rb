@@ -104,6 +104,58 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
     end
   end
 
+  describe "PUT #complete" do
+    context "when not already completed" do
+      before { refund.started! }
+
+      it "updates the requested refunds status to completed" do
+        expect do
+          put :complete, params: { event_id: event.id, id: refund.to_param }
+        end.to change { refund.reload.status }.to("completed")
+      end
+
+      it "returns the refund" do
+        put :complete, params: { event_id: event.id, id: refund.to_param }
+        expect(json["id"]).to eq(refund.id)
+      end
+    end
+
+    context "when already completed" do
+      before { refund.completed! }
+
+      it "returns an unprocessable_entity response" do
+        put :complete, params: { event_id: event.id, id: refund.to_param }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe "PUT #cancel" do
+    context "when not already cancelled" do
+      before { refund.complete! }
+
+      it "updates the requested refunds status to cancelled" do
+        expect do
+          put :cancel, params: { event_id: event.id, id: refund.to_param }
+        end.to change { refund.reload.status }.to("cancelled")
+      end
+
+      it "returns the refund" do
+        put :cancel, params: { event_id: event.id, id: refund.to_param }
+        expect(json["id"]).to eq(refund.id)
+      end
+    end
+
+    context "when already cancelled" do
+      before { refund.cancelled! }
+
+      it "returns an unprocessable_entity response" do
+        put :cancel, params: { event_id: event.id, id: refund.to_param }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
   describe "DELETE #destroy" do
     before do
       refund

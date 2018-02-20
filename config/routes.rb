@@ -328,6 +328,7 @@ Rails.application.routes.draw do
 
           resources :refunds do
             put :complete, on: :member
+            put :cancel, on: :member
           end
 
           resources :orders, except: %i[create update] do

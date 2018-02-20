@@ -13,6 +13,10 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
 
   describe "topups" do
     let(:atts) { { id: ticket.to_param, event_id: event.to_param } }
+    let(:customer) { create(:customer, event: event, anonymous: false) }
+
+    before { ticket.update! customer: customer }
+
     include_examples "controller topups"
   end
 

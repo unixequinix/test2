@@ -7,6 +7,10 @@ class RefundPolicy < ApplicationPolicy
     admin_or_promoter
   end
 
+  def cancel?
+    admin_or_promoter
+  end
+
   def destroy?
     user.admin?
   end

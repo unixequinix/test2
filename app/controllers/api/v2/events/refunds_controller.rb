@@ -1,6 +1,6 @@
 module Api::V2
   class Events::RefundsController < BaseController
-    before_action :set_refund, only: %i[show update destroy complete]
+    before_action :set_refund, only: %i[show update destroy complete cancel]
 
     # PATCH/PUT api/v2/events/:event_id/refunds/:id
     def complete
@@ -8,7 +8,18 @@ module Api::V2
         @refund.errors.add(:status, "is already completed")
         render json: @refund.errors, status: :unprocessable_entity
       else
-        @refund.complete!(refund_params[:refund_data])
+        @refund.complete!(params[:send_email])
+        render json: @refund
+      end
+    end
+
+    # PATCH/PUT api/v2/events/:event_id/refunds/:id
+    def cancel
+      if @refund.cancelled?
+        @refund.errors.add(:status, "is already cancelled")
+        render json: @refund.errors, status: :unprocessable_entity
+      else
+        @refund.cancel!(params[:send_email])
         render json: @refund
       end
     end
@@ -33,7 +44,6 @@ module Api::V2
       authorize @refund
 
       if @refund.save
-        @refund.complete!
         render json: @refund, status: :created, location: [:admins, @current_event, @refund]
       else
         render json: @refund.errors, status: :unprocessable_entity

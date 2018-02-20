@@ -7,7 +7,7 @@ RSpec.shared_examples "controller topups" do
       expect(response).to have_http_status(:ok)
     end
 
-    it "returns the customer as JSON" do
+    it "returns the order as JSON" do
       post :topup, params: new_atts
       order = event.orders.find(JSON.parse(response.body)["id"])
       expect(json).to eq(obj_to_json_v2(order, "OrderSerializer"))
@@ -54,6 +54,19 @@ RSpec.shared_examples "controller topups" do
       post :topup, params: new_atts
       order = event.orders.find(JSON.parse(response.body)["id"])
       expect(order.gateway).to eq("somethingcrazy")
+    end
+
+    it "dos not send email by default" do
+      expect(OrderMailer).not_to receive(:completed_order)
+      post :topup, params: new_atts
+    end
+
+    it "can send email if requested" do
+      fake_order = customer.build_order([[10]])
+      fake_order.complete!
+      fake_email = OrderMailer.completed_order(fake_order)
+      expect(OrderMailer).to receive(:completed_order).twice.and_return(fake_email)
+      post :topup, params: new_atts.merge(send_email: true)
     end
   end
 
@@ -109,6 +122,19 @@ RSpec.shared_examples "controller topups" do
       post :virtual_topup, params: new_atts
       order = event.orders.find(JSON.parse(response.body)["id"])
       expect(order.order_items.last.catalog_item).to eq(event.virtual_credit)
+    end
+
+    it "dos not send email by default" do
+      expect(OrderMailer).not_to receive(:completed_order)
+      post :virtual_topup, params: new_atts
+    end
+
+    it "can send email if requested" do
+      fake_order = customer.build_order([[10]])
+      fake_order.complete!
+      fake_email = OrderMailer.completed_order(fake_order)
+      expect(OrderMailer).to receive(:completed_order).twice.and_return(fake_email)
+      post :virtual_topup, params: new_atts.merge(send_email: true)
     end
   end
 end
