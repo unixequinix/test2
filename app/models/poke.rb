@@ -1,5 +1,4 @@
 class Poke < ApplicationRecord
-
   belongs_to :event, counter_cache: true
   belongs_to :operation, class_name: "Transaction", optional: true, inverse_of: :pokes
   belongs_to :device, optional: true
@@ -103,7 +102,7 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
-  def self.totals(event)
+  def self.totals(event) # rubocop:disable Metrics/AbcSize
     {
       activations: event.customers.count,
       staff: event.customers.where(operator: true).count,
@@ -119,20 +118,20 @@ class Poke < ApplicationRecord
       alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol, sum(credit_amount) as credits").is_ok.joins(:product).group("is_alcohol").to_json,
       top_productos: event.pokes.select("products.name as product_name, sum(credit_amount) as credits").is_ok.joins(:product).group("product_name").order("credits").limit("5").to_json,
       d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
-      t_credits: event.pokes.select("credit_name, sum(credit_amount) as credits").is_ok.where(credit: event.credits).group("credit_name").to_json,
+      t_credits: event.pokes.select("credit_name, sum(credit_amount) as credits").is_ok.where(credit: event.credits).group("credit_name").to_json
     }
   end
 
   def self.dashboard(event)
     {
       totals: {
-      money_income: event.pokes.is_ok.sum(:monetary_total_price),
-      credits_breakage: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
-      total_sales: -event.pokes.is_ok.sales.where(credit: event.credits).sum(:credit_amount),
-      activations: event.customers.count,
-    },
+        money_income: event.pokes.is_ok.sum(:monetary_total_price),
+        credits_breakage: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+        total_sales: -event.pokes.is_ok.sales.where(credit: event.credits).sum(:credit_amount),
+        activations: event.customers.count
+      },
       d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
-      event_day_money: event.pokes.select(event_day_query_as_event_day, sum_money).is_ok.has_money.order("event_day").group("event_day").to_json,
+      event_day_money: event.pokes.select(event_day_query_as_event_day, sum_money).is_ok.has_money.order("event_day").group("event_day").to_json
     }
   end
 
