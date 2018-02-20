@@ -1,4 +1,5 @@
 class Poke < ApplicationRecord
+
   belongs_to :event, counter_cache: true
   belongs_to :operation, class_name: "Transaction", optional: true, inverse_of: :pokes
   belongs_to :device, optional: true
@@ -16,6 +17,7 @@ class Poke < ApplicationRecord
   belongs_to :credit, polymorphic: true, optional: true
 
   scope :topups, -> { where(action: "topup") }
+  scope :purchases, -> { where(action: "purchase") }
   scope :refunds, -> { where(action: "refund") }
   scope :sales, -> { where(action: "sale") }
   scope :record_credit, -> { where(action: "record_credit") }
@@ -26,9 +28,10 @@ class Poke < ApplicationRecord
   scope :topup_fees, -> { where(action: "topup_fee") }
   scope :deposit_fees, -> { where(action: "gtag_deposit_fee") }
   scope :return_fees, -> { where(action: "gtag_return_fee") }
-  scope :online_orders, -> { where(action: "record_credit", description: %w[record_credit order_appliend_onsite]) }
+  scope :online_orders, -> { where(action: "record_credit", description: %w[record_credit order_applied_onsite]) }
 
   scope :has_money, -> { where.not(monetary_total_price: nil) }
+  scope :has_credits, -> { where.not(credit_amount: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: "online") }
@@ -101,22 +104,40 @@ class Poke < ApplicationRecord
   has_paper_trail on: %i[update destroy]
 
   def self.totals(event)
-    # TODO: change checkins from tickets to checkin pokes
     {
+      activations: event.customers.count,
+      staff: event.customers.where(operator: true).count,
       money: event.pokes.is_ok.sum(:monetary_total_price),
-      credits: event.pokes.where(credit: event.credits).is_ok.sum(:credit_amount),
-      product_sales: -event.pokes.where(credit: event.credits).sales.is_ok.sum(:credit_amount),
-      checkins: event.tickets.where(redeemed: true).count,
-      activations: PokesQuery.new(event).activations,
-      devices: event.pokes.is_ok.devices.map { |h| h["total_devices"] }.compact.sum,
-      record_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
-      top_products: event.pokes.top_products.where(credit: event.credits).to_json,
-      top_quantity: PokesQuery.new(event).top_quantities
+      money_unredeemed: event.pokes.is_ok.online.sum(:monetary_total_price) - event.pokes.is_ok.online_orders.sum(:credit_amount) * event.credit.value,
+      source_pm_money: event.pokes.select("source, payment_method", sum_money).is_ok.has_money.group("source, payment_method"),
+      action_st_money: event.pokes.select("action, stations.category as station_type", sum_money).is_ok.has_money.joins(:station).group("action, station_type"),
+      source_ac_money: event.pokes.select("source, action", sum_money).is_ok.has_money.group("source, action"),
+      event_day_money: event.pokes.select(event_day_query_as_event_day, sum_money).is_ok.has_money.order("event_day").group("event_day").to_json,
+      breakage: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+      credit_breakage: event.pokes.select("credit_name, sum(credit_amount) as credits").is_ok.has_credits.group("credit_name"),
+      credits: event.pokes.select("action, description, sum(credit_amount) as credits").is_ok.has_credits.group("action, description"),
+      alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol, sum(credit_amount) as credits").is_ok.joins(:product).group("is_alcohol").to_json,
+      top_productos: event.pokes.select("products.name as product_name, sum(credit_amount) as credits").is_ok.joins(:product).group("product_name").order("credits").limit("5").to_json,
+      d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
+      t_credits: event.pokes.select("credit_name, sum(credit_amount) as credits").is_ok.where(credit: event.credits).group("credit_name").to_json,
+    }
+  end
+
+  def self.dashboard(event)
+    {
+      totals: {
+      money_income: event.pokes.is_ok.sum(:monetary_total_price),
+      credits_breakage: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+      total_sales: -event.pokes.is_ok.sales.where(credit: event.credits).sum(:credit_amount),
+      activations: event.customers.count,
+    },
+      d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
+      event_day_money: event.pokes.select(event_day_query_as_event_day, sum_money).is_ok.has_money.order("event_day").group("event_day").to_json,
     }
   end
 
   def self.event_day_query_as_event_day
-    "#{event_day_query}  as event_day"
+    "#{event_day_query} as event_day"
   end
 
   def self.event_day_query
@@ -124,7 +145,7 @@ class Poke < ApplicationRecord
   end
 
   def self.date_time_query
-    "to_char(date_trunc('hour', date), 'HHh DD-MM-YY') as date_time"
+    "to_char(date_trunc('hour', date), 'MM-DD HHh') as date_time"
   end
 
   def self.dimensions_operators_devices
@@ -141,6 +162,10 @@ class Poke < ApplicationRecord
 
   def self.grouping_station
     "location, station_type, station_name"
+  end
+
+  def self.sum_money
+    "sum(monetary_total_price) as money"
   end
 
   def error?

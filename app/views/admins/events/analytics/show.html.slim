@@ -28,50 +28,113 @@
 
         #dashboard-panel.mdl-tabs__panel.is-active
           .mdl-cell.mdl-cell--12-col
-            .mdl-grid
-              .mdl-cell.mdl-cell--3-col
-                .customer-card.mdl-card.mdl-shadow--2dp
-                  .mdl-card__title.mdl-card--expand
-                    h3.mdl-card__title-text = number_to_event_currency(@totals[:money])
-                  .mdl-card__supporting-text
-                    span.good_info = "Money Income"
-              .mdl-cell.mdl-cell--3-col
-                .customer-card.mdl-card.mdl-shadow--2dp
-                  .mdl-card__title.mdl-card--expand
-                    h3.mdl-card__title-text = number_to_token(@totals[:credits])
-                  .mdl-card__supporting-text
-                    span.good_info = "Credits left over"
-              .mdl-cell.mdl-cell--3-col
-                .customer-card.mdl-card.mdl-shadow--2dp
-                  .mdl-card__title.mdl-card--expand
-                    h3.mdl-card__title-text = number_to_token(@totals[:product_sales])
-                  .mdl-card__supporting-text
-                    span.good_info = "Total Sale"
-              .mdl-cell.mdl-cell--3-col
-                .customer-card.mdl-card.mdl-shadow--2dp
-                  .mdl-card__title.mdl-card--expand
-                    h3.mdl-card__title-text = @totals[:checkins]
-                  .mdl-card__supporting-text
-                    span.good_info = "Total Check-in's"
-          .mdl-cell.mdl-cell--12-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons import_export
-                  | Credit Transactions #{@current_event.credit.symbol}
-              canvas#myChart
-
-          .mdl-cell.mdl-cell--12-col
-            .transaction-card-wide.mdl-card.mdl-shadow--2dp
-              .mdl-card__title
-                .mdl-cell.mdl-cell--12-col
-                  i.material-icons import_export
-                  | Top 10 Products Sold
+            .mld-card.analytics-card-back
               .mdl-grid
-                .mdl-cell.mdl-cell--6-col
-                  canvas#top_products
-                .mdl-cell.mdl-cell--6-col
-                  canvas#top_products_q
+                .mdl-cell.mdl-cell--3-col
+                  .mld-card.analytics-card-front
+                    .mdl-card__title.mdl-card--expand
+                      h3.mdl-card__title-text = number_to_event_currency(@totals[:totals][:money])
+                    .mdl-card__supporting-text
+                      span.analytics-text = "Money Income"
+                .mdl-cell.mdl-cell--3-col
+                  .mld-card.analytics-card-front
+                    .mdl-card__title.mdl-card--expand
+                      h3.mdl-card__title-text = number_to_event_currency(@totals[:totals][:money_unredeemed])
+                    .mdl-card__supporting-text
+                      span.analytics-text = "Unredeemed Online Money"
+                .mdl-cell.mdl-cell--3-col
+                  .mld-card.analytics-card-front
+                    .mdl-card__title.mdl-card--expand
+                      h3.mdl-card__title-text = number_to_token(@totals[:totals][:breakage])
+                    .hr
+                    .mdl-card__supporting-text
+                      span.analytics-text = "Credits Breakage"
+                .mdl-cell.mdl-cell--3-col
+                  .mld-card.analytics-card-front
+                    .mdl-card__title.mdl-card--expand
+                      h3.mdl-card__title-text = number_with_delimiter(@totals[:totals][:activations])
+                    .mdl-card__supporting-text
+                      span.analytics-text = "Total Activations"
+
+          / HIGHLIGHTS
+          .mdl-cell.mdl-cell--12-col
+            .mdl-grid
+              .mdl-cell.mdl-cell--6-col
+                .center-card-title
+                  h4.analytics-text = 'HIGHLIGHTS'
+                .mdl-cell.mdl-cell--12-col
+                  .mld-card.analytics-card-back
+                    .mdl-grid
+                      .mdl-cell.mdl-cell--12-col
+                        .mld-card.analytics-card-front
+                          .mdl-grid
+                            - @totals[:subtotals][:money_highlight].each do |highlight|
+                              .mdl-cell.mdl-cell--middle.mdl-cell--4-col
+                                h6.analytics-text = highlight["dm1"].upcase
+                              .mdl-cell.mdl-cell--8-col
+                                .mdl-grid
+                                  .mdl-cell.mdl-cell--6-col
+                                    .mdl-cell.mdl-cell--12-col
+                                      .analytics-text = "Onsite"
+                                      h6 = highlight["dm2"].map{|di2| di2["onsite"] if di2.keys[0] == 'onsite'}.compact[0] || number_to_event_currency(0)
+                                  .mdl-cell.mdl-cell--6-col
+                                    .mdl-cell.mdl-cell--12-col
+                                      .analytics-text = "Online"
+                                      h6 = highlight["dm2"].map{|di2| di2["online"] if di2.keys[0] == 'online'}.compact[0] || number_to_event_currency(0)
+
+              .mdl-cell.mdl-cell--6-col
+                .center-card-title
+                  h4.analytics-text = 'CREDITS / EVENT CURRENCY'
+                .mdl-cell.mdl-cell--12-col
+                  .mld-card.analytics-card-back
+                    .mdl-grid
+                      - @totals[:totals][:credit_breakage].map do |v|
+                        .mdl-cell class="mdl-cell--#{12 / @totals[:totals][:credit_breakage].size}-col"
+                          .mld-card.analytics-card-front
+                            .mdl-card__title.mdl-card--expand
+                              h5.analytics-text = v[:credit_name].to_s.humanize
+                            .mdl-cell.center-card-title
+                              h6 = number_to_token(v[:credits])
+                    .mdl-grid
+                      .mdl-cell.mdl-cell--12-col
+                        canvas#credit_type
+            .mdl-cell.mdl-cell--12-col
+              .mld-card.analytics-card-back
+                .mdl-grid
+                  .mdl-cell.mdl-cell--6-col
+                    canvas#money_chart
+                  .mdl-cell.mdl-cell--6-col
+                    canvas#credits_chart
+
+          / CARDS
+          .mdl-cell.mdl-cell--12-col
+            .mdl-grid
+              .mdl-cell.mdl-cell--6-col
+                -@totals[:subtotals][:money].keys.each do |key|
+                  .mdl-cell.mdl-cell--12-col
+                    = render "card", key: key, data: @totals[:subtotals][:money][key]
+              .mdl-cell.mdl-cell--6-col
+                .mdl-cell.mdl-cell--12-col
+                -@totals[:subtotals][:credits].keys.each do |key|
+                  .mdl-cell.mdl-cell--12-col
+                    = render "card", key: key, data: @totals[:subtotals][:credits][key]
+
+          / PRODUCTS
+          .mdl-cell.mdl-cell--12-col
+            .mdl-grid
+              .mdl-cell.mdl-cell--12-col
+                .mdl-grid
+                  .mdl-cell.mdl-cell--12-col
+                    .center-card-title
+                      h4.analytics-text = 'PRODUCTS SUMMARY'
+                    .mld-card.analytics-card-back
+                      .mdl-grid
+                        .mdl-cell.mdl-cell--6-col
+                          .mdl-cell.mdl-cell--12-col
+                            canvas#alcohol_products
+                        .mdl-cell.mdl-cell--6-col
+                          .mdl-cell.mdl-cell--12-col
+                            canvas#top_products
 
         #load-view
   .mdl-layout-spacer
@@ -93,61 +156,86 @@ javascript:
   });
 
   $(function () {
-      var data =
-      #{ @totals[:record_credits].html_safe }
-      var credit_symbol = '#{ @current_event.credit.symbol }'
-      var date_time = data.map(function (e) {
-          return e.date_time;
-      });
-      var record_credits = data.map(function (e) {
-          return e.record_credit;
-      });
-      var sales = data.map(function (e) {
-          return -e.sale;
-      });
+     var data =#{ @totals[:totals][:event_day_money].html_safe }
+     var money_symbol = '#{ @current_event.currency_symbol }'
+     var event_day = data.map(function (e) {
+         return e.event_day;
+     });
+     var money = data.map(function (e) {
+         return e.money;
+     });
 
-      new Chart(document.getElementById("myChart"), {
-          type: 'bar',
-          data: {
-              labels: date_time,
-              datasets: [{
-                  label: "Sales " + (credit_symbol),
-                  type: "line",
-                  borderColor: "#fcaa98",
-                  data: sales,
-                  fill: false
-              }, {
-                  label: "Record Credits " + (credit_symbol),
-                  type: "bar",
-                  backgroundColor: "#add8e9",
-                  data: record_credits,
-              }
-              ]
-          },
-          options: {
-              legend: {display: true}
-          }
-      });
-      var color_scale = ["#ade8e9", "#add8e9", "#adc8e9", "#adb8e9", "#ada8e9", "#bcea98", "#ccda98", "#dcca98", "#ecba98", "#fcaa98"]
-      var data =
-      #{ @totals[:top_products].html_safe }
-      var credit_symbol = '#{ @current_event.credit.symbol }'
-      var product_name = data.map(function (e) {
-          return e.product_name;
-      });
-      var credit_amount = data.map(function (e) {
-          return e.credit_amount;
-      });
+     new Chart(document.getElementById("money_chart"), {
+         type: 'bar',
+         data: {
+             labels: event_day,
+             datasets: [ {
+                 label: "Money " + (money_symbol),
+                 type: "bar",
+                 backgroundColor: "#bcea98",
+                 data: money,
+             }]
+         },
+         options: {
+           title: {
+             display: true,
+             text: 'Money Income per Event Day'
+           }
+      }
+   });
 
-      new Chart(document.getElementById("top_products"), {
+
+   var credit_symbol = '#{ @current_event.credit.symbol }'
+   var data_c = #{ @totals[:totals][:d_credits].html_safe }
+   var date_time = data_c.map(function (e) { return e.date_time });
+   var record_credit = data_c.map(function (e) { return e.record_credit });
+   var sale = data_c.map(function (e) { return -e.sale });
+
+   new Chart(document.getElementById("credits_chart"), {
+             type: 'bar',
+             data: {
+                 labels: date_time,
+                 datasets: [{
+                     label: "Sales " + (credit_symbol),
+                     type: "line",
+                     borderColor: "#fcaa98",
+                     data: sale,
+                     fill: false
+                 }, {
+                     label: "Record Credits " + (credit_symbol),
+                     type: "bar",
+                     backgroundColor: "#add8e9",
+                     data: record_credit,
+                 }
+                 ]
+             },
+             options: {
+               tooltips: {
+                   mode: 'index',
+                   intersect: false
+               },
+               title: {
+                 display: true,
+                 text: 'Record Credits vs Sales'
+               },
+                 legend: {display: false}
+             }
+         });
+
+   var color_scale_a = ["#bcea98", "#fcaa98"]
+   var data_a = #{ @totals[:totals][:alcohol_products].html_safe }
+   var is_alcohol = data_a.map(function (e) { return e.is_alcohol });
+   var credits = data_a.map(function (e) { return -e.credits });
+
+   new Chart(document.getElementById("alcohol_products"), {
           type: 'doughnut',
           data: {
-              labels: product_name,
+              labels: is_alcohol,
               datasets: [
                   {
                       label: "Product" + credit_symbol,
-                      backgroundColor: color_scale,
-                      data: credit_amount
+                      backgroundColor: color_scale_a,
+                      data: credits
                   }
               ]
           },
@@ -155,29 +243,54 @@ javascript:
               legend: {display: false},
               title: {
                   display: true,
-                  text: 'by Credits ' + credit_symbol
-              }
+                  text: 'Alcohol Products vs Non ' + credit_symbol
+              },
+              legend: {display: true}
           }
       });
 
-      var data_q =
-      #{ @totals[:top_quantity].html_safe }
-      var product_name_q = data_q.map(function (e) {
-          return e.product_name;
-      });
-      var quantity = data_q.map(function (e) {
-          return e.quantity;
-      });
+   var color_scale_p = ["#ade8e9", "#add8e9", "#adc8e9", "#adb8e9", "#ada8e9"]
+   var data_p = #{ @totals[:totals][:top_productos].html_safe }
+   var product_name = data_p.map(function (e) { return e.product_name });
+   var credits = data_p.map(function (e) { return -e.credits });
 
-      new Chart(document.getElementById("top_products_q"), {
+   new Chart(document.getElementById("top_products"), {
+             type: 'doughnut',
+             data: {
+                 labels: product_name,
+                 datasets: [
+                     {
+                         label: "Product" + credit_symbol,
+                         backgroundColor: color_scale_p,
+                         data: credits
+                     }
+                 ]
+             },
+             options: {
+                 legend: {display: false},
+                 title: {
+                     display: true,
+                     text: 'Top 5 products ' + credit_symbol
+                 },
+                 legend: {display: true}
+             }
+         });
+
+
+   var color_scale_a = ["#bcea98", "#ade8e9"]
+   var data_a = #{ @totals[:totals][:t_credits].html_safe }
+   var credit_name = data_a.map(function (e) { return e.credit_name });
+   var credits = data_a.map(function (e) { return e.credits });
+
+   new Chart(document.getElementById("credit_type"), {
           type: 'doughnut',
           data: {
-              labels: product_name_q,
+              labels: credit_name,
               datasets: [
                   {
-                      label: "Product",
-                      backgroundColor: color_scale,
-                      data: quantity
+                      label: "Credit" + credit_symbol,
+                      backgroundColor: color_scale_a,
+                      data: credits
                   }
               ]
           },
@@ -185,8 +298,10 @@ javascript:
               legend: {display: false},
               title: {
                   display: true,
-                  text: 'by Quantity'
-              }
+                  text: 'Credist vs Virtual Credits ' + credit_symbol
+              },
+              legend: {display: true}
           }
       });
+
   });

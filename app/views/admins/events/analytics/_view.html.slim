@@ -1,15 +1,16 @@
 
 .mdl-tabs__panel.is-active id="#{name}_report"
-  .mdl-grid.light-grid
-    .mdl-layout-spacer
-    - totals.map do |k, v|
-      .mdl-cell class="mdl-cell--#{12 / totals.size}-col"
-        .customer-card.mdl-card.mdl-shadow--2dp
-          .mdl-card__title.mdl-card--expand
-            h3.mdl-card__title-text = v
-          .mdl-card__supporting-text
-            span.good_info = k.to_s.humanize
-    .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .mld-card.analytics-card-back
+      .mdl-grid
+        - totals.map do |k, v|
+          .mdl-cell class="mdl-cell--#{12 / totals.size}-col"
+            .mld-card.analytics-card-front
+              .mdl-card__title.mdl-card--expand
+                h3.mdl-card__title-text = v
+              .mdl-card__supporting-text
+                span.analytics-text = k.to_s.humanize
+
 
   - views.each do |view|
     = render "report_card", chart_id: view[:chart_id], title: view[:title] , cols: view[:cols] , rows: view[:rows] , data: view[:data] , metric: view[:metric] , decimals: view[:decimals]

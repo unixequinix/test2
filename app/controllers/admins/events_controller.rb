@@ -28,7 +28,8 @@ module Admins
     end
 
     def show
-      @totals = Poke.totals(@current_event)
+      @totals = Poke.dashboard(@current_event)
+
       render layout: "admin_event"
     end
 

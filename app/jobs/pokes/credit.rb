@@ -12,7 +12,7 @@ class Pokes::Credit < Pokes::Base
     description = t.action.gsub("_fee", "") if FEES.include?(t.action)
     description = "checkin" if t.station.category.eql?("check_in") && t.action.eql?("topup")
     description = "purchase" if t.station.category.eql?("box_office") && t.action.eql?("topup")
-    description = "order_appliend_onsite" if t.action.eql?("record_credit")
+    description = "order_applied_onsite" if t.action.eql?("record_credit")
 
     action = "record_credit"
     action = "fee" if FEES.include?(t.action)
