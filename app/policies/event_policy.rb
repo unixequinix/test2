@@ -7,7 +7,7 @@ class EventPolicy < ApplicationPolicy
     user.admin? || user.registration_for(record).present?
   end
 
-  def stats?
+  def analytics?
     admin_or_promoter
   end
 

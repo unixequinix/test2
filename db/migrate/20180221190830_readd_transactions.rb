@@ -1,7 +1,6 @@
-class AddTransactions < ActiveRecord::Migration[5.1]
+class ReaddTransactions < ActiveRecord::Migration[5.1]
   def change
-    enable_extension "citext"
-
+    return if table_exists?(:transactions)
     create_table "transactions" do |t|
       t.integer "event_id", null: false
       t.string "type", null: false
@@ -63,6 +62,19 @@ class AddTransactions < ActiveRecord::Migration[5.1]
       t.index :station_id
       t.index :ticket_id
       t.index :type
+    end
+
+    return if table_exists?(:sale_items)
+    create_table "sale_items" do |t|
+      t.integer "quantity", null: false
+      t.float "standard_unit_price"
+      t.integer "credit_transaction_id", null: false
+      t.bigint "product_id"
+      t.string "sale_item_type"
+      t.jsonb "payments", default: {}
+      t.decimal "standard_total_price", precision: 10, scale: 2
+      t.index :credit_transaction_id
+      t.index :product_id
     end
   end
 end

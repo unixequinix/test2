@@ -16,9 +16,6 @@
           = link_to "#station-form", class: "mdl-tabs__tab" do
             span.material-icons add_circle_outline
 
-        .mdl-tabs__panel id="station-form"
-          = render "form", group: nil
-
         - @stations.keys.sort.reverse.each.with_index do |group, index|
           .mdl-tabs__panel id="#{group}-panel" class="#{'is-active' if index.zero?}"
             .mdl-card__title
@@ -36,7 +33,7 @@
                       th.mdl-data-table__cell--non-numeric Location
                       th Items
                       th Hidden
-                      th Stats
+                      th Analytics
                       th
 
                   tbody
@@ -47,7 +44,7 @@
                         td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
                         td data-label="Items" = station.all_station_items.size
                         td data-label="Hidden" = best_in_place station, :hidden, best_in_place_checkbox([:admins, @current_event, station])
-                        td data-label="Stats" = best_in_place station, :device_stats_enabled, best_in_place_checkbox([:admins, @current_event, station])
+                        td data-label="Analytics" = best_in_place station, :device_stats_enabled, best_in_place_checkbox([:admins, @current_event, station])
                         td.table-actions
                           - unless station.category.eql?("customer_portal")
                             .table-action
@@ -65,4 +62,9 @@
                       span.mdl-tooltip data-mdl-for="edit_#{station.id}" Edit
                       span.mdl-tooltip data-mdl-for="delete_#{station.id}" Delete
                       span.mdl-tooltip data-mdl-for="copy_#{station.id}" Clone
+
+
+        .mdl-tabs__panel id="station-form" = render "form", group: nil
+
+        
   .mdl-layout-spacer

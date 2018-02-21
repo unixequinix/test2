@@ -45,8 +45,8 @@ RSpec.describe Pokes::Sale, type: :job do
   end
 
   it "provides line_counters for every poke" do
-    stats = worker.perform_now(transaction)
-    expect(stats.pluck(:line_counter).sort).to eq([1, 2, 3, 4, 5, 6])
+    pokes = worker.perform_now(transaction)
+    expect(pokes.pluck(:line_counter).sort).to eq([1, 2, 3, 4, 5, 6])
   end
 
   describe "extracting credit values" do

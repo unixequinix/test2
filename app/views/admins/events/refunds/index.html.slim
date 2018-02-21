@@ -19,7 +19,7 @@
           i.material-icons#changeIcon build
 
 
-- if policy(@current_event.refunds.new).stats? && @refunds.any?
+- if policy(@current_event.refunds.new).analytics? && @refunds.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col

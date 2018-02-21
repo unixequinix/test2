@@ -93,11 +93,6 @@ Rails.application.routes.draw do
           get :checkin
           get :access
         end
-        resources :stats, only: [:edit, :update] do
-          get :stations, on: :collection
-          get :issues, on: :collection
-          put :update_multiple, on: :collection
-        end
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection
         end
@@ -291,7 +286,6 @@ Rails.application.routes.draw do
           resources :devices, except: %i[create new]
           resources :companies
           resources :accesses
-          resources :stats, only: %i[index show]
 
           resources :tickets do
             post :topup, on: :member

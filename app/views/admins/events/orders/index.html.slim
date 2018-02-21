@@ -1,7 +1,7 @@
 - content_for(:title) do
   | Orders
 
-- if policy(@current_event.orders.new).stats?
+- if policy(@current_event.orders.new).analytics?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col

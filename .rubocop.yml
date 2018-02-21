@@ -2,7 +2,6 @@ AllCops:
   TargetRubyVersion: 2.3
   Exclude:
     - 'db/**/*'
-    - 'db_stats/**/*'
     - 'spec/rails_helper.rb'
     - 'config/initializers/**/*'
     - 'config/environments/**/*'

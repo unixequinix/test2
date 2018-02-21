@@ -21,33 +21,33 @@ RSpec.describe Pokes::Purchase, type: :job do
         transaction.update! action: "portal_purchase", order: order, catalog_item: nil
       end
 
-      it "creates as many stats as order_items present" do
+      it "creates as many pokes as order_items present" do
         expect { worker.perform_now(transaction) }.to change(Poke, :count).by(3)
       end
 
-      it "differentiates stats by line_counter" do
-        stats = worker.perform_now(transaction)
-        expect(stats.map(&:line_counter).sort).to eql([1, 2, 3])
+      it "differentiates pokes by line_counter" do
+        pokes = worker.perform_now(transaction)
+        expect(pokes.map(&:line_counter).sort).to eql([1, 2, 3])
       end
 
       it "names action purchase" do
-        stats = worker.perform_now(transaction)
-        expect(stats.map(&:action).sort).to eql(%w[purchase purchase purchase])
+        pokes = worker.perform_now(transaction)
+        expect(pokes.map(&:action).sort).to eql(%w[purchase purchase purchase])
       end
 
       it "sets monetary_quantity to 1" do
-        stats = worker.perform_now(transaction)
-        expect(stats.map(&:monetary_quantity).uniq).to eql([1])
+        pokes = worker.perform_now(transaction)
+        expect(pokes.map(&:monetary_quantity).uniq).to eql([1])
       end
 
       it "sets monetary_total_price to order_item price" do
-        stats = worker.perform_now(transaction)
-        expect(stats.sum(&:monetary_total_price).to_f).to eql(order.total.to_f)
+        pokes = worker.perform_now(transaction)
+        expect(pokes.sum(&:monetary_total_price).to_f).to eql(order.total.to_f)
       end
 
       it "sets monetary_unit_price to transaction price" do
-        stats = worker.perform_now(transaction)
-        expect(stats.sum(&:monetary_unit_price).to_f).to eql(order.total.to_f)
+        pokes = worker.perform_now(transaction)
+        expect(pokes.sum(&:monetary_unit_price).to_f).to eql(order.total.to_f)
       end
     end
 
