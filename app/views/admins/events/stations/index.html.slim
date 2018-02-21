@@ -36,6 +36,7 @@
                       th.mdl-data-table__cell--non-numeric Location
                       th Items
                       th Hidden
+                      th Stats
                       th
 
                   tbody
@@ -46,6 +47,7 @@
                         td.mdl-data-table__cell--non-numeric data-label="Location" = station.location&.humanize
                         td data-label="Items" = station.all_station_items.size
                         td data-label="Hidden" = best_in_place station, :hidden, best_in_place_checkbox([:admins, @current_event, station])
+                        td data-label="Stats" = best_in_place station, :device_stats_enabled, best_in_place_checkbox([:admins, @current_event, station])
                         td.table-actions
                           - unless station.category.eql?("customer_portal")
                             .table-action

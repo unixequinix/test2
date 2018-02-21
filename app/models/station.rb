@@ -35,7 +35,7 @@ class Station < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }
   validates :category, inclusion: { in: CATEGORIES, message: "Has to be one of: #{CATEGORIES.to_sentence}" }
-
+  
   after_create :add_predefined_values
   before_create :add_station_event_id
 

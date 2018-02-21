@@ -146,7 +146,7 @@ module Admins
       end
 
       def permitted_params
-        params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden, ticket_type_ids: [])
+        params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden, :device_stats_enabled, ticket_type_ids: [])
       end
     end
   end
