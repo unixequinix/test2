@@ -1,5 +1,4 @@
 class Station < ApplicationRecord
-
   belongs_to :event, counter_cache: true
 
   has_many :station_ticket_types, dependent: :destroy
@@ -10,7 +9,6 @@ class Station < ApplicationRecord
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
   has_many :pokes, dependent: :restrict_with_error
-
 
   ASSOCIATIONS = { accreditation:  %i[customer_portal box_office],
                    cs_accreditation:  %i[staff_accreditation cs_accreditation],
@@ -37,7 +35,7 @@ class Station < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }
   validates :category, inclusion: { in: CATEGORIES, message: "Has to be one of: #{CATEGORIES.to_sentence}" }
-  
+
   after_create :add_predefined_values
   before_create :add_station_event_id
 

@@ -12,7 +12,7 @@ RSpec.describe "Create orders on a Customer view", js: true, type: :feature do
   end
 
   describe "Create new order: " do
-    before(:each) {click_link("new_order_link")}
+    before(:each) { click_link("new_order_link") }
 
     it "can be achieved by adding one of each item" do
       within("#new_order") do
@@ -51,7 +51,7 @@ RSpec.describe "Create orders on a Customer view", js: true, type: :feature do
       end
       find("input[name=commit]").click
       expect(event.orders.last.credits.to_f).to equal(10.0)
-      end
+    end
 
     it "can include virtual credits" do
       within("#new_order") do

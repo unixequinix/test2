@@ -37,11 +37,11 @@
           .mdl-tabs__panel id="#{state}-panel" class="#{'is-active' if state == 'launched'}"
             = render "list", events: events
 
-        .mdl-tabs__panel id="event-form"
-          = render "form", event: @event
-
         - if @current_user.glowball?
           .mdl-tabs__panel id="all-panel"
             = render "list", events: Event.all.order(state: :asc, start_date: :desc, name: :asc)
+
+        .mdl-tabs__panel id="event-form"
+          = render "form", event: @event
 
   .mdl-layout-spacer
