@@ -1,4 +1,17 @@
 class Station < ApplicationRecord
+
+  belongs_to :event, counter_cache: true
+
+  has_many :station_ticket_types, dependent: :destroy
+  has_many :ticket_types, through: :station_ticket_types
+  has_many :transactions, dependent: :restrict_with_error
+  has_many :station_catalog_items, dependent: :destroy
+  has_many :products, dependent: :destroy
+  has_many :topup_credits, dependent: :destroy
+  has_many :access_control_gates, dependent: :destroy
+  has_many :pokes, dependent: :restrict_with_error
+
+
   ASSOCIATIONS = { accreditation:  %i[customer_portal box_office],
                    cs_accreditation:  %i[staff_accreditation cs_accreditation],
                    pos: %i[bar vendor],
@@ -20,17 +33,6 @@ class Station < ApplicationRecord
             access: [:access_control] }.freeze
 
   CATEGORIES = GROUPS.values.flatten.map(&:to_s)
-
-  belongs_to :event, counter_cache: true
-
-  has_many :station_ticket_types, dependent: :destroy
-  has_many :ticket_types, through: :station_ticket_types
-  has_many :transactions, dependent: :restrict_with_error
-  has_many :station_catalog_items, dependent: :destroy
-  has_many :products, dependent: :destroy
-  has_many :topup_credits, dependent: :destroy
-  has_many :access_control_gates, dependent: :destroy
-  has_many :pokes, dependent: :restrict_with_error
 
   validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }

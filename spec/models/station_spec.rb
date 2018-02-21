@@ -3,10 +3,6 @@ require "rails_helper"
 RSpec.describe Station, type: :model do
   subject { build(:station) }
 
-  it "has a valid factory" do
-    expect(subject).to be_valid
-  end
-
   describe ".add_predefined_values" do
     it "adds default buttons when is a topup/refund station" do
       station = build(:station, category: "top_up_refund")
