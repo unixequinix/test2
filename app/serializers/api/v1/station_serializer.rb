@@ -1,13 +1,17 @@
 module Api
   module V1
     class StationSerializer < ActiveModel::Serializer
-      attributes :id, :station_event_id, :type, :name, :hidden
+      attributes :id, :station_event_id, :type, :name, :hidden, :display_stats
       attribute :ticket_types_ids, if: :access_station?
 
       def attributes(*args)
         hash = super
         method(object.form).call(hash) if object.form
         hash
+      end
+
+      def display_stats
+        object.device_stats_enabled
       end
 
       def ticket_types_ids

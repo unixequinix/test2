@@ -17,6 +17,14 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         expect(response).to be_ok
       end
 
+      it "should return common parameters" do
+        @station = create(:station, event: event)
+
+        get :index, params: params
+        station_keys = JSON.parse(response.body).first["stations"].first.keys
+        expect(station_keys).to include("id", "hidden", "display_stats", "station_event_id", "type", "name")
+      end
+
       context "when the station is a box office" do
         before do
           @station = create(:station, event: event, category: "box_office")
