@@ -3,9 +3,24 @@ require "rails_helper"
 RSpec.describe Pokes::Order, type: :job do
   let(:worker) { Pokes::Order }
   let(:event) { create(:event) }
-  let(:order) { create(:order, :with_credit, event: event) }
+  let(:customer) { create(:customer, event: event) }
+  let(:order) { create(:order, :with_credit, event: event, customer: customer) }
   let(:order_item) { order.order_items.first }
   let(:transaction) { create(:order_transaction, action: "order_redeemed", event: event, order: order, order_item_id: order_item.id) }
+
+  it "redeems the order item" do
+    expect { worker.perform_now(transaction) }.to change { order_item.reload.redeemed? }.from(false).to(true)
+  end
+
+  it "creates alert ir order is redeemed twice" do
+    order_item.update(redeemed: true)
+    expect(Alert).to receive(:propagate).once
+    worker.perform_now(transaction)
+  end
+
+  it "touches the customer after redeeming" do
+    expect { worker.perform_now(transaction) }.to change(customer.reload, :updated_at)
+  end
 
   describe ".stat_creation" do
     let(:action) { "order_redeemed" }
@@ -19,11 +34,9 @@ RSpec.describe Pokes::Order, type: :job do
 
     include_examples "a catalog_item"
 
-    it "ignores catalog_item if no order_item is found" do
+    it "ignores transaction unless order_item is found" do
       transaction.update(order_item_id: nil)
-      poke = worker.perform_now(transaction)
-      expect(poke.catalog_item_id).to be_nil
-      expect(poke.catalog_item_type).to be_nil
+      expect(worker.perform_now(transaction)).to be_nil
     end
   end
 

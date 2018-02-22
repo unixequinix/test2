@@ -7,7 +7,7 @@ RSpec.describe Transactions::Base, type: :job do
   let(:customer) { create(:customer, event: event) }
   let(:atts) { { type: "CreditTransaction", action: "test_action", credits: 30, event_id: event.id, device_created_at: Time.current.to_s, customer_tag_uid: gtag.tag_uid, status_code: 0 } }
 
-  before { Transactions::Credit::BalanceUpdater }
+  before { Pokes::BalanceUpdater }
 
   describe "processing payment data" do
     before(:each) do
@@ -84,7 +84,7 @@ RSpec.describe Transactions::Base, type: :job do
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
       atts[:action] = "sale"
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
+      expect(Pokes::BalanceUpdater).to receive(:perform_later).once
       base.perform_now(atts)
       atts2 = atts.merge(type: "CreditTransaction", device_created_at: atts[:device_created_at])
       base.perform_now(atts2)

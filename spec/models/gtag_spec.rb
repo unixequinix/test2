@@ -26,8 +26,8 @@ RSpec.describe Gtag, type: :model do
   describe ".recalculate_balance" do
     context "with payments" do
       before do
-        pay = { event.credit.id => { amount: 30, final_balance: 2 }, event.virtual_credit.id => { amount: 70, final_balance: 20 } }
-        create_list(:credit_transaction, 3, gtag: subject, transaction_origin: "onsite", payments: pay)
+        create_list(:poke, 3, customer_gtag: subject, credit: event.credit, credit_amount: 30, final_balance: 2)
+        create_list(:poke, 3, customer_gtag: subject, credit: event.virtual_credit, credit_amount: 70, final_balance: 20)
       end
 
       it "changes the gtags credits" do
@@ -44,6 +44,29 @@ RSpec.describe Gtag, type: :model do
 
       it "changes the gtags final_virtual_balance" do
         expect { subject.recalculate_balance }.to change { subject.reload.final_virtual_balance.to_f }.from(0.00).to(20)
+      end
+
+      it "sets consistent to the value of valid_balance?" do
+        value = [true, false].sample
+        allow(subject).to receive(:valid_balance?).and_return(value)
+        expect { subject.recalculate_balance }.to change { subject.reload.consistent? }.to(value)
+      end
+
+      it "sets the value of complete to true if there are no counters" do
+        subject.pokes_as_customer.update_all(gtag_counter: nil)
+        expect { subject.recalculate_balance }.to change { subject.reload.complete? }.to(true)
+      end
+
+      it "sets the value of complete to true if all counters are present" do
+        subject.pokes_as_customer.map.with_index { |p, counter| p.update!(gtag_counter: counter + 1) }
+        expect { subject.recalculate_balance }.to change { subject.reload.complete? }.to(true)
+      end
+
+      it "sets the value of complete to false if any counter is missing" do
+        subject.update!(complete: true)
+        subject.pokes_as_customer.map.with_index { |p, counter| p.update!(gtag_counter: counter + 1) }
+        subject.pokes_as_customer.sample.update!(gtag_counter: nil)
+        expect { subject.recalculate_balance }.to change { subject.reload.complete? }.to(false)
       end
     end
 

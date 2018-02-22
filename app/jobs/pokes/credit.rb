@@ -7,6 +7,8 @@ class Pokes::Credit < Pokes::Base
 
   TRIGGERS = FEES + CORRECTIONS + ACTIONS
 
+  queue_as :medium_low
+
   def perform(t) # rubocop:disable Metrics/PerceivedComplexity
     description = t.action
     description = t.action.gsub("_fee", "") if FEES.include?(t.action)

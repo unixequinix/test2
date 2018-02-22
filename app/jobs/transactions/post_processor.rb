@@ -4,7 +4,7 @@ module Transactions
 
     queue_as :medium
 
-    def perform(transaction, atts = {}) # rubocop:disable Metrics/PerceivedComplexity
+    def perform(transaction)
       event = transaction.event
       code = transaction.ticket_code
 
@@ -13,7 +13,7 @@ module Transactions
       operator_tag&.update!(customer: operator)
 
       gtag = create_gtag(transaction.customer_tag_uid, event.id)
-      ticket = event.tickets.find_by(code: code) || decode_ticket(code, event) if Credential::TicketChecker::TRIGGERS.include?(transaction.action)
+      ticket = event.tickets.find_by(code: code) || decode_ticket(code, event) if %w[ticket_checkin ticket_validation].include?(transaction.action)
       order = transaction.order_item&.order
       customer = resolve_customer(event, transaction, ticket, gtag, order)
 
@@ -21,10 +21,8 @@ module Transactions
       transaction.update!(ts)
       [ticket, gtag].map { |credential| credential&.update!(customer: customer) } if customer
 
-      Pokes::Base.execute_descendants(transaction)
-
       return if transaction.status_not_ok?
-      Base.descendants.each { |klass| klass.perform_later(transaction, atts) if klass::TRIGGERS.include? transaction.action }
+      Pokes::Base.execute_descendants(transaction)
     end
 
     def resolve_customer(event, transaction, ticket, gtag, order)

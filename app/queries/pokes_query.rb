@@ -1,4 +1,3 @@
-
 class PokesQuery
   def initialize(event)
     @event = event

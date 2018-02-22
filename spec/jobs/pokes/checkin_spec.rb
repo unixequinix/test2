@@ -13,6 +13,16 @@ RSpec.describe Pokes::Checkin, type: :job do
     include_examples "a poke"
   end
 
+  it "marks ticket redeemed" do
+    expect { worker.perform_now(transaction) }.to change { ticket.reload.redeemed? }.from(false).to(true)
+  end
+
+  it "propagates alert if ticket is already redeemed" do
+    ticket.update(redeemed: true)
+    expect(Alert).to receive(:propagate).once
+    worker.perform_now(transaction)
+  end
+
   describe "when processing tickets" do
     let(:credential) { ticket }
     let(:catalog_item) { credential.ticket_type.catalog_item }

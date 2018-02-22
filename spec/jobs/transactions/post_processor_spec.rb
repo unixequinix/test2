@@ -97,7 +97,7 @@ RSpec.describe Transactions::PostProcessor, type: :job do
     end
 
     it "does not use ticket_code to find ticket if action is gtag_checkin" do
-      transaction.update(action: "gtag_checkin", ticket_code: gtag.tag_uid)
+      transaction.update!(action: "gtag_checkin", ticket_code: gtag.tag_uid)
       expect { worker.perform(transaction) }.not_to raise_error
     end
 
@@ -133,28 +133,6 @@ RSpec.describe Transactions::PostProcessor, type: :job do
       order.complete!
       transaction.update!(order_item_id: order.order_items.first.id, customer: customer)
       expect { worker.perform(transaction) }.to change { transaction.reload.order }.from(nil).to(order)
-    end
-  end
-
-  describe "descendants" do
-    before { Transactions::Credit::BalanceUpdater }
-    after { worker.perform(transaction) }
-
-    it "should have all classes loaded" do
-      expect(Transactions::Base.descendants).not_to be_empty
-    end
-
-    it "should call perform_later on a subscriber class" do
-      transaction.update(action: "sale")
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
-    end
-
-    it "should not call perform_later on anything if there is no subscriber" do
-      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_later)
-    end
-
-    it "should call execute_descendants on Pokes::Base" do
-      expect(Pokes::Base).to receive(:execute_descendants).once.with(transaction)
     end
   end
 
@@ -211,15 +189,15 @@ RSpec.describe Transactions::PostProcessor, type: :job do
     before { transaction.update!(action: "sale") }
     before { allow(Pokes::Sale).to receive(:perform_later) }
 
-    it "executes tasks workerd on triggers" do
-      Transactions::Credit::BalanceUpdater.inspect
-      expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(transaction, {})
+    it "executes tasks based on triggers" do
+      Pokes::BalanceUpdater.inspect
+      expect(Pokes::BalanceUpdater).to receive(:perform_later).once.with(transaction)
       worker.perform(transaction)
     end
 
     it "does not execute operations if status code is not 0" do
       transaction.update!(status_code: 2)
-      expect(Transactions::Credit::BalanceUpdater).not_to receive(:perform_later)
+      expect(Pokes::BalanceUpdater).not_to receive(:perform_later)
       worker.perform(transaction)
     end
   end

@@ -1,11 +1,13 @@
 FactoryBot.define do
   factory :poke do
+    sequence(:gtag_counter)
     sequence(:line_counter)
     operation { create(:credit_transaction, event: event) }
     source "onsite"
     date { Time.zone.now }
-    action { "topup" }
+    action "topup"
     event
+    status_code 0
 
     trait :with_sale_items do
       transient do

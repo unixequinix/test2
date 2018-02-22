@@ -33,7 +33,7 @@
 
 - content_for(:title) do
   | #{@gtag.tag_uid} &nbsp;
-  - if @gtag.valid_balance?
+  - if @gtag.consistent?
     span.good_info CONSISTENT
   - else
     span.bad_info  INCONSISTENT
@@ -52,11 +52,10 @@
             tr
               td.mdl-data-table__cell--non-numeric Gtag Customer
               td = link_to "#{customer.name} - #{customer.email}", admins_event_customer_path(@current_event, customer)
-          - if @gtag.missing_transactions?
-            - ts = @gtag.transactions.onsite.status_ok.order(:gtag_counter, :device_created_at)
+          - unless @gtag.complete?
             tr
               td.mdl-data-table__cell--non-numeric Missing Transactions
-              td = ((1..ts.map(&:gtag_counter).sort.last).to_a - ts.map(&:gtag_counter)).to_sentence
+              td = @gtag.missing_counters.to_sentence
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

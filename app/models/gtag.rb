@@ -49,22 +49,28 @@ class Gtag < ApplicationRecord
     update!(active: true)
   end
 
-  def recalculate_balance # rubocop:disable Metrics/AbcSize
-    ts = transactions.onsite.status_ok.credit.order(:gtag_counter, :device_created_at)
-    counters = transactions.onsite.order(:gtag_counter, :device_created_at).pluck(:gtag_counter).compact.sort
-    payments = ts.payments_with_credit(event.credit)
-    virtual_payments = ts.payments_with_credit(event.virtual_credit)
+  def recalculate_balance
+    pokes = pokes_as_customer.is_ok.order(:gtag_counter, :date)
+    credit_pokes = pokes.where(credit: event.credit)
+    virtual_credit_pokes = pokes.where(credit: event.virtual_credit)
 
-    self.credits = payments.sum { |t| t.payments[event.credit.id.to_s]["amount"].to_f }
-    self.virtual_credits = virtual_payments.sum { |t| t.payments[event.virtual_credit.id.to_s]["amount"].to_f }
-    self.final_balance = payments.last.payments[event.credit.id.to_s]["final_balance"].to_f if payments.last
-    self.final_virtual_balance = virtual_payments.last.payments[event.virtual_credit.id.to_s]["final_balance"].to_f if virtual_payments.last
-    self.missing_transactions = ((1..counters.last).to_a - counters).any? if counters.any?
-    self.inconsistent = !valid_balance?
+    self.credits = credit_pokes.sum(:credit_amount)
+    self.virtual_credits = virtual_credit_pokes.sum(:credit_amount)
+
+    self.final_balance = credit_pokes.last.final_balance.to_f if credit_pokes.last
+    self.final_virtual_balance = virtual_credit_pokes.last.final_balance.to_f if virtual_credit_pokes.last
+
+    self.complete = missing_counters.empty?
+    self.consistent = valid_balance?
 
     Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_virtual_balance.negative?
 
     save! if changed?
+  end
+
+  def missing_counters
+    counters = pokes_as_customer.is_ok.pluck(:gtag_counter).compact.sort
+    (1..counters.last.to_i).to_a - counters
   end
 
   def valid_balance?

@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Transactions::Credit::BalanceUpdater, type: :job do
-  let(:worker) { Transactions::Credit::BalanceUpdater.new }
+RSpec.describe Pokes::BalanceUpdater, type: :job do
+  let(:worker) { Pokes::BalanceUpdater.new }
   let(:event) { create(:event) }
   let(:gtag) { create(:gtag, event: event) }
   let(:transaction) { create(:credit_transaction, gtag: gtag, event: event, customer_tag_uid: gtag.tag_uid) }
