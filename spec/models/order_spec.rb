@@ -15,10 +15,6 @@ RSpec.describe Order, type: :model do
       expect { subject.complete!("paypal", {}.to_json) }.to change { subject.reload.completed? }.from(false).to(true)
     end
 
-    it "creates a money transaction" do
-      expect { subject.complete!("paypal", {}.to_json) }.to change(MoneyTransaction, :count).by(1)
-    end
-
     it "adds user flag to order if event has online_initial_topup_fee enabled" do
       event.update(online_initial_topup_fee: 2)
       expect(subject.catalog_items.user_flags).to be_empty

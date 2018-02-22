@@ -41,24 +41,6 @@ RSpec.describe Refund, type: :model do
       expect { subject.complete! }.not_to raise_error
     end
 
-    it "creates a money transaction" do
-      expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
-    end
-
-    it "creates a money transaction with negative price" do
-      expect { subject.complete! }.to change(event.transactions.money, :count).by(1)
-      expect(customer.transactions.money.last.price).to eq(-subject.total_money)
-    end
-
-    it "creates a credit transaction" do
-      expect { subject.complete! }.to change(event.transactions.credit, :count).by(1)
-    end
-
-    it "creates a credit transaction with negative amount" do
-      expect { subject.complete! }.to change(event.transactions.credit, :count).by(1)
-      expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(-subject.amount.to_f)
-    end
-
     it "sends an email" do
       email = OrderMailer.completed_refund(subject)
       expect(OrderMailer).to receive(:completed_refund).with(subject).twice.and_return(email)
@@ -84,24 +66,6 @@ RSpec.describe Refund, type: :model do
       expect(subject).not_to be_cancelled
       subject.cancel!
       expect(subject).to be_cancelled
-    end
-
-    it "creates a money transaction" do
-      expect { subject.cancel! }.to change(event.transactions.money, :count).by(1)
-    end
-
-    it "creates a money transaction with positive price" do
-      expect { subject.cancel! }.to change(event.transactions.money, :count).by(1)
-      expect(customer.transactions.money.last.price).to eq(subject.total_money)
-    end
-
-    it "creates a credit transaction" do
-      expect { subject.cancel! }.to change(event.transactions.credit, :count).by(1)
-    end
-
-    it "creates a credit transaction with positive amount" do
-      expect { subject.cancel! }.to change(event.transactions.credit, :count).by(1)
-      expect(customer.transactions.credit.last.payments[event.credit.id.to_s]["amount"].to_f).to eq(subject.amount.to_f)
     end
 
     it "sends an email" do

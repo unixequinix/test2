@@ -36,7 +36,6 @@ module Admins
 
         if @order.set_counters.save
           @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
-          OrderTransaction.write!(@current_event, "order_created", @customer, current_user, order_id: @order.id)
           redirect_to [:admins, @current_event, @order], notice: t("alerts.created")
         else
           @catalog_items_collection = @current_event.catalog_items.not_user_flags.group_by { |item| item.type.underscore.humanize.pluralize }

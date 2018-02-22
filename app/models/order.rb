@@ -35,11 +35,7 @@ class Order < ApplicationRecord
 
   def complete!(gateway = "unknown", payment = {}.to_json, send_email = false)
     update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
-
-    atts = { payment_method: gateway, payment_gateway: gateway, order_id: id, price: total }
-
     OrderMailer.completed_order(self).deliver_later if send_email && !customer.anonymous?
-    MoneyTransaction.write!(event, "portal_purchase", customer, customer, atts)
 
     return unless event.online_initial_topup_fee.present? && !customer.initial_topup_fee_paid?
     flag = event.user_flags.find_by(name: "initial_topup")

@@ -35,27 +35,6 @@ class Transaction < ApplicationRecord
 
   validates :transaction_origin, :action, :device_created_at, presence: true
 
-  def self.write!(event, action, customer, operator, atts)
-    Time.zone = event.timezone
-    now = Time.zone.now.to_formatted_s(:transactions)
-    counter = customer&.transactions&.where(transaction_origin: "online")&.maximum(:counter).to_i + 1
-    attributes = { event: event,
-                   action: action,
-                   counter: counter,
-                   customer: customer,
-                   status_code: 0,
-                   status_message: "OK",
-                   transaction_origin: "online",
-                   station: event.portal_station,
-                   device_created_at: now,
-                   device_created_at_fixed: now,
-                   operator_tag_uid: operator&.email }.merge(atts)
-
-    transaction = create!(attributes)
-    Pokes::Base.execute_descendants(transaction)
-    transaction
-  end
-
   def name
     action.humanize
   end

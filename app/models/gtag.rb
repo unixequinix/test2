@@ -67,27 +67,6 @@ class Gtag < ApplicationRecord
     save! if changed?
   end
 
-  def solve_inconsistent
-    ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
-    creds = ts.last&.final_balance.to_f - ts.map(&:credits).compact.sum
-    refundable_creds = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).compact.sum
-
-    pay_atts = { event.credit.id => { amount: refundable_creds, final_balance: 0 }, event.virtual_credit.id => { amount: creds - refundable_creds, final_balance: 0 } }
-    atts = assignation_atts.merge(gtag_counter: 0,
-                                  gtag_id: id,
-                                  credits: creds,
-                                  refundable_credits: refundable_creds,
-                                  payments: pay_atts,
-                                  final_balance: 0,
-                                  final_refundable_balance: 0)
-
-    transaction = transactions.credit.find_by(gtag_counter: 0, action: "correction")
-    transaction ||= CreditTransaction.write!(event, "correction", nil, nil, atts)
-    transaction.update!(gtag_counter: 0, transaction_origin: "onsite")
-    recalculate_balance
-    transaction
-  end
-
   def valid_balance?
     credits == final_balance && virtual_credits == final_virtual_balance
   end

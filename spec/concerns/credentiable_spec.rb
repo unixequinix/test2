@@ -34,11 +34,6 @@ shared_examples_for "credentiable" do
         customer.update_columns(updated_at: 100.years.ago)
         expect { subject.assign_customer(customer) }.to change(customer, :updated_at)
       end
-
-      it "writes the transaction" do
-        expect(CredentialTransaction).to receive(:write!).once
-        subject.assign_customer(customer)
-      end
     end
   end
 
@@ -57,11 +52,6 @@ shared_examples_for "credentiable" do
     it "touches the customer updated_at" do
       customer.update_columns(updated_at: 100.years.ago)
       expect { subject.unassign_customer }.to change(customer, :updated_at)
-    end
-
-    it "writes the transaction" do
-      expect(CredentialTransaction).to receive(:write!).once
-      subject.unassign_customer
     end
   end
 end

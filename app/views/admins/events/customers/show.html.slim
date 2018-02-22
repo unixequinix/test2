@@ -91,4 +91,3 @@
 = render(root + "refunds", customer: @customer) if @customer.refunds.present?
 = render(root + "orders", customer: @customer) if @customer.orders.any?
 = render("admins/events/pokes/onsite", pokes: @pokes, title: "Pokes", active: true, closed: false )
-= render("admins/events/transactions/list", transactions: @transactions, title: "Customer Transactions (DEBUG)", closed: true ) if @transactions.present? && @current_user.glowball?

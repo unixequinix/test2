@@ -16,7 +16,6 @@ module Admins
       end
 
       def show
-        @transactions = @customer.transactions.debug
         @pokes = @customer.pokes.order(:source, :gtag_counter, :date)
       end
 

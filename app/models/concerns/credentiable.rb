@@ -36,21 +36,18 @@ module Credentiable
     update_attribute(:banned, false)
   end
 
-  def assign_customer(new_customer, operator = nil)
+  def assign_customer(new_customer, _operator = nil)
     if customer.present?
       Customer.claim(event, new_customer, customer)
       reload # this is necessary because the customer is updated in the background
     else
       update!(customer: new_customer)
     end
-
     new_customer.touch
-    CredentialTransaction.write!(event, "#{model_name.element}_assigned", customer, operator, assignation_atts)
   end
 
-  def unassign_customer(operator = nil)
+  def unassign_customer(_operator = nil)
     customer&.touch
-    CredentialTransaction.write!(event, "#{model_name.element}_unassigned", customer, operator, assignation_atts)
     update!(customer: nil)
   end
 end
