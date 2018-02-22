@@ -19,6 +19,7 @@
               th Mac
               th Events
               th.mdl-data-table__cell--non-numeric Last Event Used
+              th Team
               th
           tbody
             - @devices.each do |device|
@@ -27,6 +28,7 @@
                 td data-label="Mac" = device.mac
                 td data-label="Events" = device.events.size
                 td.mdl-data-table__cell--non-numeric data-label="Last Event Used" = link_to device.events.last.name, [:admins, device.device_registrations.last.event, device.device_registrations.last] if device.events.last
+                td data-label="Team" = (@current_user&.team && device&.team == @current_user&.team ? link_to(device&.team&.name&.humanize, admins_user_team_path(@current_user)) : device&.team&.name&.humanize)
                 td.table-actions
                   .table-action
                     = link_to edit_admins_user_team_device_path(current_user, device), id:"edit_#{device.id}" do
