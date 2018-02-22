@@ -6,7 +6,7 @@ module Admins
     before_action :set_event_series, only: %i[new edit]
 
     def index
-      @q = @current_user.events.ransack(params[:q])
+      @q = policy_scope(Event).ransack(params[:q])
       @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
       authorize(@events)
       @event = Event.new
