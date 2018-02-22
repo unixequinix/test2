@@ -43,5 +43,3 @@ set :rollbar_env, -> { fetch(:stage) }
 set :rollbar_role, :app
 
 load "lib/tasks/capistrano.rake"
-after 'deploy:updated', 'deploy:stats_create'
-after 'deploy:updated', 'deploy:stats_migrate'
