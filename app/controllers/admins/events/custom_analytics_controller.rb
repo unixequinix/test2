@@ -2,13 +2,7 @@ module Admins
   module Events
     class CustomAnalyticsController < Admins::Events::BaseController
       include AnalyticsHelper
-
-      before_action :load_analytics_resources
-      before_action :skip_authorization, only: %i[money access credits checkin sales]
-
-      def show
-        authorize(:poke, :analytics_billing?)
-      end
+      before_action :authorize_billing
 
       def money
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Operator UID', 'Operator Name', 'Device', 'Money']
@@ -48,7 +42,8 @@ module Admins
         @devices = prepare_pokes(["Station Name", "Event Day", "Total Devices"], @current_event.pokes.devices)
       end
 
-      def load_analytics_resources
+      def authorize_billing
+        authorize(:poke, :custom_analytics?)
         @load_analytics_resources = true
       end
 

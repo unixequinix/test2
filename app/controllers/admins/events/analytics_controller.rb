@@ -97,7 +97,7 @@ module Admins
       private
 
       def authorize_billing
-        authorize(:poke, :analytics_billing?)
+        authorize(:poke, :analytics?)
         @load_analytics_resources = true
       end
 

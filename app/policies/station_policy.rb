@@ -22,8 +22,4 @@ class StationPolicy < ApplicationPolicy
   def remove_ticket_types?
     admin_or_promoter && event_open
   end
-
-  def analytics?
-    admin_or_promoter
-  end
 end
