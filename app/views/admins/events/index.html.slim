@@ -30,7 +30,6 @@
 
           - if @current_user.glowball?
             = link_to "My events", "#my-events", class: "mdl-tabs__tab", id:"filters_mine"
-            = link_to "All", "#all-panel", class: "mdl-tabs__tab", id:"filters_users"
 
           = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id:"filters_created"
           = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab #{'is-active' unless searching }", id:"filters_launched"
@@ -49,8 +48,6 @@
         - if @current_user.glowball?
           .mdl-tabs__panel id="my-events"
             = render "list", events: @current_user.events.order(state: :asc, start_date: :desc, name: :asc)
-          .mdl-tabs__panel id="all-panel"
-            = render "list", events: Event.all.order(state: :asc, start_date: :desc, name: :asc)
 
         .mdl-tabs__panel id="event-form"
           = render "form", event: @event
