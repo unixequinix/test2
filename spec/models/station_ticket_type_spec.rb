@@ -7,7 +7,6 @@ RSpec.describe StationTicketType, type: :model do
   subject { station.station_ticket_types.new(ticket_type: ticket_type) }
 
   it "must update station when created" do
-    old_updated_at = station.updated_at
-    expect { subject.save! }.to change { station.reload.updated_at }.from(old_updated_at)
+    expect { subject.save! }.to change(station, :updated_at)
   end
 end
