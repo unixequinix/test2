@@ -13,7 +13,7 @@ module Creators
       orders << [event.credit.id, credits] if credits.positive?
       orders << [event.virtual_credit.id, virtual_credits] if virtual_credits.positive?
 
-      customer.build_order(orders, price_money: event.credit.value * credits, previous_balance: true).complete!(gateway)
+      customer.build_order(orders).complete!(gateway)
     end
   end
 end

@@ -75,7 +75,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def refund_params
-      params.require(:refund).permit(:amount, :fee, :customer_id, :gateway, fields: {})
+      params.require(:refund).permit(:credit_base, :credit_fee, :customer_id, :gateway, fields: {})
     end
   end
 end

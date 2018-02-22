@@ -21,15 +21,15 @@ tr
         //Product quantity
         td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.product_description')
         //Product price
-        td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.total, unit: @event.credit.name, format: "%u %n"
+        td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.credit_total, unit: @event.credit.name, format: "%u %n"
 
-      - if @refund.fee > 0
+      - if @refund.credit_fee > 0
         tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
           //Product quantity
           td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.fee')
           //Product price
-          td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.fee * -1, unit: @event.credit.name, format: "%u %n"
+          td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.credit_fee * -1, unit: @event.credit.name, format: "%u %n"
       tr
         // Refund total
         td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
-        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.price_money, unit: @event.currency, format: "%u %n"
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.money_base, unit: @event.currency, format: "%u %n"

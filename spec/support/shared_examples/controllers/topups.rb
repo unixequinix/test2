@@ -24,17 +24,17 @@ RSpec.shared_examples "controller topups" do
     end
 
     it "sets the price of the order" do
-      new_atts[:price_money] = 111
+      new_atts[:money_base] = 111
       post :topup, params: new_atts
       order = event.orders.find(JSON.parse(response.body)["id"])
-      expect(order.price_money).to eq(111)
+      expect(order.money_base).to eq(111)
     end
 
     it "sets the fee of the order" do
-      new_atts[:fee] = 11
+      new_atts[:money_fee] = 11
       post :topup, params: new_atts
       order = event.orders.find(JSON.parse(response.body)["id"])
-      expect(order.fee).to eq(11)
+      expect(order.money_fee).to eq(11)
     end
 
     it "return unprocessable entity if credits are not present" do

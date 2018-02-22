@@ -47,35 +47,6 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".fail!" do
-    it "marks the order as faild" do
-      expect { subject.fail!("paypal", {}.to_json) }.to change { subject.reload.status }.to("failed")
-    end
-  end
-
-  describe ".cancel!" do
-    it "marks the order as canceld" do
-      expect { subject.cancel!({}.to_json) }.to change { subject.reload.status }.to("cancelled")
-    end
-  end
-
-  describe ".number" do
-    it "returns always the same size of digits in the order number" do
-      subject.id = 1
-      expect(subject.number.size).to eq(7)
-
-      subject.id = 122
-      expect(subject.number.size).to eq(7)
-    end
-  end
-
-  describe ".total_formatted" do
-    it "returns the total formated" do
-      allow(subject).to receive(:total).and_return(5)
-      expect(subject.total_formatted).to eq("5.00")
-    end
-  end
-
   describe "order_item dependent methods" do
     before do
       @access = build(:order_item, :with_access, redeemed: false, order: subject)

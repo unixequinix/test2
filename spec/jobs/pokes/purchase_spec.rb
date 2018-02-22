@@ -42,12 +42,12 @@ RSpec.describe Pokes::Purchase, type: :job do
 
       it "sets monetary_total_price to order_item price" do
         pokes = worker.perform_now(transaction)
-        expect(pokes.sum(&:monetary_total_price).to_f).to eql(order.total.to_f)
+        expect(pokes.sum(&:monetary_total_price).to_f).to eql(order.money_total.to_f)
       end
 
       it "sets monetary_unit_price to transaction price" do
         pokes = worker.perform_now(transaction)
-        expect(pokes.sum(&:monetary_unit_price).to_f).to eql(order.total.to_f)
+        expect(pokes.sum(&:monetary_unit_price).to_f).to eql(order.money_total.to_f)
       end
     end
 

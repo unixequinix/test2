@@ -28,10 +28,5 @@ RSpec.describe Creators::OrderJob, type: :job do
       balance = 0
       expect { worker.perform_now(event, customer, balance) }.not_to change(Order, :count)
     end
-
-    it "sets the amount" do
-      worker.perform_now(event, customer, 10, balance)
-      expect(event.orders.last.price_money).to eq(event.credit.value * 10)
-    end
   end
 end

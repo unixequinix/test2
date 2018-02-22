@@ -11,7 +11,7 @@ class Pokes::Purchase < Pokes::Base
     return unless t.order
 
     t.order.order_items.map.with_index do |item, index|
-      item_atts = atts.merge(monetary_unit_price: t.order.price_money, monetary_total_price: t.order.price_money, line_counter: index + 1)
+      item_atts = atts.merge(monetary_unit_price: t.order.money_base, monetary_total_price: t.order.money_base, line_counter: index + 1)
       item_atts.merge! extract_catalog_item_info(item.catalog_item, item_atts)
       create_poke(extract_atts(t, item_atts))
     end

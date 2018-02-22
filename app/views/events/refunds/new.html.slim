@@ -9,13 +9,13 @@
     table.table-order
       tr.border-bottom
         td = t('refunds.product_description')
-        td.table-amount#refund_amount = number_to_token(@refund.total)
+        td.table-amount#refund_amount = number_to_token(@refund.credit_total)
       tr.border-bottom
         td = t('refunds.fee')
-        td.table-amount#refund_fee = number_to_token(@refund.fee)
+        td.table-amount#refund_fee = number_to_token(@refund.credit_fee)
       tr.border-bottom
         td = t('refunds.total_credits')
-        td.table-amount#refund_credits = number_to_token(@refund.amount)
+        td.table-amount#refund_credits = number_to_token(@refund.credits_base)
       tr.border-bottom
         td
         td.table-amount @ #{number_to_token(@current_event.credit.value)} / #{@current_event.currency}
@@ -23,7 +23,7 @@
         td
           .total-text = t('orders.total')
           .vat-text = t('orders.vat')
-        td.total-amount#refund_money = number_to_event_currency(@refund.price_money)
+        td.total-amount#refund_money = number_to_event_currency(@refund.money_base)
 
 .mdl-cell.mdl-cell--12-col
 .customer-card-wide.mdl-card.mdl-shadow--2dp

@@ -41,7 +41,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.require(:order).permit(:status, :gateway, :payment_data, :refund_data)
+      params.require(:order).permit(:status, :gateway, :payment_data)
     end
   end
 end

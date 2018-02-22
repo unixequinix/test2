@@ -8,7 +8,7 @@ module Admins
         @refunds = @q.result
 
         @graph = %w[started completed].map do |action|
-          data = @refunds.where(status: action).group_by_day("refunds.created_at").sum(:amount)
+          data = @refunds.where(status: action).group_by_day("refunds.created_at").sum(:credit_base)
           data = data.collect { |k, v| [k, v.to_i.abs] }
           { name: action, data: Hash[data] }
         end

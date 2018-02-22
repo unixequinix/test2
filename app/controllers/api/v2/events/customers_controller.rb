@@ -53,7 +53,7 @@ module Api::V2
     # POST api/v2/events/:event_id/customers/:id/topup
     def topup
       credits = params[:credits].to_f
-      @order = @customer.build_order([[@current_event.credit.id, credits]], params.permit(:price_money, :fee))
+      @order = @customer.build_order([[@current_event.credit.id, credits]], params.permit(:money_base, :money_fee))
 
       if @order.save
         @order.complete!(params[:gateway], {}, params[:send_email])
@@ -66,7 +66,7 @@ module Api::V2
     # POST api/v2/events/:event_id/customers/:id/virtual_topup
     def virtual_topup
       credits = params[:credits].to_f
-      @order = @customer.build_order([[@current_event.virtual_credit.id, credits]], params.permit(:price_money, :fee))
+      @order = @customer.build_order([[@current_event.virtual_credit.id, credits]], params.permit(:money_base, :money_fee))
 
       if @order.save
         @order.complete!(params[:gateway], {}, params[:send_email])

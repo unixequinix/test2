@@ -34,7 +34,7 @@ module Api::V2
     def topup
       @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
 
-      @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:price_money, :fee))
+      @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
 
       if @order.save
         @order.complete!(params[:gateway], {}, params[:send_email])
@@ -48,7 +48,7 @@ module Api::V2
     def virtual_topup
       @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
 
-      @order = @gtag.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:price_money, :fee))
+      @order = @gtag.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
 
       if @order.save
         @order.complete!(params[:gateway], {}, params[:send_email])

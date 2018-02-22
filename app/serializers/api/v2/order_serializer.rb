@@ -1,6 +1,6 @@
 module Api::V2
   class OrderSerializer < ActiveModel::Serializer
-    attributes :id, :status, :total, :completed_at, :gateway, :customer_id
+    attributes :id, :customer_id, :status, :completed_at, :gateway, :money_base, :money_fee
 
     has_many :order_items, serializer: OrderItemSerializer
   end

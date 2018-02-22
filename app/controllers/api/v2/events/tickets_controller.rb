@@ -25,7 +25,7 @@ module Api::V2
     def topup
       @ticket.update!(customer: @current_event.customers.create!) if @ticket.customer.blank?
 
-      @order = @ticket.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:price_money, :fee))
+      @order = @ticket.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
 
       if @order.save
         @order.complete!(params[:gateway], {}, params[:send_email])
@@ -39,7 +39,7 @@ module Api::V2
     def virtual_topup
       @ticket.update!(customer: @current_event.customers.create!) if @ticket.customer.blank?
 
-      @order = @ticket.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:price_money, :fee))
+      @order = @ticket.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
 
       if @order.save
         @order.complete!(params[:gateway], {}, params[:send_email])

@@ -92,12 +92,12 @@ class Customer < ApplicationRecord
 
   def credits
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
-    refund_total = refunds.completed.sum(&:total)
+    refund_total = refunds.completed.sum(&:credit_total)
     order_total - refund_total + active_gtag&.credits.to_f
   end
 
   def virtual_credits
-    order_total = orders.where(status: %w[completed refunded]).includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
+    order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
     order_total + active_gtag&.virtual_credits.to_f
   end
 

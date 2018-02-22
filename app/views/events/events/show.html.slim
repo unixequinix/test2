@@ -123,7 +123,7 @@
                       | ##{order.number}
                       - if order.gateway
                         | (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
-                    span.order__price = number_to_event_currency(order.price_money)
+                    span.order__price = number_to_event_currency(order.money_base)
 
             ul.items__list
               - order.order_items.each do |order_item|
@@ -153,6 +153,6 @@
             ul.items__list
               li.order-item
                 .order-item__item
-                  span.purchase-amount #{refund.total} x
+                  span.purchase-amount #{refund.credit_total} x
                   span = @current_event.credit.name
-                .order-item__price = number_to_event_currency refund.total_money
+                .order-item__price = number_to_event_currency refund.money_total

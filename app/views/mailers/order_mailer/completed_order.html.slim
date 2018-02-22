@@ -24,4 +24,4 @@ tr
       tr
         //Product total
         td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
-        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @order.total, unit: @event.currency, format: "%u %n"
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @order.money_total, unit: @event.currency, format: "%u %n"

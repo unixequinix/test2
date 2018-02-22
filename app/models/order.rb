@@ -14,6 +14,7 @@ class Order < ApplicationRecord
 
   validates :number, :status, presence: true
   validates :order_items, presence: true
+  validates :money_fee, :money_base, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   validate :max_credit_reached
 
@@ -25,6 +26,14 @@ class Order < ApplicationRecord
 
   def name
     "Order: ##{number}"
+  end
+
+  def credit_base
+    (money_base / event.credit.value).round(2)
+  end
+
+  def credit_fee
+    (money_fee / event.credit.value).round(2)
   end
 
   def set_counters
@@ -41,14 +50,6 @@ class Order < ApplicationRecord
     flag = event.user_flags.find_by(name: "initial_topup")
     order_items.create!(catalog_item: flag, amount: 1, counter: customer.order_items.maximum(:counter).to_i + 1)
     customer.update!(initial_topup_fee_paid: true)
-  end
-
-  def fail!(gateway, payment)
-    update(status: "failed", gateway: gateway, payment_data: payment)
-  end
-
-  def cancel!(payment)
-    update!(status: "cancelled", refund_data: payment)
   end
 
   def redeemed?

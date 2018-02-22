@@ -8,8 +8,8 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
   let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
   let(:refund) { create(:refund, event: event, customer: customer) }
 
-  let(:invalid_attributes) { { amount: nil } }
-  let(:valid_attributes) { { amount: 100, fields: { iban: "barrr", swift: "fooo" }, customer_id: customer.id, gateway: "paypal" } }
+  let(:invalid_attributes) { { credit_base: nil } }
+  let(:valid_attributes) { { credit_base: 100, fields: { iban: "barrr", swift: "fooo" }, customer_id: customer.id, gateway: "paypal" } }
 
   before do
     token_login(user, event)
@@ -33,7 +33,7 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
       new_event = create(:event, open_api: true, state: "created")
       new_customer = create(:customer, event: new_event)
       create(:gtag, customer: new_customer, event: new_event, credits: 150)
-      new_refund = create(:refund, customer: new_customer, event: new_event, amount: 10, fee: 0)
+      new_refund = create(:refund, customer: new_customer, event: new_event, credit_base: 10, credit_fee: 0)
       get :index, params: { event_id: event.id }
       expect(json).not_to include(obj_to_json_v2(new_refund, "RefundSerializer"))
     end

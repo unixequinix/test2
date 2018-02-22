@@ -8,8 +8,7 @@ class Refund < ApplicationRecord
   belongs_to :customer
 
   validates :gateway, presence: true
-  validates :amount, presence: true, numericality: { greater_than: 0 }
-  validates :fee, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :credit_fee, :credit_base, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :extra_params_fields
 
   validate :correct_iban_and_swift, if: :iban
@@ -21,6 +20,14 @@ class Refund < ApplicationRecord
 
   def name
     "Refund: ##{id}"
+  end
+
+  def money_base
+    credit_base * event.credit.value
+  end
+
+  def money_fee
+    credit_fee * event.credit.value
   end
 
   def complete!(send_email = false)
@@ -42,10 +49,6 @@ class Refund < ApplicationRecord
     self.bsb = true if event.bsb?
   end
 
-  def price_money
-    amount * event.credit.value
-  end
-
   def correct_iban_and_swift
     validator = IBANTools::IBAN
     msg = validator.new(fields[:iban]).validation_errors.map(&:to_s).map(&:humanize).to_sentence
@@ -65,6 +68,6 @@ class Refund < ApplicationRecord
 
   def balance_checker
     return unless customer
-    errors[:base] << "Customer does not have enough balance on the account" if completed? && customer.credits < total
+    errors[:base] << "Customer does not have enough balance on the account" if completed? && customer.credits < credit_total
   end
 end

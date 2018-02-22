@@ -231,12 +231,12 @@ RSpec.describe Customer, type: :model do
         before { gtag.update!(credits: 50) }
 
         it "takes into account completed refunds as negative" do
-          total = create_list(:refund, 2, customer: customer, status: "completed", event: event).sum(&:total)
+          total = create_list(:refund, 2, customer: customer, status: "completed", event: event).sum(&:credit_total)
           expect(customer.credits).to eq(50 - total)
         end
 
         it "does not take into account other refunds" do
-          create_list(:refund, 2, customer: customer, status: "started", event: event).sum(&:amount)
+          create_list(:refund, 2, customer: customer, status: "started", event: event).sum(&:credit_total)
           expect(customer.credits).to eq(50)
         end
       end

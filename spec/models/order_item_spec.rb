@@ -7,13 +7,6 @@ RSpec.describe OrderItem, type: :model do
     expect(OrderItem.new).not_to be_redeemed
   end
 
-  describe ".single_credits?" do
-    it "returns true if the catalog_item is a credit" do
-      subject.catalog_item = build(:credit)
-      expect(subject).to be_single_credits
-    end
-  end
-
   describe ".credits" do
     it "returns the credits of the order_item" do
       subject.catalog_item = build(:credit)

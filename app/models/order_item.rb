@@ -2,12 +2,9 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :catalog_item
 
-  validates :counter, :amount, presence: true, numericality: true
+  validates :counter, :amount, presence: true
+  validates :counter, numericality: true
   validates :amount, numericality: true, unless: -> { catalog_item.is_a?(UserFlag) }
-
-  def single_credits?
-    catalog_item.is_a?(Credit)
-  end
 
   def credits
     amount * catalog_item.credits
@@ -15,9 +12,5 @@ class OrderItem < ApplicationRecord
 
   def virtual_credits
     amount * catalog_item.virtual_credits
-  end
-
-  def total_formatted
-    format("%.2f", total)
   end
 end

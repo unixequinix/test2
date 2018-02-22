@@ -4,7 +4,7 @@ class OrderMailerPreview < ActionMailer::Preview
     customer = event.customers.first || FactoryBot.create(:customer, event: event)
     order = event.orders.completed.first || FactoryBot.create(:order, customer: customer, event: event)
     order.update!(completed_at: Time.zone.now)
-    order.order_items.create(amount: 10, total: 20, catalog_item: event.credit)
+    order.order_items.create(amount: 10, catalog_item: event.credit)
     OrderMailer.completed_order(order)
   end
 

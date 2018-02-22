@@ -5,7 +5,7 @@ RSpec.describe Refund, type: :model do
   let(:customer) { create(:customer, event: event, anonymous: false) }
   let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
 
-  subject { build(:refund, event: event, customer: customer, amount: 10, fee: 1) }
+  subject { build(:refund, event: event, customer: customer, credit_base: 10, credit_fee: 1) }
 
   describe "The factory" do
     before do
@@ -75,43 +75,25 @@ RSpec.describe Refund, type: :model do
     end
 
     it "works when customer balance is 0" do
-      subject.update!(amount: 150)
+      subject.update!(credit_base: 150)
       subject.complete!
       expect { subject.cancel! }.to change { customer.reload.credits }.from(0).to(150)
-    end
-  end
-
-  describe ".total" do
-    it "returns the sum of amount and fee" do
-      subject.amount = 10
-      subject.fee = 2
-      expect(subject.total).to eq(12)
-    end
-  end
-
-  describe ".number" do
-    it "returns always the same size of digits in the refund number" do
-      subject.id = 1
-      expect(subject.number.size).to eq(7)
-
-      subject.id = 122
-      expect(subject.number.size).to eq(7)
     end
   end
 
   describe "money" do
     before { allow(event.credit).to receive(:value).and_return(10) }
 
-    it "calculates amount" do
-      expect(subject.price_money).to eql(subject.amount.to_f * 10)
+    it "calculates money_base" do
+      expect(subject.money_base).to eql(subject.credit_base.to_f * 10)
     end
 
-    it "calculates fee" do
-      expect(subject.fee_money).to eql(subject.fee.to_f * 10)
+    it "calculates money_fee" do
+      expect(subject.money_fee).to eql(subject.credit_fee.to_f * 10)
     end
 
-    it "calculates total" do
-      expect(subject.total_money).to eql(subject.total.to_f * 10)
+    it "calculates money_total" do
+      expect(subject.money_total).to eql(subject.credit_total.to_f * 10)
     end
   end
 
