@@ -8,7 +8,6 @@ module Admins
       before_action :skip_authorization, only: %i[money access credits checkin sales]
 
       def show
-        authorize(:poke, :analytics_billing?)
         @message = analytics_message(@current_event)
       end
 
@@ -50,12 +49,12 @@ module Admins
         @devices = prepare_pokes(["Station Name", "Event Day", "Total Devices"], @current_event.pokes.devices)
       end
 
+      private
+
       def authorize_billing
         authorize(:poke, :custom_analytics?)
         @load_analytics_resources = true
       end
-
-      private
 
       def prepare_data(name, data, array)
         @data = data
