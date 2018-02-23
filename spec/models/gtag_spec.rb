@@ -61,13 +61,6 @@ RSpec.describe Gtag, type: :model do
         subject.pokes_as_customer.map.with_index { |p, counter| p.update!(gtag_counter: counter + 1) }
         expect { subject.recalculate_balance }.to change { subject.reload.complete? }.to(true)
       end
-
-      it "sets the value of complete to false if any counter is missing" do
-        subject.update!(complete: true)
-        subject.pokes_as_customer.map.with_index { |p, counter| p.update!(gtag_counter: counter + 1) }
-        subject.pokes_as_customer.sample.update!(gtag_counter: nil)
-        expect { subject.recalculate_balance }.to change { subject.reload.complete? }.to(false)
-      end
     end
 
     it "creates an alert if final_balance is negative" do

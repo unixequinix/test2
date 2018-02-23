@@ -69,7 +69,7 @@ class Gtag < ApplicationRecord
   end
 
   def missing_counters
-    counters = pokes_as_customer.is_ok.pluck(:gtag_counter).compact.sort
+    counters = transactions.pluck(:gtag_counter).compact.sort
     (1..counters.last.to_i).to_a - counters
   end
 
