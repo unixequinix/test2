@@ -43,8 +43,7 @@
                       = link_to name, admins_event_station_products_path(@current_event, poke.station, poke.product)
                   - @current_event.credits.each do |credit|
                     - if credit == poke.credit
-                      - money = poke.action.eql?("sale") ? -poke.credit_amount : poke.credit_amount
-                      td.mdl-data-table__cell--non-numeric = number_to_credit(money, credit)
+                      td.mdl-data-table__cell--non-numeric = number_to_credit(poke.credit_amount, credit)
                       td = number_with_precision(poke.final_balance, precision: 2) if credit == poke.credit
                     - else
                       td
