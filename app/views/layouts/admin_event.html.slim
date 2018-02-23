@@ -21,7 +21,7 @@ html
 
     = csrf_meta_tags
 
-  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{@current_event.background.url})")
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{image_path('background-default.jpg')})")
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
         .mdl-layout__header-row
