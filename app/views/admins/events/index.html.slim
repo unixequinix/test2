@@ -19,37 +19,34 @@
           button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
             i.material-icons#changeIcon build
 
+
+- searching = params[:q].present? && params[:q][:name_or_slug_cont].present?
+
 .mdl-grid.light-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
-        .mdl-tabs__tab-bar
-          - searching = params[:q].present? && params[:q][:name_or_slug_cont].present?
-          = link_to "Search", "#search-panel", class: "mdl-tabs__tab is-active", id:"filters_search" if searching
+      - if searching
+        = render "list", events: @events
+      - else
+        .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+          .mdl-tabs__tab-bar
+            = link_to "All", "#all-events", class: "mdl-tabs__tab is-active", id: "filters_all"
+            = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id: "filters_created"
+            = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab", id: "filters_launched"
+            = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id: "filters_closed"
+            = link_to "#event-form", remote: true, class: "mdl-tabs__tab" do
+              span.material-icons add_circle_outline
 
-          - if @current_user.glowball?
-            = link_to "My events", "#my-events", class: "mdl-tabs__tab", id:"filters_mine"
+          .mdl-tabs__panel id="all-events" class="mdl-tabs__panel is-active" = render "list", events: @events
 
-          = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id:"filters_created"
-          = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab #{'is-active' unless searching }", id:"filters_launched"
-          = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id:"filters_closed"
-          = link_to "#event-form", class: "mdl-tabs__tab" do
-            span.material-icons add_circle_outline
+          - @events.group_by(&:state).each do |state, events|
+            .mdl-tabs__panel id="#{state}-panel" class="mdl-tabs__panel" = render "list", events: events
 
-        - @events.group_by(&:state).each do |state, events|
-          -if searching
-            .mdl-tabs__panel id="search-panel" class="mdl-tabs__panel is-active"
-              = render "list", events: events
-          - else
-            .mdl-tabs__panel id="#{state}-panel" class="mdl-tabs__panel #{'is-active' if state == 'launched'}"
-              = render "list", events: events
-
-        - if @current_user.glowball?
-          .mdl-tabs__panel id="my-events"
-            = render "list", events: @current_user.events.order(state: :asc, start_date: :desc, name: :asc)
-
-        .mdl-tabs__panel id="event-form"
-          = render "form", event: @event
+          .mdl-tabs__panel id="event-form" style="display: none;" = render "form", event: @event
 
   .mdl-layout-spacer
+
+
+javascript:
+  $(document).on('ready', function() { $("#event-form").show() });

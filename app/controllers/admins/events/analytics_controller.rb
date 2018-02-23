@@ -27,7 +27,6 @@ module Admins
         online_purchase = @current_event.pokes.purchases.is_ok.sum(:monetary_total_price)
         activations = @current_event.customers.count
         refund = -@current_event.pokes.is_ok.refunds.sum(:monetary_total_price)
-        online_money_left = @current_event.pokes.is_ok.online.sum(:monetary_total_price) - @current_event.pokes.is_ok.online_orders.sum(:credit_amount) * @current_event.credit.value
         avg_topups_onsite = top_onsite / activations
 
         @totals = { total_money: total_money, topup_onsite: top_onsite, online_purchase: online_purchase, refund: refund, avg_topups_onsite: avg_topups_onsite }.map { |k, v| [k, number_to_event_currency(v)] }

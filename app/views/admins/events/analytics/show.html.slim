@@ -81,12 +81,12 @@
                       span.analytics-text = "Breakage by Credit Type"
                     .mdl-grid
                       - @totals[:totals][:credit_breakage].map do |v|
-                          .mdl-cell class="mdl-cell--#{12 / @totals[:totals][:credit_breakage].size}-col"
-                            .mld-card.analytics-card-front
-                              .mdl-card__title.mdl-card--expand
-                                h5.analytics-text = v[:credit_name].to_s.humanize
-                              .mdl-cell.center-card-title
-                                h6 = number_to_token(v[:credits])
+                        .mdl-cell class="mdl-cell--#{12 / @totals[:totals][:credit_breakage].size}-col"
+                          .mld-card.analytics-card-front
+                            .mdl-card__title.mdl-card--expand
+                              h5.analytics-text = v[:credit_name].to_s.humanize
+                            .mdl-cell.center-card-title
+                              h6 = number_to_token(v[:credits])
                     .mdl-grid
                       .mdl-cell.mdl-cell--12-col
                         canvas#credit_type
