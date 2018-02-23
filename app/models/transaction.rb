@@ -22,7 +22,7 @@ class Transaction < ApplicationRecord
   scope :orders, -> { where(type: "OrderTransaction") }
   scope :device, -> { where(type: "DeviceTransaction") }
   scope :onsite, -> { where(transaction_origin: "onsite") }
-  scope :online, -> { where.not(transaction_origin: "online") }
+  scope :online, -> { where(transaction_origin: "online") }
 
   scope :with_event, ->(event) { where(event: event) }
   scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
