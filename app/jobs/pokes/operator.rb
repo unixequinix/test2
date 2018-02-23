@@ -1,4 +1,4 @@
-class Pokes::Flag < Pokes::Base
+class Pokes::Operator < Pokes::Base
   TRIGGERS = %w[record_operator_permission].freeze
 
   queue_as :medium_low
