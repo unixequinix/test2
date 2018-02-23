@@ -66,9 +66,9 @@
               th Virtual Credits
               th Inconsistency
               th Virtual Inconsistency
+              th Missing counters
               th Banned
               th Redeemed
-              th
           tbody
             - @gtags.each do |gtag|
               tr class="#{"danger" unless gtag.consistent? && gtag.complete? }"
@@ -79,17 +79,8 @@
                 td data-label="Virtual Credits" = number_to_token gtag.virtual_credits
                 td data-label="Inconsistency" = number_to_token gtag.final_balance - gtag.credits unless gtag.consistent?
                 td data-label="Virtual Inconsistency" = number_to_token gtag.final_virtual_balance - gtag.virtual_credits unless gtag.consistent?
+                td data-label="Virtual Inconsistency" = gtag.missing_counters.to_sentence
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
                 td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
-                td.table-actions
-                  .table-action
-                    = link_to edit_admins_event_gtag_path(@current_event, gtag) do
-                      button.icon.material-icons id ="edit_#{gtag.id}" edit
-                  .table-action
-                    = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{gtag.id}_link" delete_forever
-
-              span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
-              span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
     = render "layouts/pagination", objects: @gtags
   .mdl-layout-spacer
