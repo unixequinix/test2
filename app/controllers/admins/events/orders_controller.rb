@@ -65,7 +65,7 @@ module Admins
       end
 
       def permitted_params
-        params.require(:order).permit(:amount, :fee, :status, :customer_id, :credits, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
+        params.require(:order).permit(:money_base, :money_fee, :status, :customer_id, :credits, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
       end
     end
   end
