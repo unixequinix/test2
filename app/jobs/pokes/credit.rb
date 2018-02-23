@@ -3,7 +3,7 @@ class Pokes::Credit < Pokes::Base
 
   FEES = %w[gtag_deposit_fee gtag_return_fee initial_fee refund_fee topup_fee].freeze
   CORRECTIONS = %w[gtag_balance_fix correction].freeze
-  ACTIONS = %w[topup refund replacement_topup replacement_refund].freeze
+  ACTIONS = %w[record_credit topup refund replacement_topup replacement_refund].freeze
 
   TRIGGERS = FEES + CORRECTIONS + ACTIONS
 
