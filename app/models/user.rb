@@ -3,8 +3,9 @@ class User < ApplicationRecord
 
   has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations, dependent: :destroy
-  has_one :user_team, dependent: :destroy
-  has_one :team, through: :user_team, foreign_key: "team_id"
+  has_many :team_invitations, dependent: :destroy
+  has_one :active_team_invitation, -> { where(active: true) }, class_name: 'TeamInvitation', inverse_of: :user
+  has_one :team, through: :active_team_invitation, foreign_key: "team_id"
 
   before_create :generate_access_token
 
@@ -26,7 +27,7 @@ class User < ApplicationRecord
   end
 
   def team_leader?
-    user_team&.leader?
+    active_team_invitation&.leader?
   end
 
   def devise_mailer

@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     end
 
     resources :users do
+      put :accept_invitation
+      delete :refuse_invitation
       resource :team, controller: "users/teams" do
         resources :devices, controller: "users/teams/devices"
 

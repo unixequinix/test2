@@ -26,4 +26,12 @@ class UserPolicy < ApplicationPolicy
   def destroy?
     user.glowball?
   end
+
+  def accept_invitation?
+    true
+  end
+
+  def refuse_invitation?
+    true
+  end
 end

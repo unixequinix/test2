@@ -119,7 +119,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         end
 
         it "should create a new team record with associated current_user as user team" do
-          expect { post :create, params: { user_id: user.id, team: team_valid_attributes } }.to change(UserTeam, :count).by(1)
+          expect { post :create, params: { user_id: user.id, team: team_valid_attributes } }.to change(TeamInvitation, :count).by(1)
         end
 
         it "should not create a new team record" do
@@ -157,7 +157,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
 
       context "user does not belong to any team" do
         it "redirect to admins user path on success" do
-          put :update, params: { user_id: user.id, team: { name: 'new team name' } }, format: :json
+          put :update, params: { user_id: user.id, user: { email: user.email }, team: { name: 'new team name' } }, format: :json
           expect(response).to redirect_to(admins_user_path(user))
         end
       end
@@ -168,7 +168,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         end
 
         it "updates successfully" do
-          put :update, params: { user_id: user.id, team: { name: 'new team name' } }, format: :json
+          put :update, params: { user_id: user.id, user: { email: user.email }, team: { name: 'new team name' } }, format: :json
           expect(@team.reload.name).to eq('new team name')
         end
       end
@@ -235,7 +235,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         end
 
         it "should not create a new device record on team" do
-          expect { post :add_users, params: { user_id: user.id, user: user_invalid_attributes } }.to change(UserTeam, :count).by(0)
+          expect { post :add_users, params: { user_id: user.id, user: user_invalid_attributes } }.to change(TeamInvitation, :count).by(0)
         end
       end
 
@@ -246,7 +246,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
 
         context "added user is not registered" do
           it "create user team without confirmed user" do
-            expect { post :add_users, params: { user_id: user.id, user: { email: 'fake@email.com' } } }.to change(UserTeam, :count).by(1)
+            expect { post :add_users, params: { user_id: user.id, user: { email: create(:user, email: 'fake@email.com').email } } }.to change(TeamInvitation, :count).by(1)
           end
 
           it "send email to unregistered user" do
@@ -260,17 +260,17 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           post :add_users, params: { user_id: user.id, user: user_valid_attributes }
           expect(response).to redirect_to(admins_user_team_path(user.id))
           expect(flash[:notice]).to be_present
-          expect(flash[:notice]).to include(I18n.t("teams.add_users.added"))
+          expect(flash[:notice]).to include("Invitation sent to '#{User.last[:email]}'")
         end
 
         it "should not create a new device record on team if user is not leader" do
-          user.user_team.update(leader: false)
+          user.team_invitations.first.update(leader: false)
 
-          expect { post :add_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(UserTeam, :count).by(0)
+          expect { post :add_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(TeamInvitation, :count).by(0)
         end
 
         it "should create a new device record on team if user is leader" do
-          expect { post :add_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(UserTeam, :count).by(1)
+          expect { post :add_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(TeamInvitation, :count).by(1)
         end
       end
     end
@@ -298,8 +298,8 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         end
 
         it "should not destroy user team if user does not belong to team" do
-          create(:user_team, team: create(:team), user: User.find_by(user_valid_attributes), leader: true)
-          expect { delete :remove_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(UserTeam, :count).by(0)
+          create(:team_invitation, team: create(:team), user: User.find_by(user_valid_attributes), leader: true)
+          expect { delete :remove_users, params: { user_id: user.id, user: user_valid_attributes } }.to change(TeamInvitation, :count).by(0)
         end
       end
 
@@ -311,7 +311,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         context "available delete users from team" do
           before do
             @guest_user = create(:user)
-            create(:user_team, user: @guest_user, team: @team)
+            create(:team_invitation, user: @guest_user, team: @team, active: true)
           end
 
           it "redirects to root path if deleted user is current user" do
@@ -322,7 +322,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           end
 
           it "should destroy user team record from team" do
-            expect { delete :remove_users, params: { user_id: user.id, user: { email: user.email } } }.to change(UserTeam, :count).by(-1)
+            expect { delete :remove_users, params: { user_id: user.id, user: { email: user.email } } }.to change(TeamInvitation, :count).by(-1)
           end
 
           it "redirects to user team path if deleted user is not current user" do
@@ -333,11 +333,11 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
           end
 
           it "should destroy user team record from team" do
-            expect { delete :remove_users, params: { user_id: user.id, user: { email: @guest_user.email } } }.to change(UserTeam, :count).by(-1)
+            expect { delete :remove_users, params: { user_id: user.id, user: { email: @guest_user.email } } }.to change(TeamInvitation, :count).by(-1)
           end
 
           it "is not authorize to do that action" do
-            user.user_team.update(leader: false)
+            user.team_invitations.first.update(leader: false)
             delete :remove_users, params: { user_id: user.id, user: { email: @guest_user.email } }
             expect do
               Pundit.authorize(user, user.team, :remove_users?)
@@ -346,7 +346,7 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
         end
 
         it "should not destroy user team record from team if it the last one" do
-          expect { delete :remove_users, params: { user_id: user.id, user: { email: user.email } } }.to change(UserTeam, :count).by(0)
+          expect { delete :remove_users, params: { user_id: user.id, user: { email: user.email } } }.to change(TeamInvitation, :count).by(0)
           expect(flash[:alert]).to be_present
           expect(flash[:alert]).to include("You are not authorized to perform this action")
         end
@@ -377,12 +377,12 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
       context "user belongs to a team and is a leader" do
         before do
           @team = create(:team, leader: user)
-          @user_team = create(:user_team, team: @team, user: User.find_by(user_valid_attributes), leader: false)
+          @team_inv = create(:team_invitation, team: @team, user: User.find_by(user_valid_attributes), leader: false, active: true)
         end
 
         it "updates role successfully" do
           put :change_role, params: { user_id: user.id, user: user_valid_attributes }
-          expect(@user_team.reload.leader).to eq(true)
+          expect(@team_inv.reload.leader).to eq(true)
           expect(flash[:notice]).to be_present
           expect(flash[:notice]).to include(I18n.t("teams.role_changed"))
         end
@@ -391,13 +391,13 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
       context "user belongs to a team and is not a leader" do
         before do
           @team = create(:team)
-          create(:user_team, team: @team, user: user, leader: false)
-          @user_team = create(:user_team, team: @team, user: User.find_by(user_valid_attributes), leader: false)
+          create(:team_invitation, team: @team, user: user, leader: false)
+          @team_inv = create(:team_invitation, team: @team, user: User.find_by(user_valid_attributes), leader: false)
         end
 
         it "updates role is not allowed" do
           put :change_role, params: { user_id: user.id, user: user_valid_attributes }
-          expect(@user_team.reload.leader).to eq(false)
+          expect(@team_inv.reload.leader).to eq(false)
         end
       end
     end

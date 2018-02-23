@@ -3,8 +3,8 @@ module Admins
     layout "admin"
 
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
-    before_action :set_user, only: %i[update destroy show edit]
+    before_action :authenticate_user!, only: :show
+    before_action :set_user, only: %i[update destroy show edit accept_invitation refuse_invitation]
 
     def index
       @q = policy_scope(User).ransack(params[:q])
@@ -26,7 +26,7 @@ module Admins
       @user = User.new(permitted_params.merge(role: "promoter"))
       if verify_recaptcha(model: @user) && @user.save
         EventRegistration.where(email: @user.email).update_all(user_id: @user.id)
-        UserTeam.where(email: @user.email).update_all(user_id: @user.id)
+        TeamInvitation.where(email: @user.email).update_all(user_id: @user.id)
         sign_in(@user, scope: :user)
         redirect_to admins_events_path, notice: t("alerts.created")
       else
@@ -61,6 +61,31 @@ module Admins
       end
     end
 
+    def accept_invitation
+      invitation = @user.team_invitations.find(invitation_permitted_params[:id])
+
+      respond_to do |format|
+        if invitation&.update(active: true)
+          @user.team_invitations.where.not(id: invitation.id).delete_all
+          format.html { redirect_to admins_user_path(current_user), notice: "Invitation accepted" }
+        else
+          format.html { redirect_to admins_user_path(current_user), alert: "Unable to accept invitation" }
+        end
+      end
+    end
+
+    def refuse_invitation
+      invitation = @user.team_invitations.find(invitation_permitted_params[:id])
+
+      respond_to do |format|
+        if invitation&.delete
+          format.html { redirect_to admins_user_path(current_user), notice: "Invitation declined" }
+        else
+          format.html { redirect_to admins_user_path(current_user), alert: "Unable to declide invitation" }
+        end
+      end
+    end
+
     private
 
     def set_user
@@ -70,6 +95,10 @@ module Admins
 
     def permitted_params
       params.require(:user).permit(:role, :email, :username, :access_token, :password, :password_confirmation, :avatar)
+    end
+
+    def invitation_permitted_params
+      params.require(:invitation).permit(:id)
     end
   end
 end

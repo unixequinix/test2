@@ -18,7 +18,7 @@ RSpec.describe Team, type: :model do
   end
 
   it "is not valid without users" do
-    subject.user_teams = []
+    subject.team_invitations = []
     expect(subject).not_to be_valid
   end
 
@@ -28,12 +28,12 @@ RSpec.describe Team, type: :model do
   end
 
   it "can have users as leaders" do
-    leader = create(:user_team, team: subject, user: create(:user), leader: true).user
+    leader = create(:team_invitation, team: subject, user: create(:user), leader: true).user
     expect(subject.leaders).to include(leader)
   end
 
   it "should not be possible to have leader as guests team" do
-    leader = create(:user_team, team: subject, user: create(:user), leader: true)
+    leader = create(:team_invitation, team: subject, user: create(:user), leader: true)
     expect(subject.guests).not_to include(leader)
   end
 
@@ -42,7 +42,7 @@ RSpec.describe Team, type: :model do
   end
 
   it "should return all guests" do
-    guest = create(:user_team, user: create(:user), team: subject).user
+    guest = create(:team_invitation, user: create(:user), team: subject).user
     expect(subject.guests).to eq([guest])
   end
 

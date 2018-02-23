@@ -12,13 +12,13 @@ module Admins
       end
 
       def new
-        @team = current_user.build_user_team.build_team
+        @team = current_user.build_active_team_invitation.build_team
         authorize @team
       end
 
       def create
-        @team = current_user.build_user_team.build_team(team_permitted_params)
-        @team.user_teams.new(user_id: current_user.id, email: current_user.email, leader: true)
+        @team = current_user.build_active_team_invitation.build_team(team_permitted_params)
+        @team.team_invitations.new(user_id: current_user.id, email: current_user.email, leader: true, active: true)
         authorize @team
 
         respond_to do |format|
@@ -88,28 +88,35 @@ module Admins
 
       def add_users
         authorize @team
-        user_team = UserTeam.create(
+        team_invitation = TeamInvitation.create(
           team_id: @team.id,
           user_id: User.find_by(email: user_permitted_params[:email])&.id,
-          email: user_permitted_params[:email]
+          email: user_permitted_params[:email],
+          active: false
         )
 
         respond_to do |format|
-          if @current_user.team.user_teams << user_team
-            if user_team.user.present?
-              format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_users.added") }
-            else
-              UserMailer.invite_to_team(user_team).deliver_now
+          if team_invitation.user.present?
+            if team_invitation.user.team.nil?
+              @current_user.team.team_invitations << team_invitation
+              UserMailer.invite_to_team_user(team_invitation).deliver_now
               format.html { redirect_to admins_user_team_path(current_user), notice: "Invitation sent to '#{user_permitted_params[:email]}'" }
+            else
+              UserMailer.invite_to_team_user(team_invitation).deliver_now
+              format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_users.exists"), notice: " Invitation sent" }
             end
           else
-            format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.add_users.exists") }
+            @current_user.team.team_invitations << team_invitation
+            UserMailer.invite_to_team(team_invitation).deliver_now
+            format.html { redirect_to admins_user_team_path(current_user), notice: "Invitation sent to '#{user_permitted_params[:email]}'" }
           end
         end
       end
 
       def remove_users # rubocop:disable Metrics/PerceivedComplexity
         authorize @team
+        team_invitation = @team.users.find_by(email: user_permitted_params[:email]).team_invitations.first
+
         user = User.find_by(email: user_permitted_params[:email])
 
         if current_user.team == user.team && current_user == user
@@ -121,21 +128,21 @@ module Admins
         end
 
         respond_to do |format|
-          if @team.users.destroy(user)
-            @team.user_teams.order(:created_at).first.update(leader: true) if @team.user_teams.leader.none?
+          if @team.team_invitations.destroy(team_invitation)
+            @team.team_invitations.order(:created_at).first.update(leader: true) if @team.team_invitations.leader.none?
             format.html { redirect_to path, notice: message }
           else
-            format.html { redirect_to root_path, alert: 'You should not be here' }
+            format.html { redirect_to path, alert: 'You should not be here' }
           end
         end
       end
 
       def change_role
         authorize @team
-        user_team = @team.users.find_by(email: user_permitted_params[:email]).user_team
+        team_invitation = @team.users.find_by(email: user_permitted_params[:email]).team_invitations.first
 
         respond_to do |format|
-          if user_team.update(leader: !user_team.leader)
+          if team_invitation.update(leader: !team_invitation.leader)
             format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.role_changed") }
           else
             format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.unable_change_role") }

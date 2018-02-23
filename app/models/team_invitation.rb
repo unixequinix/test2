@@ -1,4 +1,4 @@
-class UserTeam < ApplicationRecord
+class TeamInvitation < ApplicationRecord
   belongs_to :team
   belongs_to :user, optional: true
 
