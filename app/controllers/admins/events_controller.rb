@@ -1,5 +1,6 @@
 module Admins
   class EventsController < BaseController
+    include EventsHelper
     include AnalyticsHelper
 
     before_action :set_event, except: %i[index new sample_event create]
@@ -29,7 +30,8 @@ module Admins
 
     def show
       @totals = Poke.dashboard(@current_event)
-
+      @graphs = Poke.dashboard_graphs(@current_event)
+      @message = analytics_message(@current_event)
       render layout: "admin_event"
     end
 

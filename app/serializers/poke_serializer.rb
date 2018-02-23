@@ -26,6 +26,7 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :redeemed, key: "Redeemed"
   attribute :sale, key: "Sales"
   attribute :record_credit, key: "Record Credits"
+  attribute :source, key: "Source"
 
   def action
     object.try(:action)&.humanize
@@ -133,5 +134,9 @@ class PokeSerializer < ActiveModel::Serializer
 
   def record_credit
     object.try(:record_credit)
+  end
+
+  def source
+    object.try(:source)
   end
 end

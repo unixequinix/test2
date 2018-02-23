@@ -9,63 +9,33 @@
       button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
         | RAW DATA
 
-
     .mdl-cell.mdl-cell--12-col.reports-grid
       #table
 
 javascript:
 
   $(document).ready(function() {
-    var data = "#{data}";
-    var name = "#{ name.capitalize }";
+    var data = jQuery.parseJSON('#{ escape_javascript(data.html_safe)}');
+    var title = "#{ name }";
     var cols = jQuery.parseJSON("#{ escape_javascript(cols.html_safe) }");
     var rows = jQuery.parseJSON("#{ escape_javascript(rows.html_safe) }");
     var metric = jQuery.parseJSON("#{ escape_javascript(metric.html_safe) }");
     var decs = "#{decimals}"
+    var decimals = "#{decimals}"
     var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers, $.pivotUtilities.plotly_renders, $.pivotUtilities.c3_renderers);
-    data = jQuery.parseJSON('#{ escape_javascript(data.html_safe)}');
     var sum = $.pivotUtilities.aggregatorTemplates.sum;
     var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: "#{decimals}"});
+    var type =  "Table"
+    var chartId = "#table"
+    var show = ""
 
-    $("#table").pivotUI(data, {
-       renderers: renderers,
-       cols: cols,
-       rows: rows,
-       rendererName: "Table",
-       aggregators: { [name]: function () { return sum(frFormat)(metric) } }
-    });
+    setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
 
     $(".raw-button").click(function(){
-      var fields = Object.keys(data[0])
-      var replacer = function(key, value) { return value === null ? '' : value }
-      var csv = data.map(function(row){
-        return fields.map(function(fieldName){
-          return JSON.stringify(row[fieldName], replacer)
-        }).join(';')
-      })
-      csv.unshift(fields.join('";"'))
-      csv = csv.join('\r\n');
-      var hiddenElement = document.createElement('a');
-      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-      hiddenElement.target = '_blank';
-      hiddenElement.download = "#{ name }" + '_raw_data.csv';
-      hiddenElement.click();
-
+      exportRawData(data, title);
     });
 
     $(".export-button").click(function(){
-      $(".pvtRenderer:first").val("TSV Export").trigger("change");
-      var checkExist = setInterval(function() {
-         if ($('textarea').length) {
-            var text = $('textarea').text();
-            var hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(text);
-            hiddenElement.target = '_blank';
-            hiddenElement.download = "#{ name }" + '_pivot_data.csv';
-            hiddenElement.click();
-            clearInterval(checkExist);
-            $(".pvtRenderer:first").val("Table").trigger("change");
-         }
-      }, 100);
+      exportTSV(chartId, title);
     });
   });

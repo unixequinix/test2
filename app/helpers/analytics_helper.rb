@@ -30,7 +30,7 @@ module AnalyticsHelper
           dm2 = selected.map { |t| { t["dm2"] => t["metric"] } }
       end
 
-      { "dm1" => dm1, "total" => total, "avg" => avg, "dm2" => dm2 }
+      { "dm1" => dm1, "total" => total, "t" => total_num, "avg" => avg, "dm2" => dm2 }
     end
   end
 end

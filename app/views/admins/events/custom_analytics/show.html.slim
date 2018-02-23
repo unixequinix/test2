@@ -1,3 +1,6 @@
+- content_for(:javascripts) do
+  = javascript_include_tag 'specific/pivot_tables'
+
 - content_for(:title) do
   | Custom Analytics
 
@@ -27,6 +30,11 @@
             | Access
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
+
+        - if @message
+          .mdl-cell.mdl-cell--12-col
+            .center-card-title
+              span.analytics-text = @message
 
         #load-report
   .mdl-layout-spacer

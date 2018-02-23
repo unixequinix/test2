@@ -1,6 +1,6 @@
 .mdl-cell.mdl-cell--12-col
   .center-card-title
-    h4.analytics-text = key.to_s.humanize.upcase
+    h5.analytics-text = key.to_s.humanize.upcase
   .mld-card.analytics-card-back
     .mdl-grid
       - data.each do |d1|
@@ -8,7 +8,7 @@
           .mdl-grid.analytic-grid-container
             .mdl-cell.mdl-cell--8-col
               .mdl-card__title
-                h5.analytics-text = "TOTAL #{d1['dm1'].humanize.upcase}"
+                h6.analytics-text = "TOTAL #{d1['dm1'].humanize.upcase}"
               span.mdl-card__supporting-text = "Average per customer: #{d1["avg"]}"
             .mdl-cell.mdl-cell--4-col
               h5 = d1['total']
@@ -18,6 +18,6 @@
                 .mdl-cell.mdl-cell--12-col
                   .mdl-grid.analytic-grid-container.subtitle-container
                     .mdl-cell.mdl-cell--12-col
-                      h6.analytics-text = "#{d2.keys[0].to_s.humanize.upcase}: "
+                      h7.analytics-text = "#{d2.keys[0].to_s.humanize.upcase}: "
                     .mdl-cell.mdl-cell--12-col
                       h6 = d2.values[0]

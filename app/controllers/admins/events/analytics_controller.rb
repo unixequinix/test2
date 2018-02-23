@@ -1,33 +1,36 @@
 module Admins
   module Events
     class AnalyticsController < Admins::Events::BaseController
+      include EventsHelper
       include AnalyticsHelper
 
       before_action :authorize_billing
 
       def show
+        @message = analytics_message(@current_event)
         totals = {}
         totals[:subtotals] = { money: {}, credits: {} }
+        @kpis = Poke.dashboard(@current_event)
         totals[:totals] = Poke.totals(@current_event)
         customers = totals[:totals][:activations] - totals[:totals][:staff]
-        totals[:subtotals][:money][:money_by_payment_method] = transformer(totals[:totals][:source_pm_money].map { |t| { "dm1" => t[:source], "dm2" => t[:payment_method], "metric" => t[:money] } }, "currency", customers)
-        totals[:subtotals][:money][:money_by_station_type] = transformer(totals[:totals][:action_st_money].map { |t| { "dm1" => t[:action], "dm2" => t[:station_type], "metric" => t[:money] } }, "currency", customers)
-        totals[:subtotals][:credits][:credits_flow] = transformer(totals[:totals][:credits].map { |t| { "dm1" => t[:action], "dm2" => t[:description], "metric" => t[:credits] } }, "token", customers)
-        totals[:subtotals][:money_highlight] = transformer(totals[:totals][:source_ac_money].map { |t| { "dm1" => t[:action], "dm2" => t[:source], "metric" => t[:money] } }, "currency", customers)
-
+        totals[:subtotals][:money][:money_by_payment_method] = transformer(totals[:totals][:source_pm_money].map { |t| { "dm1" => t[:source], "dm2" => t[:payment_method], "metric" => t[:money] } }, "currency", customers).sort_by { |t| -t["t"] }
+        totals[:subtotals][:money][:money_by_station_type] = transformer(totals[:totals][:action_st_money].map { |t| { "dm1" => t[:action], "dm2" => t[:station_type], "metric" => t[:money] } }, "currency", customers).sort_by { |t| -t["t"] }
+        totals[:subtotals][:credits][:credits_flow] = transformer(totals[:totals][:credits_flow].map { |t| { "dm1" => t[:action], "dm2" => t[:description], "metric" => t[:credits] } }, "token", customers).sort_by { |t| -t["t"] }
+        totals[:subtotals][:credits][:credits_type] = transformer(totals[:totals][:credits_type].map { |t| { "dm1" => t[:action], "dm2" => t[:credit_name], "metric" => t[:credits] } }, "token", customers).sort_by { |t| -t["t"] }
+        totals[:subtotals][:money_highlight] = transformer(totals[:totals][:source_ac_money].map { |t| { "dm1" => t[:action], "dm2" => t[:source], "metric" => t[:money] } }, "currency", customers).sort_by { |t| -t["t"] }
         @totals = totals
       end
 
       def money
-        total_topup = @current_event.pokes.topups.is_ok.sum(:monetary_total_price)
-        activations = @current_event.customers.count
         total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
-        topup_online = @current_event.pokes.is_ok.online.sum(:monetary_total_price)
+        top_onsite = @current_event.pokes.topups.is_ok.sum(:monetary_total_price)
+        online_purchase = @current_event.pokes.purchases.is_ok.sum(:monetary_total_price)
+        activations = @current_event.customers.count
         refund = -@current_event.pokes.is_ok.refunds.sum(:monetary_total_price)
         online_money_left = @current_event.pokes.is_ok.online.sum(:monetary_total_price) - @current_event.pokes.is_ok.online_orders.sum(:credit_amount) * @current_event.credit.value
-        avg_topups = total_topup / activations
+        avg_topups_onsite = top_onsite / activations
 
-        @totals = { total_topup: total_topup, total_money: total_money, topup_online: topup_online, refund: refund, online_money_left: online_money_left, avg_topups: avg_topups }.map { |k, v| [k, number_to_event_currency(v)] }
+        @totals = { total_money: total_money, topup_onsite: top_onsite, online_purchase: online_purchase, refund: refund, avg_topups_onsite: avg_topups_onsite }.map { |k, v| [k, number_to_event_currency(v)] }
         money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day"]
         money = prepare_pokes(money_cols, @current_event.pokes.money_recon)
         @views = [
@@ -48,7 +51,7 @@ module Admins
 
         @totals = { record_credit: record_credit, record_credit_virtual: record_credit_virtual, fees: fees, orders: orders }.map { |k, v| [k, number_to_token(v)] }
         @views = [
-          { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: ["Action"], data: credits, metric: ["Credits"], decimals: 1 },
+          { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: %w[Action Description], data: credits, metric: ["Credits"], decimals: 1 },
           { chart_id: "credits_detail", title: "Credit Flow by Station", cols: ["Event Day", "Credit Name"], rows: ["Location", "Action", "Station Type", "Station Name"], data: credits, metric: ["Credits"], decimals: 1 }
         ]
         prepare_data(params["action"])

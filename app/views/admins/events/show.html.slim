@@ -19,11 +19,16 @@
                 = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                   | Close
 
+        - if @message
+          .mld-card.analytics-card-front
+            .center-card-title
+              span.analytics-text = @message
+
           .mdl-cell.mdl-cell--12-col
             .mld-card.analytics-card-back
               .mdl-grid
-                - @totals[:totals].map do |k, v|
-                  .mdl-cell class="mdl-cell--#{12 / @totals[:totals].size}-col"
+                - @totals.map do |k, v|
+                  .mdl-cell class="mdl-cell--#{12 / @totals.size}-col"
                     .mld-card.analytics-card-front
                       .mdl-card__title.mdl-card--expand
                         h3.mdl-card__title-text = v
@@ -46,7 +51,7 @@
 javascript:
 
   $(function () {
-     var data =#{ @totals[:event_day_money].html_safe }
+     var data =#{ @graphs[:event_day_money].html_safe }
      var money_symbol = '#{ @current_event.currency_symbol }'
      var event_day = data.map(function (e) { return e.event_day; });
      var money = data.map(function (e) { return e.money; });
@@ -71,7 +76,7 @@ javascript:
     });
 
     var credit_symbol = '#{ @current_event.credit.symbol }'
-    var data_c = #{ @totals[:d_credits].html_safe }
+    var data_c = #{ @graphs[:d_credits].html_safe }
     var date_time = data_c.map(function (e) { return e.date_time });
     var record_credit = data_c.map(function (e) { return e.record_credit });
     var sale = data_c.map(function (e) { return -e.sale });

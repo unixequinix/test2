@@ -8,4 +8,8 @@ module EventsHelper
   def associated_device_registration(event, device)
     DeviceRegistration.find_by(event: event, device: device)
   end
+
+  def analytics_message(event)
+    "Data shown here could not be 100% accurate until all devices are synced & locked" if event.state.eql?('launched')
+  end
 end
