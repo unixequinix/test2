@@ -4,7 +4,7 @@ module Admins
       include EventsHelper
       include AnalyticsHelper
 
-      before_action :load_analytics_resources
+      before_action :authorize_billing
       before_action :skip_authorization, only: %i[money access credits checkin sales]
 
       def show
