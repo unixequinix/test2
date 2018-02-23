@@ -10,5 +10,9 @@ module Api::V2
     def refundable
       object.valid_balance? && !object.active_gtag&.banned?
     end
+
+    def global_refundable_money
+      money
+    end
   end
 end
