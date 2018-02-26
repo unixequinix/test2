@@ -11,17 +11,21 @@ class Pokes::Base < ApplicationJob
   end
 
   def self.descendants
-    Pokes::Credit.inspect
-    Pokes::Money.inspect
-    Pokes::Sale.inspect
-    Pokes::Order.inspect
+    @descendants || []
+  end
+
+  def load_classes
+    Pokes::BalanceUpdater.inspect
     Pokes::Checkin.inspect
     Pokes::Checkpoint.inspect
+    Pokes::Credit.inspect
     Pokes::Flag.inspect
     Pokes::Message.inspect
+    Pokes::Money.inspect
+    Pokes::Operator.inspect
+    Pokes::Order.inspect
     Pokes::Purchase.inspect
     Pokes::Replacement.inspect
-
-    @descendants || []
+    Pokes::Sale.inspect
   end
 end
