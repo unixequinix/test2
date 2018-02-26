@@ -15,7 +15,7 @@
         td.table-amount#refund_fee = number_to_token(@refund.credit_fee)
       tr.border-bottom
         td = t('refunds.total_credits')
-        td.table-amount#refund_credits = number_to_token(@refund.credits_base)
+        td.table-amount#refund_credits = number_to_token(@refund.credit_base)
       tr.border-bottom
         td
         td.table-amount @ #{number_to_token(@current_event.credit.value)} / #{@current_event.currency}
