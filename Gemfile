@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.4.2'
+ruby '2.5.0'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
@@ -23,7 +23,7 @@ gem 'nilify_blanks'
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'deep_cloneable'
-gem 'pg' # Use pg as the database for Active Record
+gem 'pg', '< 1.0' # Use pg as the database for Active Record
 gem 'json'
 gem 'paper_trail'
 
@@ -37,6 +37,8 @@ gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'jquery-datatables'
+gem 'c3-rails'
+gem 'chart-js-rails'
 
 # Authentication
 gem 'devise'
@@ -81,9 +83,6 @@ gem 'jquery-tablesorter'
 gem 'country_select'
 gem 'phony_rails'
 gem 'tinymce-rails'
-
-# Payments
-gem 'activemerchant', github: "aspgems/active_merchant"
 
 # Asyncronous
 gem 'sinatra', github: 'sinatra/sinatra', require: false
@@ -138,6 +137,7 @@ group :development, :test do
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'json_expressions'
+  gem 'xray-rails'
 end
 
 group :test do

@@ -1,8 +1,9 @@
 class DeviceTransaction < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :device
 
   ACTIONS = %w[device_initialization pack_device lock_device].freeze
+  INITIALIZATION_TYPES = %i[FULL_INITIALIZATION LITE_INITIALIZATION].freeze
 
   validates :action, :device_uid, :initialization_type, :number_of_transactions, presence: true
   validates :number_of_transactions, numericality: true

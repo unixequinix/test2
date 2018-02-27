@@ -32,7 +32,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-set :rvm_ruby_version, '2.4.2'
+set :rvm_ruby_version, '2.5.0'
 
 set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml')
 
@@ -43,5 +43,3 @@ set :rollbar_env, -> { fetch(:stage) }
 set :rollbar_role, :app
 
 load "lib/tasks/capistrano.rake"
-after 'deploy:updated', 'deploy:stats_create'
-after 'deploy:updated', 'deploy:stats_migrate'

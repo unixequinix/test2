@@ -4,10 +4,10 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:items_amount)
     sequence(:price)
@@ -20,10 +20,10 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -32,10 +32,10 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(12).upcase }
-    operator_tag_uid { SecureRandom.hex(12).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:credits)
     sequence(:refundable_credits)
@@ -50,11 +50,11 @@ FactoryBot.define do
                              credit_transaction: credit_transaction,
                              product: create(:product, station: credit_transaction.station))
 
-          credit_transaction.credits += (sale_item.unit_price * sale_item.quantity)
+          credit_transaction.credits += (sale_item.standard_unit_price * sale_item.quantity)
           credit_transaction.save
         end
         other_amount = create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: 1)
-        credit_transaction.credits += (other_amount.unit_price * other_amount.quantity)
+        credit_transaction.credits += (other_amount.standard_unit_price * other_amount.quantity)
         credit_transaction.save
       end
     end
@@ -67,11 +67,11 @@ FactoryBot.define do
                              credit_transaction: credit_transaction,
                              product: create(:product, station: credit_transaction.station))
 
-          credit_transaction.credits += (sale_item.unit_price * sale_item.quantity)
+          credit_transaction.credits += (sale_item.standard_unit_price * sale_item.quantity)
           credit_transaction.save
         end
         other_amount = create(:sale_item, credit_transaction: credit_transaction, product: nil, quantity: -1)
-        credit_transaction.credits += (other_amount.unit_price * other_amount.quantity)
+        credit_transaction.credits += (other_amount.standard_unit_price * other_amount.quantity)
         credit_transaction.save
       end
     end
@@ -82,10 +82,10 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -94,10 +94,10 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     direction 1
   end
@@ -108,10 +108,10 @@ FactoryBot.define do
     order
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -123,10 +123,10 @@ FactoryBot.define do
     sequence(:device_db_index)
     message "i love Glownet! "
     sequence(:priority)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -138,10 +138,10 @@ FactoryBot.define do
     sequence(:device_db_index)
     user_flag_active true
     user_flag "yellow_flag"
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
@@ -150,10 +150,10 @@ FactoryBot.define do
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
-    transaction_origin Transaction::ORIGINS[:device]
+    transaction_origin "onsite"
     device_created_at { Time.zone.now }
-    customer_tag_uid { SecureRandom.hex(14).upcase }
-    operator_tag_uid { SecureRandom.hex(14).upcase }
+    customer_tag_uid { SecureRandom.hex(6).upcase }
+    operator_tag_uid { SecureRandom.hex(6).upcase }
     sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 end

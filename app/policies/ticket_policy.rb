@@ -3,6 +3,10 @@ class TicketPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def virtual_topup?
+    all_allowed && event_open
+  end
+
   def import?
     admin_or_promoter && event_open
   end

@@ -1,9 +1,13 @@
 class RefundPolicy < ApplicationPolicy
-  def stats?
+  def analytics?
     admin_or_promoter
   end
 
   def complete?
+    admin_or_promoter
+  end
+
+  def cancel?
     admin_or_promoter
   end
 

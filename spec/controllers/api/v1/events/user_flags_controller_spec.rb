@@ -26,15 +26,6 @@ RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
         JSON.parse(response.body).map { |user_flag| expect(user_flag.keys).to eq(user_flag_keys) }
       end
 
-      context "with the 'If-Modified-Since' header" do
-        it "returns only the modified user_flags" do
-          request.headers["If-Modified-Since"] = (@new_user_flag.updated_at - 2.hours).to_formatted_s(:transactions)
-          get :index, params: params
-          user_flags = JSON.parse(response.body).map { |m| m["id"] }
-          expect(user_flags).to include(@new_user_flag.id)
-        end
-      end
-
       context "without the 'If-Modified-Since' header" do
         it "returns all the user_flags" do
           get :index, params: params

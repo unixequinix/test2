@@ -9,8 +9,8 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
       {
         event_id: "1",
         customer_tag_uid: "324",
-        type: "credit",
-        transaction_origin: Transaction::ORIGINS[:device],
+        type: "CreditTransaction",
+        transaction_origin: "onsite",
         action: "test_type",
         operator_tag_uid: "A54DSF8SD3JS0",
         station_id: "34",
@@ -25,7 +25,8 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         credit_value: "1",
         final_balance: "4",
         final_refundable_balance: "4",
-        app_version: "5.7.0"
+        app_version: "5.7.0",
+        payments: [{}].to_json
       }
     ]
   end

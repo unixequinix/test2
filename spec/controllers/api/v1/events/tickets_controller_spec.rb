@@ -23,7 +23,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w[reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id ticket_type_id customer_id] # rubocop:disable Metrics/LineLength
+          keys = %w[reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at ticket_type_id customer_id]
           expect(ticket.keys).to eq(keys)
         end
       end
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         @customer = create(:customer, event: event)
         @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
         order = create(:order, customer: @customer, status: "completed", event: event)
-        @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
+        @item = order.order_items.first
 
         http_login(user.email, user.access_token)
       end
@@ -85,9 +85,9 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w[reference redeemed banned catalog_item_id ticket_type_id customer purchaser_first_name purchaser_last_name purchaser_email]
+          ticket_keys = %w[reference redeemed banned catalog_item_id catalog_item_type ticket_type_id customer purchaser_first_name purchaser_last_name purchaser_email]
           c_keys = %w[id first_name last_name email orders credentials]
-          order_keys = %w[catalog_item_id amount status redeemed id]
+          order_keys = %w[id counter catalog_item_id catalog_item_type amount status redeemed]
 
           expect(ticket.keys).to eq(ticket_keys)
           expect(ticket["customer"].keys).to eq(c_keys)
@@ -102,21 +102,25 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             redeemed: @ticket.redeemed,
             banned: @ticket.banned,
             catalog_item_id: @ticket.ticket_type.catalog_item.id,
+            catalog_item_type: @ticket.ticket_type.catalog_item.class.to_s,
             ticket_type_id: @ticket.ticket_type_id,
             customer: {
               id:  @ticket.customer.id,
-              credentials: [{ reference: @ticket.code,
-                              type: "ticket",
-                              redeemed: @ticket.redeemed,
-                              banned: @ticket.banned }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
-              orders: [{ catalog_item_id: @item.catalog_item_id,
+              orders: [{ id: @item.id,
+                         counter: @item.counter,
+                         catalog_item_id: @item.catalog_item_id,
+                         catalog_item_type: @item.catalog_item.class.to_s,
                          amount: @item.amount,
                          status: @item.order.status,
-                         redeemed: @item.redeemed,
-                         id: @item.counter }]
+                         redeemed: @item.redeemed }],
+              credentials: [{ reference: @ticket.code,
+                              type: "ticket",
+                              redeemed: @ticket.redeemed,
+                              banned: @ticket.banned,
+                              ticket_type_id: @ticket.ticket_type_id }]
             },
             purchaser_first_name: @ticket.purchaser_first_name,
             purchaser_last_name: @ticket.purchaser_last_name,

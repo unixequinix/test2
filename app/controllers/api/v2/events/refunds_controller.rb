@@ -1,6 +1,6 @@
 module Api::V2
   class Events::RefundsController < BaseController
-    before_action :set_refund, only: %i[show update destroy complete]
+    before_action :set_refund, only: %i[show update destroy complete cancel]
 
     # PATCH/PUT api/v2/events/:event_id/refunds/:id
     def complete
@@ -8,7 +8,18 @@ module Api::V2
         @refund.errors.add(:status, "is already completed")
         render json: @refund.errors, status: :unprocessable_entity
       else
-        @refund.complete!(refund_params[:refund_data])
+        @refund.complete!(params[:send_email])
+        render json: @refund
+      end
+    end
+
+    # PATCH/PUT api/v2/events/:event_id/refunds/:id
+    def cancel
+      if @refund.cancelled?
+        @refund.errors.add(:status, "is already cancelled")
+        render json: @refund.errors, status: :unprocessable_entity
+      else
+        @refund.cancel!(params[:send_email])
         render json: @refund
       end
     end
@@ -28,6 +39,7 @@ module Api::V2
 
     # POST api/v2/events/:event_id/refunds
     def create
+      params[:refund][:gateway] ||= "other"
       @refund = @current_event.refunds.new(refund_params)
       authorize @refund
 
@@ -63,7 +75,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def refund_params
-      params.require(:refund).permit(:amount, :status, :fee, :field_a, :field_b, :customer_id, :gateway, :refund_data)
+      params.require(:refund).permit(:credit_base, :credit_fee, :customer_id, :gateway, fields: {})
     end
   end
 end

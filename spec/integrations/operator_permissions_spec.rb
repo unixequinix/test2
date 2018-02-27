@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe "Operator Permissions in the admin panel", js: true, type: :feature do
+RSpec.describe "Operator Permissions in the admin panel", type: :feature do
   let(:event) { create(:event, state: "launched") }
   let(:user) { create(:user, role: "admin") }
   let!(:station1) { create(:station, name: "Station 1", event: event) }
   let!(:station2) { create(:station, name: "Station 2", event: event) }
   let!(:catalog_item1) { create(:catalog_item, group: "Glownet", event: event, type: 'OperatorPermission') }
-  let!(:catalog_item2) { create(:catalog_item, station_id: event.stations[1].id,  event: event, type: 'OperatorPermission') }
+  let!(:catalog_item2) { create(:catalog_item, station: station2,  event: event, type: 'OperatorPermission') }
 
   before(:each) do
     login_as(user, scope: :user)
@@ -16,31 +16,35 @@ RSpec.describe "Operator Permissions in the admin panel", js: true, type: :featu
     before { visit new_admins_event_operator_permission_path(event) }
 
     it "cant't be created without filling group or station" do
-      find("option[value='operator']").click
-      find("input[name=commit]").click
-      expect(event.operator_permissions.count).to eq(2)
+      within("#new_operator_permission") do
+        all('#operator_permission_role option')[1].select_option
+      end
+      expect { find("input[name=commit]").click }.not_to change(OperatorPermission, :count)
     end
 
     it "can be created filling role and group" do
-      find("option[value='operator']").click
-      find("option[value='checkin']").click
-      find("input[name=commit]").click
-      expect(event.operator_permissions.count).to eq(3)
+      within("#new_operator_permission") do
+        all('#operator_permission_role option')[1].select_option
+        all('#operator_permission_group option')[1].select_option
+      end
+      expect { find("input[name=commit]").click }.to change { event.operator_permissions.count }.by(1)
     end
 
     it "can be created filling role and station" do
-      find("option[value='manager']").click
-      find("option[value='#{event.stations[1].id}']").click
-      find("input[name=commit]").click
-      expect(event.operator_permissions.count).to eq(3)
+      within("#new_operator_permission") do
+        all('#operator_permission_role option')[1].select_option
+        all('#operator_permission_station_id option')[1].select_option
+      end
+      expect { find("input[name=commit]").click }.to change { event.operator_permissions.count }.by(1)
     end
 
     it "cant't be created by filling role, group and station" do
-      find("option[value='operator']").click
-      find("option[value='checkin']").click
-      find("option[value='#{event.stations[1].id}']").click
-      find("input[name=commit]").click
-      expect(event.operator_permissions.count).to eq(2)
+      within("#new_operator_permission") do
+        all('#operator_permission_role option')[1].select_option
+        all('#operator_permission_group option')[1].select_option
+        all('#operator_permission_station_id option')[1].select_option
+      end
+      expect { find("input[name=commit]").click }.not_to change(OperatorPermission, :count)
     end
   end
 
@@ -49,19 +53,12 @@ RSpec.describe "Operator Permissions in the admin panel", js: true, type: :featu
 
     it "can be achieved if event is in 'created' state" do
       event.update! state: "created"
-      find('.floaty-btn').click
-      find("#delete").click
-      page.accept_alert
-      sleep(1)
-      expect(event.operator_permissions.count).to eq(1)
+      expect { click_link("delete") }.to change(OperatorPermission, :count).by(-1)
     end
 
     it "can't be achieved if event is in 'launched' state" do
-      find('.floaty-btn').click
-      find("#delete").click
-      page.accept_alert
-      sleep(1)
-      expect(event.operator_permissions.count).to eq(2)
+      event.update! state: "launched"
+      expect { click_link("delete") }.not_to change(OperatorPermission, :count)
     end
   end
 
@@ -69,16 +66,13 @@ RSpec.describe "Operator Permissions in the admin panel", js: true, type: :featu
     it "Cannot add a station already has role and group" do
       visit edit_admins_event_operator_permission_path(event, catalog_item1)
       find("option[value='#{event.stations[0].id}']").click
-      find("input[name=commit]").click
-      expect(event.catalog_items[1].station_id).not_to eq(station1.id)
+      expect { find("input[name=commit]").click }.not_to change { catalog_item1.reload.station }.from(nil)
     end
 
     it "Cannot add a group already has role and sation" do
       visit edit_admins_event_operator_permission_path(event, catalog_item2)
       find("option[value='glownet']").click
-      find("input[name=commit]").click
-      visit admins_event_operator_permissions_path(event, catalog_item2)
-      expect(event.catalog_items[2].group).not_to eq("glownet")
+      expect { find("input[name=commit]").click }.not_to change { catalog_item2.reload.group }.from(nil)
     end
   end
 end

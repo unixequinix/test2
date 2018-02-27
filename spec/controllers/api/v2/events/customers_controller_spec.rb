@@ -4,13 +4,15 @@ require 'rails_helper'
 RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
   let(:event) { create(:event, open_api: true, state: "created") }
   let(:user) { create(:user) }
-  let(:customer) { create(:customer, event: event) }
+  let!(:customer) { create(:customer, event: event, anonymous: false) }
 
   let(:atts) { { id: customer.to_param, event_id: event.to_param } }
   let(:invalid_attributes) { { email: "aaa" } }
   let(:valid_attributes) { { first_name: "name", last_name: "foo", email: "foo@bar.com", password: "password1", password_confirmation: "password1" } }
 
   before { token_login(user, event) }
+
+  include_examples "controller topups"
 
   describe "POST #gtag_replacement" do
     let(:new_gtag) { create(:gtag, tag_uid: "12345678", event: event, customer: create(:customer, event: event, anonymous: true)) }
@@ -52,7 +54,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :gtag_replacement, params: new_atts
-      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
     end
   end
 
@@ -64,7 +66,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :ban, params: atts
-      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
     end
 
     it "bans all the gtags" do
@@ -86,7 +88,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :unban, params: atts
-      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
     end
 
     it "bans all the gtags" do
@@ -111,7 +113,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :assign_gtag, params: new_atts
-      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
     end
 
     it "assigns the gtag to the customer" do
@@ -126,7 +128,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     it "does not make active if specified" do
       new_atts[:active] = false
       new_gtag.update! active: false
-      expect { post :assign_gtag, params: new_atts }.not_to change { customer.reload.active_gtag } # rubocop:disable Lint/AmbiguousBlockAssociation
+      expect { post :assign_gtag, params: new_atts }.not_to change { customer.reload.active_gtag }.from(nil)
     end
 
     it "returns unprocessable_entity if tag_uid does not match any gtags" do
@@ -147,7 +149,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :assign_ticket, params: new_atts
-      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
     end
 
     it "assigns the ticket to the customer" do
@@ -161,117 +163,12 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     end
   end
 
-  describe "POST #topup" do
-    let(:new_atts) { atts.merge(credits: 100, gateway: "paypal") }
-
-    before do
-      station = create :station, name: "Customer Portal", category: "customer_portal", event: event
-      station.station_catalog_items.create! catalog_item: event.credit, price: 10
-    end
-
-    it "returns a success response" do
-      post :topup, params: new_atts
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "returns the customer as JSON" do
-      post :topup, params: new_atts
-      expect(json).to eq(obj_to_json(customer.reload.orders.last, "OrderSerializer"))
-    end
-
-    it "creates an order for the customer" do
-      expect { post :topup, params: new_atts }.to change { customer.reload.orders.count }.by(1)
-    end
-
-    it "sums to the credit of the customer" do
-      expect { post :topup, params: new_atts }.to change { customer.global_credits }.by(100)
-    end
-
-    it "return unprocessable entity if credits are not present" do
-      new_atts[:credits] = nil
-      post :topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "return unprocessable entity if credits are negative" do
-      new_atts[:credits] = -10
-      post :topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "sets the new orders gateway accordingly" do
-      new_atts[:gateway] = "somethingcrazy"
-      post :topup, params: new_atts
-      expect(customer.reload.orders.last.gateway).to eq("somethingcrazy")
-    end
-  end
-
-  describe "POST #virtual_topup" do
-    let(:new_atts) { atts.merge(credits: 10, gateway: "paypal") }
-
-    before do
-      station = create :station, name: "Customer Portal", category: "customer_portal", event: event
-      station.station_catalog_items.create! catalog_item: event.credit, price: 1
-    end
-
-    it "returns a success response" do
-      post :virtual_topup, params: new_atts
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "returns the customer orders as JSON" do
-      post :virtual_topup, params: new_atts
-      expect(json).to eq(obj_to_json(customer.reload.orders.last, "OrderSerializer"))
-    end
-
-    it "creates an order for the customer" do
-      expect { post :virtual_topup, params: new_atts }.to change { customer.reload.orders.count }.by(1)
-    end
-
-    it "sums to the global credits of the customer" do
-      expect { post :virtual_topup, params: new_atts }.to change { customer.global_credits }.by(10.0)
-    end
-
-    it "sums to the global refundable credits of the customer" do
-      expect { post :virtual_topup, params: new_atts }.to change { customer.global_refundable_credits }.by(0.0)
-    end
-
-    it "return unprocessable entity if credits are not present" do
-      new_atts[:credits] = nil
-      post :virtual_topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "return unprocessable entity if credits are negative" do
-      new_atts[:credits] = -10
-      post :virtual_topup, params: new_atts
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "sets the new orders gateway accordingly" do
-      new_atts[:gateway] = "somethingcrazy"
-      post :virtual_topup, params: new_atts
-      expect(customer.reload.orders.last.gateway).to eq("somethingcrazy")
-    end
-
-    it "should create a pack" do
-      expect { post :virtual_topup, params: new_atts }.to change { customer.event.packs.count }.by(1)
-    end
-
-    it "should find a created pack" do
-      pack = create(:pack, :with_credit, event: event)
-      expect { post :virtual_topup, params: new_atts.merge(name: pack.name) }.to change { customer.event.packs.count }.by(0)
-    end
-
-    it "pack should have a credit catalog item with value 1" do
-      pack = create(:pack, :with_credit, event: event)
-      post :virtual_topup, params: new_atts.merge(name: pack.name)
-      expect(customer.event.packs.last.catalog_items.last.value).to eq(1.0)
-    end
-  end
-
   describe "GET #refunds" do
-    before { create_list(:refund, 10, event: event, customer: customer) }
+    let(:new_gtag) { create(:gtag, event: event, customer: customer) }
+    before do
+      new_gtag.update!(credits: 150)
+      create_list(:refund, 3, event: event, customer: customer)
+    end
 
     it "returns a success response" do
       get :refunds, params: atts
@@ -280,17 +177,17 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns all refunds" do
       get :refunds, params: atts
-      expect(json.size).to be(10)
+      expect(json.size).to be(3)
     end
 
     it "returns the refunds as JSON" do
       get :refunds, params: atts
-      expect(json).to eq(customer.refunds.map { |refund| obj_to_json(refund, "RefundSerializer") })
+      expect(json).to eq(customer.refunds.map { |refund| obj_to_json_v2(refund, "RefundSerializer") })
     end
   end
 
   describe "GET #transactions" do
-    before { @transactions = create_list(:credit_transaction, 10, event: event, customer: customer) }
+    before { @transactions = create_list(:credit_transaction, 2, event: event, customer: customer) }
 
     it "returns a success response" do
       get :transactions, params: atts
@@ -299,18 +196,18 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns customer with transactions" do
       get :transactions, params: atts
-      expect(json["transactions"].size).to be(10)
+      expect(json["transactions"].size).to be(2)
     end
 
     it "returns the transactions as JSON" do
       get :transactions, params: atts
       last_transaction = event.transactions.find(json["transactions"].last["id"])
-      expect(json["transactions"].last).to eq(obj_to_json(last_transaction, "TransactionSerializer"))
+      expect(json["transactions"].last).to eq(obj_to_json_v2(last_transaction, "TransactionSerializer"))
     end
   end
 
   describe "GET #index" do
-    before { create_list(:customer, 10, event: event) }
+    before { create_list(:customer, 3, event: event) }
 
     it "returns a success response" do
       get :index, params: { event_id: event.id }
@@ -319,13 +216,13 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns all customers" do
       get :index, params: { event_id: event.id }
-      expect(json.size).to be(10)
+      expect(json.size).to eq(4)
     end
 
     it "does not return customers from another event" do
       customer.update!(event: create(:event))
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(customer, "Simple::CustomerSerializer"))
+      expect(json).not_to include(obj_to_json_v2(customer, "Simple::CustomerSerializer"))
     end
   end
 
@@ -337,7 +234,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       get :show, params: atts
-      expect(json).to eq(obj_to_json(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
     end
 
     it "returns customer without transactions" do
@@ -377,8 +274,6 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     context "with valid params" do
       let(:new_attributes) { { first_name: "new name" } }
 
-      before { customer }
-
       it "updates the requested customer" do
         expect do
           put :update, params: { event_id: event.id, id: customer.to_param, customer: new_attributes }
@@ -400,8 +295,6 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
   end
 
   describe "DELETE #destroy" do
-    before { customer }
-
     it "destroys the requested customer" do
       expect do
         delete :destroy, params: atts

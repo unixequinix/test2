@@ -1,7 +1,7 @@
 - content_for(:title) do
   | Orders
 
-- if policy(@current_event.orders.new).stats?
+- if policy(@current_event.orders.new).analytics?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
@@ -11,7 +11,7 @@
           .mdl-cell.mdl-cell--3-col
             .customer-card.mdl-card.mdl-shadow--2dp
               .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = number_to_event_currency OrderItem.where(order_id: @current_event.orders.where(status: status)).sum(:total)
+                h3.mdl-card__title-text = number_to_event_currency @current_event.orders.where(status: status).sum(:money_base)
               .mdl-card__supporting-text
                 span class="#{"good_info" if status == 'completed'}#{"bad_info" if status.in?(%w(cancelled failed))}" = "#{status.humanize}: "
                 span = count.to_i
@@ -37,17 +37,15 @@
               th.mdl-data-table__cell--non-numeric Number
               th.mdl-data-table__cell--non-numeric Customer
               th Amount
-              - if @current_event.payment_gateways.count > 1
-                th Gateway
+              th Gateway
               th State
           tbody
             - @orders.each do |order|
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
                 td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to order.customer.email, admins_event_customer_path(@current_event, order.customer)
-                td data-label="Amount" = number_to_event_currency order.total
-                - if @current_event.payment_gateways.count > 1
-                  td data-label="Gateway" = order.gateway&.humanize
+                td data-label="Amount" = number_to_event_currency order.money_total
+                td data-label="Gateway" = order.gateway&.humanize
                 td data-label="State" class="#{"good_info" if order.completed?} #{"bad_info" if order.status.in?(%w(cancelled failed))}" = order.status&.humanize
     = render "layouts/pagination", objects: @orders
   .mdl-layout-spacer

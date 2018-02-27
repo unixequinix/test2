@@ -4,9 +4,13 @@ RSpec.describe Admins::Events::RefundsController, type: :controller do
   let(:user) { create(:user, role: 'admin') }
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
+  let(:gtag) { create(:gtag, customer: customer, event: event) }
   let(:refund) { create(:refund, event: event, customer: customer) }
 
-  before(:each) { sign_in user }
+  before(:each) do
+    sign_in user
+    gtag.update!(credits: 50)
+  end
 
   describe "GET #index" do
     it "returns a success response" do

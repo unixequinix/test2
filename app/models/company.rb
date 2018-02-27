@@ -1,7 +1,7 @@
 class Company < ApplicationRecord
   has_many :ticket_types, dependent: :destroy
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
 
   validates :name, uniqueness: { scope: :event_id }, presence: true
   validates :access_token, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, allow_nil: true

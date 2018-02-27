@@ -1,14 +1,10 @@
-class EventPolicy < ApplicationPolicy # rubocop:disable Metrics/ClassLength
+class EventPolicy < ApplicationPolicy
   def index?
     true
   end
 
   def show?
     user.admin? || user.registration_for(record).present?
-  end
-
-  def stats?
-    admin_or_promoter
   end
 
   def new?
@@ -27,16 +23,12 @@ class EventPolicy < ApplicationPolicy # rubocop:disable Metrics/ClassLength
     admin_or_promoter && event_open
   end
 
+  def refund_fields?
+    admin_or_promoter
+  end
+
   def versions?
     true
-  end
-
-  def edit_event_style?
-    admin_or_promoter && event_open
-  end
-
-  def device_settings?
-    admin_or_promoter
   end
 
   def launch?
@@ -134,8 +126,9 @@ class EventPolicy < ApplicationPolicy # rubocop:disable Metrics/ClassLength
   class Scope < Scope
     def resolve
       case
-        when user.admin? then scope.all.order(:name)
-        else user.events.order(:name)
+        when user.glowball? then scope.all
+        when user.team_leader? then user.team.events.scope.all
+        else user.events.scope
       end
     end
   end

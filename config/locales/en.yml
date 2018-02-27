@@ -75,6 +75,8 @@ en:
       disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
       complete: Complete
       cancel: Cancel
+      initial_topup_fee: Initial topup fee
+      payment_gateway_fee: Payment gateway fee
     admissions:
       call_to_action: Do you want to remove this ticket?
       call_to_action_started: The event just started so you cannot change the ticket
@@ -133,6 +135,7 @@ en:
       subject: Refund at %{event}
       refund_number: Refund number
       success: Your refund is being processed
+      cancel: Your refund has been cancelled
     reset_password:
       greet: Hello, %{name}!
       mail_body: We have received a request to change your password. Click the link below to change it.
@@ -190,8 +193,6 @@ en:
       confirmation: "Still want to confirm?"
       confirm: "Confirm"
       cancel: "Cancel"
-  header:
-    edit: Edit Customer
   links:
     buttons:
       sign_in: Login
@@ -216,7 +217,7 @@ en:
       paypal:
         icon: paypal
         name: PayPal
-      vouchup:
+      wiredlion:
         icon: globe
         name: Rest of payment methods
     price: Price
@@ -305,6 +306,29 @@ en:
       words_connector: ", "
       two_words_connector: " and "
       last_word_connector: ", and "
+
+  teams:
+    created: Team was successfully created.
+    destroyed: Team destroyed.
+    not_belong: You do not belong to any team.
+    already_belong: You already belong to a team.
+    unable_change_role: Unable to change role.
+    role_changed: Role changed succesfully.
+    remove_users:
+      current_user: You have been removed successfully from team.
+      user: User has been removed successfully from team.
+    add_users:
+      added: User added to team successfully.
+      exists: User already belongs to a team.
+    add_devices:
+      added: Device added successfully.
+      already_belong: Device is already part of a team.
+      import: 
+        not_supplied: Extension file not suported.
+    remove_devices:
+      removed: Devices removed successfully.
+      failed: Something went wrong.
+
 
   number:
     # Used in NumberHelper.number_to_delimited()

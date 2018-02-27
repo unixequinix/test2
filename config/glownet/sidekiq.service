@@ -1,9 +1,4 @@
-# sudo apt-get update -y
-# sudo apt-get dist-upgrade -y
-# sudo apt-get upgrade -y
-# sudo apt autoremove -y
-# rvmsudo rvm get stable
-# cd /var/log/ && sudo find . -name "*.gz" -type f -delete
+# sudo apt-get update -y && sudo apt-get dist-upgrade -y &&  sudo apt-get upgrade -y && sudo apt autoremove -y && rvmsudo rvm get stable && df -h
 # sudo apt-get install redis-server -y
 # sudo vi /lib/systemd/system/sidekiq.service
 # copy file down

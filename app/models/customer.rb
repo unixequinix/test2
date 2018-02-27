@@ -1,4 +1,4 @@
-class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :omniauthable, :trackable, :confirmable,
          authentication_keys: %i[email event_id],
          reset_password_keys: %i[email event_id],
@@ -6,39 +6,36 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
          sign_in_after_reset_password: true,
          omniauth_providers: %i[facebook google_oauth2]
 
-  validates :email, presence: true, unless: :anonymous?
-  validates :email, uniqueness: { scope: :event_id }, unless: :anonymous?
-  validates :email, format: { with: Devise.email_regexp }, unless: :anonymous?
+  belongs_to :event, counter_cache: true
 
-  attr_accessor :skip_password_validation
-  validates :password, presence: true, confirmation: true,
-                       length: { within: Devise.password_length },
-                       format: {
-                         with: /\A(?=.*\d)(?=.*[a-z])/x,
-                         message: 'must include at least one lowercase letter and one digit'
-                       },
-                       unless: %i[skip_password_validation anonymous?]
-  validates :password_confirmation, presence: { unless: %i[skip_password_validation anonymous?] }
-
-  belongs_to :event
-
-  has_one(:active_gtag, -> { where(active: true) }, class_name: "Gtag")
+  has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag", inverse_of: :customer
 
   has_many :orders, dependent: :restrict_with_error
-  has_many :refunds, dependent: :destroy
-
-  # only two relationships allowed with anonymous customers
+  has_many :refunds, dependent: :restrict_with_error
   has_many :tickets, dependent: :nullify
   has_many :gtags, dependent: :nullify
   has_many :transactions, dependent: :restrict_with_error
+  has_many :transactions_as_operator, class_name: "Transaction", foreign_key: "operator_id", dependent: :restrict_with_error, inverse_of: :operator
+  has_many :pokes, dependent: :restrict_with_error
+  has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_id", dependent: :restrict_with_error, inverse_of: :operator
 
-  validates :email, format: { with: RFC822::EMAIL }, allow_blank: true, if: :anonymous?
-  validates :email, format: { with: RFC822::EMAIL }, allow_blank: false, unless: :anonymous?
-  validates :email, uniqueness: { scope: [:event_id] }, allow_blank: true, if: :anonymous?
-  validates :email, uniqueness: { scope: [:event_id] }, allow_blank: false, unless: :anonymous?
-  validates :email, :first_name, :last_name, :encrypted_password, presence: true, unless: :anonymous?
-  validates :agreed_on_registration, acceptance: { accept: true }, unless: :anonymous?
-  validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? }), unless: :anonymous?
+  has_attached_file(:avatar, styles: { thumb: '50x50#', medium: '200x200#', big: '500x500#' }, default_url: ':default_user_avatar_url')
+  validates_attachment_content_type :avatar, content_type: %r{\Aimage/.*\Z}
+
+  with_options unless: :anonymous? do |reg|
+    reg.validates :email, format: { with: RFC822::EMAIL }, allow_blank: false
+    reg.validates :email, uniqueness: { scope: [:event_id] }, allow_blank: false
+    reg.validates :email, :first_name, :last_name, :encrypted_password, presence: true
+    reg.validates :agreed_on_registration, acceptance: { accept: true }
+    reg.validates :agreed_event_condition, acceptance: { accept: true }, if: (-> { event&.agreed_event_condition? })
+
+    reg.validates :password, presence: true,
+                             confirmation: true,
+                             length: { within: Devise.password_length },
+                             format: { with: /\A(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[a-z])\z/, message: 'must include 1 lowercase letter and 1 digit' },
+                             unless: (-> { password.nil? })
+  end
+
   validates :phone, presence: true, if: (-> { custom_validation("phone") })
   validates :birthdate, presence: true, if: (-> { custom_validation("birthdate") })
   validates :phone, presence: true, if: (-> { custom_validation("phone") })
@@ -49,13 +46,9 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :gender, presence: true, if: (-> { custom_validation("gender") })
 
   scope(:query_for_csv, lambda { |event|
-    where(event: event)
-      .joins("LEFT OUTER JOIN gtags ON gtags.customer_id = customers.id")
-      .joins("LEFT OUTER JOIN tickets ON tickets.customer_id = customers.id")
-      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits as credits,
-               gtags.refundable_credits as refundable_credits, email, first_name, last_name")
-      .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.refundable_credits")
-      .order("first_name ASC")
+    where(event: event).joins(:gtags, :tickets).order(:first_name)
+      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits, gtags.virtual_credits, email, first_name, last_name")
+      .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.virtual_credits")
   })
 
   def self.claim(event, customer, anon_customers)
@@ -66,18 +59,20 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
     message = "PROFILE FRAUD: customers #{anon_customers.map(&:id).to_sentence} are registered when trying to claim"
     Alert.propagate(event, customer, message) && return if anon_customers.map(&:registered?).any?
 
-    anon_customers.each { |anon_customer| anon_customer.transactions.update_all(customer_id: customer.id) }
-    anon_customers.each { |anon_customer| anon_customer.gtags.update_all(customer_id: customer.id) }
-    anon_customers.each { |anon_customer| anon_customer.orders.update_all(customer_id: customer.id) }
-    anon_customers.each { |anon_customer| anon_customer.tickets.update_all(customer_id: customer.id) }
-    anon_customers.each(&:destroy!)
+    anon_customers.each do |anon_customer|
+      anon_customer.transactions.update_all(customer_id: customer.id)
+      anon_customer.pokes.update_all(customer_id: customer.id)
+      anon_customer.gtags.update_all(customer_id: customer.id)
+      anon_customer.tickets.update_all(customer_id: customer.id)
+      anon_customer.destroy!
+    end
 
     customer
   end
 
   def valid_balance?
-    positive = (global_credits && global_refundable_credits) >= 0
-    active_gtag&.valid_balance? && !active_gtag&.banned? && positive
+    positive = (credits && virtual_credits) >= 0
+    active_gtag.present? ? (active_gtag.valid_balance? && positive) : positive
   end
 
   def registered?
@@ -85,31 +80,33 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def name
-    anonymous? ? "Anonymous customer" : "#{first_name} #{last_name}"
+    result = "#{first_name} #{last_name}"
+    result = "Anonymous customer" if anonymous?
+    result = "Anonymous operator" if anonymous? && operator?
+    result
   end
 
   def full_email
     anonymous? ? "Anonymous email" : email
   end
 
-  def global_credits
-    # TODO: This method will need to take into account refunds when we stop creating negative online orders
-    order_total = orders.where(status: %w[completed refunded]).includes(:order_items).reject(&:redeemed?).sum(&:credits)
-    order_total + active_gtag&.credits.to_f
+  def credits
+    order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
+    refund_total = refunds.completed.sum(&:credit_total)
+    order_total - refund_total + active_gtag&.credits.to_f
   end
 
-  def global_refundable_credits
-    # TODO: This method will need to take into account refunds when we stop creating negative online orders
-    order_total = orders.where(status: %w[completed refunded]).includes(:order_items).reject(&:redeemed?).sum(&:refundable_credits)
-    order_total + active_gtag&.credits.to_f
+  def virtual_credits
+    order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
+    order_total + active_gtag&.virtual_credits.to_f
   end
 
-  def global_money
-    global_credits * event.credit.value
+  def money
+    credits * event.credit.value
   end
 
-  def global_refundable_money
-    global_refundable_credits * event.credit.value
+  def virtual_money
+    virtual_credits * event.credit.value
   end
 
   def credentials
@@ -125,21 +122,14 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def build_order(items, atts = {})
-    atts[:event] = event
-    order = orders.new(atts)
-    last_counter = order_items.pluck(:counter).sort.last.to_i
-    items.each.with_index do |arr, index|
+    order = orders.new(atts.merge(event: event, status: "in_progress"))
+
+    items.each do |arr|
       arr.unshift(event.credit.id) if arr.size.eql?(1)
       item_id, amount = arr
-      amount = amount.to_f
-      next if amount.zero?
-
-      item = event.catalog_items.find(item_id)
-      counter = last_counter + index + 1
-      total = amount * item.price.to_f
-      order.order_items.new(catalog_item: item, amount: amount, total: total, counter: counter)
+      order.order_items.new(catalog_item: event.catalog_items.find(item_id), amount: amount.to_f) unless amount.to_f.zero?
     end
-    order
+    order.set_counters
   end
 
   def can_purchase_item?(catalog_item)
@@ -148,10 +138,10 @@ class Customer < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
-    accesses = Access.where(id: catalog_items).infinite.pluck(:id)
-    packs = Pack.joins(:catalog_items)
-                .where(id: catalog_items, catalog_items: { type: "Access" })
-                .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
+    accesses = event.accesses.where(id: catalog_items).infinite.pluck(:id)
+    packs = event.packs.joins(:catalog_items)
+                 .where(id: catalog_items, catalog_items: { type: "Access" })
+                 .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
 
     accesses + packs
   end

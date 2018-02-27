@@ -35,6 +35,6 @@
           = f.input :agreed_on_registration, as: :boolean, :input_html => { :id => 'action' }
       
       .recaptcha
-        = recaptcha_tags if Rails.env.production?
+        = recaptcha_tags unless Rails.env.development?
       
       = f.button :submit, t('registration.new.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

@@ -1,26 +1,36 @@
 class Station < ApplicationRecord
-  ASSOCIATIONS = { accreditation:  %i[customer_portal box_office staff_accreditation cs_accreditation],
-                   pos: %i[bar vendor],
-                   topup: %i[top_up_refund hospitality_top_up cs_topup_refund cs_gtag_balance_fix],
-                   access: [:access_control] }.freeze
+  belongs_to :event, counter_cache: true
 
-  GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
-             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions
-                                  hospitality_top_up cs_topup_refund cs_gtag_balance_fix cs_accreditation gtag_replacement yellow_card],
-             glownet: %i[gtag_recycler envelope_linker],
-             monetary: %i[bar vendor top_up_refund],
-             touchpoint: [:touchpoint] }.freeze
-
-  CATEGORIES = GROUPS.values.flatten.map(&:to_s)
-
-  belongs_to :event
-
+  has_many :station_ticket_types, dependent: :destroy
+  has_many :ticket_types, through: :station_ticket_types
   has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
-  has_many :stats, dependent: :restrict_with_error
+  has_many :pokes, dependent: :restrict_with_error
+
+  ASSOCIATIONS = { accreditation:  %i[customer_portal box_office],
+                   cs_accreditation:  %i[staff_accreditation cs_accreditation],
+                   pos: %i[bar vendor],
+                   topup: %i[top_up_refund hospitality_top_up cs_topup_refund],
+                   access: [:access_control] }.freeze
+
+  GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
+             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions
+                                  hospitality_top_up cs_topup_refund cs_accreditation gtag_replacement yellow_card],
+             glownet: %i[gtag_recycler envelope_linker],
+             monetary: %i[bar vendor top_up_refund],
+             touchpoint: [:touchpoint] }.freeze
+
+  TYPES = { money_credit:  %i[top_up_refund hospitality_top_up cs_topup_refund],
+            money: %i[customer_portal],
+            box_office: %i[box_office],
+            pos: %i[bar vendor],
+            credential: %i[check_in ticket_validation staff_accreditation cs_accreditation],
+            access: [:access_control] }.freeze
+
+  CATEGORIES = GROUPS.values.flatten.map(&:to_s)
 
   validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }
@@ -32,6 +42,11 @@ class Station < ApplicationRecord
   def form
     return unless category
     ASSOCIATIONS.find { |_, value| value.include?(category.to_sym) }&.first
+  end
+
+  def type
+    return unless category
+    TYPES.find { |_, value| value.include?(category.to_sym) }&.first.to_s
   end
 
   def group

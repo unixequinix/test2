@@ -25,7 +25,7 @@ RSpec.describe Creators::GtagJob, type: :job do
       expect { worker.perform_now(event, uid, balance) }.to(change { event.gtags.count }.by(1)) && change { event.customers.count }.by(1)
     end
     it "can create a order" do
-      expect { worker.perform_now(event, uid, balance) }.to change { event.orders.count }.by(1)
+      expect { worker.perform_now(event, uid, balance) }.to change(Order, :count).by(1)
     end
     it "cannot create a order" do
       balance = 0

@@ -1,7 +1,7 @@
 module ApplicationHelper
   # :nocov:
   def link_to_add_fields(name, f, association)
-    new_object = f.object.send(association).klass.new
+    new_object = f.object.method(association).call.klass.new
     id = new_object.object_id
     fields = f.fields_for(association, new_object, child_index: id) { |builder| render(association.to_s.singularize + "_fields", f: builder) }
     link_to(name, "#", id: "add_fields", class: "add_fields", data: { id: id, fields: fields.delete("\n") })
@@ -13,6 +13,11 @@ module ApplicationHelper
 
   def number_to_token(number)
     number_to_currency number, unit: @current_event.credit.symbol
+  end
+
+  def number_to_credit(number, _credit)
+    result = number_with_delimiter(number_with_precision(number, precision: 2))
+    number.to_f.positive? ? "+#{result}" : result
   end
 
   def title

@@ -1,6 +1,7 @@
 module Api::V2
   class Events::TicketsController < BaseController
-    before_action :set_ticket, only: %i[topup show update destroy ban unban]
+    before_action :set_ticket, only: %i[virtual_topup topup show update destroy ban unban]
+    before_action :check_credits, only: %i[topup virtual_topup]
 
     # POST api/v2/events/:event_id/tickets/:id/ban
     def ban
@@ -24,10 +25,24 @@ module Api::V2
     def topup
       @ticket.update!(customer: @current_event.customers.create!) if @ticket.customer.blank?
 
-      @order = @ticket.customer.build_order([[@current_event.credit.id, params[:credits]]])
+      @order = @ticket.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
 
       if @order.save
-        @order.complete!(params[:gateway])
+        @order.complete!(params[:gateway], {}, params[:send_email])
+        render json: @order, serializer: OrderSerializer
+      else
+        render json: @order.errors, status: :unprocessable_entity
+      end
+    end
+
+    # POST api/v2/events/:event_id/customers/:id/virtual_topup
+    def virtual_topup
+      @ticket.update!(customer: @current_event.customers.create!) if @ticket.customer.blank?
+
+      @order = @ticket.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
+
+      if @order.save
+        @order.complete!(params[:gateway], {}, params[:send_email])
         render json: @order, serializer: OrderSerializer
       else
         render json: @order.errors, status: :unprocessable_entity
@@ -76,13 +91,17 @@ module Api::V2
 
     private
 
+    def check_credits
+      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) unless params[:credits].to_f.positive?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
       tickets = @current_event.tickets
-      
+
       Rollbar.silenced do
         ticket_id = tickets.find_by(id: params[:id])&.id || tickets.find_by(code: params[:id])&.id
-        
+
         @ticket = tickets.find(ticket_id)
         authorize @ticket
       end
@@ -90,7 +109,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def ticket_params
-      params.require(:ticket).permit(:ticket_type_id, :code, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :customer_id) # rubocop:disable Metrics/LineLength
+      params.require(:ticket).permit(:ticket_type_id, :code, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :customer_id)
     end
   end
 end

@@ -1,16 +1,4 @@
 class StationPolicy < ApplicationPolicy
-  def add_product?
-    admin_or_promoter
-  end
-
-  def remove_product?
-    admin_or_promoter
-  end
-
-  def update_product?
-    admin_or_promoter
-  end
-
   def clone?
     admin_or_promoter && event_open
   end
@@ -27,7 +15,11 @@ class StationPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
-  def reports?
-    admin_or_promoter
+  def add_ticket_types?
+    admin_or_promoter && event_open
+  end
+
+  def remove_ticket_types?
+    admin_or_promoter && event_open
   end
 end

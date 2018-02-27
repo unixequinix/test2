@@ -2,7 +2,6 @@ AllCops:
   TargetRubyVersion: 2.3
   Exclude:
     - 'db/**/*'
-    - 'db_stats/**/*'
     - 'spec/rails_helper.rb'
     - 'config/initializers/**/*'
     - 'config/environments/**/*'
@@ -32,9 +31,16 @@ Layout/CaseIndentation:
   Enabled: false
 
 Metrics/LineLength:
+  Enabled: false
   Max: 150
 
 Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
   Enabled: false
 
 Style/StringLiterals:
@@ -51,7 +57,7 @@ Metrics/AbcSize:
 
 Metrics/MethodLength:
   Max: 20
-  Enabled: true
+  Enabled: false
 
 Metrics/CyclomaticComplexity:
   Max: 10
@@ -65,5 +71,16 @@ Rails:
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - demo
+    - staging
+    - hotfix
+    - integration
+    - sandbox
+    - test
+    - development
 
 

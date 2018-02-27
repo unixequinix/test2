@@ -10,8 +10,10 @@ module Creators
 
       gtag.update!(customer: customer)
 
-      balance = old_customer&.global_refundable_credits.to_f
-      Creators::OrderJob.perform_later(new_event, customer, balance) if balance.positive?
+      balance = old_customer&.credits.to_f
+      virtual_balance = old_customer&.virtual_credits.to_f
+
+      Creators::OrderJob.perform_later(new_event, customer, balance, virtual_balance) if balance.positive? || virtual_balance.positive?
     end
   end
 end

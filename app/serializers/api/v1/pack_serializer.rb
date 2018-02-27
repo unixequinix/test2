@@ -1,19 +1,11 @@
-class Api::V1::PackSerializer < ActiveModel::Serializer
-  attributes :id, :name, :accesses, :credits, :user_flags, :operator_permissions
+module Api
+  module V1
+    class PackSerializer < ActiveModel::Serializer
+      attributes :id, :name, :items
 
-  def accesses
-    object.catalog_items.accesses.select(:id, :amount).map(&:attributes)
-  end
-
-  def credits
-    object.catalog_items.credits.sum(:amount)
-  end
-
-  def user_flags
-    object.catalog_items.user_flags.where("amount > 0").pluck(:id)
-  end
-
-  def operator_permissions
-    object.catalog_items.operator_permissions.select(:id, :amount)
+      def items
+        object.catalog_items.select(:id, :type, :amount).map(&:attributes)
+      end
+    end
   end
 end

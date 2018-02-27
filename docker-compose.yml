@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_HOST
     restart: always
-    
+
   redis:
     image: 'redis:3.2-alpine'
     volumes:
@@ -21,9 +21,12 @@ services:
   web:
     build: .
     image: glownet_web:latest
+    command:  "'rails s -p 3000 -b 0.0.0.0'"
+    ports:
+      - "3000:3000"
     volumes:
-      - rvm_gems:/bundle
-      - .:/home/web
+      - rvm_gems:/usr/local/rvm/gems/ruby-2.5.0
+      - .:/home/current
       - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     environment:
       - SSH_AUTH_SOCK
@@ -34,21 +37,18 @@ services:
       - JOB_WORKER_URL
       - secret_key_base
       - ticket_config_1
-    ports:
-      - "3000:3000"
     links:
       - redis
       - postgres
-    command:  bundle exec rails s -p 3000 -b '0.0.0.0'
     stdin_open: true
     tty: true
   sidekiq:
     build: .
     image: glownet_web:latest
-    command: bundle exec sidekiq -C config/sidekiq.yml
+    command: "sidekiq -C config/sidekiq.yml"
     volumes:
-      - rvm_gems:/bundle
-      - .:/home/web
+      - rvm_gems:/usr/local/rvm/gems/ruby-2.5.0
+      - .:/home/current
     environment:
       - RAILS_ENV
       - JOB_WORKER_URL

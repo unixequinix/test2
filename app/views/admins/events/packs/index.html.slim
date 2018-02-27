@@ -2,7 +2,7 @@
   | Packs
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to new_admins_event_pack_path, id: "new_pack_link" do

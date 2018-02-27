@@ -1,0 +1,18 @@
+- @devices_grouped.each_pair do |serie, devices|
+  - if serie
+    .mdl-cell.mdl-cell--6-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        h4 style="text-align: center; width: 100%;" Serie #{serie} 
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Asset Number
+                th Mac
+                th Serie
+                th Serial
+                th
+
+                = render 'devices_list', devices: devices
+
+ 

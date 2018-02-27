@@ -7,21 +7,31 @@
     .mdl-card__supporting-text
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
-          tr
-            td.mdl-data-table__cell--non-numeric credits
-            td = @transaction.credits
-          tr
-            td.mdl-data-table__cell--non-numeric Refundable credits
-            td = @transaction.refundable_credits
-          tr
-            td.mdl-data-table__cell--non-numeric Final balance
-            td = @transaction.final_balance
-          tr
-            td.mdl-data-table__cell--non-numeric Final refundable balance
-            td = @transaction.final_refundable_balance
-          tr
-            td.mdl-data-table__cell--non-numeric Other Amount
-            td = @transaction.other_amount_credits
+          - if @transaction.payments.present?
+            - @transaction.payments.each do |credit_id, payment|
+              - credit = CatalogItem.find(credit_id)
+              tr
+                td.mdl-data-table__cell--non-numeric Credit
+                td #{credit.name} (#{credit.symbol})
+              tr
+                td.mdl-data-table__cell--non-numeric Amount
+                td = number_to_credit(payment["amount"].to_f, credit)
+              tr
+                td.mdl-data-table__cell--non-numeric Final Balance
+                td = number_to_credit(payment["final_balance"].to_f, credit)
+          - else
+            tr
+              td.mdl-data-table__cell--non-numeric Credits
+              td = @transaction.credits
+            tr
+              td.mdl-data-table__cell--non-numeric Refundable credits
+              td = @transaction.refundable_credits
+            tr
+              td.mdl-data-table__cell--non-numeric Final balance
+              td = @transaction.final_balance
+            tr
+              td.mdl-data-table__cell--non-numeric Final refundable balance
+              td = @transaction.final_refundable_balance
 
 - if @transaction.sale_items.present?
   .mdl-cell.mdl-cell--12-col
@@ -43,6 +53,6 @@
               tr
                 td.mdl-data-table__cell--non-numeric = item.product&.name || "Other Amount"
                 td = item.quantity
-                td = item.unit_price
-                td = item.unit_price * item.quantity
+                td = item.standard_unit_price
+                td = item.standard_total_price
 

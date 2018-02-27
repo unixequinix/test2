@@ -23,17 +23,8 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, params: params
-        ticket_type_keys = %w[id name company_id company_name ticket_type_ref catalog_item_id]
+        ticket_type_keys = %w[id name company_id company_name ticket_type_ref catalog_item_id catalog_item_type]
         JSON.parse(response.body).map { |ticket_type| expect(ticket_type.keys).to eq(ticket_type_keys) }
-      end
-
-      context "with the 'If-Modified-Since' header" do
-        it "returns only the modified ticket_types" do
-          request.headers["If-Modified-Since"] = (@new_ticket_type.updated_at - 2.hours).to_formatted_s(:transactions)
-          get :index, params: params
-          ticket_types = JSON.parse(response.body).map { |m| m["id"] }
-          expect(ticket_types).to include(@new_ticket_type.id)
-        end
       end
 
       context "without the 'If-Modified-Since' header" do

@@ -26,7 +26,8 @@ class Access < CatalogItem
   end
 
   def set_memory_length
-    self.memory_length = 2
+    self.memory_length = 2 if counter?
+    self.memory_length = 1 if infinite?
   end
 
   def calculate_memory_position
@@ -38,6 +39,6 @@ class Access < CatalogItem
 
   def validate_memory_position
     return if memory_position.to_i + memory_length.to_i <= Gtag::DEFINITIONS[event.gtag_type.to_sym][:entitlement_limit]
-    errors.add(:memory_position, "You reached the maximun allowed accesses")
+    errors.add(:memory_position, "You reached the maximum allowed accesses")
   end
 end

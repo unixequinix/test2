@@ -40,7 +40,7 @@
       span.mdl-button__ripple-container NO
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
       - if @current_event.eventbrite_event.present?
         li.floaty-list-item

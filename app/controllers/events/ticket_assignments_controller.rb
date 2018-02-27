@@ -6,15 +6,13 @@ class Events::TicketAssignmentsController < Events::EventsController
   def create
     @code = permitted_params[:reference].strip
     @ticket = @current_event.tickets.find_or_initialize_by(code: @code)
-    @ticket.errors.add(:reference, I18n.t("credentials.same_credential", item: "Ticket")) if @current_customer.can_purchase_item?(@ticket.ticket_type&.catalog_item) # rubocop:disable Metrics/LineLength
+    @ticket.errors.add(:reference, I18n.t("credentials.same_credential", item: "Ticket")) if @current_customer.can_purchase_item?(@ticket.ticket_type&.catalog_item)
     render(:new) && return unless @ticket.validate_assignation
 
     @ticket.assign_customer(@current_customer, @current_customer)
 
     # Remove integration absolut-manifesto when event finish
-    if @current_event.id.eql?(266)
-      @ticket.customer.update(gtmid: @ticket.gtmid)
-    end
+    @ticket.customer.update(gtmid: @ticket.gtmid) if @current_event.id.eql?(266)
 
     redirect_to(customer_root_path(@current_event), notice: t("credentials.assigned", item: "Ticket"))
   end

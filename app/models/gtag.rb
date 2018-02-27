@@ -2,7 +2,14 @@ class Gtag < ApplicationRecord
   include Credentiable
   include Alertable
   include Eventable
+
   belongs_to :ticket_type, optional: true
+
+  has_many :pokes_as_customer, class_name: "Poke", foreign_key: "customer_gtag_id", dependent: :restrict_with_error, inverse_of: :customer_gtag
+  has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag
+
+  has_many :transactions, dependent: :restrict_with_error
+  has_many :transactions_as_operator, class_name: "Transaction", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag
 
   before_save :upcase_tag_uid
 
@@ -15,12 +22,14 @@ class Gtag < ApplicationRecord
                       length: { in: 8..14 }
 
   validates :format, presence: true
-  validates :credits, :refundable_credits, :final_balance, :final_refundable_balance, presence: true, numericality: true
+  validates :credits, :virtual_credits, :final_balance, :final_virtual_balance, presence: true, numericality: true
 
   validate_associations
 
-  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits refundable_credits final_balance final_refundable_balance]) })
+  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits virtual_credits final_balance final_virtual_balance]) })
   scope :banned, (-> { where(banned: true) })
+  scope :inconsistent, (-> { where(inconsistent: true) })
+  scope :missing_transactions, (-> { where(missing_transactions: true) })
 
   alias_attribute :reference, :tag_uid
 
@@ -41,37 +50,31 @@ class Gtag < ApplicationRecord
   end
 
   def recalculate_balance
-    ts = transactions.onsite.credit.where(status_code: 0).order(:gtag_counter, :device_created_at)
-    self.credits = ts.sum(:credits)
-    self.refundable_credits = ts.sum(:refundable_credits)
-    self.final_balance = ts.last&.final_balance.to_f
-    self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
+    pokes = pokes_as_customer.is_ok.order(:gtag_counter, :date)
+    credit_pokes = pokes.where(credit: event.credit)
+    virtual_credit_pokes = pokes.where(credit: event.virtual_credit)
 
-    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_refundable_balance.negative?
+    self.credits = credit_pokes.sum(:credit_amount)
+    self.virtual_credits = virtual_credit_pokes.sum(:credit_amount)
 
-    save if changed?
+    self.final_balance = credit_pokes.last.final_balance.to_f if credit_pokes.last
+    self.final_virtual_balance = virtual_credit_pokes.last.final_balance.to_f if virtual_credit_pokes.last
+
+    self.complete = missing_counters.empty?
+    self.consistent = valid_balance?
+
+    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_virtual_balance.negative?
+
+    save! if changed?
   end
 
-  def solve_inconsistent
-    ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
-    transaction = transactions.credit.find_by(gtag_counter: 0)
-    atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, final_balance: 0, final_refundable_balance: 0)
-    transaction ||= CreditTransaction.write!(event, "correction", :device, nil, nil, atts)
-
-    credits = ts.last&.final_balance.to_f - ts.map(&:credits).sum
-    refundable_credits = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).sum
-
-    transaction.update! credits: credits, refundable_credits: refundable_credits
-    recalculate_balance
-    transaction
-  end
-
-  def refundable_money
-    refundable_credits.to_i * event.credit.value
+  def missing_counters
+    counters = transactions.pluck(:gtag_counter).compact.sort
+    (1..counters.last.to_i).to_a - counters
   end
 
   def valid_balance?
-    credits == final_balance && refundable_credits == final_refundable_balance
+    credits == final_balance && virtual_credits == final_virtual_balance
   end
 
   def assigned?

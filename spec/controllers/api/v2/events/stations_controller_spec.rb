@@ -26,7 +26,7 @@ RSpec.describe Api::V2::Events::StationsController, type: %i[controller api] do
     it "does not return stations from another event" do
       station.update!(event: create(:event))
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(station, "StationSerializer"))
+      expect(json).not_to include(obj_to_json_v2(station, "StationSerializer"))
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V2::Events::StationsController, type: %i[controller api] do
 
     it "returns the station as JSON" do
       get :show, params: { event_id: event.id, id: station.to_param }
-      expect(json).to eq(obj_to_json(station, "StationSerializer"))
+      expect(json).to eq(obj_to_json_v2(station, "StationSerializer"))
     end
   end
 

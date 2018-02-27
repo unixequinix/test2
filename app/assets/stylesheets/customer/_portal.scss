@@ -88,7 +88,7 @@ input:-webkit-autofill {
             font-size: 20px;
         }
     }
-    .refundable-amount-number {
+    .virtual-amount-number {
         font-size: 15px;
         font-weight: 400;
         text-align: right;
@@ -356,6 +356,10 @@ ul.container-purchase-order {
 .order__name {
     color: black;
     margin-right: 1%;
+}
+
+.order__price {
+    float: right;
 }
 
 .order__header {

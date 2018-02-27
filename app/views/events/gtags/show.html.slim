@@ -20,7 +20,7 @@
 
     - else
       .wrapper-session.wrapper-module-centered.edit-customer-form
-        =link_to "#ban-gtag-modal" do
+        =link_to "#ban-gtag-modal", id:"unassign_gtag" do
           button#ban_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored 
             i.material-icons highlight_off
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ban_link" = t('gtag_unsubscribe.ban')
@@ -44,7 +44,7 @@
 
 
         h4 style="text-align: center"
-          = link_to ban_event_gtag_path(@current_event, @gtag), method: :patch, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent", style: "width: 100%" do
+          = link_to ban_event_gtag_path(@current_event, @gtag), method: :patch, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent", style: "width: 100%", id:"ban_confirmation" do
             span.mdl-button__ripple-container = t('gtag_unsubscribe.modal.confirm')
           = button_tag "#", data: { "remodal-action" => "close" }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
             span.mdl-button__ripple-container = t('gtag_unsubscribe.modal.cancel')

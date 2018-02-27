@@ -1,18 +1,30 @@
 class Device < ApplicationRecord
   include Alertable
 
+  # TODO: remove optional: true form team when all devices have a team
+  belongs_to :team, optional: true
   has_many :device_registrations, dependent: :destroy
   has_many :events, through: :device_registrations, dependent: :destroy
+  has_one :device_registration, -> { where(allowed: false) }, dependent: :destroy, inverse_of: :device
+  has_one :event, through: :device_registration, dependent: :destroy
   has_many :device_transactions, dependent: :restrict_with_error
 
-  validates :mac, uniqueness: true, allow_blank: false
-  validates :mac, presence: true
+  validates :asset_tracker, uniqueness: { case_sensitive: false, scope: :team_id }, allow_blank: true
+  validates :mac, uniqueness: { case_sensitive: true, scope: :team_id }, presence: true
+
+  before_save :format_mac
 
   def name
-    "#{mac}: #{asset_tracker.blank? ? 'Unnamed' : asset_tracker}"
+    "#{mac}: #{asset_tracker.presence || 'Unnamed'}"
   end
 
   def small_name
-    asset_tracker.blank? ? mac : asset_tracker
+    asset_tracker.presence || mac
+  end
+
+  private
+
+  def format_mac
+    self.mac = mac.downcase
   end
 end

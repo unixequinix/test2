@@ -2,11 +2,13 @@ require "rails_helper"
 
 RSpec.describe Api::V1::DevicesController, type: :controller do
   let(:user) { create(:user) }
-  let(:device) { build(:device) }
-  let(:params) { { mac: device.mac } }
+  let!(:team) { create(:team) }
+  let(:device) { build(:device, team_id: team.id) }
+  let(:params) { { mac: device.mac, team_id: team.id } }
 
   describe "POST create" do
     before do
+      team.users << user
       http_login(user.email, user.access_token)
     end
 

@@ -7,7 +7,7 @@ class OrderPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def stats?
+  def analytics?
     admin_or_promoter
   end
 

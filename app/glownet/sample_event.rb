@@ -1,17 +1,18 @@
-class SampleEvent # rubocop:disable all
-  # rubocop:disable all
-  def self.run
-    @event = Event.create(name: "Event v#{Time.zone.now.to_s(:number)}", start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_ticketing_api: true, open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
+class SampleEvent
+  def self.run(user = nil)
+    name = user ? "#{user.username || user.email} fest #{user.events.count + 1}" : "Event v#{Time.zone.now.to_s(:number)}"
+    name += " v#{Time.zone.now.to_s(:number)}" if Event.find_by(name: name)
+    @event = Event.create(name: name, start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
     @event.initial_setup!
 
-    data = %w(customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations)
-    data.each { |d| eval("create_#{d}") }
+    data = %w[customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations]
+    data.each { |d| method("create_#{d}").call }
 
     @event
   end
 
   def self.create_customers
-    @event.customers.create!(first_name: "Vicentest", last_name: "Test", email: "test@test.com", agreed_on_registration: true, phone: "512 2301 440", country: "ES", gender: "male", birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)), postcode: "28012", password: "password", password_confirmation: "password", confirmed_at: Time.zone.now)
+    @event.customers.create!(first_name: "Vicentest", last_name: "Test", email: "test@test.com", agreed_on_registration: true, anonymous: false, password: "password123", password_confirmation: "password123", confirmed_at: Time.zone.now)
   end
 
   def self.create_accesses
@@ -31,24 +32,12 @@ class SampleEvent # rubocop:disable all
 
   def self.create_packs
     packs = [
-      { name: "Day + Night",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }],
-        credential: true },
-      { name: "Day + VIP",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "VIP", amount: 1 }],
-        credential: true },
-      { name: "Night + VIP",
-        catalog_items: [{ name: "Night", amount: 1 }, { name: "VIP", amount: 1 }],
-        credential: true },
-      { name: "Day + Camping",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "Camping", amount: 1 }],
-        credential: true },
-      { name: "Day + Night + VIP",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }, { name: "VIP", amount: 1 }],
-        credential: true },
-      { name: "50e + 15e Free Pack",
-        catalog_items: [{ name: "CRD", amount: 65 }],
-        credential: false }
+      { name: "Day + Night", catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }], credential: true },
+      { name: "Day + VIP", catalog_items: [{ name: "Day", amount: 1 }, { name: "VIP", amount: 1 }], credential: true },
+      { name: "Night + VIP", catalog_items: [{ name: "Night", amount: 1 }, { name: "VIP", amount: 1 }], credential: true },
+      { name: "Day + Camping", catalog_items: [{ name: "Day", amount: 1 }, { name: "Camping", amount: 1 }], credential: true },
+      { name: "Day + Night + VIP", catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }, { name: "VIP", amount: 1 }], credential: true },
+      { name: "50 sta + 15 virtual", catalog_items: [{ name: "CRD", amount: 50 }, { name: "Virtual", amount: 15 }], credential: false }
     ]
 
     packs.each do |pack|
@@ -89,7 +78,7 @@ class SampleEvent # rubocop:disable all
   end
 
   def self.create_access_control_stations
-    accesses = %w(Day Night VIP)
+    accesses = %w[Day Night VIP]
     accesses.each do |access_name|
       item = @event.catalog_items.find_by(name: access_name)
       station = @event.stations.create!(name: "#{access_name} IN", category: "access_control")

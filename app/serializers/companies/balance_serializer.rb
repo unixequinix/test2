@@ -3,7 +3,7 @@ module Companies
     attributes :tag_uid, :balance, :currency
 
     def balance
-      object.customer.global_credits
+      object.customer.credits
     end
 
     def currency

@@ -1,5 +1,5 @@
 class CatalogItem < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :station, optional: true
 
   has_many :station_catalog_items, dependent: :destroy
@@ -10,6 +10,7 @@ class CatalogItem < ApplicationRecord
 
   validates :name, presence: true
   validates :name, uniqueness: { scope: :event_id, case_sensitive: false }
+  validates :symbol, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }, length: { minimum: 1, maximum: 3 }
 
   scope(:accesses, -> { where(type: "Access") })
   scope(:operator_permissions, -> { where(type: "OperatorPermission") })
@@ -35,7 +36,7 @@ class CatalogItem < ApplicationRecord
     0
   end
 
-  def price
-    station_catalog_items.find_by(station: event.portal_station)&.price&.to_f
+  def virtual_credits
+    0
   end
 end

@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :order_item do
     amount 9
-    total "9.99"
     order
     redeemed false
 

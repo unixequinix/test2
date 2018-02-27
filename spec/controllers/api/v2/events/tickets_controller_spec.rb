@@ -11,6 +11,15 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
 
   before { token_login(user, event) }
 
+  describe "topups" do
+    let(:atts) { { id: ticket.to_param, event_id: event.to_param } }
+    let(:customer) { create(:customer, event: event, anonymous: false) }
+
+    before { ticket.update! customer: customer }
+
+    include_examples "controller topups"
+  end
+
   describe "GET #index" do
     before { create_list(:ticket, 10, event: event) }
 
@@ -27,7 +36,7 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
     it "does not return tickets from another event" do
       new_ticket = create(:ticket)
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(new_ticket, "TicketSerializer"))
+      expect(json).not_to include(obj_to_json_v2(new_ticket, "TicketSerializer"))
     end
   end
 
@@ -39,7 +48,7 @@ RSpec.describe Api::V2::Events::TicketsController, type: %i[controller api] do
 
     it "returns the ticket as JSON" do
       get :show, params: { event_id: event.id, id: ticket.to_param }
-      expect(json).to eq(obj_to_json(ticket, "TicketSerializer"))
+      expect(json).to eq(obj_to_json_v2(ticket, "TicketSerializer"))
     end
   end
 

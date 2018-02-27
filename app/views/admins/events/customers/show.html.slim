@@ -8,7 +8,7 @@
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to admins_event_customers_path(format: "csv") do
@@ -16,38 +16,44 @@
             i.material-icons file_download
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download CSV
       li.floaty-list-item
-        = link_to new_admins_event_gtag_assignment_path(@current_event, @customer) do
+        = link_to new_admins_event_gtag_assignment_path(@current_event, @customer), id:"assign_gtag_link" do
           button#gtag.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons loyalty
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="gtag" Assign Gtag
       li.floaty-list-item
-        = link_to new_admins_event_ticket_assignment_path(@current_event, @customer) do
+        = link_to new_admins_event_ticket_assignment_path(@current_event, @customer), id:"assign_ticket_link" do
           button#ticket.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons bookmark_border
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ticket" Assign Ticket
       li.floaty-list-item
-        = link_to download_transactions_admins_event_customer_path(@current_event, @customer) do
+        = link_to download_transactions_admins_event_customer_path(@current_event, @customer), id:"credit_history_link" do
           button#credit_history.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="credit_history" Credit History
       - if @customer.provider.blank?
         li.floaty-list-item
-          = link_to reset_password_admins_event_customer_path(@current_event, @customer) do
+          = link_to reset_password_admins_event_customer_path(@current_event, @customer), id:"reset_password_link" do
             button#pass.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons lock_open
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="pass" Reset Password
       - if current_user.admin?
         li.floaty-list-item
-          = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id) do
+          = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id), id:"new_order_link" do
             button#new_order.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons add_shopping_cart
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" New Order
       - if current_user.admin? && !@customer.anonymous?
         li.floaty-list-item
-          = link_to edit_admins_event_customer_path(@current_event, @customer) do
+          = link_to edit_admins_event_customer_path(@current_event, @customer), id:"edit_customer_link" do
             button#edit_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_customer" Edit Customer
+      - unless @customer.confirmed?
+        li.floaty-list-item
+          = link_to resend_confirmation_admins_event_customer_path(@current_event, @customer), id: "resend_confirmation_link" do
+            button#resend_confirmation.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons mail_outline
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resend_confirmation" Resend Confirmation Email
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -60,23 +66,23 @@
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.global_credits
+            .mdl-card__title-text= number_to_token @customer.credits
           .mdl-card__supporting-text Server Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.global_refundable_credits
-          .mdl-card__supporting-text Server Refundable Balance
+            .mdl-card__title-text= number_to_token @customer.virtual_credits
+          .mdl-card__supporting-text Server Virtual Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
+            .mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
           .mdl-card__supporting-text Gtag Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            h2.mdl-card__title-text = number_to_token @customer.active_gtag&.final_refundable_balance
-          .mdl-card__supporting-text Gtag Refundable Balance
+            .mdl-card__title-text = number_to_token @customer.active_gtag&.final_virtual_balance
+          .mdl-card__supporting-text Gtag Virtual Balance
   .mdl-layout-spacer
 
 - root = "admins/events/customers/sections/"
@@ -84,7 +90,4 @@
 = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?
 = render(root + "refunds", customer: @customer) if @customer.refunds.present?
 = render(root + "orders", customer: @customer) if @customer.orders.any?
-hr
-= render(root + "online_transactions", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
-- @customer.gtags.order(active: :desc, id: :asc).each do |gtag|
-  = render(root + "onsite_transactions", transactions: gtag.transactions.onsite, title: "Transactions for tag #{gtag.tag_uid}", active: gtag.active, closed: true )
+= render("admins/events/pokes/onsite", pokes: @pokes, title: "Pokes", active: true, closed: false )

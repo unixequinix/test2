@@ -10,6 +10,15 @@ class OrderMailer < ApplicationMailer
     mail(to: @customer.email, reply_to: @event.support_email, subject: t("email.refund.subject", event: @event.name))
   end
 
+  def cancelled_refund(refund)
+    @refund = refund
+    return if initialise_customer(@refund)
+
+    apply_locale(@customer)
+    headers["X-No-Spam"] = "True"
+    mail(to: @customer.email, reply_to: @event.support_email, subject: t("email.refund.subject", event: @event.name))
+  end
+
   def completed_order(order)
     @order = order
     return if initialise_customer(@order)

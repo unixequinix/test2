@@ -10,8 +10,6 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--6-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
-      - event_gateway = @current_event.payment_gateways.find_by(name: @refund.gateway) if PaymentGateway.names.keys.include?(@refund.gateway)
-
       table.mdl-data-table.mdl-js-data-table.within-card
         tbody
           tr
@@ -31,16 +29,14 @@
             td = l @refund.created_at
           tr
             td.mdl-data-table__cell--non-numeric Credits
-            td #{number_to_token @refund.amount} (Fee #{number_to_token @refund.fee}) = #{number_to_token @refund.total}
+            td #{number_to_token @refund.credit_base} (Fee #{number_to_token @refund.credit_fee}) = #{number_to_token @refund.credit_total}
           tr
             td.mdl-data-table__cell--non-numeric Money
-            td #{number_to_event_currency @refund.amount_money} (Fee #{number_to_event_currency @refund.fee_money}) = #{number_to_event_currency @refund.total_money}
-          tr
-            td.mdl-data-table__cell--non-numeric = event_gateway.present? ? event_gateway.refund_field_a_name.upcase : "Field A"
-            td = best_in_place @refund, :field_a, url: [:admins, @current_event, @refund]
-          tr
-            td.mdl-data-table__cell--non-numeric = event_gateway.present? ? event_gateway.refund_field_b_name.upcase : "Field B"
-            td = best_in_place @refund, :field_b, url: [:admins, @current_event, @refund]
+            td #{number_to_event_currency @refund.money_base} (Fee #{number_to_event_currency @refund.money_fee}) = #{number_to_event_currency @refund.money_total}
+          - @refund.fields.each do |name, value|
+            tr
+              td.mdl-data-table__cell--non-numeric = name
+              td = value
   .mdl-layout-spacer
 
 

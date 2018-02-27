@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Password recovery for admin users", js: true, type: :feature do
+RSpec.describe "Password recovery for admin users", type: :feature do
   let(:user) { create(:user, role: "admin", password: "oldpassword1", password_confirmation: "oldpassword1") }
   before do
     visit new_user_password_path
@@ -11,9 +11,11 @@ RSpec.describe "Password recovery for admin users", js: true, type: :feature do
     expect do
       find("input[name=commit]").click
     end.to change(ActionMailer::Base.deliveries, :count).by(1)
+
     expect(unread_emails_for(user.email)).to be_present
     open_email(user.email, with_subject: 'Reset password instructions')
     click_first_link_in_email
+
     within("#new_user") do
       fill_in 'user_password', with: "newpassword1"
       fill_in 'user_password_confirmation', with: "newpassword1"
@@ -21,9 +23,9 @@ RSpec.describe "Password recovery for admin users", js: true, type: :feature do
     end
 
     expect(page).to have_current_path(admins_events_path)
-    find("#user_dropdown").hover
-    find("#log_out_link").click
+    click_link("log_out_link")
     expect(page).to have_current_path(new_user_session_path)
+
     within("#new_user") do
       fill_in 'user_login', with: ''
       fill_in 'user_password', with: ''

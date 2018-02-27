@@ -8,9 +8,7 @@ RSpec.describe Customer, type: :model do
     describe "#email" do
       context "of registered customers" do
         before do
-          customer.skip_password_validation = true
           customer.update!(anonymous: false)
-          customer.skip_password_validation = false
         end
 
         it "must be present" do
@@ -64,9 +62,7 @@ RSpec.describe Customer, type: :model do
 
     describe "#password" do
       context "of registered customers" do
-        before do
-          customer.update!(anonymous: false)
-        end
+        before { customer.update!(anonymous: false) }
 
         it "must be longer than 7 characters" do
           customer.password = "Aa4"
@@ -79,7 +75,7 @@ RSpec.describe Customer, type: :model do
           customer.password = "glownet"
           customer.password_confirmation = "glownet"
           expect(customer).not_to be_valid
-          expect(customer.errors[:password]).to include("must include at least one lowercase letter and one digit")
+          expect(customer.errors[:password]).to include("must include 1 lowercase letter and 1 digit")
         end
 
         it "is valid password" do
@@ -89,16 +85,17 @@ RSpec.describe Customer, type: :model do
         end
 
         it "must be present" do
-          customer.password = nil
+          customer.password = ""
+          customer.password_confirmation = ""
           expect(customer).not_to be_valid
           expect(customer.errors[:password]).to include("can't be blank")
         end
 
         it "must be confirmed" do
           customer.password = "foobarbaz"
-          customer.password_confirmation = nil
+          customer.password_confirmation = ""
           expect(customer).not_to be_valid
-          expect(customer.errors[:password_confirmation]).to include("can't be blank")
+          expect(customer.errors[:password_confirmation]).to include("doesn't match Password")
         end
       end
 
@@ -169,18 +166,6 @@ RSpec.describe Customer, type: :model do
       expect(@order.save).to be_truthy
     end
 
-    describe "when creating refunds" do
-      before { @items = [[@accesses.first.id, -11], [@accesses.first.id, -5]] }
-
-      it "creates order_items with negative total" do
-        expect(customer.build_order(@items).order_items.map(&:total).sum).to be_negative
-      end
-
-      it "creates order_items with negative amount" do
-        expect(customer.build_order(@items).order_items.map(&:amount).sum).to be_negative
-      end
-    end
-
     it "creates a valid order" do
       expect(@order).to be_valid
     end
@@ -196,24 +181,6 @@ RSpec.describe Customer, type: :model do
       it "which are valid" do
         expect(@order_items).not_to be_empty
         @order_items.each { |oi| expect(oi).to be_valid }
-      end
-
-      it "with correct price" do
-        @order_items.each do |order_item|
-          catalog_item = order_item.catalog_item
-          expect(order_item.total).to eq(catalog_item.price * 11)
-        end
-      end
-
-      it "with non price" do
-        item = create(:user_flag, event: event)
-        @station.station_catalog_items.create!(catalog_item: item, price: 1)
-        order = customer.build_order([[item.id, 1]])
-
-        order.order_items.each do |order_item|
-          catalog_item = order_item.catalog_item
-          expect(order_item.total).to eq(catalog_item.price * 1)
-        end
       end
 
       it "with correct counters" do
@@ -236,46 +203,66 @@ RSpec.describe Customer, type: :model do
   describe "balance" do
     let(:gtag) { create(:gtag, customer: customer, event: event, active: true) }
 
-    describe ".global_credits" do
+    describe ".credits" do
       it "takes into account the gtag balance" do
-        transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale")
-        gtag.recalculate_balance
-        expect(customer.global_credits).to eq(transactions.map(&:credits).sum)
-      end
-
-      it "does not take into account record_credit transactions" do
-        sale_transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale").map(&:credits).sum
-        create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "record_credit")
-        gtag.recalculate_balance
-        expect(customer.global_credits).to eq(sale_transactions)
+        gtag.update!(credits: 12.5)
+        expect(customer.credits).to eq(12.5)
       end
 
       it "takes into account orders completed" do
-        orders = create_list(:order, 3, customer: customer, status: "completed", event: event).map(&:credits).sum
-        expect(customer.global_credits).to eq(orders)
+        total = create_list(:order, 2, customer: customer, status: "completed", event: event).sum(&:credits)
+        create(:order, customer: customer, status: "cancelled", event: event)
+        expect(customer.credits).to eq(total)
       end
 
-      it "takes into account the refunds made" do
+      it "does not takes into account orders refunded" do
+        create_list(:order, 2, customer: customer, status: "refunded", event: event)
+        total = create_list(:order, 2, customer: customer, status: "completed", event: event).sum(&:credits)
+        create(:order, customer: customer, status: "cancelled", event: event)
+        expect(customer.credits).to eq(total)
+      end
+
+      it "does not take into account redeemed orders" do
+        OrderItem.where(order: create_list(:order, 3, customer: customer, status: "completed", event: event)).update_all(redeemed: true)
+        expect(customer.credits).to be_zero
+      end
+
+      context "with refunds" do
+        before { gtag.update!(credits: 50) }
+
+        it "takes into account completed refunds as negative" do
+          total = create_list(:refund, 2, customer: customer, status: "completed", event: event).sum(&:credit_total)
+          expect(customer.credits).to eq(50 - total)
+        end
+
+        it "does not take into account other refunds" do
+          create_list(:refund, 2, customer: customer, status: "started", event: event).sum(&:credit_total)
+          expect(customer.credits).to eq(50)
+        end
       end
     end
 
-    describe ".global_refundable_credits" do
+    describe ".virtual_credits" do
       it "takes into account the gtag balance" do
-        transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale")
-        gtag.recalculate_balance
-        expect(customer.global_refundable_credits).to eq(transactions.map(&:refundable_credits).sum)
-      end
-
-      it "does not take into account record_credit transactions" do
-        sale_transactions = create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "sale").map(&:refundable_credits).sum
-        create_list(:credit_transaction, 3, gtag: gtag, event: event, action: "record_credit")
-        gtag.recalculate_balance
-        expect(customer.global_refundable_credits).to eq(sale_transactions)
+        gtag.update!(virtual_credits: 12.5)
+        expect(customer.virtual_credits).to eq(12.5)
       end
 
       it "takes into account orders completed" do
-        orders = create_list(:order, 3, customer: customer, status: "completed", event: event).map(&:credits).sum
-        expect(customer.global_refundable_credits).to eq(orders)
+        total = create_list(:order, 3, customer: customer, status: "completed", event: event).sum(&:virtual_credits)
+        create(:order, customer: customer, status: "cancelled", event: event)
+        expect(customer.virtual_credits).to eq(total)
+      end
+
+      it "takes into account orders refunded" do
+        total = create_list(:order, 3, customer: customer, status: "refunded", event: event).sum(&:virtual_credits)
+        create(:order, customer: customer, status: "cancelled", event: event)
+        expect(customer.virtual_credits).to eq(total)
+      end
+
+      it "does not take into account redeemed orders" do
+        OrderItem.where(order: create_list(:order, 3, customer: customer, status: "completed", event: event)).update_all(redeemed: true)
+        expect(customer.virtual_credits).to be_zero
       end
     end
   end

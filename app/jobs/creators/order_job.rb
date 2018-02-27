@@ -2,11 +2,18 @@ module Creators
   class OrderJob < Base
     queue_as :medium
 
-    def perform(event, customer, balance, gateway = "previous_balance")
+    def perform(event, customer, balance = 0, virtual_balance = 0, gateway = "previous_balance")
       credits = balance.to_f
-      return if credits.zero? || credits.negative? || customer.orders.find_by(gateway: gateway).present?
+      virtual_credits = virtual_balance.to_f
 
-      customer.build_order([[event.credit.id, credits]], previous_balance: true).complete!(gateway)
+      return unless credits.positive? || virtual_credits.positive?
+      return if customer.orders.find_by(gateway: "previous_balance").present?
+
+      orders = []
+      orders << [event.credit.id, credits] if credits.positive?
+      orders << [event.virtual_credit.id, virtual_credits] if virtual_credits.positive?
+
+      customer.build_order(orders).complete!(gateway)
     end
   end
 end

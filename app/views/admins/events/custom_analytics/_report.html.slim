@@ -1,0 +1,41 @@
+
+.mdl-tabs__panel.is-active id="#{name}_report"
+  .content-grid.mdl-grid
+    .mdl-cell.mdl-cell--8-col
+    .mdl-cell.mdl-cell--2-col.right
+      button.mdl-button.mdl-js-button.mdl-button--raised.export-button
+        | EXPORT
+    .mdl-cell.mdl-cell--2-col.right
+      button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
+        | RAW DATA
+
+    .mdl-cell.mdl-cell--12-col.reports-grid
+      #table
+
+javascript:
+
+  $(document).ready(function() {
+    var data = jQuery.parseJSON('#{ escape_javascript(data.html_safe)}');
+    var title = "#{ name }";
+    var cols = jQuery.parseJSON("#{ escape_javascript(cols.html_safe) }");
+    var rows = jQuery.parseJSON("#{ escape_javascript(rows.html_safe) }");
+    var metric = jQuery.parseJSON("#{ escape_javascript(metric.html_safe) }");
+    var decs = "#{decimals}"
+    var decimals = "#{decimals}"
+    var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers, $.pivotUtilities.plotly_renders, $.pivotUtilities.c3_renderers);
+    var sum = $.pivotUtilities.aggregatorTemplates.sum;
+    var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: "#{decimals}"});
+    var type =  "Table"
+    var chartId = "#table"
+    var show = ""
+
+    setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
+
+    $(".raw-button").click(function(){
+      exportRawData(data, title);
+    });
+
+    $(".export-button").click(function(){
+      exportTSV(chartId, title);
+    });
+  });

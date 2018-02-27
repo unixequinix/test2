@@ -1,5 +1,5 @@
 class DeviceCache < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, counter_cache: true
 
   validates :category, :app_version, presence: true
   validates :file, attachment_presence: true

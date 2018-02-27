@@ -42,7 +42,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
     context "pass a number" do
       it "should return Glownet" do
-        expect(helper.number_to_token('1')).to eql("1.00 ☉")
+        expect(helper.number_to_token('1')).to eql("1.00 C")
       end
     end
 

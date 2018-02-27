@@ -1,0 +1,56 @@
+- form_disable ||= false
+- selector = "#{form_disable ? "delete" : "add"}_ticket_type"
+
+- if form_disable
+  - url = admins_event_station_remove_ticket_types_path(@current_event, @station)
+- else
+  - url = admins_event_station_add_ticket_types_path(@current_event, @station)
+
+
+
+.table-responsive
+  = simple_form_for :station, url: url, method: 'put', html: { id: "#{selector}_form", _method: 'put' }, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, file: :mdl_upload} do |f|
+    .mdl-card__title
+      .mdl-cell.mdl-cell--8-col
+      .mdl-cell.mdl-cell--4-col.right
+        button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.form-submit id="#{selector}"
+          = selector.humanize
+
+    table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card.droppable.sortable id="#{selector}_table"
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric Name
+          th.mdl-data-table__cell--non-numeric Company
+          th.mdl-data-table__cell--non-numeric Company Code
+          th
+
+      - resources.each do |resource|
+        tr
+          td.mdl-data-table__cell--non-numeric data-label="Name"
+            span = resource.name
+          td.mdl-data-table__cell--non-numeric data-label="Company"
+            span = resource.company.name
+          td.mdl-data-table__cell--non-numeric data-label="Company Code"
+            span = resource.company_code
+          td.table-actions
+            .table-action
+              = check_box_tag 'station[ticket_type_ids][]', resource.id, false, id: "ticket_type_#{resource.id}", style: 'visibility:hidden'
+
+javascript:
+    $(document).ready(function() {
+        var selector = "#{selector}";
+
+        $('#' + selector).click(function(e) {
+            e.preventDefault();
+
+            var selected = $('tr.is-selected');
+            selected.each(function(i, elem) {
+                var input = $(elem).find('td.table-actions div.table-action input')[0];
+                input.checked ? $(input).removeAttr('checked') : $(input).attr("checked", true)
+            });
+
+            if(selected.length > 0) { $('#' + selector + '_form').submit(); }
+        });
+
+        $("table.sortable").tablesorter();
+    });

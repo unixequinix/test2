@@ -1,16 +1,20 @@
-class Admins::Events::BaseController < Admins::BaseController
-  layout "admin_event"
+module Admins
+  module Events
+    class BaseController < Admins::BaseController
+      layout "admin_event"
 
-  before_action :set_event
-  around_action :use_time_zone
+      before_action :set_event
+      around_action :use_time_zone
 
-  private
+      private
 
-  def set_event
-    @current_event = Event.friendly.find(params[:event_id])
-  end
+      def set_event
+        @current_event = Event.friendly.find(params[:event_id])
+      end
 
-  def use_time_zone
-    Time.use_zone(@current_event.timezone) { yield }
+      def use_time_zone
+        Time.use_zone(@current_event.timezone) { yield }
+      end
+    end
   end
 end

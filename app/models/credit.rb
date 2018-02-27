@@ -1,4 +1,6 @@
 class Credit < CatalogItem
+  belongs_to :event
+
   validates :value, numericality: { greater_than: 0 }
   validates :symbol, presence: true
 

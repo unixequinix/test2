@@ -1,0 +1,57 @@
+- closed ||= false
+
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--6-col = title
+        .mdl-cell.mdl-cell--6-col.right
+          a.collapse-link-closed
+            - if closed
+              i.fa.fa-chevron-down
+            - else
+              i.fa.fa-chevron-up
+      .table-responsive style="display: #{closed ? 'none' : 'true'}"
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th
+              th.mdl-data-table__cell--non-numeric Origin
+              th.mdl-data-table__cell--non-numeric Action
+              th.mdl-data-table__cell--non-numeric Station
+              - @current_event.credits.each do |credit|
+                th.mdl-data-table__cell--non-numeric #{credit.name} Amount
+                th #{credit.name} Balance
+              th Created
+          tbody
+            - transactions.each do |transaction|
+              tr class="#{"danger" if transaction.status_not_ok?}"
+                td data-label="Counters" = transaction.gtag_counter || transaction.counter
+                td.mdl-data-table__cell--non-numeric = transaction.transaction_origin.humanize
+                td.mdl-data-table__cell--non-numeric data-label="Action"
+                  - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
+                  = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do
+                    => icon
+                    = transaction.description
+                td.mdl-data-table__cell--non-numeric data-label="Station" = link_to (transaction.station&.name || transaction.station_id), admins_event_station_path(@current_event, transaction.station_id) if transaction.station
+                - @current_event.credits.each do |credit|
+                  - if transaction.is_a?(CreditTransaction)
+
+                    - if transaction.payments.present?
+                      - payment = transaction.payments[credit.id.to_s]
+                      td.mdl-data-table__cell--non-numeric = number_to_credit(payment.to_h["amount"], credit)
+                      td = number_with_precision(payment.to_h["final_balance"], precision: 2)
+                    - else
+                      - if credit == @current_event.credit
+                        td.mdl-data-table__cell--non-numeric = number_to_credit(transaction.refundable_credits, credit)
+                        td = number_with_precision(transaction.final_refundable_balance, precision: 2)
+                      - elsif credit == @current_event.virtual_credit
+                        td.mdl-data-table__cell--non-numeric = number_to_credit(transaction.credits.to_f - transaction.refundable_credits.to_f, credit)
+                        td = number_with_precision(transaction.final_balance, precision: 2)
+                  - else
+                    td data-label="#{credit.name}"
+                    td data-label="#{credit.name}"
+
+                td data-label="Device Created At" = l Time.zone.parse(transaction.device_created_at)
+  .mdl-layout-spacer

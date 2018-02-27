@@ -133,6 +133,7 @@ pt:
       subject: Reembolso em %{event}
       refund_number: Número de reembolso
       success: O seu reembolso está sendo porcessado
+      cancel: Seu reembolso tem sido cancellado
     reset_password:
       greet: Oi, %{name}!
       mail_body: Recebemos o seu pedido para mudar a sua senha. Clique no link em baixo para mudar.
@@ -196,8 +197,6 @@ pt:
       confirmation: "Ainda quer confirmar?"
       confirm: "Confirmar"
       cancel: "Cancelar"
-  header:
-    edit: Editar Cliente
   links:
     buttons:
       sign_in: Login
@@ -222,7 +221,7 @@ pt:
       paypal:
         icon: paypal
         name: PayPal
-      vouchup:
+      wiredlion:
         icon: globo
         name: Restantes métodos de pagamento
     price: Preço

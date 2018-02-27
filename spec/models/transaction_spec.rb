@@ -11,13 +11,6 @@ RSpec.describe Transaction, type: :model do
     end
   end
 
-  describe ".class_for_type" do
-    it "returns the class based on the transaction type" do
-      expect(klass.class_for_type("access")).to eq(AccessTransaction)
-      expect(klass.class_for_type("credit")).to eq(CreditTransaction)
-    end
-  end
-
   describe ".description" do
     it "returns the category and type humanized" do
       allow(subject).to receive(:category).and_return("Glownet")

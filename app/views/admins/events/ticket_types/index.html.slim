@@ -6,7 +6,7 @@
     = f.search_field :name_or_company_name_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to new_admins_event_ticket_type_path, id: "new_ticket_type" do
@@ -17,6 +17,28 @@
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
+
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col
+          i.material-icons bookmark_border
+          | Ticketing Integrations
+
+      .mdl-card__supporting-text
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card
+            tbody
+              tr
+                td.mdl-data-table__cell--non-numeric Eventbrite
+                td = link_to "Connect", admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+              tr
+                td.mdl-data-table__cell--non-numeric Universe
+                td = link_to "Connect", admins_event_universe_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+  .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -47,14 +69,14 @@
                 td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
                 td.table-actions
                   .table-action
-                    = link_to admins_event_ticket_type_path(@current_event, ticket_type) do
-                      button.icon.material-icons id ="ticket_type_#{ticket_type.id}" info
+                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), id:"ticket_type_#{ticket_type.id}"do
+                      button.icon.material-icons info
                   .table-action
-                    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
-                      button.icon.material-icons id ="edit_#{ticket_type.id}" edit
+                    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type), id:"edit_#{ticket_type.id}" do
+                      button.icon.material-icons edit
                   .table-action
-                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-                      button.icon.material-icons id ="delete_#{ticket_type.id}" delete_forever
+                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{ticket_type.id}"  do
+                      button.icon.material-icons delete_forever
 
               span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
               span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit

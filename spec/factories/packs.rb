@@ -32,8 +32,15 @@ FactoryBot.define do
       end
     end
 
-    factory :full_pack, traits: %i[with_access with_credit with_user_flag]
+    trait :with_virtual_credit do
+      after :build do |pack|
+        pack.pack_catalog_items.build(catalog_item: pack.event.virtual_credit, amount: 10)
+      end
+    end
+
+    factory :full_pack, traits: %i[with_access with_credit with_user_flag with_virtual_credit]
     factory :credit_pack, traits: [:with_credit]
     factory :access_pack, traits: [:with_access]
+    factory :virtual_credit_pack, traits: [:with_virtual_credit]
   end
 end

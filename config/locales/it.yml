@@ -133,6 +133,7 @@ it:
       subject: Devoluzione di fondi di  %{event}
       refund_number: Numero di devoluzione
       success: La tua devoluzione è in corso di elaborazione
+      success: La tua devoluzione è stata completata
     reset_password:
       greet: Ciao, %{name}!
       mail_body: ‘Hai richiesto di cambiare la tua password . Puoi farlo attraverso del seguente link:'
@@ -175,8 +176,6 @@ it:
       standard: Introduci la seconda fila di numeri e lettere (evidenziata in giallo)
     info: 'Simboli ammessi: "0" - "9" y "A, B, C, D, E, F"'
     placeholder: 'es: BA6D7DC0'
-  header:
-    edit: Modificare profilo
   links:
     buttons:
       sign_in: Inizia sessione
@@ -269,3 +268,24 @@ it:
           password_confirmation: Conferma la password
           phone: Numero di Telefono
           postcode: Codice postale
+  teams:
+    created: Il team è stato creato con successo.
+    destroyed: Squadra distrutta.
+    not_belong: Non appartieni a nessuna squadra.
+    already_belong: Fai già parte di una squadra.
+    unable_change_role: Incapace di cambiare ruolo.
+    role_changed: Il ruolo è cambiato con successo.
+    remove_users:
+      current_user: Sei stato rimosso con successo dalla squadra.
+      user: L'utente è stato rimosso con successo dalla squadra.
+    add_users:
+      added: L'utente ha aggiunto alla squadra con successo.
+      exists: L'utente appartiene già a una squadra.
+    add_devices:
+      added: Dispositivo aggiunto correttamente.
+      already_belong: Il dispositivo fa già parte di una squadra.
+      import: 
+        not_supplied: Il file di estensione non è supportato.
+    remove_devices:
+      removed: Dispositivi rimossi con successo.
+      failed: Qualcosa è andato storto.

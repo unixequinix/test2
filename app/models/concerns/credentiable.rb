@@ -2,10 +2,11 @@ module Credentiable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :event
+    belongs_to :event, counter_cache: true
     belongs_to :customer, optional: true, touch: true
 
     has_many :transactions, dependent: :restrict_with_error
+    has_many :pokes_as_credential, as: :credential, class_name: "Poke", dependent: :restrict_with_error # rubocop:disable Rails/InverseOf
   end
 
   def purchaser_full_name
@@ -35,30 +36,18 @@ module Credentiable
     update_attribute(:banned, false)
   end
 
-  def assign_customer(new_customer, operator, origin = :portal)
+  def assign_customer(new_customer, _operator = nil)
     if customer.present?
       Customer.claim(event, new_customer, customer)
       reload # this is necessary because the customer is updated in the background
     else
       update!(customer: new_customer)
     end
-
     new_customer.touch
-
-    # Remove instegration absolut-manifesto when event finish
-    new_customer.update(gtmid: self&.gtmid) if self.class.name.eql?("Ticket") && self.event.id.eql?(266)
-    
-    write_assignation_transaction("assigned", operator, origin)
   end
 
-  def unassign_customer(operator = nil, origin = :portal)
+  def unassign_customer(_operator = nil)
     customer&.touch
-    write_assignation_transaction("unassigned", operator, origin)
     update!(customer: nil)
-  end
-
-  def write_assignation_transaction(action, operator, origin = :portal)
-    action = "#{model_name.element}_#{action}"
-    CredentialTransaction.write!(event, action, origin, customer, operator, assignation_atts)
   end
 end

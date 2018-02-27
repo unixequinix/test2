@@ -26,8 +26,6 @@ RSpec.describe Events::PasswordsController, type: :controller do
         get :new, params: { event_id: event }
         expect(response).to be_ok
       end
-
-      # TODO: edit
     end
   end
 end

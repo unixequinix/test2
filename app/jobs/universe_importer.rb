@@ -1,5 +1,5 @@
 class UniverseImporter < ApplicationJob
-  def perform(ticket, event) # rubocop:disable Metrics/MethodLength
+  def perform(ticket, event)
     ticket = Hashie::Mash.new ticket
 
     if ticket.event_id.present?

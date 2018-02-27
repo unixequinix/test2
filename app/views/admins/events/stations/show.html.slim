@@ -1,30 +1,29 @@
 - content_for(:title) do
    = @station.name.to_s.humanize
 
+- content_for :javascript do
+  = javascript_include_tag "specific/ticket_types_draggable"
+
 - content_for(:navigation_actions) do
   = link_to admins_event_stations_path(group: @station.group), class: "mdl-button mdl-button--icon" do
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
+      li.floaty-list-item
       - unless @station.category.eql?("customer_portal")
         li.floaty-list-item
-          = link_to edit_admins_event_station_path(@current_event, @station) do
+          = link_to edit_admins_event_station_path(@current_event, @station), id:"edit_station_link" do
             button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
         li.floaty-list-item
-          = link_to admins_event_station_clone_path(@current_event, @station), method: :post do
+          = link_to admins_event_station_clone_path(@current_event, @station), method: :post, id:"clone_link" do
             button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons content_copy
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone
-        li.floaty-list-item
-          = link_to admins_event_station_reports_path(@current_event, @station) do
-            button#reports.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons money
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="reports" Reports
         - unless @current_event.launched?
           li.floaty-list-item
             = link_to admins_event_station_path(@current_event, @station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
@@ -36,7 +35,7 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
-- if @transactions.any?
+- if @station.type == 'pos' and !@pokes.nil?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--10-col
@@ -50,30 +49,29 @@
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @refunds
+              h3.mdl-card__title-text = number_to_token @sales_credits
             .mdl-card__supporting-text
-              | Sale Refunds
+              | Total Sales in Credits
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @sales - @refunds
-            .mdl-card__supporting-text Net Sales
+              h3.mdl-card__title-text = @devices
+            .mdl-card__supporting-text
+              | Total Devices
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
               h3.mdl-card__title-text = number_to_token @sales / @operators
             .mdl-card__supporting-text
               | Avg Sale Per Operator
-              .small = "(By #{@transactions.pluck(:operator_tag_uid).uniq.count} operators)"
+              .small = "(By #{@pokes.pluck(:operator_gtag_id).uniq.count} operators)"
     .mdl-layout-spacer
-
-
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      .mdl-cell.mdl-cell--5-col
+      .mdl-cell.mdl-cell--6-col
         .admin-card-wide.mdl-card.mdl-shadow--2dp
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
@@ -96,35 +94,53 @@
               tr
                 td.mdl-data-table__cell--non-numeric Registration Num
                 td = best_in_place @station, :registration_num, url: [:admins, @current_event, @station]
-
-      .mdl-cell.mdl-cell--7-col
-        = render(partial: "admins/events/stations/#{@station.form}/form") if @station.form
+      - if @station.form
+        .mdl-cell.mdl-cell--6-col
+          = render(partial: "admins/events/stations/#{@station.form}/form")
+          = render(partial: "admins/events/stations/#{@station.form}/list")
   .mdl-layout-spacer
 
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .mdl-grid
-      .mdl-cell.mdl-cell--5-col
-        - if @devices.any?
-          .admin-card-wide.mdl-card.mdl-shadow--2dp
-            table.mdl-data-table.mdl-js-data-table.within-card
-              thead
-                tr
-                  th.mdl-data-table__cell--non-numeric Started
-                  th.mdl-data-table__cell--non-numeric Device
-                  th Transactions
-                  th Total
-              tbody
-                - @devices.each do |device|
-                  - device_transactions = @transactions.where(device_uid: device.mac).order(:device_created_at)
-                  tr
-                    td.mdl-data-table__cell--non-numeric = l Time.zone.parse(device_transactions.first.device_created_at)
-                    td.mdl-data-table__cell--non-numeric = link_to device.small_name, [:admins, @current_event, DeviceRegistration.find_by(event: @current_event, device: device)]
-                    td = device_transactions.count
-                    td = number_to_token device_transactions.sum(:credits)
+- if @station.category.in?(%w[ticket_validation check_in])
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text Available ticket types
+            .mdl-card__supporting-text
+              #available_ticket_types_table
+              = render 'ticket_types', resources: @available_ticket_types
+        .mdl-cell.mdl-cell--6-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text Station's ticket types
+            .mdl-card__supporting-text
+              #current_ticket_types_table
+              = render 'ticket_types', resources: @current_ticket_types, form_disable: true
+    .mdl-layout-spacer
 
+- if @pokes.present?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .customer-card.mdl-card.mdl-shadow--2dp
+        - case @station.type
+          - when "pos" then
+            = render "admins/events/stations/analytics/pos", station: @station, products: @products, products_stock: @products_stock
+          - when 'access' then
+            = render "admins/events/stations/analytics/access", station: @station, access_control: @access_control
+          - when 'credential' then
+            = render "admins/events/stations/analytics/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
+          - when 'money_credit' then
+            = render "admins/events/stations/analytics/money_credits", station: @station, money: @money, credits: @credits
+          - when 'money' then
+            = render "admins/events/stations/analytics/money", station: @station, money: @money
+          - when 'box_office' then
+            = render "admins/events/stations/analytics/box_office", station: @station, money: @money, checkin_ticket_type: @checkin_ticket_type
 
-      .mdl-cell.mdl-cell--7-col
-        = render(partial: "admins/events/stations/#{@station.form}/list") if @station.form
-  .mdl-layout-spacer
+    .mdl-layout-spacer
+
+javascript:
+  $(document).on('ready', function() { ticket_types_draggable_table() });

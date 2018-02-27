@@ -7,9 +7,9 @@
   .mdl-card__supporting-text
     = simple_form_for resource, url: event_register_path(@current_event), method: :patch, html: { autocomplete: "off" }, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit} do |f|
       = f.error_notification
-      h4.center-text = t('header.edit')
+      h4.center-text = t('dashboard.header.edit_account')
       = f.input :event_id, as: :hidden, input_html: { value: @current_event.id, class: 'session-input' }
-      = f.input :email, required: true, autocomplete: "off", input_html: { class: 'session-input', autocomplete: 'off' }, label: t("simple_form.labels.customer.new.email"), as: :string
+      = f.input :email, label: t("simple_form.labels.customer.new.email"), disabled: true
       = f.input :first_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
       = f.input :last_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
       = f.input :phone, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if @current_event.phone_mandatory?

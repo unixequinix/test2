@@ -26,7 +26,7 @@ RSpec.describe Api::V2::Events::AccessesController, type: %i[controller api] do
     it "does not return accesses from another event" do
       access.update!(event: create(:event))
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json(access, "AccessSerializer"))
+      expect(json).not_to include(obj_to_json_v2(access, "AccessSerializer"))
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V2::Events::AccessesController, type: %i[controller api] do
 
     it "returns the access as JSON" do
       get :show, params: { event_id: event.id, id: access.to_param }
-      expect(json).to eq(obj_to_json(access, "AccessSerializer"))
+      expect(json).to eq(obj_to_json_v2(access, "AccessSerializer"))
     end
   end
 

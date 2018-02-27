@@ -24,10 +24,6 @@
       .section-header
         i.material-icons create_new_folder
         span Pack Items
-      .wrapper-instructions
-        | Attention. Credits in a pack will be refundable only if:
-        .condition - There aren't other kind of items in a pack, like accesses.
-        .condition - If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credit value.
       = f.simple_fields_for :pack_catalog_items do |pack_catalog_item, index|
         - next if pack_catalog_item.object.catalog_item.is_a?(UserFlag)
         = render 'pack_catalog_item_fields', f: pack_catalog_item

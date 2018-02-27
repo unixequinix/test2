@@ -1,0 +1,11 @@
+= simple_form_for [:admins, @current_user, :team, @device], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, file: :mdl_upload } do |f|
+  .field
+    = f.input :asset_tracker
+  .field
+    = f.input :mac
+  .field
+    = f.input :serie
+  .field
+    = f.input :serial
+  .form-actions
+    = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

@@ -2,7 +2,7 @@
   | #{@type.to_s.humanize} Transactions
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
       - if current_user.admin?
         li.floaty-list-item
@@ -56,7 +56,7 @@
         .container-search
           .form-inputs
             label.mdl-textfield.mdl-js-textfield for='q_transaction_origin_eq'
-              = f.select :transaction_origin_eq, Transaction::ORIGINS.values.map { |t| [t.humanize, t] }, include_blank: true, class: "mdl-textfield__input"
+              = f.select :transaction_origin_eq, %w[online onsite].map { |t| [t.humanize, t] }, include_blank: true, class: "mdl-textfield__input"
               span.mdl-label.form-label Origin
             label.mdl-textfield.mdl-js-textfield for='q_action_eq'
               = f.select :action_eq, @current_event.transactions.select(:action).distinct.pluck(:action).sort.map { |t| [t.humanize, t] }, class: "mdl-textfield__input", include_blank: true
@@ -112,7 +112,10 @@
                   td data-label="Device"
                     - if transaction.device_uid.present?
                       - device = Device.find_by_mac(transaction.device_uid)
-                      = link_to(device.asset_tracker, admins_device_path(device)) if device
+                      - if device && device_owner?(@current_user, device)
+                        = link_to(device.asset_tracker, admins_user_team_device_path(@current_user, device))
+                      - else
+                        = link_to(device.asset_tracker, admins_event_device_registration_path(@current_event, associated_device_registration(@current_event, device)))
                   td data-label="Customer Tag"
                     - if transaction.customer
                       = link_to transaction.customer.name, admins_event_customer_path(@current_event, transaction.customer)

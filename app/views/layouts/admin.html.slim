@@ -6,6 +6,8 @@ html
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
     = javascript_include_tag "//www.google.com/jsapi", "chartkick"
+    = javascript_include_tag "https://wchat.freshchat.com/js/widget.js"
+
     link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
     link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet" /
     script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"
@@ -13,13 +15,7 @@ html
     meta content="width=device-width, initial-scale=1.0" name="viewport" /
     = csrf_meta_tags
 
-  body class=("#{controller_name} #{action_name}")
-    - if @current_user.present? && @current_user.admin? == false
-      javascript:
-        var current_user_email = "#{@current_user&.email}";
-        var current_user_name = "#{@current_user&.username}";
-        var current_user_id = "#{@current_user&.id}";
-      = javascript_include_tag "specific/intercom"
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{image_path('background-default.jpg')})")
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
         .mdl-layout__header-row
@@ -35,11 +31,52 @@ html
               .mdl-textfield__expandable-holder = yield(:search)
             div style="width: 30px;"
 
-          = render partial: "layouts/dropdown_menu"
+          .dropdown
+            i.mdl-color-text--gray-50.material-icons help_outline
+            span.title Help
+            .dropdown-content
+              = link_to "http://learning.glownet.com", target: :_blank, class: "dropdown-item", id: "courses_layout_link" do
+                i.mdl-color-text--teal-200.material-icons book
+                | My Courses
+              = link_to "https://glownet.atlassian.net/servicedesk/customer/portal/4/group/10", target: :_blank, class: "dropdown-item", id: "support_layout_link" do
+                i.mdl-color-text--teal-200.material-icons local_convenience_store
+                |  Support
 
       .mdl-layout__drawer
         #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
         nav.mdl-navigation.global-nav
+          = link_to [:admins, @current_user], class: "mdl-navigation__link", id: "profile_layout_link" do
+            i.mdl-color-text--teal-200.material-icons account_circle
+            | My Profile
+          - if current_user.team
+            = link_to admins_user_team_path(current_user), class: "mdl-navigation__link", id: "teams_layout_link" do
+              i.mdl-color-text--teal-200.material-icons group
+              | My Team
+          = link_to admins_events_path(status: "users"), class: "mdl-navigation__link", id: "events_layout_link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Events
+          = link_to admins_event_series_index_path, class: "mdl-navigation__link", id: "event_series_layout_link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Event Series
+          - if @current_user.glowball?
+            nav.mdl-navigation.global-nav
+              span.nav-title ADMIN
+            = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons markunread_mailbox
+              |  Sidekiq
+            = link_to admins_users_path, class: "mdl-navigation__link", id: "users_layout_link" do
+              i.mdl-color-text--teal-200.material-icons people
+              |  Users
+            = link_to admins_user_team_devices_path(@current_user), class: "mdl-navigation__link", id: "devices_layout_link" do
+              i.mdl-color-text--teal-200.material-icons settings_cell
+              |  Devices
+          = link_to destroy_user_session_path, method: :delete, class: "mdl-navigation__link", id: "log_out_link", data: { confirm: "Are you sure?" } do
+            i.mdl-color-text--teal-200.material-icons power_settings_new
+            |  Log out
+
+
+
+
         span.web-version = WEB_VERSION
 
       main.mdl-layout__content
@@ -51,18 +88,66 @@ html
     = yield(:actions)
 
     javascript:
-      var floaty = $('#floaty');
-      floaty.on('mouseenter click', floatyMouseEnter);
-      floaty.on('mouseleave', floatyMouseLeave);
+        var floaty = $('#floaty');
+        floaty.on('mouseenter click', floatyMouseEnter);
+        floaty.on('mouseleave', floatyMouseLeave);
 
-      function floatyMouseEnter() {
-        $('#button').toggleClass('on');
-        $('#changeIcon').html('clear');
-        $('#actions-list').toggleClass('show');
-      }
+        function floatyMouseEnter() {
+          $('#button').toggleClass('on');
+          $('#changeIcon').html('clear');
+          $('#actions-list').toggleClass('show');
+        }
 
-      function floatyMouseLeave() {
-        $('#button').removeClass('on');
-        $('#changeIcon').html('build');
-        $('#actions-list').removeClass('show');
-      }
+        function floatyMouseLeave() {
+          $('#button').removeClass('on');
+          $('#changeIcon').html('build');
+          $('#actions-list').removeClass('show');
+        }
+
+        (function (apiKey) {
+            (function (p, e, n, d, o) {
+                var v, w, x, y, z;
+                o = p[d] = p[d] || {};
+                o._q = [];
+                v = ['initialize', 'identify', 'updateOptions', 'pageLoad'];
+                for (w = 0, x = v.length; w < x; ++w) (function (m) {
+                    o[m] = o[m] || function () {
+                        o._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0)));
+                    };
+                })(v[w]);
+                y = e.createElement(n);
+                y.async = !0;
+                y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+                z = e.getElementsByTagName(n)[0];
+                z.parentNode.insertBefore(y, z);
+            })(window, document, 'script', 'pendo');
+
+            // Call this whenever information about your visitors becomes available
+            // Please use Strings, Numbers, or Bools for value types.
+            pendo.initialize({
+                visitor: {
+                    id: '#{current_user.id}'   // Required if user is logged in
+                    // email:        // Optional
+                    // role:         // Optional
+
+                    // You can add any additional visitor level key-values here,
+                    // as long as it's not one of the above reserved names.
+                },
+
+                account: {
+                    // id:           'ACCOUNT-UNIQUE-ID' // Highly recommended
+                    // name:         // Optional
+                    // planLevel:    // Optional
+                    // planPrice:    // Optional
+                    // creationDate: // Optional
+
+                    // You can add any additional account level key-values here,
+                    // as long as it's not one of the above reserved names.
+                }
+            });
+        })('0907a857-90ea-47a7-79a4-4a24faa1a650');
+
+        window.fcWidget.init({token: "50703d53-87b3-41b2-870e-f934e4e9c5c2", host: "https://wchat.freshchat.com"});
+        window.fcWidget.setExternalId('#{@current_user.id}');
+        window.fcWidget.user.setFirstName('#{@current_user.username}');
+        window.fcWidget.user.setEmail('#{@current_user.email}');

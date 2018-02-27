@@ -23,8 +23,22 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
 
-    resources :users
-    resources :devices, only: [:index, :show, :edit, :update, :destroy]
+    resources :users do
+      put :accept_invitation
+      delete :refuse_invitation
+      resource :team, controller: "users/teams" do
+        resources :devices, controller: "users/teams/devices"
+
+        get :sample_csv
+        post :import_devices
+        post :add_users
+        post :add_devices
+        put :change_role
+        delete  :remove_devices
+        delete :remove_users
+      end
+    end
+
     resources :event_series do
       member do
         put :add_event
@@ -53,8 +67,6 @@ Rails.application.routes.draw do
       member do
         get :resolve_time
         get :do_resolve_time
-        get :edit_event_style
-        get :device_settings
         delete :remove_db
         get :launch
         get :close
@@ -62,24 +74,26 @@ Rails.application.routes.draw do
         post :remove_background
         get :create_admin
         get :create_customer_support
-        get :versions
+        get :refund_fields
       end
 
       scope module: :events do
 
-        resource :reports do
-          get :gate_close_money_recon
-          get :gate_close_billing
+        resource :settings, only: :show
+
+        resource :analytics do
+          get :money
           get :cashless
-          get :products_sale
+          get :sales
           get :gates
-          get :operators
         end
 
-        resources :stats, only: [:edit, :update] do
-          get :stations, on: :collection
-          get :issues, on: :collection
-          put :update_multiple, on: :collection
+        resource :custom_analytics do
+          get :money
+          get :credits
+          get :sales
+          get :checkin
+          get :access
         end
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection
@@ -90,14 +104,16 @@ Rails.application.routes.draw do
         end
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
-        resources :device_registrations, only: [:index, :show, :destroy] do
+        resources :device_registrations, only: [:index, :show, :destroy, :new, :create, :update] do
           get :download_db, on: :member
           get :resolve_time, on: :member
           get :transactions, on: :member
+          put :disable, on: :collection
         end
         resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
+        resources :devices, only: [:new, :create]
         resources :device_caches, only: :destroy
         resources :operator_permissions
         resources :packs do
@@ -131,36 +147,42 @@ Rails.application.routes.draw do
             get :resolvable
           end
         end
+
         resources :transactions, only: [:index, :show, :update, :destroy] do
           get :download_raw_transactions, on: :collection
           post :search, on: :collection
+        end
+
+        resources :pokes, only: [] do
           get :status_9, on: :member
           get :status_0, on: :member
         end
-        resources :payment_gateways, except: :show do
-          member do
-            post :topup
-            post :refund
-          end
-        end
+
+        resources :payment_gateways, except: :show
+
         resources :customers, only: [:index, :show, :edit, :update] do
           member do
             resources :ticket_assignments, only: [:new, :create]
             resources :gtag_assignments, only: [:new, :create]
             get :download_transactions
             get :reset_password
+            get :resend_confirmation
           end
         end
+
         resources :gtags do
           member do
             get :recalculate_balance
             get :solve_inconsistent
           end
           collection do
+            get :inconsistencies
+            get :missing_transactions
             get :sample_csv
             post :import
           end
         end
+
         resources :tickets do
           member do
             get :ban
@@ -171,11 +193,14 @@ Rails.application.routes.draw do
             post :import
           end
         end
+
         resources :stations do
           post :clone
           post :hide
           post :unhide
-          get :reports
+          put :add_ticket_types
+          put :remove_ticket_types
+          get :analytics
           scope module: :stations do
             resources :products, only: [:update, :index]
             resources :station_items, only: [:create, :update, :destroy] do
@@ -184,6 +209,7 @@ Rails.application.routes.draw do
             end
           end
         end
+
         resources :ticket_types, except: :show do
           get :unban, on: :member
         end
@@ -209,6 +235,7 @@ Rails.application.routes.draw do
         get "/register", to: "registrations#new"
         get "/account", to: "registrations#edit"
         get "/change_password", to: "registrations#change_password"
+        patch "/update_password", to: "registrations#update_password"
         post "/register", to: "registrations#create"
         patch "/register", to: "registrations#update"
         get "/recover_password", to: "passwords#new"
@@ -233,8 +260,7 @@ Rails.application.routes.draw do
       resources :gtags, only: [:show] do
         patch :ban, on: :member
       end
-      resources :orders, except: [:destroy] do
-        get :complete, on: :member
+      resources :orders, only: [] do
         get :success, on: :member
         get :error, on: :member
         get :abstract_error, on: :collection
@@ -243,17 +269,6 @@ Rails.application.routes.draw do
       get :credits_history, to: "credits_histories#history"
       get :privacy_policy, to: "static_pages#privacy_policy"
       get :terms_of_use, to: "static_pages#terms_of_use"
-
-      # Paypal
-      get :paypal_setup_purchase, to: "paypal#setup_purchase"
-      get :paypal_purchase, to: "paypal#purchase"
-      post :paypal_refund, to: "paypal#refund"
-
-      # Vouchup
-      get :vouchup_purchase, to: "vouchup#purchase"
-      post :vouchup_success, to: "vouchup#success"
-      post :vouchup_error, to: "vouchup#error"
-      post :vouchup_refund, to: "vouchup#refund"
 
       # Bank Account
       resources :refunds
@@ -273,22 +288,23 @@ Rails.application.routes.draw do
           resources :devices, except: %i[create new]
           resources :companies
           resources :accesses
-          resources :stats, only: %i[index show]
 
           resources :tickets do
             post :topup, on: :member
+            post :virtual_topup, on: :member
           end
 
           resources :gtags do
             member do
               post :replace
               post :topup
+              post :virtual_topup
               post :ban
               post :unban
             end
           end
 
-          resources :customers, :constraints => { :id => /.*/ } do
+          resources :customers, constraints: { id: /.*/ } do
             member do
               post :ban
               post :unban
@@ -308,6 +324,7 @@ Rails.application.routes.draw do
 
           resources :refunds do
             put :complete, on: :member
+            put :cancel, on: :member
           end
 
           resources :orders, except: %i[create update] do
@@ -343,7 +360,7 @@ Rails.application.routes.draw do
           resources :transactions, only: :create
           resources :device_transactions, only: :create
           resources :user_flags, only: :index
-          resources :tickets, only: [:index, :show], :constraints => { :id => /.*/ } do
+          resources :tickets, only: [:index, :show], constraints: { id: /.*/ } do
             get :banned, on: :collection
           end
           resources :gtags, only: [:index, :show] do
@@ -351,22 +368,6 @@ Rails.application.routes.draw do
           end
           get "/time", to: "time#index"
         end
-      end
-    end
-  end
-
-  ##----------------------------------------------------------
-  # Ticketing API
-  #----------------------------------------------------------
-  namespace :companies, defaults: { format: "json" } do
-    namespace :api do
-      namespace :v1 do
-        resources :banned_tickets, path: "tickets/blacklist", only: [:index, :create, :destroy]
-        resources :tickets, only: [:index, :show, :create, :update] do
-          post :bulk_upload, on: :collection
-        end
-        resources :ticket_types, only: [:index, :show, :create, :update]
-        resources :balances, only: :show
       end
     end
   end

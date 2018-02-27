@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :event do
-    name { "Event #{SecureRandom.hex(16)}" }
+    name { "Event #{SecureRandom.hex(4)}" }
     state "launched"
     start_date { Time.zone.now }
     end_date { Time.zone.now + 2.days }
@@ -26,7 +26,8 @@ FactoryBot.define do
     end
 
     after :create do |event|
-      event.create_credit(value: 1, name: "CRD")
+      event.create_credit(value: 1, name: "CRD") if event.credit.blank?
+      event.create_virtual_credit(value: 1, name: "Virtual") if event.virtual_credit.blank?
     end
   end
 end

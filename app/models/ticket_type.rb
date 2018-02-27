@@ -3,8 +3,10 @@ class TicketType < ApplicationRecord
 
   has_many :tickets, dependent: :destroy
   has_many :gtags, dependent: :nullify
+  has_many :station_ticket_types, dependent: :destroy
+  has_many :stations, through: :station_ticket_types
 
-  belongs_to :event
+  belongs_to :event, counter_cache: true
   belongs_to :catalog_item, optional: true
   belongs_to :company
 
@@ -15,8 +17,10 @@ class TicketType < ApplicationRecord
 
   validate_associations
 
-  scope(:for_devices, -> { where.not(catalog_item_id: nil) })
-  scope(:no_catalog_item, -> { where(catalog_item_id: nil) })
+  scope :for_devices, -> { where.not(catalog_item_id: nil) }
+  scope :no_catalog_item, -> { where(catalog_item_id: nil) }
+
+  scope :checkin_rate, -> { select("name as ticket_type_name, count(tickets.id) as total_tickets, count(CASE tickets.redeemed WHEN TRUE THEN tickets.id END) as redeemed").joins(:tickets).group(:name) }
 
   after_update :touch_tickets
 

@@ -63,6 +63,11 @@ class ApplicationPolicy
     user.admin? || user.registration_for(record.event)&.promoter?
   end
 
+  def admin_or_device_register
+    registration = user.registration_for(record)
+    user.admin? || registration&.device_register?
+  end
+
   def all_allowed
     user.admin? || user.registration_for(record.event).present?
   end

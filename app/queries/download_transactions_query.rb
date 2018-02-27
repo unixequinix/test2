@@ -9,7 +9,7 @@ class DownloadTransactionsQuery
 
   def to_csv
     CSV.generate do |csv|
-      csv << ["Event Name", "Transaction Origin", "Transaction Category", "Event Day", "Date Time", "Station Name", "Station Location", "Station Category", "Station Address", "Station Official Name", "Device UID", "Customer gTag ID", "Operator gTag ID", "Product Price", "Product Name", "Product has Acohol?", "Product description", "Product VAT", "Transaction Type", "Total Transaction Amount", "Total Transaction Amount Refundable", "Final Balance", "Final Balance Refundable", "Quantity", "Unit Price", "Other Amount Sale", "Products Amount Sale", "Amount"] # rubocop:disable Metrics/LineLength
+      csv << ["Event Name", "Transaction Origin", "Transaction Category", "Event Day", "Date Time", "Station Name", "Station Location", "Station Category", "Station Address", "Station Official Name", "Device UID", "Customer gTag ID", "Operator gTag ID", "Product Price", "Product Name", "Product has Acohol?", "Product description", "Product VAT", "Transaction Type", "Total Transaction Amount", "Total Transaction Amount Refundable", "Final Balance", "Final Balance Refundable", "Quantity", "Unit Price", "Other Amount Sale", "Products Amount Sale", "Amount"]
       all.each { |row| csv << row }
     end
   end
@@ -52,7 +52,7 @@ class DownloadTransactionsQuery
         sum(tr.final_balance)                      AS "Final Balance",
         sum(tr.final_refundable_balance)          AS "Final Balance Refundable",
         sum(COALESCE(quantity, 1)) AS "Quantity",
-        sum(COALESCE(unit_price, credits)) AS "Unit Price",
+        sum(COALESCE(standard_unit_price, credits)) AS "Unit Price",
         sum( tr.other_amount_credits) AS "Other Amount Sale",
         sum(tr.credits - tr.other_amount_credits) AS "Products Amount Sale",
         sum(COALESCE(amount, credits)) AS "Amount"
@@ -71,8 +71,8 @@ class DownloadTransactionsQuery
               sale_items.id,
               credit_transaction_id,
               quantity,
-              unit_price,
-              -1*quantity * unit_price as amount,
+              standard_unit_price as unit_price,
+              -1 * quantity * unit_price as amount,
               price,
               name,
               is_alcohol ,

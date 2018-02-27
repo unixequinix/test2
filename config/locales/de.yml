@@ -133,7 +133,8 @@ de:
     refund:
       subject: Rückerstattung der Guthaben von %{event}
       refund_number: Nummer der Rückerstattung
-      success: Deine Rückerstattung wurde erfolgreich bearbeitet
+      success: Deine Rückzahlung wurde erfolgreich bearbeitet
+      cancel: Deine Rückzahlung wurde annulliert
     reset_password:
       greet: Hallo, %{name}!
       mail_body: 'Du hast eine Passwortänderung angefordert. Du kannst dies unter dem folgendem Link tun:'
@@ -176,8 +177,6 @@ de:
       standard: Gib die zweite Reihe (gelb unterlegt) von Nummern und Buchstaben ein
     info: 'Erlaubte Symbole: "0" - "9" y "A, B, C, D, E, F"'
     placeholder: 'Bsp.: BA6D7DC0'
-  header:
-    edit: Profil bearbeiten
   links:
     buttons:
       sign_in: Login
@@ -270,3 +269,24 @@ de:
           password_confirmation: Bestätigung des Passworts
           phone: Telefonnummer
           postcode: Postleitzahl
+  teams:
+    created: Team wurde erfolgreich erstellt.
+    destroyed: Team zerstört.
+    not_belong: Sie gehören keinem Team an.
+    already_belong: Du gehörst schon zu einem Team.
+    unable_change_role: Die Rolle konnte nicht geändert werden.
+    role_changed: Die Rolle wurde erfolgreich geändert.
+    remove_users:
+      current_user: Sie wurden erfolgreich aus dem Team entfernt.
+      user: Der Benutzer wurde erfolgreich aus dem Team entfernt.
+    add_users:
+      added: Benutzer wurde erfolgreich zum Team hinzugefügt.
+      exists: Der Benutzer gehört bereits zu einem Team.
+    add_devices:
+      added: Gerät wurde erfolgreich hinzugefügt.
+      already_belong: Das Gerät ist bereits Teil eines Teams
+      import: 
+        not_supplied: Erweiterungsdatei nicht unterstützt.
+    remove_devices:
+      removed: Geräte wurden erfolgreich entfernt.
+      failed: Etwas ist schief gelaufen.

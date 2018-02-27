@@ -58,7 +58,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
-Capybara.ignore_hidden_elements = true
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox )
 end
@@ -105,6 +104,7 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.include Requests::JsonHelpers, type: :api
   config.include Api::V2Helper, type: :api
+  config.include Api::V1Helper, type: :api
 
   Warden.test_mode!
   Sidekiq::Testing.inline!

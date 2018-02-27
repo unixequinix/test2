@@ -1,6 +1,7 @@
 module Api::V2
   class Events::GtagsController < BaseController
-    before_action :set_gtag, only: %i[topup show update destroy ban unban replace]
+    before_action :set_gtag, only: %i[virtual_topup topup show update destroy ban unban replace]
+    before_action :check_credits, only: %i[topup virtual_topup]
 
     # POST api/v2/events/:event_id/gtags/:id/replace
     def replace
@@ -33,10 +34,24 @@ module Api::V2
     def topup
       @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
 
-      @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]])
+      @order = @gtag.customer.build_order([[@current_event.credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
 
       if @order.save
-        @order.complete!(params[:gateway])
+        @order.complete!(params[:gateway], {}, params[:send_email])
+        render json: @order, serializer: OrderSerializer
+      else
+        render json: @order.errors, status: :unprocessable_entity
+      end
+    end
+
+    # POST api/v2/events/:event_id/gtags/:id/virtual_topup
+    def virtual_topup
+      @gtag.update!(customer: @current_event.customers.create!) if @gtag.customer.blank?
+
+      @order = @gtag.customer.build_order([[@current_event.virtual_credit.id, params[:credits]]], params.permit(:money_base, :money_fee))
+
+      if @order.save
+        @order.complete!(params[:gateway], {}, params[:send_email])
         render json: @order, serializer: OrderSerializer
       else
         render json: @order.errors, status: :unprocessable_entity
@@ -85,13 +100,17 @@ module Api::V2
 
     private
 
+    def check_credits
+      render(json: { credits: "Must be present and positive" }, status: :unprocessable_entity) unless params[:credits].to_f.positive?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_gtag
       gtags = @current_event.gtags
 
       Rollbar.silenced do
         gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
-      
+
         @gtag = gtags.find(gtag_id)
         authorize @gtag
       end
@@ -99,7 +118,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def gtag_params
-      params.require(:gtag).permit(:tag_uid, :banned, :active, :credits, :refundable_credits, :final_balance, :final_refundable_balance, :customer_id, :redeemed, :ticket_type_id) # rubocop:disable Metrics/LineLength
+      params.require(:gtag).permit(:tag_uid, :banned, :customer_id, :redeemed, :ticket_type_id)
     end
   end
 end

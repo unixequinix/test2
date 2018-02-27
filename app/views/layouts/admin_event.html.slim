@@ -6,7 +6,6 @@ html
     = stylesheet_link_tag "application", media: "all"
     = stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons"
     = stylesheet_link_tag "https://code.getmdl.io/1.2.1/material.teal-pink.min.css"
-    = stylesheet_link_tag "datatables" if @load_reports_resources
 
     = yield(:javascripts)
 
@@ -14,19 +13,13 @@ html
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
     = javascript_include_tag "//cdn.tinymce.com/4/tinymce.min.js"
     = javascript_include_tag "application"
-    = javascript_include_tag "datatables" if @load_reports_resources
+    = javascript_include_tag "https://wchat.freshchat.com/js/widget.js"
 
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
     = csrf_meta_tags
 
-  body class=("#{controller_name} #{action_name}")
-    - if @current_user.present? && @current_user.admin? == false
-      javascript:
-        var current_user_email = "#{@current_user&.email}";
-        var current_user_name = "#{@current_user&.username}";
-        var current_user_id = "#{@current_user&.id}";
-      = javascript_include_tag "specific/intercom"
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{image_path('background-default.jpg')})")
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header
         .mdl-layout__header-row
@@ -39,62 +32,52 @@ html
               = @current_event.id
               | &nbsp;-&nbsp;
               = @current_event.name
-              = " (#{@current_event.state.humanize})"
               span.mdl-tooltip data-mdl-for="event_details_link" Event Dashboard
 
           .mdl-layout-spacer
           .mdl-layout-title.header-item = yield(:title)
           .mdl-layout-spacer
 
-          - if @q && !@load_reports_resources
+          - if @q && !@load_analytics_resources
             .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
               label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
                 i.material-icons id="search_icon" search
               .mdl-textfield__expandable-holder = yield(:search)
             div style="width: 30px;"
 
+
           = yield(:navigation_actions)
 
           = render partial: "layouts/dropdown_menu"
 
           = link_to admins_event_alerts_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
-            span#alerts.i.mdl-color-text--gray-50.material-icons add_alert
+            span#alerts.i.mdl-color-text--white.material-icons add_alert
             span.mdl-tooltip data-mdl-for="alerts" Alerts
             - if @current_event.alerts.unresolved.any?
               span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
             div style="width: 10px;"
 
+          = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
+            span#settings.i.mdl-color-text--white.material-icons settings
+            span.mdl-tooltip data-mdl-for="settings" Settings
+
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
 
-        - if policy(Stat).reports?
-          nav.mdl-navigation.global-nav
-            span.nav-title
-              | GATE CLOSE REPORTS (BETA):
-            = link_to gate_close_money_recon_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons money
-              |  Money Reconciliation
-            = link_to gate_close_billing_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons $
-              |  Billing
-        - if policy(Stat).reports?
-          nav.mdl-navigation.global-nav
-            span.nav-title
-              | REPORTS (BETA):
-            = link_to cashless_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons money
-              |  Cashless
-            = link_to products_sale_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              |  Products Sale
-            = link_to gates_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons show_chart
-              |  Gates
-            = link_to operators_admins_event_reports_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons person
-              |  Operators
-
+        nav.mdl-navigation.global-nav
+          = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons store_mall_directory
+            |  Stations
+          = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons phone_android
+            |  Devices
+          = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons equalizer
+            |  Analytics
+          = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons timeline
+            |  Custom Analytics
         nav.mdl-navigation.global-nav
           span.nav-title CREDENTIALS
           = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
@@ -132,33 +115,11 @@ html
             |  Refunds
 
         nav.mdl-navigation.global-nav
-          span.nav-title STATIONS
-          = link_to admins_event_stations_path(@current_event, group: "access"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons play_for_work
-            |  Access
-          = link_to admins_event_stations_path(@current_event, group: "monetary"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons attach_money
-            |  Monetary
-          = link_to admins_event_stations_path(@current_event, group: "event_management"), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons local_activity
-            |  Management
-
-        nav.mdl-navigation.global-nav
           span.nav-title SUPPORT
-          - if policy(@current_event.device_registrations).index?
-            = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons bug_report
-              |  Asset Tracker
-          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons markunread_mailbox
-            |  API access
           - if policy(@current_event).event_settings?
             = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons person
               |  Users
-          = link_to device_settings_admins_event_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons phonelink_setup
-            |  Device Settings
           = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             |  Transactions
@@ -172,29 +133,65 @@ html
         .page-content.remodal-bg
           = yield
 
-          - if Rails.env.development?
-            .content-grid.mdl-grid
-              .mdl-layout-spacer
-              .mdl-cell.mdl-cell--10-col
-                .admin-card-wide.mdl-card.mdl-shadow--2dp
-                  div style="padding: 10px 20px" = debug(params)
-              .mdl-layout-spacer
+  = yield(:actions)
 
-= yield(:actions)
+  javascript:
+      var floaty = $('#floaty');
+      floaty.on('mouseenter click', floatyMouseEnter);
+      floaty.on('mouseleave', floatyMouseLeave);
 
-javascript:
-  var floaty = $('#floaty');
-  floaty.on('mouseenter click', floatyMouseEnter);
-  floaty.on('mouseleave', floatyMouseLeave);
+      function floatyMouseEnter() {
+        $('#button').toggleClass('on');
+        $('#changeIcon').html('clear');
+        $('#actions-list').toggleClass('show');
+      }
 
-  function floatyMouseEnter() {
-    $('#button').toggleClass('on');
-    $('#changeIcon').html('clear');
-    $('#actions-list').toggleClass('show');
-  }
+      function floatyMouseLeave() {
+        $('#button').removeClass('on');
+        $('#changeIcon').html('build');
+        $('#actions-list').removeClass('show');
+      }
+  javascript:
+      (function (apiKey) {
+          (function (p, e, n, d, o) {
+              var v, w, x, y, z;
+              o = p[d] = p[d] || {};
+              o._q = [];
+              v = ['initialize', 'identify', 'updateOptions', 'pageLoad'];
+              for (w = 0, x = v.length; w < x; ++w) (function (m) {o[m] = o[m] || function () {o._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0)));};})(v[w]);
+              y = e.createElement(n);
+              y.async = !0;
+              y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+              z = e.getElementsByTagName(n)[0];
+              z.parentNode.insertBefore(y, z);
+          })(window, document, 'script', 'pendo');
 
-  function floatyMouseLeave() {
-    $('#button').removeClass('on');
-    $('#changeIcon').html('build');
-    $('#actions-list').removeClass('show');
-  }
+          // Call this whenever information about your visitors becomes available
+          // Please use Strings, Numbers, or Bools for value types.
+          pendo.initialize({
+              visitor: {
+                  id: '#{current_user.id}'   // Required if user is logged in
+                  // email:        // Optional
+                  // role:         // Optional
+
+                  // You can add any additional visitor level key-values here,
+                  // as long as it's not one of the above reserved names.
+              },
+
+              account: {
+                  // id:           'ACCOUNT-UNIQUE-ID' // Highly recommended
+                  // name:         // Optional
+                  // planLevel:    // Optional
+                  // planPrice:    // Optional
+                  // creationDate: // Optional
+
+                  // You can add any additional account level key-values here,
+                  // as long as it's not one of the above reserved names.
+              }
+          });
+      })('0907a857-90ea-47a7-79a4-4a24faa1a650');
+
+      window.fcWidget.init({token: "50703d53-87b3-41b2-870e-f934e4e9c5c2", host: "https://wchat.freshchat.com"});
+      window.fcWidget.setExternalId('#{@current_user.id}');
+      window.fcWidget.user.setFirstName('#{@current_user.username}');
+      window.fcWidget.user.setEmail('#{@current_user.email}');

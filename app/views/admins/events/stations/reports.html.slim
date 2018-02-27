@@ -7,7 +7,7 @@
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
 - content_for(:actions) do
-  *{:class => (current_user.admin? ? 'floaty' : 'floaty-intercom'), :id => 'floaty'}
+  .floaty#floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
         = link_to admins_event_station_path(@current_event, @station) do
@@ -18,44 +18,15 @@
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
-
-
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    h5 Products Sale by Station "Q" = Quantity | "A" = Amount
-    br
-    table#products_sale_station.display.mdl-data-table
-
-  .mdl-layout-spacer
-
-
-javascript:
-  $.fn.dataTable.ext.errMode = 'none';
-  $(document).ready(function () {
-      var data_prod = jQuery.parseJSON('#{ escape_javascript(@products_sale_station_data.html_safe)}')
-      var columns_prod = jQuery.parseJSON('#{@products_sale_station_column.html_safe}')
-
-      $('#products_sale_station').dataTable({
-          "dom": '<"dt-buttons"Bf><"clear">lirtp',
-          "paging": true,
-          "autoWidth": true,
-          "data": data_prod,
-          "columns": columns_prod,
-          "order": [[0, 'desc']],
-          "buttons": [
-              'copyHtml5',
-              'csvHtml5',
-              'print'
-          ]
-      });
-
-
-      $(".dt-button").addClass("mdl-button mdl-js-button");
-      $(".dt-button").removeClass("dt-button");
-
-      $(".paginate_button").addClass("mdl-button mdl-js-button");
-      $(".paginate_button").removeClass("paginate_button");
-
-  });
+- if @station.type == 'pos'
+  = render "admins/events/stations/analytics/pos", station: @station, products: @products, products_stock: @products_stock
+- if @station.type == 'access'
+  = render "admins/events/stations/analytics/access", station: @station, access_control: @access_control
+- if @station.type == 'credential'
+  = render "admins/events/stations/analytics/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
+- if @station.type == 'money_credit'
+  = render "admins/events/stations/analytics/money_credits", station: @station, money: @money, credits: @credits
+- if @station.type == 'money'
+  = render "admins/events/stations/analytics/money", station: @station, money: @money
+- if @station.type == 'box_office'
+  = render "admins/events/stations/analytics/box_office", station: @station, money: @money, checkin_ticket_type: @checkin_ticket_type

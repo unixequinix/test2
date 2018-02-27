@@ -4,7 +4,7 @@ fieldset.wrapper-preevent-product
       = f.input :catalog_item_id, collection: @catalog_items_collection, include_blank: false, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
     div style="width: 50px;display: inline-block;"
     .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-      = f.input :amount, :input_html => { :class => 'mdl-textfield__input'}
+      = f.input :amount, input_html: { class: 'mdl-textfield__input'}
 
     = f.hidden_field :_destroy
 

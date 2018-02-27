@@ -8,7 +8,7 @@ module Api::V2
         @order.errors.add(:status, "is already completed")
         render json: @order.errors, status: :unprocessable_entity
       else
-        @order.complete!(order_params[:gateway], order_params[:payment_data])
+        @order.complete!(order_params[:gateway], order_params[:payment_data], params[:send_email])
         render json: @order
       end
     end
@@ -41,7 +41,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.require(:order).permit(:status, :gateway, :payment_data, :refund_data)
+      params.require(:order).permit(:status, :gateway, :payment_data)
     end
   end
 end

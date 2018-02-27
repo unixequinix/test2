@@ -10,7 +10,7 @@
     .mdl-cell.mdl-cell--4-col
       .tools
         .tool-item
-          = link_to event_ticket_assignment_path(@current_event, @ticket), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored" do
+          = link_to event_ticket_assignment_path(@current_event, @ticket), method: :delete, data: { confirm: t("alerts.confirm_delete") }, class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id:"unassign_ticket" do
             span#unassign.material-icons delete_forever
             span.mdl-tooltip data-mdl-for="unassign" Unassign Ticket
 

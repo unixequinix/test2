@@ -383,20 +383,6 @@ html
                                   = t('email.footer_organizer')
                                   | &nbsp;
                                   = mail_to @event.support_email
-            tr
-              td.bodyContent[align="center" valign="top"]
-                table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]
-                  tr
-                    td.footerContent[valign="top"]
-                      table[border="0" cellpadding="10" cellspacing="0" width="100%"]
-                        tr
-                          td#footer[valign="top" width="100%"]
-                            div[mc:edit= "std_footer"]
-                              - if @event.id.to_s === '190' && Rails.env === 'production'
-                                a href='http://www.poploadfestival.com/wp-content/uploads/2017/06/171105-Popload-TC_V7-FINAL-checkout-1.pdf'  Termos e Condições do Festival Popload
-
-                              - if @event.id.to_s === '255' && Rails.env === 'staging'
-                                a href='http://www.poploadfestival.com/wp-content/uploads/2017/06/171105-Popload-TC_V7-FINAL-checkout-1.pdf'  Termos e Condições do Festival Popload
           br
 
 

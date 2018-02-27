@@ -1,25 +1,33 @@
 class DevicePolicy < ApplicationPolicy
   def show?
-    user.admin?
+    check_team || user.admin?
   end
 
   def create?
-    false
+    check_team || user.admin?
   end
 
   def new?
-    false
+    check_team || user.admin?
   end
 
   def update?
-    user.admin?
+    check_team || user.admin?
   end
 
   def edit?
-    user.admin?
+    check_team || user.admin?
   end
 
   def destroy?
     user.admin?
+  end
+
+  def remove_devices?
+    check_team || user.admin?
+  end
+
+  def check_team
+    user.team == record.team
   end
 end
