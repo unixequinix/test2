@@ -21,9 +21,12 @@ services:
   web:
     build: .
     image: glownet_web:latest
+    command:  "'rails s -p 3000 -b 0.0.0.0'"
+    ports:
+      - "3000:3000"
     volumes:
       - rvm_gems:/usr/local/rvm/gems/ruby-2.5.0
-      - .:/home/web
+      - .:/home/current
       - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     environment:
       - SSH_AUTH_SOCK
@@ -34,12 +37,9 @@ services:
       - JOB_WORKER_URL
       - secret_key_base
       - ticket_config_1
-    ports:
-      - "3000:3000"
     links:
       - redis
       - postgres
-    command:  "'rails s -p 3000 -b 0.0.0.0'"
     stdin_open: true
     tty: true
   sidekiq:
@@ -48,7 +48,7 @@ services:
     command: "sidekiq -C config/sidekiq.yml"
     volumes:
       - rvm_gems:/usr/local/rvm/gems/ruby-2.5.0
-      - .:/home/web
+      - .:/home/current
     environment:
       - RAILS_ENV
       - JOB_WORKER_URL
