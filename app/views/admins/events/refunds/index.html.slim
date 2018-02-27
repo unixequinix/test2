@@ -31,7 +31,7 @@
               h3.mdl-card__title-text = number_to_token @current_event.refunds.where(status: "completed").sum(&:credit_total)
             .mdl-card__supporting-text
               span.good_info = "Completed Fees: "
-              span = number_to_token @current_event.refunds.where(status: "completed").sum(:fee)
+              span = number_to_token @current_event.refunds.where(status: "completed").sum(:credit_fee)
 
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
