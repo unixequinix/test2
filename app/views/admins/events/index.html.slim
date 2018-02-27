@@ -43,10 +43,6 @@
           - @events.group_by(&:state).each do |state, events|
             .mdl-tabs__panel id="#{state}-panel" class="mdl-tabs__panel" = render "list", events: events
 
-          .mdl-tabs__panel id="event-form" style="display: none;" = render "form", event: @event
+          .mdl-tabs__panel id="event-form" = render "form", event: @event
 
   .mdl-layout-spacer
-
-
-javascript:
-  $(document).on('ready', function() { $("#event-form").show() });
