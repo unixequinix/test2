@@ -19,10 +19,24 @@ class Pokes::Credit < Pokes::Base
     action = "fee" if FEES.include?(t.action)
     action = "correction" if CORRECTIONS.include?(t.action)
 
-    t.payments.to_a.map.with_index do |payment, i|
+    pokes = t.payments.to_a.map.with_index do |payment, i|
       credit_id, payment = payment
       atts = extract_credit_atts(credit_id, payment, action: action, description: description, line_counter: i + 1)
       create_poke(extract_atts(t, atts))
     end
+
+    recalculate_balance(t)
+
+    pokes
+  end
+
+  private
+
+  def recalculate_balance(t)
+    t.gtag&.recalculate_balance
+    t.customer.update(initial_topup_fee_paid: true) if t.action.eql?("initial_fee")
+
+    return unless t.customer_tag_uid == t.operator_tag_uid
+    Alert.propagate(t.event, t, "has the same operator and customer UIDs", :medium)
   end
 end

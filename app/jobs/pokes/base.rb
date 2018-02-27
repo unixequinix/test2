@@ -11,12 +11,11 @@ class Pokes::Base < ApplicationJob
   end
 
   def self.descendants
-    load_classes unless Rails.env.production?
+    load_classes unless Rails.env.production? || Rails.env.test?
     @descendants || []
   end
 
   def self.load_classes
-    Pokes::BalanceUpdater.inspect
     Pokes::Checkin.inspect
     Pokes::Checkpoint.inspect
     Pokes::Credit.inspect

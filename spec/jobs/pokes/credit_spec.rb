@@ -3,14 +3,37 @@ require "rails_helper"
 RSpec.describe Pokes::Credit, type: :job do
   let(:worker) { Pokes::Credit }
   let(:event) { create(:event) }
+  let(:gtag) { create(:gtag, event: event) }
+  let(:customer) { create(:customer, event: event) }
   let(:payment) { { event.credit.id.to_s => { "credit_name" => event.credit.name, "credit_value" => event.credit.value, "amount" => 2.2 } } }
-  let(:transaction) { create(:credit_transaction, action: "topup", event: event, payments: payment) }
+  let(:transaction) { create(:credit_transaction, action: "topup", event: event, payments: payment, gtag: gtag, customer: customer) }
 
   describe ".stat_creation" do
     let(:action) { "record_credit" }
     let(:name) { "topup" }
 
     include_examples "a poke"
+  end
+
+  it "calls recalculate_balance on the given gtag" do
+    allow(CreditTransaction).to receive(:find).with(transaction.id).and_return(transaction)
+    allow(transaction).to receive(:gtag).and_return(gtag)
+    expect(gtag).to receive(:recalculate_balance).once
+    worker.perform_now(transaction)
+  end
+
+  it "creates an alert when customer and operator tag_uids are the same" do
+    transaction.update!(operator_tag_uid: gtag.tag_uid, customer_tag_uid: gtag.tag_uid)
+
+    expect(Alert).to receive(:propagate).with(event, transaction, "has the same operator and customer UIDs", :medium).once
+    worker.perform_now(transaction)
+  end
+
+  it "does not create an alert when customer and operator tag_uids are different" do
+    transaction.update!(operator_tag_uid: "NOTTHESAME")
+
+    expect(Alert).not_to receive(:propagate)
+    worker.perform_now(transaction)
   end
 
   describe "resolving description" do

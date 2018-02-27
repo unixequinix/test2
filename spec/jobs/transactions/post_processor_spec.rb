@@ -190,14 +190,13 @@ RSpec.describe Transactions::PostProcessor, type: :job do
     before { allow(Pokes::Sale).to receive(:perform_later) }
 
     it "executes tasks based on triggers" do
-      Pokes::BalanceUpdater.inspect
-      expect(Pokes::BalanceUpdater).to receive(:perform_later).once.with(transaction)
+      expect(Pokes::Sale).to receive(:perform_later).once.with(transaction)
       worker.perform(transaction)
     end
 
     it "does not execute operations if status code is not 0" do
       transaction.update!(status_code: 2)
-      expect(Pokes::BalanceUpdater).not_to receive(:perform_later)
+      expect(Pokes::Credit).not_to receive(:perform_later)
       worker.perform(transaction)
     end
   end

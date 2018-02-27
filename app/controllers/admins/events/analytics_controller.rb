@@ -6,7 +6,7 @@ module Admins
 
       before_action :authorize_billing
 
-      def show
+      def show # rubocop:disable Metrics/AbcSize
         @message = analytics_message(@current_event)
         totals = {}
         totals[:subtotals] = { money: {}, credits: {} }
