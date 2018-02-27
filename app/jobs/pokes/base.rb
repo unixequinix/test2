@@ -15,7 +15,7 @@ class Pokes::Base < ApplicationJob
     @descendants || []
   end
 
-  def load_classes
+  def self.load_classes
     Pokes::BalanceUpdater.inspect
     Pokes::Checkin.inspect
     Pokes::Checkpoint.inspect
