@@ -11,6 +11,7 @@ class Pokes::Base < ApplicationJob
   end
 
   def self.descendants
+    load_classes if Rails.env.development?
     @descendants || []
   end
 
