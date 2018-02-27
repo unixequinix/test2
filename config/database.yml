@@ -47,7 +47,7 @@ hotfix:
 
 production:
   <<: *default
-  database: glownet_web_production
-  username: glownet
+  database: cloud_production
+  username: glowballMaster
   host: glowneteudb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
   pool: 10
