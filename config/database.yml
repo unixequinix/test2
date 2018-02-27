@@ -49,5 +49,5 @@ production:
   <<: *default
   database: cloud_production
   username: glowballMaster
-  host: glowneteudb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
+  host: glownet-production.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
   pool: 10
