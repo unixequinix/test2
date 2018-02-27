@@ -13,7 +13,12 @@ module Transactions
         transaction = klass.find_or_initialize_by(params.slice(*SEARCH_ATTS))
 
         return unless transaction.new_record?
-        transaction.update! params.slice(*klass.column_names.compact.map(&:to_sym))
+
+        begin
+          transaction.update! params.slice(*klass.column_names.compact.map(&:to_sym))
+        rescue ActiveRecord::InvalidForeignKey
+          transaction.update! params.slice(*klass.column_names.compact.map(&:to_sym)).merge(customer_id: nil)
+        end
       rescue ActiveRecord::RecordNotUnique
         retry
       end

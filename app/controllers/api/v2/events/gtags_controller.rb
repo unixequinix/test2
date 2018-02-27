@@ -107,10 +107,13 @@ module Api::V2
     # Use callbacks to share common setup or constraints between actions.
     def set_gtag
       gtags = @current_event.gtags
-      gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
 
-      @gtag = gtags.find(gtag_id)
-      authorize @gtag
+      Rollbar.silenced do
+        gtag_id = gtags.find_by(id: params[:id])&.id || gtags.find_by(tag_uid: params[:id])&.id
+
+        @gtag = gtags.find(gtag_id)
+        authorize @gtag
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

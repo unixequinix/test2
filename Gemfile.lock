@@ -542,6 +542,7 @@ GEM
       net-ssh (>= 2.8.0)
     sshkit-interactive (0.2.3)
       sshkit (~> 1.12)
+    staccato (0.5.1)
     temple (0.8.0)
     terminal-notifier (2.0.0)
     terminal-notifier-guard (1.7.0)
@@ -677,6 +678,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
+  staccato
   terminal-notifier
   terminal-notifier-guard
   therubyracer

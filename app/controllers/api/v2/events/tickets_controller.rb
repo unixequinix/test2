@@ -98,10 +98,13 @@ module Api::V2
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
       tickets = @current_event.tickets
-      ticket_id = tickets.find_by(id: params[:id])&.id || tickets.find_by(code: params[:id])&.id
 
-      @ticket = tickets.find(ticket_id)
-      authorize @ticket
+      Rollbar.silenced do
+        ticket_id = tickets.find_by(id: params[:id])&.id || tickets.find_by(code: params[:id])&.id
+
+        @ticket = tickets.find(ticket_id)
+        authorize @ticket
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
