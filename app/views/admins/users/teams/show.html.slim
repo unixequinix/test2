@@ -110,7 +110,7 @@
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Number of devices
             tbody
-            - @grouped_devices.each_pair do |serie, devices|
+            - @grouped_devices.each do |serie, devices|
               tr
                 td
                 td.mdl-data-table__cell--non-numeric 
