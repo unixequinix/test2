@@ -11,7 +11,8 @@ class UniteDevicesByMac < ActiveRecord::Migration[5.1]
       DeviceRegistration.where(device: devices).update_all(device_id: device.id)
       DeviceTransaction.where(device: devices).update_all(device_id: device.id)
       rest_of_devices.map(&:delete)
-      device.update!(mac: device.mac.downcase)
+      device.mac = device.mac.downcase
+      device.save!(validate: false)
     end
   end
 end
