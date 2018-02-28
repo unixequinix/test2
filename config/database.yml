@@ -3,46 +3,46 @@ default: &default
   encoding: utf8
   pool: 5
   port: 5432
-  host: glownethotfixdb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
+  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
   password: <%= ENV["POSTGRES_PASSWORD"] || ENV["pg_password"] %>
 
 development:
   <<: *default
   pool: 10
-  database: glownet_web_development
+  database: cloud_development
   username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
   host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
 
 test:
   <<: *default
-  database: glownet_web_test
+  database: cloud_test
   username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
   host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
 
 demo:
   <<: *default
-  database: glownet_web_demo
+  database: cloud_demo
   username: glownet
 
 integration:
   <<: *default
-  database: glownet_web_integration
+  database: cloud_integration
   username: glownet
 
 sandbox:
   <<: *default
-  database: glownet_web_sandbox
+  database: cloud_sandbox
   username: glownet
 
 staging:
   <<: *default
-  database: glownet_web_staging
+  database: cloud_staging
   username: glownet
 
 hotfix:
   <<: *default
   pool: 15
-  database: glownet_web_hotfix
+  database: cloud_hotfix
   username: glownet
 
 production:
