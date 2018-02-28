@@ -69,12 +69,7 @@ class Gtag < ApplicationRecord
       self.final_balance = ts.last&.final_refundable_balance.to_f
       self.final_virtual_balance = ts.last&.final_balance.to_f - ts.last&.final_refundable_balance.to_f
     end
-
-    self.credits = payments.sum { |t| t.payments[event.credit.id.to_s]["amount"].to_f }
-    self.virtual_credits = virtual_payments.sum { |t| t.payments[event.virtual_credit.id.to_s]["amount"].to_f }
-    self.final_balance = payments.last.payments[event.credit.id.to_s]["final_balance"].to_f if payments.last
-    self.final_virtual_balance = virtual_payments.last.payments[event.virtual_credit.id.to_s]["final_balance"].to_f if virtual_payments.last
-
+    
     self.consistent = valid_balance?
     self.complete = ((1..counters.last).to_a - counters).empty? if counters.any?
 
