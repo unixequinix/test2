@@ -4,7 +4,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || user.registration_for(record).present?
+    user.glowball? || user.registration_for(record).present?
   end
 
   def new?
@@ -12,7 +12,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def sample_event?
-    user.admin?
+    user.glowball?
   end
 
   def create?
@@ -41,10 +41,6 @@ class EventPolicy < ApplicationPolicy
 
   def update?
     admin_or_promoter && event_open
-  end
-
-  def event_charts?
-    user.admin?
   end
 
   def remove_logo?

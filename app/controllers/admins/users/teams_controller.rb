@@ -6,7 +6,7 @@ module Admins
       before_action :set_devices, only: :show
 
       def show
-        @grouped_devices = @team_devices.group_by(&:serie)
+        @grouped_devices = @team_devices.group_by(&:serie).sort_by { |serie, _| serie.to_s }
         @device = Device.new(team: @team)
         authorize @team
       end

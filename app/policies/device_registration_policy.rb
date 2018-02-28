@@ -8,7 +8,7 @@ class DeviceRegistrationPolicy < ApplicationPolicy
   end
 
   def new?
-    user&.team.present? || user.admin?
+    user&.team.present? || user.glowball?
   end
 
   def create?
