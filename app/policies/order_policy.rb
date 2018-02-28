@@ -1,18 +1,18 @@
 class OrderPolicy < ApplicationPolicy
   def new?
-    admin_or_promoter && event_open
+    all_allowed && event_open
   end
 
   def create?
-    admin_or_promoter && event_open
+    all_allowed && event_open
   end
 
   def analytics?
-    admin_or_promoter
+    all_allowed
   end
 
   def complete?
-    admin_or_promoter
+    all_allowed
   end
 
   def destroy?
