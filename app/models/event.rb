@@ -23,6 +23,7 @@ class Event < ApplicationRecord
   has_many :alerts, dependent: :destroy
   has_many :device_caches, dependent: :destroy
   has_many :pokes, dependent: :restrict_with_error
+  has_many :api_metrics, dependent: :destroy
 
   has_one :credit, dependent: :destroy
   has_one :virtual_credit, dependent: :destroy

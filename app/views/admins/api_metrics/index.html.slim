@@ -1,0 +1,24 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item API analytics
+
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card#event_list
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Event
+              th.mdl-data-table__cell--non-numeric Start date
+              th.mdl-data-table__cell--non-numeric Ticket#create
+              th.mdl-data-table__cell--non-numeric Topup
+          tbody
+            - @events.each do |event|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Name" = link_to event.name, admins_api_metric_path(event)
+                td.mdl-data-table__cell--non-numeric data-label="Start" = event.start_date.to_date.to_formatted_s(:short)
+                td.mdl-data-table__cell--non-numeric data-label="Tickets#create" = event.api_metrics.tickets_create.count
+                td.mdl-data-table__cell--non-numeric data-label="Topup" = event.api_metrics.topup.count
+  .mdl-layout-spacer

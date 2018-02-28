@@ -11,10 +11,15 @@ module Api::V2
     before_action :authenticate     # Authenticate all requests.
     before_action :destroy_session  # APIs are stateless
     before_action :verify_event
+    before_action :put_controller
 
     after_action :verify_authorized # disable not to raise exception when action does not have authorize method
 
     protected
+
+    def put_controller
+      ApiMetric.create(user: @current_user, event: @current_event, controller: controller_name, action: action_name, http_verb: request.method, request_params: params, received_at: Time.zone.now)
+    end
 
     def authenticate
       authenticate_with_http_token { |token, _| @current_user = User.find_by(access_token: token) } || render_unauthorized

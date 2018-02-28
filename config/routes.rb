@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
 
+    resources :api_metrics, only: [:index, :show]
+
     resources :users do
       put :accept_invitation
       delete :refuse_invitation
@@ -284,7 +286,7 @@ Rails.application.routes.draw do
     # V2
     #---------------
     namespace :v2 do
-      resources :events, only: [:show] do
+      resources :events, only: [:show, :index] do
         scope module: "events" do
           resources :devices, except: %i[create new]
           resources :companies

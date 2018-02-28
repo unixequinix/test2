@@ -61,6 +61,9 @@ html
           - if @current_user.glowball?
             nav.mdl-navigation.global-nav
               span.nav-title ADMIN
+            = link_to admins_api_metrics_path, class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons developer_board
+              |  API analytics
             = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons markunread_mailbox
               |  Sidekiq
