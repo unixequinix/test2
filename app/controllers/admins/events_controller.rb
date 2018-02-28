@@ -131,7 +131,6 @@ module Admins
 
     def set_event_series
       @event_series = EventSerie.all
-      authorize(@event_series)
     end
 
     def set_event

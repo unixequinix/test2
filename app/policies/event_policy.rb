@@ -24,7 +24,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def refund_fields?
-    admin_or_promoter
+    admin_or_promoter && event_open
   end
 
   def versions?
