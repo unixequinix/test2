@@ -23,32 +23,25 @@ test:
 demo:
   <<: *default
   database: cloud_demo
-  username: glownet
 
 integration:
   <<: *default
   database: cloud_integration
-  username: glownet
 
 sandbox:
   <<: *default
   database: cloud_sandbox
-  username: glownet
 
 staging:
   <<: *default
   database: cloud_staging
-  username: glownet
 
 hotfix:
   <<: *default
   pool: 15
   database: cloud_hotfix
-  username: glownet
 
 production:
   <<: *default
   database: cloud_production
-  username: glowballMaster
-  host: glownet-production.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
   pool: 10
