@@ -11,14 +11,10 @@ development:
   <<: *default
   pool: 10
   database: cloud_development
-  username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
-  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
 
 test:
   <<: *default
   database: cloud_test
-  username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
-  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
 
 demo:
   <<: *default
