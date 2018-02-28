@@ -1,10 +1,10 @@
 class OrderPolicy < ApplicationPolicy
   def new?
-    user.admin?
+    admin_or_promoter && event_open
   end
 
   def create?
-    user.admin?
+    admin_or_promoter && event_open
   end
 
   def analytics?

@@ -36,12 +36,11 @@
             button#pass.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons lock_open
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="pass" Reset Password
-      - if current_user.admin?
-        li.floaty-list-item
-          = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id), id:"new_order_link" do
-            button#new_order.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons add_shopping_cart
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" New Order
+      li.floaty-list-item
+        = link_to new_admins_event_order_path(@current_event, customer_id: @customer.id), id:"new_order_link" do
+          button#new_order.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add_shopping_cart
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="new_order" New Order
       - if current_user.admin? && !@customer.anonymous?
         li.floaty-list-item
           = link_to edit_admins_event_customer_path(@current_event, @customer), id:"edit_customer_link" do
