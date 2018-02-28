@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root "admins/events#index"
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
+  get "/admins/sign_in" => redirect("admins/users/sign_in")
 
   mount ActionCable.server => '/cable'
 
