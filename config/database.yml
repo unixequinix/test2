@@ -36,7 +36,7 @@ staging:
   <<: *default
   database: cloud_staging
 
-staging:
+howler:
   <<: *default
   database: cloud_howler
 
