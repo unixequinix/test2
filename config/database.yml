@@ -4,6 +4,7 @@ default: &default
   pool: 5
   port: 5432
   host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
+  username: <%= ENV["POSTGRES_USERNAME"] || ENV["pg_username"] %>
   password: <%= ENV["POSTGRES_PASSWORD"] || ENV["pg_password"] %>
 
 development:
