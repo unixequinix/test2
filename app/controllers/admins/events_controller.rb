@@ -11,7 +11,7 @@ module Admins
       @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
       authorize(@events)
       @event = Event.new
-      @alerts = Alert.where(event_id: @events).unresolved.group(:event_id).count
+      @alerts = Alert.where(event: @events).unresolved.group(:event_id).count
     end
 
     def new
