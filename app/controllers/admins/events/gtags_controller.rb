@@ -79,7 +79,7 @@ module Admins
       end
 
       def solve_inconsistent
-        @gtag.update!(inconsistent: false)
+        @gtag.update!(consistent: true)
         redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was made consistent"
       end
 

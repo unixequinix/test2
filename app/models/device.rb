@@ -1,6 +1,6 @@
 class Device < ApplicationRecord
   include Alertable
-  
+
   belongs_to :team
   has_many :device_registrations, dependent: :destroy
   has_many :events, through: :device_registrations, dependent: :destroy

@@ -2,7 +2,7 @@ class SampleEvent
   def self.run(user = nil)
     name = user ? "#{user.username || user.email} fest #{user.events.count + 1}" : "Event v#{Time.zone.now.to_s(:number)}"
     name += " v#{Time.zone.now.to_s(:number)}" if Event.find_by(name: name)
-    @event = Event.create(name: name, start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
+    @event = Event.create(name: name, start_date: Time.zone.now.beginning_of_day, end_date: (Time.zone.now. + 3.days).end_of_day, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
     @event.initial_setup!
 
     data = %w[customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations]

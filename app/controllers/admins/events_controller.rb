@@ -70,6 +70,7 @@ module Admins
       SaleItem.where(credit_transaction_id: transactions).delete_all
       Transaction.where(id: transactions).delete_all
       catalog_items = @current_event.catalog_items.pluck(:id)
+      PackCatalogItem.where(catalog_item_id: catalog_items).delete_all
       Transaction.where(catalog_item_id: catalog_items).update_all(catalog_item_id: nil)
       @current_event.device_transactions.delete_all
       @current_event.tickets.delete_all

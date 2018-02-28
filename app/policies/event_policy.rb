@@ -12,7 +12,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def sample_event?
-    user.glowball?
+    user.glowball? || user.admin?
   end
 
   def create?
