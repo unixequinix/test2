@@ -36,6 +36,10 @@ staging:
   <<: *default
   database: cloud_staging
 
+staging:
+  <<: *default
+  database: cloud_howler
+
 hotfix:
   <<: *default
   pool: 15
