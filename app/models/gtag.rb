@@ -69,7 +69,7 @@ class Gtag < ApplicationRecord
       self.final_balance = ts.last&.final_refundable_balance.to_f
       self.final_virtual_balance = ts.last&.final_balance.to_f - ts.last&.final_refundable_balance.to_f
     end
-    
+
     self.consistent = valid_balance?
     self.complete = ((1..counters.last).to_a - counters).empty? if counters.any?
 
@@ -77,7 +77,6 @@ class Gtag < ApplicationRecord
 
     save! if changed?
   end
-
 
   def missing_counters
     counters = transactions.pluck(:gtag_counter).compact.sort
