@@ -119,6 +119,14 @@ class EventPolicy < ApplicationPolicy
     user.admin? && record.created?
   end
 
+  def analytics?
+    admin_or_promoter
+  end
+
+  def custom_analytics?
+    admin_or_promoter
+  end
+
   class Scope < Scope
     def resolve
       case

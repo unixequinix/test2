@@ -95,7 +95,7 @@ module Admins
       private
 
       def authorize_billing
-        authorize(:poke, :analytics?)
+        authorize(@current_event, :analytics?)
         @load_analytics_resources = true
       end
 
