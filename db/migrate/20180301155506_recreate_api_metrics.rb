@@ -1,6 +1,6 @@
 class RecreateApiMetrics < ActiveRecord::Migration[5.1]
   def change
-    return unless table_exists?(:api_metrics)
+    return if table_exists?(:api_metrics)
     create_table "api_metrics", force: :cascade do |t|
       t.bigint "user_id"
       t.bigint "event_id"
