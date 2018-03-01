@@ -36,26 +36,26 @@ class Poke < ApplicationRecord
   scope :online, -> { where(source: "online") }
 
   scope :money_recon, lambda {
-    select(:action, :description, :source, :payment_method, event_day_query_as_event_day, "stations.category as station_type", "stations.name as station_name", "sum(monetary_total_price) as monetary_total_price")
+    select(:action, :description, :source, :payment_method, event_day, "stations.category as station_type", "stations.name as station_name", "sum(monetary_total_price) as monetary_total_price")
       .left_joins(:station).has_money.is_ok
-      .group(:action, :description, :source, :payment_method, "#{event_day_query}, station_type, station_name")
+      .group(:action, :description, :source, :payment_method, "event_day, station_type, station_name")
   }
 
   scope :money_recon_operators, lambda {
-    select(:action, :description, :source, :payment_method, event_day_query_as_event_day, date_time_query, dimensions_operators_devices, dimensions_station, "sum(monetary_total_price) as monetary_total_price")
+    select(:action, :description, :source, :payment_method, event_day, date_time_query, dimensions_operators_devices, dimensions_station, "sum(monetary_total_price) as monetary_total_price")
       .left_joins(:station, :device, :operator).left_outer_joins(:operator_gtag).has_money.is_ok
       .group(:action, :description, :source, :payment_method, grouping_operators_devices, grouping_station, "date_time")
   }
 
   scope :products_sale, lambda {
-    select(:description, :credit_name, event_day_query_as_event_day, date_time_query, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount", "sum(sale_item_quantity) as sale_item_quantity")
+    select(:description, :credit_name, event_day, date_time_query, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount", "sum(sale_item_quantity) as sale_item_quantity")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok
       .group(:description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "product_name")
   }
 
   scope :products_sale_stock, lambda {
-    select(:operation_id, :description, :sale_item_quantity, event_day_query_as_event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name")
+    select(:operation_id, :description, :sale_item_quantity, event_day, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok
       .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
@@ -71,38 +71,45 @@ class Poke < ApplicationRecord
   }
 
   scope :credit_flow, lambda {
-    select(:action, :description, :credit_name, event_day_query_as_event_day, date_time_query, "stations.category as station_type, stations.name as station_name, devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
+    select(:action, :description, :credit_name, event_day, date_time_query, "stations.category as station_type, stations.name as station_name, devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
       .joins(:station, :device)
       .where.not(credit_amount: nil).is_ok
-      .group(:action, :description, :credit_name, "#{event_day_query}, date_time, station_type, station_name, device_name")
+      .group(:action, :description, :credit_name, "event_day, date_time, station_type, station_name, device_name")
   }
 
   scope :checkin_ticket_type, lambda {
-    select(:action, :description, event_day_query_as_event_day, dimensions_station, date_time_query, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets, sum(pokes.monetary_total_price) as monetary_total_price")
+    select(:action, :description, event_day, dimensions_station, date_time_query, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets, sum(pokes.monetary_total_price) as monetary_total_price")
       .joins(:station, :device, :catalog_item).left_joins(:ticket_type)
       .where(action: %w[checkin purchase]).is_ok
-      .group(:action, :description, grouping_station, "#{event_day_query}, date_time, device_name, catalog_item_name, ticket_type_name")
+      .group(:action, :description, grouping_station, "event_day, date_time, device_name, catalog_item_name, ticket_type_name")
   }
 
   scope :access, lambda {
-    select(event_day_query_as_event_day, dimensions_station, date_time_query, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction")
+    select(event_day, dimensions_station, date_time_query, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction")
       .joins(:station)
       .where.not(access_direction: nil).is_ok
-      .group(grouping_station, "#{event_day_query}, date_time, direction")
+      .group(grouping_station, "event_day, date_time, direction")
   }
 
-  scope :devices, -> { select("stations.name as station_name", event_day_query_as_event_day, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
+  scope :devices, -> { select("stations.name as station_name", event_day, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
 
   scope :record_credit_sale_h, lambda {
-    select(date_time_query, "sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale, sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit")
+    select(date_time_query, date_time_order, "sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale, sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit")
       .credit_ops.is_ok
-      .group("date_time")
-      .order("date_time")
+      .group("date_time_order, date_time")
+      .order("date_time_order")
+  }
+
+  scope :money_event_day, lambda {
+    select(event_day, event_day_order, sum_money)
+      .is_ok.has_money
+      .group("event_day_order, event_day")
+      .order("event_day_order")
   }
 
   has_paper_trail on: %i[update destroy]
 
-  def self.totals(event) # rubocop:disable Metrics/AbcSize
+  def self.totals(event)
     {
       activations: event.customers.count,
       staff: event.customers.where(operator: true).count,
@@ -111,14 +118,14 @@ class Poke < ApplicationRecord
       source_pm_money: event.pokes.select("source, payment_method", sum_money).is_ok.has_money.group("source, payment_method"),
       action_st_money: event.pokes.select("action, stations.category as station_type", sum_money).is_ok.has_money.joins(:station).group("action, station_type"),
       source_ac_money: event.pokes.select("source, action", sum_money).is_ok.has_money.group("source, action"),
-      event_day_money: event.pokes.select(event_day_query_as_event_day, source_money).is_ok.has_money.order("event_day").group("source, event_day").to_json,
+      event_day_money: event.pokes.select(event_day, source_money).is_ok.has_money.order("event_day").group("source, event_day").to_json,
       credit_breakage: event.pokes.select("credit_name", sum_credits).is_ok.has_credits.group("credit_name"),
       credits_flow: event.pokes.select("action, description", sum_credits).is_ok.has_credits.group("action, description"),
       credits_type: event.pokes.select("action, credit_name", sum_credits).is_ok.has_credits.group("action, credit_name"),
-      alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol", sum_credits).is_ok.joins(:product).group("is_alcohol").to_json,
-      top_productos: event.pokes.select("products.name as product_name", sum_credits).is_ok.joins(:product).group("product_name").order("credits").limit("5").to_json,
       d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
-      t_credits: event.pokes.select("credit_name", sum_credits).is_ok.where(credit: event.credits).group("credit_name").to_json
+      t_credits: event.pokes.select("credit_name", sum_credits).is_ok.where(credit: event.credits).group("credit_name").to_json,
+      alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("is_alcohol").to_json,
+      top_productos: event.pokes.select("products.name as product_name, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("product_name").order("credits desc").limit("5").to_json
     }
   end
 
@@ -134,20 +141,24 @@ class Poke < ApplicationRecord
   def self.dashboard_graphs(event)
     {
       d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
-      event_day_money: event.pokes.select(event_day_query_as_event_day, sum_money).is_ok.has_money.order("event_day").group("event_day").to_json
+      event_day_money: event.pokes.money_event_day.to_json
     }
   end
 
-  def self.event_day_query_as_event_day
-    "#{event_day_query} as event_day"
-  end
-
-  def self.event_day_query
-    "to_char(date_trunc('day', date - INTERVAL '8 hour'), 'DD-MM-YYYY')"
+  def self.event_day
+    "to_char(date_trunc('day', date - INTERVAL '8 hour'), 'Mon-DD') as event_day"
   end
 
   def self.date_time_query
-    "to_char(date_trunc('hour', date), 'MM-DD HHh') as date_time"
+    "to_char(date_trunc('hour', date), 'Mon-DD HH24h') as date_time"
+  end
+
+  def self.event_day_order
+    "to_char(date_trunc('day', date - INTERVAL '8 hour'), 'MM-DD') as event_day_order"
+  end
+
+  def self.date_time_order
+    "to_char(date_trunc('hour', date), 'MM-DD HH24h') as date_time_order"
   end
 
   def self.dimensions_operators_devices
@@ -155,7 +166,7 @@ class Poke < ApplicationRecord
   end
 
   def self.grouping_operators_devices
-    "#{event_day_query}, operator_uid, operator_name, device_name"
+    "event_day, operator_uid, operator_name, device_name"
   end
 
   def self.dimensions_station

@@ -28,7 +28,7 @@
             | Gates
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
-              
+
         - if @message
           .mdl-cell.mdl-cell--12-col
             .center-card-title
@@ -248,6 +248,7 @@ javascript:
    var data_p = #{ @totals[:totals][:top_productos].html_safe }
    var product_name = data_p.map(function (e) { return e.product_name });
    var credits = data_p.map(function (e) { return e.credits });
+   debugger
 
    new Chart(document.getElementById("top_products"), {
              type: 'doughnut',
@@ -280,7 +281,7 @@ javascript:
    new Chart(document.getElementById("credit_type"), {
           type: 'doughnut',
           data: {
-              labels: credit_name,
+                labels: credit_name,
               datasets: [
                   {
                       label: "Credit" + credit_symbol,
@@ -290,10 +291,9 @@ javascript:
               ]
           },
           options: {
-              legend: {display: false},
               title: {
                   display: true,
-                  text: 'Credist vs Virtual Credits ' + credit_symbol
+                  text: 'Credits vs Virtual Credits ' + credit_symbol
               },
               legend: {display: true}
           }

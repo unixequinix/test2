@@ -21,7 +21,7 @@ function exportCSV(tableId, title) {
   var hiddenElement = document.createElement('a');
   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(text);
   hiddenElement.target = '_blank';
-  hiddenElement.download = title + '.csv';
+  hiddenElement.download = title + '.tsv';
   hiddenElement.click();
 };
 
@@ -33,7 +33,7 @@ function exportTSV(tableId, title) {
         var hiddenElement = document.createElement('a');
         hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(text);
         hiddenElement.target = '_blank';
-        hiddenElement.download = title + '_pivot_data.csv';
+        hiddenElement.download = title + '_pivot_data.tsv';
         hiddenElement.click();
         clearInterval(checkExist);
         $(".pvtRenderer:first").val("Table").trigger("change");

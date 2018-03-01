@@ -17,11 +17,11 @@ module AnalyticsHelper
 
       case format
         when "currency"
-          avg = number_to_event_currency(total_num / denominator)
+          avg = number_to_event_currency(total_num.abs / denominator)
           total = number_to_event_currency(total_num)
           dm2 = selected.map { |t| { t["dm2"] => number_to_event_currency(t["metric"]) } }
         when "token"
-          avg = number_to_token(total_num / denominator)
+          avg = number_to_token(total_num.abs / denominator)
           total = number_to_token(total_num)
           dm2 = selected.map { |t| { t["dm2"] => number_to_token(t["metric"]) } }
         else
@@ -32,5 +32,14 @@ module AnalyticsHelper
 
       { "dm1" => dm1, "total" => total, "t" => total_num, "avg" => avg, "dm2" => dm2 }
     end
+  end
+
+  def formater(data)
+    {
+      money_breakage: number_to_event_currency(data[:money_breakage]),
+      credits_breakage: number_to_token(data[:credits_breakage]),
+      total_sales: number_to_token(data[:total_sales]),
+      activations: data[:activations].to_i
+    }
   end
 end

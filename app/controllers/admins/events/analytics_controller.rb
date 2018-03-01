@@ -10,7 +10,7 @@ module Admins
         @message = analytics_message(@current_event)
         totals = {}
         totals[:subtotals] = { money: {}, credits: {} }
-        @kpis = Poke.dashboard(@current_event)
+        @kpis = formater(Poke.dashboard(@current_event))
         totals[:totals] = Poke.totals(@current_event)
         customers = totals[:totals][:activations] - totals[:totals][:staff]
         totals[:subtotals][:money][:money_by_payment_method] = transformer(totals[:totals][:source_pm_money].map { |t| { "dm1" => t[:source], "dm2" => t[:payment_method], "metric" => t[:money] } }, "currency", customers).sort_by { |t| -t["t"] }
@@ -25,11 +25,9 @@ module Admins
         total_money = @current_event.pokes.is_ok.sum(:monetary_total_price)
         top_onsite = @current_event.pokes.topups.is_ok.sum(:monetary_total_price)
         online_purchase = @current_event.pokes.purchases.is_ok.sum(:monetary_total_price)
-        activations = @current_event.customers.count
         refund = -@current_event.pokes.is_ok.refunds.sum(:monetary_total_price)
-        avg_topups_onsite = top_onsite / activations
 
-        @totals = { total_money: total_money, topup_onsite: top_onsite, online_purchase: online_purchase, refund: refund, avg_topups_onsite: avg_topups_onsite }.map { |k, v| [k, number_to_event_currency(v)] }
+        @totals = { total_money: total_money, topup_onsite: top_onsite, online_purchase: online_purchase, refund: refund }.map { |k, v| [k, number_to_event_currency(v)] }
         money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day"]
         money = prepare_pokes(money_cols, @current_event.pokes.money_recon)
         @views = [
@@ -60,15 +58,13 @@ module Admins
         sale_credit = -@current_event.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
         sale_virtual = -@current_event.pokes.where(credit: @current_event.virtual_credit).sales.is_ok.sum(:credit_amount)
         total_sale = -@current_event.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
-        activations = @current_event.customers.count
-        avg_products_sale = total_sale / activations
 
         cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
         products = prepare_pokes(cols, @current_event.pokes.products_sale)
         stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
         products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock)
 
-        @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale, avg_products_sale: avg_products_sale }.map { |k, v| [k, number_to_token(v)] }
+        @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale }.map { |k, v| [k, number_to_token(v)] }
         @views = [
           { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name", "Product Name"], data: products, metric: ["Credits"], decimals: 1 },
           { chart_id: "products_stock", title: "Products Sale Stock", cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name", "Product Name"], data: products_stock, metric: ["Quantity"], decimals: 0 }

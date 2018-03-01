@@ -24,16 +24,16 @@
             .center-card-title
               span.analytics-text = @message
 
-          .mdl-cell.mdl-cell--12-col
-            .mld-card.analytics-card-back
-              .mdl-grid
-                - @totals.map do |k, v|
-                  .mdl-cell class="mdl-cell--#{12 / @totals.size}-col"
-                    .mld-card.analytics-card-front
-                      .mdl-card__title.mdl-card--expand
-                        h3.mdl-card__title-text = v
-                      .mdl-card__supporting-text
-                        span.analytics-text = k.to_s.humanize
+        .mdl-cell.mdl-cell--12-col
+          .mld-card.analytics-card-back
+            .mdl-grid
+              - @totals.map do |k, v|
+                .mdl-cell class="mdl-cell--#{12 / @totals.size}-col"
+                  .mld-card.analytics-card-front
+                    .mdl-card__title.mdl-card--expand
+                      h3.mdl-card__title-text = v
+                    .mdl-card__supporting-text
+                      span.analytics-text = k.to_s.humanize
         .mdl-cell.mdl-cell--12-col
           .mld-card.analytics-card-back
             .mdl-grid
@@ -104,7 +104,7 @@ javascript:
                   display: true,
                   text: 'Record Credits vs Sales'
                 },
-                  legend: {display: false}
+                  legend: {display: true}
               }
     });
    });
