@@ -3,6 +3,7 @@
 //= require jquery-ui
 //= require jquery-ui/widgets/sortable
 //= require jquery_ujs
+//= require jquery-ui/widgets/slider
 //= require jquery.purr
 //= require jquery-tablesorter
 //= require best_in_place
@@ -11,6 +12,7 @@
 
 //= require vendor/remodal.min
 //= require vendor/jquery-qrcode
+//= require vendor/jquery-datetime/datetimepicker.min.js
 //= require vendor/draggable
 
 //= require_tree ./global

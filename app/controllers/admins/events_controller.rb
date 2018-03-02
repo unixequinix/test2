@@ -53,8 +53,12 @@ module Admins
       params[:event] ||= {}
       params[:event][:refund_fields] = [] if params[:event].blank?
 
+      pp = permitted_params
+      pp[:start_date] = DateTime.parse(permitted_params[:start_date]) if permitted_params[:start_date]
+      pp[:end_date] = DateTime.parse(permitted_params[:end_date]) if permitted_params[:end_date]
+
       respond_to do |format|
-        if @current_event.update(permitted_params.merge(slug: nil))
+        if @current_event.update(pp.merge(slug: nil))
           format.html { redirect_to [:admins, @current_event], notice: t("alerts.updated") }
           format.json { render json: @current_event }
         else

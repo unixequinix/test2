@@ -29,12 +29,14 @@
               tr
                 td.mdl-data-table__cell--non-numeric Timezone
                 td = best_in_place @current_event, :timezone, as: :select, collection: ActiveSupport::TimeZone.all.map {|zone| [zone.name, "(GMT#{zone.formatted_offset}) #{zone.name}"]}, url: [:admins, @current_event]
-              tr
+              tr style="position: relative"
                 td.mdl-data-table__cell--non-numeric Start date
-                td = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
+                td
+                  input type="text" value="#{@current_event.start_date.strftime('%Y-%m-%d %I:%M %P')}" name="start_date" id="start-date" class="date-time-picker best_in_place" style="text-align: right; border: none;" onMouseOver="this.style.backgroundColor='transparent'"
               tr
                 td.mdl-data-table__cell--non-numeric End date
-                td = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
+                td
+                  input type="text" value="#{@current_event.end_date.strftime('%Y-%m-%d %I:%M %P')}" name="end_date" id="end-date" class="date-time-picker best_in_place" style="text-align: right; border: none" onMouseOver="this.style.backgroundColor='transparent'"
               tr
                 td.mdl-data-table__cell--non-numeric Support email
                 td = best_in_place @current_event, :support_email, url: [:admins, @current_event]
@@ -269,58 +271,72 @@
                     td= f.button :submit, "Update Style", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
         #history-panel.mdl-tabs__panel = render "versions"
+        input type="text" name="start-date" id="alt_example_4" value="" class="date-time-picker" style="cursor: pointer;"
+
   .mdl-layout-spacer
 
 
 javascript:
-    $('.event_fee').bind('ajax:success', function () {
-        var number = $(this).text();
-        if (number >= 0) {
-            $(this).text(parseFloat(number).toFixed(2))
-        }
+  $('.date-time-picker').each(function(i, elem) {
+    $("#" + elem.id).datetimepicker({
+      timeInput: true,
+      timeFormat: "hh:mm tt",
+      currentText: 'Time now',
+      closeText: 'Update',
+      onClose: function() {
+        updateEvent(elem.name, new Date(elem.value).toUTCString());
+      }
     });
+  });
 
-    function updateEvent(origin, value) {
-        $.ajax({type: "PUT", url: "#{admins_event_path(@current_event)}", data: {event: {[origin]: value}}, async: false});
+  $('.event_fee').bind('ajax:success', function () {
+    var number = $(this).text();
+    if (number >= 0) {
+        $(this).text(parseFloat(number).toFixed(2))
     }
+  });
 
-    function doFees(origin) {
-        $("." + origin).on("change", function (event) {
-            elem = $("#" + origin);
+  function updateEvent(origin, value) {
+    $.ajax({type: "PUT", url: "#{admins_event_path(@current_event)}", data: {event: {[origin]: value}}, async: false});
+  }
 
-            if (this.checked) {
-                elem.text("0.0");
-                updateEvent(origin, "0");
-                elem.fadeIn();
-            } else {
-                updateEvent(origin, "");
-                elem.fadeOut();
-            }
-        });
-    }
+  function doFees(origin) {
+    $("." + origin).on("change", function (event) {
+      elem = $("#" + origin);
 
-    doFees("onsite_initial_topup_fee");
-    doFees("online_initial_topup_fee");
-    doFees("every_topup_fee");
-    doFees("refund_fee");
-    doFees("refund_minimum");
-    doFees("gtag_deposit_fee");
-
-    var exchange = $('.currency_exchange');
-    var currency = $('#currency');
-    var credit_name = $('#credit_name');
-
-    exchange.bind('ajax:success', function (event, data) {
-        var result = $.parseJSON(data);
-        exchange.text("1 #{@current_event.credit.name} = " + result.value + " #{@current_event.currency}")
+      if (this.checked) {
+          elem.text("0.0");
+          updateEvent(origin, "0");
+          elem.fadeIn();
+      } else {
+          updateEvent(origin, "");
+          elem.fadeOut();
+      }
     });
+  }
 
-    currency.bind('ajax:success', function (event, data) {
-        var result = $.parseJSON(data);
-        exchange.text("1 #{@current_event.credit.name} = #{@current_event.credit.value} " + result.currency)
-    });
+  doFees("onsite_initial_topup_fee");
+  doFees("online_initial_topup_fee");
+  doFees("every_topup_fee");
+  doFees("refund_fee");
+  doFees("refund_minimum");
+  doFees("gtag_deposit_fee");
 
-    credit_name.bind('ajax:success', function (event, data) {
-        var result = $.parseJSON(data);
-        exchange.text("1 " + result.name + " = #{@current_event.credit.value}  #{@current_event.currency}")
-    });
+  var exchange = $('.currency_exchange');
+  var currency = $('#currency');
+  var credit_name = $('#credit_name');
+
+  exchange.bind('ajax:success', function (event, data) {
+    var result = $.parseJSON(data);
+    exchange.text("1 #{@current_event.credit.name} = " + result.value + " #{@current_event.currency}")
+  });
+
+  currency.bind('ajax:success', function (event, data) {
+    var result = $.parseJSON(data);
+    exchange.text("1 #{@current_event.credit.name} = #{@current_event.credit.value} " + result.currency)
+  });
+
+  credit_name.bind('ajax:success', function (event, data) {
+    var result = $.parseJSON(data);
+    exchange.text("1 " + result.name + " = #{@current_event.credit.value}  #{@current_event.currency}")
+  });
