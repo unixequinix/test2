@@ -155,8 +155,8 @@ GEM
       capybara (~> 2.5)
     case_transform (0.2)
       activesupport
-    chart-js-rails (0.1.4)
-      railties (> 3.1)
+    chartjs-ror (3.3.1)
+      rails (>= 3.1)
     chartkick (2.2.5)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
@@ -603,7 +603,7 @@ DEPENDENCIES
   capistrano-sidekiq!
   capybara
   capybara-slow_finder_errors
-  chart-js-rails
+  chartjs-ror
   chartkick
   codecov
   cookies_eu

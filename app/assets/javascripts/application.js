@@ -22,4 +22,4 @@
 //= require vendor/pivottable/pivot
 //= require vendor/pivottable/c3_renderers
 //= require vendor/pivottable/export_renderers
-//= require Chart.min
+//= require Chart.bundle.min

@@ -38,7 +38,7 @@ gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'jquery-datatables'
 gem 'c3-rails'
-gem 'chart-js-rails'
+gem 'chartjs-ror'
 
 # Authentication
 gem 'devise'
