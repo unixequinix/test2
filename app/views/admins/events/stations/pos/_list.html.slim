@@ -4,7 +4,8 @@
       tr
         th.table-sortable-field #
         th.mdl-data-table__cell--non-numeric Name
-        th Price (edit)
+        th Price
+        th VAT
         th Alcohol
         th Hidden
         th
@@ -15,6 +16,7 @@
           td.table-sortable-field = fa_icon("bars")
           td.mdl-data-table__cell--non-numeric = best_in_place product, :name, as: :input, url: [:admins, @current_event, product.station, product]
           td = best_in_place product, :price, as: :input, url: [:admins, @current_event, product.station, product]
+          td = best_in_place product, :vat, as: :input, url: [:admins, @current_event, product.station, product]
           td = best_in_place product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, product.station, product])
           td = best_in_place product, :hidden, best_in_place_checkbox([:admins, @current_event, product.station, product])
           td.table-actions
