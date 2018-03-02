@@ -113,7 +113,6 @@ Rails.application.routes.draw do
           get :transactions, on: :member
           put :disable, on: :collection
         end
-        resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
         resources :devices, only: [:new, :create]
