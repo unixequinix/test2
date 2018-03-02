@@ -2,7 +2,7 @@ module Admins
   module Users
     class TeamsController < Admins::BaseController
       before_action :check_team, only: %i[new create]
-      before_action :set_team, except: %i[new create sample_csv]
+      before_action :set_team, except: %i[new create]
       before_action :set_devices, only: :show
 
       def show
@@ -151,6 +151,7 @@ module Admins
       end
 
       def sample_csv
+        authorize @team
         csv_file = CsvExporter.sample(%w[MAC asset_tracker serie serial], [%w[15C3135122 N34 N 01022222012], %w[34SS5C54Q1 D22], %w[95Q16CV331]])
 
         respond_to { |format| format.csv { send_data(csv_file) } }

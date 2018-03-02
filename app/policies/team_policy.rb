@@ -35,6 +35,10 @@ class TeamPolicy < ApplicationPolicy
     check_user_team || user.admin?
   end
 
+  def sample_csv?
+    admin_or_promoter
+  end
+
   def set_team?
     user&.team.present?
   end
