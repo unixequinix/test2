@@ -54,8 +54,8 @@ module Admins
       params[:event][:refund_fields] = [] if params[:event].blank?
 
       pp = permitted_params
-      pp[:start_date] = DateTime.parse(permitted_params[:start_date]) if permitted_params[:start_date]
-      pp[:end_date] = DateTime.parse(permitted_params[:end_date]) if permitted_params[:end_date]
+      pp[:start_date] = Time.parse(permitted_params[:start_date]) if permitted_params[:start_date] # rubocop:disable Rails/TimeZone
+      pp[:end_date] = Time.parse(permitted_params[:end_date]) if permitted_params[:end_date] # rubocop:disable Rails/TimeZone
 
       respond_to do |format|
         if @current_event.update(pp.merge(slug: nil))
