@@ -1,0 +1,2 @@
+class VirtualCreditPolicy < ApplicationPolicy
+end

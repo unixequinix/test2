@@ -93,6 +93,9 @@
                 td.mdl-data-table__cell--non-numeric Credit Symbol
                 td = best_in_place @current_event.credit, :symbol, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.credit)
               tr
+                td.mdl-data-table__cell--non-numeric Virtual Credit Symbol
+                td = best_in_place @current_event.virtual_credit, :symbol, param: :catalog_item, url: admins_event_catalog_item_path(@current_event, @current_event.virtual_credit)
+              tr
                 td.mdl-data-table__cell--non-numeric Maximum Gtag Balance
                 td
                   = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
