@@ -16,7 +16,7 @@
           tbody
             - @api_metrics.each do |key, value|
               - user = User.find(key.first)
-              tr
+              tr class="#{"danger" unless key.fourth.starts_with?("2") }"
                 td.mdl-data-table__cell--non-numeric data-label="User" = link_to user.username, [:admins, user]
                 td.mdl-data-table__cell--non-numeric data-label="Controller" #{key.second.humanize} => #{key.third}
                 td.mdl-data-table__cell--non-numeric data-label="Status" = key.fourth

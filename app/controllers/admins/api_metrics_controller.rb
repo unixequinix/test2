@@ -9,7 +9,7 @@ module Admins
 
     def show
       @event = Event.friendly.find(params[:id])
-      @api_metrics = @event.api_metrics.group(:user_id, :controller, :action).count
+      @api_metrics = @event.api_metrics.order(:controller, :action, :response).group(:user_id, :controller, :action, :response).count
     end
 
     private
