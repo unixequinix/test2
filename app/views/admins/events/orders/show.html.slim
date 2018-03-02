@@ -16,37 +16,17 @@
             td.mdl-data-table__cell--non-numeric Customer
             td = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)
           tr
-            td.mdl-data-table__cell--non-numeric Gateway
-            td = @order.gateway
+            td.mdl-data-table__cell--non-numeric Money Base
+            td = number_to_event_currency(@order.money_base)
+          tr
+            td.mdl-data-table__cell--non-numeric Money Fee
+            td = number_to_event_currency(@order.money_fee)
           tr
             td.mdl-data-table__cell--non-numeric State
-            td = @order.status
-          tr
-            td.mdl-data-table__cell--non-numeric IP
-            td = @order.ip
-          tr
-            td.mdl-data-table__cell--non-numeric Created
-            td = l @order.created_at if @order.created_at
-          tr
-            td.mdl-data-table__cell--non-numeric Completed
-            td = l @order.completed_at if @order.completed_at
-  .mdl-layout-spacer
-
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--8-col
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      table.mdl-data-table.mdl-js-data-table.within-card
-        tbody
-          tr
-            td.mdl-data-table__cell--non-numeric Amount
-            td = number_to_token @o
+            td = @order.status.humanize
           tr
             td.mdl-data-table__cell--non-numeric Gateway
             td = @order.gateway
-          tr
-            td.mdl-data-table__cell--non-numeric State
-            td = @order.status
           tr
             td.mdl-data-table__cell--non-numeric IP
             td = @order.ip
@@ -74,7 +54,7 @@
             th Redeemed
         tbody
           - @order.order_items.each do |order_item|
-            - no_link = order_item.catalog_item.is_a?(UserFlag) || order_item.catalog_item.is_a?(VirtualCredit)
+            - no_link = [UserFlag, Credit, VirtualCredit].include?(order_item.catalog_item.class)
             tr
               td.mdl-data-table__cell--non-numeric = link_to_unless no_link, order_item.catalog_item.name.humanize, [:admins, @current_event, order_item.catalog_item]
               td = number_with_delimiter order_item.amount
