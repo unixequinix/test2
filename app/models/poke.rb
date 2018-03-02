@@ -109,7 +109,7 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
-  def self.totals(event)
+  def self.totals(event) # rubocop:disable Metrics/AbcSize
     {
       activations: event.customers.count,
       staff: event.customers.where(operator: true).count,

@@ -49,7 +49,7 @@ class Gtag < ApplicationRecord
     update!(active: true)
   end
 
-  def recalculate_balance
+  def recalculate_balance # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     ts = transactions.onsite.status_ok.credit.order(:gtag_counter, :device_created_at)
     counters = transactions.onsite.order(:gtag_counter, :device_created_at).pluck(:gtag_counter).compact.sort
     payments = ts.payments_with_credit(event.credit)

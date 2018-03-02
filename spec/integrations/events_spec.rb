@@ -68,12 +68,12 @@ RSpec.describe "Events in the admin panel", type: :feature do
     context "by promoter" do
       before { user.promoter! }
 
-      it "cannot create a standard event" do
+      it "can create a standard event" do
         visit new_admins_event_path
-        expect(page).to have_current_path(admins_events_path)
+        expect(page).to have_current_path(new_admins_event_path)
       end
 
-      it "cannot create a sample event" do
+      it "can create a sample event" do
         visit sample_event_admins_events_path
         expect(page).to have_current_path(admins_events_path)
       end
