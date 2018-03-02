@@ -11,7 +11,7 @@ class Device < ApplicationRecord
   validates :asset_tracker, uniqueness: { case_sensitive: false, scope: :team_id }, allow_blank: true
   validates :mac, uniqueness: { case_sensitive: true, scope: :team_id }, presence: true
 
-  before_save :format_mac
+  before_save :format_mac, :format_asset_tracker
 
   def name
     "#{mac}: #{asset_tracker.presence || 'Unnamed'}"
@@ -25,5 +25,9 @@ class Device < ApplicationRecord
 
   def format_mac
     self.mac = mac.downcase
+  end
+
+  def format_asset_tracker
+    self.asset_tracker = asset_tracker.presence
   end
 end
