@@ -11,15 +11,15 @@
             tr
               th.mdl-data-table__cell--non-numeric User
               th.mdl-data-table__cell--non-numeric Endpoint
-              th.mdl-data-table__cell--non-numeric Method
+              th.mdl-data-table__cell--non-numeric Status
               th.mdl-data-table__cell--non-numeric No. of requests
           tbody
             - @api_metrics.each do |key, value|
               - user = User.find(key.first)
               tr
                 td.mdl-data-table__cell--non-numeric data-label="User" = link_to user.username, [:admins, user]
-                td.mdl-data-table__cell--non-numeric data-label="Controller" = key.second
-                td.mdl-data-table__cell--non-numeric data-label="Action" = key.third
+                td.mdl-data-table__cell--non-numeric data-label="Controller" #{key.second.humanize} => #{key.third}
+                td.mdl-data-table__cell--non-numeric data-label="Status" = key.fourth
                 td.mdl-data-table__cell--non-numeric data-label="No of requests" = value
   .mdl-layout-spacer
 

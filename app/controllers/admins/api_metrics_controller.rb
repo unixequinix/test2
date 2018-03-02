@@ -3,7 +3,7 @@ module Admins
     before_action :authorize_glowball
 
     def index
-      @q = Event.all.ransack(params[:q])
+      @q = Event.where(id: ApiMetric.select(:event_id).distinct.pluck(:event_id)).ransack(params[:q])
       @events = @q.result.order(start_date: :desc, name: :asc)
     end
 

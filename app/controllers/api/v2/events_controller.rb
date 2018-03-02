@@ -1,6 +1,7 @@
 module Api::V2
   class EventsController < Api::V2::BaseController
-    skip_before_action :verify_event, :put_controller, only: :index
+    skip_before_action :verify_event, :set_metric, only: :index
+    skip_after_action :update_metric_response
 
     # GET /events
     def index
