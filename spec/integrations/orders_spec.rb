@@ -33,30 +33,4 @@ RSpec.describe "Orders on admin panel", type: :feature do
       expect(page.all('td', text: order.status.humanize).any?).to be_truthy
     end
   end
-
-  describe "verify total credit from an Order: " do
-    let!(:completed_orders) {}
-
-    before { visit admins_event_orders_path(event) }
-
-    it "verify total credit from a Completed Order" do
-      orders = create_list(:order, 3, :with_credit, status: "completed", event: event)
-      expect(page.all('h3', text: orders.sum(&:money_total)).any?).to be_truthy
-    end
-
-    it "verify total credit from a Refunded Order" do
-      orders = create_list(:order, 3, :with_credit, status: "refunded", event: event)
-      expect(page.all('h3', text: orders.sum(&:money_total)).any?).to be_truthy
-    end
-
-    it "verify total credit from a Failed Order" do
-      orders = create_list(:order, 3, :with_credit, status: "failed", event: event)
-      expect(page.all('h3', text: orders.sum(&:money_total)).any?).to be_truthy
-    end
-
-    it "verify total credit from a cancelled Order" do
-      orders = create_list(:order, 3, :with_credit, status: "cancelled", event: event)
-      expect(page.all('h3', text: orders.sum(&:money_total)).any?).to be_truthy
-    end
-  end
 end
