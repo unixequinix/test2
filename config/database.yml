@@ -11,14 +11,12 @@ development:
   <<: *default
   pool: 10
   database: cloud_development
-  username: <%= ENV["POSTGRES_USERNAME"] %>
   host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
 
 test:
   <<: *default
   pool: 10
   database: cloud_test
-  username: <%= ENV["POSTGRES_USERNAME"] %>
   host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
 
 demo:
