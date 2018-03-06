@@ -32,26 +32,6 @@ RSpec.describe "Events in the admin panel", type: :feature do
         expect { find("input[name=commit]").click }.to change(Event, :count).by(1)
         expect(Event.find_by(name: name).timezone).to eql("UTC")
       end
-
-      it "allows to select a start date" do
-        name = "jakefest #{SecureRandom.hex(6).upcase}"
-        within("#new_event") { fill_in('event_name', with: name) }
-        find("#event_start_date_1i").select("2016")
-        find("#event_start_date_2i").select("January")
-        find("#event_start_date_3i").select("1")
-        expect { find("input[name=commit]").click }.to change(Event, :count).by(1)
-        expect(Event.find_by(name: name).start_date.to_date).to eql(Date.new(2016, 1, 1))
-      end
-
-      it "allows to select an end date" do
-        name = "jakefest #{SecureRandom.hex(6).upcase}"
-        within("#new_event") { fill_in('event_name', with: name) }
-        find("#event_end_date_1i").select("2020")
-        find("#event_end_date_2i").select("January")
-        find("#event_end_date_3i").select("1")
-        expect { find("input[name=commit]").click }.to change(Event, :count).by(1)
-        expect(Event.find_by(name: name).end_date.to_date).to eql(Date.new(2020, 1, 1))
-      end
     end
 
     context "a sample event" do
