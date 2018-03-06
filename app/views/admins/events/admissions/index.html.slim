@@ -1,0 +1,44 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Customer Service
+
+- searching = params[:q].present? && params[:q][:email_cont].present?
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+
+      - if searching
+
+        - content_for(:search) do
+          = search_form_for @q, url: admins_event_admissions_path do |f|
+            = f.search_field :email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card#admissions_list
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Name
+                th.mdl-data-table__cell--non-numeric Type
+                th.mdl-data-table__cell--non-numeric Customer
+
+            tbody
+              - @admissions.each do |admission|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = link_to admission.name, [:admins, @current_event, admission]
+                  td.mdl-data-table__cell--non-numeric data-label="Type" = admission.class.to_s.humanize
+                  td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to admission.name, [:admins, @current_event, admission] if admission.customer
+
+      - else
+        .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+          = search_form_for @q, url: admins_event_admissions_path do |f|
+            .fieldset
+              .section-header
+                i.material-icons search
+                span
+                  | Search
+                  .small You can search for Customers, Tickets and Gtags
+              .form-inputs
+                = f.search_field :email_cont
+
+  .mdl-layout-spacer

@@ -45,6 +45,8 @@ class Customer < ApplicationRecord
   validates :country, presence: true, if: (-> { custom_validation("address") })
   validates :gender, presence: true, if: (-> { custom_validation("gender") })
 
+  alias customer itself
+
   scope(:query_for_csv, lambda { |event|
     where(event: event).joins(:gtags, :tickets).order(:first_name)
       .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits, gtags.virtual_credits, email, first_name, last_name")

@@ -83,6 +83,7 @@ Rails.application.routes.draw do
       scope module: :events do
 
         resource :settings, only: :show
+        resources :admissions, only: [:index]
 
         resource :analytics do
           get :money
@@ -161,6 +162,7 @@ Rails.application.routes.draw do
             get :download_transactions
             get :reset_password
             get :resend_confirmation
+            get :confirm_customer
           end
         end
 

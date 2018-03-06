@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Creators::OrderJob, type: :job do
   let(:worker) { Creators::OrderJob }
-  let(:event) { create(:event) }
+  let!(:event) { create(:event) }
   let(:customer) { create(:customer, event: event, anonymous: false) }
   let(:balance) { rand(100) }
-  let(:order) { create(:order, event: event, customer: customer) }
 
   context "creating order" do
-    before { customer.build_order([[event.credit.id, balance]]).complete!("unknown") }
+    before { customer.build_order([[event.credit.id, balance]]) }
+    before { customer.orders.map(&:complete!) }
 
     it "can create an order" do
       expect { worker.perform_now(event, customer, balance) }.to change { event.orders.count }.by(1)

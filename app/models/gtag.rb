@@ -32,6 +32,7 @@ class Gtag < ApplicationRecord
   scope :missing_transactions, (-> { where(missing_transactions: true) })
 
   alias_attribute :reference, :tag_uid
+  alias pokes pokes_as_customer
 
   def name
     "Gtag: #{tag_uid}"

@@ -43,6 +43,10 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def confirm_customer?
+    all_allowed && event_open
+  end
+
   def download_transactions?
     admin_or_promoter
   end

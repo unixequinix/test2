@@ -53,10 +53,15 @@ module Admins
         redirect_to [:admins, @current_event, @customer], notice: "Confirmation email sent"
       end
 
+      def confirm_customer
+        @customer.confirm
+        redirect_to [:admins, @current_event, @customer], notice: "Customer confirmed"
+      end
+
       private
 
       def permitted_params
-        params.require(:customer).permit(:email, :first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender, :banned)
+        params.require(:customer).permit(:email, :first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender)
       end
 
       def set_customer

@@ -53,6 +53,13 @@
             button#resend_confirmation.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons mail_outline
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resend_confirmation" Resend Confirmation Email
+
+        li.floaty-list-item
+          = link_to confirm_customer_admins_event_customer_path(@current_event, @customer), id: “confirm_customer_link” do
+            button#confirm_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons verified_user
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for=“confirm_customer” Confirm customer
+
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
@@ -76,14 +83,45 @@
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
             .mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
-          .mdl-card__supporting-text Gtag Balance
+          .mdl-card__supporting-text Active Gtag Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
             .mdl-card__title-text = number_to_token @customer.active_gtag&.final_virtual_balance
-          .mdl-card__supporting-text Gtag Virtual Balance
+          .mdl-card__supporting-text Active Gtag Virtual Balance
   .mdl-layout-spacer
 
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-fix
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tr
+            td.mdl-data-table__cell--non-numeric Name
+            td = @customer.name
+          tr
+            td.mdl-data-table__cell--non-numeric Email
+            td = @customer.email
+
+          - if @current_event.phone_mandatory?
+            tr
+              td.mdl-data-table__cell--non-numeric Phone
+              td = @customer.phone
+          - if @current_event.address_mandatory?
+            tr
+              td.mdl-data-table__cell--non-numeric Phone
+              td = @customer.address
+          - if @current_event.gender_mandatory?
+            tr
+              td.mdl-data-table__cell--non-numeric Phone
+              td = @customer.gender
+          - if @current_event.birthdate_mandatory?
+            tr
+              td.mdl-data-table__cell--non-numeric Phone
+              td = @customer.birthdate
+  .mdl-layout-spacer
 - root = "admins/events/customers/sections/"
 = render(root + "ticket_assignments", customer: @customer) if @customer.tickets.any?
 = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?

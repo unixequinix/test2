@@ -21,11 +21,6 @@
           = f.input :country
           = f.input :gender, collection: %w(male female).map {|f| [t("gender." + f), f]}
 
-        .form-inputs
-          label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='banned'
-            span.mdl-switch__label.form-label Banned
-            = f.input :banned, :input_html => { :id => 'banned' }
-
         .form-actions
           = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer
