@@ -134,7 +134,8 @@ module Admins
     private
 
     def set_event_series
-      @event_series = EventSerie.all
+      @event_series = []
+      @event_series = EventSerie.where(id: @current_user.team.events.pluck(:event_serie_id)) if @current_user.team
     end
 
     def set_event
