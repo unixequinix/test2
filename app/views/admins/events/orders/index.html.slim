@@ -1,3 +1,4 @@
+
 - content_for(:title) do
   | Orders
 
@@ -35,6 +36,13 @@
             .mdl-card__supporting-text
               span.good_info Fees Charged
 
+    .mdl-layout-spacer
+
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--10-col
+      .data-card-wide.mdl-card.mdl-shadow--2dp
+        = line_chart @graph, title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
     .mdl-layout-spacer
 
 .content-grid.mdl-grid
