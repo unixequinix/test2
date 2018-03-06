@@ -25,14 +25,14 @@
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @current_event.orders.where(status: "completed").sum(:money_base)
+              h3.mdl-card__title-text = number_to_event_currency @current_event.orders.where(status: "completed").sum(:money_base)
             .mdl-card__supporting-text
               span.good_info Money Spent
 
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @current_event.orders.where(status: "completed").sum(:money_fee)
+              h3.mdl-card__title-text = number_to_event_currency @current_event.orders.where(status: "completed").sum(:money_fee)
             .mdl-card__supporting-text
               span.good_info Fees Charged
 
