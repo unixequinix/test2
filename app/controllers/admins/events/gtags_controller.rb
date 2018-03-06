@@ -9,6 +9,10 @@ module Admins
         authorize @gtags
         @gtags = @gtags.page(params[:page])
 
+        @stable = @gtags.where(consistent: true, complete: true)
+        @inconsistent = @gtags.where(consistent: false)
+        @incomplete = @gtags.where(complete: false)
+
         respond_to do |format|
           format.html
           format.csv { send_data(CsvExporter.to_csv(Gtag.query_for_csv(@current_event))) }

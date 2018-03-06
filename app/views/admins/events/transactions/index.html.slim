@@ -10,24 +10,6 @@
             button#time_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons watch_later
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="time_link" Solve Timing Issues
-      - if policy(@current_event).real?
-        li.floaty-list-item
-          = link_to real_admins_event_inconsistencies_path(@current_event) do
-            button#real_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons report_problem
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="real_inconsistencies" Real inconsistencies
-      - if policy(@current_event).missing?
-        li.floaty-list-item
-          = link_to missing_admins_event_inconsistencies_path(@current_event) do
-            button#missing_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons texture
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="missing_inconsistencies" Missing inconsistencies
-      - if policy(@current_event).resolvable?
-        li.floaty-list-item
-          = link_to resolvable_admins_event_inconsistencies_path(@current_event) do
-            button#resolvable_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons healing
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
       - if policy(@current_event.transactions).download_raw_transactions?
         li.floaty-list-item
           = link_to download_raw_transactions_admins_event_transactions_path(@current_event, format: :csv) do

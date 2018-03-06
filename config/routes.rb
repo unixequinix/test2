@@ -142,14 +142,6 @@ Rails.application.routes.draw do
         get "universe/disconnect", to: "universe#disconnect"
         get "universe/disconnect_event", to: "universe#disconnect_event"
 
-        resources :inconsistencies do
-          collection do
-            get :missing
-            get :real
-            get :resolvable
-          end
-        end
-
         resources :transactions, only: [:index, :show, :update, :destroy] do
           get :download_raw_transactions, on: :collection
           post :search, on: :collection

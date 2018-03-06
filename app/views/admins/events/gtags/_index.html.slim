@@ -50,37 +50,25 @@
     .remodal__actions
       = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
-.content-grid.mdl-grid
+
+
+- searching = params[:q].present? && params[:q][:tag_uid_cont].present?
+
+.mdl-grid.light-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    = render "layouts/pagination", objects: @gtags
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      .table-responsive
-        table.mdl-data-table.mdl-js-data-table.within-card
-          thead
-            tr
-              th.mdl-data-table__cell--non-numeric Tag UID
-              th.mdl-data-table__cell--non-numeric Customer
-              th.mdl-data-table__cell--non-numeric Credential Type
-              th Credits
-              th Virtual Credits
-              th Inconsistency
-              th Virtual Inconsistency
-              th Missing counters
-              th Banned
-              th Redeemed
-          tbody
-            - @gtags.each do |gtag|
-              tr class="#{"danger" unless gtag.consistent? && gtag.complete? }"
-                td.mdl-data-table__cell--non-numeric data-label="Tag UID" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag), id: "gtag_#{gtag.id}_link"
-                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.name, admins_event_customer_path(@current_event, gtag.customer&.id), id: "customer_#{gtag.customer_id}_link" if gtag.customer
-                td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
-                td data-label="Credits" = number_to_token gtag.credits
-                td data-label="Virtual Credits" = number_to_token gtag.virtual_credits
-                td data-label="Inconsistency" = number_to_token gtag.final_balance - gtag.credits unless gtag.consistent?
-                td data-label="Virtual Inconsistency" = number_to_token gtag.final_virtual_balance - gtag.virtual_credits unless gtag.consistent?
-                td data-label="Virtual Inconsistency" = gtag.missing_counters.to_sentence
-                td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
-                td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
-    = render "layouts/pagination", objects: @gtags
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      - if searching
+        = render "list", gtags: @gtags
+      - else
+        .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+          .mdl-tabs__tab-bar
+            = link_to "Stable", "#stable", class: "mdl-tabs__tab is-active", id: "filters_gtags"
+            = link_to "Inconsistent", "#inconsistent", class: "mdl-tabs__tab ", id: "filters_inconsistent_gtags" if @inconsistent.any?
+            = link_to "Incomplete", "#incomplete", class: "mdl-tabs__tab", id: "filters_incomplete_gtags" if @incomplete.any?
+
+          .mdl-tabs__panel id="stable" class="mdl-tabs__panel is-active" = render "list", gtags: @stable
+          .mdl-tabs__panel id="inconsistent" class="mdl-tabs__panel" = render "list", gtags: @inconsistent if @inconsistent.any?
+          .mdl-tabs__panel id="incomplete" class="mdl-tabs__panel" = render "list", gtags: @incomplete if @incomplete.any?
+
   .mdl-layout-spacer
