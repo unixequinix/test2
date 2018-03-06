@@ -16,19 +16,23 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def update?
-    check_user_team && user.team_leader? || user.admin?
+    leader_or_admin
   end
 
   def destroy?
-    check_user_team && user.team_leader? || user.admin?
+    leader_or_admin
   end
 
   def add_users?
-    check_user_team && user.team_leader? || user.admin?
+    leader_or_admin
   end
 
   def remove_users?
     check_user_team && user.team_leader? && record.users.count > 1 || user.admin?
+  end
+
+  def remove_devices?
+    leader_or_admin
   end
 
   def import_devices?
@@ -44,6 +48,12 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def change_role?
+    leader_or_admin
+  end
+
+  private
+
+  def leader_or_admin
     check_user_team && user.team_leader? || user.admin?
   end
 

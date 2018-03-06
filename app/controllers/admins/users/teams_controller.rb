@@ -1,3 +1,4 @@
+
 module Admins
   module Users
     class TeamsController < Admins::BaseController
@@ -134,6 +135,17 @@ module Admins
           else
             format.html { redirect_to path, alert: 'You should not be here' }
           end
+        end
+      end
+
+      def remove_devices
+        @devices = @team.devices.left_joins(:device_registrations, :device_transactions).where(device_registrations: { id: nil }, device_transactions: { id: nil })
+        authorize @team
+
+        if @devices.delete_all
+          redirect_to admins_user_team_path(current_user), notice: t("teams.remove_devices.removed")
+        else
+          redirect_to request.referer, alert: t("teams.remove_devices.failed")
         end
       end
 
