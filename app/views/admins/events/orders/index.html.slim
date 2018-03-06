@@ -56,14 +56,24 @@
             tr
               th.mdl-data-table__cell--non-numeric Number
               th.mdl-data-table__cell--non-numeric Customer
-              th Money
+              th Money Paid
+              th Credits
+              th Virtual Credits
+              th Other items?
               th State
           tbody
             - @orders.each do |order|
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
                 td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to order.customer.email, admins_event_customer_path(@current_event, order.customer)
-                td data-label="Amount" = number_to_event_currency order.money_total
+                td data-label="Money" = number_to_event_currency order.money_total
+                td data-label="Credits" = number_to_token order.credits
+                td data-label="Virtual Credits" = number_to_token order.virtual_credits
+                td data-label="Other"
+                  - if @current_event.catalog_items.where(id: order.order_items.pluck(:catalog_item_id)).select(:type).distinct.pluck(:type).all? { |klass| klass.include?("Credit") }
+                    i.material-icons close
+                  - else
+                    i.material-icons check
                 td data-label="State" class="#{"good_info" if order.completed?} #{"bad_info" if order.status.in?(%w(cancelled failed))}" = order.status.humanize
     = render "layouts/pagination", objects: @orders
   .mdl-layout-spacer
