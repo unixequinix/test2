@@ -6,7 +6,7 @@
         span Event Info
       .form-inputs
         = f.input :name, placeholder: true, autofocus: true
-        = f.input :event_serie_id, as: :select, collection: @event_series
+        = f.input :event_serie_id, as: :select, collection: event_series
         = f.input :timezone, as: :time_zone, include_blank: false
         = f.input :start_date, as: :string, input_html: { class: "date-time-picker", value: event.start_date.strftime('%Y-%m-%d %I:%M %P') }
         = f.input :end_date, as: :string, input_html: { class: "date-time-picker", value: event.end_date.strftime('%Y-%m-%d %I:%M %P') }

@@ -4,8 +4,8 @@ module Admins
     include AnalyticsHelper
 
     before_action :set_event, except: %i[index new sample_event create]
+    before_action :set_event_series, only: %i[index new edit]
     before_action :set_new_event, only: %i[index new]
-    before_action :set_event_series, only: %i[new edit]
 
     def index
       @q = policy_scope(Event).ransack(params[:q])
