@@ -14,17 +14,6 @@ RSpec.describe "Events in the admin panel", type: :feature do
         expect { find("input[name=commit]").click }.to change(Event, :count).by(1)
       end
 
-      it "allows to select an event serie" do
-        event_serie = create(:event_serie)
-        visit new_admins_event_path
-
-        name = "jakefest #{SecureRandom.hex(6).upcase}"
-        within("#new_event") { fill_in('event_name', with: name) }
-        find("#event_event_serie_id").select(event_serie.name)
-        expect { find("input[name=commit]").click }.to change(Event, :count).by(1)
-        expect(Event.find_by(name: name).event_serie).to eql(event_serie)
-      end
-
       it "allows to select a timezone" do
         name = "jakefest #{SecureRandom.hex(6).upcase}"
         within("#new_event") { fill_in('event_name', with: name) }
