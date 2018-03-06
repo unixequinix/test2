@@ -4,18 +4,17 @@ module Admins
     include AnalyticsHelper
 
     before_action :set_event, except: %i[index new sample_event create]
+    before_action :set_new_event, only: %i[index new]
     before_action :set_event_series, only: %i[new edit]
 
     def index
       @q = policy_scope(Event).ransack(params[:q])
       @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
       authorize(@events)
-      @event = Event.new
       @alerts = Alert.where(event: @events.map(&:id)).unresolved.group(:event_id).count
     end
 
     def new
-      @event = Event.new
       authorize(@event)
     end
 
@@ -141,6 +140,10 @@ module Admins
     def set_event
       @current_event = Event.friendly.find(params[:id])
       authorize(@current_event)
+    end
+
+    def set_new_event
+      @event = Event.new(start_date: Time.zone.now.beginning_of_day, end_date: (Time.zone.now + 3.days).end_of_day)
     end
 
     def use_time_zone

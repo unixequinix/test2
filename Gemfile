@@ -136,7 +136,6 @@ group :development, :test do
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'json_expressions'
-  gem 'xray-rails'
 end
 
 group :test do
