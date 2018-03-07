@@ -47,7 +47,7 @@
             button#edit_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons edit
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit_customer" Edit Customer
-      - unless @customer.confirmed?
+      - if !@customer.confirmed? && !@customer.anonymous?
         li.floaty-list-item
           = link_to resend_confirmation_admins_event_customer_path(@current_event, @customer), id: "resend_confirmation_link" do
             button#resend_confirmation.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
@@ -55,10 +55,10 @@
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resend_confirmation" Resend Confirmation Email
 
         li.floaty-list-item
-          = link_to confirm_customer_admins_event_customer_path(@current_event, @customer), id: “confirm_customer_link” do
+          = link_to confirm_customer_admins_event_customer_path(@current_event, @customer), id: "confirm_customer_link" do
             button#confirm_customer.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons verified_user
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for=“confirm_customer” Confirm customer
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="confirm_customer" Confirm customer
 
     ul.floaty-btn#button
       li
