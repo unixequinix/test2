@@ -48,7 +48,7 @@ module Admins
 
         totals[:money_reconciliation] = totals[:money_reconciliation] + totals[:income_online]
 
-        @totals = totals.reject { |_k, v| v == 0 }.map { |k, v| [k, number_to_event_currency(v)] }
+        @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_event_currency(v)] }
 
         @views = [
           { chart_id: "money", title: "Money Flow", cols: ["Payment Method"], rows: ["Action"], data: money, metric: ["Money"], decimals: 1 },

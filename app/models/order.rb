@@ -67,7 +67,7 @@ class Order < ApplicationRecord
       income_online: event.orders.sum(:money_base),
       unreedemed_online_money: event.orders.includes(:order_items).where(order_items: { redeemed: false }).sum(:money_base)
     }
- end
+  end
 
   def self.event_day_order
     "to_char(date_trunc('day', completed_at), 'Mon-DD') as event_day"

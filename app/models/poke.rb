@@ -126,7 +126,7 @@ class Poke < ApplicationRecord
       income_onsite: event.pokes.topups.is_ok.where(credit: event.credits).sum(:credit_amount),
       refunds_onsite: event.pokes.is_ok.refunds.sum(:monetary_total_price).abs
     }
- end
+  end
 
   def self.dashboard(event)
     {
