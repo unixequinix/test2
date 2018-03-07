@@ -28,6 +28,8 @@
             | Gates
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
+          .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"
+            i.material-icons#downloadIcon file_download
 
         - if @message
           .mdl-cell.mdl-cell--12-col
@@ -145,7 +147,13 @@ javascript:
       elem.text == 'Dashboard' ? $('#load-view').hide() : $('#load-view').show();
       $(elem).addClass("is-active");
     });
+
   });
+
+  function downloadPDF(previousName) {
+    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "start_date", "end_date", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
+    canvasToPDF($('.mdl-tabs__panel.is-active'), previousName, eventData);
+  }
 
   $(function () {
      var data =#{ @totals[:totals][:event_day_money].html_safe }
@@ -248,7 +256,6 @@ javascript:
    var data_p = #{ @totals[:totals][:top_productos].html_safe }
    var product_name = data_p.map(function (e) { return e.product_name });
    var credits = data_p.map(function (e) { return e.credits });
-   debugger
 
    new Chart(document.getElementById("top_products"), {
              type: 'doughnut',

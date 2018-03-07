@@ -9,10 +9,12 @@
 //= require best_in_place
 //= require best_in_place.jquery-ui
 //= require best_in_place.purr
+//= require jspdf
 
 //= require vendor/remodal.min
 //= require vendor/jquery-qrcode
 //= require vendor/jquery-datetime/datetimepicker.min.js
+//= require vendor/html2canvas.min
 //= require vendor/draggable
 
 //= require_tree ./global

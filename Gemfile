@@ -92,6 +92,7 @@ gem 'whenever', :require => false
 # PDF Generation
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'jspdf-rails', '~> 1.0', '>= 1.0.3'
 
 # Validations
 gem 'rfc-822'
