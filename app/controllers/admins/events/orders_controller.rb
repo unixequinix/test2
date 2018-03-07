@@ -5,7 +5,7 @@ module Admins
       before_action :set_other, only: %i[new create]
 
       def index
-        @orders = @current_event.orders.order(id: :desc)
+        @orders = @current_event.orders.includes(order_items: :catalog_item).order(id: :desc)
         authorize @orders
         @orders = @orders.page(params[:page])
         @counts = @current_event.orders.group(:status).count

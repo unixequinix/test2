@@ -28,8 +28,16 @@ module Admins
     end
 
     def show
-      @totals = formater(Poke.dashboard(@current_event))
-      @graphs = Poke.dashboard_graphs(@current_event)
+      orders_dashboard = Order.dashboard(@current_event)
+      pokes_dashboard = Poke.dashboard(@current_event)
+      refunds_dashboard = Refund.dashboard(@current_event)
+      refunds_dashboard[:money_reconciliation] = refunds_dashboard[:credits_breakage] * @credit_value
+      kpis = [orders_dashboard, pokes_dashboard, refunds_dashboard]
+      @kpis = formater(grouper(kpis))
+
+      graphs = Poke.dashboard_graphs(@current_event)
+      graphs[:event_day_money] = PokesQuery.new(@current_event).event_day_money
+      @graphs = graphs
       @message = analytics_message(@current_event)
       render layout: "admin_event"
     end
@@ -141,6 +149,7 @@ module Admins
     def set_event
       @current_event = Event.friendly.find(params[:id])
       authorize(@current_event)
+      @credit_value = @current_event.credit.value
     end
 
     def set_new_event

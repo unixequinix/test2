@@ -2,6 +2,7 @@ class Order < ApplicationRecord
   include PokesHelper
   include Eventable
   include Creditable
+  include Reportable
 
   belongs_to :event, counter_cache: true
   belongs_to :customer, touch: true
@@ -20,9 +21,73 @@ class Order < ApplicationRecord
 
   validate_associations
 
+  enum status: { started: 1, in_progress: 2, completed: 3, refunded: 4, failed: 5, cancelled: 6 }
+
+  scope :completed, -> { where(status: "completed") }
+  scope :has_money, -> { where.not(money_base: nil) }
   scope(:not_refund, -> { where.not(gateway: "refund") })
 
-  enum status: { started: 1, in_progress: 2, completed: 3, refunded: 4, failed: 5, cancelled: 6 }
+  # TODO: diferentiate top-up, purchase and fees
+  scope :online_purchase, lambda {
+    select(transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, "sum(money_base + money_fee) as money")
+      .completed
+      .group(grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
+  }
+
+  scope :online_credits, lambda {
+    select("sum(order_items.amount)").joins(:order_items)
+  }
+
+  def topup?
+    # event.catalog_items.where(id: order_items.pluck(:catalog_item_id)).select(:type).distinct.pluck(:type).all? { |klass| klass.include?("Credit") }
+    order_items.all? { |item| item.catalog_item.class.to_s.include?("Credit") }
+  end
+
+  def purchase?
+    !topup?
+  end
+
+  def self.dashboard(event)
+    {
+      money_reconciliation: event.orders.completed.sum(:money_base),
+      credits_breakage: OrderItem.where(order: event.orders.completed, catalog_item: event.credit).sum(:amount)
+    }
+  end
+
+  def self.totals(event)
+    {
+      source_payment_method_money: event.orders.select("'online' as source", payment_method, money_order).completed.has_money.group("source, payment_method").as_json(except: :id),
+      action_station_type_money: event.orders.select("'purchase' as action, 'Customer Portal' as station_type", money_order).completed.has_money.group("action, station_type").as_json(except: :id),
+      source_action_money: event.orders.select("'online' as source, 'purchase' as action", money_order).completed.has_money.group("source, action").as_json(except: :id)
+    }
+  end
+
+  def self.money_dashboard(event)
+    {
+      income_online: event.orders.sum(:money_base),
+      unreedemed_online_money: event.orders.includes(:order_items).where(order_items: { redeemed: false }).sum(:money_base)
+    }
+ end
+
+  def self.event_day_order
+    "to_char(date_trunc('day', completed_at), 'Mon-DD') as event_day"
+  end
+
+  def self.event_day_sort_order
+    "date_trunc('day', completed_at) as event_day_sort"
+  end
+
+  def self.date_time_order
+    "to_char(date_trunc('hour', completed_at), 'Mon-DD HH24h') as date_time"
+  end
+
+  def self.money_order
+    "sum(money_base + money_fee) as money"
+  end
+
+  def self.transaction_type
+    "'purchase' as action, 'Online Purchase' as description, 'online' as source"
+  end
 
   def name
     "Order: ##{number}"

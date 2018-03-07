@@ -13,7 +13,10 @@ module Admins
 
       def money
         cols = ['Action', 'Description', 'Source', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Money']
-        @money = prepare_pokes(cols,  @current_event.pokes.money_recon_operators)
+        online_purchase = @current_event.orders.online_purchase
+        onsite_money = @current_event.pokes.money_recon_operators
+        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }
+        @money = prepare_pokes(cols, onsite_money + online_purchase + online_refunds)
         prepare_data params[:action], @money, [['Event Day'], ['Action'], ['Money'], 1]
       end
 
@@ -41,19 +44,12 @@ module Admins
         prepare_data params[:action], @access, [['Station Name', 'Direction'], ['Event Day', 'Date Time'], ['Access'], 0]
       end
 
-      def activations
-        @activations = PokesQuery.new(@current_event).activations
-      end
-
-      def devices
-        @devices = prepare_pokes(["Station Name", "Event Day", "Total Devices"], @current_event.pokes.devices)
-      end
-
       private
 
       def authorize_billing
         authorize(@current_event, :custom_analytics?)
         @load_analytics_resources = true
+        @credit_value = @current_event.credit.value
       end
 
       def prepare_data(name, data, array)

@@ -82,8 +82,8 @@
                     .mdl-grid
                       span.analytics-text = "Breakage by Credit Type"
                     .mdl-grid
-                      - @totals[:totals][:credit_breakage].map do |v|
-                        .mdl-cell class="mdl-cell--#{12 / @totals[:totals][:credit_breakage].size}-col"
+                      - @totals[:totals_pokes][:credit_breakage].map do |v|
+                        .mdl-cell class="mdl-cell--#{12 / @totals[:totals_pokes][:credit_breakage].size}-col"
                           .mld-card.analytics-card-front
                             .mdl-card__title.mdl-card--expand
                               h5.analytics-text = v[:credit_name].to_s.humanize
@@ -156,7 +156,7 @@ javascript:
   }
 
   $(function () {
-     var data =#{ @totals[:totals][:event_day_money].html_safe }
+     var data =#{ @totals[:totals_pokes][:event_day_money].html_safe }
      var money_symbol = '#{ @current_event.currency_symbol }'
      var event_day = data.map(function (e) { return e.event_day; });
      var online = data.map(function (e) { return e.online; });
@@ -189,7 +189,7 @@ javascript:
 
 
    var credit_symbol = '#{ @current_event.credit.symbol }'
-   var data_c = #{ @totals[:totals][:d_credits].html_safe }
+   var data_c = #{ @totals[:totals_pokes][:d_credits].html_safe }
    var date_time = data_c.map(function (e) { return e.date_time });
    var record_credit = data_c.map(function (e) { return e.record_credit });
    var sale = data_c.map(function (e) { return -e.sale });
@@ -226,7 +226,7 @@ javascript:
          });
 
    var color_scale_a = ["#bcea98", "#fcaa98"]
-   var data_a = #{ @totals[:totals][:alcohol_products].html_safe }
+   var data_a = #{ @totals[:totals_pokes][:alcohol_products].html_safe }
    var is_alcohol = data_a.map(function (e) { return e.is_alcohol });
    var credits = data_a.map(function (e) { return e.credits });
 
@@ -253,7 +253,7 @@ javascript:
       });
 
    var color_scale_p = ["#ade8e9", "#add8e9", "#adc8e9", "#adb8e9", "#ada8e9"]
-   var data_p = #{ @totals[:totals][:top_productos].html_safe }
+   var data_p = #{ @totals[:totals_pokes][:top_productos].html_safe }
    var product_name = data_p.map(function (e) { return e.product_name });
    var credits = data_p.map(function (e) { return e.credits });
 
@@ -281,7 +281,7 @@ javascript:
 
 
    var color_scale_a = ["#bcea98", "#ade8e9"]
-   var data_a = #{ @totals[:totals][:t_credits].html_safe }
+   var data_a = #{ @totals[:totals_pokes][:t_credits].html_safe }
    var credit_name = data_a.map(function (e) { return e.credit_name });
    var credits = data_a.map(function (e) { return e.credits });
 

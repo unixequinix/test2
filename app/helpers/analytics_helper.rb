@@ -34,9 +34,13 @@ module AnalyticsHelper
     end
   end
 
+  def grouper(array)
+    array.inject { |memo, el| memo.merge(el) { |_k, old_v, new_v| old_v + new_v } }
+  end
+
   def formater(data)
     {
-      money_breakage: number_to_event_currency(data[:money_breakage]),
+      money_reconciliation: number_to_event_currency(data[:money_reconciliation]),
       credits_breakage: number_to_token(data[:credits_breakage]),
       total_sales: number_to_token(data[:total_sales]),
       activations: data[:activations].to_i

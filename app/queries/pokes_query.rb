@@ -3,58 +3,52 @@ class PokesQuery
     @event = event
   end
 
-  def activations
-    Poke.connection.select_all(activations_query).map { |h| h["Activations"] }.compact.sum
-  end
-
-  def top_quantities
-    Poke.connection.select_all(quantities_query).to_json
+  def event_day_money
+    Poke.connection.select_all(event_day_money_query).to_json
   end
 
   private
 
-  def quantities_query
+  def event_day_money_query
     <<-SQL
-      SELECT
-        coalesce(name, 'Other Amount') as product_name,
-        sum(sale_item_quantity) as quantity
-      FROM (
-             SELECT
-               operation_id,
-               sale_item_quantity,
-               product_id
+      SELECT event_day,
+        event_day_sort,
+        sum(onsite) as onsite,
+        sum(online) as online
+      FROM(SELECT
+             to_char(date_trunc('day', date - INTERVAL '8 hour'), 'Mon-DD') as event_day,
+             date_trunc('day', date - INTERVAL '8 hour') as event_day_sort,
+             sum(monetary_total_price) as onsite,
+             0 as online
+           FROM pokes WHERE pokes.event_id = #{@event.id}
+                              AND pokes.status_code = 0
+                              AND pokes.error_code IS NULL
+                              AND (pokes.monetary_total_price IS NOT NULL)
+           GROUP BY event_day, event_day_sort
+           UNION ALL
+           SELECT
+             to_char(date_trunc('day', completed_at), 'Mon-DD') as event_day,
+             date_trunc('day', completed_at) as event_day_sort,
+             0 as onsite, sum(money_base) as online
 
-             FROM pokes
-             WHERE event_id = #{@event.id}
-                   AND action = 'sale'
-             GROUP BY 1, 2, 3
-           ) q
-        LEFT JOIN products ON q.product_id = products.id
-      GROUP BY 1
-      ORDER BY 2 DESC
-      LIMIT 10
-    SQL
-  end
+           FROM orders
+           WHERE orders.event_id = #{@event.id}
+                 AND orders.status = 3
+                 AND (orders.money_base IS NOT NULL)
+           GROUP BY event_day, event_day_sort
+           UNION ALL
+           SELECT
+             to_char(date_trunc('day', created_at), 'Mon-DD') as event_day,
+             date_trunc('day', created_at) as event_day_sort,
+             0 as onsite, -1 * sum(credit_base) * #{@event.credit.value} as online
 
-  def activations_query
-    <<-SQL
-      SELECT
-        stations.category as "Station Type",
-        stations.name as "Station Name",
-        to_char(date_trunc('day', date - INTERVAL '8 hour'), 'DD-MM-YYYY') as "Event Day",
-        pokes.action as "Action",
-        count(pokes.customer_gtag_id) as "Activations"
-
-      FROM pokes
-        JOIN (SELECT
-                customer_gtag_id,
-                min(gtag_counter) as gtag_counter
-              FROM pokes
-              WHERE event_id = #{@event.id}
-              GROUP BY 1
-        ) min ON min.customer_gtag_id = pokes.customer_gtag_id AND min.gtag_counter = pokes.gtag_counter
-        LEFT JOIN stations stations ON pokes.station_id = stations.id
-      GROUP BY 1,2,3,4
+           FROM refunds
+           WHERE refunds.event_id = #{@event.id}
+                 AND refunds.status = 2
+           GROUP BY event_day, event_day_sort
+         ) money
+      GROUP BY event_day, event_day_sort
+      ORDER BY  event_day_sort
     SQL
   end
 end

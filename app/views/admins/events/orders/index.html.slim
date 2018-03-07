@@ -70,14 +70,10 @@
                 td data-label="Credits" = number_to_token order.credits
                 td data-label="Virtual Credits" = number_to_token order.virtual_credits
                 td data-label="Other"
-                  - if @current_event.catalog_items.where(id: order.order_items.pluck(:catalog_item_id)).select(:type).distinct.pluck(:type).all? { |klass| klass.include?("Credit") }
+                  - if order.topup?
                     i.material-icons close
                   - else
                     i.material-icons check
                 td data-label="State" class="#{"good_info" if order.completed?} #{"bad_info" if order.status.in?(%w(cancelled failed))}" = order.status.humanize
     = render "layouts/pagination", objects: @orders
   .mdl-layout-spacer
-
-
-
-

@@ -4,7 +4,7 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :location, key: "Location"
   attribute :station_type, key: "Station Type"
   attribute :station_name, key: "Station Name"
-  attribute :monetary_total_price, key: "Money"
+  attribute :money, key: "Money"
   attribute :credit_amount, key: "Credits"
   attribute :credit_name, key: "Credit Name"
   attribute :payment_method, key: "Payment Method"
@@ -48,8 +48,8 @@ class PokeSerializer < ActiveModel::Serializer
     object.try(:station_name)
   end
 
-  def monetary_total_price
-    object.try(:monetary_total_price)
+  def money
+    object.try(:money)
   end
 
   def credit_amount
