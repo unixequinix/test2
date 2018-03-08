@@ -1,13 +1,18 @@
 module Api
   module V1
     class StationSerializer < ActiveModel::Serializer
-      attributes :id, :station_event_id, :type, :name, :hidden, :display_stats
+      attributes :id, :station_event_id, :type, :name, :hidden, :display_stats, :payment_methods
       attribute :ticket_types_ids, if: :access_station?
+      attribute :payment_methods, if: :money_station?
 
       def attributes(*args)
         hash = super
         method(object.form).call(hash) if object.form
         hash
+      end
+
+      def payment_methods
+        object.event.emv_enabled? ? %w[card cash] : %w[emv cash]
       end
 
       def display_stats
@@ -24,6 +29,10 @@ module Api
 
       def access_station?
         type.in?(%w[ticket_validation check_in])
+      end
+
+      def money_station?
+        object.category.in?(%w[top_up_refund bar vendor box_office])
       end
 
       def accreditation(hash)

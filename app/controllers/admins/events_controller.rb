@@ -186,6 +186,7 @@ module Admins
                                     :bank_format,
                                     :private_zone_password,
                                     :fast_removal_password,
+                                    :emv_enabled,
                                     :transaction_buffer,
                                     :days_to_keep_backup,
                                     :sync_time_event_parameters,
