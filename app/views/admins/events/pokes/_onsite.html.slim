@@ -1,4 +1,5 @@
 - closed ||= false
+- colors = { 0 => "e2e2e2", 1 => "b2beb5", 2 => "36454f"}
 
 - if pokes.any?
   .mdl-grid.light-grid
@@ -21,9 +22,9 @@
                 th.mdl-data-table__cell--non-numeric Action
                 th.mdl-data-table__cell--non-numeric Station
                 th.mdl-data-table__cell--non-numeric Product
-                - @current_event.credits.each do |credit|
-                  th.mdl-data-table__cell--non-numeric #{credit.name} Amount
-                  th #{credit.name} Balance
+                - @current_event.credits.each.with_index do |credit, index|
+                  th.mdl-data-table__cell--non-numeric style="background-color: ##{colors[index] || 'white'}" #{credit.name} Amount
+                  th style="background-color: ##{colors[index] || 'white'}" #{credit.name} Balance
                 th Created
                 th
             tbody
@@ -41,13 +42,13 @@
                     - if poke.action == "sale"
                       - name = poke.product ? "#{poke.sale_item_quantity} x #{poke.product.name}" : "Other Amount"
                       = link_to name, admins_event_station_products_path(@current_event, poke.station, poke.product)
-                  - @current_event.credits.each do |credit|
+                  - @current_event.credits.each.with_index do |credit, index|
                     - if credit == poke.credit
-                      td.mdl-data-table__cell--non-numeric = number_to_credit(poke.credit_amount, credit)
-                      td = number_with_precision(poke.final_balance, precision: 2) if credit == poke.credit
+                      td.mdl-data-table__cell--non-numeric style="background-color: ##{colors[index] || 'white'}" = number_to_credit(poke.credit_amount, credit)
+                      td style="background-color: ##{colors[index] || 'white'}" = number_with_precision(poke.final_balance, precision: 2) if credit == poke.credit
                     - else
-                      td
-                      td
+                      td style="background-color: ##{colors[index] || 'white'}"
+                      td style="background-color: ##{colors[index] || 'white'}"
                   td data-label="Device Created At" = l poke.date
                   td data-label="Actions"
                     - if policy(poke).status_9? ||  policy(poke).status_0?
