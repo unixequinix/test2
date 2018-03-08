@@ -34,9 +34,7 @@ class Order < ApplicationRecord
       .group(grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
   }
 
-  scope :online_credits, lambda {
-    select("sum(order_items.amount)").joins(:order_items)
-  }
+  scope :online_credits, -> { select("sum(order_items.amount)").joins(:order_items) }
 
   def topup?
     # event.catalog_items.where(id: order_items.pluck(:catalog_item_id)).select(:type).distinct.pluck(:type).all? { |klass| klass.include?("Credit") }

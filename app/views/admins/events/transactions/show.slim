@@ -161,7 +161,7 @@
                   tr
                     td.mdl-data-table__cell--non-numeric = link_to ticket.code, [:admins ,@current_event, ticket]
                     td = link_to ticket.ticket_type.name, [:admins, @current_event, ticket.ticket_type] if ticket.ticket_type
-                    td = link_to_unless [UserFlag, Credit, VirtualCredit].include?(catalog_item.class) "#{catalog_item.name} (#{catalog_item.class.to_s.humanize})", [:admins, @current_event, catalog_item] if catalog_item
+                    td = link_to_unless [UserFlag, Credit, VirtualCredit].include?(catalog_item.class), "#{catalog_item.name} (#{catalog_item.class.to_s.humanize})", [:admins, @current_event, catalog_item] if catalog_item
                     td = link_to ticket.ticket_type.company.name, [:admins, @current_event, ticket.ticket_type.company] if ticket.ticket_type&.company
                     td
                       - if ticket.redeemed?
