@@ -74,29 +74,21 @@ html
           = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons record_voice_over
             |  Customer service
-          = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons equalizer
-            |  Analytics
-          = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons timeline
-            |  Custom Analytics
+          - unless @current_event.created?
+            = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons equalizer
+              |  Analytics
+            = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons timeline
+              |  Custom Analytics
         nav.mdl-navigation.global-nav
-          span.nav-title CREDENTIALS
-          = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons people_outline
-            |  Customers
+          span.nav-title TICKETING
           = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons markunread_mailbox
             |  Companies
           = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons class
             |  Ticket types
-          = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons bookmark_border
-            |  Tickets
-          = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons loyalty
-            |  GTags
 
         nav.mdl-navigation.global-nav
           span.nav-title STORE
