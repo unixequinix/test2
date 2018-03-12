@@ -79,6 +79,14 @@
                     .mdl-card__supporting-text style="text-align: center; width: 100%;" = key.to_s.humanize
               .mdl-layout-spacer
 
+          - else
+            .content-grid.mdl-grid
+              .mdl-layout-spacer
+              .mdl-cell.mdl-cell--10-col
+                .mdl-card__title.mdl-card--expand
+                  h2 style="text-align: center; width: 100%; color: #999" No devices found
+                .mdl-card__supporting-text style="text-align: center; width: 100%;" Devices cannot appear here until they have been staged.
+              .mdl-layout-spacer
 
           - %w(to_check live staged locked no_idea ).each do |type|
             - next unless @registrations[type]
