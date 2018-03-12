@@ -53,7 +53,7 @@
           table.mdl-data-table.mdl-js-data-table.within-card
             tbody
               tr
-                td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions]
+                td.mdl-data-table__cell--non-numeric = link_to "App Permissions", [:admins, @current_event, :operator_permissions]
                 td
                   = @current_event.operator_permissions_count
                   | &nbsp;
