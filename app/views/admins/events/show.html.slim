@@ -19,30 +19,31 @@
                 = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                   | Close
 
-        - if @message
-          .mld-card.analytics-card-front
-            .center-card-title
-              span.analytics-text = @message
+        - unless @current_event.created?
+          - if @message
+            .mld-card.analytics-card-front
+              .center-card-title
+                span.analytics-text = @message
 
-        .mdl-cell.mdl-cell--12-col
-          .mld-card.analytics-card-back
-            .mdl-grid
-              - @kpis.map do |k, v|
-                .mdl-cell class="mdl-cell--#{12 / @kpis.size}-col"
+          .mdl-cell.mdl-cell--12-col
+            .mld-card.analytics-card-back
+              .mdl-grid
+                - @kpis.map do |k, v|
+                  .mdl-cell class="mdl-cell--#{12 / @kpis.size}-col"
+                    .mld-card.analytics-card-front
+                      .mdl-card__title.mdl-card--expand
+                        h3.mdl-card__title-text = v
+                      .mdl-card__supporting-text
+                        span.analytics-text = k.to_s.humanize
+          .mdl-cell.mdl-cell--12-col
+            .mld-card.analytics-card-back
+              .mdl-grid
+                .mdl-cell.mdl-cell--6-col
                   .mld-card.analytics-card-front
-                    .mdl-card__title.mdl-card--expand
-                      h3.mdl-card__title-text = v
-                    .mdl-card__supporting-text
-                      span.analytics-text = k.to_s.humanize
-        .mdl-cell.mdl-cell--12-col
-          .mld-card.analytics-card-back
-            .mdl-grid
-              .mdl-cell.mdl-cell--6-col
-                .mld-card.analytics-card-front
-                  canvas#money_chart
-              .mdl-cell.mdl-cell--6-col
-                .mld-card.analytics-card-front
-                  canvas#credits_chart
+                    canvas#money_chart
+                .mdl-cell.mdl-cell--6-col
+                  .mld-card.analytics-card-front
+                    canvas#credits_chart
 
         .mdl-cell.mdl-cell--12-col
           = render "resources"
