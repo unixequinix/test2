@@ -81,6 +81,12 @@ html
             = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons timeline
               |  Custom Analytics
+          = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons shopping_cart
+            |  Orders
+          = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons undo
+            |  Refunds
         nav.mdl-navigation.global-nav
           span.nav-title TICKETING
           = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
@@ -91,7 +97,7 @@ html
             |  Ticket types
 
         nav.mdl-navigation.global-nav
-          span.nav-title STORE
+          span.nav-title CATALOG
           = link_to admins_event_operator_permissions_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             |  App Permissions
@@ -101,12 +107,6 @@ html
           = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons view_module
             |  Packs
-          = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons shopping_cart
-            |  Orders
-          = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons undo
-            |  Refunds
 
         nav.mdl-navigation.global-nav
           span.nav-title SUPPORT
