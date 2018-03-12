@@ -35,8 +35,7 @@
             = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id: "filters_created"
             = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab", id: "filters_launched"
             = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id: "filters_closed"
-            = link_to "#event-form", remote: true, class: "mdl-tabs__tab" do
-              span.material-icons add_circle_outline
+            = link_to "New", "#event-form", remote: true, class: "mdl-tabs__tab"
 
           .mdl-tabs__panel id="all-events" class="mdl-tabs__panel is-active" = render "list", events: @events
 
