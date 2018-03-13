@@ -12,41 +12,48 @@ module Admins
         totals[:subtotals] = { money: {}, credits: {} }
 
         orders_dashboard = Order.dashboard(@current_event)
+        tickets_dashboard = Ticket.dashboard(@current_event)
         pokes_dashboard = Poke.dashboard(@current_event)
         refunds_dashboard = Refund.dashboard(@current_event)
-        refunds_dashboard[:money_reconciliation] = refunds_dashboard[:credits_breakage] * @credit_value
+        refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
+        kpis = [orders_dashboard, tickets_dashboard, pokes_dashboard, refunds_dashboard]
 
-        kpis = [orders_dashboard, pokes_dashboard, refunds_dashboard]
         @kpis = formater(grouper(kpis))
 
         totals[:totals_pokes] = Poke.totals(@current_event)
         totals[:totals_orders] = Order.totals(@current_event)
         totals[:totals_refunds] = Refund.totals(@current_event)
+        totals[:totals_tickets] = Ticket.totals(@current_event)
 
         source_action_money = totals[:totals_pokes][:source_action_money] + totals[:totals_orders][:source_action_money] + totals[:totals_refunds][:source_action_money]
         totals[:subtotals][:money_highlight] = transformer(source_action_money.map { |t| { "dm1" => t['action'], "dm2" => t['source'], "metric" => t['money'] } }, "currency", @customers).sort_by { |t| -t["t"] }
         source_payment_method_money = totals[:totals_pokes][:source_payment_method_money] + totals[:totals_orders][:source_payment_method_money] + totals[:totals_refunds][:source_payment_method_money]
         totals[:subtotals][:money][:money_by_payment_method] = transformer(source_payment_method_money.map { |t| { "dm1" => t['source'], "dm2" => t['payment_method'], "metric" => t['money'] } }, "currency", @customers).sort_by { |t| -t["t"] }
-        action_station_type_money = totals[:totals_pokes][:action_station_type_money] + totals[:totals_orders][:action_station_type_money] + totals[:totals_refunds][:action_station_type_money]
-        totals[:subtotals][:money][:money_by_station_type] = transformer(action_station_type_money.map { |t| { "dm1" => t['action'], "dm2" => t['station_type'], "metric" => t['money'] } }, "currency", @customers).sort_by { |t| -t["t"] }
-        totals[:totals_pokes][:event_day_money] = PokesQuery.new(@current_event).event_day_money
 
-        totals[:subtotals][:credits][:credits_flow] = transformer(totals[:totals_pokes][:credits_flow].map { |t| { "dm1" => t[:action], "dm2" => t[:description], "metric" => t[:credits] } }, "token", @customers).sort_by { |t| -t["t"] }
-        totals[:subtotals][:credits][:credits_type] = transformer(totals[:totals_pokes][:credits_type].map { |t| { "dm1" => t[:action], "dm2" => t[:credit_name], "metric" => t[:credits] } }, "token", @customers).sort_by { |t| -t["t"] }
+        totals[:totals_pokes][:event_day_money] = PokesQuery.new(@current_event).event_day_money
+        totals[:totals_pokes][:d_credits] = PokesQuery.new(@current_event).credits_flow_day
+
+        totals[:totals_refunds][:credit_breakage] = totals[:totals_refunds][:credit_breakage].each { |o| o["credit_name"] = @credit_name }
+        credit_breakage = totals[:totals_pokes][:credit_breakage] + totals[:totals_orders][:credit_breakage] + totals[:totals_tickets][:credit_breakage] + totals[:totals_refunds][:credit_breakage]
+        credit_breakage = credit_breakage.map { |t| { t["credit_name"] => t["credit_amount"] } }
+        totals[:credit_breakage] = grouper(credit_breakage)
+        totals[:totals_refunds][:credits_type] = totals[:totals_refunds][:credits_type].each { |o| o["credit_name"] = @credit_name }
+        credits_type = totals[:totals_pokes][:credits_type] + totals[:totals_orders][:credits_type] + totals[:totals_tickets][:credits_type] + totals[:totals_refunds][:credits_type]
+        totals[:subtotals][:credits][:credits_type] = transformer(credits_type.map { |t| { "dm1" => t['action'], "dm2" => t['credit_name'], "metric" => t['credit_amount'] } }, "token", @customers).sort_by { |t| -t["t"] }
         @totals = totals
       end
 
       def money
-        online_purchase = @current_event.orders.online_purchase
-        onsite_money = @current_event.pokes.money_recon
-        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }
         money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day"]
+        online_purchase = @current_event.orders.online_purchase.as_json
+        onsite_money = @current_event.pokes.money_recon.as_json
+        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
         money = prepare_pokes(money_cols, onsite_money + online_purchase + online_refunds)
 
         totals = Poke.money_dashboard(@current_event)
         totals = totals.merge(Order.money_dashboard(@current_event))
-
-        totals[:money_reconciliation] = totals[:money_reconciliation] + totals[:income_online]
+        totals[:online_refunds] = @current_event.refunds.completed.sum(:credit_base) * @credit_value
+        totals[:money_reconciliation] = totals[:money_reconciliation] + totals[:income_online] - totals[:online_refunds]
 
         @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_event_currency(v)] }
 
@@ -57,18 +64,29 @@ module Admins
         prepare_data(params["action"])
       end
 
-      def cashless
-        record_credit = @current_event.pokes.where(credit: @current_event.credit).record_credit.is_ok.sum(:credit_amount)
-        record_credit_virtual = @current_event.pokes.where(credit: @current_event.virtual_credit).record_credit.is_ok.sum(:credit_amount)
-        fees = - @current_event.pokes.fees.is_ok.sum(:credit_amount)
-        orders = @current_event.pokes.online_orders.is_ok.sum(:credit_amount)
-
+      def cashless # rubocop:disable Metrics/AbcSize
         cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day"]
-        credits_onsite = @current_event.pokes.credit_flow
-        credits_orders = @current_event.orders.online_credits
-        credits = prepare_pokes(cols, credits_onsite + credits_orders)
+        online_packs = Order.online_packs(@current_event).as_json
+        ticket_packs = Ticket.online_packs(@current_event).as_json
+        online_topup = @current_event.orders.online_topup.as_json
+        order_fee = @current_event.orders.online_purchase_fee.each do |o|
+          o.credit_name = @credit_name
+          o.credit_amount = o.credit_amount / @credit_value
+        end
+        credits_onsite = @current_event.pokes.credit_flow.as_json
+        credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
+        credits = prepare_pokes(cols, online_packs + online_topup + credits_onsite + credits_refunds + ticket_packs + order_fee)
 
-        @totals = { record_credit: record_credit, record_credit_virtual: record_credit_virtual, fees: fees, orders: orders }.map { |k, v| [k, number_to_token(v)] }
+        totals = Poke.credit_dashboard(@current_event)
+        totals = totals.merge(Order.credit_dashboard(@current_event))
+        totals[:online_refunds] = @current_event.refunds.completed.sum(:credit_base)
+        totals[:ticket_credits] = @current_event.tickets.ticket_all_credits
+        totals[:orders_fees] = totals[:orders_fees] / @credit_value
+        totals[:outstanding_credits] = (totals[:outstanding_credits].to_f + totals[:online_order_credits].to_f - totals[:online_refunds].to_f + totals[:ticket_credits].to_f + totals[:orders_fees].to_f)
+        totals[:fees] = totals[:fees] + totals[:orders_fees]
+        totals.delete(:orders_fees)
+        @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_token(v)] }
+
         @views = [
           { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: %w[Action Description], data: credits, metric: ["Credits"], decimals: 1 },
           { chart_id: "credits_detail", title: "Credit Flow by Station", cols: ["Event Day", "Credit Name"], rows: ["Location", "Action", "Station Type", "Station Name"], data: credits, metric: ["Credits"], decimals: 1 }
@@ -82,14 +100,11 @@ module Admins
         total_sale = -@current_event.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
 
         cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        products = prepare_pokes(cols, @current_event.pokes.products_sale)
-        stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
-        products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock)
+        products = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
 
         @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale }.map { |k, v| [k, number_to_token(v)] }
         @views = [
-          { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name", "Product Name"], data: products, metric: ["Credits"], decimals: 1 },
-          { chart_id: "products_stock", title: "Products Sale Stock", cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name", "Product Name"], data: products_stock, metric: ["Quantity"], decimals: 0 }
+          { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 }
         ]
         prepare_data(params["action"])
       end
@@ -101,11 +116,11 @@ module Admins
         staff = @current_event.customers.where(operator: true).count
 
         rate_cols = ["Ticket Type", "Total Tickets", "Redeemed"]
-        checkin_rate = prepare_pokes(rate_cols, @current_event.ticket_types.checkin_rate)
+        checkin_rate = prepare_pokes(rate_cols, @current_event.ticket_types.checkin_rate.as_json)
         ticket_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Catalog Item", "Ticket Type", "Total Tickets", "Event Day", "Operator UID", "Operator Name", "Device"]
-        checkin_ticket_type = prepare_pokes(ticket_cols, @current_event.pokes.checkin_ticket_type)
+        checkin_ticket_type = prepare_pokes(ticket_cols, @current_event.pokes.checkin_ticket_type.as_json)
         access_cols = ["Location", "Station Type", "Station Name", "Event Day", "Date Time", "Direction", "Access"]
-        access_control = prepare_pokes(access_cols, @current_event.pokes.access)
+        access_control = prepare_pokes(access_cols, @current_event.pokes.access.as_json)
 
         @totals = { total_checkins: total_checkins, total_access: total_access, activations: activations, staff: staff }.map { |k, v| [k, v.to_i] }
         @views = [{ chart_id: "checkin_rate", title: "Ticket Check-in Rate", cols: [], rows: ["Ticket Type", "Redeemed"], data: checkin_rate, metric: ["Total Tickets"], decimals: 0 },
@@ -120,6 +135,7 @@ module Admins
         authorize(@current_event, :analytics?)
         @load_analytics_resources = true
         @credit_value = @current_event.credit.value
+        @credit_name = @current_event.credit.name
         @customers = @current_event.customers.count - @current_event.customers.where(operator: true).count
       end
 

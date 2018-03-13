@@ -73,10 +73,10 @@ class Poke < ApplicationRecord
   }
 
   scope :credit_flow, lambda {
-    select(:action, :description, :credit_name, event_day_poke, date_time_poke, "stations.category as station_type, stations.name as station_name, devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
-      .joins(:station, :device)
+    select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_station, "devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
+      .left_outer_joins(:station, :device)
       .where.not(credit_amount: nil).is_ok
-      .group(:action, :description, :credit_name, "event_day, date_time, station_type, station_name, device_name")
+      .group(:action, :description, :credit_name, grouping_station, "event_day, date_time, device_name")
   }
 
   scope :checkin_ticket_type, lambda {
@@ -104,17 +104,13 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
-  def self.totals(event) # rubocop:disable Metrics/AbcSize
+  def self.totals(event)
     {
       source_payment_method_money: event.pokes.select("source", payment_method_pokes, sum_money).is_ok.has_money.group("source, payment_method").as_json(except: :id),
-      action_station_type_money: event.pokes.select("action, stations.category as station_type", sum_money).is_ok.has_money.joins(:station).group("action, station_type").as_json(except: :id),
       source_action_money: event.pokes.select("source, action", sum_money).is_ok.has_money.group("source, action").as_json(except: :id),
 
-      credit_breakage: event.pokes.select("credit_name", sum_credits).is_ok.has_credits.group("credit_name"),
-      credits_flow: event.pokes.select("action, description", sum_credits).is_ok.has_credits.group("action, description"),
-      credits_type: event.pokes.select("action, credit_name", sum_credits).is_ok.has_credits.group("action, credit_name"),
-      d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json,
-      t_credits: event.pokes.select("credit_name", sum_credits).is_ok.where(credit: event.credits).group("credit_name").to_json,
+      credit_breakage: event.pokes.select("credit_name", sum_credit).is_ok.has_credits.group("credit_name").as_json(except: :id),
+      credits_type: event.pokes.select("action, credit_name", sum_credit).is_ok.has_credits.group("action, credit_name").as_json(except: :id),
       alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("is_alcohol").to_json,
       top_productos: event.pokes.select("products.name as product_name, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("product_name").order("credits desc").limit("5").to_json
     }
@@ -124,14 +120,21 @@ class Poke < ApplicationRecord
     {
       money_reconciliation: event.pokes.is_ok.sum(:monetary_total_price),
       income_onsite: event.pokes.topups.is_ok.where(credit: event.credits).sum(:credit_amount),
-      refunds_onsite: event.pokes.is_ok.refunds.sum(:monetary_total_price).abs
+      onsite_refunds: event.pokes.is_ok.refunds.sum(:monetary_total_price).abs
+    }
+  end
+
+  def self.credit_dashboard(event)
+    {
+      outstanding_credits: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+      fees: event.pokes.fees.is_ok.sum(:credit_amount)
     }
   end
 
   def self.dashboard(event)
     {
       money_reconciliation: event.pokes.is_ok.sum(:monetary_total_price),
-      credits_breakage: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+      outstanding_credits: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
       total_sales: event.pokes.is_ok.sales.where(credit: event.credits).sum(:credit_amount).abs,
       activations: event.customers.count
     }
@@ -160,7 +163,7 @@ class Poke < ApplicationRecord
   end
 
   def self.payment_method_pokes
-    "coalesce(payment_method, 'Not Defined') as payment_method"
+    "coalesce(CASE WHEN payment_method='other' THEN 'hospitality' ELSE payment_method END, 'Not Defined') as payment_method"
   end
 
   def self.dimensions_operators_devices
@@ -183,8 +186,8 @@ class Poke < ApplicationRecord
     "sum(monetary_total_price) as money"
   end
 
-  def self.sum_credits
-    "sum(credit_amount) as credits"
+  def self.sum_credit
+    "sum(credit_amount) as credit_amount"
   end
 
   def self.source_money

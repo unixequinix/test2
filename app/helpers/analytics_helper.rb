@@ -13,7 +13,7 @@ module AnalyticsHelper
   def transformer(arr, format, denominator)
     arr.map { |t| t["dm1"] }.uniq.map do |dm1|
       selected = arr.select { |t| t["dm1"] == dm1 }
-      total_num = selected.map { |t| t["metric"] }.compact.sum
+      total_num = selected.map { |t| t["metric"].to_f }.compact.sum
 
       case format
         when "currency"
@@ -35,13 +35,13 @@ module AnalyticsHelper
   end
 
   def grouper(array)
-    array.inject { |memo, el| memo.merge(el) { |_k, old_v, new_v| old_v + new_v } }
+    array.inject { |memo, el| memo.merge(el) { |_k, old_v, new_v| old_v.to_f + new_v.to_f } } || []
   end
 
   def formater(data)
     {
       money_reconciliation: number_to_event_currency(data[:money_reconciliation]),
-      credits_breakage: number_to_token(data[:credits_breakage]),
+      outstanding_credits: number_to_token(data[:outstanding_credits]),
       total_sales: number_to_token(data[:total_sales]),
       activations: data[:activations].to_i
     }

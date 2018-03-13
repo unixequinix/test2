@@ -44,7 +44,7 @@
                   .mdl-cell class="mdl-cell--#{12 / @kpis.size}-col"
                     .mld-card.analytics-card-front
                       .mdl-card__title.mdl-card--expand
-                        h3.mdl-card__title-text = v
+                        h3.mdl-card__title-text id="#{k.to_s.underscore}_kpi" = v
                       .mdl-card__supporting-text
                         span.analytics-text = k.to_s.humanize
 
@@ -82,22 +82,20 @@
                     .mdl-grid
                       span.analytics-text = "Breakage by Credit Type"
                     .mdl-grid
-                      - @totals[:totals_pokes][:credit_breakage].map do |v|
-                        .mdl-cell class="mdl-cell--#{12 / @totals[:totals_pokes][:credit_breakage].size}-col"
+                      - @totals[:credit_breakage].each do |v|
+                        .mdl-cell class="mdl-cell--#{12 / @totals[:credit_breakage].size}-col"
                           .mld-card.analytics-card-front
                             .mdl-card__title.mdl-card--expand
-                              h5.analytics-text = v[:credit_name].to_s.humanize
+                              h5.analytics-text = "#{v[0].to_s.humanize}"
                             .mdl-cell.center-card-title
-                              h6 = number_to_token(v[:credits])
-                    .mdl-grid
-                      .mdl-cell.mdl-cell--12-col
-                        canvas#credit_type
+                              h6 = number_to_token(v[1])
             .mdl-cell.mdl-cell--12-col
-              .mld-card.analytics-card-back
-                .mdl-grid
-                  .mdl-cell.mdl-cell--6-col
+              .mdl-grid
+                .mdl-cell.mdl-cell--6-col
+                  .mld-card.analytics-card-back
                     canvas#money_chart
-                  .mdl-cell.mdl-cell--6-col
+                .mdl-cell.mdl-cell--6-col
+                  .mld-card.analytics-card-back
                     canvas#credits_chart
 
           / CARDS
@@ -278,32 +276,5 @@ javascript:
                  legend: {display: true}
              }
          });
-
-
-   var color_scale_a = ["#bcea98", "#ade8e9"]
-   var data_a = #{ @totals[:totals_pokes][:t_credits].html_safe }
-   var credit_name = data_a.map(function (e) { return e.credit_name });
-   var credits = data_a.map(function (e) { return e.credits });
-
-   new Chart(document.getElementById("credit_type"), {
-          type: 'doughnut',
-          data: {
-                labels: credit_name,
-              datasets: [
-                  {
-                      label: "Credit" + credit_symbol,
-                      backgroundColor: color_scale_a,
-                      data: credits
-                  }
-              ]
-          },
-          options: {
-              title: {
-                  display: true,
-                  text: 'Credits vs Virtual Credits ' + credit_symbol
-              },
-              legend: {display: true}
-          }
-      });
 
   });

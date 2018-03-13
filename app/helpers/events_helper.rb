@@ -10,6 +10,6 @@ module EventsHelper
   end
 
   def analytics_message(event)
-    "Data shown here could not be 100% accurate until all devices are synced & locked" if event.state.eql?('launched')
+    "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped." if event.state.eql?('launched')
   end
 end

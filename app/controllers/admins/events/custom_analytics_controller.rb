@@ -13,34 +13,44 @@ module Admins
 
       def money
         cols = ['Action', 'Description', 'Source', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Money']
-        online_purchase = @current_event.orders.online_purchase
-        onsite_money = @current_event.pokes.money_recon_operators
-        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }
+        online_purchase = @current_event.orders.online_purchase.as_json
+        onsite_money = @current_event.pokes.money_recon_operators.as_json
+        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
         @money = prepare_pokes(cols, onsite_money + online_purchase + online_refunds)
         prepare_data params[:action], @money, [['Event Day'], ['Action'], ['Money'], 1]
       end
 
       def credits
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Device', 'Event Day', 'Date Time', 'Credit Name', 'Credits']
-        @credits = prepare_pokes(cols, @current_event.pokes.credit_flow)
+        online_packs = Order.online_packs(@current_event).as_json
+        ticket_packs = Ticket.online_packs(@current_event).as_json
+        online_topup = @current_event.orders.online_topup.as_json
+        order_fee = @current_event.orders.online_purchase_fee
+        order_fee.each do |o|
+          o.credit_name = @credit_name
+          o.credit_amount = o.credit_amount / @credit_value
+        end
+        credits_onsite = @current_event.pokes.credit_flow.as_json
+        credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
+        @credits = prepare_pokes(cols, online_packs + online_topup + credits_onsite + credits_refunds + ticket_packs + order_fee)
         prepare_data params[:action], @credits, [['Event Day'], ['Action'], ['Credits'], 1]
       end
 
       def sales
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        @sales = prepare_pokes(cols, @current_event.pokes.products_sale)
+        @sales = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
         prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type', 'Station Name'], ['Credits'], 1]
       end
 
       def checkin
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Total Tickets']
-        @checkin = prepare_pokes(cols, @current_event.pokes.checkin_ticket_type)
+        @checkin = prepare_pokes(cols, @current_event.pokes.checkin_ticket_type.as_json)
         prepare_data params[:action], @checkin, [['Event Day'], ['Catalog Item'], ['Total Tickets'], 0]
       end
 
       def access
         cols = ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Direction', 'Access']
-        @access = prepare_pokes(cols, @current_event.pokes.access)
+        @access = prepare_pokes(cols, @current_event.pokes.access.as_json)
         prepare_data params[:action], @access, [['Station Name', 'Direction'], ['Event Day', 'Date Time'], ['Access'], 0]
       end
 
@@ -50,6 +60,7 @@ module Admins
         authorize(@current_event, :custom_analytics?)
         @load_analytics_resources = true
         @credit_value = @current_event.credit.value
+        @credit_name = @current_event.credit.name
       end
 
       def prepare_data(name, data, array)

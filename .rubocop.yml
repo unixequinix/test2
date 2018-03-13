@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
   Exclude:
     - 'db/**/*'
     - 'spec/rails_helper.rb'
@@ -82,5 +82,3 @@ Rails/UnknownEnv:
     - sandbox
     - test
     - development
-
-

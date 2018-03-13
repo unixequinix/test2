@@ -33,17 +33,17 @@ module Admins
         @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types).includes(:company)
 
         money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators)
+        @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators.as_json)
         credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day"]
-        @credits = prepare_pokes(credit_cols, @station.pokes.credit_flow)
+        @credits = prepare_pokes(credit_cols, @station.pokes.credit_flow.as_json)
         product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @products = prepare_pokes(product_cols, @station.pokes.products_sale)
+        @products = prepare_pokes(product_cols, @station.pokes.products_sale.as_json)
         stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock)
+        @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock.as_json)
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]
-        @access_control = prepare_pokes(access_cols, @station.pokes.access)
+        @access_control = prepare_pokes(access_cols, @station.pokes.access.as_json)
         ticket_cols = ["Action", "Catalog Item", "Total Tickets", "Money", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type)
+        @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type.as_json)
       end
 
       def new
