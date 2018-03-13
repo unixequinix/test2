@@ -1,5 +1,5 @@
 - closed ||= false
-- colors = { 0 => "e2e2e2", 1 => "b2beb5", 2 => "36454f"}
+- colors = { 0 => "e2e2e2", 1 => "efefef", 2 => "36454f"}
 
 - if pokes.any?
   .mdl-grid.light-grid
@@ -18,30 +18,22 @@
           table.mdl-data-table.mdl-js-data-table.within-card
             thead
               tr
-                th
-                th.mdl-data-table__cell--non-numeric Action
-                th.mdl-data-table__cell--non-numeric Station
-                th.mdl-data-table__cell--non-numeric Product
+                th.mdl-data-table__cell--non-numeric Operation
                 - @current_event.credits.each.with_index do |credit, index|
                   th.mdl-data-table__cell--non-numeric style="background-color: ##{colors[index] || 'white'}" #{credit.name} Amount
                   th style="background-color: ##{colors[index] || 'white'}" #{credit.name} Balance
-                th Created
-                th
+                th.mdl-data-table__cell--non-numeric Date
+                th style="width: 10px"
             tbody
-              - prev_counter = 0
               - pokes.each do |poke|
                 tr class="#{"danger" if poke.operation.status_not_ok?}"
-                  td.mdl-data-table__cell--non-numeric
-                    - if poke.gtag_counter
-                      | #{poke.gtag_counter} - #{poke.line_counter}
-                    - else
-                      = poke.line_counter
-                  td.mdl-data-table__cell--non-numeric data-label="Action" = link_to "#{poke.action.humanize}: #{poke.description.to_s.humanize}", admins_event_transaction_path(@current_event, poke.operation, type: poke.operation.category)
-                  td.mdl-data-table__cell--non-numeric data-label="Station" = link_to poke.station.name, admins_event_station_path(@current_event, poke.station) if poke.station
-                  td.mdl-data-table__cell--non-numeric data-label="Product"
-                    - if poke.action == "sale"
-                      - name = poke.product ? "#{poke.sale_item_quantity} x #{poke.product.name}" : "Other Amount"
-                      = link_to name, admins_event_station_products_path(@current_event, poke.station, poke.product)
+                  td.mdl-data-table__cell--non-numeric data-label="Action"
+                    = link_to poke.name, admins_event_transaction_path(@current_event, poke.operation, type: poke.operation.category)
+                    - if poke.station
+                      | &nbsp; @ &nbsp;
+                      = link_to admins_event_station_path(@current_event, poke.station) do
+                        = poke.station.name
+
                   - @current_event.credits.each.with_index do |credit, index|
                     - if credit == poke.credit
                       td.mdl-data-table__cell--non-numeric style="background-color: ##{colors[index] || 'white'}" = number_to_credit(poke.credit_amount, credit)
@@ -49,7 +41,7 @@
                     - else
                       td style="background-color: ##{colors[index] || 'white'}"
                       td style="background-color: ##{colors[index] || 'white'}"
-                  td data-label="Device Created At" = l poke.date
+                  td.mdl-data-table__cell--non-numeric data-label="Date" = poke.date.to_s(:short)
                   td data-label="Actions"
                     - if policy(poke).status_9? ||  policy(poke).status_0?
                       - if poke.ok?
@@ -58,8 +50,9 @@
                       - else
                         = link_to status_0_admins_event_poke_path(@current_event, poke), class: "mdl-button mdl-button--icon" do
                           button.icon.material-icons id="accept_tr_#{poke.id}" check
+
+
                 span.mdl-tooltip data-mdl-for="cancel_tr_#{poke.id}" Invalidate
                 span.mdl-tooltip data-mdl-for="accept_tr_#{poke.id}" Accept
-                - prev_counter = poke.gtag_counter
     .mdl-layout-spacer
 

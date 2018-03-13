@@ -191,6 +191,18 @@ class Poke < ApplicationRecord
     "sum(CASE when source = 'online' THEN monetary_total_price ELSE NULL END) as online, sum(CASE when source = 'onsite' THEN monetary_total_price ELSE NULL END) as onsite"
   end
 
+  def name
+    result = "#{action.humanize}: #{description.to_s.humanize}" if action.present? && description.present?
+    result = action.humanize.to_s if action.present? && description.blank?
+    result = "#{catalog_item.name.humanize} flag applied" if action.eql?("user_flag") && user_flag_value
+    result = "#{catalog_item.name.humanize} flag removed" if action.eql?("user_flag") && !user_flag_value
+    result = "Sale of #{sale_item_quantity} x #{product.name}" if action.eql?("sale")
+    result = "Credit #{description.humanize.downcase}" if action.eql?("record_credit")
+    result = "Monetary #{action.humanize.downcase}" if action.in?(%w[topup refund purchase])
+
+    result
+  end
+
   def error?
     !ok?
   end
