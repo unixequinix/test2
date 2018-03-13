@@ -15,9 +15,10 @@ module ApplicationHelper
     number_to_currency number, unit: @current_event.credit.symbol
   end
 
-  def number_to_credit(number, _credit)
+  def number_to_credit(number, credit)
     result = number_with_delimiter(number_with_precision(number, precision: 2))
-    number.to_f.positive? ? "+#{result}" : result
+    result = number.to_f.positive? ? "+#{result}" : result
+    number_to_currency result, unit: credit.symbol
   end
 
   def title

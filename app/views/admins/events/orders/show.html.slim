@@ -14,7 +14,7 @@
         tbody
           tr
             td.mdl-data-table__cell--non-numeric Customer
-            td = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)
+            td = link_to @order.customer.full_email, admins_event_customer_path(@current_event, @order.customer)
           tr
             td.mdl-data-table__cell--non-numeric Money Base
             td = number_to_event_currency(@order.money_base)

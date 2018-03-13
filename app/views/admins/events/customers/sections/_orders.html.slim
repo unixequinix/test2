@@ -25,7 +25,7 @@
                 td.mdl-data-table__cell--non-numeric data-label="Number" = link_to order.number, admins_event_order_path(@current_event, order)
                 td data-label="Gateway" = order.gateway.to_s.humanize
                 td data-label="State" = order.status.humanize
-                td data-label="Items" = order.credits
+                td data-label="Items" = number_to_token(order.credits)
                 td data-label="Total" = number_to_event_currency order.money_total
                 td data-label="Completed" = l order.completed_at if order.completed_at
                 td data-label="Redeemed"

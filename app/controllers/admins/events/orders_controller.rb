@@ -36,7 +36,7 @@ module Admins
 
         if @order.set_counters.save
           @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
-          redirect_to [:admins, @current_event, @order], notice: t("alerts.created")
+          redirect_to [:admins, @current_event, @order.customer], notice: t("alerts.created")
         else
           @catalog_items_collection = @current_event.catalog_items.not_user_flags.group_by { |item| item.type.underscore.humanize.pluralize }
           @order.order_items.build(catalog_item: @alcohol_flag, amount: alcohol_flag) if alcohol_flag.to_i.eql?(1)

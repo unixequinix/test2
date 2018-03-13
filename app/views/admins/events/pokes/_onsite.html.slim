@@ -1,5 +1,6 @@
 - closed ||= false
 - colors = { 0 => "e2e2e2", 1 => "efefef", 2 => "36454f"}
+- credits = pokes.map(&:credit).compact.uniq
 
 - if pokes.any?
   .mdl-grid.light-grid
@@ -19,7 +20,7 @@
             thead
               tr
                 th.mdl-data-table__cell--non-numeric Operation
-                - @current_event.credits.each.with_index do |credit, index|
+                - credits.each.with_index do |credit, index|
                   th.mdl-data-table__cell--non-numeric style="background-color: ##{colors[index] || 'white'}" #{credit.name} Amount
                   th style="background-color: ##{colors[index] || 'white'}" #{credit.name} Balance
                 th.mdl-data-table__cell--non-numeric Date
@@ -34,10 +35,10 @@
                       = link_to admins_event_station_path(@current_event, poke.station) do
                         = poke.station.name
 
-                  - @current_event.credits.each.with_index do |credit, index|
+                  - credits.each.with_index do |credit, index|
                     - if credit == poke.credit
                       td.mdl-data-table__cell--non-numeric style="background-color: ##{colors[index] || 'white'}" = number_to_credit(poke.credit_amount, credit)
-                      td style="background-color: ##{colors[index] || 'white'}" = number_with_precision(poke.final_balance, precision: 2) if credit == poke.credit
+                      td style="background-color: ##{colors[index] || 'white'}" = number_to_credit(poke.final_balance, credit) if credit == poke.credit
                     - else
                       td style="background-color: ##{colors[index] || 'white'}"
                       td style="background-color: ##{colors[index] || 'white'}"
