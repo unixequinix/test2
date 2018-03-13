@@ -1,6 +1,8 @@
 - content_for(:title) do
   | #{@type.to_s.humanize} Transaction
 
+- no_link = [UserFlag, Credit, VirtualCredit].include?(@transaction.catalog_item.class)
+
 .content-grid.mdl-grid
   .mdl-cell.mdl-cell--6-col
     .mdl-grid
@@ -107,7 +109,7 @@
                   - if @transaction.catalog_item
                     tr
                       td.mdl-data-table__cell--non-numeric Catalog Item
-                      td = link_to "#{@transaction.catalog_item.name} (#{@transaction.catalog_item.class.to_s.humanize})", [:admins, @current_event, @transaction.catalog_item]
+                      td = link_to_unless no_link, "#{@transaction.catalog_item.name} (#{@transaction.catalog_item.class.to_s.humanize})", [:admins, @current_event, @transaction.catalog_item]
 
       - if @transaction.order
         - order = @transaction.order
@@ -168,27 +170,5 @@
                         i.material-icons done
                       - else
                         i.material-icons clear
-
-      - if @transaction.catalog_item
-        - item = @transaction.catalog_item
-
-        .mdl-cell.mdl-cell--12-col
-          .transaction-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title
-              h2.mdl-card__title-text
-                i.material-icons bookmark_border
-                | Item
-            .mdl-card__supporting-text
-              table.mdl-data-table.mdl-js-data-table.within-card
-                thead
-                  tr
-                    th.mdl-data-table__cell--non-numeric Name
-                    th Type
-                    th Credits
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric = link_to item.name, [:admins, @current_event, item]
-                    td = item.class.to_s.humanize
-                    td = item.credits
 
       = render(partial: "admins/events/transactions/categories/#{@transaction.category}") if lookup_context.template_exists?("admins/events/transactions/categories/_#{@transaction.category}")
