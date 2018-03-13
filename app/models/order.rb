@@ -23,7 +23,6 @@ class Order < ApplicationRecord
 
   enum status: { started: 1, in_progress: 2, completed: 3, refunded: 4, failed: 5, cancelled: 6 }
 
-  scope :completed, -> { where(status: "completed") }
   scope :has_money, -> { where.not(money_base: nil) }
   scope(:not_refund, -> { where.not(gateway: "refund") })
 

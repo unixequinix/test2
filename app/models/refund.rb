@@ -18,7 +18,6 @@ class Refund < ApplicationRecord
   validate_associations
 
   enum status: { started: 1, completed: 2, cancelled: 3 }
-  scope :completed, -> { where(status: "completed") }
 
   scope :online_refund, lambda {
     select(transaction_type_refund, dimension_operation_refund, dimensions_station, event_day_refund, date_time_refund, payment_method, money_refund)
