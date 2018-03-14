@@ -169,7 +169,7 @@ class Customer < ApplicationRecord
   end
 
   def custom_validation(field)
-    event && event.method("#{field}_mandatory?").call && !reset_password_token_changed? &&
+    event&.method("#{field}_mandatory?")&.call && !reset_password_token_changed? &&
       (!encrypted_password_changed? || new_record?) && !anonymous?
   end
 

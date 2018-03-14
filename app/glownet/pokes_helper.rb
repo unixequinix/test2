@@ -24,11 +24,11 @@ module PokesHelper
     }.merge(extra_atts)
   end
 
-  def extract_money_atts(t, extra_atts = {})
-    { payment_method: t.payment_method,
+  def extract_money_atts(transaction, extra_atts = {})
+    { payment_method: transaction.payment_method,
       monetary_quantity: 1,
-      monetary_unit_price: t.price,
-      monetary_total_price: t.price }.merge(extra_atts)
+      monetary_unit_price: transaction.price,
+      monetary_total_price: transaction.price }.merge(extra_atts)
   end
 
   def extract_catalog_item_info(item, extra_atts = {})

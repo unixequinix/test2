@@ -10,7 +10,7 @@ gem 'rails', '~> 5.1.4' # Bundle edge Rails instead: gem 'rails', github: 'rails
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
 gem 'figaro'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk-s3'
 gem 'redis', '~> 3.0' # Use Redis adapter to run Action Cable in production
 gem 'cookies_eu'
 gem 'http-accept' # parsers for dealing with HTTP Accept, Accept-Language...

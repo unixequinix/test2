@@ -4,11 +4,11 @@ class Pokes::Replacement < Pokes::Base
 
   TRIGGERS = %w[gtag_replacement].freeze
 
-  def perform(t)
-    old_gtag = create_gtag(t.ticket_code, t.event_id)
-    old_gtag.replace!(t.gtag)
-    t.update! customer: t.gtag.customer
+  def perform(transaction)
+    old_gtag = create_gtag(transaction.ticket_code, transaction.event_id)
+    old_gtag.replace!(transaction.gtag)
+    transaction.update! customer: transaction.gtag.customer
 
-    create_poke(extract_atts(t, extract_credential_info(old_gtag, action: "replacement", description: "gtag")))
+    create_poke(extract_atts(transaction, extract_credential_info(old_gtag, action: "replacement", description: "gtag")))
   end
 end

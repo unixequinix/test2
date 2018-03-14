@@ -9,34 +9,34 @@ class Pokes::Credit < Pokes::Base
 
   queue_as :medium_low
 
-  def perform(t) # rubocop:disable Metrics/PerceivedComplexity
-    description = t.action
-    description = t.action.gsub("_fee", "") if FEES.include?(t.action)
-    description = "checkin" if t.station.category.eql?("check_in") && t.action.eql?("topup")
-    description = "purchase" if t.station.category.eql?("box_office") && t.action.eql?("topup")
+  def perform(transaction) # rubocop:disable Metrics/PerceivedComplexity
+    description = transaction.action
+    description = transaction.action.gsub("_fee", "") if FEES.include?(transaction.action)
+    description = "checkin" if transaction.station.category.eql?("check_in") && transaction.action.eql?("topup")
+    description = "purchase" if transaction.station.category.eql?("box_office") && transaction.action.eql?("topup")
 
     action = "record_credit"
-    action = "fee" if FEES.include?(t.action)
-    action = "correction" if CORRECTIONS.include?(t.action)
+    action = "fee" if FEES.include?(transaction.action)
+    action = "correction" if CORRECTIONS.include?(transaction.action)
 
-    pokes = t.payments.to_a.map.with_index do |payment, i|
+    pokes = transaction.payments.to_a.map.with_index do |payment, i|
       credit_id, payment = payment
       atts = extract_credit_atts(credit_id, payment, action: action, description: description, line_counter: i + 1)
-      create_poke(extract_atts(t, atts))
+      create_poke(extract_atts(transaction, atts))
     end
 
-    recalculate_balance(t)
+    recalculate_balance(transaction)
 
     pokes
   end
 
   private
 
-  def recalculate_balance(t)
-    t.gtag&.recalculate_balance
-    t.customer.update(initial_topup_fee_paid: true) if t.action.eql?("initial_fee")
+  def recalculate_balance(transaction)
+    transaction.gtag&.recalculate_balance
+    transaction.customer.update(initial_topup_fee_paid: true) if transaction.action.eql?("initial_fee")
 
-    return unless t.customer_tag_uid == t.operator_tag_uid
-    Alert.propagate(t.event, t, "has the same operator and customer UIDs", :medium)
+    return unless transaction.customer_tag_uid == transaction.operator_tag_uid
+    Alert.propagate(transaction.event, transaction, "has the same operator and customer UIDs", :medium)
   end
 end
