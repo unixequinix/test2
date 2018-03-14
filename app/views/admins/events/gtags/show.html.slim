@@ -52,10 +52,6 @@
             tr
               td.mdl-data-table__cell--non-numeric Gtag Customer
               td = link_to "#{customer.name} - #{customer.email}", admins_event_customer_path(@current_event, customer)
-          - unless @gtag.complete?
-            tr
-              td.mdl-data-table__cell--non-numeric Missing Transactions
-              td = @gtag.missing_counters.to_sentence
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

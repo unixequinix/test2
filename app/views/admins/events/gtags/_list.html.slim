@@ -6,12 +6,8 @@
         tr
           th.mdl-data-table__cell--non-numeric Tag UID
           th.mdl-data-table__cell--non-numeric Customer
-          th.mdl-data-table__cell--non-numeric Credential Type
           th Credits
           th Virtual Credits
-          th Inconsistency
-          th Virtual Inconsistency
-          th Missing counters
           th Banned
           th Redeemed
 
@@ -21,12 +17,8 @@
             tr class="#{gtag.consistent? && gtag.complete? ? "" : (gtag.complete? ? "bad_header" : "danger")}" title="#{title || 'Stable'}"
               td.mdl-data-table__cell--non-numeric data-label="Tag UID" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag), id: "gtag_#{gtag.id}_link"
               td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to gtag.customer&.name, admins_event_customer_path(@current_event, gtag.customer&.id), id: "customer_#{gtag.customer_id}_link" if gtag.customer
-              td.mdl-data-table__cell--non-numeric data-label="Credential Type" = link_to gtag.ticket_type.name, admins_event_ticket_type_path(@current_event, gtag.ticket_type) if gtag.ticket_type
               td data-label="Credits" = number_to_token gtag.credits
               td data-label="Virtual Credits" = number_to_token gtag.virtual_credits
-              td data-label="Inconsistency" = number_to_token gtag.final_balance - gtag.credits unless gtag.consistent?
-              td data-label="Virtual Inconsistency" = number_to_token gtag.final_virtual_balance - gtag.virtual_credits unless gtag.consistent?
-              td data-label="Virtual Inconsistency" = gtag.missing_counters.to_sentence
               td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
               td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
     = render "layouts/pagination", objects: gtags

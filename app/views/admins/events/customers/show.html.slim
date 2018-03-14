@@ -98,30 +98,32 @@
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-fix
         table.mdl-data-table.mdl-js-data-table.within-card
-          tr
-            td.mdl-data-table__cell--non-numeric Name
-            td = @customer.name
-          tr
-            td.mdl-data-table__cell--non-numeric Email
-            td = @customer.email
-
-          - if @current_event.phone_mandatory?
+          - if @customer.phone.present?
             tr
               td.mdl-data-table__cell--non-numeric Phone
               td = @customer.phone
-          - if @current_event.address_mandatory?
+
+          - if @customer.address.present?
             tr
-              td.mdl-data-table__cell--non-numeric Phone
-              td = @customer.address
-          - if @current_event.gender_mandatory?
+              td.mdl-data-table__cell--non-numeric Address
+              td
+                = @customer.address
+                | #{@customer.postcode}, #{@customer.city}
+                = @customer.country
+
+
+          - if @customer.gender.present?
             tr
-              td.mdl-data-table__cell--non-numeric Phone
+              td.mdl-data-table__cell--non-numeric Gender
               td = @customer.gender
-          - if @current_event.birthdate_mandatory?
+
+          - if @customer.birthdate.present?
             tr
-              td.mdl-data-table__cell--non-numeric Phone
-              td = @customer.birthdate
+              td.mdl-data-table__cell--non-numeric Birthday
+              td = l @customer.birthdate
   .mdl-layout-spacer
+
+
 - root = "admins/events/customers/sections/"
 = render(root + "ticket_assignments", customer: @customer) if @customer.tickets.any?
 = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?

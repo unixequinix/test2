@@ -199,7 +199,8 @@ class Poke < ApplicationRecord
     result = action.humanize.to_s if action.present? && description.blank?
     result = "#{catalog_item.name.humanize} flag applied" if action.eql?("user_flag") && user_flag_value
     result = "#{catalog_item.name.humanize} flag removed" if action.eql?("user_flag") && !user_flag_value
-    result = "Sale of #{sale_item_quantity} x #{product.name}" if action.eql?("sale")
+    result = "Sale of #{sale_item_quantity} x #{product&.name}" if action.eql?("sale") && product
+    result = "Sale of unknown product" if action.eql?("sale") && !product
     result = "Credit #{description.humanize.downcase}" if action.eql?("record_credit")
     result = "Monetary #{action.humanize.downcase}" if action.in?(%w[topup refund purchase])
 
