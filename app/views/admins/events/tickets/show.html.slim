@@ -21,6 +21,11 @@
           button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons edit
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+      li.floaty-list-item
+        = link_to [:merge, :admins, @current_event, :admission, type: "ticket"] do
+          button#merge.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons merge_type
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="merge" Merge Ticket
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

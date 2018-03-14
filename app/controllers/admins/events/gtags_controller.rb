@@ -1,7 +1,7 @@
 module Admins
   module Events
     class GtagsController < Admins::Events::BaseController
-      before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance]
+      before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance merge]
 
       def index
         @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])
@@ -66,6 +66,14 @@ module Admins
             format.json { render json: { errors: @gtag.errors }, status: :unprocessable_entity }
           end
         end
+      end
+
+      def merge
+        admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
+        result = @gtag.merge(admission)
+
+        alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
+        redirect_to [:admins, @current_event, (result || admission)], alert
       end
 
       def inconsistencies

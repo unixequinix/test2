@@ -83,7 +83,9 @@ Rails.application.routes.draw do
       scope module: :events do
 
         resource :settings, only: :show
-        resources :admissions, only: [:index]
+        resources :admissions, only: [:index] do
+          get :merge, on: :member
+        end
 
         resource :analytics do
           get :money
@@ -163,6 +165,7 @@ Rails.application.routes.draw do
             get :reset_password
             get :resend_confirmation
             get :confirm_customer
+            get :merge
           end
         end
 
@@ -170,6 +173,7 @@ Rails.application.routes.draw do
           member do
             get :recalculate_balance
             get :solve_inconsistent
+            get :merge
           end
           collection do
             get :inconsistencies
@@ -183,6 +187,7 @@ Rails.application.routes.draw do
           member do
             get :ban
             get :unban
+            get :merge
           end
           collection do
             get :sample_csv

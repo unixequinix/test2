@@ -42,4 +42,8 @@ class GtagPolicy < ApplicationPolicy
   def sample_csv?
     admin_or_promoter && event_open
   end
+
+  def merge?
+    admin_or_promoter && event_open
+  end
 end

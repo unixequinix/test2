@@ -9,6 +9,12 @@ module Credentiable
     has_many :pokes_as_credential, as: :credential, class_name: "Poke", dependent: :restrict_with_error # rubocop:disable Rails/InverseOf
   end
 
+  def merge(admission)
+    admission.create_customer!(event: event) if admission.customer.blank?
+    update!(customer: event.customers.create!) if customer.blank?
+    admission.customer.anonymous? ? Customer.claim(event, customer, admission.customer) : Customer.claim(event, admission.customer, reload.customer)
+  end
+
   def purchaser_full_name
     "#{try(:purchaser_first_name)} #{try(:purchaser_last_name)}"
   end

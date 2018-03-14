@@ -27,19 +27,20 @@
                 tr
                   td.mdl-data-table__cell--non-numeric data-label="Name" = link_to admission.name, [:admins, @current_event, admission]
                   td.mdl-data-table__cell--non-numeric data-label="Type" = admission.class.to_s.humanize
-                  td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to admission.name, [:admins, @current_event, admission] if admission.customer
+                  td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to admission.customer.name, [:admins, @current_event, admission] if admission.customer
 
       - else
-        .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
           = search_form_for @q, url: admins_event_admissions_path do |f|
-            .fieldset
-              .section-header
+            .mdl-card__title
+              .mdl-cell.mdl-cell--12-col
                 i.material-icons search
                 span
                   | Search
                   .small You can search for Customers, Tickets and Gtags
-              .form-inputs
-                = f.search_field :email_cont
+              .mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--8-col
+                = f.search_field :email_cont, class: "mdl-textfield__input"
+                label.mdl-textfield__label Search
 
         .mdl-cell.mdl-cell--12-col = render "admins/events/resources"
 

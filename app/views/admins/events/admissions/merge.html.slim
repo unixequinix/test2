@@ -1,0 +1,34 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Merge #{@admission.name} with ...
+
+- content_for(:search) do
+  = search_form_for @q, url: merge_admins_event_admission_path(@current_event) do |f|
+    = f.search_field :email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+    = hidden_field_tag :type, @admission.class.to_s.humanize.downcase
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card#admissions_list
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th.mdl-data-table__cell--non-numeric Type
+              th.mdl-data-table__cell--non-numeric Customer
+              th
+          tbody
+            - @admissions.each do |admission|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Name" = link_to admission.name, [:admins, @current_event, admission]
+                td.mdl-data-table__cell--non-numeric data-label="Type" = admission.class.to_s.humanize
+                td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to admission.customer.name, [:admins, @current_event, admission.customer] if admission.customer
+                td.table-actions
+                  .table-action
+                    = link_to [:merge, :admins, @current_event, admission, {adm_id: @admission.id, adm_class: @admission.class.to_s.underscore }], data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons merge_type
+
+
+  .mdl-layout-spacer

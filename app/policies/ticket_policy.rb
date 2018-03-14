@@ -22,4 +22,8 @@ class TicketPolicy < ApplicationPolicy
   def unban?
     admin_or_promoter && event_open
   end
+
+  def merge?
+    admin_or_promoter && event_open
+  end
 end

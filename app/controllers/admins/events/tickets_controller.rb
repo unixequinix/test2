@@ -59,6 +59,14 @@ module Admins
         end
       end
 
+      def merge
+        admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
+        result = @ticket.merge(admission)
+
+        alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
+        redirect_to [:admins, @current_event, (result || admission)], alert
+      end
+
       def import # rubocop:disable Metrics/AbcSize
         authorize @current_event.tickets.new
         path = admins_event_tickets_path(@current_event)

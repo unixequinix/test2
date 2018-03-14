@@ -26,6 +26,11 @@
           button#solve.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons priority_high
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="solve" Solve Inconsistency
+      li.floaty-list-item
+        = link_to [:merge, :admins, @current_event, :admission, type: "gtag"] do
+          button#merge.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons merge_type
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="merge" Merge Gtag
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

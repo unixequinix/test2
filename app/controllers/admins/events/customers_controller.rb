@@ -58,6 +58,16 @@ module Admins
         redirect_to [:admins, @current_event, @customer], notice: "Customer confirmed"
       end
 
+      def merge
+        admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
+        admission.create_customer!(event: @current_event) if admission.customer.blank?
+
+        result = @customer.anonymous? ? Customer.claim(@current_event, admission.customer, @customer) : Customer.claim(@current_event, @customer, admission.customer)
+
+        alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
+        redirect_to [:admins, @current_event, (result || admission)], alert
+      end
+
       private
 
       def permitted_params

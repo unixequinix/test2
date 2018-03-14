@@ -62,4 +62,8 @@ class CustomerPolicy < ApplicationPolicy
   def destroy_credential?
     all_allowed && event_open
   end
+
+  def merge?
+    all_allowed && event_open
+  end
 end
