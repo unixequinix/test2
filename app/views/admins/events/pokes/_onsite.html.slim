@@ -74,7 +74,7 @@
                       - pks = pokes_in.select { |poke| poke.credit == credit }
                       - if pks.any?
                         td style="background-color: ##{colors[index] || 'white'}" = number_to_credit(pks.sum(&:credit_amount), credit)
-                        td style="background-color: ##{colors[index] || 'white'}" = number_to_credit(pks.sum(&:final_balance), credit)
+                        td style="background-color: ##{colors[index] || 'white'}" = number_to_credit(pks.last.final_balance, credit)
                       - else
                         td style="background-color: ##{colors[index] || 'white'}"
                         td style="background-color: ##{colors[index] || 'white'}"
