@@ -194,7 +194,7 @@ class Poke < ApplicationRecord
     "sum(CASE when source = 'online' THEN monetary_total_price ELSE NULL END) as online, sum(CASE when source = 'onsite' THEN monetary_total_price ELSE NULL END) as onsite"
   end
 
-  def name # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def name # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     result = "#{action.humanize}: #{description.to_s.humanize}" if action.present? && description.present?
     result = action.humanize.to_s if action.present? && description.blank?
     result = "#{catalog_item.name.humanize} flag applied" if action.eql?("user_flag") && user_flag_value

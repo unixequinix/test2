@@ -27,6 +27,10 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def refund?
+    all_allowed && event_open
+  end
+
   def assign_ticket?
     all_allowed && event_open
   end

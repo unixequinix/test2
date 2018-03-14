@@ -9,7 +9,8 @@ class Refund < ApplicationRecord
   belongs_to :customer
 
   validates :gateway, presence: true
-  validates :credit_fee, :credit_base, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :credit_fee, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :credit_base, presence: true, numericality: { greater_than: 0 }
   validate :extra_params_fields
 
   validate :correct_iban_and_swift, if: :iban

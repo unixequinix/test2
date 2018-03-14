@@ -76,6 +76,21 @@ module Api::V2
       end
     end
 
+    # POST api/v2/events/:event_id/customers/:id/refunds
+    def refund
+      fee = @current_event.refund_fee.to_f
+      base = @customer.credits - fee
+      params[:gateway] ||= "other"
+
+      @refund = @current_event.refunds.new(credit_base: base, credit_fee: fee, customer: @customer, gateway: params[:gateway])
+      if @refund.save
+        @refund.complete!(params[:send_email])
+        render json: @refund, status: :created, location: [:admins, @current_event, @refund]
+      else
+        render json: @refund.errors, status: :unprocessable_entity
+      end
+    end
+
     # GET api/v2/events/:event_id/customers/:id/refunds
     def refunds
       @refunds = @customer.refunds

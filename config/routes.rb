@@ -314,6 +314,7 @@ Rails.application.routes.draw do
               post :assign_gtag
               post :assign_ticket
               post :gtag_replacement
+              post :refund
               get :refunds
               get :transactions
             end
