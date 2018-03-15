@@ -6,9 +6,20 @@
 .panel-card-wide.mdl-card.mdl-shadow--2dp
   .mdl-card__title
 
-    .mdl-cell.mdl-cell--8-col
+    .mdl-cell.mdl-cell--12-col
       - if @current_customer.valid_balance?
-        h4 = t('dashboard.credits.header')
+        .mdl-grid
+          .mdl-cell.mdl-cell--12-col
+            h4 = t('dashboard.credits.header')
+          .mdl-cell.mdl-cell--12-col
+            .panel-amount-number
+              .mdl-grid
+                .mdl-cell.mdl-cell--6-col
+                  span.amount = number_to_token(@current_customer.credits)
+              - unless @current_customer.virtual_credits.zero?
+                .mdl-cell.mdl-cell--6-col.tools
+                  span.web-version = @current_event.virtual_credit.name
+                  span.amount.right = number_to_credit(@current_customer.virtual_credits, @current_event.virtual_credit)
       - else
         h5 = t('dashboard.credits.header_invalid')
 
@@ -27,17 +38,7 @@
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons money_off
 
-  - if @current_customer.valid_balance?
-    .mdl-card__supporting-text
-      .content-grid.mdl-grid
-        .mdl-cell.mdl-cell--6-col
-          .panel-amount-number
-            span.amount = number_to_token(@current_customer.credits + @current_customer.virtual_credits)
-        .mdl-cell.mdl-cell--6-col
-          .virtual-amount-number
-            = "#{t('dashboard.credits.refundable')}: "
-            = number_to_token(@current_customer.credits)
-  - else
+  - unless @current_customer.valid_balance?
     .mdl-card__supporting-text
       .content-grid.mdl-grid
         .mdl-cell.mdl-cell--12-col
