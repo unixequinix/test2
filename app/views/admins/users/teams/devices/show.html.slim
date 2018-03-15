@@ -1,6 +1,6 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col = best_in_place @device, :asset_tracker, url: [:admins, @current_user, :team, @device], html_attrs: {disabled: !device_owner?(@current_user, @device)}
@@ -30,7 +30,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       table.mdl-data-table.mdl-js-data-table.within-card
         thead

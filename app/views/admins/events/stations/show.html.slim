@@ -38,7 +38,7 @@
 - if @station.type == 'pos' and !@pokes.nil?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .mdl-grid
         .mdl-cell.mdl-cell--3-col
           .customer-card.mdl-card.mdl-shadow--2dp
@@ -69,7 +69,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .mdl-grid
       .mdl-cell.mdl-cell--6-col
         .admin-card-wide.mdl-card.mdl-shadow--2dp
@@ -103,7 +103,7 @@
 - if @station.category.in?(%w[ticket_validation check_in])
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .mdl-grid
         .mdl-cell.mdl-cell--6-col
           .customer-card.mdl-card.mdl-shadow--2dp
@@ -124,7 +124,7 @@
 - if @pokes.present?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .customer-card.mdl-card.mdl-shadow--2dp.station-tables
         .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF('stations')"
           i.material-icons#downloadIcon file_download

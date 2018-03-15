@@ -22,7 +22,7 @@
 - if policy(@current_event.refunds.new).analytics? && @refunds.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .mdl-grid
 
         .mdl-cell.mdl-cell--6-col
@@ -46,14 +46,14 @@
 
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .data-card-wide.mdl-card.mdl-shadow--2dp
         = line_chart @graph, title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
     .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     = render "layouts/pagination", objects: @refunds
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
