@@ -34,7 +34,7 @@ module Api::V2
 
     # POST api/v2/events/:event_id/ticket_types
     def create
-      @ticket_type = @current_event.ticket_types.new(ticket_type_params)
+      @ticket_type = @current_event.ticket_types.new(ticket_type_params.merge(company: @current_user.team&.name || "Glownet"))
       authorize @ticket_type
 
       if @ticket_type.save

@@ -88,6 +88,15 @@ RSpec.describe Api::V2::Events::TicketTypesController, type: %i[controller api] 
         post :create, params: { event_id: event.id, ticket_type: valid_attributes }
         expect(json["id"]).to eq(TicketType.last.id)
       end
+
+      it "assigns the teams name as company" do
+        team = user.build_active_team_invitation.build_team(name: "myteam")
+        team.team_invitations.new(user_id: user.id, email: user.email, leader: true, active: true)
+        team.save!
+
+        post :create, params: { event_id: event.id, ticket_type: valid_attributes }
+        expect(TicketType.find(json["id"]).company).to eq("myteam")
+      end
     end
 
     context "with invalid params" do
