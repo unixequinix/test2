@@ -6,7 +6,7 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server "52.211.103.33", user: "deploy", roles: %w[web app db]
+server "howler.glownet.com", user: "deploy", roles: %w[web app db]
 
 ask(:branch, proc { `git rev-parse --abbrev-ref develop`.chomp })
 set(:rails_env, "howler")
