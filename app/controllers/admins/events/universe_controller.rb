@@ -27,16 +27,14 @@ module Admins
 
       def disconnect
         authorize @current_event, :universe_disconnect?
-        name = "Universe - #{@current_event.universe_event}"
-        @current_event.tickets.where(ticket_type: @current_event.companies.find_by(name: name)&.ticket_types).update_all(banned: true)
+        @current_event.tickets.where(ticket_type: @current_event.ticket_types.where(company: "Universe - #{@current_event.universe_event}")).update_all(banned: true)
         @current_event.update! universe_token: nil, universe_event: nil
         redirect_to admins_event_path(@current_event), notice: "Successfully disconnected from Universe"
       end
 
       def disconnect_event
         authorize @current_event, :universe_disconnect?
-        name = "Universe - #{@current_event.universe_event}"
-        @current_event.tickets.where(ticket_type: @current_event.companies.find_by(name: name)&.ticket_types).update_all(banned: true)
+        @current_event.tickets.where(ticket_type: @current_event.ticket_types.where(company: "Universe - #{@current_event.universe_event}")).update_all(banned: true)
         @current_event.update! universe_event: nil
         redirect_to admins_event_universe_path(@current_event), notice: "Successfully disconnected from Universe Event"
       end

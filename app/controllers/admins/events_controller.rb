@@ -106,7 +106,6 @@ module Admins
 
     def close
       @current_event.update_attribute :state, "closed"
-      @current_event.companies.update_all(hidden: true)
       @current_event.device_registrations.update_all(allowed: true)
 
       redirect_to [:admins, @current_event], notice: t("alerts.updated")
