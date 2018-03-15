@@ -22,7 +22,7 @@ class Device < ApplicationRecord
 
   def events_for_device
     ids = event.present? ? [event.id] : team.event_ids
-    Event.where(id: ids, open_devices_api: true).launched
+    Event.where(id: ids).live
   end
 
   private
