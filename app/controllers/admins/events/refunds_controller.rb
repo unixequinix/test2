@@ -1,7 +1,7 @@
 module Admins
   module Events
     class RefundsController < Admins::Events::BaseController
-      before_action :set_refund, only: %i[show destroy update]
+      before_action :set_refund, except: %i[index]
 
       def index
         @q = @current_event.refunds.includes(:customer).ransack(params[:q])
@@ -18,11 +18,9 @@ module Admins
 
         respond_to do |format|
           format.html
-          format.csv { send_data(CsvExporter.to_csv(Refund.query_for_csv(@current_event))) }
+          format.csv { send_data(CsvExporter.to_csv(@current_event.refunds.select(:id, :credit_base, :credit_fee, :fields))) }
         end
       end
-
-      def show; end
 
       def update
         respond_to do |format|
