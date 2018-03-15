@@ -7,7 +7,6 @@ class Event < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :catalog_items, dependent: :destroy
   has_many :ticket_types, dependent: :destroy
-  has_many :companies, dependent: :destroy
   has_many :gtags, dependent: :destroy
   has_many :stations, dependent: :destroy
   has_many :device_transactions, dependent: :destroy
