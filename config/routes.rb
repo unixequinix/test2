@@ -335,6 +335,7 @@ Rails.application.routes.draw do
 
           resources :ticket_types do
             get :tickets, on: :member
+            post :bulk_upload, on: :member
           end
         end
       end

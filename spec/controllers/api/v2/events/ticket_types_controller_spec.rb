@@ -11,6 +11,35 @@ RSpec.describe Api::V2::Events::TicketTypesController, type: %i[controller api] 
 
   before { token_login(user, event) }
 
+  describe "POST #bulk_upload" do
+    let(:tickets) { %w[aaa bbb ccc 123] }
+
+    context "with valid codes" do
+      it "creates new tickets" do
+        expect do
+          post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets }
+        end.to change { ticket_type.tickets.count }.by(tickets.size)
+      end
+
+      it "returns created status" do
+        post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets }
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context "with invalid params" do
+      it "returns an unprocessable_entity response" do
+        post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets + ["aaa"] }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "returns codes that could not be created" do
+        post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets + ["aaa"] }
+        expect(JSON(response.body)["errors"]).to include("aaa")
+      end
+    end
+  end
+
   describe "GET #index" do
     before { create_list(:ticket_type, 10, event: event) }
 

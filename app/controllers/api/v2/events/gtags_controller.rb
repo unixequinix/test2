@@ -1,6 +1,6 @@
 module Api::V2
   class Events::GtagsController < BaseController
-    before_action :set_gtag, only: %i[virtual_topup topup show update destroy ban unban replace]
+    before_action :set_gtag, only: %i[virtual_topup topup show update destroy ban unban]
     before_action :check_credits, only: %i[topup virtual_topup]
 
     # POST api/v2/events/:event_id/gtags/:id/replace

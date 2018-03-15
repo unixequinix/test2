@@ -1,6 +1,16 @@
 module Api::V2
   class Events::TicketTypesController < BaseController
-    before_action :set_ticket_type, only: %i[tickets show update destroy]
+    before_action :set_ticket_type, only: %i[tickets show update destroy bulk_upload]
+
+    def bulk_upload
+      errors = params[:tickets].to_a.reject { |code| @current_event.tickets.create(code: code, ticket_type: @ticket_type).valid? }
+
+      if errors.empty?
+        render json: @ticket_type, status: :created, location: [:admins, @current_event, @ticket_type]
+      else
+        render json: { errors: "#{errors.count} codes could not be created. #{errors.to_sentence}" }, status: :unprocessable_entity
+      end
+    end
 
     # GET api/v2/events/:event_id/ticket_types
     def index
