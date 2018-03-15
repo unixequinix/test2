@@ -7,8 +7,10 @@ RSpec.describe Creators::OrderJob, type: :job do
   let(:balance) { rand(100) }
 
   context "creating order" do
-    before { customer.build_order([[event.credit.id, balance]]) }
-    before { customer.orders.map(&:complete!) }
+    before do
+      customer.build_order([[event.credit.id, balance]]).save!
+      customer.orders.map(&:complete!)
+    end
 
     it "can create an order" do
       expect { worker.perform_now(event, customer, balance) }.to change { event.orders.count }.by(1)
