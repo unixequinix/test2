@@ -102,20 +102,6 @@ class Event < ApplicationRecord
     end_date.to_formatted_s(:best_in_place)
   end
 
-  def transactions_with_bad_time
-    time_range = (start_date.to_formatted_s(:transactions)..end_date.to_formatted_s(:transactions))
-    transactions.onsite.where(action: %w[sale sale_refund]).order(:device_db_index).where.not(device_created_at: time_range)
-  end
-
-  def registrations_with_bad_time
-    bad_devices = devices.where(mac: transactions_with_bad_time.pluck(:device_uid).uniq)
-    device_registrations.where(device: bad_devices)
-  end
-
-  def resolve_time!
-    registrations_with_bad_time.map(&:resolve_time!)
-  end
-
   def valid_app_version?(device_version)
     return true if app_version.eql?("all")
     return false unless device_version

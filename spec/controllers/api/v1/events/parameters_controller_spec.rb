@@ -1,12 +1,17 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::ParametersController, type: :controller do
-  let(:user) { create(:user) }
   let(:event_serie) { create(:event_serie, :with_events) }
   let(:event) { create(:event, open_devices_api: true, gtag_type: "ultralight_c", gtag_key: "ab", event_serie_id: event_serie.id) }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
+  let(:team) { create(:team) }
+  let(:user) { create(:user, team: team, role: "glowball") }
+  let(:device) { create(:device, team: team) }
+  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
+    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
     http_login(user.email, user.access_token)
   end
 

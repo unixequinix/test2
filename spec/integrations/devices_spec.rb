@@ -23,14 +23,6 @@ RSpec.describe "Devices view", type: :feature do
       expect { find("input[name=commit]").click }.to change { device.reload.asset_tracker }.to("A12")
     end
 
-    it "cannot edit a device with existent name" do
-      existent_device = create(:device, asset_tracker: "A12", team: team)
-      click_link("edit_#{device.id}")
-      expect(page).to have_current_path(edit_admins_user_team_device_path(user, device.id))
-      fill_in 'device_asset_tracker', with: existent_device.asset_tracker
-      expect { find("input[name=commit]").click }.not_to change { device.reload.asset_tracker }.from(device.asset_tracker)
-    end
-
     it "delete a device without transactions" do
       expect { click_link("delete_#{device.id}") }.to change(Device, :count).by(-1)
     end

@@ -2,16 +2,21 @@ require "rails_helper"
 
 RSpec.describe Api::V1::Events::StationsController, type: :controller do
   let(:event) { create(:event, open_devices_api: true) }
-  let(:user) { create(:user) }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
   let(:ticket_type) { create(:ticket_type, event: event) }
+  let(:team) { create(:team) }
+  let(:user) { create(:user, team: team, role: "glowball") }
+  let(:device) { create(:device, team: team) }
+  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
+
+  before do
+    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
+    http_login(user.email, user.access_token)
+  end
 
   describe "GET index" do
     context "with authentication" do
-      before(:each) do
-        http_login(user.email, user.access_token)
-      end
-
       it "has a 200 status code" do
         get :index, params: params
         expect(response).to be_ok
@@ -171,13 +176,6 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           ticket_types_ids = JSON.parse(response.body).first["stations"].map { |m| m["ticket_types_ids"] }
           expect(ticket_types_ids).to eq([[]])
         end
-      end
-    end
-    context "without authentication" do
-      it "has a 401 status code" do
-        get :index, params: params
-
-        expect(response).to be_unauthorized
       end
     end
   end

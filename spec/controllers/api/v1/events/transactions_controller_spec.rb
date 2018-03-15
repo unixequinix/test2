@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   let(:event) { create(:event, open_devices_api: true, state: "launched") }
-  let(:user) { create(:user) }
   let(:transaction) { CreditTransaction.new }
   let(:params) do
     [
@@ -14,7 +13,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         action: "test_type",
         operator_tag_uid: "A54DSF8SD3JS0",
         station_id: "34",
-        device_uid: "2353",
+        device_id: "2353",
         device_db_index: "2353",
         device_created_at: "2016-02-05 11:13:39 +0100",
         customer_id: "23",
@@ -30,8 +29,16 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
       }
     ]
   end
+  let(:team) { create(:team) }
+  let(:user) { create(:user, team: team, role: "glowball") }
+  let(:device) { create(:device, team: team) }
+  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
-  before { http_login(user.email, user.access_token) }
+  before do
+    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
+    http_login(user.email, user.access_token)
+  end
 
   describe "POST create" do
     context "when the request is VALID" do
@@ -50,14 +57,6 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
     context "when the request is INVALID" do
       context "when there are no parameters" do
         it "returns a 400 status code" do
-          post :create, params: { event_id: event.id }
-          expect(response.status).to eq(400)
-        end
-      end
-
-      context "when there are no parameters" do
-        it "returns a 400 status code" do
-          event.update!(state: "closed")
           post :create, params: { event_id: event.id }
           expect(response.status).to eq(400)
         end

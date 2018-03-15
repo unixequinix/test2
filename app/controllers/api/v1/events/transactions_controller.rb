@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class TransactionsController < Api::V1::Events::BaseController
+      class TransactionsController < Api::V1::EventsController
         def create
           render(status: :bad_request, json: :bad_request) && return unless params[:_json]
           errors = { atts: [] }
