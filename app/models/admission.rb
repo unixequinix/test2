@@ -5,8 +5,8 @@ class Admission
 
   def self.search(event, query)
     Customer.where(event: event).search(email_or_first_name_or_last_name_cont: query).result +
-      Gtag.where(event: event).search(tag_uid_cont: query).result +
-      Ticket.where(event: event).search(code_or_purchaser_email_or_purchaser_first_name_or_purchaser_last_name_cont: query).result
+      Gtag.where(event: event).includes(:customer).search(tag_uid_cont: query).result +
+      Ticket.where(event: event).includes(:customer).search(code_or_purchaser_email_or_purchaser_first_name_or_purchaser_last_name_cont: query).result
   end
 
   def self.find(event, id, klass)
