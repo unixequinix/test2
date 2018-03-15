@@ -17,8 +17,7 @@ class Station < ApplicationRecord
                    access: [:access_control] }.freeze
 
   GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
-             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions
-                                  hospitality_top_up cs_topup_refund cs_accreditation gtag_replacement yellow_card],
+             event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions hospitality_top_up cs_topup_refund cs_accreditation gtag_replacement yellow_card],
              glownet: %i[gtag_recycler envelope_linker],
              monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze
