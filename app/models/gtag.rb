@@ -38,6 +38,10 @@ class Gtag < ApplicationRecord
     "Gtag: #{tag_uid}"
   end
 
+  def self.policy_class
+    AdmissionPolicy
+  end
+
   def replace!(new_gtag)
     return if Customer.claim(event, customer, new_gtag.customer).nil?
 

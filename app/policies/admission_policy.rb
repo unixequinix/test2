@@ -1,25 +1,9 @@
-class CustomerPolicy < ApplicationPolicy
-  def topup?
-    all_allowed && event_open
-  end
-
+class AdmissionPolicy < ApplicationPolicy
   def resend_confirmation?
     all_allowed && event_open
   end
 
-  def virtual_topup?
-    all_allowed && event_open
-  end
-
-  def ban?
-    all_allowed && event_open
-  end
-
   def gtag_replacement?
-    all_allowed && event_open
-  end
-
-  def unban?
     all_allowed && event_open
   end
 
@@ -67,7 +51,51 @@ class CustomerPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
-  def merge?
+  def missing_transactions?
+    all_allowed
+  end
+
+  def inconsistencies?
+    all_allowed
+  end
+
+  def replace?
     all_allowed && event_open
+  end
+
+  def topup?
+    all_allowed && event_open
+  end
+
+  def virtual_topup?
+    all_allowed && event_open
+  end
+
+  def solve_inconsistent?
+    all_allowed && event_open
+  end
+
+  def recalculate_balance?
+    all_allowed && event_open
+  end
+
+  def ban?
+    all_allowed && event_open
+  end
+
+  def unban?
+    all_allowed && event_open
+  end
+
+  def import?
+    admin_or_promoter && event_open
+  end
+
+  def sample_csv?
+    admin_or_promoter && event_open
+  end
+
+  def merge?
+    admin_or_promoter && event_open
   end
 end

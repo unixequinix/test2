@@ -55,6 +55,10 @@ class Customer < ApplicationRecord
       .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.virtual_credits")
   })
 
+  def self.policy_class
+    AdmissionPolicy
+  end
+
   def self.claim(event, customer, anon_customers)
     anon_customers = [anon_customers].flatten.compact
 

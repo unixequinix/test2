@@ -20,6 +20,10 @@ class Ticket < ApplicationRecord
 
   alias_attribute :reference, :code
 
+  def self.policy_class
+    AdmissionPolicy
+  end
+
   def self.online_packs(event)
     connection.select_all("
     SELECT
