@@ -125,7 +125,6 @@ Rails.application.routes.draw do
           post :clone, on: :member
         end
         resources :ticket_assignments, only: :destroy
-        resources :companies, except: :show
         resources :event_registrations, except: :show  do
           get :resend, on: :member
         end
@@ -287,7 +286,6 @@ Rails.application.routes.draw do
       resources :events, only: [:show, :index] do
         scope module: "events" do
           resources :devices, except: %i[create new]
-          resources :companies
           resources :accesses
 
           resources :tickets do

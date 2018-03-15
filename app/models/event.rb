@@ -133,7 +133,6 @@ class Event < ApplicationRecord
   def initial_setup!
     create_credit!(value: 1, name: "CRD")
     create_virtual_credit!(value: 1, name: "Virtual")
-    companies.create!(name: "Glownet", hidden: true)
     USER_FLAGS.each { |name| user_flags.create!(name: name) }
     DEFAULT_STATIONS.each { |category, name| stations.create! category: category, name: name }
     station = stations.create! name: "Customer Portal", category: "customer_portal"

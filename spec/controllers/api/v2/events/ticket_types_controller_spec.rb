@@ -3,11 +3,10 @@ require 'rails_helper'
 RSpec.describe Api::V2::Events::TicketTypesController, type: %i[controller api] do
   let(:event) { create(:event, open_api: true, state: "created") }
   let(:user) { create(:user) }
-  let(:company) { create(:company, event: event) }
-  let(:ticket_type) { create(:ticket_type, event: event, company: company) }
+  let(:ticket_type) { create(:ticket_type, event: event) }
 
   let(:invalid_attributes) { { name: nil } }
-  let(:valid_attributes) { { name: "VIP", company_id: company.id } }
+  let(:valid_attributes) { { name: "VIP" } }
 
   before { token_login(user, event) }
 

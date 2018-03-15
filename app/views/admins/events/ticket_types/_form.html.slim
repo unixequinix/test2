@@ -8,7 +8,7 @@
     .form-inputs
       = f.input :name
       = f.input :company_code
-      = f.input :company_id, as: :select, collection: @current_event.companies.pluck(:name, :id), include_blank: false
+      = f.input :company
       = f.input :catalog_item_id, collection: @catalog_items, include_blank: true, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
 
       label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'

@@ -54,7 +54,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       before do
         @pack = create(:pack, :with_access, event: event)
         @access = @pack.catalog_items.accesses.first
-        @ctt = create(:ticket_type, company: create(:company, event: event), event: event, catalog_item: @pack)
+        @ctt = create(:ticket_type, event: event, catalog_item: @pack)
         @customer = create(:customer, event: event)
         @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
         order = create(:order, customer: @customer, status: "completed", event: event)

@@ -10,7 +10,6 @@ class Poke < ApplicationRecord
   belongs_to :customer, optional: true
   belongs_to :customer_gtag, class_name: "Gtag", optional: true, inverse_of: :pokes_as_customer
   belongs_to :ticket_type, optional: true
-  belongs_to :company, optional: true
   belongs_to :product, optional: true
   belongs_to :catalog_item, optional: true
   belongs_to :order, optional: true

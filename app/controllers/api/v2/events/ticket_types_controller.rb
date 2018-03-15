@@ -69,7 +69,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def ticket_type_params
-      params.require(:ticket_type).permit(:name, :company_id, :company_code)
+      params.require(:ticket_type).permit(:name, :company, :company_code)
     end
   end
 end

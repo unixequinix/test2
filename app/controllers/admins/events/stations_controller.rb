@@ -29,8 +29,8 @@ module Admins
         @sales_credits = - @station.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
         @operators = @station.pokes.pluck(:operator_id).uniq.count
         @devices = @station.pokes.pluck(:device_id).uniq.count
-        @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types).includes(:company)
-        @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types).includes(:company)
+        @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types)
+        @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types)
 
         money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
         @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators.as_json)

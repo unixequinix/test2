@@ -32,13 +32,6 @@
                   = link_to [:new, :admins, @current_event, :ticket_type] do
                     span.material-icons add_circle_outline
               tr
-                td.mdl-data-table__cell--non-numeric = link_to "Companies", [:admins, @current_event, :companies]
-                td
-                  = @current_event.companies_count
-                  | &nbsp;
-                  = link_to [:new, :admins, @current_event, :company] do
-                    span.material-icons add_circle_outline
-              tr
                 td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers]
                 td = @current_event.customers_count
 
@@ -52,13 +45,6 @@
         .table-responsive
           table.mdl-data-table.mdl-js-data-table.within-card
             tbody
-              tr
-                td.mdl-data-table__cell--non-numeric = link_to "App Permissions", [:admins, @current_event, :operator_permissions]
-                td
-                  = @current_event.operator_permissions_count
-                  | &nbsp;
-                  = link_to [:new, :admins, @current_event, :operator_permission] do
-                    span.material-icons add_circle_outline
               tr
                 td.mdl-data-table__cell--non-numeric = link_to "Accesses", [:admins, @current_event, :accesses]
                 td
@@ -117,6 +103,4 @@
               tr
                 td.mdl-data-table__cell--non-numeric Glownet
                 td = @current_event.stations.where(category: Station::GROUPS[:glownet]).count
-              tr
-                td.mdl-data-table__cell--non-numeric Touchpoint
-                td = @current_event.stations.where(category: Station::GROUPS[:touchpoint]).count
+

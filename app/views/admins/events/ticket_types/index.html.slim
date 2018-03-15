@@ -3,7 +3,7 @@
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_ticket_types_path do |f|
-    = f.search_field :name_or_company_name_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+    = f.search_field :name_or_company_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
   .floaty#floaty
@@ -61,7 +61,7 @@
             - @ticket_types.each do |ticket_type|
               tr class="#{'resource-hidden' if ticket_type.hidden?}"
                 td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
-                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @companies, url: [:admins, @current_event, ticket_type]
+                td data-label="Company" = best_in_place ticket_type, :company, url: [:admins, @current_event, ticket_type]
                 td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
                 td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
                 td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i

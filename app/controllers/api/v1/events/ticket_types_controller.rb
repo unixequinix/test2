@@ -5,7 +5,7 @@ module Api
         before_action :set_modified
 
         def index
-          types = @current_event.ticket_types.includes(:company).for_devices
+          types = @current_event.ticket_types.for_devices
           types = types.where("ticket_types.updated_at > ?", @modified) if @modified
           date = types.maximum(:updated_at)&.httpdate
           types = types.map { |a| TicketTypeSerializer.new(a) }.as_json if types.present?

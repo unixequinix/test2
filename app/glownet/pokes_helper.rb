@@ -40,9 +40,7 @@ module PokesHelper
   def extract_credential_info(credential, extra_atts = {})
     return {}.merge(extra_atts) unless credential
 
-    { credential: credential,
-      ticket_type_id: credential.ticket_type_id,
-      company_id: credential.ticket_type&.company_id }.merge(extra_atts)
+    { credential: credential, ticket_type_id: credential.ticket_type_id }.merge(extra_atts)
   end
 
   def extract_atts(transaction, extra_atts = {})

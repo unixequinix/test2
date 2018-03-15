@@ -104,12 +104,11 @@ module Admins
         authorize @current_event.gtags.new
         redirect_to(admins_event_gtags_path(@current_event), alert: "File not supplied") && return unless params[:file]
         file = params[:file][:data].tempfile.path
-        company = @current_event.companies.find_or_create_by!(name: "Glownet")
         count = 0
 
         ticket_types = []
         CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << row.field("Type") }
-        ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by!(name: name, company: company) }.map { |tt| [tt.name, tt.id] }.to_h
+        ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by!(name: name) }.map { |tt| [tt.name, tt.id] }.to_h
 
         begin
           CSV.foreach(file, headers: true, col_sep: ";") do |row|

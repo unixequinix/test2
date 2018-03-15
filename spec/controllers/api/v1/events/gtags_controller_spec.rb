@@ -98,7 +98,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       before do
         @pack = create(:pack, :with_access, event: event)
         @customer = create(:customer, event: event)
-        @ctt = create(:ticket_type, company: create(:company, event: event), event: event, catalog_item: @pack)
+        @ctt = create(:ticket_type, event: event, catalog_item: @pack)
         @gtag = create(:gtag, event: event, ticket_type: @ctt, customer: @customer)
         @gtag2 = create(:gtag, event: event, customer: @customer, active: false)
         @order = create(:order, customer: @customer, status: "completed", event: event)
