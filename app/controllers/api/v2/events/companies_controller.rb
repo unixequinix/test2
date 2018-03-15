@@ -52,7 +52,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def company_params
-      params.require(:company).permit(:name, :access_token)
+      params.require(:company).permit(:name)
     end
   end
 end
