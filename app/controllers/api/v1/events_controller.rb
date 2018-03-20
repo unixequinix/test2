@@ -1,31 +1,15 @@
 class Api::V1::EventsController < Api::V1::BaseController
-  before_action :set_event
-  before_action :event_auth
+  def index
+    device = Device.find_by(mac: params.slice(:mac).to_unsafe_h[:mac])
 
-  serialization_scope :current_event
+    if device.present? && device.team.present?
+      status = device.asset_tracker.blank? ? :accepted : :ok
+      events = [device.event].compact
+      events = device.team.events.live if events.empty?
 
-  def render_entity(obj, date)
-    response.headers["Last-Modified"] = date if date
-    status = obj ? 200 : 304
-    render(status: status, json: obj)
-  end
-
-  protected
-
-  def set_modified
-    @modified = Time.parse(request.headers["If-Modified-Since"]) if request.headers["If-Modified-Since"] # rubocop:disable Rails/TimeZone
-  end
-
-  private
-
-  def set_event
-    scope = @current_user.glowball? ? Event.all : @device.events_for_device
-    @current_event = scope.friendly.find(params[:event_id] || params[:id])
-  end
-
-  def event_auth
-    return true if @current_user.glowball?
-    render json: { error: "This app version is no longer supported" }, status: :upgrade_required unless @current_event.valid_app_version?(params[:app_version])
-    render json: { error: "API is closed for event '#{@current_event.name}'" }, status: :unauthorized unless @current_event.open_devices_api?
+      render(status: status, json: events, serializer_params: { device: device })
+    else
+      render json: { error: "Device does not belong to a team" }, status: :unauthorized
+    end
   end
 end

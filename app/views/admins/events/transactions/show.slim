@@ -57,9 +57,12 @@
               table.mdl-data-table.mdl-js-data-table.within-card
                 tbody
                   tr
-                    td.mdl-data-table__cell--non-numeric Device
+                    td.mdl-data-table__cell--non-numeric Device uid
                     - device = Device.find_by_mac(@transaction.device_uid)
-                    td = link_to(device&.asset_tracker || 'NONE', admins_user_team_device_path(@current_user, device))
+                    - if @transaction.device_uid && device && @current_user&.team == device&.team
+                      td = link_to(@transaction.device_uid, admins_user_team_device_path(@current_user, device))
+                    - else
+                      td = @transaction.device_uid
                   tr
                     td.mdl-data-table__cell--non-numeric Device db index
                     td = @transaction.device_db_index

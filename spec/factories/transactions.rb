@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :money_transaction do
     event
-    device
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -9,6 +8,7 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:items_amount)
     sequence(:price)
     payment_gateway "paypal"
@@ -17,7 +17,6 @@ FactoryBot.define do
 
   factory :operator_transaction do
     event
-    device
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -25,11 +24,11 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
   factory :credit_transaction do
     event
-    device
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -37,6 +36,7 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
     sequence(:credits)
     sequence(:refundable_credits)
     sequence(:final_balance)
@@ -79,7 +79,6 @@ FactoryBot.define do
 
   factory :credential_transaction do
     event
-    device
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -87,11 +86,11 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
   factory :access_transaction do
     event
-    device
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -99,12 +98,12 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
     direction 1
   end
 
   factory :order_transaction do
     event
-    device
     station
     order
     sequence(:action) { |n| "action #{n}" }
@@ -113,11 +112,11 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
   factory :user_engagement_transaction do
     event
-    device
     station
     order
     action "exhibitor_note"
@@ -128,11 +127,11 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
   factory :user_flag_transaction do
     event
-    device
     station
     order
     action "exhibitor_note"
@@ -143,11 +142,11 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 
   factory :transaction do
     event
-    device
     station
     sequence(:action) { |n| "action #{n}" }
     sequence(:device_db_index)
@@ -155,5 +154,6 @@ FactoryBot.define do
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.hex(6).upcase }
     operator_tag_uid { SecureRandom.hex(6).upcase }
+    sequence(:device_uid) { |n| "DEVICE#{n}" }
   end
 end

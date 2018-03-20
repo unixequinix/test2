@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :device_transaction do
     event
     device
+    sequence(:device_uid) { |n| "DEVICE##{n}" }
     initialization_type "LITE_INITIALIZATION"
     action "device_initialization"
     server_transactions 0
@@ -12,9 +13,10 @@ FactoryBot.define do
       end
 
       before(:create) do |device_transaction, evaluator|
-        transactions = DeviceTransaction.where(device: evaluator.device)
+        transactions = DeviceTransaction.where(device_uid: evaluator.device.mac)
         device_transaction.event_id = device_transaction.event.id
         device_transaction.device_id = evaluator.device.id
+        device_transaction.device_uid = evaluator.device.mac
         device_transaction.server_transactions = transactions.count
         device_transaction.number_of_transactions = transactions.count + 1
         device_transaction.counter = transactions.count + 1

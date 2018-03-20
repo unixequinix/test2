@@ -8,7 +8,6 @@ FactoryBot.define do
     currency "EUR"
     gtag_type "ultralight_c"
     open_api true
-    open_devices_api true
     open_portal true
     open_refunds true
     open_topups true

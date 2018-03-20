@@ -2,7 +2,6 @@ class Transaction < ApplicationRecord
   include Alertable
 
   belongs_to :event, counter_cache: true
-  belongs_to :device, optional: true
   belongs_to :station, optional: true
   belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :transactions_as_operator
   belongs_to :operator_gtag, class_name: "Gtag", optional: true, inverse_of: :transactions_as_operator
@@ -57,6 +56,6 @@ class Transaction < ApplicationRecord
   end
 
   def self.mandatory_fields
-    %w[action customer_tag_uid operator_tag_uid device_id device_db_index device_created_at status_code status_message]
+    %w[action customer_tag_uid operator_tag_uid device_uid device_db_index device_created_at status_code status_message]
   end
 end

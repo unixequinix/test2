@@ -2,28 +2,19 @@ require "rails_helper"
 
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event, open_devices_api: true) }
+  let(:user) { create(:user) }
   let(:db_gtags) { event.gtags }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
-  let(:team) { create(:team) }
-  let(:user) { create(:user, team: team, role: "glowball") }
-  let(:device) { create(:device, team: team) }
-  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
     create(:gtag, event: event, customer: create(:customer, event: event))
-
-    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
-    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
-    http_login(user.email, user.access_token)
-  end
-
-  before do
   end
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         db_gtags.each { |tag| tag.update!(customer: create(:customer, event: event)) }
+        http_login(user.email, user.access_token)
       end
 
       it "returns a 200 status code" do
@@ -91,6 +82,13 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtags = JSON.parse(response.body).map(&:symbolize_keys)
           expect(gtags.find { |atts| atts[:reference].eql? gtag.tag_uid }).to be_nil
         end
+      end
+    end
+
+    context "without authentication" do
+      it "returns a 401 status code" do
+        get :index, params: params
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -170,6 +168,13 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           get :show, params: params.merge(id: Gtag.last.id + 10)
           expect(response.status).to eq(404)
         end
+      end
+    end
+
+    context "without authentication" do
+      it "returns a 401 status code" do
+        get :show, params: params.merge(id: Gtag.last.id)
+        expect(response).to be_unauthorized
       end
     end
   end

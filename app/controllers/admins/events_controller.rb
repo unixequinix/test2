@@ -99,6 +99,16 @@ module Admins
       redirect_to [:admins, @event], notice: t("alerts.created")
     end
 
+    def resolve_time
+      @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
+      render layout: "admin_event"
+    end
+
+    def do_resolve_time
+      @current_event.resolve_time!
+      redirect_to request.referer, notice: "All timing issues solved"
+    end
+
     def launch
       @current_event.update_attribute :state, "launched"
       redirect_to request.referer, notice: t("alerts.updated")

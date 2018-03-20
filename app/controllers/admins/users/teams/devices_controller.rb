@@ -14,7 +14,7 @@ module Admins
         end
 
         def show
-          @device_events = DeviceTransaction.where(device: @device).includes(:event).group_by(&:event)
+          @device_events = DeviceTransaction.where(device_uid: @device.mac).includes(:event).group_by(&:event)
         end
 
         def new

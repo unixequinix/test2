@@ -107,6 +107,14 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter
   end
 
+  def resolve_time?
+    user.admin?
+  end
+
+  def do_resolve_time?
+    user.admin?
+  end
+
   def real?
     admin_or_promoter
   end

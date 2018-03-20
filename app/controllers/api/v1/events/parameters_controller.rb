@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class ParametersController < Api::V1::EventsController
+      class ParametersController < Api::V1::Events::BaseController
         before_action :set_modified
 
         # TODO: refactor, remove, i (jake) dont care, but this is not good code. This should be a call to events/:id

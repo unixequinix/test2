@@ -1,0 +1,67 @@
+- content_for(:title) do
+  | Time Resolver #{@bad_transactions.size}
+
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--3-col
+    h5.middle style="color: #999"
+      = best_in_place @current_event, :start_date, as: :date, url: [:admins, @current_event], display_as: :formatted_start_date, value: @current_event.start_date.to_formatted_s(:best_in_place)
+      .small Start date
+  .mdl-cell.mdl-cell--3-col
+    h5.middle style="color: #999"
+      = best_in_place @current_event, :end_date, as: :date, url: [:admins, @current_event], display_as: :formatted_end_date, value: @current_event.end_date.to_formatted_s(:best_in_place)
+      .small End date
+  - if @bad_transactions.any?
+    .mdl-cell.mdl-cell--3-col
+      h5.middle style="color: #999"
+        = link_to "Resolve all", do_resolve_time_admins_event_path(@current_event), data: { confirm: t("alerts.confirm_delete") }
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            th Transactions
+            th.mdl-data-table__cell--non-numeric Device
+            th.mdl-data-table__cell--non-numeric Earliest wrong date
+            th.mdl-data-table__cell--non-numeric Latest wrong date
+            th Sales Damage
+            th Sales Refunds Damage
+            th First wrong?
+            th
+
+
+
+          - @bad_transactions.each do |device_uid, transactions|
+            - device = @current_event.devices.find_by(mac: device_uid)
+            - registration = device.device_registrations.find_by(event: @current_event)
+
+            tr
+              td = transactions.size
+              td.mdl-data-table__cell--non-numeric
+                span style="font-size: 1.3em" = link_to (device.asset_tracker || "NONE"), [:admins, @current_event, registration]
+                .small = device_uid
+
+              td.mdl-data-table__cell--non-numeric = l Time.zone.parse(transactions.sort_by(&:device_created_at).first.device_created_at)
+              td.mdl-data-table__cell--non-numeric = l Time.zone.parse(transactions.sort_by(&:device_created_at).last.device_created_at)
+              td = number_to_token transactions.select{ |t| t.action.eql?("sale") }.sum(&:credits)
+              td = number_to_token transactions.select{ |t| t.action.eql?("sale_refund") }.sum(&:credits)
+              td
+                - if transactions.map(&:device_db_index).include?(1)
+                  i.material-icons done
+                - else
+                  i.material-icons clear
+
+              td.table-actions
+                .table-action
+                  = link_to [:resolve_time, :admins, @current_event, registration], data: { confirm: t("alerts.confirm_delete") } do
+                    button.icon.material-icons id="solve_#{registration.id}" restore
+
+
+
+            span.mdl-tooltip data-mdl-for="solve_#{registration.id}" Solve
+
+  .mdl-layout-spacer

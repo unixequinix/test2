@@ -3,6 +3,10 @@ class DeviceRegistrationPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def resolve_time?
+    user.admin?
+  end
+
   def new?
     user&.team.present? || user.glowball?
   end

@@ -41,5 +41,5 @@
           - @device.device_registrations.each do |registration|
             tr
               td.mdl-data-table__cell--non-numeric = link_to registration.event.name, [:admins, registration.event, registration]
-              td = registration.event.transactions.where(device: @device).count
+              td = registration.event.transactions.where(device_uid: @device.mac).size
   .mdl-layout-spacer

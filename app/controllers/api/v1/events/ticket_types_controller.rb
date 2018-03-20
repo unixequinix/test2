@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class TicketTypesController < Api::V1::EventsController
+      class TicketTypesController < Api::V1::Events::BaseController
         before_action :set_modified
 
         def index

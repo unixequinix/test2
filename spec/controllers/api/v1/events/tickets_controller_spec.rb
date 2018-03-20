@@ -2,24 +2,18 @@ require "rails_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:event) { create(:event, open_devices_api: true) }
+  let(:user) { create(:user) }
   let(:db_tickets) { event.tickets }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
-  let(:team) { create(:team) }
-  let(:user) { create(:user, team: team, role: "glowball") }
-  let(:device) { create(:device, team: team) }
-  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
-    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
-    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
-    http_login(user.email, user.access_token)
-
     create_list(:ticket, 2, event: event, customer: create(:customer, event: event))
   end
 
   describe "GET index" do
     context "with authentication" do
-      before do
+      before(:each) do
+        http_login(user.email, user.access_token)
         get :index, params: params
       end
 
@@ -44,6 +38,13 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           updated_at = Time.zone.parse(list_ticket["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
           expect(updated_at).to eq(ticket.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
+      end
+    end
+
+    context "without authentication" do
+      it "returns a 401 status code" do
+        get :index, params: params
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -135,6 +136,13 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           get :show, params: params.merge(id: db_tickets.last.id + 10)
           expect(response.status).to eq(404)
         end
+      end
+    end
+
+    context "without authentication" do
+      it "returns a 401 status code" do
+        get :show, params: params.merge(id: db_tickets.last.id)
+        expect(response).to be_unauthorized
       end
     end
   end

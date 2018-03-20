@@ -1,7 +1,7 @@
 module Admins
   module Events
     class DeviceRegistrationsController < Admins::Events::BaseController
-      before_action :set_registration, only: %i[show download_db destroy transactions update]
+      before_action :set_registration, only: %i[resolve_time show download_db destroy transactions update]
       before_action do
         persist_query(%i[p q], true)
       end
@@ -73,6 +73,11 @@ module Admins
         end
       end
 
+      def resolve_time
+        @registration.resolve_time!
+        redirect_to request.referer, notice: "All timing issues solved for device #{@device.asset_tracker || 'NONE'}"
+      end
+
       def download_db
         secrets = Rails.application.secrets
         credentials = Aws::Credentials.new(secrets.s3_access_key_id, secrets.s3_secret_access_key)
@@ -96,8 +101,8 @@ module Admins
       end
 
       def show
-        @device_transactions = @current_event.device_transactions.where(device: @device).order(:created_at)
-        @device_stations = @current_event.transactions.where(device: @device).page(params[:page]).group(:station_id).count
+        @device_transactions = @current_event.device_transactions.where(device_uid: @device.mac).order(:created_at)
+        @device_stations = @current_event.transactions.where(device_uid: @device.mac).page(params[:page]).group(:station_id).count
         @registration.load_last_results
       end
 
@@ -114,7 +119,7 @@ module Admins
       end
 
       def transactions
-        all_transactions = @current_event.transactions.where(device: @device)
+        all_transactions = @current_event.transactions.where(device_uid: @device.mac)
         @transactions = all_transactions.includes(:station).order(:device_db_index).page(params[:page])
         @stations_count = all_transactions.select(:station_id).distinct.count
       end
