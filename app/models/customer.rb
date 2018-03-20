@@ -179,6 +179,12 @@ class Customer < ApplicationRecord
       (!encrypted_password_changed? || new_record?) && !anonymous?
   end
 
+  def validate_gtags
+    active_gtag = customer.gtags.order(updated_at: :desc).first
+    active_gtag&.update(active: true)
+    customer.gtags.where.not(id: active_gtag.id).update_all(active: false) unless active_gtag.nil?
+  end
+
   private
 
   def generate_token(column)

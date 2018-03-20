@@ -72,6 +72,8 @@ module Admins
         admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
         result = @gtag.merge(admission)
 
+        @gtag.reload.customer.validate_gtags
+
         alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
         redirect_to [:admins, @current_event, (result || admission)], alert
       end

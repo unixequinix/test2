@@ -10,7 +10,7 @@ module Credentiable
   end
 
   def merge(admission)
-    admission.create_customer!(event: event) if admission.customer.blank?
+    admission.update!(customer: event.customers.create!) if admission.customer.blank?
     update!(customer: event.customers.create!) if customer.blank?
     admission.customer.anonymous? ? Customer.claim(event, customer, admission.customer) : Customer.claim(event, admission.customer, reload.customer)
   end

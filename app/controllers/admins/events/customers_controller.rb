@@ -60,9 +60,12 @@ module Admins
 
       def merge
         admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
-        admission.create_customer!(event: @current_event) if admission.customer.blank?
+        admission.update(customer: @current_event.customers.create!) if admission.customer.blank?
 
         result = @customer.anonymous? ? Customer.claim(@current_event, admission.customer, @customer) : Customer.claim(@current_event, @customer, admission.customer)
+
+        @customer.reload.validate_gtags unless @customer.anonymous?
+        admission.reload.customer.validate_gtags unless admission.customer.anonymous?
 
         alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
         redirect_to [:admins, @current_event, (result || admission)], alert
