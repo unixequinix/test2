@@ -53,7 +53,7 @@ class SampleEvent
 
   def self.create_ticket_types
     @event.accesses.each do |catalog_item|
-      @event.ticket_types.create!(catalog_item: catalog_item, company_code: Time.zone.now.to_i + rand(10_000), name: catalog_item.name, company: "GLownet")
+      @event.ticket_types.create!(catalog_item: catalog_item, company_code: Time.zone.now.to_i + rand(10_000), name: catalog_item.name, company: "Glownet")
     end
   end
 
