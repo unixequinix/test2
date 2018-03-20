@@ -4,12 +4,6 @@
 - content_for(:actions) do
   .floaty#floaty
     ul.floaty-list#actions-list
-      - if current_user.admin?
-        li.floaty-list-item
-          = link_to resolve_time_admins_event_path(@current_event) do
-            button#time_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons watch_later
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="time_link" Solve Timing Issues
       - if policy(@current_event.transactions).download_raw_transactions?
         li.floaty-list-item
           = link_to download_raw_transactions_admins_event_transactions_path(@current_event, format: :csv) do
@@ -79,7 +73,6 @@
                 th Origin
                 th Counter
                 th Station
-                th Device
                 th Customer
                 th At
             tbody
@@ -89,7 +82,6 @@
                   td data-label="Origin" = transaction.transaction_origin&.humanize
                   td data-label="Counter" = transaction.gtag_counter || transaction.counter
                   td data-label="Station" = transaction.station&.name
-                  td data-label="Device"= link_to_if device_owner?(@current_user, transaction.device), transaction.device.asset_tracker, admins_user_team_device_path(@current_user, transaction.device)
                   td data-label="Customer Tag"
                     - if transaction.customer
                       = link_to transaction.customer.name, admins_event_customer_path(@current_event, transaction.customer)
