@@ -48,12 +48,7 @@ class Customer < ApplicationRecord
   alias customer itself
 
   scope :anonymous, -> { where(anonymous: true) }
-
-  scope(:query_for_csv, lambda { |event|
-    where(event: event).joins(:gtags, :tickets).order(:first_name)
-      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits, gtags.virtual_credits, email, first_name, last_name")
-      .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.virtual_credits")
-  })
+  scope :registered, -> { where(anonymous: false) }
 
   def self.policy_class
     AdmissionPolicy

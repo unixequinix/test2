@@ -11,7 +11,7 @@ module Admins
 
         respond_to do |format|
           format.html
-          format.csv { send_data(CsvExporter.to_csv(Customer.query_for_csv(@current_event))) }
+          format.csv { send_data(CsvExporter.to_csv(@current_event.customers.registered.select(:first_name, :last_name, :email, :phone, :postcode, :address, :city, :country, :gender))) }
         end
       end
 
