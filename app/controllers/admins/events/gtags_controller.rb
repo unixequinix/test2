@@ -114,8 +114,7 @@ module Admins
 
         begin
           CSV.foreach(file, headers: true, col_sep: ";") do |row|
-            ticket_type_id = ticket_types[row.field("Type")]
-            Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance").to_f, row.field("Virtual Balance").to_f, ticket_type_id: ticket_type_id)
+            Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance"), row.field("VirtualBalance"), ticket_type_id: ticket_types[row.field("Type")])
             count += 1
           end
         rescue StandardError
@@ -128,7 +127,7 @@ module Admins
       def sample_csv
         authorize @current_event.gtags.new
 
-        csv_file = CsvExporter.sample(%w[UID Type Balance Virtual Balance], [%w[15GH56YTD4F6 VIP 22.5], %w[25GH56YTD4F6 General 0 10], %w[35GH56YTD4F6]])
+        csv_file = CsvExporter.sample(%w[UID Type Balance VirtualBalance], [%w[15GH56YTD4F6 VIP 22.5], %w[25GH56YTD4F6 General 0 10], %w[35GH56YTD4F6]])
         respond_to do |format|
           format.csv { send_data(csv_file) }
         end
