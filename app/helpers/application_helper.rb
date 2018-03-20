@@ -25,6 +25,10 @@ module ApplicationHelper
     Rails.env.production? ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end
 
+  def can_link?(item)
+    ![UserFlag, Credit, VirtualCredit].include?(item&.class)
+  end
+
   def datetime(datetime)
     Time.zone.parse(datetime)
   rescue StandardError

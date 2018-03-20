@@ -16,7 +16,7 @@
               - catalog_item = gtag.ticket_type&.catalog_item
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag), id:"#{gtag.id}"
-                td data-label="Ticket Item" = link_to_unless [UserFlag, Credit, VirtualCredit].include?(catalog_item.class), catalog_item.name, [:admins, @current_event, catalog_item] if catalog_item
+                td data-label="Ticket Item" = link_to_if can_link?(catalog_item), catalog_item.name, [:admins, @current_event, catalog_item] if catalog_item
                 td data-label="Active" = gtag.active? ? fa_icon("check") : fa_icon("times")
                 td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])

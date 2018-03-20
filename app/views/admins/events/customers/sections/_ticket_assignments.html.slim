@@ -13,12 +13,13 @@
           tbody
             - customer.tickets.each do |ticket|
               - catalog_item = ticket.ticket_type.catalog_item
+
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Ticket"
                   = link_to ticket.code, admins_event_ticket_path(@current_event, ticket), id:"#{ticket.id}"
                   = link_to admins_event_ticket_assignment_path(@current_event, ticket), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{ticket.id}" do
                     button#revoke.icon.material-icons delete_forever
-                td data-label="Ticket Item" = link_to_unless [UserFlag, Credit, VirtualCredit].include?(catalog_item.class), catalog_item.name, [:admins, @current_event, catalog_item] if catalog_item
+                td data-label="Ticket Item" = link_to_if can_link?(catalog_item), catalog_item.name, [:admins, @current_event, catalog_item] if catalog_item
                 td data-label="Redeemed" = best_in_place ticket, :redeemed, best_in_place_checkbox([:admins, @current_event, ticket])
                 td data-label="Banned" = best_in_place ticket, :banned, best_in_place_checkbox([:admins, @current_event, ticket])
   .mdl-layout-spacer

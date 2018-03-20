@@ -109,7 +109,6 @@
     .mdl-layout-spacer
 
 - if @catalog_item
-  - bad_classes = [UserFlag, Credit, VirtualCredit]
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--12-col
@@ -124,7 +123,7 @@
               th Credits
           tbody
             tr
-              td.mdl-data-table__cell--non-numeric = link_to_unless bad_classes.include?(@catalog_item.class), @catalog_item.name.humanize, [:admins, @current_event, @catalog_item]
+              td.mdl-data-table__cell--non-numeric = link_to_if can_link?(@catalog_item), @catalog_item.name.humanize, [:admins, @current_event, @catalog_item]
               td = number_to_token @catalog_item.credits
     .mdl-layout-spacer
 

@@ -54,9 +54,8 @@
             th Redeemed
         tbody
           - @order.order_items.each do |order_item|
-            - no_link = [UserFlag, Credit, VirtualCredit].include?(order_item.catalog_item.class)
             tr
-              td.mdl-data-table__cell--non-numeric = link_to_unless no_link, order_item.catalog_item.name.humanize, [:admins, @current_event, order_item.catalog_item]
+              td.mdl-data-table__cell--non-numeric = link_to_if can_link?(order_item.catalog_item), order_item.catalog_item.name.humanize, [:admins, @current_event, order_item.catalog_item]
               td = number_with_delimiter order_item.amount
               td = order_item.catalog_item.type
               td = best_in_place order_item, :redeemed, best_in_place_checkbox([:admins, @current_event, @order, order_item])
