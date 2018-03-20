@@ -135,12 +135,17 @@ Rails.application.routes.draw do
         get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
         post "eventbrite/webhooks", to: "eventbrite#webhooks"
 
-        #Universe
+        # Universe
         get "universe", to: "universe#index"
         get "universe/import_tickets", to: "universe#import_tickets"
         get "universe/connect/:uv_event_id", to: "universe#connect", as: 'universe_connect'
         get "universe/disconnect", to: "universe#disconnect"
         get "universe/disconnect_event", to: "universe#disconnect_event"
+
+        # Palco4
+        get "palco4", to: "palco4#index"
+        post "palco4", to: "palco4#index"
+        get "palco4/show/:p4_uuid", to: "palco4#show", as: 'palco4_show'
 
         resources :transactions, only: [:index, :show, :update, :destroy] do
           get :download_raw_transactions, on: :collection

@@ -31,6 +31,10 @@ every 1.minute do
   runner "Event.reload_stats"
 end
 
+every 5.minutes do
+  runner "Event.import_palco4_tickets"
+end
+
 every 10.minutes do
   rake "sidekiq:restart"
 end

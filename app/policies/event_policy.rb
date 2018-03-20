@@ -91,6 +91,14 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
+  def palco4_index?
+    admin_or_promoter
+  end
+
+  def palco4_show?
+    admin_or_promoter
+  end
+
   def missing?
     admin_or_promoter
   end

@@ -89,6 +89,17 @@ class Event < ApplicationRecord
     Event.where(state: 'launched').find_each { |event| EventStatsChannel.broadcast_to(event, {}) }
   end
 
+  def self.import_palco4_tickets
+    Event.where.not(palco4_event: nil, palco4_token: nil).find_each(&:import_tickets)
+  end
+
+  def import_tickets
+    url = URI("https://test.palco4.com/accessControlApi/barcodes/json/#{palco4_event}")
+    @token = palco4_token
+    @tickets = api_response(url)
+    @tickets&.each { |ticket| Palco4Importer.perform_now(ticket, self) }
+  end
+
   def currency_symbol
     Money::Currency.find(currency.downcase.to_sym).symbol if currency.present?
   end
@@ -159,5 +170,13 @@ class Event < ApplicationRecord
 
   def generate_tokens
     self.gtag_key = SecureRandom.hex(16).upcase
+  end
+
+  def api_response(url)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    request = Net::HTTP::Get.new(url)
+    request["authorization"] = "Bearer #{@token}"
+    @response = JSON.parse(http.request(request).body)
   end
 end
