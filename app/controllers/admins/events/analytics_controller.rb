@@ -103,9 +103,7 @@ module Admins
         products = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
 
         @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale }.map { |k, v| [k, number_to_token(v)] }
-        @views = [
-          { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 }
-        ]
+        @views = [{ chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 }]
         prepare_data(params["action"])
       end
 

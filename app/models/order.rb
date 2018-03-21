@@ -44,8 +44,6 @@ class Order < ApplicationRecord
 
   scope :online_purchase_fee, lambda {
     select(event_day_order, date_time_order, dimensions_station, "'online_fee' as action, 'applied_fee' as description, NULL as device_name, 'x' as credit_name", money_order_fee)
-      .joins(order_items: :catalog_item)
-      .where(catalog_items: { type: %w[Credit VirtualCredit] })
       .completed
       .group(grouper_event_day, grouper_date_time, grouper_dimensions_station, "action, description, device_name, credit_name")
       .having("sum(money_fee)!=0")

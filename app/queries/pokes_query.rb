@@ -72,6 +72,7 @@ class PokesQuery
             AND pokes.status_code = 0
             AND pokes.error_code IS NULL
             AND pokes.credit_id in (#{@event.credit.id}, #{@event.virtual_credit.id})
+            AND pokes.description != 'record_credit'
       GROUP BY date_time_sort, date_time
       UNION ALL
       SELECT  to_char(date_trunc('day', completed_at), 'Mon-DD HH24h') as date_time,

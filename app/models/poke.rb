@@ -29,7 +29,7 @@ class Poke < ApplicationRecord
   scope :deposit_fees, -> { where(action: "gtag_deposit_fee") }
   scope :return_fees, -> { where(action: "gtag_return_fee") }
   scope :online_orders, -> { where(action: "record_credit", description: %w[record_credit order_applied_onsite]) }
-
+  scope :not_record_credit, -> { where.not(description: "record_credit") }
   scope :has_money, -> { where.not(monetary_total_price: nil) }
   scope :has_credits, -> { where.not(credit_amount: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
@@ -74,7 +74,7 @@ class Poke < ApplicationRecord
   scope :credit_flow, lambda {
     select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_station, "devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
       .left_outer_joins(:station, :device)
-      .where.not(credit_amount: nil).is_ok
+      .where.not(credit_amount: nil).is_ok.not_record_credit
       .group(:action, :description, :credit_name, grouping_station, "event_day, date_time, device_name")
   }
 
@@ -108,8 +108,8 @@ class Poke < ApplicationRecord
       source_payment_method_money: event.pokes.select("source", payment_method_pokes, sum_money).is_ok.has_money.group("source, payment_method").as_json(except: :id),
       source_action_money: event.pokes.select("source, action", sum_money).is_ok.has_money.group("source, action").as_json(except: :id),
 
-      credit_breakage: event.pokes.select("credit_name", sum_credit).is_ok.has_credits.group("credit_name").as_json(except: :id),
-      credits_type: event.pokes.select("action, credit_name", sum_credit).is_ok.has_credits.group("action, credit_name").as_json(except: :id),
+      credit_breakage: event.pokes.select("credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("credit_name").as_json(except: :id),
+      credits_type: event.pokes.select("action, credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("action, credit_name").as_json(except: :id),
       alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("is_alcohol").to_json,
       top_productos: event.pokes.select("products.name as product_name, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("product_name").order("credits desc").limit("5").to_json
     }
@@ -125,7 +125,7 @@ class Poke < ApplicationRecord
 
   def self.credit_dashboard(event)
     {
-      outstanding_credits: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+      outstanding_credits: event.pokes.is_ok.where(credit: event.credits).not_record_credit.sum(:credit_amount),
       fees: event.pokes.fees.is_ok.sum(:credit_amount)
     }
   end
@@ -133,7 +133,7 @@ class Poke < ApplicationRecord
   def self.dashboard(event)
     {
       money_reconciliation: event.pokes.is_ok.sum(:monetary_total_price),
-      outstanding_credits: event.pokes.is_ok.where(credit: event.credits).sum(:credit_amount),
+      outstanding_credits: event.pokes.is_ok.not_record_credit.where(credit: event.credits).sum(:credit_amount),
       total_sales: event.pokes.is_ok.sales.where(credit: event.credits).sum(:credit_amount).abs,
       activations: event.customers.count
     }
@@ -141,7 +141,7 @@ class Poke < ApplicationRecord
 
   def self.dashboard_graphs(event)
     {
-      d_credits: event.pokes.record_credit_sale_h.is_ok.where(credit: event.credits).to_json
+      d_credits: event.pokes.record_credit_sale_h.is_ok.not_record_credit.where(credit: event.credits).to_json
     }
   end
 

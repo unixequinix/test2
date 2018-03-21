@@ -7,6 +7,7 @@ module Admins
 
         to_auth = @admissions.any? ? @admissions.first.class.where(event: @current_event, id: @admissions.first.id) : @current_event.customers.none
         authorize(to_auth, :index?)
+        redirect_to([:admins, @current_event, @admissions.first]) if @admissions.size == 1
       end
 
       def merge
