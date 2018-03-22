@@ -3,33 +3,6 @@ require "rails_helper"
 RSpec.describe Event, type: :model do
   subject { build(:event) }
 
-  describe ".resolve_time!" do
-    before do
-      @good_device = create(:device)
-      @bad_device = create(:device)
-      subject.update(start_date: 1.hour.ago, end_date: Time.current + 1.hour)
-      subject.devices = [@good_device, @bad_device]
-
-      created_at = Time.current.to_formatted_s(:transactions)
-      create_list(:credit_transaction, 3, device_created_at: created_at, event: subject, action: "sale", device_uid: @good_device.mac)
-
-      created_at = (Time.current - 10.hours).to_formatted_s(:transactions)
-      create(:credit_transaction, device_created_at: created_at, event: subject, action: "sale", device_uid: @bad_device.mac)
-    end
-
-    it "it should call resolve_time on bad devices only" do
-      devices = subject.devices
-      expect(subject).to receive(:devices).once.and_return(devices)
-      expect(devices).to receive(:where).with(mac: [@bad_device.mac]).once.and_return([@bad_device])
-
-      registrations = subject.device_registrations
-      bad_registration = @bad_device.device_registrations.find_by(event: subject)
-      expect(subject).to receive(:device_registrations).once.and_return(registrations)
-      expect(registrations).to receive(:where).with(device: [@bad_device]).once.and_return([bad_registration])
-      subject.resolve_time!
-    end
-  end
-
   describe ".valid_app_version?" do
     before { subject.app_version = "1.0.0.0" }
 

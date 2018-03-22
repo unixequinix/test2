@@ -33,7 +33,7 @@ class DownloadTransactionsQuery
         st.category AS "Station Category",
         st.address AS "Station Address",
         st.official_name AS "Station Official Name",
-        tr.device_uid			         AS "Device UID",
+        tr.device_id			         AS "Device ID",
         tr.customer_tag_uid        AS "Customer gTag ID",
         tr.operator_tag_uid        AS "Operator gTag ID",
 

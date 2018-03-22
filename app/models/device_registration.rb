@@ -15,29 +15,6 @@ class DeviceRegistration < ApplicationRecord
     current_time.present? ? current_time - updated_at : 0
   end
 
-  def resolve_time!(start_date = event.start_date.to_formatted_s(:transactions), end_date = event.end_date.to_formatted_s(:transactions), actions = %w[sale sale_refund])
-    device_ts = event.transactions.where(device_uid: device.mac).order(:device_db_index)
-    bad_ids = device_ts.onsite.where(action: actions).where.not(device_created_at: (start_date..end_date)).pluck(:id)
-    diff = nil
-
-    device_ts.each.with_index do |bad_t, index|
-      if bad_ids.include?(bad_t.id)
-        last_good = index.zero? ? device_ts[index] : device_ts[index - 1]
-        bad_t.update!(device_created_at: start_date) && next if bad_t == last_good
-
-        good_date = Time.parse(last_good.device_created_at) # rubocop:disable Rails/TimeZone
-        bad_date = Time.parse(bad_t.device_created_at) # rubocop:disable Rails/TimeZone
-
-        diff = (good_date - bad_date) if diff.nil?
-
-        bad_t.update!(device_created_at: (bad_date + diff + 60).to_formatted_s(:transactions))
-        bad_ids.delete(bad_t.id)
-      else
-        diff = nil
-      end
-    end
-  end
-
   def status
     case
       when (server_transactions != number_of_transactions) && action != "device_initialization" then "to_check"
@@ -49,7 +26,7 @@ class DeviceRegistration < ApplicationRecord
   end
 
   def load_last_results
-    last_onsite = event.transactions.onsite.where(device_uid: device.mac).order(:device_created_at).last
+    last_onsite = event.transactions.onsite.where(device: device).order(:device_created_at).last
     self.operator = last_onsite&.operator_tag_uid
     self.station = last_onsite&.station&.name
     self.last_time_used = last_onsite&.device_created_at

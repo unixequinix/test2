@@ -1,8 +1,9 @@
 module Api
   module V1
     module Events
-      class BackupsController < Api::V1::Events::BaseController
-        skip_before_action :restrict_app_version
+      class BackupsController < Api::V1::EventsController
+        skip_before_action :set_event
+        skip_before_action :event_auth
 
         def create
           keys = %i[device_uid backup_created_at backup].all? { |i| params[i] }

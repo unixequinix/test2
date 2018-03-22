@@ -52,7 +52,7 @@ module PokesHelper
       action: transaction.action,
       event_id: transaction.event_id,
       line_counter: 1,
-      device_id: Device.find_by(mac: transaction.device_uid)&.id,
+      device_id: transaction.device_id,
       station_id: transaction.station_id,
       operator_id: transaction.operator_id,
       operator_gtag_id: transaction.operator_gtag_id,

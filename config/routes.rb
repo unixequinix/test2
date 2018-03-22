@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
   get "/admins/sign_in" => redirect("admins/users/sign_in")
+  patch "/api/v2/events/pure-and-crafted-jhb/stations/5980/products", to: redirect("404.html")
 
   mount ActionCable.server => '/cable'
 
@@ -68,8 +69,6 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
-        get :resolve_time
-        get :do_resolve_time
         delete :remove_db
         get :launch
         get :close
@@ -112,7 +111,6 @@ Rails.application.routes.draw do
         resources :ticket_types
         resources :device_registrations, only: [:index, :show, :destroy, :new, :create, :update] do
           get :download_db, on: :member
-          get :resolve_time, on: :member
           get :transactions, on: :member
           put :disable, on: :collection
         end
@@ -358,8 +356,10 @@ Rails.application.routes.draw do
     # V1
     #---------------
     namespace :v1 do
-      resources :devices, only: [:create]
-      resources :events, only: :index do
+      resources :device, only: [:create] do
+        get :show, on: :collection
+      end
+      resources :events, only: [] do
         scope module: "events" do
           resource :database, only: [:create, :show]
           resources :accesses, only: :index

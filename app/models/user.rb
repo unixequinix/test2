@@ -43,6 +43,11 @@ class User < ApplicationRecord
     event_registrations.find_by(event: event)
   end
 
+  def self.authenticate(username, password)
+    user = User.find_for_database_authentication(login: username)
+    user&.valid_password?(password) ? user : nil
+  end
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)

@@ -56,7 +56,7 @@
               table.mdl-data-table.mdl-js-data-table.within-card
                 tbody
                   tr
-                    td.mdl-data-table__cell--non-numeric Device uid
+                    td.mdl-data-table__cell--non-numeric Device
                     - device = Device.find_by_mac(@transaction.device_uid)
 
                     - if device && @current_user.team == device.team
