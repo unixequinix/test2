@@ -4,7 +4,7 @@ module Admins
       before_action :set_ticket, except: %i[index new create import sample_csv]
 
       def index
-        @q = @current_event.tickets.order(created_at: :desc).ransack(params[:q])
+        @q = @current_event.tickets.includes(:customer, :ticket_type).order(created_at: :desc).ransack(params[:q])
         @tickets = @q.result
         authorize @tickets
         @tickets = @tickets.page(params[:page])

@@ -54,7 +54,7 @@ module Admins
       private
 
       def set_order
-        @order = @current_event.orders.includes(catalog_items: :event).find(params[:id])
+        @order = @current_event.orders.includes(order_items: :catalog_item).find(params[:id])
         authorize @order
       end
 

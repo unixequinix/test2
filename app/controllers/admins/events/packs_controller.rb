@@ -75,7 +75,7 @@ module Admins
       private
 
       def set_pack
-        @pack = @current_event.packs.find(params[:id])
+        @pack = @current_event.packs.includes(pack_catalog_items: :catalog_item).find(params[:id])
         @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
         authorize @pack
       end

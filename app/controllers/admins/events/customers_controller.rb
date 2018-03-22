@@ -16,7 +16,7 @@ module Admins
       end
 
       def show
-        @pokes = @customer.pokes.order(:source, :gtag_counter, :date)
+        @pokes = @customer.pokes.for_views
       end
 
       def update

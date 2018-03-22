@@ -16,25 +16,25 @@
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
         .mdl-tabs__tab-bar
-          = link_to "Registration", "#devices-panel", class: "mdl-tabs__tab #{'is-active' unless @q.base.values.any? { |c| c.value }}"
-          = link_to "Asset Tracker", "#asset-tracker-panel", class: "mdl-tabs__tab #{'is-active' if @q.base.values.any? { |c| c.value }}"
+          = link_to "Registration", "#devices-panel", class: "mdl-tabs__tab #{'is-active' unless @q.base.values.any? { |c| c.value }}" unless @current_event.closed?
+          = link_to "Asset Tracker", "#asset-tracker-panel", class: "mdl-tabs__tab #{'is-active' if @q.base.values.any? { |c| c.value } || @current_event.closed?}"
           = link_to "App Caches", "#caches-panel", class: "mdl-tabs__tab"
-          = link_to "Settings", "#settings-panel", class: "mdl-tabs__tab"
+          = link_to "Settings", "#settings-panel", class: "mdl-tabs__tab" unless @current_event.closed?
 
-
-        #devices-panel.mdl-tabs__panel class="#{'is-active' unless @q.base.values.any? { |c| c.value }}"
-          .mdl-grid
-            .mdl-cell.mdl-cell--12-col
-              #devices_usage= render 'devices_usage', devices_usage: @devices_usage
-          .mdl-grid
-            .mdl-cell.mdl-cell--6-col
-              h4 Available devices
-              #available_devices_table
-                = render 'form', resources: @available_devices
-            .mdl-cell.mdl-cell--6-col
-              h4 Event devices
-              #current_devices_table
-                = render 'form', resources: @current_device_registrations, form_disable: true
+        - unless @current_event.closed?
+          #devices-panel.mdl-tabs__panel class="#{'is-active' unless @q.base.values.any? { |c| c.value }}"
+            .mdl-grid
+              .mdl-cell.mdl-cell--12-col
+                #devices_usage= render 'devices_usage', devices_usage: @devices_usage
+            .mdl-grid
+              .mdl-cell.mdl-cell--6-col
+                h4 Available devices
+                #available_devices_table
+                  = render 'form', resources: @available_devices
+              .mdl-cell.mdl-cell--6-col
+                h4 Event devices
+                #current_devices_table
+                  = render 'form', resources: @current_device_registrations, form_disable: true
 
         #caches-panel.mdl-tabs__panel
           .mdl-card__supporting-text
@@ -67,7 +67,7 @@
 
 
 
-        #asset-tracker-panel.mdl-tabs__panel class="#{'is-active' if @q.base.values.any? { |c| c.value }}"
+        #asset-tracker-panel.mdl-tabs__panel class="#{'is-active' if @q.base.values.any? { |c| c.value } || @current_event.closed?}"
           - if @registrations.any?
             .content-grid.mdl-grid
               .mdl-layout-spacer
@@ -134,77 +134,77 @@
                           span style="color: #e26465; padding-right: 10px;" = distance_of_time_in_words registration.time_diff
                           i.material-icons style="color: #e26465" timer_off
 
-
-        #settings-panel.mdl-tabs__panel
-          .mdl-card__title
-            h2.mdl-card__title-text
-              i.material-icons mode_edit
-              | Advanced Settings
-
-          .mdl-card__supporting-text
-            table.table-show.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Private Zone Password
-                  td = best_in_place @current_event, :private_zone_password, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Fast Removal Password
-                  td = best_in_place @current_event, :fast_removal_password, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Min App Version
-                  td = best_in_place @current_event, :emv_enabled, url: [:admins, @current_event]
-
-                - if current_user.admin?
-                  tr
-                    td.mdl-data-table__cell--non-numeric Min App Version
-                    td = best_in_place @current_event, :app_version, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Reverse UID
-                    td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric All stations apply orders
-                    td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric All stations initialize gtags
-                    td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
-                  tr
-                    td.mdl-data-table__cell--non-numeric EMV payments
-                    td = best_in_place @current_event, :stations_apply_tickets, best_in_place_checkbox([:admins, @current_event])
-
-          - if current_user.admin?
+        - unless @current_event.closed?
+          #settings-panel.mdl-tabs__panel
             .mdl-card__title
               h2.mdl-card__title-text
-                i.material-icons timelapse
-                | Sync
+                i.material-icons mode_edit
+                | Advanced Settings
 
             .mdl-card__supporting-text
               table.table-show.mdl-data-table.mdl-js-data-table.within-card
                 tbody
                   tr
-                    td.mdl-data-table__cell--non-numeric Transaction Buffer
-                    td = best_in_place @current_event, :transaction_buffer, url: [:admins, @current_event]
+                    td.mdl-data-table__cell--non-numeric Private Zone Password
+                    td = best_in_place @current_event, :private_zone_password, url: [:admins, @current_event]
                   tr
-                    td.mdl-data-table__cell--non-numeric Days To Keep Backup
-                    td = best_in_place @current_event, :days_to_keep_backup, url: [:admins, @current_event]
+                    td.mdl-data-table__cell--non-numeric Fast Removal Password
+                    td = best_in_place @current_event, :fast_removal_password, url: [:admins, @current_event]
                   tr
-                    td.mdl-data-table__cell--non-numeric Sync Time Event Parameters
-                    td = best_in_place @current_event, :sync_time_event_parameters, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Sync Time Server Date
-                    td = best_in_place @current_event, :sync_time_server_date, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Sync Time Basic Download
-                    td = best_in_place @current_event, :sync_time_basic_download, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Sync Time Tickets
-                    td = best_in_place @current_event, :sync_time_tickets, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Sync Time Gtags
-                    td = best_in_place @current_event, :sync_time_gtags, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Sync Time Customers
-                    td = best_in_place @current_event, :sync_time_customers, url: [:admins, @current_event]
-  .mdl-layout-spacer
+                    td.mdl-data-table__cell--non-numeric Min App Version
+                    td = best_in_place @current_event, :emv_enabled, url: [:admins, @current_event]
+
+                  - if current_user.admin?
+                    tr
+                      td.mdl-data-table__cell--non-numeric Min App Version
+                      td = best_in_place @current_event, :app_version, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Reverse UID
+                      td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
+                    tr
+                      td.mdl-data-table__cell--non-numeric All stations apply orders
+                      td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
+                    tr
+                      td.mdl-data-table__cell--non-numeric All stations initialize gtags
+                      td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
+                    tr
+                      td.mdl-data-table__cell--non-numeric EMV payments
+                      td = best_in_place @current_event, :stations_apply_tickets, best_in_place_checkbox([:admins, @current_event])
+
+            - if current_user.admin?
+              .mdl-card__title
+                h2.mdl-card__title-text
+                  i.material-icons timelapse
+                  | Sync
+
+              .mdl-card__supporting-text
+                table.table-show.mdl-data-table.mdl-js-data-table.within-card
+                  tbody
+                    tr
+                      td.mdl-data-table__cell--non-numeric Transaction Buffer
+                      td = best_in_place @current_event, :transaction_buffer, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Days To Keep Backup
+                      td = best_in_place @current_event, :days_to_keep_backup, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Sync Time Event Parameters
+                      td = best_in_place @current_event, :sync_time_event_parameters, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Sync Time Server Date
+                      td = best_in_place @current_event, :sync_time_server_date, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Sync Time Basic Download
+                      td = best_in_place @current_event, :sync_time_basic_download, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Sync Time Tickets
+                      td = best_in_place @current_event, :sync_time_tickets, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Sync Time Gtags
+                      td = best_in_place @current_event, :sync_time_gtags, url: [:admins, @current_event]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Sync Time Customers
+                      td = best_in_place @current_event, :sync_time_customers, url: [:admins, @current_event]
+    .mdl-layout-spacer
 
 
 javascript:

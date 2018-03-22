@@ -11,7 +11,7 @@ module Admins
 
       def index
         @q = @current_event.ticket_types.order(%i[company name]).ransack(params[:q])
-        @ticket_types = @q.result.includes(catalog_item: :station)
+        @ticket_types = @q.result
         @catalog_items = @current_event.catalog_items.order(:type).map { |i| [i.id, i.name.humanize] }
         @ticket_counts = @current_event.tickets.group(:ticket_type_id).count
         @gtag_counts = @current_event.gtags.group(:ticket_type_id).count

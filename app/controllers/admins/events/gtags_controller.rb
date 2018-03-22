@@ -20,7 +20,7 @@ module Admins
       end
 
       def show
-        @pokes = @gtag.pokes_as_customer.order(:gtag_counter, :line_counter).onsite
+        @pokes = @gtag.pokes_as_customer.for_views.onsite
         @corrections = @gtag.transactions.where(action: "correction")
         @transactions = @gtag.transactions.debug
       end

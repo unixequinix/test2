@@ -30,7 +30,7 @@ class Transaction < ApplicationRecord
   scope :status_ok, -> { where(status_code: 0) }
   scope :status_not_ok, -> { where.not(status_code: 0) }
   scope :payments_with_credit, ->(credit) { where("payments ? '#{credit.id}'") }
-  scope :debug, -> { includes(:event).order(:transaction_origin, :counter, :gtag_counter, :device_created_at) }
+  scope :debug, -> { includes(:station).order(:transaction_origin, :counter, :gtag_counter, :device_created_at) }
 
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
 

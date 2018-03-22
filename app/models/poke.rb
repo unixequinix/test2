@@ -35,6 +35,7 @@ class Poke < ApplicationRecord
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: "online") }
+  scope :for_views, -> { includes(:credit, :operation, :event, :station, :product).order(:source, :gtag_counter, :line_counter, :date) }
 
   scope :money_recon, lambda {
     select(:action, :description, :source, :payment_method, event_day_poke, "stations.category as station_type", "stations.name as station_name", sum_money)
