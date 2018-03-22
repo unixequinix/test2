@@ -1,7 +1,7 @@
 module Admins
   module Events
     class GtagsController < Admins::Events::BaseController
-      before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance merge]
+      before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance merge make_active]
 
       def index
         @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])
@@ -100,6 +100,12 @@ module Admins
       def recalculate_balance
         @gtag.recalculate_balance
         redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
+      end
+
+      def make_active
+        @gtag.make_active! if @gtag.customer
+        alert = @gtag.customer.present? ? { notice: "Gtag is active now" } : { alert: "Gtag could not be activated" }
+        redirect_to [:admins, @current_event, (@gtag.customer || @gtag)], alert
       end
 
       def import

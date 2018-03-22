@@ -178,6 +178,7 @@ Rails.application.routes.draw do
             get :recalculate_balance
             get :solve_inconsistent
             get :merge
+            get :make_active
           end
           collection do
             get :inconsistencies
@@ -290,7 +291,9 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :events, only: [:show, :index] do
         scope module: "events" do
-          resources :devices, except: %i[create new]
+          resources :devices, except: %i[create new] do
+            resources :pokes, only: [:index]
+          end
           resources :accesses
           resources :pokes, only: [:index]
 
@@ -313,6 +316,7 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :pokes, only: [:index]
           resources :customers, constraints: { id: /.*/ } do
             resources :pokes, only: [:index]
 

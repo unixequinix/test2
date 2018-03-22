@@ -98,4 +98,8 @@ class AdmissionPolicy < ApplicationPolicy
   def merge?
     admin_or_promoter && event_open
   end
+
+  def make_active?
+    admin_or_promoter && event_open
+  end
 end
