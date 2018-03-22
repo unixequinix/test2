@@ -1,15 +1,4 @@
 .mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
-    .mdl-grid.no-wrapper-style.padding
-      .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
-        .mdl-grid.analytic-card-content.dark
-          .mdl-cell.mdl-cell--12-col.analytic-card-title
-            h6 = "Topups, Sales & Refunds per hour"
-      .mdl-cell.mdl-cell--12-col
-        canvas#key_metrics
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--12-col
   .mdl-cell.mdl-cell--12-col
     .mld-card
       .content-grid.mdl-grid
@@ -28,6 +17,16 @@
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
               = render "new_card", card: key_metrics_data[:outstanding], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px'
               = render "subcard", card: key_metrics_data[:outstanding], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove"
+
+
+.mdl-grid.no-wrapper-style.padding
+  .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
+    .mdl-grid.analytic-card-content.dark
+      .mdl-cell.mdl-cell--12-col
+        .mdl-card__title.mdl-card--expand
+          .mdl-card__title-text Topups, Sales & Refunds Per Hour
+  .mdl-cell.mdl-cell--12-col
+    canvas#key_metrics
 
 javascript:
   var ctx = document.getElementById("key_metrics").getContext('2d');

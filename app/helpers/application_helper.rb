@@ -21,6 +21,10 @@ module ApplicationHelper
     number_to_currency result, unit: credit.symbol
   end
 
+  def number_to_reports(number)
+    number_with_delimiter(number_with_precision(number, precision: 2))
+  end
+
   def title
     Rails.env.production? ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end

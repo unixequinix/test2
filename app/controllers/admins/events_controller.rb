@@ -34,7 +34,7 @@ module Admins
       tickets_dashboard = Ticket.dashboard(@current_event)
       refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
       kpis = [orders_dashboard, pokes_dashboard, refunds_dashboard, tickets_dashboard]
-      @kpis = formater(grouper(kpis))
+      @kpis = formatter(grouper(kpis))
 
       graphs = {}
       graphs[:d_credits] = PokesQuery.new(@current_event).credits_flow_day

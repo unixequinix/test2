@@ -65,7 +65,7 @@ class Ticket < ApplicationRecord
   end
 
   def self.dashboard(event)
-    ticket_credits = event.ticket_types.map { |tt| [tt.catalog_item_id, (tt.catalog_item&.credits.to_f + tt.catalog_item&.virtual_credits.to_f)] }.to_h
+    ticket_credits = event.ticket_types.includes(:catalog_item).map { |tt| [tt.catalog_item_id, (tt.catalog_item&.credits.to_f + tt.catalog_item&.virtual_credits.to_f)] }.to_h
 
     {
       outstanding_credits: event.tickets.where.not(customer_id: nil).map { |t| ticket_credits[t.ticket_type_id].to_f }.sum

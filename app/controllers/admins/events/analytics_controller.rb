@@ -5,8 +5,8 @@ module Admins
       include AnalyticsHelper
 
       before_action :authorize_billing
-      before_action :load_credits, only: %i[cashless partner_reports]
-      before_action :load_money, only: %i[money partner_reports]
+      before_action :load_credits, only: %i[partner_reports]
+      before_action :load_money, only: %i[partner_reports]
       before_action :load_kpis, only: %i[show partner_reports]
 
       def show # rubocop:disable Metrics/AbcSize
@@ -21,7 +21,7 @@ module Admins
         refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
         kpis = [orders_dashboard, tickets_dashboard, pokes_dashboard, refunds_dashboard]
 
-        @kpis = formater(grouper(kpis))
+        @kpis = formatter(grouper(kpis))
 
         totals[:totals_pokes] = Poke.totals(@current_event)
         totals[:totals_orders] = Order.totals(@current_event)
@@ -80,40 +80,6 @@ module Admins
         prepare_data(params["action"])
       end
 
-      def money
-        totals = Poke.money_dashboard(@current_event)
-        totals = totals.merge(Order.money_dashboard(@current_event))
-        totals[:online_refunds] = @current_event.refunds.completed.sum(:credit_base) * @credit_value
-        totals[:money_reconciliation] = totals[:money_reconciliation] + totals[:income_online] - totals[:online_refunds]
-        @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_event_currency(v)] }
-
-        @views = [
-          { chart_id: "money", title: "Money Flow", cols: ["Payment Method"], rows: ["Action"], data: @money, metric: ["Money"], decimals: 1 },
-          { chart_id: "money_by_stations", title: "Money Flow by Stations", cols: ["Event Day", "Payment Method"], rows: ["Location", "Station Type", "Station Name", "Action"], data: @money, metric: ["Money"], decimals: 1 }
-        ]
-        prepare_data(params["action"])
-      end
-
-      def cashless # rubocop:disable Metrics/AbcSize
-        ticket_credits = @current_event.ticket_types.map { |tt| [tt.catalog_item_id, (tt.catalog_item.credits + tt.catalog_item.virtual_credits)] }.to_h
-
-        totals = Poke.credit_dashboard(@current_event)
-        totals = totals.merge(Order.credit_dashboard(@current_event))
-        totals[:online_refunds] = @current_event.refunds.completed.sum(:credit_base)
-        totals[:ticket_credits] = @current_event.tickets.where.not(customer_id: nil).map { |t| ticket_credits[t.ticket_type_id].to_f }.sum
-        totals[:orders_fees] = totals[:orders_fees] / @credit_value
-        totals[:outstanding_credits] = (totals[:outstanding_credits].to_f + totals[:online_order_credits].to_f - totals[:online_refunds].to_f + totals[:ticket_credits].to_f + totals[:orders_fees].to_f)
-        totals[:fees] = totals[:fees] + totals[:orders_fees]
-        totals.delete(:orders_fees)
-        @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_token(v)] }
-
-        @views = [
-          { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: %w[Action Description], data: @credits, metric: ["Credits"], decimals: 1 },
-          { chart_id: "credits_detail", title: "Credit Flow by Station", cols: ["Event Day", "Credit Name"], rows: ["Location", "Action", "Station Type", "Station Name"], data: @credits, metric: ["Credits"], decimals: 1 }
-        ]
-        prepare_data(params["action"])
-      end
-
       def sales
         sale_credit = -@current_event.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
         sale_virtual = -@current_event.pokes.where(credit: @current_event.virtual_credit).sales.is_ok.sum(:credit_amount)
@@ -157,7 +123,7 @@ module Admins
         refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
         kpis = [orders_dashboard, tickets_dashboard, pokes_dashboard, refunds_dashboard]
 
-        @kpis = formater(grouper(kpis))
+        @kpis = formatter(grouper(kpis))
       end
 
       def load_credits

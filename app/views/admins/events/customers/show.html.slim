@@ -88,12 +88,12 @@
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            .mdl-card__title-text = number_to_token @customer.active_gtag&.final_balance
+            .mdl-card__title-text = number_to_token @customer.active_gtag.try(:final_balance)
           .mdl-card__supporting-text Active Gtag Balance
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
           .mdl-card__title.mdl-card--expand
-            .mdl-card__title-text = number_to_token @customer.active_gtag&.final_virtual_balance
+            .mdl-card__title-text = number_to_token @customer.active_gtag.try(:final_virtual_balance)
           .mdl-card__supporting-text Active Gtag Virtual Balance
   .mdl-layout-spacer
 
