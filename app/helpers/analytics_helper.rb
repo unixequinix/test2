@@ -91,8 +91,8 @@ module AnalyticsHelper
           icon: 'equalizer',
           title: { text: "Total Sales in #{event_currency_symbol}", number: sales.sum(:credit_amount).to_f.abs },
           subtitle: [
-            { text: 'At Bars', number: sales.where(stations: {category: 'bar'}).sum(:credit_amount).to_f.abs },
-            { text: 'At vendors', number: sales.where(stations: {category: 'vendor'}).sum(:credit_amount).to_f.abs }
+            { text: 'At Bars', number: sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs },
+            { text: 'At vendors', number: sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs }
           ]
         },
         products: {
@@ -132,9 +132,9 @@ module AnalyticsHelper
         customers: {
           colors: ['#355C7D', '#C06C84'],
           icon: 'supervisor_account',
-          title: {text: 'Spending Customers', number: sales.select(:customer_id).distinct.pluck(:customer_id).count},
+          title: { text: 'Spending Customers', number: sales.select(:customer_id).distinct.pluck(:customer_id).count },
           subtitle: [
-            {text: 'Average Spend per Customer', number: number_to_event_currency(-sales.sum(:credit_amount)/sales.select(:customer_id).distinct.pluck(:customer_id).count)}
+            { text: 'Average Spend per Customer', number: number_to_event_currency(-sales.sum(:credit_amount) / sales.select(:customer_id).distinct.pluck(:customer_id).count) }
           ]
         }
       },
@@ -142,14 +142,14 @@ module AnalyticsHelper
         total_income: {
           colors: ['#1A2980', '#26D0CE'],
           icon: 'input',
-          title: {text: 'Total Income', number: 0},
-          subtitle: {online: 0, onsite: 0, total: 0}
+          title: { text: 'Total Income', number: 0 },
+          subtitle: { online: 0, onsite: 0, total: 0 }
         },
         total_sales: {
           colors: ['#FF4E50', '#F9D423'],
           icon: 'equalizer',
-          title: {text: 'Total Sales', number: sales.sum(:credit_amount).to_f.abs},
-          subtitle: {online: "-", onsite: sales.sum(:credit_amount).to_f.abs, total: sales.sum(:credit_amount).to_f.abs}
+          title: { text: 'Total Sales', number: sales.sum(:credit_amount).to_f.abs },
+          subtitle: { online: "-", onsite: sales.sum(:credit_amount).to_f.abs, total: sales.sum(:credit_amount).to_f.abs }
         },
         total_refunds: {
           colors: ['#FF5050', '#F3A183'],

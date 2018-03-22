@@ -37,7 +37,7 @@ module Admins
       end
 
       def sales
-        cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Alcohol Product','Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
+        cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Alcohol Product', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
         @sales = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
         prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type', 'Station Name'], ['Credits'], 1]
       end
