@@ -6,6 +6,7 @@ class Ticket < ApplicationRecord
   belongs_to :ticket_type
 
   has_many :pokes, as: :credential, inverse_of: :credential, dependent: :restrict_with_error
+
   validates :code, uniqueness: { scope: :event_id }, presence: true
   validate_associations
 

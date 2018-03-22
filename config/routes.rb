@@ -292,13 +292,18 @@ Rails.application.routes.draw do
         scope module: "events" do
           resources :devices, except: %i[create new]
           resources :accesses
+          resources :pokes, only: [:index]
 
           resources :tickets do
+            resources :pokes, only: [:index]
+
             post :topup, on: :member
             post :virtual_topup, on: :member
           end
 
           resources :gtags do
+            resources :pokes, only: [:index]
+
             member do
               post :replace
               post :topup
@@ -309,6 +314,8 @@ Rails.application.routes.draw do
           end
 
           resources :customers, constraints: { id: /.*/ } do
+            resources :pokes, only: [:index]
+
             member do
               post :ban
               post :unban
