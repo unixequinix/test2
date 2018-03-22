@@ -26,15 +26,6 @@ class Order < ApplicationRecord
   scope :has_money, -> { where.not(money_base: nil) }
   scope(:not_refund, -> { where.not(gateway: "refund") })
 
-  scope :order_all_credits, lambda { |redeemed = [true, false]|
-    completed
-      .includes(:order_items)
-      .where(order_items: { redeemed: redeemed })
-      .map(&:order_items).flatten
-      .map { |oi| oi.amount * (oi.catalog_item&.credits.to_f + oi.catalog_item&.virtual_credits.to_f) }
-      .sum
-  }
-
   scope :online_purchase, lambda {
     select(transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, money_order)
       .completed
@@ -112,9 +103,13 @@ class Order < ApplicationRecord
   end
 
   def self.dashboard(event)
+    items = {}
+    event.catalog_items.where(type: %w[Credit VirtualCredit Pack]).map { |item| items[item.id] = item.credits }
+    outstanding = OrderItem.where(order: event.orders.completed).map { |oi| items[oi.catalog_item_id].to_f * oi.amount }.sum
+
     {
       money_reconciliation: event.orders.completed.sum(:money_base) + event.orders.completed.sum(:money_fee),
-      outstanding_credits: event.orders.order_all_credits
+      outstanding_credits: outstanding
     }
   end
 
@@ -136,9 +131,12 @@ class Order < ApplicationRecord
   end
 
   def self.credit_dashboard(event)
+    items = {}
+    event.catalog_items.where(type: %w[Credit VirtualCredit Pack]).map { |item| items[item.id] = item.credits }
+
     {
-      online_order_credits: event.orders.completed.order_all_credits,
-      unreedemed_online_order_credits: event.orders.completed.order_all_credits(false),
+      online_order_credits: OrderItem.where(order: event.orders.completed).map { |oi| items[oi.catalog_item_id].to_f * oi.amount }.sum,
+      unreedemed_online_order_credits: OrderItem.where(order: event.orders.completed, redeemed: false).map { |oi| items[oi.catalog_item_id].to_f * oi.amount }.sum,
       orders_fees: event.orders.completed.sum(:money_fee)
     }
   end

@@ -21,7 +21,7 @@ class Poke < ApplicationRecord
   scope :refunds, -> { where(action: "refund") }
   scope :sales, -> { where(action: "sale") }
   scope :record_credit, -> { where(action: "record_credit") }
-  scope :sale_refunds, -> { where(action: "sale_refund") }
+  scope :not_record_credit, -> { where.not(description: "record_credit") }
   scope :credit_ops, -> { where(action: %w[record_credit sale]) }
   scope :fees, -> { where(action: 'fee') }
   scope :initial_fees, -> { where(action: "initial_fee") }
@@ -29,7 +29,6 @@ class Poke < ApplicationRecord
   scope :deposit_fees, -> { where(action: "gtag_deposit_fee") }
   scope :return_fees, -> { where(action: "gtag_return_fee") }
   scope :online_orders, -> { where(action: "record_credit", description: %w[record_credit order_applied_onsite]) }
-  scope :not_record_credit, -> { where.not(description: "record_credit") }
   scope :has_money, -> { where.not(monetary_total_price: nil) }
   scope :has_credits, -> { where.not(credit_amount: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
@@ -38,9 +37,9 @@ class Poke < ApplicationRecord
   scope :for_views, -> { includes(:credit, :operation, :event, :station, :product).order(:source, :gtag_counter, :line_counter, :date) }
 
   scope :money_recon, lambda {
-    select(:action, :description, :source, :payment_method, event_day_poke, "stations.category as station_type", "stations.name as station_name", sum_money)
+    select(:action, :description, :source, :payment_method, event_day_poke, date_time_poke, "stations.category as station_type", "stations.name as station_name", sum_money)
       .left_joins(:station).has_money.is_ok
-      .group(:action, :description, :source, :payment_method, "event_day, station_type, station_name")
+      .group(:action, :description, :source, :payment_method, "event_day, date_time, station_type, station_name")
   }
 
   scope :money_recon_operators, lambda {
@@ -50,21 +49,21 @@ class Poke < ApplicationRecord
   }
 
   scope :products_sale, lambda {
-    select(:description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount", "sum(sale_item_quantity) as sale_item_quantity")
+    select(:description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok
-      .group(:description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "product_name")
+      .group(:description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "is_alcohol, product_name")
   }
 
   scope :products_sale_stock, lambda {
-    select(:operation_id, :description, :sale_item_quantity, event_day_poke, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, 'Other Amount') as product_name")
+    select(:operation_id, :description, :sale_item_quantity, event_day_poke, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, pokes.description) as product_name")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok
       .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
   }
 
   scope :top_products, lambda {
-    select("COALESCE(products.name, 'Other Amount') as product_name, sum(credit_amount)*-1 as credit_amount")
+    select("COALESCE(products.name, pokes.description) as product_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credit_amount")
       .left_outer_joins(:product)
       .sales.is_ok
       .group("product_name")
@@ -111,8 +110,8 @@ class Poke < ApplicationRecord
 
       credit_breakage: event.pokes.select("credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("credit_name").as_json(except: :id),
       credits_type: event.pokes.select("action, credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("action, credit_name").as_json(except: :id),
-      alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non' END as is_alcohol, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("is_alcohol").to_json,
-      top_productos: event.pokes.select("products.name as product_name, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("product_name").order("credits desc").limit("5").to_json
+      alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non Alcohol' END as is_alcohol, abs(sum(credit_amount)) as credits, abs(count(credit_amount)) as credits_amount").is_ok.joins(:product).group("is_alcohol").to_json,
+      top_products: event.pokes.select("products.name as product_name, abs(sum(credit_amount)) as credits").is_ok.joins(:product).group("product_name").order("credits desc").limit("10").to_json
     }
   end
 
@@ -192,6 +191,10 @@ class Poke < ApplicationRecord
 
   def self.source_money
     "sum(CASE when source = 'online' THEN monetary_total_price ELSE NULL END) as online, sum(CASE when source = 'onsite' THEN monetary_total_price ELSE NULL END) as onsite"
+  end
+
+  def self.is_alcohol
+    "CASE WHEN products.is_alcohol = TRUE then 'Alcohol Product' ELSE 'Non' END as is_alcohol"
   end
 
   def name # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize

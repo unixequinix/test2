@@ -8,11 +8,14 @@ function setTable(data, rows, cols, metric, decimals, chartId, title, renderers,
 }
 
 function setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show) {
+  type = type || "Table"
+  show = show || ""
+  metric = metric || "metric"
   $(chartId + show).pivotUI(data, {
     renderers: renderers,
     cols: cols, rows: rows,
     rendererName: type,
-    aggregators: { ["metric"]: function () { return sum(frFormat)(metric) } },
+    aggregators: { [metric]: function () { return sum(frFormat)(metric) } },
   });
 }
 

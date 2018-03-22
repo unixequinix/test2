@@ -5,6 +5,9 @@ module Admins
       include AnalyticsHelper
 
       before_action :authorize_billing
+      before_action :load_credits, only: [:cashless, :partner_reports]
+      before_action :load_money, only: [:money, :partner_reports]
+      before_action :load_kpis, only: [:show, :partner_reports]
 
       def show # rubocop:disable Metrics/AbcSize
         @message = analytics_message(@current_event)
@@ -43,44 +46,61 @@ module Admins
         @totals = totals
       end
 
-      def money
-        money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day"]
-        online_purchase = @current_event.orders.online_purchase.as_json
-        onsite_money = @current_event.pokes.money_recon.as_json
-        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
-        money = prepare_pokes(money_cols, onsite_money + online_purchase + online_refunds)
+      def key_metrics
+        metrics = JSON.parse(PokesQuery.new(@current_event).key_metrics_by_day)
+        @views = { chart_id: "key_metrics", title: "Key Metrics", cols: ["Amount"], currency: @current_event.currency_symbol, data: metrics, metric: ["Money"], decimals: 1 }
+        @redirect = 'admins/events/analytics/key_metric'
+        prepare_data(params["action"])
+      end
 
+      def partner_reports
+        @totals = @kpis
+        cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
+        sales = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
+        top_cols = ['Product Name', 'Credits', 'sorter']
+        top_products = prepare_pokes(top_cols, @current_event.pokes.top_products.as_json)
+        @views = [
+          { chart_id: "money_flow", title: "Money Flow", cols: ["Event Day"], rows: ["Action"], data: @money, metric: ["Money"], decimals: 1 },
+          { chart_id: "money_recon", title: "Money Reconciliation Summary", cols: ["Payment Method"], rows: ["Action", "Station Name"], data: @money, metric: ["Money"], decimals: 1 },
+          { chart_id: "topups_statiom", title: "Topup-Refund by Hour / Station", cols: ["Date Time"], rows: ["Station Name"], data: @money, metric: ["Money"], decimals: 1, partial: "chart_card", type: "Stacked Bar Chart"},
+          { chart_id: "topups_payment", title: "Topup-Refund Cash / Card / Virtual by Hour", cols: ["Date Time"], rows: ["Payment Method"], data: @money, metric: ["Money"], decimals: 1, partial: "chart_card", type: "Bar Chart"},
+          { chart_id: "topups_popular", title: "Most Popular Top-Up Amounts", cols:[], rows: ["Amount"], data: PokesQuery.new(@current_event).top_topup, metric: ["Customers"], decimals: 0, partial: "chart_card", type: "Bar Chart"},
+          { chart_id: "customer_topup", title: "Customer Topups", partial: "doughnut_card", cols: "Avg. Topup", data: PokesQuery.new(@current_event).customer_topup},
+          { chart_id: "refund_popular", title: "Most Popular Refund Amounts", cols:[], rows: ["Amount"], data: PokesQuery.new(@current_event).top_refund, metric: ["Customers"], decimals: 0, partial: "chart_card", type: "Bar Chart"},
+          { chart_id: "high_sales", title: "High-Level Sale", cols: ["Credit Name"], rows: ["Station Name"], data: sales, metric: ["Credits"], decimals: 1},
+          { chart_id: "high_sales_chart", title: "Total Sales by Hour", cols: ["Date Time"], rows: ["Station Type"], data: sales, metric: ["Credits"], decimals: 1, partial: "chart_card", type: "Stacked Bar Chart"},
+          { chart_id: "top_sales_amount", title: "Top 10 Product Sales (Amount)", cols: ["sorter", "Product Name"], rows: [], data: top_products, metric: ["Credits"], decimals: 1, partial: "chart_card", type: "Horizontal Bar Chart"},
+          { chart_id: "top_sales_quantity", title: "Top 10 Product Sales (Quantity)", cols: ["sorter", "Product Name"], rows: [], data: PokesQuery.new(@current_event).top_product_quantity, metric: ["Quantity"], decimals: 0, partial: "chart_card", type: "Horizontal Bar Chart"},
+          { chart_id: "spending_customer", title: "Customer Spending Distribution", cols: [], rows: ["Spent amount"], data: PokesQuery.new(@current_event).spending_customer, metric: ["Customers"], decimals: 0, partial: "chart_card", type: "Bar Chart"},
+          { chart_id: "topups_perfourmance", title: "Topup-Refund Perfourmance by Hour", cols: ["Date Time"], rows: ["Station Name"], data: @money, metric: ["Money"], decimals: 1, partial: "chart_card", type: "Stacked Bar Chart"},
+          { chart_id: "sales_perfourmance", title: "Sales Perfourmance by Hour", cols: ["Date Time"], rows: ["Station Name"], data: sales, metric: ["Credits"], decimals: 1, partial: "chart_card", type: "Stacked Bar Chart"},
+
+        ]
+
+        prepare_data(params["action"])
+      end
+
+      def money
         totals = Poke.money_dashboard(@current_event)
         totals = totals.merge(Order.money_dashboard(@current_event))
         totals[:online_refunds] = @current_event.refunds.completed.sum(:credit_base) * @credit_value
         totals[:money_reconciliation] = totals[:money_reconciliation] + totals[:income_online] - totals[:online_refunds]
-
         @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_event_currency(v)] }
 
         @views = [
-          { chart_id: "money", title: "Money Flow", cols: ["Payment Method"], rows: ["Action"], data: money, metric: ["Money"], decimals: 1 },
-          { chart_id: "money_by_stations", title: "Money Flow by Stations", cols: ["Event Day", "Payment Method"], rows: ["Location", "Station Type", "Station Name", "Action"], data: money, metric: ["Money"], decimals: 1 }
+          { chart_id: "money", title: "Money Flow", cols: ["Payment Method"], rows: ["Action"], data: @money, metric: ["Money"], decimals: 1 },
+          { chart_id: "money_by_stations", title: "Money Flow by Stations", cols: ["Event Day", "Payment Method"], rows: ["Location", "Station Type", "Station Name", "Action"], data: @money, metric: ["Money"], decimals: 1 }
         ]
         prepare_data(params["action"])
       end
 
       def cashless # rubocop:disable Metrics/AbcSize
-        cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day"]
-        online_packs = Order.online_packs(@current_event).as_json
-        ticket_packs = Ticket.online_packs(@current_event).as_json
-        online_topup = @current_event.orders.online_topup.as_json
-        order_fee = @current_event.orders.online_purchase_fee.each do |o|
-          o.credit_name = @credit_name
-          o.credit_amount = o.credit_amount / @credit_value
-        end
-        credits_onsite = @current_event.pokes.credit_flow.as_json
-        credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
-        credits = prepare_pokes(cols, online_packs + online_topup + credits_onsite + credits_refunds + ticket_packs + order_fee)
+        ticket_credits = @current_event.ticket_types.map { |tt| [tt.catalog_item_id, (tt.catalog_item.credits + tt.catalog_item.virtual_credits)] }.to_h
 
         totals = Poke.credit_dashboard(@current_event)
         totals = totals.merge(Order.credit_dashboard(@current_event))
         totals[:online_refunds] = @current_event.refunds.completed.sum(:credit_base)
-        totals[:ticket_credits] = @current_event.tickets.ticket_all_credits
+        totals[:ticket_credits] = @current_event.tickets.where.not(customer_id: nil).map { |t| ticket_credits[t.ticket_type_id].to_f }.sum
         totals[:orders_fees] = totals[:orders_fees] / @credit_value
         totals[:outstanding_credits] = (totals[:outstanding_credits].to_f + totals[:online_order_credits].to_f - totals[:online_refunds].to_f + totals[:ticket_credits].to_f + totals[:orders_fees].to_f)
         totals[:fees] = totals[:fees] + totals[:orders_fees]
@@ -88,8 +108,8 @@ module Admins
         @totals = totals.reject { |_k, v| v.zero? }.map { |k, v| [k, number_to_token(v)] }
 
         @views = [
-          { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: %w[Action Description], data: credits, metric: ["Credits"], decimals: 1 },
-          { chart_id: "credits_detail", title: "Credit Flow by Station", cols: ["Event Day", "Credit Name"], rows: ["Location", "Action", "Station Type", "Station Name"], data: credits, metric: ["Credits"], decimals: 1 }
+          { chart_id: "credits", title: "Credit Flow", cols: ["Event Day", "Credit Name"], rows: %w[Action Description], data: @credits, metric: ["Credits"], decimals: 1 },
+          { chart_id: "credits_detail", title: "Credit Flow by Station", cols: ["Event Day", "Credit Name"], rows: ["Location", "Action", "Station Type", "Station Name"], data: @credits, metric: ["Credits"], decimals: 1 }
         ]
         prepare_data(params["action"])
       end
@@ -128,6 +148,43 @@ module Admins
       end
 
       private
+
+      def load_kpis
+        orders_dashboard = Order.dashboard(@current_event)
+        tickets_dashboard = Ticket.dashboard(@current_event)
+        pokes_dashboard = Poke.dashboard(@current_event)
+        refunds_dashboard = Refund.dashboard(@current_event)
+        refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
+        kpis = [orders_dashboard, tickets_dashboard, pokes_dashboard, refunds_dashboard]
+
+        @kpis = formater(grouper(kpis))
+      end
+
+      def load_credits
+        online_packs = Order.online_packs(@current_event).as_json
+        ticket_packs = Ticket.online_packs(@current_event).as_json
+        online_topup = @current_event.orders.online_topup.as_json
+        order_fee = @current_event.orders.online_purchase_fee.each do |o|
+          o.credit_name = @credit_name
+          o.credit_amount = o.credit_amount / @credit_value
+        end
+        credits_onsite = @current_event.pokes.credit_flow.as_json
+        credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
+
+        credits_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day", "Date Time"]
+        credits = online_packs + online_topup + credits_onsite + credits_refunds + ticket_packs + order_fee
+        @credits = prepare_pokes(credits_cols, credits)
+      end
+
+      def load_money
+        online_purchase = @current_event.orders.online_purchase.as_json
+        onsite_money = @current_event.pokes.money_recon.as_json
+        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
+
+        money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day", "Date Time"]
+        money = onsite_money + online_purchase + online_refunds
+        @money = prepare_pokes(money_cols, money)
+      end
 
       def authorize_billing
         authorize(@current_event, :analytics?)

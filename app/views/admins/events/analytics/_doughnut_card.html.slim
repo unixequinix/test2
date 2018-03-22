@@ -1,0 +1,33 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--8-col
+    .mdl-card__title-text = title
+    .mdl-cell.mdl-cell--8-col
+      canvas.chart_size id=chart_id
+
+javascript:
+  var color_scale_p = ["#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD","#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD","#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD"]
+  var chartId = "#{chart_id}";
+  var data_p = #{ data.html_safe }
+  var lables = data_p.map(function (e) { return e.lable.replace(/ /g,'') });
+  var metric = data_p.map(function (e) { return e.metric.replace(/ /g,'')});
+  var title = "#{cols}"
+  new Chart(document.getElementById(chartId), {
+           type: 'doughnut',
+           data: {
+               labels: lables,
+               datasets: [
+                   {
+                       label: title,
+                       backgroundColor: color_scale_p,
+                       data: metric
+                   }
+               ]
+           },
+           options: {
+               legend: {display: true},
+               title: {
+                   display: true,
+                   text: "% among the total number of wristbands issued"
+               },
+           }
+       });

@@ -1,0 +1,25 @@
+.mdl-cell class="mdl-cell--#{cols}-col" style="#{style if local_assigns[:style]}"
+  .mld-card.analytic-card-front class="#{custom_class if local_assigns[:custom_class]}" style="background: linear-gradient(to bottom right, #{card[:colors][0]}, #{card[:colors][1]});"
+    .mdl-grid.no-wrapper-style.padding
+      .mdl-cell.mdl-cell--12-col.analytic-card-title
+        .mdl-grid.vertical-center-items
+          .mdl-cell.mdl-cell--2-col.analytic-card-icon
+            i.material-icons #{card[:icon]}
+          .mdl-cell.mdl-cell--9-col
+            .mdl-cell.mdl-cell--12-col.analytic-card-content.no-wrapper-style.margin-auto.padding
+              .text = card[:title][:text]
+            .mdl-cell.mdl-cell--12-col.analytic-card-content
+              .number = card[:title][:number]
+
+    - unless local_assigns[:no_content]
+      .mdl-cell.mdl-cell--12-col.analytic-card-subtitle
+        .mdl-grid
+          - card[:subtitle].each do |subtitle|
+            - extra_class = 12/card[:subtitle].count == 12 ? "center-card-title" : ""
+            .mdl-cell class="mdl-cell--#{12/card[:subtitle].count}-col #{extra_class}"
+              .mdl-cell.mdl-cell--12-col.analytic-card-content
+                .text = subtitle[:text]
+              .mdl-cell.mdl-cell--12-col.analytic-card-content
+                .number.small = subtitle[:number]
+    - if local_assigns[:icon_name]
+      i.material-icons.icon #{icon_name}

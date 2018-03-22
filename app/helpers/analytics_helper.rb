@@ -46,4 +46,126 @@ module AnalyticsHelper
       activations: data[:activations].to_i
     }
   end
+
+  def analytics_cards(event, key) # rubocop:disable Metrics/AbcSize
+    credit_value = event.credit.value
+    event_currency_symbol = event.currency_symbol
+    virtual_credit_value = event.virtual_credit.value
+    onsite_topups = event.pokes.where(action: 'topup').as_json
+    online_orders = Order.credit_dashboard(@current_event).as_json
+
+    online_credit_topups_money = OrderItem.where(order: event.orders.completed, catalog_item: event.credit).sum(:amount) * credit_value
+    online_virtual_topups_money = OrderItem.where(order: event.orders.completed, catalog_item: event.virtual_credit).sum(:amount) * virtual_credit_value
+    onsite_topups_money = onsite_topups.map { |topup| topup['monetary_total_price'] }.sum
+    topups = online_credit_topups_money + online_virtual_topups_money + onsite_topups_money
+    sales = event.pokes.where(action: 'sale').includes(:station)
+    online_refunds = event.refunds
+    onsite_refunds = event.pokes.where(action: 'refund')
+    refunds_money = (online_refunds.sum(:credit_base) * credit_value) + onsite_refunds.sum(:monetary_total_price)
+    customers = event.customers
+    purchasers = event.pokes.where(action: 'purchase')
+    gtags_credits = event.gtags.where(active: true).map(&:credits).sum
+    gtags_virtuals = event.gtags.where(active: true).map(&:virtual_credits).sum
+
+    purchasers_by_payment_method_money = {}
+    topups_by_payment_method_money = {}
+    purchase_by_source = {}
+
+    purchasers.select("payment_method, sum(monetary_total_price) as total").group(:payment_method).as_json.map { |purchase| purchase_by_source[purchase['source']] = purchase['monetary_total_price'].to_f }
+    purchasers.select("payment_method, sum(monetary_total_price) as total").group(:payment_method).as_json.map { |purchase| purchasers_by_payment_method_money[purchase['payment_method']] = purchase['total'].to_f }
+    onsite_topups.map { |topup| topups_by_payment_method_money[topup['payment_method']] = topup['money'] }
+
+    data = {
+      dashboard: {
+        topups: {
+          colors: ['#009688', '#66FF99'],
+          icon: 'attach_money',
+          title: { text: "Total Topups in #{event_currency_symbol}", number: topups },
+          subtitle: [
+            { text: 'Online', number: online_credit_topups_money + online_virtual_topups_money },
+            { text: 'Onsite', number: onsite_topups_money }
+          ]
+        },
+        sales: {
+          colors: ['#FF4E50', '#F9D423'],
+          icon: 'equalizer',
+          title: { text: "Total Sales in #{event_currency_symbol}", number: sales.sum(:credit_amount).to_f.abs },
+          subtitle: [
+            { text: 'At Bars', number: sales.where(stations: {category: 'bar'}).sum(:credit_amount).to_f.abs },
+            { text: 'At vendors', number: sales.where(stations: {category: 'vendor'}).sum(:credit_amount).to_f.abs }
+          ]
+        },
+        products: {
+          colors: ['#514A9D', '#24C6DC'],
+          icon: 'add_shopping_cart',
+          title: { text: 'Total Products Sold', number: sales.count },
+          subtitle: [
+            { text: 'At Bars', number: sales.where(stations: { category: 'bar' }).count },
+            { text: 'At vendors', number: sales.where(stations: { category: 'vendor' }).count }
+          ]
+        },
+        activations: {
+          colors: ['#FF0066', '#FF9999'],
+          icon: 'touch_app',
+          title: { text: 'Total Activations', number: customers.count },
+          subtitle: [
+            { text: 'Customers', number: customers.where(operator: false).count },
+            { text: 'Staff', number: customers.where(operator: true).count }
+          ]
+        },
+        tickets_and_orders: {
+          colors: ['#F2F2F2', '#F2F2F2'],
+          data: {
+            tickets: { text: 'Tickets Checked In / Tickets in System in Units', current: event.tickets.where(redeemed: true).count, total: event.tickets.count },
+            orders: { text: "Orders Redeemed / Orders in System in #{event_currency_symbol}", current: (online_orders["online_order_credits"].to_f - online_orders["unreedemed_online_order_credits"].to_f), total: online_orders["online_order_credits"].to_f }
+          }
+        },
+        gtags: {
+          colors: ['#FF5050', '#F3A183'],
+          icon: 'loyalty',
+          title: { text: "Remaining Balance in #{event_currency_symbol}", number: gtags_credits + gtags_virtuals },
+          subtitle: [
+            { text: 'Standard', number: gtags_credits },
+            { text: 'Virtual', number: gtags_virtuals }
+          ]
+        },
+        customers: {
+          colors: ['#355C7D', '#C06C84'],
+          icon: 'supervisor_account',
+          title: {text: 'Spending Customers', number: sales.select(:customer_id).distinct.pluck(:customer_id).count},
+          subtitle: [
+            {text: 'Average Spend per Customer', number: number_to_event_currency(-sales.sum(:credit_amount)/sales.select(:customer_id).distinct.pluck(:customer_id).count)}
+          ]
+        }
+      },
+      key_metrics: {
+        total_income: {
+          colors: ['#1A2980', '#26D0CE'],
+          icon: 'input',
+          title: {text: 'Total Income', number: 0},
+          subtitle: {online: 0, onsite: 0, total: 0}
+        },
+        total_sales: {
+          colors: ['#FF4E50', '#F9D423'],
+          icon: 'equalizer',
+          title: {text: 'Total Sales', number: sales.sum(:credit_amount).to_f.abs},
+          subtitle: {online: "-", onsite: sales.sum(:credit_amount).to_f.abs, total: sales.sum(:credit_amount).to_f.abs}
+        },
+        total_refunds: {
+          colors: ['#FF5050', '#F3A183'],
+          icon: 'money_off',
+          title: { text: 'Total Refunds', number: refunds_money },
+          subtitle: { online: online_refunds.sum(:credit_base) * credit_value, onsite: onsite_refunds.sum(:monetary_total_price), total: 0 }
+        },
+        outstanding: {
+          colors: ['#001510', '#00bf8f'],
+          icon: 'account_balance_wallet',
+          title: { text: 'Outstanding', number: 0 },
+          subtitle: { online: 0, onsite: 0, total: 0 }
+        }
+      }
+    }
+
+    data[key]
+  end
 end

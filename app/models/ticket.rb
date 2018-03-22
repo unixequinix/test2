@@ -13,11 +13,6 @@ class Ticket < ApplicationRecord
   scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
   scope :banned, -> { where(banned: true) }
   scope :redeemed, -> { where(redeemed: true) }
-  scope :ticket_all_credits, lambda {
-    where.not(customer_id: nil)
-         .map { |t| (t.ticket_type.catalog_item&.credits.to_f + t.ticket_type.catalog_item&.virtual_credits.to_f) }
-         .sum
-  }
 
   alias_attribute :reference, :code
 
@@ -70,8 +65,10 @@ class Ticket < ApplicationRecord
   end
 
   def self.dashboard(event)
+    ticket_credits = event.ticket_types.map { |tt| [tt.catalog_item_id, (tt.catalog_item.credits + tt.catalog_item.virtual_credits)] }.to_h
+
     {
-      outstanding_credits: event.tickets.ticket_all_credits
+      outstanding_credits: event.tickets.where.not(customer_id: nil).map { |t| ticket_credits[t.ticket_type_id].to_f }.sum
     }
   end
 

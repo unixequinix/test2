@@ -27,6 +27,12 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :sale, key: "Sales"
   attribute :record_credit, key: "Record Credits"
   attribute :source, key: "Source"
+  attribute :sorter, key: "sorter"
+  attribute :is_alcohol, key: "Alcohol Product"
+
+  def sorter
+    object.try(:[], 'sorter')
+  end
 
   def action
     object.try(:[], 'action')&.humanize
@@ -61,7 +67,7 @@ class PokeSerializer < ActiveModel::Serializer
   end
 
   def payment_method
-    object.try(:[], 'payment_method')&.humanize
+    object.try(:[], 'payment_method') == 'other' ? "Virtual" : object.try(:[], 'payment_method') == 'none' ? "Customer Service" : object.try(:[], 'payment_method')&.humanize
   end
 
   def operator_uid
@@ -138,5 +144,9 @@ class PokeSerializer < ActiveModel::Serializer
 
   def source
     object.try(:[], 'source')
+  end
+
+  def is_alcohol
+    object.try(:[], 'is_alcohol')
   end
 end
