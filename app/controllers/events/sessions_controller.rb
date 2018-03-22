@@ -50,7 +50,7 @@ class Events::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    flash[:notice] = t('sessions.log_in.success', event: @current_event.name)
+    flash[:notice] = t('sessions.log_in.success', event: resource.event.name)
     customer_root_path(resource.event)
   end
 
