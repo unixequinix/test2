@@ -9,6 +9,7 @@ module Admins
       def show
         @grouped_devices = @team_devices.group_by(&:serie).sort_by { |serie, _| serie.to_s }
         @device = Device.new(team: @team)
+        @users = @team.users.includes(:active_team_invitation)
         authorize @team
       end
 
@@ -181,9 +182,9 @@ module Admins
       end
 
       def set_devices
-        @team_devices = @team.devices
+        @team_devices = @team.devices.includes(:event).order(:asset_tracker)
         @q = @team_devices.ransack(params[:q])
-        @devices = @q.result
+        @devices = @q.result.page(params[:page])
       end
 
       def team_permitted_params

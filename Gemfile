@@ -114,6 +114,7 @@ group :development do
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem 'letter_opener'
+  gem 'bullet'
 end
 
 group :development, :test do
