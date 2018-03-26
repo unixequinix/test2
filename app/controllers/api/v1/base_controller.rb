@@ -18,7 +18,6 @@ module Api
 
       def set_device
         return true if @current_user.glowball?
-
         @device = Device.find_by(app_id: @app_id)
         render(status: :unauthorized, json: { error: "Device not registered" }) if @device.blank?
       end

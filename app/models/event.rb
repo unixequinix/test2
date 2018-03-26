@@ -69,28 +69,50 @@ class Event < ApplicationRecord
     [credit, virtual_credit].compact
   end
 
-  def self.try_to_open_refunds
-    Event.where(state: 'launched', open_refunds: false).find_each do |event|
-      date = event.refunds_start_date
-      next unless date
-      Time.use_zone(event.timezone) { event.update(open_refunds: true) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
-    end
+  def cash_outstanding(source = :both)
+    result = cash_income(source)
+    result -= source.eql?(:online) ? 0 : onsite_sales.sum(:credit_amount).to_f.abs * credit.value
+    result -= source.eql?(:onsite) ? 0 : refunds.completed.sum(:credit_base).abs * credit.value
+    result - (source.eql?(:online) ? 0 : pokes.where(action: 'refund').is_ok.sum(:monetary_total_price).abs)
   end
 
-  def self.try_to_end_refunds
-    Event.where(state: 'launched', open_refunds: true).find_each do |event|
-      date = event.refunds_end_date
-      next unless date
-      Time.use_zone(event.timezone) { event.update(open_refunds: false) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
-    end
+  def cash_income(source = :both)
+    result = 0
+    result += source.eql?(:onsite) ? 0 : orders.completed.pluck(:money_base, :money_fee).flatten.sum
+    result + (source.eql?(:online) ? 0 : pokes.where(action: %w[purchase topup]).is_ok.sum(:monetary_total_price))
   end
 
-  def self.reload_stats
-    Event.where(state: 'launched').find_each { |event| EventStatsChannel.broadcast_to(event, {}) }
+  def onsite_sales
+    pokes.where(action: 'sale', credit: credit).is_ok.includes(:station)
   end
 
-  def self.import_palco4_tickets
-    Event.where.not(palco4_event: nil, palco4_token: nil).find_each(&:import_tickets)
+  def onsite_refunds
+    pokes.where(action: 'refund').is_ok
+  end
+
+  def onsite_topups
+    pokes.where(action: 'topup').is_ok
+  end
+
+  def topup_order_items
+    OrderItem.where(order: orders.completed, catalog_item: credit)
+  end
+
+  def total_spending_power
+    onsite_spending_power + online_spending_power
+  end
+
+  def onsite_spending_power
+    gtags.where(active: true).sum(:credits)
+  end
+
+  def online_spending_power
+    ticket_type_credits = ticket_types.includes(:catalog_item).where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
+    credential_sp = tickets.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum + gtags.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum
+    order_sp = OrderItem.where(order: orders.completed, redeemed: false, catalog_item: credit).sum(:amount)
+    refund_sp = refunds.completed.pluck(:credit_base, :credit_fee).flatten.sum
+
+    credential_sp + order_sp + refund_sp
   end
 
   def import_tickets

@@ -133,13 +133,6 @@ class Poke < ApplicationRecord
     }
   end
 
-  def self.credit_dashboard(event)
-    {
-      outstanding_credits: event.pokes.is_ok.where(credit: event.credits).not_record_credit.sum(:credit_amount),
-      fees: event.pokes.fees.is_ok.sum(:credit_amount)
-    }
-  end
-
   def self.dashboard(event)
     {
       money_reconciliation: event.pokes.is_ok.sum(:monetary_total_price),

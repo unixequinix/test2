@@ -24,7 +24,7 @@ class Order < ApplicationRecord
   enum status: { started: 1, in_progress: 2, completed: 3, refunded: 4, failed: 5, cancelled: 6 }
 
   scope :has_money, -> { where.not(money_base: nil) }
-  scope(:not_refund, -> { where.not(gateway: "refund") })
+  scope :not_refund, -> { where.not(gateway: "refund") }
 
   scope :online_purchase, lambda {
     select(transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, money_order)
@@ -127,17 +127,6 @@ class Order < ApplicationRecord
   def self.money_dashboard(event)
     {
       income_online: event.orders.completed.sum(:money_base) + event.orders.completed.sum(:money_fee)
-    }
-  end
-
-  def self.credit_dashboard(event)
-    items = {}
-    event.catalog_items.where(type: %w[Credit Pack]).map { |item| items[item.id] = item.credits }
-
-    {
-      online_order_credits: OrderItem.where(order: event.orders.completed).map { |oi| items[oi.catalog_item_id].to_f * oi.amount }.sum,
-      unreedemed_online_order_credits: OrderItem.where(order: event.orders.completed, redeemed: false).map { |oi| items[oi.catalog_item_id].to_f * oi.amount }.sum,
-      orders_fees: event.orders.completed.sum(:money_fee)
     }
   end
 

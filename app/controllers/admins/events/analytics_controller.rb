@@ -1,7 +1,7 @@
 module Admins
   module Events
     class AnalyticsController < Admins::Events::BaseController
-      include EventsHelper
+      include ApplicationHelper
       include AnalyticsHelper
 
       before_action :authorize_billing

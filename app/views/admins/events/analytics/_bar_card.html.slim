@@ -1,5 +1,5 @@
 .mdl-cell class="mdl-cell--#{cols}-col"
-  .mld-card.analytic-card-front style="background: linear-gradient(to bottom right, #{card[:colors][0]}, #{card[:colors][1]});"
+  .mld-card.analytic-card-front style="background: linear-gradient(to bottom right, #{colors[0]}, #{colors[1]});"
     .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
       .mdl-grid.vertical-center-items
         .mdl-cell.mdl-cell--12-col.analytic-card-title
@@ -9,13 +9,11 @@
             .mdl-cell.mdl-cell--10-col
               .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
                 .mdl-grid.analytic-card-content.dark
-                  .mdl-cell.mdl-cell--12-col.analytic-card-title
-                    = card[:data][:tickets][:text]
+                  .mdl-cell.mdl-cell--12-col.analytic-card-title = data[:tickets][:text]
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.padding
                     .mdl-progress.mdl-js-progress.mdl-progress-green data-name="tickets"
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
-                    .mdl-cell.mdl-cell--12-col
-                      | #{card[:data][:tickets][:current]} / #{card[:data][:tickets][:total]}
+                    .mdl-cell.mdl-cell--12-col #{data[:tickets][:current]} / #{data[:tickets][:total]}
         .mdl-cell.mdl-cell--12-col.analytic-card-title
           .mdl-grid.vertical-center-items
             .mdl-cell.mdl-cell--2-col.analytic-card-icon
@@ -23,21 +21,19 @@
             .mdl-cell.mdl-cell--10-col
               .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
                 .mdl-grid.analytic-card-content.dark
-                  .mdl-cell.mdl-cell--12-col.analytic-card-title
-                    = card[:data][:orders][:text]
+                  .mdl-cell.mdl-cell--12-col.analytic-card-title = data[:orders][:text]
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.padding
                     .mdl-progress.mdl-js-progress.mdl-progress-green data-name="orders"
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
-                    .mdl-cell.mdl-cell--12-col
-                      | #{card[:data][:orders][:current]} / #{card[:data][:orders][:total]}
+                    .mdl-cell.mdl-cell--12-col #{data[:orders][:current]} / #{data[:orders][:total]}
 
 javascript:
   $('.mdl-progress').each(function(i, elem) {
     var type = $(elem).data('name');
     elem.addEventListener('mdl-componentupgraded',
       function() {
-        var card = JSON.parse("#{escape_javascript(card.to_json.html_safe)}");
-        this.MaterialProgress.setProgress(card.data.total != 0 ? Math.floor((card.data[type].current/card.data[type].total) * 100) : 0);
+        var data = JSON.parse("#{escape_javascript(data.to_json.html_safe)}");
+        this.MaterialProgress.setProgress(data[type].total != 0 ? Math.floor((data[type].current/data[type].total) * 100) : 0);
       }
     );
   });

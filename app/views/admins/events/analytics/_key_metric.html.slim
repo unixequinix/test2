@@ -3,20 +3,32 @@
     .mld-card
       .content-grid.mdl-grid
         .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
-          - key_metrics_data = analytics_cards(@current_event, :key_metrics)
           .mdl-grid.no-wrapper-style.padding
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
-              = render "new_card", card: key_metrics_data[:total_income], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove"
-              = render "subcard", card: key_metrics_data[:total_income], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove"
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove", colors: ['#1A2980', '#26D0CE'],
+                      icon: 'input',
+                      title_text: 'Cash In',
+                      title_number: number_to_reports(@current_event.cash_income),
+                      tooltip: { id: 'income', title: 'Income includes: ', text: ['Orders', 'Topups', 'Box Office'] }
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: @current_event.cash_income(:online), onsite: @current_event.cash_income(:onsite) }
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
-              = render "new_card", card: key_metrics_data[:total_sales], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove"
-              = render "subcard", card: key_metrics_data[:total_sales], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove"
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove", colors: ['#FF4E50', '#F9D423'],
+                      icon: 'equalizer',
+                      title_text: 'Sales',
+                      title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs * @current_event.credit.value)
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: "-", onsite: @current_event.onsite_sales.sum(:credit_amount).to_f.abs * @current_event.credit.value }
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
-              = render "new_card", card: key_metrics_data[:total_refunds], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "drag_handle"
-              = render "subcard", card: key_metrics_data[:total_refunds], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px'
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "drag_handle", colors: ['#FF5050', '#F3A183'],
+                      icon: 'money_off',
+                      title_text: 'Refunds',
+                      title_number: number_to_reports((@current_event.refunds.completed.sum(:credit_base) * @current_event.credit.value).abs + @current_event.onsite_refunds.sum(:monetary_total_price).abs)
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: (@current_event.refunds.completed.sum(:credit_base) * @current_event.credit.value).abs, onsite: @current_event.onsite_refunds.sum(:monetary_total_price).abs }
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
-              = render "new_card", card: key_metrics_data[:outstanding], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px'
-              = render "subcard", card: key_metrics_data[:outstanding], cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px'
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', colors: ['#001510', '#00bf8f'],
+                      icon: 'account_balance_wallet',
+                      title_text: 'Outstanding',
+                      title_number: number_to_reports(@current_event.cash_outstanding)
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: @current_event.cash_outstanding(:online), onsite: @current_event.cash_outstanding(:onsite) }
 
 
 .mdl-grid.no-wrapper-style.padding
@@ -33,6 +45,7 @@
             canvas#key_metrics
           .mdl-layout-spacer
 javascript:
+  componentHandler.upgradeDom();
   var ctx = document.getElementById("key_metrics").getContext('2d');
   var views = JSON.parse("#{escape_javascript(views.to_json.html_safe)}");
   var eventData = views.data;
