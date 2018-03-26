@@ -7,7 +7,7 @@ module Admins
       before_action :authorize_billing
 
       def show
-        @top_products = @current_event.pokes.where(action: "sale").group(:product_id).sum(:credit_amount).sort_by(&:last).slice(0..9).map.with_index { |atts, index| { product_name: Product.find(atts.first).name, credits: -atts.last, sorter: index } }
+        @top_products = @current_event.pokes.where(action: "sale").where.not(product_id: nil).group(:product_id).sum(:credit_amount).sort_by(&:last).slice(0..9).map.with_index { |atts, index| { product_name: Product.find(atts.first).name, credits: -atts.last, sorter: index } }
         non_alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: false))
         alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: true))
         @alcohol_products = [{ is_alcohol: "Non Alcohol", credits: -non_alcohol.sum(:credit_amount), amount: non_alcohol.count }, { is_alcohol: "Alcohol", credits: -alcohol.sum(:credit_amount), amount: alcohol.count }]
