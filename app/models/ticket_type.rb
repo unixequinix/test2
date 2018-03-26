@@ -11,6 +11,7 @@ class TicketType < ApplicationRecord
 
   validates :company_code, uniqueness: { scope: %i[event_id company] }, allow_blank: true
   validates :name, uniqueness: { scope: %i[event_id company], case_sensitive: false }
+  validates :money_fee, :money_base, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   validates :name, presence: true
 
