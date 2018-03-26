@@ -67,27 +67,6 @@ module Admins
         @devices = @devices.page(params[:page])
       end
 
-      def import_devices
-        authorize @team
-
-        file = params[:file][:data].tempfile.path
-        redirect_to(admins_user_team_path(current_user), alert: t("teams.add_devices.import.not_supplied")) && return unless file.include?("csv")
-
-        CSV.foreach(file, headers: true, col_sep: ";") do |row|
-          current_user.team.devices.find_or_create_by(
-            mac: row.field("MAC"),
-            asset_tracker: row.field("asset_tracker"),
-            serie: row.field("serie"),
-            serial: row.field("serial")
-          )
-        end
-
-        respond_to do |format|
-          format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_users.added") }
-          format.json { render status: :ok, json: @team }
-        end
-      end
-
       def add_users
         authorize @team
         team_invitation = TeamInvitation.create(
@@ -161,13 +140,6 @@ module Admins
             format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.unable_change_role") }
           end
         end
-      end
-
-      def sample_csv
-        authorize @team
-        csv_file = CsvExporter.sample(%w[MAC asset_tracker serie serial], [%w[15C3135122 N34 N 01022222012], %w[34SS5C54Q1 D22], %w[95Q16CV331]])
-
-        respond_to { |format| format.csv { send_data(csv_file) } }
       end
 
       private

@@ -33,10 +33,7 @@ Rails.application.routes.draw do
       resource :team, controller: "users/teams" do
         resources :devices, controller: "users/teams/devices"
 
-        get :sample_csv
-        post :import_devices
         post :add_users
-        post :add_devices
         put :change_role
         delete  :remove_devices
         delete :remove_users
