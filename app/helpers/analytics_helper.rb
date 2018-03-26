@@ -51,7 +51,6 @@ module AnalyticsHelper
     credit = event.credit
     credit_value = credit.value
     event_currency_symbol = event.currency_symbol
-    virtual_credit_value = event.virtual_credit.value
     onsite_topups = event.pokes.where(action: 'topup', payment_method: %w[card cash]).is_ok.as_json
     online_orders = Order.credit_dashboard(@current_event).as_json
 
@@ -76,8 +75,6 @@ module AnalyticsHelper
     orders_by_source = [online: online_orders['online_order_credits'], onsite: 0]
     topups_by_source = [online: online_credit_topups_money, onsite: onsite_topups_money]
     purchasers_by_source = [online: 0, onsite: purchasers_money]
-    sales_by_source = [online: 0, onsite: sales_money]
-    refunds_by_source = [online: online_refunds, onsite: onsite_refunds]
 
     total_income = (orders_by_source + topups_by_source + purchasers_by_source).map { |item| item[:online].to_i + item[:onsite].to_i }.sum
     onsite_income = (topups_by_source + purchasers_by_source).map { |item| item[:onsite].to_i }.sum

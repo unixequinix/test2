@@ -67,7 +67,9 @@ class PokeSerializer < ActiveModel::Serializer
   end
 
   def payment_method
-    object.try(:[], 'payment_method') == 'other' ? "Virtual" : object.try(:[], 'payment_method') == 'none' ? "Customer Service" : object.try(:[], 'payment_method')&.humanize
+    return "Virtual" if object.try(:[], 'payment_method') == 'other'
+    return "Customer Service" if object.try(:[], 'payment_method') == 'none'
+    object.try(:[], 'payment_method')&.humanize
   end
 
   def operator_uid
@@ -146,7 +148,7 @@ class PokeSerializer < ActiveModel::Serializer
     object.try(:[], 'source')
   end
 
-  def is_alcohol
+  def is_alcohol # rubocop:disable Naming/PredicateName
     object.try(:[], 'is_alcohol')
   end
 end

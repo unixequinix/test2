@@ -36,22 +36,22 @@ class Poke < ApplicationRecord
   scope :online, -> { where(source: "online") }
   scope :for_views, -> { includes(:credit, :operation, :event, :station, :product).order(:source, :gtag_counter, :line_counter, :date) }
 
-  scope :money_recon, lambda { |t=''|
+  scope :money_recon, lambda { |t = ''|
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action", :description, :source, :payment_method, event_day_poke, date_time_poke, "stations.category as station_type", "stations.name as station_name", sum_money)
       .left_joins(:station).has_money.is_ok
       .where.not(payment_method: t)
       .group(:action, :description, :source, :payment_method, "event_day, date_time, station_type, station_name")
   }
 
-  scope :money_recon_operators, lambda { |t=''|
+  scope :money_recon_operators, lambda { |t = ''|
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action", :description, :source, :payment_method, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, sum_money)
-      .left_joins(:station, :device, :operator,:operator_gtag)
+      .left_joins(:station, :device, :operator, :operator_gtag)
       .has_money.is_ok
       .where.not(payment_method: t)
       .group(:action, :description, :source, :payment_method, grouping_operators_devices, grouping_station, "date_time")
   }
 
-  scope :products_sale,  lambda { |t=''|
+  scope :products_sale, lambda { |t = ''|
     select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, 'credits' as payment_method")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok.where.not(credit_name: t)
@@ -106,7 +106,7 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
-  def self.totals(event)
+  def self.totals(event) # rubocop:disable Metrics/AbcSize
     {
       source_payment_method_money: event.pokes.select("source", payment_method_pokes, sum_money).is_ok.has_money.group("source, payment_method").as_json(except: :id),
       source_action_money: event.pokes.select("source, action", sum_money).is_ok.has_money.group("source, action").as_json(except: :id),
@@ -115,13 +115,13 @@ class Poke < ApplicationRecord
       credits_type: event.pokes.select("action, credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("action, credit_name").as_json(except: :id),
       alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non Alcohol' END as is_alcohol, abs(sum(credit_amount)) as credits, abs(count(credit_amount)) as credits_amount").is_ok.where(action: 'sale', credit_id: event.credit.id).joins(:product).group("is_alcohol").to_json,
       top_products: event.pokes
-        .select("COALESCE(products.name, pokes.description) as product_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
-        .left_outer_joins(:product)
-        .is_ok
-        .where(action: 'sale', credit_id: event.credit.id)
-        .group("product_name")
-        .order("credits desc")
-        .limit("10").to_json
+                         .select("COALESCE(products.name, pokes.description) as product_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
+                         .left_outer_joins(:product)
+                         .is_ok
+                         .where(action: 'sale', credit_id: event.credit.id)
+                         .group("product_name")
+                         .order("credits desc")
+                         .limit("10").to_json
     }
   end
 
@@ -203,7 +203,7 @@ class Poke < ApplicationRecord
     "sum(CASE when source = 'online' THEN monetary_total_price ELSE NULL END) as online, sum(CASE when source = 'onsite' THEN monetary_total_price ELSE NULL END) as onsite"
   end
 
-  def self.is_alcohol
+  def self.is_alcohol # rubocop:disable Naming/PredicateName
     "CASE WHEN products.is_alcohol = TRUE then 'Alcohol Product' ELSE 'Non' END as is_alcohol"
   end
 
