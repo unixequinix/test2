@@ -36,17 +36,17 @@
             .mdl-cell.mdl-cell--10-col
               .mld-card
                 .content-grid.mdl-grid
+                  - dashboard_data = analytics_cards(@current_event, :dashboard)
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
-                    - dashboard_data = analytics_cards(@current_event, :dashboard)
                     .mdl-grid.no-wrapper-style.padding
                       = render "new_card", card: dashboard_data[:topups], cols: 3, custom_class: 'hovering'
                       = render "new_card", card: dashboard_data[:sales], cols: 3, custom_class: 'hovering'
                       = render "new_card", card: dashboard_data[:products], cols: 3, custom_class: 'hovering'
-                      = render "new_card", card: dashboard_data[:activations], cols: 3, custom_class: 'hovering'
+                      = render "new_card", card: dashboard_data[:gtags], cols: 3, custom_class: 'hovering'
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
                     .mdl-grid.no-wrapper-style.padding
                       = render "bar_card", card: dashboard_data[:tickets_and_orders], cols: 6
-                      = render "new_card", card: dashboard_data[:gtags], cols: 3, custom_class: 'hovering'
+                      = render "new_card", card: dashboard_data[:activations], cols: 3, custom_class: 'hovering'
                       = render "new_card", card: dashboard_data[:customers], cols: 3, custom_class: 'hovering'
 
               .mld-card

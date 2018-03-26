@@ -56,7 +56,7 @@ class Order < ApplicationRecord
     'Customer Portal' as location,
     'Customer Portal' as station_type,
     'Customer Portal' as station_name,
-    'purchase' as action,
+    'income' as action,
     'Purchase Online' as description,
      NULL as device_name,
       item2.name as credit_name,
@@ -132,7 +132,7 @@ class Order < ApplicationRecord
 
   def self.credit_dashboard(event)
     items = {}
-    event.catalog_items.where(type: %w[Credit VirtualCredit Pack]).map { |item| items[item.id] = item.credits }
+    event.catalog_items.where(type: %w[Credit Pack]).map { |item| items[item.id] = item.credits }
 
     {
       online_order_credits: OrderItem.where(order: event.orders.completed).map { |oi| items[oi.catalog_item_id].to_f * oi.amount }.sum,

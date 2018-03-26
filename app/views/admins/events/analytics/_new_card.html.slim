@@ -7,7 +7,16 @@
             i.material-icons #{card[:icon]}
           .mdl-cell.mdl-cell--9-col
             .mdl-cell.mdl-cell--12-col.analytic-card-content.no-wrapper-style.margin-auto.padding
-              .text = card[:title][:text]
+              span.text = card[:title][:text]
+              - if card[:tooltip]
+                i.material-icons style="float: right" id="#{card[:tooltip][:id]}" info_outline
+                span.mdl-tooltip.mdl-tooltip--right data-mdl-for="#{card[:tooltip][:id]}"
+                  div style="text-align: left"
+                    p.no-wrapper-style.margin 
+                      b = card[:tooltip][:title]
+                    ul.no-wrapper-style.padding
+                      - card[:tooltip][:text].each do |text|
+                        li = text
             .mdl-cell.mdl-cell--12-col.analytic-card-content
               .number = card[:title][:number]
 
@@ -21,5 +30,9 @@
                 .text = subtitle[:text]
               .mdl-cell.mdl-cell--12-col.analytic-card-content
                 .number.small = subtitle[:number]
+
     - if local_assigns[:icon_name]
       i.material-icons.icon #{icon_name}
+
+javascript:
+    componentHandler.upgradeDom();

@@ -49,7 +49,7 @@ module Admins
       def key_metrics
         metrics = JSON.parse(PokesQuery.new(@current_event).key_metrics_by_day)
         @views = { chart_id: "key_metrics", title: "Key Metrics", cols: ["Amount"], currency: @current_event.currency_symbol, data: metrics, metric: ["Money"], decimals: 1 }
-        @redirect = 'admins/events/analytics/key_metric'
+        @partial = 'admins/events/analytics/key_metric'
         prepare_data(params["action"])
       end
 
@@ -87,9 +87,15 @@ module Admins
 
         cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
         products = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
+        stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
+        products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock.as_json)
 
         @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale }.map { |k, v| [k, number_to_token(v)] }
-        @views = [{ chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 }]
+        @views = [
+          { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 },
+          { chart_id: "products_stock", title: "Products Sale Stock", cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name"], data: products_stock, metric: ["Quantity"], decimals: 0 }
+        ]
+
         prepare_data(params["action"])
       end
 

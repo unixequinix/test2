@@ -49,7 +49,7 @@ class Refund < ApplicationRecord
   end
 
   def self.transaction_type_refund
-    "'refund' as action, 'Refund Online' as description, 'online' as source"
+    "'refunds' as action, 'Refund Online' as description, 'online' as source"
   end
 
   def self.dimension_operation_refund

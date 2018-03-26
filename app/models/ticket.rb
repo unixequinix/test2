@@ -29,7 +29,7 @@ class Ticket < ApplicationRecord
     '' as location,
     'Admin Panel' as station_type,
     'Admin Panel' as station_name,
-    'initial_topup' as action,
+    'income' as action,
     'ticket_credits_applied' as description,
      NULL as device_name,
      item2.name as credit_name,

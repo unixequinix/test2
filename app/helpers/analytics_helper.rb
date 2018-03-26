@@ -48,32 +48,43 @@ module AnalyticsHelper
   end
 
   def analytics_cards(event, key) # rubocop:disable Metrics/AbcSize
-    credit_value = event.credit.value
+    credit = event.credit
+    credit_value = credit.value
     event_currency_symbol = event.currency_symbol
     virtual_credit_value = event.virtual_credit.value
-    onsite_topups = event.pokes.where(action: 'topup').as_json
+    onsite_topups = event.pokes.where(action: 'topup', payment_method: %w[card cash]).is_ok.as_json
     online_orders = Order.credit_dashboard(@current_event).as_json
 
+    # Topups
     online_credit_topups_money = OrderItem.where(order: event.orders.completed, catalog_item: event.credit).sum(:amount) * credit_value
-    online_virtual_topups_money = OrderItem.where(order: event.orders.completed, catalog_item: event.virtual_credit).sum(:amount) * virtual_credit_value
-    onsite_topups_money = onsite_topups.map { |topup| topup['monetary_total_price'] }.sum
-    topups = online_credit_topups_money + online_virtual_topups_money + onsite_topups_money
-    sales = event.pokes.where(action: 'sale').includes(:station)
-    online_refunds = event.refunds
-    onsite_refunds = event.pokes.where(action: 'refund')
-    refunds_money = (online_refunds.sum(:credit_base) * credit_value) + onsite_refunds.sum(:monetary_total_price)
+    onsite_topups_money = onsite_topups.map { |topup| topup['monetary_total_price'] * credit_value }.sum
+    topups = online_credit_topups_money + onsite_topups_money
+    # Sales
+    sales = event.pokes.where(action: 'sale', credit_id: credit.id).is_ok.includes(:station)
+    sales_money = sales.sum(:credit_amount)
+    # Refunds
+    online_refunds = event.refunds.sum(:credit_base) * credit_value
+    onsite_refunds = event.pokes.where(action: 'refund').is_ok.sum(:monetary_total_price)
+    refunds_money = online_refunds + onsite_refunds
+    # Customers
     customers = event.customers
-    purchasers = event.pokes.where(action: 'purchase')
-    gtags_credits = event.gtags.where(active: true).map(&:credits).sum
-    gtags_virtuals = event.gtags.where(active: true).map(&:virtual_credits).sum
+    # Purchasers
+    purchasers_money = event.pokes.where(action: 'purchase').is_ok.sum(:monetary_total_price)
+    # Gtags
+    gtags_credit_money = event.gtags.where(active: true).map(&:credits).sum
 
-    purchasers_by_payment_method_money = {}
-    topups_by_payment_method_money = {}
-    purchase_by_source = {}
+    orders_by_source = [online: online_orders['online_order_credits'], onsite: 0]
+    topups_by_source = [online: online_credit_topups_money, onsite: onsite_topups_money]
+    purchasers_by_source = [online: 0, onsite: purchasers_money]
+    sales_by_source = [online: 0, onsite: sales_money]
+    refunds_by_source = [online: online_refunds, onsite: onsite_refunds]
 
-    purchasers.select("payment_method, sum(monetary_total_price) as total").group(:payment_method).as_json.map { |purchase| purchase_by_source[purchase['source']] = purchase['monetary_total_price'].to_f }
-    purchasers.select("payment_method, sum(monetary_total_price) as total").group(:payment_method).as_json.map { |purchase| purchasers_by_payment_method_money[purchase['payment_method']] = purchase['total'].to_f }
-    onsite_topups.map { |topup| topups_by_payment_method_money[topup['payment_method']] = topup['money'] }
+    total_income = (orders_by_source + topups_by_source + purchasers_by_source).map { |item| item[:online].to_i + item[:onsite].to_i }.sum
+    onsite_income = (topups_by_source + purchasers_by_source).map { |item| item[:onsite].to_i }.sum
+    online_income = (total_income - onsite_income)
+    total_outstanding = total_income.abs - sales_money.abs - refunds_money.abs
+    onsite_outstanding = onsite_income.abs - sales_money.abs - onsite_refunds.abs
+    online_outsanding = total_outstanding.abs - onsite_outstanding.abs
 
     data = {
       dashboard: {
@@ -82,14 +93,14 @@ module AnalyticsHelper
           icon: 'attach_money',
           title: { text: "Total Topups in #{event_currency_symbol}", number: number_to_reports(topups) },
           subtitle: [
-            { text: 'Online', number: number_to_reports(online_credit_topups_money + online_virtual_topups_money) },
+            { text: 'Online', number: number_to_reports(online_credit_topups_money) },
             { text: 'Onsite', number: number_to_reports(onsite_topups_money) }
           ]
         },
         sales: {
           colors: ['#FF4E50', '#F9D423'],
           icon: 'equalizer',
-          title: { text: "Total Sales in #{event_currency_symbol}", number: number_to_reports(sales.sum(:credit_amount).to_f.abs) },
+          title: { text: "Total Sales in #{event_currency_symbol}", number: number_to_reports(sales_money.to_f.abs) },
           subtitle: [
             { text: 'At Bars', number: number_to_reports(sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs) },
             { text: 'At vendors', number: number_to_reports(sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs) }
@@ -123,18 +134,17 @@ module AnalyticsHelper
         gtags: {
           colors: ['#FF5050', '#F3A183'],
           icon: 'loyalty',
-          title: { text: "Remaining Balance in #{event_currency_symbol}", number: number_to_reports(gtags_credits + gtags_virtuals) },
+          title: { text: "Gtag Balance in #{event_currency_symbol}", number: number_to_reports(gtags_credit_money) },
           subtitle: [
-            { text: 'Standard', number: number_to_reports(gtags_credits) },
-            { text: 'Virtual', number: number_to_reports(gtags_virtuals) }
+            { text: '*Total remaining balance in gtags' }
           ]
         },
         customers: {
           colors: ['#355C7D', '#C06C84'],
           icon: 'supervisor_account',
-          title: { text: 'Spending Customers', number: number_with_delimiter(sales.select(:customer_id).distinct.pluck(:customer_id).count) },
+          title: { text: 'Spending Customers', number: number_with_delimiter(sales.select(:customer_id).distinct.count) },
           subtitle: [
-            { text: 'Average Spend per Customer', number: number_to_event_currency((sales.sum(:credit_amount).abs / sales.select(:customer_id).distinct.pluck(:customer_id).count) && 0) }
+            { text: 'Average Spend per Customer', number: number_to_event_currency(sales.sum(:credit_amount).abs / (sales.select(:customer_id).distinct.count.nonzero? || 1)) }
           ]
         }
       },
@@ -142,26 +152,27 @@ module AnalyticsHelper
         total_income: {
           colors: ['#1A2980', '#26D0CE'],
           icon: 'input',
-          title: { text: 'Total Income', number: 0 },
-          subtitle: { online: 0, onsite: 0, total: 0 }
+          title: { text: 'Total Income', number: number_to_reports(total_income) },
+          subtitle: { online: number_to_reports(online_income), onsite: number_to_reports(onsite_income), total: number_to_reports(total_income) },
+          tooltip: { id: 'income', title: 'Income includes: ', text: ['Orders', 'Topups', 'Box Office'] }
         },
         total_sales: {
           colors: ['#FF4E50', '#F9D423'],
           icon: 'equalizer',
-          title: { text: 'Total Sales', number: number_to_reports(sales.sum(:credit_amount).to_f.abs) },
-          subtitle: { online: "-", onsite: number_to_reports(sales.sum(:credit_amount).to_f.abs), total: number_to_reports(sales.sum(:credit_amount).to_f.abs) }
+          title: { text: 'Total Sales', number: number_to_reports(sales_money.abs) },
+          subtitle: { online: "-", onsite: number_to_reports(sales_money.abs), total: number_to_reports(sales_money.abs) }
         },
         total_refunds: {
           colors: ['#FF5050', '#F3A183'],
           icon: 'money_off',
-          title: { text: 'Total Refunds', number: number_to_reports(refunds_money) },
-          subtitle: { online: number_to_reports(online_refunds.sum(:credit_base) * credit_value), onsite: number_to_reports(onsite_refunds.sum(:monetary_total_price)), total: 0 }
+          title: { text: 'Total Refunds', number: number_to_reports(refunds_money.abs) },
+          subtitle: { online: number_to_reports(online_refunds.abs), onsite: number_to_reports(onsite_refunds.abs), total: number_to_reports(refunds_money.abs) }
         },
         outstanding: {
           colors: ['#001510', '#00bf8f'],
           icon: 'account_balance_wallet',
-          title: { text: 'Outstanding', number: 0 },
-          subtitle: { online: 0, onsite: 0, total: 0 }
+          title: { text: 'Outstanding', number: number_to_reports(total_outstanding) },
+          subtitle: { online: number_to_reports(online_outsanding), onsite: number_to_reports(onsite_outstanding), total: number_to_reports(total_outstanding) }
         }
       }
     }

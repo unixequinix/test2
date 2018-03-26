@@ -14,9 +14,10 @@ module Admins
       def money
         cols = ['Action', 'Description', 'Source', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Money']
         online_purchase = @current_event.orders.online_purchase.as_json
-        onsite_money = @current_event.pokes.money_recon_operators.as_json
+        onsite_money = @current_event.pokes.money_recon_operators(%w[none other]).as_json
         online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
-        @money = prepare_pokes(cols, onsite_money + online_purchase + online_refunds)
+        products_sale = @current_event.pokes.products_sale('Virtual').as_json.map { |o| o.merge('money' => -1 * o['credit_amount'] * @credit_value) }
+        @money = prepare_pokes(cols, onsite_money + online_purchase + online_refunds + products_sale)
         prepare_data params[:action], @money, [['Event Day'], ['Action'], ['Money'], 1]
       end
 
