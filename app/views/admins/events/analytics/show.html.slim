@@ -12,7 +12,7 @@
         .mdl-tabs__tab-bar.analytics-card-back
           = link_to "Dashboard", "#dashboard-panel", class: "mdl-tabs__tab is-active"
           = link_to key_metrics_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-            | Key Metrics
+            | Cash Flow
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
           = link_to sales_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
@@ -63,10 +63,10 @@
         #load-view
       .mdl-layout-spacer
 
-      - if @message
+      - if @current_event.launched?
         .mdl-cell.mdl-cell--12-col
           .center-card-title
-            span.analytics-text = @message
+            span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
 
 javascript:
   $(window).load(function(e) {
@@ -97,10 +97,9 @@ javascript:
     return gradient
   }
 
-  var data =#{ @totals[:totals_pokes][:event_day_money].html_safe }
   var credit_symbol = '#{ @current_event.credit.symbol }'
   var color_scale_a = [["#11998E", "#38EF7D"], ["#74EBD5", "#ACB6E5"]]
-  var data_a = #{ @totals[:totals_pokes][:alcohol_products].html_safe }
+  var data_a = #{ @alcohol_products.to_json.html_safe }
   var is_alcohol = data_a.map(function (e) { return e.is_alcohol });
   var credits = data_a.map(function (e) { return e.credits });
   var ctx_alcohol = document.getElementById("alcohol_products").getContext('2d');
@@ -137,16 +136,16 @@ javascript:
           label: function(tooltipItem, data) {
             return [
               "Credits: " + data.datasets[0].data[tooltipItem.index] + " " + "#{@event_currency}",
-              "Amount: " + data_a[tooltipItem.index].credits_amount,
+              "Amount: " + data_a[tooltipItem.index].amount
             ]
           }
         }
-      },
+      }
     }
   });
 
   var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
-  var data_p = #{@totals[:totals_pokes][:top_products].html_safe}
+  var data_p = #{@top_products.to_json.html_safe};
   var product_name = data_p.map(function (e) { return e.product_name });
   var credits = data_p.map(function (e) { return e.credits });
   var ctx_products = document.getElementById("top_products").getContext('2d');
@@ -186,6 +185,6 @@ javascript:
             ]
           }
         }
-      },
+      }
     }
   });

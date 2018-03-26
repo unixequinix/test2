@@ -51,10 +51,10 @@ class Poke < ApplicationRecord
       .group(:action, :description, :source, :payment_method, grouping_operators_devices, grouping_station, "date_time")
   }
 
-  scope :products_sale, lambda { |t = ''|
+  scope :products_sale, lambda {
     select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, 'credits' as payment_method")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
-      .sales.is_ok.where.not(credit_name: t)
+      .sales.is_ok
       .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "is_alcohol, product_name")
   }
 

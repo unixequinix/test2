@@ -11,8 +11,6 @@ class Ticket < ApplicationRecord
   validate_associations
 
   scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
-  scope :banned, -> { where(banned: true) }
-  scope :redeemed, -> { where(redeemed: true) }
 
   alias_attribute :reference, :code
 

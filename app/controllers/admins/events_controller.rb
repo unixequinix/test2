@@ -40,7 +40,6 @@ module Admins
       graphs[:d_credits] = PokesQuery.new(@current_event).credits_flow_day
       graphs[:event_day_money] = PokesQuery.new(@current_event).event_day_money
       @graphs = graphs
-      @message = analytics_message(@current_event)
       render layout: "admin_event"
     end
 

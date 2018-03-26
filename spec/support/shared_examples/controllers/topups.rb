@@ -18,9 +18,7 @@ RSpec.shared_examples "controller topups" do
     end
 
     it "sums to the credits of the customer" do
-      post :topup, params: new_atts
-      order = event.orders.find(JSON.parse(response.body)["id"])
-      expect(order.customer.credits.to_f).to eq(100)
+      expect { post :topup, params: new_atts }.to change { customer.credits.to_f }.by(100)
     end
 
     it "sets the price of the order" do
