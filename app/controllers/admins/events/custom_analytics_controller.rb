@@ -7,53 +7,57 @@ module Admins
       before_action :authorize_billing
       before_action :skip_authorization, only: %i[money access credits checkin sales]
 
-      def show
-        @message = analytics_message(@current_event)
-      end
-
       def money
         cols = ['Action', 'Description', 'Source', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Money']
-        @money = prepare_pokes(cols,  @current_event.pokes.money_recon_operators)
+        online_purchase = @current_event.orders.online_purchase.as_json
+        onsite_money = @current_event.pokes.money_recon_operators(%w[none other]).as_json
+        online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
+        products_sale = @current_event.pokes.products_sale.as_json.map { |o| o.merge('money' => -1 * o['credit_amount'] * @credit_value) }
+        @money = prepare_pokes(cols, onsite_money + online_purchase + online_refunds + products_sale)
         prepare_data params[:action], @money, [['Event Day'], ['Action'], ['Money'], 1]
       end
 
       def credits
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Device', 'Event Day', 'Date Time', 'Credit Name', 'Credits']
-        @credits = prepare_pokes(cols, @current_event.pokes.credit_flow)
+        online_packs = Order.online_packs(@current_event).as_json
+        ticket_packs = Ticket.online_packs(@current_event).as_json
+        online_topup = @current_event.orders.online_topup.as_json
+        order_fee = @current_event.orders.online_purchase_fee
+        order_fee.each do |o|
+          o.credit_name = @credit_name
+          o.credit_amount = o.credit_amount / @credit_value
+        end
+        credits_onsite = @current_event.pokes.credit_flow.as_json
+        credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
+        @credits = prepare_pokes(cols, online_packs + online_topup + credits_onsite + credits_refunds + ticket_packs + order_fee)
         prepare_data params[:action], @credits, [['Event Day'], ['Action'], ['Credits'], 1]
       end
 
       def sales
-        cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        @sales = prepare_pokes(cols, @current_event.pokes.products_sale)
+        cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Alcohol Product', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
+        @sales = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
         prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type', 'Station Name'], ['Credits'], 1]
       end
 
       def checkin
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Total Tickets']
-        @checkin = prepare_pokes(cols, @current_event.pokes.checkin_ticket_type)
+        @checkin = prepare_pokes(cols, @current_event.pokes.checkin_ticket_type.as_json)
         prepare_data params[:action], @checkin, [['Event Day'], ['Catalog Item'], ['Total Tickets'], 0]
       end
 
       def access
         cols = ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Direction', 'Access']
-        @access = prepare_pokes(cols, @current_event.pokes.access)
+        @access = prepare_pokes(cols, @current_event.pokes.access.as_json)
         prepare_data params[:action], @access, [['Station Name', 'Direction'], ['Event Day', 'Date Time'], ['Access'], 0]
-      end
-
-      def activations
-        @activations = PokesQuery.new(@current_event).activations
-      end
-
-      def devices
-        @devices = prepare_pokes(["Station Name", "Event Day", "Total Devices"], @current_event.pokes.devices)
       end
 
       private
 
       def authorize_billing
-        authorize(:poke, :custom_analytics?)
+        authorize(@current_event, :custom_analytics?)
         @load_analytics_resources = true
+        @credit_value = @current_event.credit.value
+        @credit_name = @current_event.credit.name
       end
 
       def prepare_data(name, data, array)

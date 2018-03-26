@@ -53,13 +53,13 @@ RSpec.describe "Accreditation stations info view tests", type: :feature do
     it "cannot be done if event is launched" do
       event.update! state: "launched"
       visit admins_event_station_path(event, station)
-      expect { click_link("delete_#{gate.id}", visible: false) }.not_to change(AccessControlGate, :count)
+      expect(page).to have_no_link("delete_#{gate.id}")
     end
 
     it "cannot be done if event is closed" do
       event.update! state: "closed"
       visit admins_event_station_path(event, station)
-      expect { click_link("delete_#{gate.id}", visible: false) }.not_to change(AccessControlGate, :count)
+      expect(page).to have_no_link("delete_#{gate.id}")
     end
   end
 end

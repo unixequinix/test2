@@ -83,6 +83,9 @@ input:-webkit-autofill {
         font-weight: 400;
         .amount {
             font-size: 35px;
+            &.right {
+              padding-left: 8px;
+            }
         }
         .currency-symbol {
             font-size: 20px;

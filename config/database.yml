@@ -3,51 +3,50 @@ default: &default
   encoding: utf8
   pool: 5
   port: 5432
-  host: glownethotfixdb.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
+  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
+  username: <%= ENV["POSTGRES_USERNAME"] || ENV["pg_username"] %>
   password: <%= ENV["POSTGRES_PASSWORD"] || ENV["pg_password"] %>
 
 development:
   <<: *default
   pool: 10
-  database: glownet_web_development
-  username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
-  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
+  database: cloud_development
+  host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
+  username: <%= ENV["POSTGRES_USERNAME"] %>
 
 test:
   <<: *default
-  database: glownet_web_test
-  username: <%= ENV["POSTGRES_USER"] || ENV["pg_username"] %>
-  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
+  pool: 10
+  database: cloud_test
+  host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
+  username: <%= ENV["POSTGRES_USERNAME"] %>
 
 demo:
   <<: *default
-  database: glownet_web_demo
-  username: glownet
+  database: cloud_demo
 
 integration:
   <<: *default
-  database: glownet_web_integration
-  username: glownet
+  database: cloud_integration
 
 sandbox:
   <<: *default
-  database: glownet_web_sandbox
-  username: glownet
+  database: cloud_sandbox
 
 staging:
   <<: *default
-  database: glownet_web_staging
-  username: glownet
+  database: cloud_staging
+
+howler:
+  <<: *default
+  database: cloud_howler
 
 hotfix:
   <<: *default
   pool: 15
-  database: glownet_web_hotfix
-  username: glownet
+  database: cloud_hotfix
 
 production:
   <<: *default
   database: cloud_production
-  username: glowballMaster
-  host: glownet-production.c1k2l4qxgc40.eu-west-1.rds.amazonaws.com
   pool: 10

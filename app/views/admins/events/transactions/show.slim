@@ -1,5 +1,6 @@
 - content_for(:title) do
   | #{@type.to_s.humanize} Transaction
+  | #{@type.to_s.humanize} Transaction
 
 .content-grid.mdl-grid
   .mdl-cell.mdl-cell--6-col
@@ -9,7 +10,7 @@
           .mdl-card__title
             h2.mdl-card__title-text
               i.material-icons info_outline
-              |General
+              | General
           .mdl-card__supporting-text
             table.mdl-data-table.mdl-js-data-table.within-card
               tbody
@@ -49,16 +50,18 @@
           .mdl-card__title
             h2.mdl-card__title-text
               i.material-icons info_outline
-              |Device
+              | Device
           .mdl-card__supporting-text
             .table-fix
               table.mdl-data-table.mdl-js-data-table.within-card
                 tbody
                   tr
-                    td.mdl-data-table__cell--non-numeric Device uid
+                    td.mdl-data-table__cell--non-numeric Device
                     - device = Device.find_by_mac(@transaction.device_uid)
-                    - if @transaction.device_uid && device && @current_user&.team == device&.team
+
+                    - if device && @current_user.team == device.team
                       td = link_to(@transaction.device_uid, admins_user_team_device_path(@current_user, device))
+
                     - else
                       td = @transaction.device_uid
                   tr
@@ -107,7 +110,7 @@
                   - if @transaction.catalog_item
                     tr
                       td.mdl-data-table__cell--non-numeric Catalog Item
-                      td = link_to "#{@transaction.catalog_item.name} (#{@transaction.catalog_item.class.to_s.humanize})", [:admins, @current_event, @transaction.catalog_item]
+                      td = link_to_if can_link?(@transaction.catalog_item), "#{@transaction.catalog_item.name} (#{@transaction.catalog_item.class.to_s.humanize})", [:admins, @current_event, @transaction.catalog_item]
 
       - if @transaction.order
         - order = @transaction.order
@@ -141,6 +144,8 @@
 
       - if @transaction.ticket
         - ticket = @transaction.ticket
+        - catalog_item = ticket.ticket_type.catalog_item
+
         .mdl-cell.mdl-cell--12-col
           .transaction-card-wide.mdl-card.mdl-shadow--2dp
             .mdl-card__title
@@ -154,40 +159,16 @@
                     th.mdl-data-table__cell--non-numeric Code
                     th Ticket Type
                     th Ticket Catalog Item
-                    th Company
                     th Redeemed?
                 tbody
                   tr
                     td.mdl-data-table__cell--non-numeric = link_to ticket.code, [:admins ,@current_event, ticket]
                     td = link_to ticket.ticket_type.name, [:admins, @current_event, ticket.ticket_type] if ticket.ticket_type
-                    td = link_to "#{ticket.ticket_type.catalog_item.name} (#{ticket.ticket_type.catalog_item.class.to_s.humanize})", [:admins, @current_event, ticket.ticket_type.catalog_item] if ticket.ticket_type&.catalog_item
-                    td = link_to ticket.ticket_type.company.name, [:admins, @current_event, ticket.ticket_type.company] if ticket.ticket_type&.company
+                    td = link_to_uif can_link?(catalog_item), "#{catalog_item.name} (#{catalog_item.class.to_s.humanize})", [:admins, @current_event, catalog_item] if catalog_item
                     td
                       - if ticket.redeemed?
                         i.material-icons done
                       - else
                         i.material-icons clear
-
-      - if @transaction.catalog_item
-        - item = @transaction.catalog_item
-
-        .mdl-cell.mdl-cell--12-col
-          .transaction-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title
-              h2.mdl-card__title-text
-                i.material-icons bookmark_border
-                | Item
-            .mdl-card__supporting-text
-              table.mdl-data-table.mdl-js-data-table.within-card
-                thead
-                  tr
-                    th.mdl-data-table__cell--non-numeric Name
-                    th Type
-                    th Credits
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric = link_to item.name, [:admins, @current_event, item]
-                    td = item.class.to_s.humanize
-                    td = item.credits
 
       = render(partial: "admins/events/transactions/categories/#{@transaction.category}") if lookup_context.template_exists?("admins/events/transactions/categories/_#{@transaction.category}")

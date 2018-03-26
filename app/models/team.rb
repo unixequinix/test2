@@ -13,7 +13,7 @@ class Team < ApplicationRecord
   validate :validate_initial_user
 
   def devices_series
-    devices.select(:serie).distinct.pluck(:serie).compact
+    devices.select(:serie).distinct.pluck(:serie).compact.sort
   end
 
   private

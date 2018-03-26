@@ -27,14 +27,18 @@ class Gtag < ApplicationRecord
   validate_associations
 
   scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits virtual_credits final_balance final_virtual_balance]) })
-  scope :banned, (-> { where(banned: true) })
   scope :inconsistent, (-> { where(inconsistent: true) })
   scope :missing_transactions, (-> { where(missing_transactions: true) })
 
   alias_attribute :reference, :tag_uid
+  alias pokes pokes_as_customer
 
   def name
     "Gtag: #{tag_uid}"
+  end
+
+  def self.policy_class
+    AdmissionPolicy
   end
 
   def replace!(new_gtag)
@@ -49,19 +53,29 @@ class Gtag < ApplicationRecord
     update!(active: true)
   end
 
-  def recalculate_balance
-    pokes = pokes_as_customer.is_ok.order(:gtag_counter, :date)
-    credit_pokes = pokes.where(credit: event.credit)
-    virtual_credit_pokes = pokes.where(credit: event.virtual_credit)
+  def recalculate_balance # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    ts = transactions.onsite.status_ok.credit.order(:gtag_counter, :device_created_at)
+    counters = transactions.onsite.order(:gtag_counter, :device_created_at).pluck(:gtag_counter).compact.sort
+    payments = ts.payments_with_credit(event.credit)
+    virtual_payments = ts.payments_with_credit(event.virtual_credit)
 
-    self.credits = credit_pokes.sum(:credit_amount)
-    self.virtual_credits = virtual_credit_pokes.sum(:credit_amount)
+    if payments.present? || virtual_payments.present?
+      last = payments.last
+      virtual_last = virtual_payments.last
 
-    self.final_balance = credit_pokes.last.final_balance.to_f if credit_pokes.last
-    self.final_virtual_balance = virtual_credit_pokes.last.final_balance.to_f if virtual_credit_pokes.last
+      self.credits = payments.sum { |t| t.payments[event.credit.id.to_s]["amount"].to_f }
+      self.virtual_credits = virtual_payments.sum { |t| t.payments[event.virtual_credit.id.to_s]["amount"].to_f }
+      self.final_balance = last.payments[event.credit.id.to_s]["final_balance"].to_f if last
+      self.final_virtual_balance = virtual_last.payments[event.virtual_credit.id.to_s]["final_balance"].to_f if virtual_last
+    else
+      self.credits = ts.sum(:refundable_credits)
+      self.virtual_credits = ts.sum(:credits) - ts.sum(:refundable_credits)
+      self.final_balance = ts.last&.final_refundable_balance.to_f
+      self.final_virtual_balance = ts.last&.final_balance.to_f - ts.last&.final_refundable_balance.to_f
+    end
 
-    self.complete = missing_counters.empty?
     self.consistent = valid_balance?
+    self.complete = ((1..counters.last).to_a - counters).empty? if counters.any?
 
     Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_virtual_balance.negative?
 

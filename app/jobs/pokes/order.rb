@@ -3,23 +3,23 @@ class Pokes::Order < Pokes::Base
 
   TRIGGERS = %w[order_redeemed].freeze
 
-  def perform(t)
-    item = t.order_item
-    Alert.propagate(t.event, t, "has no order attached") && return unless item
+  def perform(transaction)
+    item = transaction.order_item
+    Alert.propagate(transaction.event, transaction, "has no order attached") && return unless item
 
     if item.redeemed?
-      Alert.propagate(t.event, item.order, "has been redeemed twice")
+      Alert.propagate(transaction.event, item.order, "has been redeemed twice")
     else
       item.update!(redeemed: true)
-      t.update(order: item.order)
+      transaction.update(order: item.order)
       item.order.customer.touch
     end
 
-    atts = { action: "order_redeemed", order_id: t.order_id }
+    atts = { action: "order_redeemed", order_id: transaction.order_id }
 
-    item = t.order_item&.catalog_item
+    item = transaction.order_item&.catalog_item
     atts.merge!(extract_catalog_item_info(item)) if item
 
-    create_poke(extract_atts(t, atts))
+    create_poke(extract_atts(transaction, atts))
   end
 end

@@ -1,20 +1,29 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::GtagsController, type: :controller do
+RSpec.describe Api::V1::Events::GtagsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
-  let(:user) { create(:user) }
   let(:db_gtags) { event.gtags }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
+  let(:team) { create(:team) }
+  let(:user) { create(:user, team: team, role: "glowball") }
+  let(:device) { create(:device, team: team) }
+  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
     create(:gtag, event: event, customer: create(:customer, event: event))
+
+    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
+    http_login(user.email, user.access_token)
+  end
+
+  before do
   end
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         db_gtags.each { |tag| tag.update!(customer: create(:customer, event: event)) }
-        http_login(user.email, user.access_token)
       end
 
       it "returns a 200 status code" do
@@ -84,11 +93,31 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         end
       end
     end
+  end
 
-    context "without authentication" do
-      it "returns a 401 status code" do
-        get :index, params: params
-        expect(response).to be_unauthorized
+  describe "GET banned" do
+    context "with authetication" do
+      before do
+        @gtag_banned = create :gtag, event: event, banned: true, ticket_type: create(:ticket_type, event: event)
+        http_login(user.email, user.access_token)
+        get :banned, params: params
+      end
+      it "returns a 200 status code" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns a right response" do
+        JSON.parse(response.body).map do |g|
+          expect(g["reference"]).to eq(@gtag_banned.tag_uid)
+        end
+      end
+
+      it "returns the necessary keys" do
+        gtag_keys = %w[banned reference updated_at].sort
+
+        JSON.parse(response.body).map do |g|
+          expect(g.keys.sort).to eq(gtag_keys)
+        end
       end
     end
   end
@@ -98,7 +127,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       before do
         @pack = create(:pack, :with_access, event: event)
         @customer = create(:customer, event: event)
-        @ctt = create(:ticket_type, company: create(:company, event: event), event: event, catalog_item: @pack)
+        @ctt = create(:ticket_type, event: event, catalog_item: @pack)
         @gtag = create(:gtag, event: event, ticket_type: @ctt, customer: @customer)
         @gtag2 = create(:gtag, event: event, customer: @customer, active: false)
         @order = create(:order, customer: @customer, status: "completed", event: event)
@@ -163,18 +192,19 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         end
       end
 
+      describe "when gtag belongs to another event" do
+        before { @gtag_new = create :gtag, event: create(:event, open_devices_api: true) }
+        it "does not return a gtags from another event" do
+          get :show, params: params.merge(id: @gtag_new.id)
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
       describe "when gtag doesn't exist" do
         it "returns a 404 status code" do
           get :show, params: params.merge(id: Gtag.last.id + 10)
           expect(response.status).to eq(404)
         end
-      end
-    end
-
-    context "without authentication" do
-      it "returns a 401 status code" do
-        get :show, params: params.merge(id: Gtag.last.id)
-        expect(response).to be_unauthorized
       end
     end
   end

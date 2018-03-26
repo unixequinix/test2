@@ -4,6 +4,7 @@ class Product < ApplicationRecord
 
   validates :name, uniqueness: { scope: :station_id, case_sensitive: false }, presence: true
   validates :price, :position, presence: true, numericality: true
+  validates :vat, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   before_validation :set_position
 

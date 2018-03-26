@@ -3,12 +3,12 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     = search_form_for @q, url: admins_user_team_add_users_path do |f|
       = f.search_field :email_or_username_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       = render "layouts/pagination", objects: @users
 
       .admin-card-wide.mdl-card.mdl-shadow--2dp

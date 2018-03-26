@@ -12,7 +12,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def sample_event?
-    user.glowball?
+    user.glowball? || user.admin?
   end
 
   def create?
@@ -24,7 +24,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def refund_fields?
-    admin_or_promoter
+    admin_or_promoter && event_open
   end
 
   def versions?
@@ -91,20 +91,20 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
+  def palco4_index?
+    admin_or_promoter
+  end
+
+  def palco4_show?
+    admin_or_promoter
+  end
+
   def missing?
     admin_or_promoter
   end
 
   def resolvable?
     admin_or_promoter
-  end
-
-  def resolve_time?
-    user.admin?
-  end
-
-  def do_resolve_time?
-    user.admin?
   end
 
   def real?
@@ -117,6 +117,14 @@ class EventPolicy < ApplicationPolicy
 
   def destroy?
     user.admin? && record.created?
+  end
+
+  def analytics?
+    admin_or_promoter
+  end
+
+  def custom_analytics?
+    admin_or_promoter
   end
 
   class Scope < Scope

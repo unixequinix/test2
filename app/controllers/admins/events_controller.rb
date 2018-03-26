@@ -4,18 +4,17 @@ module Admins
     include AnalyticsHelper
 
     before_action :set_event, except: %i[index new sample_event create]
-    before_action :set_event_series, only: %i[new edit]
+    before_action :set_event_series, only: %i[index new edit]
+    before_action :set_new_event, only: %i[index new]
 
     def index
       @q = policy_scope(Event).ransack(params[:q])
       @events = @q.result.order(state: :asc, start_date: :desc, name: :asc)
       authorize(@events)
-      @event = Event.new
-      @alerts = Alert.where(event_id: @events).unresolved.group(:event_id).count
+      @alerts = Alert.where(event: @events.map(&:id)).unresolved.group(:event_id).count
     end
 
     def new
-      @event = Event.new
       authorize(@event)
     end
 
@@ -29,9 +28,18 @@ module Admins
     end
 
     def show
-      @totals = Poke.dashboard(@current_event)
-      @graphs = Poke.dashboard_graphs(@current_event)
-      @message = analytics_message(@current_event)
+      orders_dashboard = Order.dashboard(@current_event)
+      pokes_dashboard = Poke.dashboard(@current_event)
+      refunds_dashboard = Refund.dashboard(@current_event)
+      tickets_dashboard = Ticket.dashboard(@current_event)
+      refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
+      kpis = [orders_dashboard, pokes_dashboard, refunds_dashboard, tickets_dashboard]
+      @kpis = formatter(grouper(kpis))
+
+      graphs = {}
+      graphs[:d_credits] = PokesQuery.new(@current_event).credits_flow_day
+      graphs[:event_day_money] = PokesQuery.new(@current_event).event_day_money
+      @graphs = graphs
       render layout: "admin_event"
     end
 
@@ -53,8 +61,12 @@ module Admins
       params[:event] ||= {}
       params[:event][:refund_fields] = [] if params[:event].blank?
 
+      pp = permitted_params
+      pp[:start_date] = Time.parse(permitted_params[:start_date]) if permitted_params[:start_date] # rubocop:disable Rails/TimeZone
+      pp[:end_date] = Time.parse(permitted_params[:end_date]) if permitted_params[:end_date] # rubocop:disable Rails/TimeZone
+
       respond_to do |format|
-        if @current_event.update(permitted_params.merge(slug: nil))
+        if @current_event.update(pp.merge(slug: nil))
           format.html { redirect_to [:admins, @current_event], notice: t("alerts.updated") }
           format.json { render json: @current_event }
         else
@@ -70,6 +82,7 @@ module Admins
       SaleItem.where(credit_transaction_id: transactions).delete_all
       Transaction.where(id: transactions).delete_all
       catalog_items = @current_event.catalog_items.pluck(:id)
+      PackCatalogItem.where(catalog_item_id: catalog_items).delete_all
       Transaction.where(catalog_item_id: catalog_items).update_all(catalog_item_id: nil)
       @current_event.device_transactions.delete_all
       @current_event.tickets.delete_all
@@ -85,16 +98,6 @@ module Admins
       redirect_to [:admins, @event], notice: t("alerts.created")
     end
 
-    def resolve_time
-      @bad_transactions = @current_event.transactions_with_bad_time.group_by(&:device_uid)
-      render layout: "admin_event"
-    end
-
-    def do_resolve_time
-      @current_event.resolve_time!
-      redirect_to request.referer, notice: "All timing issues solved"
-    end
-
     def launch
       @current_event.update_attribute :state, "launched"
       redirect_to request.referer, notice: t("alerts.updated")
@@ -102,7 +105,6 @@ module Admins
 
     def close
       @current_event.update_attribute :state, "closed"
-      @current_event.companies.update_all(hidden: true)
       @current_event.device_registrations.update_all(allowed: true)
 
       redirect_to [:admins, @current_event], notice: t("alerts.updated")
@@ -130,13 +132,18 @@ module Admins
     private
 
     def set_event_series
-      @event_series = EventSerie.all
-      authorize(@event_series)
+      @event_series = []
+      @event_series = EventSerie.where(id: @current_user.team.events.pluck(:event_serie_id)) if @current_user.team
     end
 
     def set_event
       @current_event = Event.friendly.find(params[:id])
       authorize(@current_event)
+      @credit_value = @current_event.credit.value
+    end
+
+    def set_new_event
+      @event = Event.new(start_date: Time.zone.now.beginning_of_day, end_date: (Time.zone.now + 3.days).end_of_day)
     end
 
     def use_time_zone
@@ -169,6 +176,7 @@ module Admins
                                     :bank_format,
                                     :private_zone_password,
                                     :fast_removal_password,
+                                    :emv_enabled,
                                     :transaction_buffer,
                                     :days_to_keep_backup,
                                     :sync_time_event_parameters,

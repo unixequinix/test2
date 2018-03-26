@@ -1,5 +1,5 @@
 ############################################################
-# Dockerfile to build Web container images
+# Dockerfile to build Cloud container images
 # Based on Ubuntu:16.04
 ############################################################
 
@@ -37,7 +37,7 @@ RUN /bin/bash -l -c 'passenger-install-nginx-module --auto-download --auto --pre
 RUN /bin/bash -l -c 'gem install bundler --no-rdoc --no-ri'
 
 # Set the app directory var
-ENV APP_HOME /home/current
+ENV APP_HOME /current
 
 # Install bundler
 ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile \

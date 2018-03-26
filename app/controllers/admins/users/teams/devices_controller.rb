@@ -14,7 +14,7 @@ module Admins
         end
 
         def show
-          @device_events = DeviceTransaction.where(device_uid: @device.mac).includes(:event).group_by(&:event)
+          @device_events = DeviceTransaction.where(device: @device).includes(:event).group_by(&:event)
         end
 
         def new
@@ -36,13 +36,13 @@ module Admins
         end
 
         def create
-          @device = Device.new(permitted_params.merge(team_id: @current_user.team&.id))
+          @device = Device.new(permitted_params.merge(team_id: @current_user.team.id))
           authorize @device
 
           respond_to do |format|
             if @current_user.team && @device.save
               format.json { render json: @device }
-              format.html { redirect_to [:admins, current_user, :team, @device] }
+              format.html { redirect_to [:admins, current_user, @device.team] }
             else
               format.json { render status: :unprocessable_entity, json: :no_content }
               format.html { render :new }

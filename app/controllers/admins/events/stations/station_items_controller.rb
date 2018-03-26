@@ -67,7 +67,7 @@ module Admins
         end
 
         def permitted_params
-          params.require(params[:item_type]).permit(:direction, :access_id, :catalog_item_id, :price, :name, :amount, :credit_id, :hidden, :position)
+          params.require(params[:item_type]).permit(:direction, :access_id, :catalog_item_id, :price, :name, :amount, :credit_id, :hidden, :position, :vat)
         end
       end
     end

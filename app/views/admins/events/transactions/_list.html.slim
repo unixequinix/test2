@@ -2,7 +2,7 @@
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--6-col = title
@@ -34,7 +34,7 @@
                   = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do
                     => icon
                     = transaction.description
-                td.mdl-data-table__cell--non-numeric data-label="Station" = link_to (transaction.station&.name || transaction.station_id), admins_event_station_path(@current_event, transaction.station_id) if transaction.station
+                td.mdl-data-table__cell--non-numeric data-label="Station" = link_to (transaction.station.try(:name) || transaction.station_id), admins_event_station_path(@current_event, transaction.station_id) if transaction.station
                 - @current_event.credits.each do |credit|
                   - if transaction.is_a?(CreditTransaction)
 

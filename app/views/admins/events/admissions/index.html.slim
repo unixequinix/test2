@@ -1,0 +1,59 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Customer Service
+
+- searching = params[:q].present? && params[:q][:email_cont].present?
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+
+      - if searching
+
+        - content_for(:search) do
+          = search_form_for @q, url: admins_event_admissions_path do |f|
+            = f.search_field :email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+        .right.small style="padding: 10px" Displaying #{@admissions.count} results
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card#admissions_list
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Name
+                th.mdl-data-table__cell--non-numeric Type
+                th.mdl-data-table__cell--non-numeric Customer
+                th Data
+
+            tbody
+              - @admissions.each do |admission|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = link_to admission.name, [:admins, @current_event, admission]
+                  td.mdl-data-table__cell--non-numeric data-label="Type" = admission.class.to_s.humanize
+                  td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to admission.customer.name, [:admins, @current_event, admission] if admission.customer
+                  td data-label="Data"
+                    - if admission.is_a?(Ticket)
+                      = link_to admission.ticket_type.name, [:admins, @current_event, admission.ticket_type]
+
+                    - if admission.is_a?(Gtag)
+                      .small style="#{"color: red" unless admission.consistent?}"
+                        = number_to_token admission.credits
+                        br
+                        = number_to_token admission.virtual_credits
+
+                    - if admission.is_a?(Customer)
+                      = admission.email
+
+      - else
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
+          = search_form_for @q, url: admins_event_admissions_path do |f|
+            .mdl-card__title
+              .mdl-cell.mdl-cell--12-col
+                i.material-icons search
+                span Search
+              .mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--8-col
+                = f.search_field :email_cont, class: "mdl-textfield__input", autofocus: true
+                .small  You can search for #{link_to 'Customers', [:admins, @current_event, :customers]}, #{link_to 'Tickets', [:admins, @current_event, :tickets]} and #{link_to 'Gtags', [:admins, @current_event, :gtags]}
+
+        .mdl-cell.mdl-cell--12-col = render "admins/events/resources"
+
+  .mdl-layout-spacer

@@ -1,0 +1,110 @@
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mld-card
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
+          .mdl-grid.no-wrapper-style.padding
+            .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove", colors: ['#1A2980', '#26D0CE'],
+                      icon: 'input',
+                      title_text: 'Cash In',
+                      title_number: number_to_reports(@current_event.cash_income),
+                      tooltip: { id: 'income', title: 'Income includes: ', text: ['Orders', 'Topups', 'Box Office'] }
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: @current_event.cash_income(:online), onsite: @current_event.cash_income(:onsite) }
+            .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "remove", colors: ['#FF4E50', '#F9D423'],
+                      icon: 'equalizer',
+                      title_text: 'Sales',
+                      title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs * @current_event.credit.value)
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: "-", onsite: @current_event.onsite_sales.sum(:credit_amount).to_f.abs * @current_event.credit.value }
+            .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', icon_name: "drag_handle", colors: ['#FF5050', '#F3A183'],
+                      icon: 'money_off',
+                      title_text: 'Refunds',
+                      title_number: number_to_reports((@current_event.refunds.completed.sum(:credit_base) * @current_event.credit.value).abs + @current_event.onsite_refunds.sum(:monetary_total_price).abs)
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: (@current_event.refunds.completed.sum(:credit_base) * @current_event.credit.value).abs, onsite: @current_event.onsite_refunds.sum(:monetary_total_price).abs }
+            .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', colors: ['#001510', '#00bf8f'],
+                      icon: 'account_balance_wallet',
+                      title_text: 'Outstanding',
+                      title_number: number_to_reports(@current_event.cash_outstanding)
+              = render "subcard", cols: 12, no_content: true, custom_class: 'key_metric_card', style: 'padding: 0 5px', subtitle: { online: @current_event.cash_outstanding(:online), onsite: @current_event.cash_outstanding(:onsite) }
+
+
+.mdl-grid.no-wrapper-style.padding
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .mdl-card__title.mdl-card--expand
+          .mdl-card__title-text Topups, Sales & Refunds Per Hour
+      .mdl-cell.mdl-cell--12-col
+        .mdl-grid
+          .mdl-layout-spacer
+          .mdl-cell.mdl-cell--10-col.no-wrapper-style.margin
+            .mdl-grid
+            canvas#key_metrics
+          .mdl-layout-spacer
+javascript:
+  componentHandler.upgradeDom();
+  var ctx = document.getElementById("key_metrics").getContext('2d');
+  var views = JSON.parse("#{escape_javascript(views.to_json.html_safe)}");
+  var eventData = views.data;
+  var money_symbol = '#{ @current_event.currency_symbol }';
+
+  var datasets = {
+    topups: {label: 'Topups', data: [], fill: false, borderColor: "#2FCE9A", extraData: []},
+    sales: {label: 'Sales', data: [], fill: false, borderColor: "#F0C338", extraData: []},
+    refunds: {label: 'Refunds', data: [], fill: false, borderColor: "#EE6E56", extraData: []}
+  };
+
+  $.each(eventData, function(i, item) {
+    datasets.topups.data.push(item.topups);
+    datasets.sales.data.push(item.sales);
+    datasets.refunds.data.push(item.refunds);
+    datasets.topups.extraData.push(item.topups_count);
+    datasets.sales.extraData.push(item.sales_count);
+    datasets.refunds.extraData.push(item.refunds_count);
+  });
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: eventData.map(function(item) {return item.date_time}),
+      datasets: Object.keys(datasets).map(function(key) {return datasets[key]})
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true,
+          }
+        }]
+      },
+      legend: {
+        position: 'bottom'
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip) return;
+          tooltip.displayColors = false;
+        },
+        callbacks: {
+          title: function(tooltipItem, data) {
+            var titleData = tooltipItem[0];
+            var key = Object.keys(datasets)[titleData.datasetIndex];
+            return [
+              key.charAt(0).toUpperCase() + key.slice(1),
+              titleData.xLabel
+            ]
+          },
+          label: function(tooltipItem, data) {
+            var key = Object.keys(datasets)[tooltipItem.datasetIndex]
+            return [
+              "Credits: " + datasets[key]['data'][tooltipItem.index] + " " + views.currency,
+              "Amount: " + datasets[key]['extraData'][tooltipItem.index]
+            ]
+          }
+        }
+      },
+    }
+  });

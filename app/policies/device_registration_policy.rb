@@ -3,16 +3,12 @@ class DeviceRegistrationPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def resolve_time?
-    user.admin?
-  end
-
   def new?
-    user&.team.present? || user.glowball?
+    event_open? && user&.team.present? || user.glowball?
   end
 
   def create?
-    user&.team.present? && user&.team&.devices&.include?(record.device) || admin_or_device_register
+    event_open && (user&.team.present? && user&.team&.devices&.include?(record.device) || admin_or_device_register)
   end
 
   def destroy?

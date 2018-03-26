@@ -1,19 +1,25 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::TicketsController, type: :controller do
+RSpec.describe Api::V1::Events::TicketsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
-  let(:user) { create(:user) }
   let(:db_tickets) { event.tickets }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
+  let(:team) { create(:team) }
+  let(:user) { create(:user, team: team, role: "glowball") }
+  let(:device) { create(:device, team: team) }
+  let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
+    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
+    http_login(user.email, user.access_token)
+
     create_list(:ticket, 2, event: event, customer: create(:customer, event: event))
   end
 
   describe "GET index" do
     context "with authentication" do
-      before(:each) do
-        http_login(user.email, user.access_token)
+      before do
         get :index, params: params
       end
 
@@ -40,13 +46,6 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
       end
     end
-
-    context "without authentication" do
-      it "returns a 401 status code" do
-        get :index, params: params
-        expect(response).to be_unauthorized
-      end
-    end
   end
 
   describe "GET show" do
@@ -54,7 +53,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       before do
         @pack = create(:pack, :with_access, event: event)
         @access = @pack.catalog_items.accesses.first
-        @ctt = create(:ticket_type, company: create(:company, event: event), event: event, catalog_item: @pack)
+        @ctt = create(:ticket_type, event: event, catalog_item: @pack)
         @customer = create(:customer, event: event)
         @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
         order = create(:order, customer: @customer, status: "completed", event: event)
@@ -138,11 +137,31 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
       end
     end
+  end
 
-    context "without authentication" do
-      it "returns a 401 status code" do
-        get :show, params: params.merge(id: db_tickets.last.id)
-        expect(response).to be_unauthorized
+  describe "GET banned" do
+    context "with authentication" do
+      before(:each) do
+        @ticket = create(:ticket, event: event, banned: true, ticket_type: create(:ticket_type, event: event))
+        http_login(user.email, user.access_token)
+        get :banned, params: params
+      end
+
+      it "returns a 200 status code" do
+        expect(response).to be_ok
+      end
+
+      it "returns a right response" do
+        JSON.parse(response.body).map do |t|
+          expect(t["reference"]).to eq(@ticket.reference)
+        end
+      end
+
+      it "returns the necessary keys" do
+        ticket_keys = %w[banned purchaser_email purchaser_first_name purchaser_last_name redeemed reference ticket_type_id updated_at].sort
+        JSON.parse(response.body).map do |t|
+          expect(t.keys.sort).to eq(ticket_keys)
+        end
       end
     end
   end

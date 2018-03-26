@@ -10,7 +10,7 @@ gem 'rails', '~> 5.1.4' # Bundle edge Rails instead: gem 'rails', github: 'rails
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
 gem 'figaro'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk-s3'
 gem 'redis', '~> 3.0' # Use Redis adapter to run Action Cable in production
 gem 'cookies_eu'
 gem 'http-accept' # parsers for dealing with HTTP Accept, Accept-Language...
@@ -38,7 +38,7 @@ gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'jquery-datatables'
 gem 'c3-rails'
-gem 'chart-js-rails'
+gem 'chartjs-ror'
 
 # Authentication
 gem 'devise'
@@ -49,7 +49,6 @@ gem 'omniauth-google-oauth2'
 gem 'pundit'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'rack-attack-recaptcha', '~> 0.0.3'
-gem 'staccato'
 
 # Design
 gem 'font-awesome-rails'
@@ -93,6 +92,7 @@ gem 'whenever', :require => false
 # PDF Generation
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'jspdf-rails', '~> 1.0', '>= 1.0.3'
 
 # Validations
 gem 'rfc-822'
@@ -114,6 +114,7 @@ group :development do
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem 'letter_opener'
+  gem 'bullet'
 end
 
 group :development, :test do
@@ -137,7 +138,6 @@ group :development, :test do
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'json_expressions'
-  gem 'xray-rails'
 end
 
 group :test do

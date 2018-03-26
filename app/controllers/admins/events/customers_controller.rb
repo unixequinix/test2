@@ -11,12 +11,12 @@ module Admins
 
         respond_to do |format|
           format.html
-          format.csv { send_data(CsvExporter.to_csv(Customer.query_for_csv(@current_event))) }
+          format.csv { send_data(CsvExporter.to_csv(@current_event.customers.registered.select(:first_name, :last_name, :email, :phone, :postcode, :address, :city, :country, :gender))) }
         end
       end
 
       def show
-        @pokes = @customer.pokes.order(:source, :gtag_counter, :date)
+        @pokes = @customer.pokes.for_views
       end
 
       def update
@@ -53,10 +53,28 @@ module Admins
         redirect_to [:admins, @current_event, @customer], notice: "Confirmation email sent"
       end
 
+      def confirm_customer
+        @customer.confirm
+        redirect_to [:admins, @current_event, @customer], notice: "Customer confirmed"
+      end
+
+      def merge
+        admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
+        admission.update(customer: @current_event.customers.create!) if admission.customer.blank?
+
+        result = @customer.anonymous? ? Customer.claim(@current_event, admission.customer, @customer) : Customer.claim(@current_event, @customer, admission.customer)
+
+        @customer.reload.validate_gtags unless @customer.anonymous?
+        admission.reload.customer.validate_gtags unless admission.customer.anonymous?
+
+        alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
+        redirect_to [:admins, @current_event, (result || admission)], alert
+      end
+
       private
 
       def permitted_params
-        params.require(:customer).permit(:email, :first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender, :banned)
+        params.require(:customer).permit(:email, :first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender)
       end
 
       def set_customer

@@ -1,14 +1,3 @@
-.dropdown
-  i.mdl-color-text--gray-50.material-icons help_outline
-  span.title Help
-  .dropdown-content
-    = link_to "http://learning.glownet.com", target: :_blank, class: "dropdown-item", id: "courses_layout_link" do
-      i.mdl-color-text--teal-200.material-icons book
-      | My Courses
-    = link_to "https://glownet.atlassian.net/servicedesk/customer/portal/4/group/10", target: :_blank, class: "dropdown-item", id: "support_layout_link" do
-      i.mdl-color-text--teal-200.material-icons local_convenience_store
-      |  Support
-
 .dropdown#user_dropdown
   i.mdl-color-text--gray-50.material-icons account_circle
   span.title =  @current_user.username.mb_chars.capitalize.to_s

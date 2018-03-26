@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class DatabasesController < Api::V1::Events::BaseController
+      class DatabasesController < Api::V1::EventsController
         def show
           category = permitted_params[:basic].eql?("true") ? "basic" : "full"
           app_version = permitted_params[:app_version] || 'unknown'

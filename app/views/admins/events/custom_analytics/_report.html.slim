@@ -1,11 +1,10 @@
-
 .mdl-tabs__panel.is-active id="#{name}_report"
   .content-grid.mdl-grid
     .mdl-cell.mdl-cell--8-col
-    .mdl-cell.mdl-cell--2-col.right
+    .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
       button.mdl-button.mdl-js-button.mdl-button--raised.export-button
         | EXPORT
-    .mdl-cell.mdl-cell--2-col.right
+    .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
       button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
         | RAW DATA
 
@@ -22,12 +21,12 @@ javascript:
     var metric = jQuery.parseJSON("#{ escape_javascript(metric.html_safe) }");
     var decs = "#{decimals}"
     var decimals = "#{decimals}"
-    var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers, $.pivotUtilities.plotly_renders, $.pivotUtilities.c3_renderers);
+    var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers, $.pivotUtilities.c3_renderers);
     var sum = $.pivotUtilities.aggregatorTemplates.sum;
     var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: "#{decimals}"});
-    var type =  "Table"
+    var type = null
     var chartId = "#table"
-    var show = ""
+    var show = null
 
     setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
 
@@ -36,6 +35,18 @@ javascript:
     });
 
     $(".export-button").click(function(){
-      exportTSV(chartId, title);
-    });
+          $(".pvtRenderer:first").val("TSV Export").trigger("change");
+          var checkExist = setInterval(function() {
+             if ($('textarea').length) {
+                var text = $('textarea').text();
+                var hiddenElement = document.createElement('a');
+              hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(text);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = "#{ name }" + '_pivot_data.csv';
+                hiddenElement.click();
+                clearInterval(checkExist);
+              $(".pvtRenderer:first").val("Table").trigger("change");
+             }
+          }, 100);
+      });
   });

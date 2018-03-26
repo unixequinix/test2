@@ -3,13 +3,41 @@ require 'rails_helper'
 RSpec.describe Api::V2::Events::TicketTypesController, type: %i[controller api] do
   let(:event) { create(:event, open_api: true, state: "created") }
   let(:user) { create(:user) }
-  let(:company) { create(:company, event: event) }
-  let(:ticket_type) { create(:ticket_type, event: event, company: company) }
+  let(:ticket_type) { create(:ticket_type, event: event) }
 
   let(:invalid_attributes) { { name: nil } }
-  let(:valid_attributes) { { name: "VIP", company_id: company.id } }
+  let(:valid_attributes) { { name: "VIP" } }
 
   before { token_login(user, event) }
+
+  describe "POST #bulk_upload" do
+    let(:tickets) { %w[aaa bbb ccc 123] }
+
+    context "with valid codes" do
+      it "creates new tickets" do
+        expect do
+          post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets }
+        end.to change { ticket_type.tickets.count }.by(tickets.size)
+      end
+
+      it "returns created status" do
+        post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets }
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context "with invalid params" do
+      it "returns an unprocessable_entity response" do
+        post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets + ["aaa"] }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "returns codes that could not be created" do
+        post :bulk_upload, params: { event_id: event.id, id: ticket_type.to_param, tickets: tickets + ["aaa"] }
+        expect(JSON(response.body)["errors"]).to include("aaa")
+      end
+    end
+  end
 
   describe "GET #index" do
     before { create_list(:ticket_type, 10, event: event) }
@@ -59,6 +87,15 @@ RSpec.describe Api::V2::Events::TicketTypesController, type: %i[controller api] 
       it "returns the created ticket_type" do
         post :create, params: { event_id: event.id, ticket_type: valid_attributes }
         expect(json["id"]).to eq(TicketType.last.id)
+      end
+
+      it "assigns the teams name as company" do
+        team = user.build_active_team_invitation.build_team(name: "myteam")
+        team.team_invitations.new(user_id: user.id, email: user.email, leader: true, active: true)
+        team.save!
+
+        post :create, params: { event_id: event.id, ticket_type: valid_attributes }
+        expect(TicketType.find(json["id"]).company).to eq("myteam")
       end
     end
 

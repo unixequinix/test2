@@ -1,10 +1,11 @@
 module Api
   module V1
     class TicketTypeSerializer < ActiveModel::Serializer
-      attributes :id, :name, :company_id, :company_name, :ticket_type_ref, :catalog_item_id, :catalog_item_type
+      attributes :id, :name, :ticket_type_ref, :catalog_item_id, :catalog_item_type, :company_id
+      attribute :company, key: :company_name
 
-      def company_name
-        object.company.name
+      def company_id
+        1
       end
 
       def ticket_type_ref

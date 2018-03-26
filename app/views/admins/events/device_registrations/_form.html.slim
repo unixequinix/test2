@@ -26,7 +26,7 @@
       .mdl-card__title
         .mdl-cell.mdl-cell--8-col
           - unless form_disable
-            = f.input :action, collection: @actions, :include_blank => false
+            = f.input :action, collection: @actions.map { |type| [type.to_s.humanize.gsub("initialization", ""), type]}, :include_blank => false, label: "Initialization type"
         .mdl-cell.mdl-cell--4-col.right
           button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.form-submit id=selector
             = selector.humanize
@@ -53,7 +53,7 @@
               span = device.serial
             td.mdl-data-table__cell--non-numeric data-label="Initialization"
               - if form_disable
-                span = best_in_place resource, :initialization_type, as: :select, collection: @actions.map { |action| [action.to_s, action.to_s.humanize] }, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
+                span = best_in_place resource, :initialization_type, as: :select, collection: @actions.map { |type| [type, type.to_s.humanize.gsub("initialization", "")]}, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
               - else
                 span -
             td.table-actions

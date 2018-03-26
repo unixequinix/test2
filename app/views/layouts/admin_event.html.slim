@@ -13,7 +13,6 @@ html
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
     = javascript_include_tag "//cdn.tinymce.com/4/tinymce.min.js"
     = javascript_include_tag "application"
-    = javascript_include_tag "https://wchat.freshchat.com/js/widget.js"
 
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
@@ -63,7 +62,7 @@ html
 
       .mdl-layout__drawer
 
-        #event_logo = link_to image_tag(@current_event.logo.url(:panel)), admins_events_path
+        #event_logo = link_to image_tag(image_path('glownet-event-logo.png')), admins_events_path
 
         nav.mdl-navigation.global-nav
           = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
@@ -72,47 +71,31 @@ html
           = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons phone_android
             |  Devices
-          = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons equalizer
-            |  Analytics
-          = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons timeline
-            |  Custom Analytics
+          = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons record_voice_over
+            |  Customer service
+          - unless @current_event.created?
+            = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons equalizer
+              |  Analytics
+            = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons timeline
+              |  Custom Analytics
+
         nav.mdl-navigation.global-nav
-          span.nav-title CREDENTIALS
-          = link_to admins_event_customers_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons people_outline
-            |  Customers
-          = link_to admins_event_companies_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons markunread_mailbox
-            |  Companies
+          span.nav-title ACCESS CONTROL
           = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons class
             |  Ticket types
           = link_to admins_event_tickets_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons bookmark_border
             |  Tickets
-          = link_to admins_event_gtags_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons loyalty
-            |  GTags
-
-        nav.mdl-navigation.global-nav
-          span.nav-title STORE
-          = link_to admins_event_operator_permissions_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons import_export
-            |  App Permissions
           = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons import_export
             |  Accesses
           = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons view_module
             |  Packs
-          = link_to admins_event_orders_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons shopping_cart
-            |  Orders
-          = link_to admins_event_refunds_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons undo
-            |  Refunds
 
         nav.mdl-navigation.global-nav
           span.nav-title SUPPORT
@@ -151,47 +134,3 @@ html
         $('#changeIcon').html('build');
         $('#actions-list').removeClass('show');
       }
-  javascript:
-      (function (apiKey) {
-          (function (p, e, n, d, o) {
-              var v, w, x, y, z;
-              o = p[d] = p[d] || {};
-              o._q = [];
-              v = ['initialize', 'identify', 'updateOptions', 'pageLoad'];
-              for (w = 0, x = v.length; w < x; ++w) (function (m) {o[m] = o[m] || function () {o._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0)));};})(v[w]);
-              y = e.createElement(n);
-              y.async = !0;
-              y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
-              z = e.getElementsByTagName(n)[0];
-              z.parentNode.insertBefore(y, z);
-          })(window, document, 'script', 'pendo');
-
-          // Call this whenever information about your visitors becomes available
-          // Please use Strings, Numbers, or Bools for value types.
-          pendo.initialize({
-              visitor: {
-                  id: '#{current_user.id}'   // Required if user is logged in
-                  // email:        // Optional
-                  // role:         // Optional
-
-                  // You can add any additional visitor level key-values here,
-                  // as long as it's not one of the above reserved names.
-              },
-
-              account: {
-                  // id:           'ACCOUNT-UNIQUE-ID' // Highly recommended
-                  // name:         // Optional
-                  // planLevel:    // Optional
-                  // planPrice:    // Optional
-                  // creationDate: // Optional
-
-                  // You can add any additional account level key-values here,
-                  // as long as it's not one of the above reserved names.
-              }
-          });
-      })('0907a857-90ea-47a7-79a4-4a24faa1a650');
-
-      window.fcWidget.init({token: "50703d53-87b3-41b2-870e-f934e4e9c5c2", host: "https://wchat.freshchat.com"});
-      window.fcWidget.setExternalId('#{@current_user.id}');
-      window.fcWidget.user.setFirstName('#{@current_user.username}');
-      window.fcWidget.user.setEmail('#{@current_user.email}');

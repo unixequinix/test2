@@ -7,7 +7,6 @@ class Event < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :catalog_items, dependent: :destroy
   has_many :ticket_types, dependent: :destroy
-  has_many :companies, dependent: :destroy
   has_many :gtags, dependent: :destroy
   has_many :stations, dependent: :destroy
   has_many :device_transactions, dependent: :destroy
@@ -23,6 +22,7 @@ class Event < ApplicationRecord
   has_many :alerts, dependent: :destroy
   has_many :device_caches, dependent: :destroy
   has_many :pokes, dependent: :restrict_with_error
+  has_many :api_metrics, dependent: :destroy
 
   has_one :credit, dependent: :destroy
   has_one :virtual_credit, dependent: :destroy
@@ -69,24 +69,57 @@ class Event < ApplicationRecord
     [credit, virtual_credit].compact
   end
 
-  def self.try_to_open_refunds
-    Event.where(state: 'launched', open_refunds: false).find_each do |event|
-      date = event.refunds_start_date
-      next unless date
-      Time.use_zone(event.timezone) { event.update(open_refunds: true) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
-    end
+  def cash_outstanding(source = :both)
+    result = cash_income(source)
+    result -= source.eql?(:online) ? 0 : onsite_sales.sum(:credit_amount).to_f.abs * credit.value
+    result -= source.eql?(:onsite) ? 0 : refunds.completed.sum(:credit_base).abs * credit.value
+    result - (source.eql?(:online) ? 0 : pokes.where(action: 'refund').is_ok.sum(:monetary_total_price).abs)
   end
 
-  def self.try_to_end_refunds
-    Event.where(state: 'launched', open_refunds: true).find_each do |event|
-      date = event.refunds_end_date
-      next unless date
-      Time.use_zone(event.timezone) { event.update(open_refunds: false) if Time.current >= Time.zone.parse(date.to_formatted_s(:human)) }
-    end
+  def cash_income(source = :both)
+    result = 0
+    result += source.eql?(:onsite) ? 0 : orders.completed.pluck(:money_base, :money_fee).flatten.sum
+    result + (source.eql?(:online) ? 0 : pokes.where(action: %w[purchase topup]).is_ok.sum(:monetary_total_price))
   end
 
-  def self.reload_stats
-    Event.where(state: 'launched').find_each { |event| EventStatsChannel.broadcast_to(event, {}) }
+  def onsite_sales
+    pokes.where(action: 'sale', credit: credit).is_ok.includes(:station)
+  end
+
+  def onsite_refunds
+    pokes.where(action: 'refund').is_ok
+  end
+
+  def onsite_topups
+    pokes.where(action: 'topup').is_ok
+  end
+
+  def topup_order_items
+    OrderItem.where(order: orders.completed, catalog_item: credit)
+  end
+
+  def total_spending_power
+    onsite_spending_power + online_spending_power
+  end
+
+  def onsite_spending_power
+    gtags.where(active: true).sum(:credits)
+  end
+
+  def online_spending_power
+    ticket_type_credits = ticket_types.includes(:catalog_item).where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
+    credential_sp = tickets.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum + gtags.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum
+    order_sp = OrderItem.where(order: orders.completed, redeemed: false, catalog_item: credit).sum(:amount)
+    refund_sp = refunds.completed.pluck(:credit_base, :credit_fee).flatten.sum
+
+    credential_sp + order_sp + refund_sp
+  end
+
+  def import_tickets
+    url = URI("https://test.palco4.com/accessControlApi/barcodes/json/#{palco4_event}")
+    @token = palco4_token
+    @tickets = api_response(url)
+    @tickets&.each { |ticket| Palco4Importer.perform_now(ticket, self) }
   end
 
   def currency_symbol
@@ -99,20 +132,6 @@ class Event < ApplicationRecord
 
   def formatted_end_date
     end_date.to_formatted_s(:best_in_place)
-  end
-
-  def transactions_with_bad_time
-    time_range = (start_date.to_formatted_s(:transactions)..end_date.to_formatted_s(:transactions))
-    transactions.onsite.where(action: %w[sale sale_refund]).order(:device_db_index).where.not(device_created_at: time_range)
-  end
-
-  def registrations_with_bad_time
-    bad_devices = devices.where(mac: transactions_with_bad_time.pluck(:device_uid).uniq)
-    device_registrations.where(device: bad_devices)
-  end
-
-  def resolve_time!
-    registrations_with_bad_time.map(&:resolve_time!)
   end
 
   def valid_app_version?(device_version)
@@ -132,7 +151,6 @@ class Event < ApplicationRecord
   def initial_setup!
     create_credit!(value: 1, name: "CRD")
     create_virtual_credit!(value: 1, name: "Virtual")
-    companies.create!(name: "Glownet", hidden: true)
     USER_FLAGS.each { |name| user_flags.create!(name: name) }
     DEFAULT_STATIONS.each { |category, name| stations.create! category: category, name: name }
     station = stations.create! name: "Customer Portal", category: "customer_portal"
@@ -174,5 +192,13 @@ class Event < ApplicationRecord
 
   def generate_tokens
     self.gtag_key = SecureRandom.hex(16).upcase
+  end
+
+  def api_response(url)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    request = Net::HTTP::Get.new(url)
+    request["authorization"] = "Bearer #{@token}"
+    @response = JSON.parse(http.request(request).body)
   end
 end

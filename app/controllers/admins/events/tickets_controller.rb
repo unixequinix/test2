@@ -4,7 +4,7 @@ module Admins
       before_action :set_ticket, except: %i[index new create import sample_csv]
 
       def index
-        @q = @current_event.tickets.order(created_at: :desc).ransack(params[:q])
+        @q = @current_event.tickets.includes(:customer, :ticket_type).order(created_at: :desc).ransack(params[:q])
         @tickets = @q.result
         authorize @tickets
         @tickets = @tickets.page(params[:page])
@@ -59,7 +59,17 @@ module Admins
         end
       end
 
-      def import # rubocop:disable Metrics/AbcSize
+      def merge
+        admission = Admission.find(@current_event, params[:adm_id], params[:adm_class])
+        result = @ticket.merge(admission)
+
+        @ticket.reload.customer.validate_gtags
+
+        alert = result.present? ? { notice: "Admissions were sucessfully merged" } : { alert: "Admissions could not be merged" }
+        redirect_to [:admins, @current_event, (result || admission)], alert
+      end
+
+      def import
         authorize @current_event.tickets.new
         path = admins_event_tickets_path(@current_event)
         redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
@@ -67,14 +77,9 @@ module Admins
         count = 0
 
         begin
-          companies = []
-          CSV.foreach(file, headers: true, col_sep: ";") { |row| companies << row.field("company_name") }
-          companies = companies.compact.uniq.map { |name| @current_event.companies.find_or_create_by(name: name) }
-          companies = companies.map { |company| [company.name, company.id] }.to_h
-
           ticket_types = []
-          CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << [row.field("ticket_type"), companies[row.field("company_name")]] }
-          ticket_types = ticket_types.compact.uniq.map { |name, company| @current_event.ticket_types.find_or_create_by(name: name, company_id: company) }
+          CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << [row.field("ticket_type"), row.field("company_name")] }
+          ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by(name: name) }
           ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
 
           CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
@@ -91,8 +96,8 @@ module Admins
 
       def sample_csv
         authorize @current_event.tickets.new
-        header = %w[ticket_type company_code company_name reference first_name last_name email]
-        data = [["VIP Night", "098", "Glownet", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "Glownet", "4433221100", "Arya", "Stark", "arya@stark.com"]]
+        header = %w[ticket_type company_code reference first_name last_name email]
+        data = [["VIP Night", "098", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "099", "4433221100", "Arya", "Stark", "arya@stark.com"]]
 
         respond_to do |format|
           format.csv { send_data(CsvExporter.sample(header, data)) }

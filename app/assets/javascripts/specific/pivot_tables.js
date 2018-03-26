@@ -8,11 +8,14 @@ function setTable(data, rows, cols, metric, decimals, chartId, title, renderers,
 }
 
 function setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show) {
+  type = type || "Table"
+  show = show || ""
+  metric = metric || "metric"
   $(chartId + show).pivotUI(data, {
     renderers: renderers,
     cols: cols, rows: rows,
     rendererName: type,
-    aggregators: { ["metric"]: function () { return sum(frFormat)(metric) } },
+    aggregators: { [metric]: function () { return sum(frFormat)(metric) } },
   });
 }
 
@@ -21,7 +24,7 @@ function exportCSV(tableId, title) {
   var hiddenElement = document.createElement('a');
   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(text);
   hiddenElement.target = '_blank';
-  hiddenElement.download = title + '.csv';
+  hiddenElement.download = title + '.tsv';
   hiddenElement.click();
 };
 
@@ -33,7 +36,7 @@ function exportTSV(tableId, title) {
         var hiddenElement = document.createElement('a');
         hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(text);
         hiddenElement.target = '_blank';
-        hiddenElement.download = title + '_pivot_data.csv';
+        hiddenElement.download = title + '_pivot_data.tsv';
         hiddenElement.click();
         clearInterval(checkExist);
         $(".pvtRenderer:first").val("Table").trigger("change");

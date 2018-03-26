@@ -8,10 +8,9 @@ class TicketType < ApplicationRecord
 
   belongs_to :event, counter_cache: true
   belongs_to :catalog_item, optional: true
-  belongs_to :company
 
-  validates :company_code, uniqueness: { scope: :company_id }, allow_blank: true
-  validates :name, uniqueness: { scope: %i[company_id event_id], case_sensitive: false }
+  validates :company_code, uniqueness: { scope: %i[event_id company] }, allow_blank: true
+  validates :name, uniqueness: { scope: %i[event_id company], case_sensitive: false }
 
   validates :name, presence: true
 

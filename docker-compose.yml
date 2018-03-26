@@ -18,15 +18,15 @@ services:
     volumes:
       - redis:/data
 
-  web:
+  cloud:
     build: .
-    image: glownet_web:latest
+    image: glownet_cloud:latest
     command:  "'rails s -p 3000 -b 0.0.0.0'"
     ports:
       - "3000:3000"
     volumes:
       - rvm_gems:/usr/local/rvm/gems/ruby-2.5.0
-      - .:/home/current
+      - .:/current
       - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     environment:
       - SSH_AUTH_SOCK
@@ -44,11 +44,11 @@ services:
     tty: true
   sidekiq:
     build: .
-    image: glownet_web:latest
+    image: glownet_cloud:latest
     command: "sidekiq -C config/sidekiq.yml"
     volumes:
       - rvm_gems:/usr/local/rvm/gems/ruby-2.5.0
-      - .:/home/current
+      - .:/current
     environment:
       - RAILS_ENV
       - JOB_WORKER_URL

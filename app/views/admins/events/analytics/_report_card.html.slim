@@ -1,8 +1,8 @@
 .content-grid.mdl-grid
   .mdl-cell.mdl-cell--8-col
     .mdl-card__title-text = title
-  .mdl-cell.mdl-cell--2-col.right
-    button.mdl-button.mdl-js-button.mdl-button--raised id="#{chart_id}_button"
+  .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
+    button.mdl-button.mdl-js-button.mdl-button--raised id="#{chart_id}_button" name="export-button"
       | EXPORT
 .mdl-card__supporting-text
   .report_card id=chart_id

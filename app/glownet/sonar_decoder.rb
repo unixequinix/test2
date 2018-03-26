@@ -20,7 +20,7 @@ class SonarDecoder
       return nil
     end
 
-    reverse_hex(decrypted_string.unpack("H*").first).to_i(16).to_s
+    reverse_hex(decrypted_string.unpack1("H*")).to_i(16).to_s
   end
 
   def self.key

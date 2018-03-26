@@ -5,7 +5,7 @@ module Admins
       before_action :set_other, only: %i[new create]
 
       def index
-        @orders = @current_event.orders.order(id: :desc)
+        @orders = @current_event.orders.includes(order_items: :catalog_item).order(id: :desc)
         authorize @orders
         @orders = @orders.page(params[:page])
         @counts = @current_event.orders.group(:status).count
@@ -36,7 +36,7 @@ module Admins
 
         if @order.set_counters.save
           @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
-          redirect_to [:admins, @current_event, @order], notice: t("alerts.created")
+          redirect_to [:admins, @current_event, @order.customer], notice: t("alerts.created")
         else
           @catalog_items_collection = @current_event.catalog_items.not_user_flags.group_by { |item| item.type.underscore.humanize.pluralize }
           @order.order_items.build(catalog_item: @alcohol_flag, amount: alcohol_flag) if alcohol_flag.to_i.eql?(1)
@@ -54,7 +54,7 @@ module Admins
       private
 
       def set_order
-        @order = @current_event.orders.includes(catalog_items: :event).find(params[:id])
+        @order = @current_event.orders.includes(order_items: :catalog_item).find(params[:id])
         authorize @order
       end
 

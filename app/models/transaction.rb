@@ -2,6 +2,7 @@ class Transaction < ApplicationRecord
   include Alertable
 
   belongs_to :event, counter_cache: true
+  belongs_to :device, optional: true
   belongs_to :station, optional: true
   belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :transactions_as_operator
   belongs_to :operator_gtag, class_name: "Gtag", optional: true, inverse_of: :transactions_as_operator
@@ -29,7 +30,7 @@ class Transaction < ApplicationRecord
   scope :status_ok, -> { where(status_code: 0) }
   scope :status_not_ok, -> { where.not(status_code: 0) }
   scope :payments_with_credit, ->(credit) { where("payments ? '#{credit.id}'") }
-  scope :debug, -> { includes(:event).order(:transaction_origin, :counter, :gtag_counter, :device_created_at) }
+  scope :debug, -> { includes(:station).order(:transaction_origin, :counter, :gtag_counter, :device_created_at) }
 
   TYPES = %w[access credential credit money order operator user_engagement user_flag].freeze
 
@@ -56,6 +57,6 @@ class Transaction < ApplicationRecord
   end
 
   def self.mandatory_fields
-    %w[action customer_tag_uid operator_tag_uid device_uid device_db_index device_created_at status_code status_message]
+    %w[action customer_tag_uid operator_tag_uid device_id device_db_index device_created_at status_code status_message]
   end
 end

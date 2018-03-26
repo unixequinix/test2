@@ -2,7 +2,7 @@ module Transactions
   class Base < ApplicationJob
     Dir[Rails.root.join('apps', 'jobs', 'transactions', '*.rb')].each { |file| require file }
 
-    SEARCH_ATTS = %i[event_id device_uid device_db_index device_created_at_fixed].freeze
+    SEARCH_ATTS = %i[event_id device_id device_db_index device_created_at_fixed].freeze
 
     queue_as :default
 

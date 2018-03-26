@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_many :event_registrations, dependent: :destroy
   has_many :events, through: :event_registrations, dependent: :destroy
+  has_many :api_metrics, dependent: :nullify
   has_many :team_invitations, dependent: :destroy
   has_one :active_team_invitation, -> { where(active: true) }, class_name: 'TeamInvitation', inverse_of: :user
   has_one :team, through: :active_team_invitation, foreign_key: "team_id"
@@ -40,6 +41,11 @@ class User < ApplicationRecord
 
   def registration_for(event)
     event_registrations.find_by(event: event)
+  end
+
+  def self.authenticate(username, password)
+    user = User.find_for_database_authentication(login: username)
+    user&.valid_password?(password) ? user : nil
   end
 
   def self.find_for_database_authentication(warden_conditions)

@@ -45,11 +45,14 @@ class Customer < ApplicationRecord
   validates :country, presence: true, if: (-> { custom_validation("address") })
   validates :gender, presence: true, if: (-> { custom_validation("gender") })
 
-  scope(:query_for_csv, lambda { |event|
-    where(event: event).joins(:gtags, :tickets).order(:first_name)
-      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits, gtags.virtual_credits, email, first_name, last_name")
-      .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.virtual_credits")
-  })
+  alias customer itself
+
+  scope :anonymous, -> { where(anonymous: true) }
+  scope :registered, -> { where(anonymous: false) }
+
+  def self.policy_class
+    AdmissionPolicy
+  end
 
   def self.claim(event, customer, anon_customers)
     anon_customers = [anon_customers].flatten.compact
@@ -91,14 +94,18 @@ class Customer < ApplicationRecord
   end
 
   def credits
+    credential_total = event.ticket_types.where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item).sum(&:credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
     refund_total = refunds.completed.sum(&:credit_total)
-    order_total - refund_total + active_gtag&.credits.to_f
+
+    credential_total + order_total - refund_total + active_gtag&.credits.to_f
   end
 
   def virtual_credits
+    credential_total = event.ticket_types.where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item).sum(&:virtual_credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
-    order_total + active_gtag&.virtual_credits.to_f
+
+    credential_total + order_total + active_gtag&.virtual_credits.to_f
   end
 
   def money
@@ -167,8 +174,14 @@ class Customer < ApplicationRecord
   end
 
   def custom_validation(field)
-    event && event.method("#{field}_mandatory?").call && !reset_password_token_changed? &&
+    event&.method("#{field}_mandatory?")&.call && !reset_password_token_changed? &&
       (!encrypted_password_changed? || new_record?) && !anonymous?
+  end
+
+  def validate_gtags
+    active_gtag = customer.gtags.order(updated_at: :desc).first
+    active_gtag&.update(active: true)
+    customer.gtags.where.not(id: active_gtag.id).update_all(active: false) unless active_gtag.nil?
   end
 
   private

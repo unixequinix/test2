@@ -5,7 +5,7 @@
 
 .mdl-grid.light-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .mdl-grid.light-grid
       .mdl-cell.mdl-cell--3-col
         .customer-card.mdl-card.mdl-shadow--2dp
@@ -31,7 +31,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
       = simple_form_for [:admins, @current_event, @order], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         = f.input :customer_id, as: :hidden, input_html: { value: @customer.id }

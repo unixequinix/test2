@@ -186,6 +186,44 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     end
   end
 
+  describe "POST #refund" do
+    let(:new_gtag) { create(:gtag, event: event, customer: customer) }
+
+    before do
+      new_gtag.update!(credits: 150)
+    end
+
+    it "returns a success response" do
+      post :refund, params: atts
+      expect(response).to have_http_status(:created)
+    end
+
+    it "makes customer credits 0" do
+      expect { post :refund, params: atts }.to change { customer.credits }.to(0)
+    end
+
+    it "creates a refund" do
+      expect { post :refund, params: atts }.to change(Refund, :count).by(1)
+    end
+
+    it "makes fee the same as event" do
+      event.update! refund_fee: 3
+      post :refund, params: atts
+      refund = event.refunds.find(JSON.parse(response.body)["id"])
+      expect(refund.credit_fee).to eq(3)
+    end
+
+    it "completes the refund" do
+      post :refund, params: atts
+      expect(event.refunds.find(JSON.parse(response.body)["id"])).to be_completed
+    end
+
+    it "allows to set the gateway" do
+      post :refund, params: atts.merge(gateway: "foo")
+      expect(event.refunds.find(JSON.parse(response.body)["id"]).gateway).to eq("foo")
+    end
+  end
+
   describe "GET #transactions" do
     before { @transactions = create_list(:credit_transaction, 2, event: event, customer: customer) }
 

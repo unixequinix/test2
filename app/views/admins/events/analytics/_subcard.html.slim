@@ -1,0 +1,22 @@
+.mdl-cell class="mdl-cell--#{cols}-col" style="#{style if local_assigns[:style]}"
+  .mld-card.analytic-card-front class="#{custom_class if local_assigns[:custom_class]}" style="background: linear-gradient(to bottom right, #8c8686, #CCCCCC"
+    .mdl-grid.no-wrapper-style.padding
+      .mdl-cell.mdl-cell--12-col.analytic-card-title
+        .mdl-grid.vertical-center-items
+          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
+            .text = "Online"
+          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
+            .number = number_to_reports(subtitle[:online])
+      .mdl-cell.mdl-cell--12-col.analytic-card-title
+        .mdl-grid.vertical-center-items
+          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
+            .text = "Onsite"
+          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
+            .number = number_to_reports(subtitle[:onsite])
+    hr style="height:2px;border:none;color:#fff;background-color:#fff;margin: 0"
+      .mdl-cell.mdl-cell--12-col.analytic-card-title
+        .mdl-grid.vertical-center-items
+          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
+            .text = "Total:"
+          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
+            .number = number_to_reports(subtitle[:onsite].to_f + subtitle[:online].to_f)

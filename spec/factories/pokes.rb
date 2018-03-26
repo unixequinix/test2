@@ -9,6 +9,35 @@ FactoryBot.define do
     event
     status_code 0
 
+    trait :as_purchase do
+      before(:create) do |instance|
+        instance.action = "purchase"
+        instance.monetary_total_price = rand(100)
+      end
+    end
+
+    trait :as_sales do
+      before(:create) do |instance|
+        instance.action = "sale"
+        instance.credit = instance.event.credit
+        instance.credit_amount = -rand(100)
+        instance.credit_name = instance.event.credit.name
+        instance.sale_item_unit_price = rand(100)
+        instance.final_balance = rand(100)
+      end
+    end
+
+    trait :as_topups do
+      before(:create) do |instance|
+        instance.action = "topup"
+        instance.credit = instance.event.credit
+        instance.credit_amount = rand(100)
+        instance.credit_name = instance.event.credit.name
+        instance.sale_item_unit_price = rand(100)
+        instance.final_balance = rand(100)
+      end
+    end
+
     trait :with_sale_items do
       transient do
         operation_transaction nil
@@ -17,11 +46,10 @@ FactoryBot.define do
 
       before(:create) do |instance, evaluator|
         instance.id = evaluator.id
-        instance.is_alcohol = evaluator.sale_item.product&.is_alcohol
-        instance.sale_item_quantity = evaluator.sale_item.quantity
-        instance.sale_item_unit_price = evaluator.sale_item.standard_unit_price
-        instance.line_counter = evaluator.sale_item.id
-        instance.action = evaluator.operation_transaction.action
+        instance.sale_item_quantity = evaluator.sale_item&.quantity
+        instance.sale_item_unit_price = evaluator.sale_item&.standard_unit_price
+        instance.line_counter = evaluator.sale_item&.id
+        instance.action = evaluator.operation_transaction&.action
       end
     end
   end

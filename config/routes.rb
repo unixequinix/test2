@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   root "admins/events#index"
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
+  get "/admins/sign_in" => redirect("admins/users/sign_in")
+  patch "/api/v2/events/pure-and-crafted-jhb/stations/5980/products", to: redirect("404.html")
 
   mount ActionCable.server => '/cable'
 
@@ -23,16 +25,15 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
 
+    resources :api_metrics, only: [:index, :show]
+
     resources :users do
       put :accept_invitation
       delete :refuse_invitation
       resource :team, controller: "users/teams" do
         resources :devices, controller: "users/teams/devices"
 
-        get :sample_csv
-        post :import_devices
         post :add_users
-        post :add_devices
         put :change_role
         delete  :remove_devices
         delete :remove_users
@@ -65,8 +66,6 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
-        get :resolve_time
-        get :do_resolve_time
         delete :remove_db
         get :launch
         get :close
@@ -80,12 +79,15 @@ Rails.application.routes.draw do
       scope module: :events do
 
         resource :settings, only: :show
+        resources :admissions, only: [:index] do
+          get :merge, on: :member
+        end
 
         resource :analytics do
-          get :money
-          get :cashless
+          get :key_metrics
           get :sales
           get :gates
+          get :partner_reports
         end
 
         resource :custom_analytics do
@@ -106,11 +108,9 @@ Rails.application.routes.draw do
         resources :ticket_types
         resources :device_registrations, only: [:index, :show, :destroy, :new, :create, :update] do
           get :download_db, on: :member
-          get :resolve_time, on: :member
           get :transactions, on: :member
           put :disable, on: :collection
         end
-        resources :credits, except: [:new, :create]
         resources :catalog_items, only: :update
         resources :accesses
         resources :devices, only: [:new, :create]
@@ -120,7 +120,6 @@ Rails.application.routes.draw do
           post :clone, on: :member
         end
         resources :ticket_assignments, only: :destroy
-        resources :companies, except: :show
         resources :event_registrations, except: :show  do
           get :resend, on: :member
         end
@@ -133,20 +132,17 @@ Rails.application.routes.draw do
         get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
         post "eventbrite/webhooks", to: "eventbrite#webhooks"
 
-        #Universe
+        # Universe
         get "universe", to: "universe#index"
         get "universe/import_tickets", to: "universe#import_tickets"
         get "universe/connect/:uv_event_id", to: "universe#connect", as: 'universe_connect'
         get "universe/disconnect", to: "universe#disconnect"
         get "universe/disconnect_event", to: "universe#disconnect_event"
 
-        resources :inconsistencies do
-          collection do
-            get :missing
-            get :real
-            get :resolvable
-          end
-        end
+        # Palco4
+        get "palco4", to: "palco4#index"
+        post "palco4", to: "palco4#index"
+        get "palco4/show/:p4_uuid", to: "palco4#show", as: 'palco4_show'
 
         resources :transactions, only: [:index, :show, :update, :destroy] do
           get :download_raw_transactions, on: :collection
@@ -167,6 +163,8 @@ Rails.application.routes.draw do
             get :download_transactions
             get :reset_password
             get :resend_confirmation
+            get :confirm_customer
+            get :merge
           end
         end
 
@@ -174,6 +172,8 @@ Rails.application.routes.draw do
           member do
             get :recalculate_balance
             get :solve_inconsistent
+            get :merge
+            get :make_active
           end
           collection do
             get :inconsistencies
@@ -187,6 +187,7 @@ Rails.application.routes.draw do
           member do
             get :ban
             get :unban
+            get :merge
           end
           collection do
             get :sample_csv
@@ -283,18 +284,24 @@ Rails.application.routes.draw do
     # V2
     #---------------
     namespace :v2 do
-      resources :events, only: [:show] do
+      resources :events, only: [:show, :index] do
         scope module: "events" do
-          resources :devices, except: %i[create new]
-          resources :companies
+          resources :devices, except: %i[create new] do
+            resources :pokes, only: [:index]
+          end
           resources :accesses
+          resources :pokes, only: [:index]
 
           resources :tickets do
+            resources :pokes, only: [:index]
+
             post :topup, on: :member
             post :virtual_topup, on: :member
           end
 
           resources :gtags do
+            resources :pokes, only: [:index]
+
             member do
               post :replace
               post :topup
@@ -304,7 +311,10 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :pokes, only: [:index]
           resources :customers, constraints: { id: /.*/ } do
+            resources :pokes, only: [:index]
+
             member do
               post :ban
               post :unban
@@ -313,6 +323,7 @@ Rails.application.routes.draw do
               post :assign_gtag
               post :assign_ticket
               post :gtag_replacement
+              post :refund
               get :refunds
               get :transactions
             end
@@ -333,6 +344,7 @@ Rails.application.routes.draw do
 
           resources :ticket_types do
             get :tickets, on: :member
+            post :bulk_upload, on: :member
           end
         end
       end
@@ -341,8 +353,10 @@ Rails.application.routes.draw do
     # V1
     #---------------
     namespace :v1 do
-      resources :devices, only: [:create]
-      resources :events, only: :index do
+      resources :device, only: [:create] do
+        get :show, on: :collection
+      end
+      resources :events, only: [] do
         scope module: "events" do
           resource :database, only: [:create, :show]
           resources :accesses, only: :index

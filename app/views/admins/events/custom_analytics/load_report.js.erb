@@ -1,1 +1,6 @@
-$("#load-report").html("<%= escape_javascript(render partial: 'report', locals: { name: @name, cols: String(@cols), rows: String(@rows), metric: String(@metric), decimals: @decimals, data: @data }) %>");
+<%- if @data.eql?("[]") %>
+  $("#analytics-text").hide();
+  $("#load-report").html("<%= escape_javascript(render partial: 'no_report', locals: { name: @name }) %>");
+<%- else %>
+  $("#load-report").html("<%= escape_javascript(render partial: 'report', locals: { name: @name, cols: String(@cols), rows: String(@rows), metric: String(@metric), decimals: @decimals, data: @data }) %>");
+<%- end %>

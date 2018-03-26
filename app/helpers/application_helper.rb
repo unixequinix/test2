@@ -1,9 +1,9 @@
 module ApplicationHelper
   # :nocov:
-  def link_to_add_fields(name, f, association)
-    new_object = f.object.method(association).call.klass.new
+  def link_to_add_fields(name, form, association)
+    new_object = form.object.method(association).call.klass.new
     id = new_object.object_id
-    fields = f.fields_for(association, new_object, child_index: id) { |builder| render(association.to_s.singularize + "_fields", f: builder) }
+    fields = form.fields_for(association, new_object, child_index: id) { |builder| render(association.to_s.singularize + "_fields", f: builder) }
     link_to(name, "#", id: "add_fields", class: "add_fields", data: { id: id, fields: fields.delete("\n") })
   end
 
@@ -15,13 +15,22 @@ module ApplicationHelper
     number_to_currency number, unit: @current_event.credit.symbol
   end
 
-  def number_to_credit(number, _credit)
+  def number_to_credit(number, credit)
     result = number_with_delimiter(number_with_precision(number, precision: 2))
-    number.to_f.positive? ? "+#{result}" : result
+    result = number.to_f.positive? ? "+#{result}" : result
+    number_to_currency result, unit: credit.symbol
+  end
+
+  def number_to_reports(number)
+    number_with_delimiter(number_with_precision(number, precision: 2))
   end
 
   def title
     Rails.env.production? ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
+  end
+
+  def can_link?(item)
+    ![UserFlag, Credit, VirtualCredit].include?(item&.class)
   end
 
   def datetime(datetime)

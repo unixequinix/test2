@@ -2,7 +2,7 @@ class SampleEvent
   def self.run(user = nil)
     name = user ? "#{user.username || user.email} fest #{user.events.count + 1}" : "Event v#{Time.zone.now.to_s(:number)}"
     name += " v#{Time.zone.now.to_s(:number)}" if Event.find_by(name: name)
-    @event = Event.create(name: name, start_date: Time.zone.now, end_date: Time.zone.now + 4.days, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
+    @event = Event.create(name: name, start_date: Time.zone.now.beginning_of_day, end_date: (Time.zone.now. + 3.days).end_of_day, support_email: "support@glownet.com", currency: "EUR", private_zone_password: 'a', fast_removal_password: 'a', open_devices_api: true, open_api: true, open_portal: true, open_refunds: true, open_topups: true, open_tickets: true, open_gtags: true)
     @event.initial_setup!
 
     data = %w[customers accesses packs ticket_types tickets checkin_stations box_office_stations access_control_stations staff_accreditation_stations vendor_stations bar_stations topup_stations]
@@ -52,13 +52,8 @@ class SampleEvent
   end
 
   def self.create_ticket_types
-    company = @event.companies.find_or_create_by(name: "Glownet")
-
     @event.accesses.each do |catalog_item|
-      @event.ticket_types.create!(company: company,
-                                  catalog_item: catalog_item,
-                                  company_code: Time.zone.now.to_i + rand(10_000),
-                                  name: catalog_item.name)
+      @event.ticket_types.create!(catalog_item: catalog_item, company_code: Time.zone.now.to_i + rand(10_000), name: catalog_item.name, company: "Glownet")
     end
   end
 
@@ -120,18 +115,18 @@ class SampleEvent
 
   def self.create_vendor_stations
     products = [
-      { name: "Market 1", price: 0.01 },
-      { name: "Market 2", price: 0.05 },
-      { name: "Market 3", price: 0.1 },
-      { name: "Market 4", price: 0.5 },
-      { name: "Market 5", price: 1 },
-      { name: "Market 6", price: 5 },
-      { name: "Market 7", price: 10 },
-      { name: "Market 8", price: 20 },
-      { name: "Market 9", price: 25 },
-      { name: "Market 10", price: 50 }
+      { name: "Pin", price: 0.01 },
+      { name: "Pin pack", price: 0.05 },
+      { name: "Twin Pin", price: 0.1 },
+      { name: "Nickle", price: 0.5 },
+      { name: "Water", price: 1 },
+      { name: "T-Shirt", price: 5 },
+      { name: "T-Shirt Pack", price: 10 },
+      { name: "Statue", price: 20 },
+      { name: "Jacket", price: 25 },
+      { name: "Suit", price: 50 }
     ]
-    station = @event.stations.create!(name: "MARKET 1", category: "vendor")
+    station = @event.stations.create!(name: "Merchandise", category: "vendor")
 
     products.each.with_index do |p, index|
       station.products.create(price: p[:price], name: p[:name], station: station, position: index + 1, is_alcohol: [true, false].sample)
@@ -140,18 +135,14 @@ class SampleEvent
 
   def self.create_bar_stations
     products = [
-      { name: "Product 1", price: 1 },
-      { name: "Product 2", price: 2 },
-      { name: "Product 3", price: 3 },
-      { name: "Product 4", price: 4 },
-      { name: "Product 5", price: 5 },
-      { name: "Product 6", price: 6 },
-      { name: "Product 7", price: 7 },
-      { name: "Product 8", price: 8 },
-      { name: "Product 9", price: 9 },
-      { name: "Product 10", price: 10 }
+      { name: "Coke", price: 1 },
+      { name: "Coke Zero", price: 2 },
+      { name: "Aquarius", price: 3 },
+      { name: "Beer", price: 4 },
+      { name: "Craft Beer", price: 5 },
+      { name: "Gin & Tonic", price: 10 }
     ]
-    station = @event.stations.create!(name: "BAR 1", category: "bar")
+    station = @event.stations.create!(name: "Main Bar", category: "bar")
 
     products.each do |p|
       station.products.create(price: p[:price], name: p[:name], station: station, is_alcohol: [true, false].sample)

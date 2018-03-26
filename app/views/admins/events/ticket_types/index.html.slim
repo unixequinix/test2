@@ -3,7 +3,7 @@
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_ticket_types_path do |f|
-    = f.search_field :name_or_company_name_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+    = f.search_field :name_or_company_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
   .floaty#floaty
@@ -21,7 +21,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--12-col
@@ -38,11 +38,26 @@
               tr
                 td.mdl-data-table__cell--non-numeric Universe
                 td = link_to "Connect", admins_event_universe_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+              tr
+                td.mdl-data-table__cell--non-numeric Palco4
+                - if @current_event.palco4_token
+                  td = link_to "Palco4", admins_event_palco4_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
+                - else
+                  td = link_to "Connect", '#add-user-modal', class: "mdl-button mdl-js-button mdl-button--raised"
   .mdl-layout-spacer
+
+  .remodal data-remodal-id="add-user-modal"
+    button.remodal-close data-remodal-action="close"
+    h3.remodal__title Connect to the Palco4
+    = simple_form_for :user, url: admins_event_palco4_path(@current_event), html: { multipart: true }, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+      p = f.input :username, placeholder: true, as: :string, autofocus: true
+      p = f.input :password
+      .remodal__actions
+        = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     = render "layouts/pagination", objects: @ticket_types
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
@@ -61,7 +76,7 @@
             - @ticket_types.each do |ticket_type|
               tr class="#{'resource-hidden' if ticket_type.hidden?}"
                 td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
-                td data-label="Company" = best_in_place ticket_type, :company_id, as: :select, collection: @companies, url: [:admins, @current_event, ticket_type]
+                td data-label="Company" = best_in_place ticket_type, :company, url: [:admins, @current_event, ticket_type]
                 td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
                 td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
                 td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i

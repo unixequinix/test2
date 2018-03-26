@@ -22,7 +22,7 @@
 - if policy(@current_event.refunds.new).analytics? && @refunds.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .mdl-grid
 
         .mdl-cell.mdl-cell--6-col
@@ -39,21 +39,21 @@
               h3.mdl-card__title-text = number_to_token @current_event.refunds.where(status: "started").sum(&:credit_total)
             .mdl-card__supporting-text
               span.bad_info = "Started Fees: "
-              span = number_to_token @current_event.refunds.where(status: "started").sum(&:credit_fee)
+              span = number_to_token @current_event.refunds.where(status: "started").sum(:credit_fee)
 
 
     .mdl-layout-spacer
 
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .data-card-wide.mdl-card.mdl-shadow--2dp
         = line_chart @graph, title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
     .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     = render "layouts/pagination", objects: @refunds
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       .table-responsive
@@ -65,6 +65,7 @@
               th Status
               th Credits
               th Fee
+              th Money
               th Created
           tbody
             - @refunds.each do |refund|
@@ -72,8 +73,9 @@
                 td.mdl-data-table__cell--non-numeric data-label="ID" = link_to (refund.number), admins_event_refund_path(@current_event, refund)
                 td.mdl-data-table__cell--non-numeric data-label="Customer email" = link_to refund.customer.email, admins_event_customer_path(@current_event, refund.customer)
                 td data-label="Status" = refund.status.humanize
-                td data-label="Amount" = number_to_token refund.credit_base
+                td data-label="Credits" = number_to_token refund.credit_base
                 td data-label="Fee" = number_to_token refund.credit_fee
+                td data-label="Money" = number_to_event_currency refund.money_total
                 td data-label="Created" = l refund.created_at
     = render "layouts/pagination", objects: @refunds
   .mdl-layout-spacer

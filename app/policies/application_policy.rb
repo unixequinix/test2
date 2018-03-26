@@ -12,8 +12,7 @@ class ApplicationPolicy
   end
 
   def show?
-    all_allowed
-    scope.where(id: record.id).exists?
+    all_allowed && scope.where(id: record.id).exists?
   end
 
   def create?
@@ -64,11 +63,10 @@ class ApplicationPolicy
   end
 
   def admin_or_device_register
-    registration = user.registration_for(record)
-    user.admin? || registration&.device_register?
+    user.admin? || user.registration_for(record)&.device_register?
   end
 
   def all_allowed
-    user.admin? || user.registration_for(record.event).present?
+    user.admin? || user.events.include?(record.event)
   end
 end

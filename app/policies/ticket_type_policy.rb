@@ -3,7 +3,7 @@ class TicketTypePolicy < ApplicationPolicy
     admin_or_promoter
   end
 
-  def unban?
+  def bulk_upload?
     admin_or_promoter
   end
 end

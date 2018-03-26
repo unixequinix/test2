@@ -3,7 +3,7 @@ class Pokes::Message < Pokes::Base
 
   TRIGGERS = %w[exhibitor_note].freeze
 
-  def perform(t)
-    create_poke(extract_atts(t, message: t.message, priority: t.priority.to_i))
+  def perform(transaction)
+    create_poke(extract_atts(transaction, message: transaction.message, priority: transaction.priority.to_i))
   end
 end

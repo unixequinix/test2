@@ -5,7 +5,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
       = simple_form_for [:admins, @current_event, @customer], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .form-inputs
@@ -20,11 +20,6 @@
           = f.input :city
           = f.input :country
           = f.input :gender, collection: %w(male female).map {|f| [t("gender." + f), f]}
-
-        .form-inputs
-          label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='banned'
-            span.mdl-switch__label.form-label Banned
-            = f.input :banned, :input_html => { :id => 'banned' }
 
         .form-actions
           = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

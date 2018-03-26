@@ -1,12 +1,4 @@
 class PokePolicy < ApplicationPolicy
-  def analytics?
-    admin_or_promoter
-  end
-
-  def custom_analytics?
-    admin_or_promoter
-  end
-
   def issues?
     user.glowball?
   end

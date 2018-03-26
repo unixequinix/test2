@@ -55,7 +55,7 @@
           i.material-icons#changeIcon build
 
 - content_for(:title) do
-  = @ticket_type.company.name
+  = @ticket_type.name
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -69,7 +69,7 @@
               td = best_in_place @ticket_type, :name, url: [:admins, @current_event, @ticket_type]
             tr
               td.mdl-data-table__cell--non-numeric Company
-              td = best_in_place @ticket_type, :company_id, as: :select, collection: @current_event.companies.pluck(:id, :name), url: [:admins, @current_event, @ticket_type]
+              td = best_in_place @ticket_type, :company, url: [:admins, @current_event, @ticket_type]
             tr
               td.mdl-data-table__cell--non-numeric Company Code
               td = best_in_place @ticket_type, :company_code, url: [:admins, @current_event, @ticket_type]

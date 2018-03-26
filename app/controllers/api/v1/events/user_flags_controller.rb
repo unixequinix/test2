@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class UserFlagsController < Api::V1::Events::BaseController
+      class UserFlagsController < Api::V1::EventsController
         before_action :set_modified
 
         def index

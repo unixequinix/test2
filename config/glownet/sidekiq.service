@@ -16,7 +16,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/deploy/current
-ExecStart=/usr/local/rvm/gems/ruby-2.5.0/wrappers/bundle exec sidekiq --index 0 --pidfile /home/deploy/shared/tmp/pids/sidekiq-0.pid --environment ENVIRONMENT --logfile /home/deploy/shared/log/sidekiq.log --config /home/deploy/current/config/sidekiq.yml
+ExecStart=/home/deploy/.rvm/gems/ruby-2.5.0/wrappers/bundle exec sidekiq --index 0 --pidfile /home/deploy/shared/tmp/pids/sidekiq-0.pid --environment ENVIRONMENT --logfile /home/deploy/shared/log/sidekiq.log --config /home/deploy/current/config/sidekiq.yml
 User=deploy
 Group=deploy
 UMask=0002

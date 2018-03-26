@@ -17,7 +17,7 @@ module Api::V2
 
     # POST api/v2/events/:event_id/stations
     def create
-      @station = @current_event.stations.new(station_params)
+      @station = @current_event.stations.new(station_params.merge(category: "vendor"))
       authorize @station
 
       if @station.save
@@ -52,11 +52,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def station_params
-      params.require(:station).permit(:name, :location, :category, :reporting_category, :address, :registration_num, :official_name, :hidden)
-    end
-
-    def product_params
-      params.require(:product).permit(:name, :description, :vat, :is_alcohol, :price, :position)
+      params.require(:station).permit(:name, :location, :reporting_category, :address, :registration_num, :official_name, :hidden)
     end
   end
 end

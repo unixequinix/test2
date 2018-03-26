@@ -4,30 +4,6 @@
 - content_for(:actions) do
   .floaty#floaty
     ul.floaty-list#actions-list
-      - if current_user.admin?
-        li.floaty-list-item
-          = link_to resolve_time_admins_event_path(@current_event) do
-            button#time_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons watch_later
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="time_link" Solve Timing Issues
-      - if policy(@current_event).real?
-        li.floaty-list-item
-          = link_to real_admins_event_inconsistencies_path(@current_event) do
-            button#real_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons report_problem
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="real_inconsistencies" Real inconsistencies
-      - if policy(@current_event).missing?
-        li.floaty-list-item
-          = link_to missing_admins_event_inconsistencies_path(@current_event) do
-            button#missing_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons texture
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="missing_inconsistencies" Missing inconsistencies
-      - if policy(@current_event).resolvable?
-        li.floaty-list-item
-          = link_to resolvable_admins_event_inconsistencies_path(@current_event) do
-            button#resolvable_inconsistencies.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons healing
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="resolvable_inconsistencies" Resolvable inconsistencies
       - if policy(@current_event.transactions).download_raw_transactions?
         li.floaty-list-item
           = link_to download_raw_transactions_admins_event_transactions_path(@current_event, format: :csv) do
@@ -41,7 +17,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--10-col
+  .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.search-card
       .mdl-card__title
         .mdl-cell.mdl-cell--4-col
@@ -71,8 +47,6 @@
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :ticket_code_cont, placeholder: "Ticket code", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              = f.search_field :device_uid_cont, placeholder: "Device UID", class: "mdl-textfield__input"
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :device_created_at_cont, placeholder: "Created at", class: "mdl-textfield__input"
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               = f.search_field :status_code_eq, placeholder: "Status Code", class: "mdl-textfield__input"
@@ -86,7 +60,7 @@
 - if @transactions.any?
   .content-grid.mdl-grid
     .mdl-layout-spacer
-    .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col
       .mdl-cell.mdl-cell--12-col.italic.small.right
         .pagination_right = page_entries_info @transactions
         .pagination_left = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
@@ -99,7 +73,6 @@
                 th Origin
                 th Counter
                 th Station
-                th Device
                 th Customer
                 th At
             tbody
@@ -109,13 +82,6 @@
                   td data-label="Origin" = transaction.transaction_origin&.humanize
                   td data-label="Counter" = transaction.gtag_counter || transaction.counter
                   td data-label="Station" = transaction.station&.name
-                  td data-label="Device"
-                    - if transaction.device_uid.present?
-                      - device = Device.find_by_mac(transaction.device_uid)
-                      - if device && device_owner?(@current_user, device)
-                        = link_to(device.asset_tracker, admins_user_team_device_path(@current_user, device))
-                      - else
-                        = link_to(device.asset_tracker, admins_event_device_registration_path(@current_event, associated_device_registration(@current_event, device)))
                   td data-label="Customer Tag"
                     - if transaction.customer
                       = link_to transaction.customer.name, admins_event_customer_path(@current_event, transaction.customer)

@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
-  let(:company) { create(:company, event: event) }
-  let(:ticket_type) { create(:ticket_type, event: event, company: company) }
+  let(:ticket_type) { create(:ticket_type, event: event) }
   let(:gtag) { create(:gtag, event: event, customer: customer, ticket_type: ticket_type) }
 
   describe 'render templates' do

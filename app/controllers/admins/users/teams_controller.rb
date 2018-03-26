@@ -1,13 +1,15 @@
+
 module Admins
   module Users
     class TeamsController < Admins::BaseController
       before_action :check_team, only: %i[new create]
-      before_action :set_team, except: %i[new create sample_csv]
+      before_action :set_team, except: %i[new create]
       before_action :set_devices, only: :show
 
       def show
         @grouped_devices = @team_devices.group_by(&:serie).sort_by { |serie, _| serie.to_s }
         @device = Device.new(team: @team)
+        @users = @team.users.includes(:active_team_invitation)
         authorize @team
       end
 
@@ -65,27 +67,6 @@ module Admins
         @devices = @devices.page(params[:page])
       end
 
-      def import_devices
-        authorize @team
-
-        file = params[:file][:data].tempfile.path
-        redirect_to(admins_user_team_path(current_user), alert: t("teams.add_devices.import.not_supplied")) && return unless file.include?("csv")
-
-        CSV.foreach(file, headers: true, col_sep: ";") do |row|
-          current_user.team.devices.find_or_create_by(
-            mac: row.field("MAC"),
-            asset_tracker: row.field("asset_tracker"),
-            serie: row.field("serie"),
-            serial: row.field("serial")
-          )
-        end
-
-        respond_to do |format|
-          format.html { redirect_to admins_user_team_path(current_user), notice: t("teams.add_users.added") }
-          format.json { render status: :ok, json: @team }
-        end
-      end
-
       def add_users
         authorize @team
         team_invitation = TeamInvitation.create(
@@ -137,6 +118,17 @@ module Admins
         end
       end
 
+      def remove_devices
+        @devices = @team.devices.left_joins(:device_registrations, :device_transactions).where(device_registrations: { id: nil }, device_transactions: { id: nil })
+        authorize @team
+
+        if @devices.delete_all
+          redirect_to admins_user_team_path(current_user), notice: t("teams.remove_devices.removed")
+        else
+          redirect_to request.referer, alert: t("teams.remove_devices.failed")
+        end
+      end
+
       def change_role
         authorize @team
         team_invitation = @team.users.find_by(email: user_permitted_params[:email]).team_invitations.first
@@ -148,12 +140,6 @@ module Admins
             format.html { redirect_to admins_user_team_path(current_user), alert: t("teams.unable_change_role") }
           end
         end
-      end
-
-      def sample_csv
-        csv_file = CsvExporter.sample(%w[MAC asset_tracker serie serial], [%w[15C3135122 N34 N 01022222012], %w[34SS5C54Q1 D22], %w[95Q16CV331]])
-
-        respond_to { |format| format.csv { send_data(csv_file) } }
       end
 
       private
@@ -168,9 +154,9 @@ module Admins
       end
 
       def set_devices
-        @team_devices = @team.devices
+        @team_devices = @team.devices.includes(:event).order(:asset_tracker)
         @q = @team_devices.ransack(params[:q])
-        @devices = @q.result
+        @devices = @q.result.page(params[:page])
       end
 
       def team_permitted_params

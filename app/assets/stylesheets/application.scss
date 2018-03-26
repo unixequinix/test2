@@ -3,6 +3,7 @@
 *= require_self
 *= requiere jquery.ui.core
 *= requiere jquery.ui.theme
+*= require jquery-ui/slider
 *= require c3
 */
 
@@ -19,4 +20,5 @@
 @import "vendor/recaptcha";
 @import "vendor/remodal";
 @import "vendor/pivottable/pivot.min";
+@import "vendor/jquery-datetime/datetimepicker.min";
 @import "font-awesome";
