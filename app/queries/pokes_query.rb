@@ -11,8 +11,8 @@ class PokesQuery
     Poke.connection.select_all(credits_flow_query).to_json
   end
 
-  def key_metrics_by_day
-    Poke.connection.select_all(key_metrics_query).to_json
+  def cash_flow_by_day
+    Poke.connection.select_all(cash_flow_query).to_json
   end
 
   def top_topup
@@ -156,7 +156,7 @@ class PokesQuery
     SQL
   end
 
-  def key_metrics_query
+  def cash_flow_query
     <<-SQL
     SELECT date_time,
           date_time_sort,

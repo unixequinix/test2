@@ -69,17 +69,20 @@ class Event < ApplicationRecord
     [credit, virtual_credit].compact
   end
 
-  def cash_outstanding(source = :both)
-    result = cash_income(source)
-    result -= source.eql?(:online) ? 0 : onsite_sales.sum(:credit_amount).to_f.abs * credit.value
-    result -= source.eql?(:onsite) ? 0 : refunds.completed.sum(:credit_base).abs * credit.value
-    result - (source.eql?(:online) ? 0 : pokes.where(action: 'refund').is_ok.sum(:monetary_total_price).abs)
+  def cash_income
+    orders.completed.pluck(:money_base, :money_fee).flatten.sum +
+      credential_income +
+      pokes.where(action: %w[purchase topup]).is_ok.sum(:monetary_total_price)
   end
 
-  def cash_income(source = :both)
-    result = 0
-    result += source.eql?(:onsite) ? 0 : orders.completed.pluck(:money_base, :money_fee).flatten.sum
-    result + (source.eql?(:online) ? 0 : pokes.where(action: %w[purchase topup]).is_ok.sum(:monetary_total_price))
+  def cash_outcome
+    (onsite_sales.sum(:credit_amount).to_f.abs * credit.value) +
+      (refunds.completed.sum(:credit_base).abs * credit.value) +
+      pokes.where(action: 'refund').is_ok.sum(:monetary_total_price).abs
+  end
+
+  def credential_income
+    tickets.where.not(customer_id: nil).joins(:ticket_type).select("tickets.*, (ticket_types.money_base + ticket_types.money_fee) AS money").sum(&:money)
   end
 
   def onsite_sales

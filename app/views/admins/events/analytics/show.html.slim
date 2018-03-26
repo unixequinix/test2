@@ -11,7 +11,7 @@
       .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
         .mdl-tabs__tab-bar.analytics-card-back
           = link_to "Dashboard", "#dashboard-panel", class: "mdl-tabs__tab is-active"
-          = link_to key_metrics_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+          = link_to cash_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
             | Cash Flow
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
@@ -39,53 +39,53 @@
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
                     .mdl-grid.no-wrapper-style.padding
                       = render "box", cols: 3,
-                                      custom_class: 'hovering',
-                                      colors: ['#009688', '#66FF99'],
-                                      icon: 'attach_money',
-                                      title_text: "Total Topups in #{@current_event.currency_symbol}",
-                                      title_number: number_to_reports(@current_event.orders.completed.pluck(:money_base, :money_fee).flatten.sum + @current_event.onsite_topups.sum(:monetary_total_price)),
-                                      subtitle: [{ text: 'Online', number: number_to_reports(@current_event.orders.completed.pluck(:money_base, :money_fee).flatten.sum) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_topups.sum(:monetary_total_price)) }]
+                              custom_class: 'hovering',
+                              colors: ['#009688', '#66FF99'],
+                              icon: 'attach_money',
+                              title_text: "Total Topups in #{@current_event.currency_symbol}",
+                              title_number: number_to_reports(@current_event.orders.completed.pluck(:money_base, :money_fee).flatten.sum + @current_event.onsite_topups.sum(:monetary_total_price)),
+                              subtitle: [{ text: 'Online', number: number_to_reports(@current_event.orders.completed.pluck(:money_base, :money_fee).flatten.sum) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_topups.sum(:monetary_total_price)) }]
                       = render "box", cols: 3,
-                                      custom_class: 'hovering',
-                                      colors: ['#FF4E50', '#F9D423'],
-                                      icon: 'equalizer',
-                                      title_text: "Total Sales in #{@current_event.currency_symbol}",
-                                      title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs),
-                                      subtitle: [{ text: 'At Bars', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs) },{ text: 'At vendors', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs) }]
+                              custom_class: 'hovering',
+                              colors: ['#FF4E50', '#F9D423'],
+                              icon: 'equalizer',
+                              title_text: "Total Sales in #{@current_event.currency_symbol}",
+                              title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs),
+                              subtitle: [{ text: 'At Bars', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs) },{ text: 'At vendors', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs) }]
                       = render "box", cols: 3,
-                                      custom_class: 'hovering',
-                                      colors: ['#514A9D', '#24C6DC'],
-                                      icon: 'add_shopping_cart',
-                                      title_text: 'Total Products Sold',
-                                      title_number: @current_event.onsite_sales.where("credit_amount < 0").count,
-                                      subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'bar' }).where("credit_amount < 0").count) }, { text: 'At vendors', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'vendor' }).where("credit_amount < 0").count) }]
+                              custom_class: 'hovering',
+                              colors: ['#FF5050', '#F3A183'],
+                              icon: 'loyalty',
+                              title_text: "Spending Power in #{@current_event.currency_symbol}",
+                              title_number: number_to_reports(@current_event.total_spending_power * @credit_value),
+                              subtitle: [{ text: 'Online', number: number_to_reports(@current_event.online_spending_power * @credit_value) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_spending_power * @credit_value) }]
                       = render "box", cols: 3,
-                                      custom_class: 'hovering',
-                                      colors: ['#FF0066', '#FF9999'],
-                                      icon: 'touch_app',
-                                      title_text: 'Total Activations',
-                                      title_number: number_with_delimiter(@current_event.customers.count),
-                                      subtitle: [{ text: 'Customers', number: number_with_delimiter(@current_event.customers.where(operator: false).count) },{ text: 'Staff', number: number_with_delimiter(@current_event.customers.where(operator: true).count) }]
+                              custom_class: 'hovering',
+                              colors: ['#355C7D', '#C06C84'],
+                              icon: 'supervisor_account',
+                              title_text: 'Spending Customers',
+                              title_number: number_with_delimiter(@current_event.onsite_sales.select(:customer_id).distinct.count),
+                              subtitle: [{ text: 'Average Spend per Customer', number: number_to_event_currency(@current_event.onsite_sales.sum(:credit_amount).abs / (@current_event.onsite_sales.select(:customer_id).distinct.count.nonzero? || 1)) }]
 
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
                     .mdl-grid.no-wrapper-style.padding
                       = render "bar_card", cols: 6,
-                                             colors: ['#F2F2F2', '#F2F2F2'],
-                                             data: { tickets: { text: 'Tickets Checked In / Tickets in System', current: @current_event.tickets.where(redeemed: true).count, total: @current_event.tickets.count }, orders: { text: "Orders Redeemed / Orders in System", current: @current_event.topup_order_items.where(redeemed: true).sum(:amount), total: @current_event.topup_order_items.sum(:amount) }}
+                              colors: ['#F2F2F2', '#F2F2F2'],
+                              data: { tickets: { text: 'Tickets Checked In / Tickets in System', current: @current_event.tickets.where(redeemed: true).count, total: @current_event.tickets.count }, orders: { text: "Orders Redeemed / Orders in System", current: @current_event.topup_order_items.where(redeemed: true).sum(:amount), total: @current_event.topup_order_items.sum(:amount) }}
                       = render "box", cols: 3,
-                                      custom_class: 'hovering',
-                                      colors: ['#FF5050', '#F3A183'],
-                                      icon: 'loyalty',
-                                      title_text: "Potential Spending in #{@current_event.currency_symbol}",
-                                      title_number: number_to_reports(@current_event.total_spending_power * @credit_value),
-                                      subtitle: [{ text: 'Online', number: number_to_reports(@current_event.online_spending_power * @credit_value) },{ text: 'Onsite', number: number_to_reports(@current_event.onsite_spending_power * @credit_value) }]
+                              custom_class: 'hovering',
+                              colors: ['#514A9D', '#24C6DC'],
+                              icon: 'add_shopping_cart',
+                              title_text: 'Total Products Sold',
+                              title_number: @current_event.onsite_sales.where("credit_amount < 0").count,
+                              subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'bar' }).where("credit_amount < 0").count) }, { text: 'At vendors', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'vendor' }).where("credit_amount < 0").count) }]
                       = render "box", cols: 3,
-                                      custom_class: 'hovering',
-                                      colors: ['#355C7D', '#C06C84'],
-                                      icon: 'supervisor_account',
-                                      title_text: 'Spending Customers',
-                                      title_number: number_with_delimiter(@current_event.onsite_sales.select(:customer_id).distinct.count),
-                                      subtitle: [{ text: 'Average Spend per Customer', number: number_to_event_currency(@current_event.onsite_sales.sum(:credit_amount).abs / (@current_event.onsite_sales.select(:customer_id).distinct.count.nonzero? || 1)) }]
+                              custom_class: 'hovering',
+                              colors: ['#FF0066', '#FF9999'],
+                              icon: 'touch_app',
+                              title_text: 'Total Activations',
+                              title_number: number_with_delimiter(@current_event.customers.count),
+                              subtitle: [{ text: 'Customers', number: number_with_delimiter(@current_event.customers.where(operator: false).count) }, { text: 'Staff', number: number_with_delimiter(@current_event.customers.where(operator: true).count) }]
 
 
               .mld-card

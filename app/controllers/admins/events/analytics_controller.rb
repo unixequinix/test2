@@ -15,10 +15,10 @@ module Admins
         @alcohol_products = [{ is_alcohol: "Non Alcohol", credits: -non_alcohol.sum(:credit_amount), amount: non_alcohol.count }, { is_alcohol: "Alcohol", credits: -alcohol.sum(:credit_amount), amount: alcohol.count }]
       end
 
-      def key_metrics
-        metrics = JSON.parse(PokesQuery.new(@current_event).key_metrics_by_day)
-        @views = { chart_id: "key_metrics", title: "Key Metrics", cols: ["Amount"], currency: @current_event.currency_symbol, data: metrics, metric: ["Money"], decimals: 1 }
-        @partial = 'admins/events/analytics/key_metric'
+      def cash_flow
+        metrics = JSON.parse(PokesQuery.new(@current_event).cash_flow_by_day)
+        @views = { chart_id: "cash_flow", title: "Cash Flow", cols: ["Amount"], currency: @current_event.currency_symbol, data: metrics, metric: ["Money"], decimals: 1 }
+        @partial = 'admins/events/analytics/cash_flow'
         prepare_data(params["action"])
       end
 

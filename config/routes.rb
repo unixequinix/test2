@@ -84,7 +84,7 @@ Rails.application.routes.draw do
         end
 
         resource :analytics do
-          get :key_metrics
+          get :cash_flow
           get :sales
           get :gates
           get :partner_reports
