@@ -50,7 +50,7 @@ module AnalyticsHelper
     purchasers_money = event.pokes.where(action: 'purchase').is_ok.sum(:monetary_total_price)
 
     # Spending Power
-    ticket_type_credits = event.ticket_types.where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
+    ticket_type_credits = event.ticket_types.includes(:catalog_item).where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
     credential_sp = event.tickets.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum + event.gtags.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum
     order_sp = OrderItem.where(order: event.orders.completed, redeemed: false, catalog_item: event.credit).sum(:amount)
     refund_sp = event.refunds.completed.pluck(:credit_base, :credit_fee).flatten.sum
