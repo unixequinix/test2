@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
+RSpec.describe Api::V1::Events::TicketTypesController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:db_ticket_types) { event.ticket_types }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
@@ -28,6 +28,17 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
         expect(response).to be_ok
       end
 
+      it "returns all ticket types" do
+        get :index, params: params
+        json = JSON.parse(response.body)
+        expect(json.size).to be(event.ticket_types.count)
+      end
+
+      it "does not return a ticket type from another event" do
+        get :index, params: { event_id: create(:event, open_devices_api: true).id, app_version: "5.7.0" }
+        ticket_types = JSON.parse(response.body)
+        expect(ticket_types).not_to include(obj_to_json_v1(@new_ticket_type, "TicketTypeSerializer"))
+      end
       it "returns the necessary keys" do
         get :index, params: params
         ticket_type_keys = %w[id name ticket_type_ref catalog_item_id catalog_item_type company_id company_name]
@@ -39,6 +50,12 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: :controller do
           get :index, params: params
           api_ticket_types = JSON.parse(response.body).map { |m| m["id"] }
           expect(api_ticket_types).to eq(db_ticket_types.map(&:id))
+        end
+
+        it "contains a new ticket type" do
+          get :index, params: params
+          ticket_types = JSON.parse(response.body)
+          expect(ticket_types).to include(obj_to_json_v1(@new_ticket_type, "TicketTypeSerializer"))
         end
       end
     end

@@ -1,7 +1,8 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::AccessesController, type: :controller do
-  let(:event) { create(:event) }
+RSpec.describe Api::V1::Events::AccessesController, type: %i[controller api] do
+  let(:event) { create(:event, open_devices_api: true) }
+  let(:user) { create(:user) }
   let(:db_accesses) { event.accesses }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
   let(:team) { create(:team) }
@@ -25,6 +26,17 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
         expect(response).to be_ok
       end
 
+      it "returns all accesses" do
+        get :index, params: params
+        json = JSON.parse(response.body)
+        expect(json.size).to be(event.accesses.count)
+      end
+
+      it "does not return an access from another event" do
+        get :index, params: { event_id: create(:event, open_devices_api: true).id, app_version: "5.7.0" }
+        json = JSON.parse(response.body)
+        expect(json).not_to include(obj_to_json_v1(@new_access, "AccessSerializer"))
+      end
       it "returns the necessary keys" do
         get :index, params: params
         access_keys = %w[id name mode memory_length position]
@@ -36,6 +48,12 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
           get :index, params: params
           api_accesses = JSON.parse(response.body).map { |m| m["id"] }
           expect(api_accesses).to eq(db_accesses.map(&:id))
+        end
+
+        it "contains a new access" do
+          get :index, params: params
+          api_access = JSON.parse(response.body)
+          expect(api_access).to include(obj_to_json_v1(@new_access, "AccessSerializer"))
         end
       end
     end

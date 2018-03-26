@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::TicketsController, type: :controller do
+RSpec.describe Api::V1::Events::TicketsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:db_tickets) { event.tickets }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
@@ -134,6 +134,33 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         it "returns a 404 status code" do
           get :show, params: params.merge(id: db_tickets.last.id + 10)
           expect(response.status).to eq(404)
+        end
+      end
+    end
+  end
+
+  describe "GET banned" do
+    context "with authentication" do
+      before(:each) do
+        @ticket = create(:ticket, event: event, banned: true, ticket_type: create(:ticket_type, event: event))
+        http_login(user.email, user.access_token)
+        get :banned, params: params
+      end
+
+      it "returns a 200 status code" do
+        expect(response).to be_ok
+      end
+
+      it "returns a right response" do
+        JSON.parse(response.body).map do |t|
+          expect(t["reference"]).to eq(@ticket.reference)
+        end
+      end
+
+      it "returns the necessary keys" do
+        ticket_keys = %w[banned purchaser_email purchaser_first_name purchaser_last_name redeemed reference ticket_type_id updated_at].sort
+        JSON.parse(response.body).map do |t|
+          expect(t.keys.sort).to eq(ticket_keys)
         end
       end
     end

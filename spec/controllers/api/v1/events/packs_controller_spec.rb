@@ -54,6 +54,14 @@ RSpec.describe Api::V1::Events::PacksController, type: %i[controller api] do
           expect(json.find { |k| k['id'] == @pack.id }["items"].find { |h| h['id'] == event.virtual_credit.id }['amount']).to be(55)
         end
       end
+
+      context "working with different event" do
+        it "does not return packs from another event" do
+          get :index, params: { event_id: create(:event, open_devices_api: true).id, app_version: "5.7.0" }
+          packs = JSON.parse(response.body)
+          expect(packs).not_to include(obj_to_json_v1(@new_pack, "PackSerializer"))
+        end
+      end
     end
   end
 end

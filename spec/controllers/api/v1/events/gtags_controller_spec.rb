@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::GtagsController, type: :controller do
+RSpec.describe Api::V1::Events::GtagsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:db_gtags) { event.gtags }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
@@ -95,6 +95,33 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     end
   end
 
+  describe "GET banned" do
+    context "with authetication" do
+      before do
+        @gtag_banned = create :gtag, event: event, banned: true, ticket_type: create(:ticket_type, event: event)
+        http_login(user.email, user.access_token)
+        get :banned, params: params
+      end
+      it "returns a 200 status code" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns a right response" do
+        JSON.parse(response.body).map do |g|
+          expect(g["reference"]).to eq(@gtag_banned.tag_uid)
+        end
+      end
+
+      it "returns the necessary keys" do
+        gtag_keys = %w[banned reference updated_at].sort
+
+        JSON.parse(response.body).map do |g|
+          expect(g.keys.sort).to eq(gtag_keys)
+        end
+      end
+    end
+  end
+
   describe "GET show" do
     context "with authentication" do
       before do
@@ -162,6 +189,14 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           }.as_json
 
           expect(JSON.parse(response.body)).to eq(gtag)
+        end
+      end
+
+      describe "when gtag belongs to another event" do
+        before { @gtag_new = create :gtag, event: create(:event, open_devices_api: true) }
+        it "does not return a gtags from another event" do
+          get :show, params: params.merge(id: @gtag_new.id)
+          expect(response).to have_http_status(:not_found)
         end
       end
 

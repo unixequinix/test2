@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
+RSpec.describe Api::V1::Events::UserFlagsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:db_user_flags) { event.user_flags }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
@@ -25,6 +25,17 @@ RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
         expect(response).to be_ok
       end
 
+      it "returns all user flags" do
+        get :index, params: params
+        json = JSON.parse(response.body)
+        expect(json).to include(obj_to_json_v1(@new_user_flag, "UserFlagSerializer"))
+      end
+
+      it "does not return a flag from another event" do
+        get :index, params: { event_id: create(:event, open_devices_api: true).id, app_version: "5.7.0" }
+        json = JSON.parse(response.body)
+        expect(json).not_to include(obj_to_json_v1(@new_user_flag, "UserFlagSerializer"))
+      end
       it "returns the necessary keys" do
         get :index, params: params
         user_flag_keys = %w[id name]
@@ -36,6 +47,12 @@ RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
           get :index, params: params
           api_user_flags = JSON.parse(response.body).map { |m| m["id"] }
           expect(api_user_flags).to eq(db_user_flags.map(&:id))
+        end
+
+        it "contains a new user flag" do
+          get :index, params: params
+          user_flags = JSON.parse(response.body)
+          expect(user_flags).to include(obj_to_json_v1(@new_user_flag, "UserFlagSerializer"))
         end
       end
     end

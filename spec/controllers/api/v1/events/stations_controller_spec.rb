@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::StationsController, type: :controller do
+RSpec.describe Api::V1::Events::StationsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:params) { { event_id: event.id, app_version: "5.7.0" } }
   let(:ticket_type) { create(:ticket_type, event: event) }
@@ -20,6 +20,22 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       it "has a 200 status code" do
         get :index, params: params
         expect(response).to be_ok
+      end
+
+      it "returns all stations" do
+        @station = create(:station, event: event)
+
+        get :index, params: params
+        json = JSON.parse(response.body)
+        expect(json.size).to be(event.stations.count)
+      end
+
+      it "does not return a station from another event" do
+        @station = create(:station, event: event)
+
+        get :index, params: { event_id: create(:event).id, app_version: "5.7.0" }
+        json = JSON.parse(response.body)
+        expect(json).not_to include(obj_to_json_v1(@station, "StationSerializer"))
       end
 
       it "should return common parameters" do

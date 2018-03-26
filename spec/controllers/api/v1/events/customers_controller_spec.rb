@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::CustomersController, type: :controller do
+RSpec.describe Api::V1::Events::CustomersController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true) }
   let(:customer) { create(:customer, event: event) }
   let(:item) { create(:access, event: event) }
@@ -30,6 +30,12 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
         expect(response).to be_ok
       end
 
+      it "returns a right response" do
+        JSON.parse(response.body).map do |c|
+          expect(c["id"]).to eq(customer.id)
+        end
+      end
+
       it "returns the necessary keys" do
         cus_keys = %w[id updated_at first_name last_name email credentials orders].sort
         cre_keys = %w[customer_id reference redeemed type].sort
@@ -50,6 +56,23 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
           end
           expect(api_cred).to eq(db_cred)
         end
+      end
+    end
+  end
+
+  describe "GET show" do
+    context "with authentication" do
+      before(:each) do
+        http_login(user.email, user.access_token)
+      end
+      it "returns a success response" do
+        get :show, params: { event_id: event.id, id: customer.id }
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns a customer as JSON" do
+        get :show, params: { event_id: event.id, id: customer.id }
+        expect(json).to eq(obj_to_json_v1(customer, "CustomerSerializer"))
       end
     end
   end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
+RSpec.describe Api::V1::Events::TransactionsController, type: %i[controller api] do
   let(:event) { create(:event, open_devices_api: true, state: "launched") }
   let(:transaction) { CreditTransaction.new }
   let(:params) do
