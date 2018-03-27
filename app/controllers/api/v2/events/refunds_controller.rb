@@ -40,6 +40,7 @@ module Api::V2
     # POST api/v2/events/:event_id/refunds
     def create
       params[:refund][:gateway] ||= "other"
+      params[:refund][:credit_base] ||= params[:refund][:amount]
       @refund = @current_event.refunds.new(refund_params)
       authorize @refund
 
