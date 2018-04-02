@@ -70,9 +70,9 @@ class Event < ApplicationRecord
   end
 
   def cash_income
-    orders.completed.pluck(:money_base, :money_fee).flatten.sum +
+    orders.completed.includes(order_items: :catalog_item).where.not(catalog_items: { type: 'VirtualCredit' }).pluck(:money_base, :money_fee).flatten.sum +
       credential_income +
-      pokes.where(action: %w[purchase topup]).is_ok.sum(:monetary_total_price)
+      pokes.where(action: %w[purchase topup]).where.not(payment_method: %w[none other]).is_ok.sum(:monetary_total_price)
   end
 
   def cash_outcome
@@ -94,7 +94,7 @@ class Event < ApplicationRecord
   end
 
   def onsite_topups
-    pokes.where(action: 'topup').is_ok
+    pokes.where(action: 'topup').where.not(payment_method: %w[none other]).is_ok
   end
 
   def topup_order_items

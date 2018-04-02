@@ -23,10 +23,11 @@
             | Gates
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
-          = link_to partner_reports_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-            | Partner Reports
-            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-              span.mdl-ripple
+          - if @current_user&.team&.id==2 || @current_user.glowball?
+            = link_to partner_reports_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+              | Partner Reports
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
           .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"
             i.material-icons#downloadIcon file_download
 
@@ -39,13 +40,15 @@
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
                     .mdl-grid.no-wrapper-style.padding
                       = render "box", cols: 3,
+                              id: 'topups',
                               custom_class: 'hovering',
                               colors: ['#009688', '#66FF99'],
                               icon: 'attach_money',
                               title_text: "Total Topups in #{@current_event.currency_symbol}",
-                              title_number: number_to_reports(@current_event.orders.completed.pluck(:money_base, :money_fee).flatten.sum + @current_event.onsite_topups.sum(:monetary_total_price)),
-                              subtitle: [{ text: 'Online', number: number_to_reports(@current_event.orders.completed.pluck(:money_base, :money_fee).flatten.sum) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_topups.sum(:monetary_total_price)) }]
+                              title_number: number_to_reports(@current_event.orders.completed.includes(order_items: :catalog_item).where.not(catalog_items: { type: 'VirtualCredit' }).pluck(:money_base, :money_fee).flatten.sum + @current_event.onsite_topups.sum(:monetary_total_price)),
+                              subtitle: [{ text: 'Online', number: number_to_reports(@current_event.orders.completed.includes(order_items: :catalog_item).where.not(catalog_items: { type: 'VirtualCredit' }).pluck(:money_base, :money_fee).flatten.sum) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_topups.sum(:monetary_total_price)) }]
                       = render "box", cols: 3,
+                              id: 'sales',
                               custom_class: 'hovering',
                               colors: ['#FF4E50', '#F9D423'],
                               icon: 'equalizer',
@@ -53,6 +56,7 @@
                               title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs),
                               subtitle: [{ text: 'At Bars', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs) },{ text: 'At vendors', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs) }]
                       = render "box", cols: 3,
+                              id: 'spending_power',
                               custom_class: 'hovering',
                               colors: ['#FF5050', '#F3A183'],
                               icon: 'loyalty',
@@ -60,6 +64,7 @@
                               title_number: number_to_reports(@current_event.total_spending_power * @credit_value),
                               subtitle: [{ text: 'Online', number: number_to_reports(@current_event.online_spending_power * @credit_value) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_spending_power * @credit_value) }]
                       = render "box", cols: 3,
+                              id: 'spending_customers',
                               custom_class: 'hovering',
                               colors: ['#355C7D', '#C06C84'],
                               icon: 'supervisor_account',
@@ -70,9 +75,11 @@
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
                     .mdl-grid.no-wrapper-style.padding
                       = render "bar_card", cols: 6,
+                              id: 'tickets_orders',
                               colors: ['#F2F2F2', '#F2F2F2'],
                               data: { tickets: { text: 'Tickets Checked In / Tickets in System', current: @current_event.tickets.where(redeemed: true).count, total: @current_event.tickets.count }, orders: { text: "Orders Redeemed / Orders in System", current: @current_event.topup_order_items.where(redeemed: true).sum(:amount), total: @current_event.topup_order_items.sum(:amount) }}
                       = render "box", cols: 3,
+                              id: 'products',
                               custom_class: 'hovering',
                               colors: ['#514A9D', '#24C6DC'],
                               icon: 'add_shopping_cart',
@@ -80,6 +87,7 @@
                               title_number: @current_event.onsite_sales.where("credit_amount < 0").count,
                               subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'bar' }).where("credit_amount < 0").count) }, { text: 'At vendors', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'vendor' }).where("credit_amount < 0").count) }]
                       = render "box", cols: 3,
+                              id: 'activations',
                               custom_class: 'hovering',
                               colors: ['#FF0066', '#FF9999'],
                               icon: 'touch_app',
@@ -126,7 +134,7 @@ javascript:
   });
 
   function downloadPDF(previousName) {
-    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "start_date", "end_date", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
+    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
     canvasToPDF($('.mdl-tabs__panel.is-active'), previousName, eventData);
   }
 

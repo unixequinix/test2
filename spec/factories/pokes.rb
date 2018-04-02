@@ -24,10 +24,21 @@ FactoryBot.define do
         instance.credit_name = instance.event.credit.name
         instance.sale_item_unit_price = rand(100)
         instance.final_balance = rand(100)
+        instance.customer = create(:customer, event: instance.event)
       end
     end
 
     trait :as_topups do
+      before(:create) do |instance|
+        instance.action = "topup"
+        instance.payment_method = %w[card cash].sample
+        instance.monetary_quantity = rand(5)
+        instance.monetary_unit_price = rand(100)
+        instance.monetary_total_price = instance.monetary_quantity * instance.monetary_unit_price
+      end
+    end
+
+    trait :as_record_credit_topups do
       before(:create) do |instance|
         instance.action = "topup"
         instance.credit = instance.event.credit

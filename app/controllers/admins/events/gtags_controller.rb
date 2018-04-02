@@ -22,7 +22,7 @@ module Admins
       def show
         @pokes = @gtag.pokes_as_customer.for_views.onsite
         @corrections = @gtag.transactions.where(action: "correction")
-        @transactions = @gtag.transactions.debug
+        @transactions = @gtag.transactions.includes(:event).debug
       end
 
       def new

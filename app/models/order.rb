@@ -51,8 +51,8 @@ class Order < ApplicationRecord
   def self.online_packs(event)
     connection.select_all("SELECT
     1 as id,
-    to_char(date_trunc('day', completed_at), 'Mon-DD') as event_day,
-    to_char(date_trunc('hour', completed_at), 'Mon-DD HH24h') as date_time,
+    to_char(date_trunc('day', completed_at), 'YY-MM-DD') as event_day,
+    to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time,
     'Customer Portal' as location,
     'Customer Portal' as station_type,
     'Customer Portal' as station_name,
@@ -131,7 +131,7 @@ class Order < ApplicationRecord
   end
 
   def self.event_day_order
-    "to_char(date_trunc('day', completed_at), 'Mon-DD') as event_day"
+    "to_char(date_trunc('day', completed_at), 'YY-MM-DD') as event_day"
   end
 
   def self.event_day_sort_order
@@ -139,7 +139,7 @@ class Order < ApplicationRecord
   end
 
   def self.date_time_order
-    "to_char(date_trunc('hour', completed_at), 'Mon-DD HH24h') as date_time"
+    "to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time"
   end
 
   def self.money_order

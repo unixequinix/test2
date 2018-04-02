@@ -44,8 +44,8 @@ class PokesQuery
         sum(onsite) as onsite,
         sum(online) as online
       FROM(SELECT
-             to_char(date_trunc('hour', date - INTERVAL '8 hour'), 'Mon-DD HH24h') as event_day,
-             date_trunc('hour', date - INTERVAL '8 hour') as event_day_sort,
+             to_char(date_trunc('hour', date ), 'YY-MM-DD HH24h') as event_day,
+             date_trunc('hour', date ) as event_day_sort,
              sum(monetary_total_price) as onsite,
              0 as online
            FROM pokes WHERE pokes.event_id = #{@event.id}
@@ -55,7 +55,7 @@ class PokesQuery
            GROUP BY event_day, event_day_sort
            UNION ALL
            SELECT
-             to_char(date_trunc('day', completed_at), 'Mon-DD') as event_day,
+             to_char(date_trunc('day', completed_at), 'YY-MM-DD') as event_day,
              date_trunc('day', completed_at) as event_day_sort,
              0 as onsite, sum(money_base + money_fee) as online
 
@@ -66,7 +66,7 @@ class PokesQuery
            GROUP BY event_day, event_day_sort
            UNION ALL
            SELECT
-             to_char(date_trunc('day', created_at), 'Mon-DD') as event_day,
+             to_char(date_trunc('day', created_at), 'YY-MM-DD') as event_day,
              date_trunc('day', created_at) as event_day_sort,
              0 as onsite, -1 * sum(credit_base) * #{@event.credit.value} as online
 
@@ -87,7 +87,7 @@ class PokesQuery
           sum(sale) as sale,
           sum(record_credit) as record_credit
     FROM (
-      SELECT  to_char(date_trunc('hour', date), 'Mon-DD HH24h') as date_time,
+      SELECT  to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time,
               date_trunc('hour', date) as date_time_sort,
               sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale,
               sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit
@@ -99,7 +99,7 @@ class PokesQuery
             AND pokes.description != 'record_credit'
       GROUP BY date_time_sort, date_time
       UNION ALL
-      SELECT  to_char(date_trunc('day', completed_at), 'Mon-DD HH24h') as date_time,
+      SELECT  to_char(date_trunc('day', completed_at), 'YY-MM-DD HH24h') as date_time,
               date_trunc('day', completed_at) as date_time_sort,
               0 as sale,
               sum(money_fee) / #{@event.credit.value}  + sum(order_items.amount) as record_credit
@@ -112,7 +112,7 @@ class PokesQuery
       GROUP BY date_time_sort, date_time
       UNION ALL
       SELECT
-        to_char(date_trunc('hour', completed_at), 'Mon-DD HH24h') as date_time,
+        to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time,
         date_trunc('day', completed_at) as date_time_sort,
         0 as sale,
         sum(money_fee) / #{@event.credit.value}  + sum(o.amount * i.amount) as record_credit
@@ -128,7 +128,7 @@ class PokesQuery
       GROUP BY date_time_sort, date_time
       UNION ALL
       SELECT
-      to_char(date_trunc('hour', tickets.updated_at), 'Mon-DD HH24h') as date_time,
+      to_char(date_trunc('hour', tickets.updated_at), 'YY-MM-DD HH24h') as date_time,
       date_trunc('day', tickets.updated_at) as date_time_sort,
        0 as sales,
        sum(i.amount) as record_credit
@@ -143,7 +143,7 @@ class PokesQuery
       GROUP BY date_time_sort, date_time
       UNION ALL
       SELECT
-          to_char(date_trunc('day', created_at), 'Mon-DD HH24h') as date_time,
+          to_char(date_trunc('day', created_at), 'YY-MM-DD HH24h') as date_time,
           date_trunc('day', created_at) as date_time_sort,
           0 as sale,
           -1* sum(credit_base) as  record_credit
@@ -167,7 +167,7 @@ class PokesQuery
           sum(topups_count) as topups_count,
           sum(refunds_count) as refunds_count
     FROM (
-      SELECT  to_char(date_trunc('hour', date), 'Mon-DD HH24h') as date_time,
+      SELECT  to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time,
               date_trunc('hour', date) as date_time_sort,
               sum(CASE WHEN description = 'topup' then credit_amount ELSE 0 END) as topups,
               -1 * sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sales,
@@ -182,7 +182,7 @@ class PokesQuery
             AND pokes.credit_id in (#{@event.credit.id}, #{@event.virtual_credit.id})
       GROUP BY date_time_sort, date_time
       UNION ALL
-      SELECT  to_char(date_trunc('day', completed_at), 'Mon-DD HH24h') as date_time,
+      SELECT  to_char(date_trunc('day', completed_at), 'YY-MM-DD HH24h') as date_time,
               date_trunc('day', completed_at) as date_time_sort,
               sum(order_items.amount) as topups,
               0 as sales,
@@ -199,7 +199,7 @@ class PokesQuery
       GROUP BY date_time_sort, date_time
       UNION ALL
       SELECT
-        to_char(date_trunc('hour', completed_at), 'Mon-DD HH24h') as date_time,
+        to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time,
         date_trunc('day', completed_at) as date_time_sort,
         sum(o.amount * i.amount) as topups,
         0 as sales,
@@ -219,7 +219,7 @@ class PokesQuery
       GROUP BY date_time_sort, date_time
       UNION ALL
       SELECT
-          to_char(date_trunc('day', created_at), 'Mon-DD HH24h') as date_time,
+          to_char(date_trunc('day', created_at), 'YY-MM-DD HH24h') as date_time,
           date_trunc('day', created_at) as date_time_sort,
           0 as topups,
           0 as sale,

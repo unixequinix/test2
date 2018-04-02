@@ -1,18 +1,29 @@
 .mdl-cell class="mdl-cell--#{cols}-col" style="#{style if local_assigns[:style]}"
   .mld-card.analytic-card-front class="#{custom_class if local_assigns[:custom_class]}" style="background: linear-gradient(to bottom right, #8c8686, #CCCCCC"
-    .mdl-grid.no-wrapper-style.padding
-      - subtitle.each_pair do |key, value|
+    - if local_assigns[:slide_button]
+    .slide-icon-container
+      i.material-icons.open-pane keyboard_arrow_down
+    div class="#{'slide-content' if local_assigns[:slide_button]}"
+      .mdl-grid.no-wrapper-style.padding
+        - subtitle.each_pair do |key, value|
+          .mdl-cell.mdl-cell--12-col.analytic-card-title
+            .mdl-grid.vertical-center-items
+              .mdl-cell.mdl-cell--4-col.analytic-card-content.no-wrapper-style
+                .text = key.to_s.humanize
+              .mdl-cell.mdl-cell--8-col.analytic-card-content.no-wrapper-style.right
+                .number = number_to_reports(value)
+
+      hr style="height:2px;border:none;color:#fff;background-color:#fff;margin: 0"
         .mdl-cell.mdl-cell--12-col.analytic-card-title
           .mdl-grid.vertical-center-items
-            .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
-              .text = key.to_s.humanize
-            .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
-              .number = number_to_reports(value)
+            .mdl-cell.mdl-cell--4-col.analytic-card-content.no-wrapper-style
+              .text Total:
+            .mdl-cell.mdl-cell--8-col.analytic-card-content.no-wrapper-style.right
+              .number = number_to_reports(subtitle.values.map(&:to_f).sum)
 
-    hr style="height:2px;border:none;color:#fff;background-color:#fff;margin: 0"
-      .mdl-cell.mdl-cell--12-col.analytic-card-title
-        .mdl-grid.vertical-center-items
-          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
-            .text Total:
-          .mdl-cell.mdl-cell--6-col.analytic-card-content.no-wrapper-style
-            .number = number_to_reports(subtitle.values.map(&:to_f).sum)
+javascript:
+  $('.open-pane').on('click', function(e) {
+    var pane = $(e.currentTarget).parent().siblings('.slide-content');
+    pane[0].classList.toggle('open');
+    pane.hasClass('open') ? $(e.currentTarget).text('keyboard_arrow_up') : $(this).text('keyboard_arrow_down');
+  })

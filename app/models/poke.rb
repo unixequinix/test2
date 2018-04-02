@@ -51,10 +51,11 @@ class Poke < ApplicationRecord
       .group(:action, :description, :source, :payment_method, grouping_operators_devices, grouping_station, "date_time")
   }
 
-  scope :products_sale, lambda {
+  scope :products_sale, lambda { |credit|
     select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, 'credits' as payment_method")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok
+      .where(credit_id: credit)
       .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "is_alcohol, product_name")
   }
 
@@ -149,15 +150,15 @@ class Poke < ApplicationRecord
   end
 
   def self.event_day_poke
-    "to_char(date_trunc('day', date - INTERVAL '8 hour'), 'Mon-DD') as event_day"
+    "to_char(date_trunc('day', date ), 'YY-MM-DD') as event_day"
   end
 
   def self.date_time_poke
-    "to_char(date_trunc('hour', date), 'Mon-DD HH24h') as date_time"
+    "to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time"
   end
 
   def self.event_day_sort
-    "date_trunc('day', date - INTERVAL '8 hour') as event_day_sort"
+    "date_trunc('day', date ) as event_day_sort"
   end
 
   def self.date_time_sort

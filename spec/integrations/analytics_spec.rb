@@ -6,7 +6,9 @@ RSpec.describe "Analytics in the admin panel", type: :feature do
   let!(:registration) { create(:event_registration, event: event, email: user.email, user: user) }
 
   before(:each) do
-    @topups = create_list(:poke, 10, :as_topups, event: event)
+    @online_topups = create_list(:order, 10, event: event, money_base: 10, money_fee: 5)
+    @online_topups.map(&:complete!)
+    @onsite_topups = create_list(:poke, 10, :as_topups, event: event)
     @sales = create_list(:poke, 10, :as_sales, event: event)
     @purchases = create_list(:poke, 10, :as_purchase, event: event)
     @customers = create_list(:customer, 10, event: event)
@@ -15,17 +17,29 @@ RSpec.describe "Analytics in the admin panel", type: :feature do
 
   context "visit pages on analytics dashboard" do
     before { visit admins_event_analytics_path(event) }
-
-    pending "shows the money reconciliation" do
-      expect(find("#money_reconciliation_kpi").text).to include(@purchases.sum(&:monetary_total_price).to_f.to_s)
+    # TODO: fmoya keep on working from more difficult cases
+    it "shows total topups" do
+      expect(find('#topups .analytic-card-title .number').text).to include(number_to_reports(@online_topups.pluck(:money_base, :money_fee).flatten.sum + @onsite_topups.sum(&:monetary_total_price)))
     end
 
-    pending "shows the total sales" do
-      expect(find("#total_sales_kpi").text).to include(@sales.sum(&:credit_amount).to_f.abs.to_s)
+    it "shows total sales" do
+      expect(find('#sales .analytic-card-title .number').text).to include(@sales.sum(&:credit_amount).to_f.abs.to_s)
     end
 
-    pending "shows the activations" do
-      expect(find("#activations_kpi").text).to include(@customers.count.to_i.to_s)
+    it "shows total spending power" do
+      expect(find('#spending_power .analytic-card-title .number').text).to include(number_to_reports((event.total_spending_power * event.credit.value)))
+    end
+
+    it "shows total spending customers" do
+      expect(find('#spending_customers .analytic-card-title .number').text).to include(@sales.pluck(:customer_id).uniq.count.to_s)
+    end
+
+    it "shows total products" do
+      expect(find('#products .analytic-card-title .number').text).to include(@sales.pluck(:product_id).uniq.count.to_s)
+    end
+
+    it "shows total activations" do
+      expect(find('#activations .analytic-card-title .number').text).to include(event.customers.count.to_s)
     end
   end
 end

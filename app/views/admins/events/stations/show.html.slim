@@ -126,7 +126,7 @@
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--12-col
       .customer-card.mdl-card.mdl-shadow--2dp.station-tables
-        .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF('stations')"
+        .fake_tab#export-pdf data-html2canvas-ignore="true" title='Download PDF' onClick="downloadPDF('stations')"
           i.material-icons#downloadIcon file_download
         - case @station.type
           - when "pos" then
@@ -148,6 +148,6 @@ javascript:
   $(document).on('ready', function() { ticket_types_draggable_table() });
 
   function downloadPDF(previousName) {
-    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "start_date", "end_date", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
-    canvasToPDF($('.station-tables'), previousName, eventData);
+    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("support_email").merge({logo_url: @current_event.logo.url(:panel), "name" => "#{@current_event.name} / #{@station.name}" }).to_json.html_safe)}");
+    canvasToPDF($('.station-tables'), "#{@current_event.name} #{@station.name}", eventData);
   }

@@ -58,6 +58,6 @@ javascript:
   });
 
   function downloadPDF(previousName) {
-    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "start_date", "end_date", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
+    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
     canvasToPDF($('.mdl-tabs__panel.is-active'), previousName, eventData);
   }

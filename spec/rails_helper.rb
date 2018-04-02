@@ -105,6 +105,8 @@ RSpec.configure do |config|
   config.include Requests::JsonHelpers, type: :api
   config.include Api::V2Helper, type: :api
   config.include Api::V1Helper, type: :api
+  config.include ApplicationHelper, type: :feature
+  config.include ActionView::Helpers::NumberHelper, type: :feature
 
   Warden.test_mode!
   Sidekiq::Testing.inline!
