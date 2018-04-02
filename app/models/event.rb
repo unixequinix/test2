@@ -106,7 +106,7 @@ class Event < ApplicationRecord
   end
 
   def onsite_spending_power
-    gtags.where(active: true).sum(:credits)
+    pokes.where(credit: credit).is_ok.sum(:credit_amount) 
   end
 
   def online_spending_power
