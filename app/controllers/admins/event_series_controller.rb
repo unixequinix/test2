@@ -88,7 +88,7 @@ module Admins
       if old_event == new_event
         redirect_to copy_data_admins_event_series_path(@event_serie), alert: "Both events cannot be the same"
       else
-        Creators::EventSerieJob.perform_later(new_event, old_event, copy_params[:customers].split(" "), copy_params[:gtags])
+        Creators::EventSerieJob.perform_later(new_event, old_event, copy_params[:customers].split(" "), copy_params[:gtags], copy_params[:orders])
         redirect_to admins_event_series_path(@event_serie), notice: "Event data copying... please wait"
       end
     end
@@ -107,7 +107,7 @@ module Admins
     end
 
     def copy_params
-      params.require(:copy_data).permit(:gtags, :customers, :new_id, :old_id)
+      params.require(:copy_data).permit(:gtags, :orders, :customers, :new_id, :old_id)
     end
   end
 end

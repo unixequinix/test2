@@ -119,8 +119,8 @@ html
   = yield(:actions)
 
   javascript:
-      var floaty = $('#floaty');
-      floaty.on('mouseenter click', floatyMouseEnter);
+      var floaty = $('#floaty ');
+      $(floaty).find('.floaty-btn button').on('mouseenter click', floatyMouseEnter);
       floaty.on('mouseleave', floatyMouseLeave);
 
       function floatyMouseEnter() {

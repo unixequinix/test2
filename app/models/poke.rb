@@ -51,10 +51,11 @@ class Poke < ApplicationRecord
       .group(:action, :description, :source, :payment_method, grouping_operators_devices, grouping_station, "date_time")
   }
 
-  scope :products_sale, lambda {
+  scope :products_sale, lambda { |credit|
     select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, 'credits' as payment_method")
       .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
       .sales.is_ok
+      .where(credit_id: credit)
       .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "is_alcohol, product_name")
   }
 
@@ -89,10 +90,10 @@ class Poke < ApplicationRecord
   }
 
   scope :access, lambda {
-    select(event_day_poke, dimensions_station, date_time_poke, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction")
-      .joins(:station)
+    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
+      .joins(:station, :catalog_item)
       .where.not(access_direction: nil).is_ok
-      .group(grouping_station, "event_day, date_time, direction")
+      .group("station_name, date_trunc('hour', date), catalog_item_id, zone, direction, access_direction")
   }
 
   scope :devices, -> { select("stations.name as station_name", event_day_poke, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
@@ -149,15 +150,15 @@ class Poke < ApplicationRecord
   end
 
   def self.event_day_poke
-    "to_char(date_trunc('day', date - INTERVAL '8 hour'), 'Mon-DD') as event_day"
+    "to_char(date_trunc('day', date ), 'YY-MM-DD') as event_day"
   end
 
   def self.date_time_poke
-    "to_char(date_trunc('hour', date), 'Mon-DD HH24h') as date_time"
+    "to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time"
   end
 
   def self.event_day_sort
-    "date_trunc('day', date - INTERVAL '8 hour') as event_day_sort"
+    "date_trunc('day', date ) as event_day_sort"
   end
 
   def self.date_time_sort
@@ -198,6 +199,14 @@ class Poke < ApplicationRecord
 
   def self.is_alcohol # rubocop:disable Naming/PredicateName
     "CASE WHEN products.is_alcohol = TRUE then 'Alcohol Product' ELSE 'Non' END as is_alcohol"
+  end
+
+  def self.access_capacity
+    "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction,
+    sum(access_direction) as access_direction,
+    sum(CASE access_direction WHEN 1 THEN 1 ELSE 0 END) as direction_in,
+    sum(CASE access_direction WHEN -1 THEN -1 ELSE 0 END) as direction_out,
+    sum(sum(access_direction))  OVER (PARTITION BY catalog_item_id, stations.name ORDER BY date_trunc('hour', date) ) as capacity"
   end
 
   def self.balance

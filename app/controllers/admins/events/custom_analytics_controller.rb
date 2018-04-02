@@ -12,9 +12,9 @@ module Admins
         online_purchase = @current_event.orders.online_purchase.as_json
         onsite_money = @current_event.pokes.money_recon_operators(%w[none other]).as_json
         online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
-        products_sale = @current_event.pokes.products_sale.as_json.map { |o| o.merge('money' => -1 * o['credit_amount'] * @credit_value) }
+        products_sale = @current_event.pokes.products_sale(@current_event.credit.id).as_json.map { |o| o.merge('money' => -1 * o['credit_amount'] * @credit_value) }
         @money = prepare_pokes(cols, onsite_money + online_purchase + online_refunds + products_sale)
-        prepare_data params[:action], @money, [['Event Day'], ['Action'], ['Money'], 1]
+        prepare_data params[:action], @money, [['Payment Method'], ['Action'], ['Money'], 1]
       end
 
       def credits
@@ -30,12 +30,12 @@ module Admins
         credits_onsite = @current_event.pokes.credit_flow.as_json
         credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
         @credits = prepare_pokes(cols, online_packs + online_topup + credits_onsite + credits_refunds + ticket_packs + order_fee)
-        prepare_data params[:action], @credits, [['Event Day'], ['Action'], ['Credits'], 1]
+        prepare_data params[:action], @credits, [['Credit Name'], ['Action'], ['Credits'], 1]
       end
 
       def sales
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Alcohol Product', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        @sales = prepare_pokes(cols, @current_event.pokes.products_sale.as_json)
+        @sales = prepare_pokes(cols, @current_event.pokes.products_sale(@current_event.credits.pluck(:id)).as_json)
         prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type', 'Station Name'], ['Credits'], 1]
       end
 
@@ -46,9 +46,9 @@ module Admins
       end
 
       def access
-        cols = ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Direction', 'Access']
-        @access = prepare_pokes(cols, @current_event.pokes.access.as_json)
-        prepare_data params[:action], @access, [['Station Name', 'Direction'], ['Event Day', 'Date Time'], ['Access'], 0]
+        access_cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
+        @access = prepare_pokes(access_cols, @current_event.pokes.access.as_json)
+        prepare_data params[:action], @access, [['Direction'], ['Zone', 'Date Time'], ['Capacity'], 0]
       end
 
       private

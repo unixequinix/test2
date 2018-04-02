@@ -12,7 +12,7 @@ RSpec.describe "Tests on register view in customer portal", type: :feature do
         fill_in 'customer_password_confirmation', with: "passw0rd"
         fill_in 'customer_first_name', with: "First"
         fill_in 'customer_last_name', with: "Last"
-        find('.mdl-switch').click
+        find('.mdl-checkbox__input').click
       end
       expect { find("input[name=commit]").click }.to change(ActionMailer::Base.deliveries, :count).by(1)
       expect(unread_emails_for("customer@email.com")).to be_present
@@ -30,7 +30,7 @@ RSpec.describe "Tests on register view in customer portal", type: :feature do
         fill_in 'customer_password_confirmation', with: "passw0rd"
         fill_in 'customer_first_name', with: "First"
         fill_in 'customer_last_name', with: "Last"
-        find('.mdl-switch').click
+        find('.mdl-checkbox__input').click
       end
       expect { find("input[name=commit]").click }.not_to change(ActionMailer::Base.deliveries, :count)
     end
@@ -42,7 +42,7 @@ RSpec.describe "Tests on register view in customer portal", type: :feature do
         fill_in 'customer_password_confirmation', with: "pass"
         fill_in 'customer_first_name', with: "First"
         fill_in 'customer_last_name', with: "Last"
-        find('.mdl-switch').click
+        find('.mdl-checkbox__input').click
       end
       expect { find("input[name=commit]").click }.not_to change(ActionMailer::Base.deliveries, :count)
     end
@@ -54,7 +54,7 @@ RSpec.describe "Tests on register view in customer portal", type: :feature do
         fill_in 'customer_password_confirmation', with: "otherpassw0rd"
         fill_in 'customer_first_name', with: "First"
         fill_in 'customer_last_name', with: "Last"
-        find('.mdl-switch').click
+        find('.mdl-checkbox__input').click
       end
       expect { find("input[name=commit]").click }.not_to change(ActionMailer::Base.deliveries, :count)
     end
@@ -66,7 +66,7 @@ RSpec.describe "Tests on register view in customer portal", type: :feature do
         fill_in 'customer_password_confirmation', with: "passw0rd"
         fill_in 'customer_first_name', with: ""
         fill_in 'customer_last_name', with: ""
-        find('.mdl-switch').click
+        find('.mdl-checkbox__input').click
       end
       expect { find("input[name=commit]").click }.not_to change(ActionMailer::Base.deliveries, :count)
     end

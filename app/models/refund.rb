@@ -57,11 +57,11 @@ class Refund < ApplicationRecord
   end
 
   def self.event_day_refund
-    "to_char(date_trunc('day', created_at), 'Mon-DD') as event_day"
+    "to_char(date_trunc('day', created_at), 'YY-MM-DD') as event_day"
   end
 
   def self.date_time_refund
-    "to_char(date_trunc('hour', created_at), 'Mon-DD HH24h') as date_time"
+    "to_char(date_trunc('hour', created_at), 'YY-MM-DD HH24h') as date_time"
   end
 
   def self.money_refund

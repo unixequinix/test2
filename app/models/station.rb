@@ -22,8 +22,8 @@ class Station < ApplicationRecord
              monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze
 
-  TYPES = { money_credit:  %i[top_up_refund hospitality_top_up cs_topup_refund],
-            money: %i[customer_portal],
+  TYPES = { money_credit:  %i[hospitality_top_up cs_topup_refund],
+            money: %i[customer_portal top_up_refund],
             box_office: %i[box_office],
             pos: %i[bar vendor],
             credential: %i[check_in ticket_validation staff_accreditation cs_accreditation],

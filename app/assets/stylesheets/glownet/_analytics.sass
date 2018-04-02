@@ -143,6 +143,7 @@
     font-size: 14px
   .number
     font-size: 20px
+    word-wrap: break-word
     &.small
       font-size: 17px !important
   &.dark
@@ -152,6 +153,7 @@
   width: 85%
   min-height: 100% !important
 
+
 .mdl-progress
   height: 15px !important
   > .bufferbar
@@ -160,3 +162,15 @@
     background-image: linear-gradient(to right, $light_green, 0.9, $light_green, 0.9), linear-gradient(to right, $light_green, $light_green)  !important
   > .progressbar
     background-color: #FFCC66 !important
+
+.slide-content
+  max-height: 0px
+  transition-property: all
+  transition-duration: 0.7s
+
+  &.open
+    max-height: 500px
+
+.slide-icon-container
+  text-align: center
+  cursor: pointer

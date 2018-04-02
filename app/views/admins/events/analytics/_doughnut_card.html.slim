@@ -10,7 +10,18 @@ javascript:
   var data_p = #{ data.html_safe }
   var lables = data_p.map(function (e) { return e.lable.replace(/ /g,'') });
   var metric = data_p.map(function (e) { return e.metric.replace(/ /g,'')});
+  var color_scale_p = data_p.map(function (e) { return getRandomColor()});
   var title = "#{cols}"
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   new Chart(document.getElementById(chartId), {
            type: 'doughnut',
            data: {

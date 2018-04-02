@@ -20,6 +20,10 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :date_time, key: "Date Time"
   attribute :direction, key: "Direction"
   attribute :access_direction, key: "Access"
+  attribute :direction_in, key: "Entries"
+  attribute :direction_out, key: "Exits"
+  attribute :capacity, key: "Capacity"
+  attribute :zone, key: "Zone"
   attribute :ticket_type_name, key: "Ticket Type"
   attribute :catalog_item_name, key: "Catalog Item"
   attribute :total_tickets, key: "Total Tickets"
@@ -114,6 +118,22 @@ class PokeSerializer < ActiveModel::Serializer
 
   def access_direction
     object.try(:[], 'access_direction')
+  end
+
+  def zone
+    object.try(:[], 'zone')
+  end
+
+  def direction_in
+    object.try(:[], 'direction_in')
+  end
+
+  def direction_out
+    object.try(:[], 'direction_out')
+  end
+
+  def capacity
+    object.try(:[], 'capacity')
   end
 
   def operator_id

@@ -37,7 +37,7 @@ module Admins
         credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day"]
         @credits = prepare_pokes(credit_cols, @station.pokes.credit_flow.as_json)
         product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @products = prepare_pokes(product_cols, @station.pokes.products_sale.as_json)
+        @products = prepare_pokes(product_cols, @station.pokes.products_sale(@current_event.credits.pluck(:id)).as_json)
         stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
         @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock.as_json)
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]

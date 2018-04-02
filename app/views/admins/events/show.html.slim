@@ -19,104 +19,24 @@
                 = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
                   | Close
 
-        - unless @current_event.created?
-          - if @message
-            .mld-card.analytics-card-front
-              .center-card-title
-                span.analytics-text = @message
-
-          .mdl-cell.mdl-cell--12-col
-            .mld-card.analytics-card-back
-              .mdl-grid
-                - @kpis.map do |k, v|
-                  .mdl-cell class="mdl-cell--#{12 / @kpis.size}-col"
-                    .mld-card.analytics-card-front
-                      .mdl-card__title.mdl-card--expand
-                        h3.mdl-card__title-text id="#{k.to_s.underscore}_kpi" = v
-                      .mdl-card__supporting-text
-                        span.analytics-text = k.to_s.humanize
-          .mdl-cell.mdl-cell--12-col
-            .mld-card.analytics-card-back
-              .mdl-grid
-                .mdl-cell.mdl-cell--6-col
-                  .mld-card.analytics-card-front
-                    canvas#money_chart
-                .mdl-cell.mdl-cell--6-col
-                  .mld-card.analytics-card-front
-                    canvas#credits_chart
+          .mdl-cell.mdl-cell--10-col.no-wrapper-style.margin-auto
+            .mdl-grid.no-wrapper-style.padding
+              .mdl-layout-spacer
+              = render "admins/events/analytics/box", cols: 4,
+                                                      custom_class: 'hovering',
+                                                      colors: ['#009688', '#66FF99'],
+                                                      icon: 'account_balance_wallet',
+                                                      title_text: 'Outstanding',
+                                                      title_number: number_to_event_currency(@current_event.cash_income - @current_event.cash_outcome)
+              .mdl-layout-spacer
+              = render "admins/events/analytics/box", cols: 4,
+                                                      custom_class: 'hovering',
+                                                      colors: ['#FF0066', '#FF9999'],
+                                                      icon: 'loyalty',
+                                                      title_text: "Spending Power",
+                                                      title_number: number_to_event_currency(@current_event.total_spending_power * @credit_value)
+              .mdl-layout-spacer
 
         .mdl-cell.mdl-cell--12-col
           = render "resources"
   .mdl-layout-spacer
-
-javascript:
-
-  $(function () {
-    var data =#{ @graphs[:event_day_money].html_safe }
-    var money_symbol = '#{ @current_event.currency_symbol }'
-    var event_day = data.map(function (e) { return e.event_day; });
-    var online = data.map(function (e) { return e.online; });
-    var onsite = data.map(function (e) { return e.onsite; });
-
-    new Chart(document.getElementById("money_chart"), {
-      type: 'line',
-      data: {
-        labels: event_day,
-        datasets: [{
-            data: online,
-            label: "Online",
-            borderColor: "#3e95cd",
-            fill: false
-          }, {
-            data: onsite,
-            label: "Onsite",
-            borderColor: "#8e5ea2",
-            fill: false
-          },
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Money Flow by Origin'
-        }
-      }
-    });
-
-    var credit_symbol = '#{ @current_event.credit.symbol }'
-    var data_c = #{ @graphs[:d_credits].html_safe }
-    var date_time = data_c.map(function (e) { return e.date_time });
-    var record_credit = data_c.map(function (e) { return e.record_credit });
-    var sale = data_c.map(function (e) { return -e.sale });
-
-    new Chart(document.getElementById("credits_chart"), {
-              type: 'bar',
-              data: {
-                  labels: date_time,
-                  datasets: [{
-                      label: "Sales " + (credit_symbol),
-                      type: "line",
-                      borderColor: "#fcaa98",
-                      data: sale,
-                      fill: false
-                  }, {
-                      label: "Record Credits " + (credit_symbol),
-                      type: "bar",
-                      backgroundColor: "#add8e9",
-                      data: record_credit,
-                  }
-                  ]
-              },
-              options: {
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                title: {
-                  display: true,
-                  text: 'Record Credits vs Sales'
-                },
-                  legend: {display: true}
-              }
-    });
-   });
