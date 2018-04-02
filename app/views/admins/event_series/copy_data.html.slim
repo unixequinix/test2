@@ -1,6 +1,6 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--12-col
+  .mdl-cell.mdl-cell--8-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
       = form_for @event_serie, url: [:copy_serie, :admins, @event_serie], method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { select: :mdl_field, text: :mdl_text_edit } do |f|
         .section-header
@@ -45,6 +45,20 @@
             label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='all_gtags'
               span.mdl-radio__label.form-label Include unused gtags
               = radio_button_tag "copy_data[gtags]", "1", nil, id: 'all_gtags', class: 'mdl-radio__button'
+              
+        .section-header
+          i.material-icons info_outline
+          span Balances
+        .fieldset
+          .form-inputs
+            label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='credit_orders'
+              span.mdl-radio__label.form-label Dont include virtual credits
+              = radio_button_tag "copy_data[orders]", "0", true, id: 'credit_orders', class: 'mdl-radio__button'
+
+          .form-inputs
+            label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='all_orders'
+              span.mdl-radio__label.form-label Include all credit types
+              = radio_button_tag "copy_data[orders]", "1", nil, id: 'all_orders', class: 'mdl-radio__button'
 
         .form-actions
           .col-sm-offset-3.col-sm-9

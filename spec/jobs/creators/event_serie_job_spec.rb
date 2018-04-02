@@ -9,6 +9,15 @@ RSpec.describe Creators::EventSerieJob, type: :job do
   let!(:gtag) { create(:gtag, event: old_event, customer: registered_customer, active: true) }
   let!(:anonymous_gtag) { create(:gtag, event: old_event, customer: anonymous_customer, active: true) }
 
+  context "comparing events" do
+    it "new event has got some base event params" do
+      common_attrs = %w[gtag_deposit_fee every_topup_fee onsite_initial_topup_fee online_initial_topup_fee refund_fee refund_minimum]
+      common_attrs.each do |attr|
+        expect(old_event[attr]).to eq(new_event[attr])
+      end
+    end
+  end
+
   context "moving gtags" do
     before { create(:gtag, event: old_event, customer: nil) }
 

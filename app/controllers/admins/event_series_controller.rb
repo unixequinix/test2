@@ -84,11 +84,14 @@ module Admins
     def copy_serie
       new_event = Event.find(copy_params[:new_id])
       old_event = Event.find(copy_params[:old_id])
+      event_attrs = old_event.slice(%w[gtag_deposit_fee every_topup_fee onsite_initial_topup_fee online_initial_topup_fee refund_fee refund_minimum])
 
       if old_event == new_event
         redirect_to copy_data_admins_event_series_path(@event_serie), alert: "Both events cannot be the same"
+      elsif !new_event.update!(event_attrs)
+        redirect_to copy_data_admins_event_series_path(@event_serie), alert: "Something went wrong copying data"
       else
-        Creators::EventSerieJob.perform_later(new_event, old_event, copy_params[:customers].split(" "), copy_params[:gtags])
+        Creators::EventSerieJob.perform_now(new_event, old_event, copy_params[:customers].split(" "), copy_params[:gtags], copy_params[:orders])
         redirect_to admins_event_series_path(@event_serie), notice: "Event data copying... please wait"
       end
     end
@@ -107,7 +110,7 @@ module Admins
     end
 
     def copy_params
-      params.require(:copy_data).permit(:gtags, :customers, :new_id, :old_id)
+      params.require(:copy_data).permit(:gtags, :orders, :customers, :new_id, :old_id)
     end
   end
 end
