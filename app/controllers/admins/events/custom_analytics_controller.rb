@@ -46,9 +46,9 @@ module Admins
       end
 
       def access
-        cols = ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Direction', 'Access']
-        @access = prepare_pokes(cols, @current_event.pokes.access.as_json)
-        prepare_data params[:action], @access, [['Station Name', 'Direction'], ['Event Day', 'Date Time'], ['Access'], 0]
+        access_cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
+        @access = prepare_pokes(access_cols, @current_event.pokes.access.as_json)
+        prepare_data params[:action], @access, [['Direction'], ['Zone', 'Date Time'], ['Capacity'], 0]
       end
 
       private

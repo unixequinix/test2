@@ -89,10 +89,10 @@ class Poke < ApplicationRecord
   }
 
   scope :access, lambda {
-    select(event_day_poke, dimensions_station, date_time_poke, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction", "sum(access_direction) as access_direction")
-      .joins(:station)
+    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
+      .joins(:station, :catalog_item)
       .where.not(access_direction: nil).is_ok
-      .group(grouping_station, "event_day, date_time, direction")
+      .group("station_name, date_trunc('hour', date), catalog_item_id, zone, direction, access_direction")
   }
 
   scope :devices, -> { select("stations.name as station_name", event_day_poke, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
@@ -200,6 +200,14 @@ class Poke < ApplicationRecord
     "CASE WHEN products.is_alcohol = TRUE then 'Alcohol Product' ELSE 'Non' END as is_alcohol"
   end
 
+  def self.access_capacity
+    "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction,
+    sum(access_direction) as access_direction,
+    sum(CASE access_direction WHEN 1 THEN 1 ELSE 0 END) as direction_in,
+    sum(CASE access_direction WHEN -1 THEN -1 ELSE 0 END) as direction_out,
+    sum(sum(access_direction))  OVER (PARTITION BY catalog_item_id, stations.name ORDER BY date_trunc('hour', date) ) as capacity"
+  end
+
   def self.balance
     "CASE
     WHEN description  = 'topup' then 'income'
@@ -207,6 +215,7 @@ class Poke < ApplicationRecord
     WHEN description  = 'refund' then 'refunds'
     ELSE action
     END as action"
+
   end
 
   def name # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
