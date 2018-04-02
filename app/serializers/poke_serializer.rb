@@ -34,8 +34,6 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :sorter, key: "sorter"
   attribute :is_alcohol, key: "Alcohol Product"
 
-
-
   def sorter
     object.try(:[], 'sorter')
   end

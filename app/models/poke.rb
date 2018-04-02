@@ -215,7 +215,6 @@ class Poke < ApplicationRecord
     WHEN description  = 'refund' then 'refunds'
     ELSE action
     END as action"
-
   end
 
   def name # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
