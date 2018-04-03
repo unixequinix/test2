@@ -5,6 +5,31 @@ RSpec.describe Pokes::Money, type: :job do
   let(:event) { create(:event) }
   let(:transaction) { create(:money_transaction, action: "onsite_topup", event: event, price: 22) }
 
+  it "does not process transactions with payment_method 'other' and action 'onsite_topup'" do
+    transaction.update!(payment_method: "other", action: "onsite_topup")
+    expect(worker.perform_now(transaction)).to be_nil
+  end
+
+  it "process transactions with payment_method 'other' and any other action" do
+    transaction.update!(payment_method: "other", action: "any_other")
+    expect(worker.perform_now(transaction)).not_to be_nil
+  end
+
+  it "does not process transactions with payment_method 'none' and action 'onsite_topup'" do
+    transaction.update!(payment_method: "none", action: "onsite_topup")
+    expect(worker.perform_now(transaction)).to be_nil
+  end
+
+  it "process transactions with payment_method 'none' and any other action" do
+    transaction.update!(payment_method: "none", action: "any_other")
+    expect(worker.perform_now(transaction)).not_to be_nil
+  end
+
+  it "process transactions with any other payment_method and action 'onsite_topup'" do
+    transaction.update!(payment_method: "any other", action: "onsite_topup")
+    expect(worker.perform_now(transaction)).not_to be_nil
+  end
+
   describe ".stat_creation" do
     let(:action) { "topup" }
     let(:name) { nil }
