@@ -22,8 +22,9 @@
               .number = number_to_reports(subtitle.values.map(&:to_f).sum)
 
 javascript:
-  $('.open-pane').on('click', function(e) {
-    var pane = $(e.currentTarget).parent().siblings('.slide-content');
+  $('.slide-icon-container').on('click', function(e) {
+    var icon = $(e.currentTarget).find('.open-pane');
+    var pane = $(e.currentTarget).siblings('.slide-content');
     pane[0].classList.toggle('open');
-    pane.hasClass('open') ? $(e.currentTarget).text('keyboard_arrow_up') : $(this).text('keyboard_arrow_down');
-  })
+    pane.hasClass('open') ? $(icon).text('keyboard_arrow_up') : $(icon).text('keyboard_arrow_down');
+  });

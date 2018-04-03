@@ -40,7 +40,7 @@
 
                 - else
                   - poke = pokes_in.first
-                  tr class="#{"danger" if poke.operation.status_not_ok?}"
+                  tr class="#{"danger" if poke&.operation&.status_not_ok?}"
                     td data-label="Actions" style="width: 10px"
                       - if policy(poke).status_9? ||  policy(poke).status_0?
                         - if poke.ok?
@@ -90,4 +90,3 @@
                           - else
                             | #{pk.credit_amount} x Other
     .mdl-layout-spacer
-
