@@ -8,7 +8,7 @@ class Poke < ApplicationRecord
   belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :pokes_as_operator
   belongs_to :operator_gtag, class_name: "Gtag", optional: true, inverse_of: :pokes_as_operator
   belongs_to :customer, optional: true
-  belongs_to :customer_gtag, class_name: "Gtag", optional: true, inverse_of: :pokes_as_customer
+  belongs_to :customer_gtag, class_name: "Gtag", optional: true, inverse_of: :pokes
   belongs_to :ticket_type, optional: true
   belongs_to :product, optional: true
   belongs_to :catalog_item, optional: true
@@ -34,7 +34,6 @@ class Poke < ApplicationRecord
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: "online") }
-  scope :for_views, -> { includes(:credit, :operation, :event, :station, :product).order(:source, :gtag_counter, :line_counter, :date) }
 
   scope :money_recon, lambda { |t = ''|
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action", :description, :source, :payment_method, event_day_poke, date_time_poke, "stations.category as station_type", "stations.name as station_name", sum_money)

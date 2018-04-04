@@ -15,10 +15,6 @@ module Admins
         end
       end
 
-      def show
-        @pokes = @customer.pokes.for_views
-      end
-
       def update
         respond_to do |format|
           if @customer.update(permitted_params)

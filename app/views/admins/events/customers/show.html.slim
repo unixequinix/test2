@@ -135,4 +135,6 @@
 = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?
 = render(root + "refunds", customer: @customer) if @customer.refunds.present?
 = render(root + "orders", customer: @customer) if @customer.orders.any?
-= render("admins/events/pokes/onsite", pokes: @pokes, title: "Pokes", active: true, closed: false )
+
+- @customer.gtags.order(:active).each.with_index do |gtag, index|
+  = render("admins/events/gtags/pokes", gtag: gtag, title: "Pokes for #{gtag.tag_uid}", active: gtag.active?, closed: !index.zero? )

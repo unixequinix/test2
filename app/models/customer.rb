@@ -146,9 +146,7 @@ class Customer < ApplicationRecord
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = event.accesses.where(id: catalog_items).infinite.pluck(:id)
-    packs = event.packs.joins(:catalog_items)
-                 .where(id: catalog_items, catalog_items: { type: "Access" })
-                 .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
+    packs = event.packs.joins(:catalog_items).where(id: catalog_items, catalog_items: { type: "Access" }).select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
 
     accesses + packs
   end
@@ -159,14 +157,7 @@ class Customer < ApplicationRecord
     last_name = auth.info&.last_name || auth.info.name.split(" ").second
 
     customer = find_by(provider: auth.provider, uid: auth.uid, event: event)
-    customer ||= event.customers.new(provider: auth.provider,
-                                     uid: auth.uid,
-                                     email: auth.info.email,
-                                     first_name: first_name,
-                                     last_name: last_name,
-                                     password: token,
-                                     password_confirmation: token,
-                                     agreed_on_registration: true)
+    customer ||= event.customers.new(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: first_name, last_name: last_name, password: token, password_confirmation: token, agreed_on_registration: true)
     customer.anonymous = false
     customer.skip_confirmation!
     customer.save

@@ -5,7 +5,7 @@ class Gtag < ApplicationRecord
 
   belongs_to :ticket_type, optional: true
 
-  has_many :pokes_as_customer, class_name: "Poke", foreign_key: "customer_gtag_id", dependent: :restrict_with_error, inverse_of: :customer_gtag
+  has_many :pokes, class_name: "Poke", foreign_key: "customer_gtag_id", dependent: :restrict_with_error, inverse_of: :customer_gtag
   has_many :pokes_as_operator, class_name: "Poke", foreign_key: "operator_gtag_id", dependent: :restrict_with_error, inverse_of: :operator_gtag
 
   has_many :transactions, dependent: :restrict_with_error
@@ -31,7 +31,6 @@ class Gtag < ApplicationRecord
   scope :missing_transactions, (-> { where(missing_transactions: true) })
 
   alias_attribute :reference, :tag_uid
-  alias pokes pokes_as_customer
 
   def name
     "Gtag: #{tag_uid}"
