@@ -94,7 +94,7 @@ class Customer < ApplicationRecord
   end
 
   def credits
-    credential_total = event.ticket_types.where.not(catalog_item: nil).where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item).sum(&:credits)
+    credential_total = credential_catalog_items.sum(&:credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
     refund_total = refunds.completed.sum(&:credit_total)
 
@@ -102,10 +102,14 @@ class Customer < ApplicationRecord
   end
 
   def virtual_credits
-    credential_total = event.ticket_types.where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item).sum(&:virtual_credits)
+    credential_total = credential_catalog_items.sum(&:virtual_credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
 
     credential_total + order_total + active_gtag&.virtual_credits.to_f
+  end
+
+  def credential_catalog_items
+    event.ticket_types.where.not(catalog_item: nil).where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item)
   end
 
   def money
