@@ -6,12 +6,12 @@ RSpec.describe "Analytics in the admin panel", type: :feature do
   let!(:registration) { create(:event_registration, event: event, email: user.email, user: user) }
 
   before(:each) do
-    @online_topups = create_list(:order, 10, event: event, money_base: 10, money_fee: 5)
+    @online_topups = create_list(:order, 3, event: event, money_base: 10, money_fee: 5)
     @online_topups.map(&:complete!)
-    @onsite_topups = create_list(:poke, 10, :as_topups, event: event)
-    @sales = create_list(:poke, 10, :as_sales, event: event)
-    @purchases = create_list(:poke, 10, :as_purchase, event: event)
-    @customers = create_list(:customer, 10, event: event)
+    @onsite_topups = create_list(:poke, 3, :as_topups, event: event)
+    @sales = create_list(:poke, 3, :as_sales, event: event)
+    @purchases = create_list(:poke, 3, :as_purchase, event: event)
+    @customers = create_list(:customer, 3, event: event)
     login_as(user, scope: :user)
   end
 

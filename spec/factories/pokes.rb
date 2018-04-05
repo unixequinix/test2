@@ -25,6 +25,8 @@ FactoryBot.define do
         instance.sale_item_unit_price = rand(100)
         instance.final_balance = rand(100)
         instance.customer = create(:customer, event: instance.event)
+        instance.station = create(:station, event: instance.event)
+        instance.product = create(:product, station: instance.station)
       end
     end
 
