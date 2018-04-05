@@ -70,7 +70,7 @@
                               icon: 'supervisor_account',
                               title_text: 'Spending Customers',
                               title_number: number_with_delimiter(@current_event.onsite_sales.select(:customer_id).distinct.count),
-                              subtitle: [{ text: 'Average Spend per Customer', number: number_to_event_currency(@current_event.onsite_sales.sum(:credit_amount).abs / (@current_event.onsite_sales.select(:customer_id).distinct.count.nonzero? || 1)) }]
+                              subtitle: [{ text: 'Average Spent per Customer', number: number_to_event_currency(@current_event.onsite_sales.sum(:credit_amount).abs / (@current_event.onsite_sales.select(:customer_id).distinct.count.nonzero? || 1)) }]
 
                   .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
                     .mdl-grid.no-wrapper-style.padding
@@ -84,7 +84,7 @@
                               colors: ['#514A9D', '#24C6DC'],
                               icon: 'add_shopping_cart',
                               title_text: 'Total Products Sold',
-                              title_number: @current_event.onsite_sales.where("credit_amount < 0").count,
+                              title_number: number_with_delimiter(@current_event.onsite_sales.where("credit_amount < 0").count),
                               subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'bar' }).where("credit_amount < 0").count) }, { text: 'At vendors', number: number_with_delimiter(@current_event.onsite_sales.where(stations: { category: 'vendor' }).where("credit_amount < 0").count) }]
                       = render "box", cols: 3,
                               id: 'activations',
@@ -172,6 +172,9 @@ javascript:
         display: true,
         text: 'Alcohol Products vs Non Alcohol'
       },
+      legend: {
+        position: 'right'
+      },
       tooltips: {
         custom: function(tooltip) {
           if (!tooltip) return;
@@ -217,6 +220,9 @@ javascript:
       title: {
         display: true,
         text: "Top " + product_name.length + " products " + credit_symbol
+      },
+      legend: {
+        position: 'right'
       },
       tooltips: {
         custom: function(tooltip) {
