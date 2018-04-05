@@ -15,7 +15,7 @@ polymorphism: true
 sort: true
 warn: true
 title: Glownet DB structure
-exclude: OrderTransaction,DeviceTransaction,CredentialTransaction,AccessTransaction,CreditTransaction,MoneyTransaction,BanTransaction,OperatorTransaction,UserEngagementTransaction,Event
+exclude: OrderTransaction,DeviceTransaction,CredentialTransaction,AccessTransaction,CreditTransaction,MoneyTransaction,BanTransaction,OperatorTransaction,UserEngagementTransaction,UserFlagTransaction,Transaction,PaperTrail::Version,ApplicationRecord
 only: null
 only_recursion_depth: null
 prepend_primary: false

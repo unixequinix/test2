@@ -66,9 +66,9 @@ html
                   = msg
               - elsif type.eql?("recaptcha_error")
                 .error-message.full-width
-                    = fa_icon "times-circle"
-                    | &nbsp;
-                    = t('alerts.request_captcha')
+                  = fa_icon "times-circle"
+                  | &nbsp;
+                  = t('alerts.request_captcha')
               - else
                 .error-message.full-width
                   = fa_icon "times-circle"
@@ -114,7 +114,7 @@ html
                       = Date.current.year
                   span.footer-separator
                   li
-                    = mail_to @current_event&.support_email, "Support", subject: "Information request for event '#{@current_event.name}'"
+                    = mail_to @current_event.support_email, "Support", subject: "Information request for event '#{@current_event.name}'"
                 span.web-version = WEB_VERSION
       .mdl-layout-spacer
 

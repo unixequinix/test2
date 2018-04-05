@@ -25,7 +25,7 @@
 
     .mdl-cell.mdl-cell--4-col
       .tools
-        - if @current_event.open_topups?
+        - if @current_event.open_topups? && @current_customer.active_credentials.any?
           .tool-item
             = link_to store_redirection(@current_event, :order), id: "new_top_up" do
               .credit-tooltip = t("dashboard.topup")
@@ -33,7 +33,7 @@
                 span.material-icons add_shopping_cart
         - if @current_event.open_refunds? && !@current_customer.credits.zero? && @current_customer.valid_balance?
           .tool-item
-            = link_to store_redirection(@current_event, :refund, { gtag_uid: @current_customer.active_gtag&.tag_uid }) do
+            = link_to store_redirection(@current_event, :refund, { gtag_uid: @current_customer.active_gtag.try(:tag_uid) }) do
               .credit-tooltip = t("dashboard.refund")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons money_off
@@ -44,7 +44,7 @@
         .mdl-cell.mdl-cell--12-col
           - last_t = @current_customer.active_gtag.transactions.credit.last if @current_customer.active_gtag
           - if last_t
-            p = t('dashboard.credits.body_credits', action: last_t.action.humanize, station: last_t.station&.name, time: time_ago_in_words(Time.zone.parse(last_t.device_created_at)))
+            p = t('dashboard.credits.body_credits', action: last_t.action.humanize, station: last_t.station.try(:name), time: time_ago_in_words(Time.zone.parse(last_t.device_created_at)))
             p  #{t('dashboard.credits.body_balance')} #{number_to_token last_t.final_balance}
           p = t('dashboard.credits.body_invalid')
           = mail_to @current_event.support_email, @current_event.support_email, subject: "Invalid balance for Customer '#{@current_customer.email}'"
@@ -148,7 +148,7 @@
                 .mdl-cell.mdl-cell--12-col
                   .refund__title
                     span.order__name #{t("dashboard.refund")} ##{refund.number}
-                    span.order__status.order__status--tba #{refund.status.humanize} by #{refund.gateway&.humanize}
+                    span.order__status.order__status--tba #{refund.status.humanize} by #{refund.gateway.try(:humanize)}
 
 
             ul.items__list

@@ -8,7 +8,8 @@ RSpec.describe Creators::OrderJob, type: :job do
 
   context "creating order" do
     before do
-      customer.build_order([[event.credit.id, balance]]).save!
+      credit = event.credit.presence || event.create_credit(value: 1, name: "CRD")
+      customer.build_order([[credit.id, balance]]).save!
       customer.orders.map(&:complete!)
     end
 
