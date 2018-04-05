@@ -20,7 +20,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def edit?
-    admin_or_promoter && event_open
+    admin_or_promoter
   end
 
   def refund_fields?
@@ -40,7 +40,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def update?
-    admin_or_promoter && event_open
+    admin_or_promoter
   end
 
   def remove_logo?
