@@ -42,7 +42,7 @@ module Admins
         @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock.as_json)
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]
         @access_control = prepare_pokes(access_cols, @station.pokes.access.as_json)
-        ticket_cols = ["Action", "Catalog Item", "Total Tickets", "Money", "Event Day", "Operator UID", "Operator Name", "Device"]
+        ticket_cols = ["Action", "Catalog Item", "Ticket Type", "Event Day", "Operator UID", "Operator Name", "Device", "Total Tickets", "Money"]
         @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type.as_json)
       end
 

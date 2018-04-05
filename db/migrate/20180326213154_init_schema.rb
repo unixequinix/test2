@@ -1,4 +1,4 @@
-class InitSchema < ActiveRecord::Migration[5.1]
+class InitSchema < ActiveRecord::Migration[5.0]
   def up
     # These are extensions that must be enabled in order to support this database
     enable_extension "plpgsql"
@@ -33,6 +33,7 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.string "http_verb", null: false
       t.jsonb "request_params", default: "{}"
       t.datetime "received_at"
+      t.string "response"
       t.index ["event_id"], name: "index_api_metrics_on_event_id"
       t.index ["user_id"], name: "index_api_metrics_on_user_id"
     end
@@ -54,16 +55,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.index ["memory_position", "event_id"], name: "index_catalog_items_on_memory_position_and_event_id", unique: true
       t.index ["station_id", "group", "role"], name: "index_catalog_items_on_station_id_and_group_and_role", unique: true
       t.index ["station_id"], name: "index_catalog_items_on_station_id"
-    end
-    create_table "companies", force: :cascade do |t|
-      t.string "name", null: false
-      t.string "access_token"
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
-      t.boolean "hidden"
-      t.integer "event_id", null: false
-      t.index ["event_id", "name"], name: "index_companies_on_event_id_and_name", unique: true
-      t.index ["event_id"], name: "index_companies_on_event_id"
     end
     create_table "customers", force: :cascade do |t|
       t.integer "event_id", null: false
@@ -102,7 +93,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.datetime "confirmation_sent_at"
       t.boolean "operator", default: false
       t.boolean "initial_topup_fee_paid", default: false
-      t.string "gtmid"
       t.string "avatar_file_name"
       t.string "avatar_content_type"
       t.integer "avatar_file_size"
@@ -158,15 +148,20 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.index ["event_id"], name: "index_device_transactions_on_event_id"
     end
     create_table "devices", force: :cascade do |t|
-      t.citext "mac", null: false
+      t.citext "mac"
       t.citext "asset_tracker"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
       t.string "serial"
       t.integer "team_id", null: false
       t.string "serie"
-      t.index ["asset_tracker", "team_id"], name: "index_devices_on_asset_tracker_and_team_id", unique: true
-      t.index ["mac", "team_id"], name: "index_devices_on_mac_and_team_id", unique: true
+      t.string "app_id", null: false
+      t.string "imei"
+      t.string "manufacturer"
+      t.string "device_model"
+      t.string "android_version"
+      t.jsonb "extra_info", default: {}
+      t.index ["app_id"], name: "index_devices_on_app_id", unique: true
     end
     create_table "event_registrations", force: :cascade do |t|
       t.integer "role"
@@ -262,7 +257,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.integer "tickets_count", default: 0
       t.integer "catalog_items_count", default: 0
       t.integer "ticket_types_count", default: 0
-      t.integer "companies_count", default: 0
       t.integer "gtags_count", default: 0
       t.integer "payment_gateways_count", default: 0
       t.integer "stations_count", default: 0
@@ -283,6 +277,9 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.float "refund_minimum"
       t.text "refund_fields", default: [], array: true
       t.boolean "auto_refunds", default: false
+      t.boolean "emv_enabled", default: false
+      t.string "palco4_token"
+      t.string "palco4_event"
       t.index ["slug"], name: "index_events_on_slug", unique: true
     end
     create_table "friendly_id_slugs", force: :cascade do |t|
@@ -311,8 +308,8 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.boolean "redeemed", default: false
       t.integer "ticket_type_id"
       t.jsonb "balances", default: {}
-      t.boolean "complete", default: false
-      t.boolean "consistent", default: false
+      t.boolean "complete", default: true
+      t.boolean "consistent", default: true
       t.index ["customer_id"], name: "index_gtags_on_customer_id"
       t.index ["event_id"], name: "index_gtags_on_event_id"
       t.index ["tag_uid", "event_id"], name: "index_gtags_on_tag_uid_and_event_id", unique: true
@@ -372,7 +369,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.string "credential_type"
       t.bigint "credential_id"
       t.bigint "ticket_type_id"
-      t.bigint "company_id"
       t.bigint "product_id"
       t.bigint "order_id"
       t.bigint "catalog_item_id"
@@ -398,7 +394,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.integer "error_code"
       t.integer "status_code"
       t.index ["catalog_item_id"], name: "index_pokes_on_catalog_item_id"
-      t.index ["company_id"], name: "index_pokes_on_company_id"
       t.index ["credential_type", "credential_id"], name: "index_pokes_on_credential_type_and_credential_id"
       t.index ["credit_type", "credit_id"], name: "index_pokes_on_credit_type_and_credit_id"
       t.index ["customer_gtag_id"], name: "index_pokes_on_customer_gtag_id"
@@ -514,11 +509,12 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.integer "catalog_item_id"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.integer "company_id", null: false
+      t.string "company", default: "Glownet"
+      t.decimal "money_base", precision: 8, scale: 2, default: "0.0", null: false
+      t.decimal "money_fee", precision: 8, scale: 2, default: "0.0", null: false
       t.index ["catalog_item_id"], name: "index_ticket_types_on_catalog_item_id"
-      t.index ["company_id"], name: "index_ticket_types_on_company_id"
+      t.index ["event_id", "company", "name"], name: "index_ticket_types_on_event_id_and_company_and_name", unique: true
       t.index ["event_id"], name: "index_ticket_types_on_event_id"
-      t.index ["name", "company_id", "event_id"], name: "index_ticket_types_on_name_and_company_id_and_event_id", unique: true
     end
     create_table "tickets", force: :cascade do |t|
       t.integer "event_id", null: false
@@ -532,7 +528,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.integer "customer_id"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.string "gtmid"
       t.index ["code", "event_id"], name: "index_tickets_on_code_and_event_id", unique: true
       t.index ["customer_id"], name: "index_tickets_on_customer_id"
       t.index ["event_id"], name: "index_tickets_on_event_id"
@@ -595,10 +590,12 @@ class InitSchema < ActiveRecord::Migration[5.1]
       t.integer "operator_id"
       t.bigint "operator_gtag_id"
       t.bigint "order_item_id"
+      t.integer "device_id"
       t.index ["access_id"], name: "index_transactions_on_access_id"
       t.index ["action"], name: "index_transactions_on_action"
       t.index ["catalog_item_id"], name: "index_transactions_on_catalog_item_id"
       t.index ["customer_id"], name: "index_transactions_on_customer_id"
+      t.index ["device_id"], name: "index_transactions_on_device_id"
       t.index ["device_uid"], name: "index_transactions_on_device_uid"
       t.index ["event_id", "device_uid", "device_db_index", "device_created_at_fixed", "gtag_counter"], name: "index_transactions_on_device_columns", unique: true
       t.index ["event_id"], name: "index_transactions_on_event_id"
@@ -649,7 +646,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
     add_foreign_key "api_metrics", "users"
     add_foreign_key "catalog_items", "events"
     add_foreign_key "catalog_items", "stations"
-    add_foreign_key "companies", "events"
     add_foreign_key "customers", "events"
     add_foreign_key "device_caches", "events"
     add_foreign_key "device_registrations", "devices"
@@ -665,7 +661,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
     add_foreign_key "orders", "events"
     add_foreign_key "pack_catalog_items", "catalog_items"
     add_foreign_key "pokes", "catalog_items"
-    add_foreign_key "pokes", "companies"
     add_foreign_key "pokes", "customers"
     add_foreign_key "pokes", "devices"
     add_foreign_key "pokes", "events"
@@ -684,7 +679,6 @@ class InitSchema < ActiveRecord::Migration[5.1]
     add_foreign_key "station_ticket_types", "ticket_types"
     add_foreign_key "stations", "events"
     add_foreign_key "ticket_types", "catalog_items"
-    add_foreign_key "ticket_types", "companies"
     add_foreign_key "ticket_types", "events"
     add_foreign_key "tickets", "customers"
     add_foreign_key "tickets", "events"

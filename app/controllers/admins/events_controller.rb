@@ -28,18 +28,6 @@ module Admins
     end
 
     def show
-      orders_dashboard = Order.dashboard(@current_event)
-      pokes_dashboard = Poke.dashboard(@current_event)
-      refunds_dashboard = Refund.dashboard(@current_event)
-      tickets_dashboard = Ticket.dashboard(@current_event)
-      refunds_dashboard[:money_reconciliation] = refunds_dashboard[:outstanding_credits].to_f * @credit_value
-      kpis = [orders_dashboard, pokes_dashboard, refunds_dashboard, tickets_dashboard]
-      @kpis = formatter(grouper(kpis))
-
-      graphs = {}
-      graphs[:d_credits] = PokesQuery.new(@current_event).credits_flow_day
-      graphs[:event_day_money] = PokesQuery.new(@current_event).event_day_money
-      @graphs = graphs
       render layout: "admin_event"
     end
 

@@ -94,7 +94,7 @@ class Customer < ApplicationRecord
   end
 
   def credits
-    credential_total = event.ticket_types.where.not(catalog_item: nil).where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item).sum(&:credits)
+    credential_total = credential_catalog_items.sum(&:credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
     refund_total = refunds.completed.sum(&:credit_total)
 
@@ -102,10 +102,14 @@ class Customer < ApplicationRecord
   end
 
   def virtual_credits
-    credential_total = event.ticket_types.where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item).sum(&:virtual_credits)
+    credential_total = credential_catalog_items.sum(&:virtual_credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
 
     credential_total + order_total + active_gtag&.virtual_credits.to_f
+  end
+
+  def credential_catalog_items
+    event.ticket_types.where.not(catalog_item: nil).where(id: tickets.unredeemed.pluck(:ticket_type_id) + gtags.unredeemed.pluck(:ticket_type_id)).map(&:catalog_item)
   end
 
   def money
@@ -146,9 +150,7 @@ class Customer < ApplicationRecord
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = event.accesses.where(id: catalog_items).infinite.pluck(:id)
-    packs = event.packs.joins(:catalog_items)
-                 .where(id: catalog_items, catalog_items: { type: "Access" })
-                 .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
+    packs = event.packs.joins(:catalog_items).where(id: catalog_items, catalog_items: { type: "Access" }).select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
 
     accesses + packs
   end
@@ -159,14 +161,7 @@ class Customer < ApplicationRecord
     last_name = auth.info&.last_name || auth.info.name.split(" ").second
 
     customer = find_by(provider: auth.provider, uid: auth.uid, event: event)
-    customer ||= event.customers.new(provider: auth.provider,
-                                     uid: auth.uid,
-                                     email: auth.info.email,
-                                     first_name: first_name,
-                                     last_name: last_name,
-                                     password: token,
-                                     password_confirmation: token,
-                                     agreed_on_registration: true)
+    customer ||= event.customers.new(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: first_name, last_name: last_name, password: token, password_confirmation: token, agreed_on_registration: true)
     customer.anonymous = false
     customer.skip_confirmation!
     customer.save

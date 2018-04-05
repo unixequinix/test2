@@ -115,7 +115,7 @@ class Event < ApplicationRecord
     order_sp = OrderItem.where(order: orders.completed, redeemed: false, catalog_item: credit).sum(:amount)
     refund_sp = refunds.completed.pluck(:credit_base, :credit_fee).flatten.sum
 
-    credential_sp + order_sp + refund_sp
+    credential_sp + order_sp - refund_sp
   end
 
   def import_tickets

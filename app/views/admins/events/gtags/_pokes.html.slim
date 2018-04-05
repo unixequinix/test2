@@ -1,8 +1,11 @@
+- pokes = gtag.pokes.includes(:credit, :operation, :event, :station, :product).order(:gtag_counter, :line_counter, :date)
+
 - if pokes.any?
   - closed ||= false
-  - colors = { 0 => "fff", 1 => "e2e2e2", 2 => "efefef" }
+  - colors = { 0 => "fff", 1 => "e8e8e8", 2 => "efefef" }
   - credits = pokes.map(&:credit).compact.uniq.sort_by(&:id)
   - all_counters = (1..pokes.last.gtag_counter)
+  - missing_counters = gtag.missing_counters
 
   .mdl-grid.light-grid
     .mdl-layout-spacer
@@ -29,18 +32,18 @@
               - all_counters.each do |counter|
 
                 - pokes_in = pokes.select { |p| p.gtag_counter == counter }
-                - if pokes_in.empty?
+                - missing = counter.in?(missing_counters)
+
+                - if missing
                   tr class="danger"
                     td colspan="2"
-                    td.mdl-data-table__cell--non-numeric colspan="3"
+                    td.mdl-data-table__cell--non-numeric colspan="#{1 + (credits.size * 2)}"
                       i Missing poke #{counter}
-                    - credits.slice(1..credits.size).each.with_index do |credit, index|
-                      td style="background-color: ##{colors[index + 1]}"
-                      td style="background-color: ##{colors[index + 1]}"
 
                 - else
                   - poke = pokes_in.first
-                  tr class="#{"danger" if poke&.operation&.status_not_ok?}"
+                  - next unless poke
+                  tr class="#{"danger" if poke.operation.status_not_ok?}"
                     td data-label="Actions" style="width: 10px"
                       - if policy(poke).status_9? ||  policy(poke).status_0?
                         - if poke.ok?
@@ -54,6 +57,8 @@
                         = poke.date.strftime("%d %b")
                         br
                         b = poke.date.strftime("%H:%M")
+                        br
+                        = poke.id
 
                     td.mdl-data-table__cell--non-numeric data-label="Action"
                       - name = pokes_in.size == 1 ? poke.name : "Sale of #{pokes_in.size} items"

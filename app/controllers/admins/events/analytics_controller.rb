@@ -80,7 +80,7 @@ module Admins
 
         @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale }.map { |k, v| [k, number_to_token(v)] }
         @views = [
-          { chart_id: "products", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 },
+          { chart_id: "products_", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 },
           { chart_id: "products_stock", title: "Products Sale Stock", cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name"], data: products_stock, metric: ["Quantity"], decimals: 0 }
         ]
 
