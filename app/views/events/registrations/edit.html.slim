@@ -16,7 +16,7 @@
       = f.input :address, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if @current_event.address_mandatory?
       = f.input :city, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if @current_event.address_mandatory?
       = f.input :postcode, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if @current_event.address_mandatory?
-      = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if @current_event.country_mandatory?
+      = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if @current_event.address_mandatory?
       = f.input :gender, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.gender"), collection: %w(male female).map { |f| [t("gender." + f), f] }, include_blank: false, input_html: { class: 'session-input' } if @current_event.gender_mandatory?
       = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: resource.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if @current_event.birthdate_mandatory?
       = f.button :submit, t('registration.edit.button'),  class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
