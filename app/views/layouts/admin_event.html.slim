@@ -126,11 +126,11 @@ html
       function floatyMouseEnter() {
         $('#button').toggleClass('on');
         $('#changeIcon').html('clear');
-        $('#actions-list').toggleClass('show');
+        $('#actions-list').fadeIn(500);
       }
 
       function floatyMouseLeave() {
         $('#button').removeClass('on');
         $('#changeIcon').html('build');
-        $('#actions-list').removeClass('show');
+        $('#actions-list').fadeOut(500);
       }

@@ -96,7 +96,7 @@ class PokesQuery
           date_trunc('day', created_at) as date_time_sort,
           0 as topups,
           0 as sale,
-          -1* sum(credit_base) as refunds,
+          sum(credit_base) as refunds,
           0 as topups_count,
           0 as sales_count,
           count(credit_base) as refunds_count
