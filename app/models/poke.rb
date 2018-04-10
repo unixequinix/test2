@@ -75,9 +75,9 @@ class Poke < ApplicationRecord
   }
 
   scope :credit_flow, lambda {
-    select(balance, :description, :credit_name, event_day_poke, date_time_poke, dimensions_station, "devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
+    select(balance, detail, :credit_name, event_day_poke, date_time_poke, dimensions_station, "devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
       .left_outer_joins(:station, :device)
-      .where.not(credit_amount: nil).is_ok.not_record_credit
+      .where.not(credit_amount: nil).is_ok
       .group(:description, :credit_name, grouping_station, "action, event_day, date_time, device_name")
   }
 
@@ -89,10 +89,10 @@ class Poke < ApplicationRecord
   }
 
   scope :access, lambda {
-    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
+    select(date_time_poke, event_day_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
       .joins(:station, :catalog_item)
       .where.not(access_direction: nil).is_ok
-      .group("station_name, date_trunc('hour', date), catalog_item_id, zone, direction, access_direction")
+      .group("station_name, date_trunc('hour', date), event_day, catalog_item_id, zone, direction, access_direction")
   }
 
   scope :devices, -> { select("stations.name as station_name", event_day_poke, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
@@ -106,62 +106,16 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
-  def self.totals(event) # rubocop:disable Metrics/AbcSize
-    {
-      source_payment_method_money: event.pokes.select("source", payment_method_pokes, sum_money).is_ok.has_money.group("source, payment_method").as_json(except: :id),
-      source_action_money: event.pokes.select("source, action", sum_money).is_ok.has_money.group("source, action").as_json(except: :id),
-
-      credit_breakage: event.pokes.select("credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("credit_name").as_json(except: :id),
-      credits_type: event.pokes.select("action, credit_name", sum_credit).is_ok.has_credits.not_record_credit.group("action, credit_name").as_json(except: :id),
-      alcohol_products: event.pokes.select("CASE WHEN products.is_alcohol = TRUE then 'Alcohol Products' ELSE 'Non Alcohol' END as is_alcohol, abs(sum(credit_amount)) as credits, abs(count(credit_amount)) as credits_amount").is_ok.where(action: 'sale', credit_id: event.credit.id).joins(:product).group("is_alcohol").to_json,
-      top_products: event.pokes
-                         .select("COALESCE(products.name, pokes.description) as product_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
-                         .left_outer_joins(:product)
-                         .is_ok
-                         .where(action: 'sale', credit_id: event.credit.id)
-                         .group("product_name")
-                         .order("credits desc")
-                         .limit("10").to_json
-    }
-  end
-
-  def self.money_dashboard(event)
-    {
-      money_reconciliation: event.pokes.is_ok.sum(:monetary_total_price),
-      income_onsite: event.pokes.topups.is_ok.where(credit: event.credits).sum(:credit_amount),
-      onsite_refunds: event.pokes.is_ok.refunds.sum(:monetary_total_price).abs
-    }
-  end
-
-  def self.dashboard(event)
-    {
-      money_reconciliation: event.pokes.is_ok.sum(:monetary_total_price),
-      outstanding_credits: event.pokes.is_ok.not_record_credit.where(credit: event.credits).sum(:credit_amount),
-      total_sales: event.pokes.is_ok.sales.where(credit: event.credits).sum(:credit_amount).abs,
-      activations: event.customers.count
-    }
-  end
-
-  def self.dashboard_graphs(event)
-    {
-      d_credits: event.pokes.record_credit_sale_h.is_ok.not_record_credit.where(credit: event.credits).to_json
-    }
-  end
-
   def self.event_day_poke
     "to_char(date_trunc('day', date ), 'YY-MM-DD') as event_day"
   end
 
-  def self.date_time_poke
-    "to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time"
-  end
-
-  def self.event_day_sort
-    "date_trunc('day', date ) as event_day_sort"
-  end
-
   def self.date_time_sort
     "date_trunc('hour', date) as date_time_sort"
+  end
+
+  def self.date_time_poke
+    "to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time"
   end
 
   def self.payment_method_pokes
@@ -188,14 +142,6 @@ class Poke < ApplicationRecord
     "sum(monetary_total_price) as money"
   end
 
-  def self.sum_credit
-    "sum(credit_amount) as credit_amount"
-  end
-
-  def self.source_money
-    "sum(CASE when source = 'online' THEN monetary_total_price ELSE NULL END) as online, sum(CASE when source = 'onsite' THEN monetary_total_price ELSE NULL END) as onsite"
-  end
-
   def self.is_alcohol # rubocop:disable Naming/PredicateName
     "CASE WHEN products.is_alcohol = TRUE then 'Alcohol Product' ELSE 'Non' END as is_alcohol"
   end
@@ -213,8 +159,18 @@ class Poke < ApplicationRecord
     WHEN description  = 'topup' then 'income'
     WHEN description  = 'purchase' then 'income'
     WHEN description  = 'refund' then 'refunds'
+    WHEN description = 'record_credit' then 'income'
     ELSE action
     END as action"
+  end
+
+  def self.detail
+    "CASE
+    WHEN description  = 'record_credit' then 'redeemed_credits'
+    WHEN description  = 'topup' then 'topup_onsite'
+    WHEN description  = 'refund' then 'refund_onsite'
+    ELSE description
+    END as description"
   end
 
   def name # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize

@@ -53,8 +53,8 @@
                               colors: ['#FF4E50', '#F9D423'],
                               icon: 'equalizer',
                               title_text: "Total Sales in #{@current_event.currency_symbol}",
-                              title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs),
-                              subtitle: [{ text: 'At Bars', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs) },{ text: 'At vendors', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs) }]
+                              title_number: number_to_reports(@current_event.onsite_sales.sum(:credit_amount).to_f.abs * @current_event.credit.value),
+                              subtitle: [{ text: 'At Bars', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'bar' }).sum(:credit_amount).to_f.abs * @current_event.credit.value) },{ text: 'At vendors', number: number_to_reports(@current_event.onsite_sales.where(stations: { category: 'vendor' }).sum(:credit_amount).to_f.abs * @current_event.credit.value) }]
                       = render "box", cols: 3,
                               id: 'spending_power',
                               custom_class: 'hovering',

@@ -38,7 +38,8 @@
                                   no_content: true,
                                   custom_class: 'cash_flow_card',
                                   style: 'padding: 0 5px',
-                                  subtitle: { bars: (@current_event.onsite_sales.where(stations: { category: "bar" }).sum(:credit_amount).to_f.abs * @current_event.credit.value), vendors: @current_event.onsite_sales.where(stations: { category: "vendor" }).sum(:credit_amount).to_f.abs * @current_event.credit.value }
+                                  subtitle: { bars: (@current_event.onsite_sales.where(stations: { category: "bar" }).sum(:credit_amount).to_f.abs * @current_event.credit.value),
+                                              vendors: @current_event.onsite_sales.where(stations: { category: "vendor" }).sum(:credit_amount).to_f.abs * @current_event.credit.value }
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
               = render "box", cols: 12,
                               no_content: true,
@@ -48,13 +49,14 @@
                               colors: ['#FF5050', '#F3A183'],
                               icon: 'money_off',
                               title_text: 'Refunds',
-                              title_number: number_to_reports((@current_event.refunds.completed.sum(:credit_base) * @current_event.credit.value).abs + @current_event.onsite_refunds.sum(:monetary_total_price).abs)
+                              title_number: number_to_reports((@current_event.refunds.completed.sum("credit_base + credit_fee") * @current_event.credit.value).abs + @current_event.onsite_refunds.sum(:monetary_total_price).abs)
               = render "subcard", cols: 12,
                                   slide_button: true,
                                   no_content: true,
                                   custom_class: 'cash_flow_card',
                                   style: 'padding: 0 5px',
-                                  subtitle: { online: (@current_event.refunds.completed.sum(:credit_base) * @current_event.credit.value).abs, onsite: @current_event.onsite_refunds.sum(:monetary_total_price).abs }
+                                  subtitle: { online: (@current_event.refunds.completed.sum("credit_base + credit_fee") * @current_event.credit.value).abs,
+                                              onsite: @current_event.onsite_refunds.sum(:monetary_total_price).abs }
             .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
               = render "box", cols: 12,
                               no_content: true,
