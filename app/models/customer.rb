@@ -9,7 +9,6 @@ class Customer < ApplicationRecord
   belongs_to :event, counter_cache: true
 
   has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag", inverse_of: :customer
-
   has_many :orders, dependent: :restrict_with_error
   has_many :refunds, dependent: :restrict_with_error
   has_many :tickets, dependent: :nullify
