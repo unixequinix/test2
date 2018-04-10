@@ -66,7 +66,7 @@ class Customer < ApplicationRecord
       anon_customer.pokes.update_all(customer_id: customer.id)
       anon_customer.gtags.update_all(customer_id: customer.id)
       anon_customer.tickets.update_all(customer_id: customer.id)
-      anon_customer.destroy!
+      anon_customer.reload.destroy!
     end
 
     customer
