@@ -30,7 +30,3 @@ end
 every 5.minutes do
   runner "CronJobs.import_palco4_tickets"
 end
-
-every 10.minutes do
-  rake "sidekiq:restart"
-end
