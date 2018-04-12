@@ -61,7 +61,7 @@
                               colors: ['#FF5050', '#F3A183'],
                               icon: 'loyalty',
                               title_text: "Spending Power in #{@current_event.currency_symbol}",
-                              title_number: number_to_reports(@current_event.total_spending_power * @credit_value),
+                              title_number: number_to_reports(@current_event.total_spending_power),
                               subtitle: [{ text: 'Online', number: number_to_reports(@current_event.online_spending_power * @credit_value) }, { text: 'Onsite', number: number_to_reports(@current_event.onsite_spending_power * @credit_value) }]
                       = render "box", cols: 3,
                               id: 'spending_customers',

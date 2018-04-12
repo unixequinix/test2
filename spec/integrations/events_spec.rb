@@ -5,7 +5,37 @@ RSpec.describe "Events in the admin panel", type: :feature do
 
   before { login_as(user, scope: :user) }
 
-  describe "create:" do
+  describe "show event" do
+    let!(:registration) { create(:event_registration, event: event, email: user.email, user: user) }
+
+    before(:each) do
+      @online_topups = create_list(:order, 3, event: event, money_base: 10, money_fee: 5)
+      @online_topups.map(&:complete!)
+      @onsite_topups = create_list(:poke, 3, :as_topups, event: event)
+      @sales = create_list(:poke, 3, :as_sales, event: event)
+      @purchases = create_list(:poke, 3, :as_purchase, event: event)
+      @customers = create_list(:customer, 3, event: event, anonymous: false)
+      @customers.each do |customer|
+        gtag = create(:gtag, event: event, customer: customer, credits: rand(10..50))
+        customer.reload
+        create(:refund, event: event, customer: customer, credit_base: gtag.credits, status: 2)
+      end
+    end
+
+    context "check cards on event dashboard" do
+      before { visit admins_event_path(event) }
+
+      it "should have correct outstading value" do
+        expect(find('#outstading .analytic-card-title .number').text).to include(number_to_reports(event.cash_income - event.cash_outcome))
+      end
+
+      it "should have correct spending power value" do
+        expect(find('#spending_power .analytic-card-title .number').text).to include(number_to_reports(event.total_spending_power.abs.to_f))
+      end
+    end
+  end
+
+  describe "create event" do
     before { visit new_admins_event_path }
 
     context "a standard event" do

@@ -33,7 +33,7 @@ RSpec.describe "Analytics in the admin panel", type: :feature do
     end
 
     it "shows total spending power" do
-      expect(find('#spending_power .analytic-card-title .number').text).to include(number_to_reports(event.total_spending_power.abs.to_f * event.credit.value))
+      expect(find('#spending_power .analytic-card-title .number').text).to include(number_to_reports(event.total_spending_power.abs.to_f))
     end
 
     it "shows total spending customers" do
