@@ -27,14 +27,14 @@ class Order < ApplicationRecord
   scope :not_refund, -> { where.not(gateway: "refund") }
 
   scope :online_purchase, lambda {
-    select(transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, money_order)
+    select(transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, "sum(money_base) as money")
       .completed
       .group(grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
-      .having("sum(money_base + money_fee)!=0")
+      .having("sum(money_base)!=0")
   }
 
   scope :online_purchase_fee, lambda {
-    select(event_day_order, date_time_order, dimensions_station, "'fee' as action, 'online_applied_fee' as description, NULL as device_name, 'x' as credit_name", money_order_fee)
+    select(event_day_order, date_time_order, dimensions_station, "'fee' as action, 'online_applied_fee' as description, NULL as device_name, 'x' as credit_name", "sum(money_fee) as money")
       .completed
       .group(grouper_event_day, grouper_date_time, grouper_dimensions_station, "action, description, device_name, credit_name")
       .having("sum(money_fee)!=0")
@@ -93,14 +93,6 @@ class Order < ApplicationRecord
 
   def self.date_time_order
     "to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time"
-  end
-
-  def self.money_order
-    "sum(money_fee + money_base) as money"
-  end
-
-  def self.money_order_fee
-    "sum(money_fee) as credit_amount"
   end
 
   def self.sum_credits

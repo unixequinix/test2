@@ -26,24 +26,21 @@ module Admins
       def partner_reports # rubocop:disable Metrics/AbcSize
         money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day", "Date Time"]
         online_purchase = @current_event.orders.online_purchase.as_json
+        online_purchase_fee = @current_event.orders.online_purchase_fee.as_json
         onsite_money = @current_event.pokes.money_recon_operators(%w[none other]).as_json
         online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
         products_sale = @current_event.pokes.products_sale(@current_event.credit.id).as_json.map { |o| o.merge('money' => -1 * o['credit_amount'] * @credit_value) }
-        @money = prepare_pokes(money_cols, onsite_money + online_purchase + online_refunds + products_sale)
+        @money = prepare_pokes(money_cols, onsite_money + online_purchase + online_purchase_fee + online_refunds + products_sale)
 
+        credits_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day", "Date Time"]
         online_packs = Order.online_packs(@current_event).as_json
         online_topup = @current_event.orders.online_topup.as_json
-        order_fee = @current_event.orders.online_purchase_fee.each do |o|
-          o.credit_name = @credit_name
-          o.credit_amount = o.credit_amount / @credit_value
-        end
         credits_onsite = @current_event.pokes.credit_flow.as_json
         credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
         credits_refunds_fee = @current_event.refunds.online_refund_fee.each { |o| o.credit_name = @credit_name }.as_json
-
-        credits_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day", "Date Time"]
-        credits = online_packs + online_topup + credits_onsite + credits_refunds + credits_refunds_fee + order_fee
+        credits = online_packs + online_topup + credits_onsite + credits_refunds + credits_refunds_fee
         @credits = prepare_pokes(credits_cols, credits)
+
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
         sales = prepare_pokes(cols, @current_event.pokes.products_sale(@current_event.credits.pluck(:id)).as_json)
         top_cols = ['Product Name', 'Credits', 'sorter']
