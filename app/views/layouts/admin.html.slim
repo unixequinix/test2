@@ -86,11 +86,11 @@ html
       function floatyMouseEnter() {
         $('#button').toggleClass('on');
         $('#changeIcon').html('clear');
-        $('#actions-list').fadeIn(500);
+        $('#actions-list').toggleClass('show');
       }
 
       function floatyMouseLeave() {
         $('#button').removeClass('on');
         $('#changeIcon').html('build');
-        $('#actions-list').fadeOut(500);
+        $('#actions-list').removeClass('show');
       }
