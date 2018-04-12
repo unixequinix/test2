@@ -108,6 +108,9 @@
                           canvas#alcohol_products
             .mdl-layout-spacer
         #load-view
+          = render 'admins/events/spinner'
+          .content
+
       .mdl-layout-spacer
 
       - if @current_event.launched?

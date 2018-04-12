@@ -1,0 +1,15 @@
+.spinner
+  .mdl-cell.mdl-cell--12-col.loader-container
+    = image_tag 'loader_analytics.gif', class: 'loader'
+    span.loader.message
+     | Loading
+javascript:
+  $(".loader").hide();
+
+  $(document).ajaxStart(function() {
+    $('.spinner').siblings().map(function(i, elem) { $(elem).hide() });
+    $(".loader").fadeIn('slow');
+  }).ajaxStop(function() {
+    $('.spinner').siblings().map(function(i, elem) { $(elem).show() });
+    $(".loader").hide();
+  });
