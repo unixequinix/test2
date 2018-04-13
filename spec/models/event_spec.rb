@@ -96,13 +96,13 @@ RSpec.describe Event, type: :model do
     end
 
     it "should calculate online spending power" do
-      online_spending_power = -1 * subject.refunds.completed.sum("credit_base + credit_fee")
+      online_spending_power = -1 * subject.refunds.completed.sum("credit_base")
       expect(subject.online_spending_power).to eq(online_spending_power * subject.credit.value)
     end
 
     it "should calculate spending power" do
       onsite_spending_power = @sales.sum(&:credit_amount)
-      online_spending_power = -1 * subject.refunds.completed.sum("credit_base + credit_fee")
+      online_spending_power = -1 * subject.refunds.completed.sum("credit_base")
       expect(subject.total_spending_power).to eq((onsite_spending_power + online_spending_power) * subject.credit.value)
     end
   end

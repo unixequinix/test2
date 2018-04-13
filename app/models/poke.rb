@@ -36,33 +36,33 @@ class Poke < ApplicationRecord
   scope :online, -> { where(source: "online") }
 
   scope :money_recon, lambda { |t = ''|
-    select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action", :description, :source, :payment_method, event_day_poke, date_time_poke, "stations.category as station_type", "stations.name as station_name", sum_money)
-      .left_joins(:station).has_money.is_ok
-      .where.not(payment_method: t)
-      .group(:action, :description, :source, :payment_method, "event_day, date_time, station_type, station_name")
-  }
-
-  scope :money_recon_operators, lambda { |t = ''|
-    select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action", :description, :source, :payment_method, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, sum_money)
-      .left_joins(:station, :device, :operator, :operator_gtag)
+    select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action, action as description", :source, :payment_method, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, sum_money)
+      .left_outer_joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag)
       .has_money.is_ok
       .where.not(payment_method: t)
-      .group(:action, :description, :source, :payment_method, grouping_operators_devices, grouping_station, "date_time")
+      .group(:action, :description, :source, :payment_method, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
+  }
+
+  scope :credit_flow, lambda {
+    select(balance, detail, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, "sum(credit_amount) as credit_amount, credit_name as payment_method")
+      .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag)
+      .where.not(credit_amount: nil).is_ok
+      .group(:action, :description, :credit_name, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
   }
 
   scope :products_sale, lambda { |credit|
-    select(:action, :description, :credit_name, event_day_poke, date_time_poke, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, 'credits' as payment_method")
-      .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
+    select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, credit_name as payment_method")
+      .left_outer_joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
       .where(credit_id: credit)
-      .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time", "is_alcohol, product_name")
+      .group(:action, :description, :credit_name, grouping_customers, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_name")
   }
 
   scope :products_sale_stock, lambda {
-    select(:operation_id, :description, :sale_item_quantity, event_day_poke, dimensions_operators_devices, dimensions_station, "COALESCE(products.name, pokes.description) as product_name")
-      .joins(:station, :device, :operator).left_outer_joins(:operator_gtag, :product)
+    select(:operation_id, :description, :sale_item_quantity, dimensions_customers, dimensions_operators_devices, dimensions_station, date_time_poke, "COALESCE(products.name, pokes.description) as product_name")
+      .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
-      .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "product_name")
+      .group(:operation_id, :description, :sale_item_quantity, grouping_customers, grouping_operators_devices, grouping_station, "date_time, product_name")
   }
 
   scope :top_products, lambda {
@@ -74,52 +74,40 @@ class Poke < ApplicationRecord
       .limit(10)
   }
 
-  scope :credit_flow, lambda {
-    select(balance, detail, :credit_name, event_day_poke, date_time_poke, dimensions_station, "devices.asset_tracker as device_name, sum(credit_amount) as credit_amount")
-      .left_outer_joins(:station, :device)
-      .where.not(credit_amount: nil).is_ok
-      .group(:description, :credit_name, grouping_station, "action, event_day, date_time, device_name")
-  }
-
   scope :checkin_ticket_type, lambda {
-    select(:action, :description, event_day_poke, dimensions_station, date_time_poke, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets, sum(pokes.monetary_total_price) as monetary_total_price")
-      .joins(:station, :device, :catalog_item).left_joins(:ticket_type)
+    select(:action, :description, :ticket_type_id, dimensions_customers, dimensions_operators_devices, dimensions_station, date_time_poke, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets, sum(pokes.monetary_total_price) as monetary_total_price")
+      .left_outer_joins(:station, :device, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag, :ticket_type)
       .where(action: %w[checkin purchase]).is_ok
-      .group(:action, :description, grouping_station, "event_day, date_time, device_name, catalog_item_name, ticket_type_name")
+      .group(:action, :description, :ticket_type_id, grouping_customers, grouping_operators_devices, grouping_station, " date_time, device_name, catalog_item_name, ticket_type_name")
   }
 
   scope :access, lambda {
-    select(date_time_poke, event_day_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
-      .joins(:station, :catalog_item)
+    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
+      .joins(:station, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag)
       .where.not(access_direction: nil).is_ok
-      .group("station_name, date_trunc('hour', date), event_day, catalog_item_id, zone, direction, access_direction")
-  }
-
-  scope :devices, -> { select("stations.name as station_name", event_day_poke, "count(distinct device_id) as total_devices").joins(:station).is_ok.group("stations.name", :event_day) }
-
-  scope :record_credit_sale_h, lambda {
-    select(date_time_poke, date_time_sort, "sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sale, sum(CASE WHEN action = 'record_credit' then credit_amount ELSE 0 END) as record_credit")
-      .credit_ops.is_ok
-      .group("date_time_sort, date_time")
-      .order("date_time_sort")
+      .group("station_name, date_time, catalog_item_id, zone, direction, access_direction")
   }
 
   has_paper_trail on: %i[update destroy]
-
-  def self.event_day_poke
-    "to_char(date_trunc('day', date ), 'YY-MM-DD') as event_day"
-  end
 
   def self.date_time_sort
     "date_trunc('hour', date) as date_time_sort"
   end
 
   def self.date_time_poke
-    "to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time"
+    "date_trunc('hour', date) as date_time"
   end
 
   def self.payment_method_pokes
     "coalesce(CASE WHEN payment_method='other' THEN 'hospitality' ELSE payment_method END, 'Not Defined') as payment_method"
+  end
+
+  def self.dimensions_customers
+    "customers.id as customer_id, gtags.tag_uid as customer_uid, CONCAT(customers.first_name, ' ', customers.last_name) as customer_name"
+  end
+
+  def self.grouping_customers
+    "customers.id, customer_uid, customer_name"
   end
 
   def self.dimensions_operators_devices
@@ -127,7 +115,7 @@ class Poke < ApplicationRecord
   end
 
   def self.grouping_operators_devices
-    "event_day, operator_uid, operator_name, device_name"
+    "operator_uid, operator_name, device_name"
   end
 
   def self.dimensions_station

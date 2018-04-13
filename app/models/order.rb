@@ -27,30 +27,31 @@ class Order < ApplicationRecord
   scope :not_refund, -> { where.not(gateway: "refund") }
 
   scope :online_purchase, lambda {
-    select(transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, "sum(money_base) as money")
+    select(:customer_id, transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, "sum(money_base) as money")
       .completed
-      .group(grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
+      .group(:customer_id, grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
       .having("sum(money_base)!=0")
   }
 
   scope :online_purchase_fee, lambda {
-    select(event_day_order, date_time_order, dimensions_station, "'fee' as action, 'online_applied_fee' as description, NULL as device_name, 'x' as credit_name", "sum(money_fee) as money")
+    select(:customer_id, event_day_order, date_time_order, dimensions_station, "'fee' as action, 'online_applied_fee' as description, NULL as device_name, 'x' as credit_name", "sum(money_fee) as money")
       .completed
-      .group(grouper_event_day, grouper_date_time, grouper_dimensions_station, "action, description, device_name, credit_name")
+      .group(:customer_id, grouper_event_day, grouper_date_time, grouper_dimensions_station, "action, description, device_name, credit_name")
       .having("sum(money_fee)!=0")
   }
 
   scope :online_topup, lambda {
-    select(event_day_order, date_time_order, dimensions_station, "'income' as action, 'unredeemed_topup_online' as description, NULL as device_name, catalog_items.name as credit_name, sum(order_items.amount) as credit_amount")
+    select(:customer_id, event_day_order, date_time_order, dimensions_station, "'income' as action, 'unredeemed_topup_online' as description, NULL as device_name, catalog_items.name as credit_name, sum(order_items.amount) as credit_amount")
       .joins(order_items: :catalog_item)
       .where(catalog_items: { type: %w[Credit VirtualCredit], order_items: { redeemed: false } })
       .completed
-      .group(grouper_event_day, grouper_date_time, grouper_dimensions_station, "action, description, device_name, credit_name")
+      .group(:customer_id, grouper_event_day, grouper_date_time, grouper_dimensions_station, "action, description, device_name, credit_name")
   }
 
   def self.online_packs(event)
     connection.select_all("SELECT
     1 as id,
+    customer_id,
     to_char(date_trunc('day', completed_at), 'YY-MM-DD') as event_day,
     to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time,
     'Customer Portal' as location,
@@ -71,7 +72,7 @@ class Order < ApplicationRecord
       AND item.event_id = #{event.id}
       AND orders.status = #{statuses[:completed]}
       AND o.redeemed = FALSE
-    GROUP BY event_day, date_time, location, station_type, station_name, action, description, device_name, credit_name")
+    GROUP BY customer_id, event_day, date_time, location, station_type, station_name, action, description, device_name, credit_name")
   end
 
   def topup?

@@ -32,18 +32,18 @@ module Admins
         @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types)
         @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types)
 
-        money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @money = prepare_pokes(money_cols, @station.pokes.money_recon_operators.as_json)
-        credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day"]
-        @credits = prepare_pokes(credit_cols, @station.pokes.credit_flow.as_json)
-        product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @products = prepare_pokes(product_cols, @station.pokes.products_sale(@current_event.credits.pluck(:id)).as_json)
-        stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
-        @products_stock = prepare_pokes(stock_cols, @station.pokes.products_sale_stock.as_json)
+        money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
+        @money = prepare_pokes(money_cols, pokes_onsite_money(@station))
+        credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day", "Date Time"]
+        @credits = prepare_pokes(credit_cols, pokes_onsite_credits(@station))
+        product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
+        @products = prepare_pokes(product_cols, pokes_sales(@station, [@current_event.credit.id, @current_event.virtual_credit.id]))
+        stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
+        @products_stock = prepare_pokes(stock_cols, pokes_sale_quantity(@station))
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]
-        @access_control = prepare_pokes(access_cols, @station.pokes.access.as_json)
-        ticket_cols = ["Action", "Catalog Item", "Ticket Type", "Event Day", "Operator UID", "Operator Name", "Device", "Total Tickets", "Money"]
-        @checkin_ticket_type = prepare_pokes(ticket_cols, @station.pokes.checkin_ticket_type.as_json)
+        @access_control = prepare_pokes(access_cols, pokes_access(@station))
+        ticket_cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer ID', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Redeemed', 'Total Tickets']
+        @checkin_ticket_type = prepare_pokes(ticket_cols, pokes_checkin(@station))
       end
 
       def new

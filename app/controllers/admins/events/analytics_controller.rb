@@ -27,27 +27,29 @@ module Admins
         money_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Money", "Payment Method", "Event Day", "Date Time"]
         online_purchase = @current_event.orders.online_purchase.as_json
         online_purchase_fee = @current_event.orders.online_purchase_fee.as_json
-        onsite_money = @current_event.pokes.money_recon_operators(%w[none other]).as_json
+        onsite_money = pokes_onsite_money(@current_event)
         online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @credit_value }.as_json
-        products_sale = @current_event.pokes.products_sale(@current_event.credit.id).as_json.map { |o| o.merge('money' => -1 * o['credit_amount'] * @credit_value) }
+        products_sale = pokes_sales(@current_event, [@current_event.credit.id], @credit_value)
         @money = prepare_pokes(money_cols, onsite_money + online_purchase + online_purchase_fee + online_refunds + products_sale)
 
         credits_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Credit Name", "Credits", "Device", "Event Day", "Date Time"]
         online_packs = Order.online_packs(@current_event).as_json
         online_topup = @current_event.orders.online_topup.as_json
-        credits_onsite = @current_event.pokes.credit_flow.as_json
+        credits_onsite = pokes_onsite_credits(@current_event)
         credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
         credits_refunds_fee = @current_event.refunds.online_refund_fee.each { |o| o.credit_name = @credit_name }.as_json
         credits = online_packs + online_topup + credits_onsite + credits_refunds + credits_refunds_fee
         @credits = prepare_pokes(credits_cols, credits)
 
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        sales = prepare_pokes(cols, @current_event.pokes.products_sale(@current_event.credits.pluck(:id)).as_json)
+        sales = pokes_sales(@current_event, [@current_event.credit.id, @current_event.virtual_credit.id])
+        sales = prepare_pokes(cols, sales)
+
         top_cols = ['Product Name', 'Credits', 'sorter']
         top_products = prepare_pokes(top_cols, @current_event.pokes.top_products.as_json)
         @views = [
-          { chart_id: "money_flow", title: "Money Flow", cols: ["Event Day"], rows: ["Action"], data: @money, metric: ["Money"], decimals: 1 },
           { chart_id: "money_recon", title: "Money Reconciliation Summary", cols: ["Payment Method"], rows: ["Action", "Station Name"], data: @money, metric: ["Money"], decimals: 1 },
+          { chart_id: "money_flow", title: "Money Flow", cols: ["Event Day"], rows: ["Action"], data: @money, metric: ["Money"], decimals: 1 },
           { chart_id: "topups_statiom", title: "Topup-Refund by Hour / Station", cols: ["Date Time"], rows: ["Station Name"], data: @money, metric: ["Money"], decimals: 1, partial: "chart_card", type: "Stacked Bar Chart" },
           { chart_id: "topups_payment", title: "Topup-Refund Cash / Card / Virtual by Hour", cols: ["Date Time"], rows: ["Payment Method"], data: @money, metric: ["Money"], decimals: 1, partial: "chart_card", type: "Bar Chart" },
           { chart_id: "topups_popular", title: "Most Popular Top-Up Amounts", cols: [], rows: ["Amount"], data: PokesQuery.new(@current_event).top_topup, metric: ["Customers"], decimals: 0, partial: "chart_card", type: "Bar Chart" },
@@ -71,13 +73,16 @@ module Admins
         total_sale = -@current_event.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
 
         cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        products = prepare_pokes(cols, @current_event.pokes.products_sale(@current_event.credits.pluck(:id)).as_json)
+        sales = pokes_sales(@current_event, [@current_event.credit.id, @current_event.virtual_credit.id])
+        sales = prepare_pokes(cols, sales)
+
         stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
-        products_stock = prepare_pokes(stock_cols, @current_event.pokes.products_sale_stock.as_json)
+        products_stock = pokes_sale_quantity(@current_event)
+        products_stock = prepare_pokes(stock_cols, products_stock)
 
         @totals = { sale_credit: sale_credit, sale_virtual: sale_virtual, total_sale: total_sale }.map { |k, v| [k, number_to_token(v)] }
         @views = [
-          { chart_id: "products_", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: products, metric: ["Credits"], decimals: 1 },
+          { chart_id: "products_", title: "Products Sale", cols: ["Event Day", "Credit Name"], rows: ["Location", "Station Type", "Station Name"], data: sales, metric: ["Credits"], decimals: 1 },
           { chart_id: "products_stock", title: "Products Sale Stock", cols: ["Event Day"], rows: ["Location", "Station Type", "Station Name"], data: products_stock, metric: ["Quantity"], decimals: 0 }
         ]
 
@@ -93,14 +98,16 @@ module Admins
         rate_cols = ["Ticket Type", "Total Tickets", "Redeemed"]
         checkin_rate = prepare_pokes(rate_cols, @current_event.ticket_types.checkin_rate.as_json)
         ticket_cols = ["Action", "Description", "Location", "Station Type", "Station Name", "Catalog Item", "Ticket Type", "Total Tickets", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
-        checkin_ticket_type = prepare_pokes(ticket_cols, @current_event.pokes.checkin_ticket_type.as_json)
+        checkin = pokes_checkin(@current_event)
+        checkin_ticket_type = prepare_pokes(ticket_cols, checkin)
         access_cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Zone"]
-        access_control = prepare_pokes(access_cols, @current_event.pokes.access.as_json)
+        access = pokes_access(@current_event)
+        access_control = prepare_pokes(access_cols, access)
 
         @totals = { total_checkins: total_checkins, total_access: total_access, activations: activations, staff: staff }.map { |k, v| [k, v.to_i] }
         @views = [{ chart_id: "checkin_rate", title: "Ticket Check-in Rate", cols: [], rows: ["Ticket Type", "Redeemed"], data: checkin_rate, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Table" },
                   { chart_id: "checkin_ticket_type", title: "Check-in and Box office purchase", cols: ["Date Time"], rows: ["Catalog Item"], data: checkin_ticket_type, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" },
-                  { chart_id: "access_control", title: "Venue Capacity", cols: ["Zone"], rows: ["Date Time"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
+                  { chart_id: "access_control", title: "Venue Capacity", cols: ["Date Time"], rows: ["Zone"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
         prepare_data(params["action"])
       end
 
