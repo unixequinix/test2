@@ -9,33 +9,32 @@ class Rack::Attack
   # but you can override that by setting the `Rack::Attack.cache.store` value
   Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
-  # Allow all local traffic
-  safelist('allow-localhost') do |req|
-   '127.0.0.1' == req.ip || '::1' == req.ip
-  end
-
-  # Allow an IP address to make 50 requests every 5 seconds
-  
-
   # Throttle login attempts by email address
   throttle("/users/sign_in", limit: 5, period: 60.minutes, type: :recaptcha) do |req|
-    req.params['user']['login'].presence if req.path == '/users/sign_in' && req.post?
+    req.params.try(:[],'user').try(:[], 'login').presence if req.path == '/users/sign_in' && req.post?
   end
 
   # Throttle login attempts by email address
   throttle("/:event/login", limit: 10, period: 60.minutes, type: :recaptcha) do |req|
-    req.params['customer']['email'].presence if req.path.include?('/login') && req.post?
+    req.params.try(:[], 'customer').try(:[], 'email').presence if req.path.include?('/login') && req.post?
+  end
+
+  user_rate_limit = proc { |req| User.find_by(access_token: req.env['HTTP_AUTHORIZATION']&.partition('=')&.last&.strip)&.glowball? ? 201 : 101 } || 101
+
+  throttle("limit api v2 by ip", limit: user_rate_limit, period: 1.minutes) do |req|
+    # Throttle API V2 attempts
+    req.env['HTTP_AUTHORIZATION']&.partition('=')&.last&.strip || req.ip if req.path.include?('/api/v2')
   end
 
   # Send the following response to throttled clients
-  self.throttled_response = ->(env) {
+  self.throttled_response = lambda do |env|
     retry_after = (env['rack.attack.match_data'] || {})[:period]
     [
       429,
       {'Content-Type' => 'application/json', 'Retry-After' => retry_after.to_s},
-      [{error: "Throttle limit reached. Retry later."}.to_json]
+      [{error: "Throttle limit reached. Retry on #{retry_after} seconds"}.to_json]
     ]
-  }
+  end
 end
 
 class Rack::Attack::Throttle

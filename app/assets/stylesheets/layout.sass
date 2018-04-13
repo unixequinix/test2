@@ -376,22 +376,34 @@ label
 
 //MENU BTN
 .floaty
+  width: 100%
   position: absolute
-  right: 22px
   bottom: 20px
   z-index: 1000
+  text-align: right
+  vertical-align: middle
   ul
     padding: 0
+    &.floaty-btn
+      display: inline
+      width: auto
+      position: absolute
+      right: 2rem
+
 
 .floaty-list
-  margin: 0 0 10px
+  display: inline
+  margin: 0 7rem 0 0
   padding: 0 0 0 6px
   list-style: none
   visibility: hidden
   opacity: 0
   transition: visibility 0s, opacity 0.5s linear
+  li
+    display: inline-block
 
 .show
+  overflow: hidden
   visibility: visible
   opacity: 1
 
@@ -399,7 +411,7 @@ label
   position: relative
   width: 40px
   height: 40px
-  margin: 10px auto
+  margin: 10px 5px
   button
     background-color: #80CBC4 !important
 

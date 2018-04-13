@@ -106,16 +106,16 @@ class Event < ApplicationRecord
   end
 
   def onsite_spending_power
-    pokes.where(credit: credit).is_ok.sum(:credit_amount)
+    pokes.where(credit: credit).is_ok.sum(:credit_amount) * credit.value
   end
 
   def online_spending_power
     ticket_type_credits = ticket_types.includes(:catalog_item).where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
     credential_sp = tickets.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum + gtags.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum
     order_sp = OrderItem.where(order: orders.completed, redeemed: false, catalog_item: credit).sum(:amount)
-    refund_sp = refunds.completed.pluck(:credit_base, :credit_fee).flatten.sum
+    refund_sp = refunds.completed.sum("credit_base")
 
-    credential_sp + order_sp - refund_sp
+    (credential_sp + order_sp - refund_sp) * credit.value
   end
 
   def import_tickets

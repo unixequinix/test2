@@ -10,25 +10,18 @@ module Api
 
       # POST /device
       def create # rubocop:disable Metrics/PerceivedComplexity
-        mac_device = Device.find_by(mac: device_params[:mac])
+        @user = User.authenticate(Base64.decode64(params[:username]), Base64.decode64(params[:password]))
+        render(status: :unauthorized, json: { error: "Incorrect username or password" }) && return if @user.blank?
 
-        if mac_device
-          mac_device.update!(device_params.merge(app_id: @app_id))
-          render(status: :created, json: mac_device, serializer: DeviceSerializer)
-        else
-          @user = User.authenticate(Base64.decode64(params[:username]), Base64.decode64(params[:password]))
-          render(status: :unauthorized, json: { error: "Incorrect username or password" }) && return if @user.blank?
+        @team = @user&.team
+        render(status: :not_found, json: { error: "User does not belong to a team" }) && return if @team.blank?
 
-          @team = @user&.team
-          render(status: :not_found, json: { error: "User does not belong to a team" }) && return if @team.blank?
+        device = @team.devices.find_by(asset_tracker: device_params[:asset_tracker])
+        render(status: :conflict, json: { error: "Asset ID already in use" }) && return if device && (params[:force] == "false")
 
-          device = @team.devices.find_by(asset_tracker: device_params[:asset_tracker])
-          render(status: :conflict, json: { error: "Asset ID already in use" }) && return if device && (params[:force] == "false")
-
-          device.update(asset_tracker: device.asset_tracker + " (replaced by #{@user.username})") if params[:force] == "true"
-          device = @team.devices.create(device_params.merge(app_id: @app_id))
-          render(status: :created, json: device, serializer: DeviceSerializer)
-        end
+        device.update(asset_tracker: device.asset_tracker + " (replaced by #{@user.username})") if params[:force] == "true"
+        device = @team.devices.create(device_params.merge(app_id: @app_id))
+        render(status: :created, json: device, serializer: DeviceSerializer)
       end
 
       private

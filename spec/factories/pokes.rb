@@ -34,8 +34,8 @@ FactoryBot.define do
       before(:create) do |instance|
         instance.action = "topup"
         instance.payment_method = %w[card cash].sample
-        instance.monetary_quantity = rand(5)
-        instance.monetary_unit_price = rand(100)
+        instance.monetary_quantity = rand(1..5)
+        instance.monetary_unit_price = rand(10..100)
         instance.monetary_total_price = instance.monetary_quantity * instance.monetary_unit_price
       end
     end

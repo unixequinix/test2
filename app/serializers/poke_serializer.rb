@@ -9,6 +9,9 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :credit_name, key: "Credit Name"
   attribute :payment_method, key: "Payment Method"
   attribute :event_day, key: "Event Day"
+  attribute :customer_uid, key: "Customer UID"
+  attribute :customer_id, key: "Customer ID"
+  attribute :customer_name, key: "Customer Name"
   attribute :operator_uid, key: "Operator UID"
   attribute :operator_id, key: "Operator ID"
   attribute :operator_name, key: "Operator Name"
@@ -33,6 +36,7 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :source, key: "Source"
   attribute :sorter, key: "sorter"
   attribute :is_alcohol, key: "Alcohol Product"
+  attribute :code, key: "Ticket Code"
 
   def sorter
     object.try(:[], 'sorter')
@@ -74,6 +78,18 @@ class PokeSerializer < ActiveModel::Serializer
     return "Virtual" if object.try(:[], 'payment_method') == 'other'
     return "Customer Service" if object.try(:[], 'payment_method') == 'none'
     object.try(:[], 'payment_method')&.humanize
+  end
+
+  def customer_id
+    object.try(:[], 'customer_id')
+  end
+
+  def customer_uid
+    object.try(:[], 'customer_uid')
+  end
+
+  def customer_name
+    object.try(:[], 'customer_name')
   end
 
   def operator_uid
@@ -170,5 +186,9 @@ class PokeSerializer < ActiveModel::Serializer
 
   def is_alcohol # rubocop:disable Naming/PredicateName
     object.try(:[], 'is_alcohol')
+  end
+
+  def code
+    object.try(:[], 'code')
   end
 end
