@@ -284,13 +284,9 @@ Rails.application.routes.draw do
     # V2
     #---------------
     namespace :v2 do
-      resources :events, only: [:show, :index] do
+      resources :events, only: [:show, :index, :update] do
         scope module: "events" do
-          resources :devices, except: %i[create new] do
-            resources :pokes, only: [:index]
-          end
           resources :accesses
-          resources :pokes, only: [:index]
 
           resources :tickets do
             resources :pokes, only: [:index]
@@ -311,7 +307,6 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :pokes, only: [:index]
           resources :customers, constraints: { id: /.*/ } do
             resources :pokes, only: [:index]
 
@@ -325,7 +320,6 @@ Rails.application.routes.draw do
               post :gtag_replacement
               post :refund
               get :refunds
-              get :transactions
             end
           end
 

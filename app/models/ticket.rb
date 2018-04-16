@@ -18,6 +18,14 @@ class Ticket < ApplicationRecord
     AdmissionPolicy
   end
 
+  def credits
+    ticket_type.catalog_item.try(:credits)
+  end
+
+  def virtual_credits
+    ticket_type.catalog_item.try(:virtual_credits)
+  end
+
   def self.online_packs(event)
     connection.select_all("
     SELECT

@@ -8,7 +8,7 @@ module Api::V2
       key, id = params.permit!.select { |k, _v| k.to_s.include?("_id") }.reject { |k, _v| k.to_s == "event_id" }.to_h.to_a.first
       klass = key.to_s.gsub("_id", "")
 
-      @pokes = key.present? ? Admission.find(@current_event, id, klass).pokes : @current_event.pokes
+      @pokes = Admission.find(@current_event, id, klass).pokes
       authorize @pokes
 
       paginate json: @pokes, each_serializer: Api::V2::PokeSerializer
