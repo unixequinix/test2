@@ -25,6 +25,7 @@ describe Rack::Attack do
       end
     end
 
+
     context "number of requests are higher than the limit" do
       it "changes the request status to 429" do
         (limit * 2).times do |i|
@@ -163,8 +164,8 @@ describe Rack::Attack do
 
   describe "api v2" do
     let(:user) { create(:user, role: 'promoter') }
-    let(:promoter_limit) { 101 }
-    let(:glowball_limit) { 201 }
+    let(:promoter_limit) { 1000 }
+    let(:glowball_limit) { 1000 }
 
     it "changes the request status for promoters" do
       (promoter_limit + 1).times do |i|
