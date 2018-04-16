@@ -21,8 +21,8 @@
                 td data-label="Active" = gtag.active? ? fa_icon("check") : fa_icon("times")
                 td data-label="Redeemed" = best_in_place gtag, :redeemed, best_in_place_checkbox([:admins, @current_event, gtag])
                 td data-label="Banned" = best_in_place gtag, :banned, best_in_place_checkbox([:admins, @current_event, gtag])
-                - if !gtag.active?
-                  td.table-actions
+                td.table-actions
+                  - if !gtag.active?
                     .table-action
                       = link_to make_active_admins_event_gtag_path(@current_event, gtag) do
                         button.icon.material-icons done_all
