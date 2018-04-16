@@ -40,7 +40,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def update?
-    admin_or_promoter
+    admin_or_promoter && event_open
   end
 
   def remove_logo?

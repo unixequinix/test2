@@ -92,7 +92,7 @@ module Admins
     end
 
     def close
-      @current_event.update_attribute :state, "closed"
+      @current_event.update! state: "closed", open_devices_api: false, open_portal: false, open_portal_intercom: false, open_api: false
       @current_event.device_registrations.update_all(allowed: true)
 
       redirect_to [:admins, @current_event], notice: t("alerts.updated")
