@@ -224,26 +224,6 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     end
   end
 
-  describe "GET #transactions" do
-    before { @transactions = create_list(:credit_transaction, 2, event: event, customer: customer) }
-
-    it "returns a success response" do
-      get :transactions, params: atts
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "returns customer with transactions" do
-      get :transactions, params: atts
-      expect(json["transactions"].size).to be(2)
-    end
-
-    it "returns the transactions as JSON" do
-      get :transactions, params: atts
-      last_transaction = event.transactions.find(json["transactions"].last["id"])
-      expect(json["transactions"].last).to eq(obj_to_json_v2(last_transaction, "TransactionSerializer"))
-    end
-  end
-
   describe "GET #index" do
     before { create_list(:customer, 3, event: event) }
 
@@ -273,11 +253,6 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     it "returns the customer as JSON" do
       get :show, params: atts
       expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
-    end
-
-    it "returns customer without transactions" do
-      get :transactions, params: atts
-      expect(json["transactions"].size).to be(0)
     end
   end
 

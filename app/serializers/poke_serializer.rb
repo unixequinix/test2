@@ -19,7 +19,8 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :activations, key: "Activations"
   attribute :total_devices, key: "Total Devices"
   attribute :product_name, key: "Product Name"
-  attribute :sale_item_quantity, key: "Quantity"
+  attribute :sale_item_quantity, key: "Product Quantity"
+  attribute :num_operations, key: "Number of Operations"
   attribute :date_time, key: "Date Time"
   attribute :direction, key: "Direction"
   attribute :access_direction, key: "Access"
@@ -75,8 +76,6 @@ class PokeSerializer < ActiveModel::Serializer
   end
 
   def payment_method
-    return "Virtual" if object.try(:[], 'payment_method') == 'other'
-    return "Customer Service" if object.try(:[], 'payment_method') == 'none'
     object.try(:[], 'payment_method')&.humanize
   end
 
@@ -118,6 +117,10 @@ class PokeSerializer < ActiveModel::Serializer
 
   def sale_item_quantity
     object.try(:[], 'sale_item_quantity')
+  end
+
+  def num_operations
+    object.try(:[], 'num_operations')
   end
 
   def event_day

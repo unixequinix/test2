@@ -24,7 +24,7 @@ javascript:
             renderers: renderers,
             cols: ["Event Day"], rows: ["Product Name"],
             rendererName: "Table",
-            aggregators: { "Quantity": function () { return tpl.sum(frFormat)(["Quantity"]) }
+            aggregators: { "Quantity": function () { return tpl.sum(frFormat)(["Product Quantity"]) }
             }
         });
     });

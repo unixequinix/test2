@@ -97,11 +97,6 @@ module Api::V2
       render json: @refunds, each_serializer: RefundSerializer
     end
 
-    # GET api/v2/events/:event_id/customers/:id/transactions
-    def transactions
-      render json: @customer, serializer: Full::CustomerTransactionsSerializer
-    end
-
     # GET api/v2/events/:event_id/customers
     def index
       @customers = @current_event.customers

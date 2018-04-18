@@ -107,16 +107,18 @@
                         .mdl-cell.mdl-cell--12-col
                           canvas#alcohol_products
             .mdl-layout-spacer
+
         #load-view
           = render 'admins/events/spinner'
           .content
 
+          - if @current_event.launched?
+            .mdl-cell.mdl-cell--12-col
+              .center-card-title
+                span.analytics-text = @current_event.message
       .mdl-layout-spacer
 
-      - if @current_event.launched?
-        .mdl-cell.mdl-cell--12-col
-          .center-card-title
-            span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
+
 
 javascript:
   componentHandler.upgradeDom();

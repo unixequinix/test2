@@ -74,6 +74,7 @@ Rails.application.routes.draw do
         get :create_admin
         get :create_customer_support
         get :refund_fields
+        get :zoho_report
       end
 
       scope module: :events do
@@ -92,18 +93,26 @@ Rails.application.routes.draw do
 
         resource :custom_analytics do
           get :money
+          get :download_raw_data
           get :credits
+          get :download_raw_data_credits
           get :sales
+          get :download_raw_data_sale
           get :checkin
+          get :download_raw_data_checkin
           get :access
+          get :download_raw_data_access
         end
+
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection
         end
+
         resources :refunds, only: [:index, :show, :destroy, :update]
         resources :orders, only: [:index, :show, :new, :create, :destroy] do
           resources :order_items, only: :update
         end
+
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
         resources :device_registrations, only: [:index, :show, :destroy, :new, :create, :update] do
@@ -111,6 +120,7 @@ Rails.application.routes.draw do
           get :transactions, on: :member
           put :disable, on: :collection
         end
+
         resources :catalog_items, only: :update
         resources :accesses
         resources :devices, only: [:new, :create]
@@ -119,6 +129,7 @@ Rails.application.routes.draw do
         resources :packs do
           post :clone, on: :member
         end
+
         resources :ticket_assignments, only: :destroy
         resources :event_registrations, except: :show  do
           get :resend, on: :member
@@ -284,13 +295,9 @@ Rails.application.routes.draw do
     # V2
     #---------------
     namespace :v2 do
-      resources :events, only: [:show, :index] do
+      resources :events, only: [:show, :index, :update] do
         scope module: "events" do
-          resources :devices, except: %i[create new] do
-            resources :pokes, only: [:index]
-          end
           resources :accesses
-          resources :pokes, only: [:index]
 
           resources :tickets do
             resources :pokes, only: [:index]
@@ -311,7 +318,6 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :pokes, only: [:index]
           resources :customers, constraints: { id: /.*/ } do
             resources :pokes, only: [:index]
 
@@ -325,7 +331,6 @@ Rails.application.routes.draw do
               post :gtag_replacement
               post :refund
               get :refunds
-              get :transactions
             end
           end
 

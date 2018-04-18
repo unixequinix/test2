@@ -26,7 +26,7 @@ module ApplicationHelper
   end
 
   def number_to_reports_currency(number)
-    number_to_currency number, unit: @current_event.currency_symbol, precision: 0
+    number_to_currency number, unit: @current_event.currency_symbol, precision: 0, format: "%u %n"
   end
 
   def title

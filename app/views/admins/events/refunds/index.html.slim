@@ -28,18 +28,18 @@
         .mdl-cell.mdl-cell--6-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @current_event.refunds.where(status: "completed").sum(&:credit_total)
+              h3.mdl-card__title-text#refund_credits_completed = number_to_reports_currency @current_event.refunds.where(status: "completed").sum(&:credit_base)
             .mdl-card__supporting-text
               span.good_info = "Completed Fees: "
-              span = number_to_token @current_event.refunds.where(status: "completed").sum(:credit_fee)
+              span#refund_fee_completed = number_to_reports_currency @current_event.refunds.where(status: "completed").sum(:credit_fee)
 
         .mdl-cell.mdl-cell--6-col
           .customer-card.mdl-card.mdl-shadow--2dp
             .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text = number_to_token @current_event.refunds.where(status: "started").sum(&:credit_total)
+              h3.mdl-card__title-texttext#refund_credits_started = number_to_reports_currency @current_event.refunds.where(status: "started").sum(&:credit_base)
             .mdl-card__supporting-text
               span.bad_info = "Started Fees: "
-              span = number_to_token @current_event.refunds.where(status: "started").sum(:credit_fee)
+              span#refund_fee_started = number_to_reports_currency @current_event.refunds.where(status: "started").sum(:credit_fee)
 
 
     .mdl-layout-spacer

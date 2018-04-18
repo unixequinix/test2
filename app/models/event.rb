@@ -113,9 +113,13 @@ class Event < ApplicationRecord
     ticket_type_credits = ticket_types.includes(:catalog_item).where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
     credential_sp = tickets.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum + gtags.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum
     order_sp = OrderItem.where(order: orders.completed, redeemed: false, catalog_item: credit).sum(:amount)
-    refund_sp = refunds.completed.sum("credit_base")
+    refund_sp = refunds.completed.sum("credit_base + credit_fee")
 
     (credential_sp + order_sp - refund_sp) * credit.value
+  end
+
+  def message
+    "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped." if launched?
   end
 
   def import_tickets

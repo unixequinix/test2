@@ -20,12 +20,15 @@ class Api::V1::EventsController < Api::V1::BaseController
 
   def set_event
     scope = @current_user.glowball? ? Event.all : @device.events_for_device
-    @current_event = scope.friendly.find(params[:event_id] || params[:id])
+    @current_event = scope.friendly.find_by(id: params[:event_id] || params[:id])
+    # NOTE: DO NOT change the error message
+    render json: { error: "Event is closed" }, status: :forbidden unless @current_event
   end
 
   def event_auth
     return true if @current_user.glowball?
+    # NOTE: DO NOT change the error messages
     render json: { error: "This app version is no longer supported" }, status: :upgrade_required unless @current_event.valid_app_version?(params[:app_version])
-    render json: { error: "API is closed for event '#{@current_event.name}'" }, status: :unauthorized unless @current_event.open_devices_api?
+    render json: { error: "API is closed" }, status: :forbidden unless @current_event.open_devices_api?
   end
 end

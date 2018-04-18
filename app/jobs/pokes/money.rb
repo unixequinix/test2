@@ -5,7 +5,7 @@ class Pokes::Money < Pokes::Base
   NON_PAYMENTS = %w[other none].freeze
 
   def perform(transaction)
-    return if transaction.payment_method.in?(NON_PAYMENTS) && transaction.action.eql?("onsite_topup")
+    return if transaction.payment_method.in?(NON_PAYMENTS) && transaction.action.in?(%w[onsite_topup onsite_refund])
     atts = { action: transaction.action.gsub("onsite_", "").gsub("online_", "") }
     create_poke(extract_atts(transaction, extract_money_atts(transaction, atts)))
   end

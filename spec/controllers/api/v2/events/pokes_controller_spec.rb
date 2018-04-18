@@ -10,25 +10,6 @@ RSpec.describe Api::V2::Events::PokesController, type: %i[controller api] do
   end
 
   context "GET #index" do
-    describe "get events pokes" do
-      it "returns a success response" do
-        get :index, params: { event_id: event.id }
-        expect(response).to have_http_status(:ok)
-      end
-
-      it "returns a not_found response" do
-        get :index, params: { event_id: '-1' }
-        expect(response).to have_http_status(:not_found)
-      end
-
-      before { create(:poke, event: event) }
-
-      it "returns all pokes for the gtag" do
-        get :index, params: { event_id: event.id }
-        expect(json.size).to be(2)
-      end
-    end
-
     describe "get customers pokes" do
       let(:customer) { create(:customer, event: event, anonymous: false) }
 

@@ -18,7 +18,7 @@ module Admins
 
         respond_to do |format|
           format.html
-          format.csv { send_data(CsvExporter.to_csv(@current_event.refunds.select(:id, :credit_base, :credit_fee, :fields))) }
+          format.csv { send_data(CsvExporter.to_csv(@current_event.refunds.for_csv)) }
         end
       end
 

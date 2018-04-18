@@ -40,7 +40,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def update?
-    admin_or_promoter
+    admin_or_promoter && event_open
   end
 
   def remove_logo?
@@ -49,6 +49,10 @@ class EventPolicy < ApplicationPolicy
 
   def remove_background?
     admin_or_promoter && event_open
+  end
+
+  def zoho_report?
+    admin_or_promoter
   end
 
   def remove_db?
