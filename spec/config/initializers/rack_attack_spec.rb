@@ -161,27 +161,4 @@ describe Rack::Attack do
       end
     end
   end
-
-  describe "api v2" do
-    let(:user) { create(:user, role: 'promoter') }
-    let(:promoter_limit) { 1000 }
-    let(:glowball_limit) { 1000 }
-
-    it "changes the request status for promoters" do
-      (promoter_limit + 1).times do |i|
-        get "/api/v2/events", {}, { "REMOTE_ADDR" => "#{i}.2.6.9", "HTTP_AUTHORIZATION" => "Token token = #{user.access_token}" }
-        expect(last_response.status).to eq(403) if i < promoter_limit
-        expect(last_response.status).to eq(429) if i >= promoter_limit
-      end
-    end
-
-    it "changes the request status for glowballs" do
-      user.glowball!
-      (glowball_limit + 1).times do |i|
-        get "/api/v2/events", {}, { "REMOTE_ADDR" => "#{i}.2.6.9", "HTTP_AUTHORIZATION" => "Token token = #{user.access_token}" }
-        expect(last_response.status).to eq(403) if i < glowball_limit
-        expect(last_response.status).to eq(429) if i >= glowball_limit
-      end
-    end
-  end
 end

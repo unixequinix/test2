@@ -51,7 +51,7 @@ class Poke < ApplicationRecord
   }
 
   scope :products_sale, lambda { |credit|
-    select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, "'COALESCE(products.name, pokes.description)' as product_name, sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", count_operations, product_quantity)
+    select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", count_operations, product_quantity)
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
       .where(credit_id: credit)
