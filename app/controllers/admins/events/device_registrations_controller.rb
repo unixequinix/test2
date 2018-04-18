@@ -81,7 +81,6 @@ module Admins
         bucket = s3.bucket(Rails.application.secrets.s3_bucket)
         files = bucket.objects(prefix: name).collect(&:key)
 
-        byebug
         redirect_to(request.referer, notice: "No backups Found") && return unless files.any?
 
         zip_file = Tempfile.new(["db_backups_#{@device.id}__", ".zip"])

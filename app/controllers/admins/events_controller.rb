@@ -133,9 +133,9 @@ module Admins
       bucket.object(reports_files[0]).get(response_target: zip_file.path)
 
       send_file(
-       zip_file.path,
-       filename: "#{@current_event.name}.zip",
-       type: "application/zip"
+        zip_file.path,
+        filename: "#{@current_event.name}.zip",
+        type: "application/zip"
       )
     end
 
