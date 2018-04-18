@@ -23,20 +23,20 @@ class Refund < ApplicationRecord
   scope :for_csv, -> { joins(:customer).select(:id, :credit_base, :credit_fee, :fields, "customers.first_name, customers.last_name, customers.email") }
 
   scope :online_refund, lambda {
-    select(:customer_id, transaction_type_refund, dimension_operation_refund, dimensions_station, event_day_refund, date_time_refund, payment_method, "-1 * sum(credit_base) as money")
+    select(:customer_id, transaction_type_refund, dimension_operation_refund, dimensions_station, event_day_refund, date_time_refund, payment_method, count_operations, "-1 * sum(credit_base) as money")
       .completed
       .group(:customer_id, grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
   }
 
   scope :online_refund_credits, lambda {
-    select(:customer_id, "'fee' as action, 'refund_online' as description, 'online' as source", dimensions_station, event_day_refund, date_time_refund, "'c' as credit_name, NULL as device_name", "-1 * sum(credit_base) as credit_amount")
+    select(:customer_id, transaction_type_refund, dimensions_station, event_day_refund, date_time_refund, count_operations, "'c' as credit_name, NULL as device_name", "-1 * sum(credit_base) as credit_amount")
       .completed
       .group(:customer_id, grouper_transaction_type, grouper_dimensions_station, grouper_event_day, grouper_date_time, "device_name")
   }
 
   scope :online_refund_fee, lambda {
-    select(:customer_id, transaction_type_refund, dimensions_station, event_day_refund, date_time_refund, "'c' as credit_name, NULL as device_name", "-1 * sum(credit_fee) as credit_amount")
-      .completed
+    select(:customer_id, "'fee' as action, 'refund_online' as description, 'online' as source", dimensions_station, event_day_refund, date_time_refund, count_operations, "'c' as credit_name, NULL as device_name", "-1 * sum(credit_fee) as credit_amount")
+      .completed.where('credit_fee != 0')
       .group(:customer_id, grouper_transaction_type, grouper_dimensions_station, grouper_event_day, grouper_date_time, "device_name")
   }
 
@@ -49,11 +49,15 @@ class Refund < ApplicationRecord
   end
 
   def self.event_day_refund
-    "to_char(date_trunc('day', created_at), 'YY-MM-DD') as event_day"
+    "to_char(date_trunc('day', created_at), 'YYYY-MM-DD') as event_day"
   end
 
   def self.date_time_refund
-    "to_char(date_trunc('hour', created_at), 'YY-MM-DD HH24h') as date_time"
+    "to_char(date_trunc('hour', created_at), 'YYYY-MM-DD HH24h') as date_time"
+  end
+
+  def self.count_operations
+    "count(refunds.id) as num_operations"
   end
 
   def name

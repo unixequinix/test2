@@ -92,18 +92,26 @@ Rails.application.routes.draw do
 
         resource :custom_analytics do
           get :money
+          get :download_raw_data
           get :credits
+          get :download_raw_data_credits
           get :sales
+          get :download_raw_data_sale
           get :checkin
+          get :download_raw_data_checkin
           get :access
+          get :download_raw_data_access
         end
+
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection
         end
+
         resources :refunds, only: [:index, :show, :destroy, :update]
         resources :orders, only: [:index, :show, :new, :create, :destroy] do
           resources :order_items, only: :update
         end
+
         resources :gtag_assignments, only: :destroy
         resources :ticket_types
         resources :device_registrations, only: [:index, :show, :destroy, :new, :create, :update] do
@@ -111,6 +119,7 @@ Rails.application.routes.draw do
           get :transactions, on: :member
           put :disable, on: :collection
         end
+
         resources :catalog_items, only: :update
         resources :accesses
         resources :devices, only: [:new, :create]
@@ -119,6 +128,7 @@ Rails.application.routes.draw do
         resources :packs do
           post :clone, on: :member
         end
+
         resources :ticket_assignments, only: :destroy
         resources :event_registrations, except: :show  do
           get :resend, on: :member

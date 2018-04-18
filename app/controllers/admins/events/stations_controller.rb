@@ -1,7 +1,7 @@
 module Admins
   module Events
     class StationsController < Admins::Events::BaseController
-      include AnalyticsHelper
+      include StationHelper
 
       before_action :set_station, except: %i[index new create]
       before_action :set_groups, only: %i[index new create edit update]
@@ -38,7 +38,7 @@ module Admins
         @credits = prepare_pokes(credit_cols, pokes_onsite_credits(@station))
         product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
         @products = prepare_pokes(product_cols, pokes_sales(@station, [@current_event.credit.id, @current_event.virtual_credit.id]))
-        stock_cols = ["Description", "Product Name", "Quantity", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
+        stock_cols = ["Description", "Product Name", "Product Quantity", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
         @products_stock = prepare_pokes(stock_cols, pokes_sale_quantity(@station))
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]
         @access_control = prepare_pokes(access_cols, pokes_access(@station))

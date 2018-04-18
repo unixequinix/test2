@@ -4,9 +4,5 @@ FactoryBot.define do
     sequence(:name) { |n| "Ticket Type #{n}" }
     sequence(:company_code)
     catalog_item { build(:catalog_item, event: event) }
-
-    after(:create) do |ctt|
-      ctt.update catalog_item: create(:credit, event: ctt.event)
-    end
   end
 end

@@ -33,12 +33,14 @@
           .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"
             i.material-icons#downloadIcon file_download
 
-        - if @message
-          .mdl-cell.mdl-cell--12-col#analytics-text
-            .center-card-title
-              span.analytics-text = @message
-
         #load-report
+          = render 'admins/events/spinner'
+          .content
+
+          - if @current_event.launched?
+            .mdl-cell.mdl-cell--12-col#analytics-text
+              .center-card-title
+                span.analytics-text = @current_event.message
   .mdl-layout-spacer
 
 javascript:

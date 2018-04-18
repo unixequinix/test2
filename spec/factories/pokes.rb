@@ -19,7 +19,7 @@ FactoryBot.define do
     trait :as_sales do
       before(:create) do |instance|
         instance.action = "sale"
-        instance.credit = instance.event.credit
+        instance.credit = instance.credit || instance.event.credit
         instance.credit_amount = -rand(100)
         instance.credit_name = instance.event.credit.name
         instance.sale_item_unit_price = rand(100)
@@ -48,6 +48,8 @@ FactoryBot.define do
         instance.credit_name = instance.event.credit.name
         instance.sale_item_unit_price = rand(100)
         instance.final_balance = rand(100)
+        instance.customer = create(:customer, event: instance.event)
+        instance.station = create(:station, event: instance.event)
       end
     end
 

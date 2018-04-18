@@ -4,9 +4,10 @@
     .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
       button.mdl-button.mdl-js-button.mdl-button--raised.export-button
         | EXPORT
-    .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
-      button.mdl-button.mdl-js-button.mdl-button--raised.raw-button
-        | RAW DATA
+    = link_to download_raw_data_admins_event_custom_analytics_path(@current_event, act: action, format: :csv) do
+      .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
+          button#download_raw_transactions.mdl-button.mdl-js-button.mdl-button--raised
+            | RAW
 
     .mdl-cell.mdl-cell--12-col.reports-grid
       #table
@@ -29,10 +30,6 @@ javascript:
     var show = null
 
     setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
-
-    $(".raw-button").click(function(){
-      exportRawData(data, title);
-    });
 
     $(".export-button").click(function(){
           $(".pvtRenderer:first").val("TSV Export").trigger("change");
