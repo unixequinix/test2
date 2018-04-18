@@ -51,6 +51,10 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter && event_open
   end
 
+  def zoho_report?
+    admin_or_promoter
+  end
+
   def remove_db?
     admin_or_promoter && event_open
   end

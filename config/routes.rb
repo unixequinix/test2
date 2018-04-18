@@ -74,6 +74,7 @@ Rails.application.routes.draw do
         get :create_admin
         get :create_customer_support
         get :refund_fields
+        get :zoho_report
       end
 
       scope module: :events do

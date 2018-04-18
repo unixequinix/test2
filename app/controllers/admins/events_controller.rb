@@ -117,6 +117,28 @@ module Admins
       redirect_to request.referer, notice: t("alerts.destroyed")
     end
 
+    def zoho_report
+      secrets = Rails.application.secrets
+      credentials = Aws::Credentials.new(secrets.s3_access_key_id, secrets.s3_secret_access_key)
+      s3 = Aws::S3::Resource.new(region: 'eu-west-1', credentials: credentials)
+      bucket = s3.bucket(Rails.application.secrets.s3_bucket)
+
+      reports_url = "gspot/event/#{@current_event.id}/reports"
+      reports_files = bucket.objects(prefix: reports_url).collect(&:key)
+
+      redirect_to(request.referer, notice: "No old reports found") && return unless reports_files.any?
+
+      zip_file = Tempfile.new(["reports_event_id_#{@current_event.id}_", ".zip"])
+      Zip::File.open(zip_file.path, Zip::File::CREATE)
+      bucket.object(reports_files[0]).get(response_target: zip_file.path)
+
+      send_file(
+       zip_file.path,
+       filename: "#{@current_event.name}.zip",
+       type: "application/zip"
+      )
+    end
+
     private
 
     def set_event_series
