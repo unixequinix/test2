@@ -77,16 +77,17 @@ module Admins
         secrets = Rails.application.secrets
         credentials = Aws::Credentials.new(secrets.s3_access_key_id, secrets.s3_secret_access_key)
         s3 = Aws::S3::Resource.new(region: 'eu-west-1', credentials: credentials)
-        name = "gspot/event/#{@current_event.id}/backups/#{@device.mac}"
+        name = "gspot/event/#{@current_event.id}/backups/#{@device.id}"
         bucket = s3.bucket(Rails.application.secrets.s3_bucket)
         files = bucket.objects(prefix: name).collect(&:key)
 
+        byebug
         redirect_to(request.referer, notice: "No backups Found") && return unless files.any?
 
-        zip_file = Tempfile.new(["db_backups_#{@device.mac}__", ".zip"])
+        zip_file = Tempfile.new(["db_backups_#{@device.id}__", ".zip"])
         Zip::File.open(zip_file.path, Zip::File::CREATE) do |zipfile|
           files.each do |filename|
-            file = Tempfile.new(@device.mac)
+            file = Tempfile.new(@device.id)
             bucket.object(filename).get(response_target: file.path)
             zipfile.add(filename.split("/").last, file.path)
           end
