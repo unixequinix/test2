@@ -110,6 +110,6 @@ class Refund < ApplicationRecord
 
   def balance_checker
     return unless customer
-    errors[:base] << "Customer does not have enough balance on the account" if completed? && customer.credits < credit_total
+    errors[:base] << "Customer does not have enough balance on the account" if completed? && customer.credits.to_f < credit_total.to_f
   end
 end
