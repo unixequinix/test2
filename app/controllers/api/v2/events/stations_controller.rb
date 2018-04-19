@@ -17,9 +17,10 @@ module Api::V2
 
     # POST api/v2/events/:event_id/stations
     def create
-      @station = @current_event.stations.new(station_params.merge(category: "vendor"))
+      @station = @current_event.stations.new(station_params)
       authorize @station
 
+      @station.errors.add(:category, "Must be 'bar' or 'vendor'") unless station_params[:category].in?(%w[bar vendor])
       if @station.save
         render json: @station, status: :created, location: [:admins, @current_event, @station]
       else
@@ -29,9 +30,10 @@ module Api::V2
 
     # PATCH/PUT api/v2/events/:event_id/stations/:id
     def update
-      if @station.update(station_params)
+      if station_params[:category].in?(%w[bar vendor]) && @station.update(station_params)
         render json: @station
       else
+        @station.errors.add(:category, "Must be 'bar' or 'vendor'")
         render json: @station.errors, status: :unprocessable_entity
       end
     end
@@ -52,7 +54,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def station_params
-      params.require(:station).permit(:name, :location, :reporting_category, :address, :registration_num, :official_name, :hidden)
+      params.require(:station).permit(:name, :category, :location, :reporting_category, :address, :registration_num, :official_name, :hidden)
     end
   end
 end
