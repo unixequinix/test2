@@ -20,7 +20,6 @@ module Api::V2
       @station = @current_event.stations.new(station_params)
       authorize @station
 
-      @station.errors.add(:category, "Must be 'bar' or 'vendor'") unless station_params[:category].in?(%w[bar vendor])
       if @station.save
         render json: @station, status: :created, location: [:admins, @current_event, @station]
       else
@@ -30,7 +29,7 @@ module Api::V2
 
     # PATCH/PUT api/v2/events/:event_id/stations/:id
     def update
-      if station_params[:category].in?(%w[bar vendor]) && @station.update(station_params)
+      if @station.update(station_params)
         render json: @station
       else
         @station.errors.add(:category, "Must be 'bar' or 'vendor'")
@@ -49,6 +48,7 @@ module Api::V2
     # Use callbacks to share common setup or constraints between actions.
     def set_station
       @station = @current_event.stations.find(params[:id])
+      @station.api_validations = true
       authorize @station
     end
 

@@ -30,13 +30,17 @@ class Station < ApplicationRecord
             access: [:access_control] }.freeze
 
   CATEGORIES = GROUPS.values.flatten.map(&:to_s)
+  API_CATEGORIES = %w[bar vendor].freeze
 
   validates :name, presence: true, uniqueness: { scope: :event_id, case_sensitive: false }
   validates :station_event_id, uniqueness: { scope: :event_id }
   validates :category, inclusion: { in: CATEGORIES, message: "Has to be one of: #{CATEGORIES.to_sentence}" }
+  validates :category, inclusion: { in: API_CATEGORIES, message: "Must be 'bar' or 'vendor'" }, if: -> { category_changed? && api_validations.present? }
 
   after_create :add_predefined_values
   before_create :add_station_event_id
+
+  attr_accessor :api_validations
 
   def form
     return unless category
