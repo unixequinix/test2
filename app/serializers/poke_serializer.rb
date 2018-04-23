@@ -112,7 +112,7 @@ class PokeSerializer < ActiveModel::Serializer
   end
 
   def product_name
-    object.try(:[], 'product_name')
+    object.try(:[], 'product_name')&.humanize
   end
 
   def sale_item_quantity

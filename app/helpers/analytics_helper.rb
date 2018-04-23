@@ -10,12 +10,12 @@ module AnalyticsHelper
     data.map { |poke| PokeSerializer.new(poke).to_h.slice(*atts) }
   end
 
-  def time_zoner(date, event)
-    date.to_datetime.in_time_zone(event.timezone).strftime('%Y-%m-%d %Hh')
+  def date_formater(date)
+    date.to_datetime.strftime('%Y-%m-%d %Hh')
   end
 
-  def event_day(date, event, delay = 8)
-    (date.to_datetime.in_time_zone(event.timezone) - delay.hour).to_date
+  def event_day(date, delay = 8)
+    (date.to_datetime - delay.hour).to_date
   end
 
   def pokes_money
@@ -26,8 +26,8 @@ module AnalyticsHelper
     products_sale = pokes_sales(@current_event.credit.id, @current_event.credit.value)
     money = onsite_money + online_purchase + online_purchase_fee + online_refunds + products_sale
     money.each do |p|
-      p['date_time'] = time_zoner(p['date_time'], @current_event)
-      p['event_day'] = event_day(p['date_time'], @current_event)
+      p['date_time'] = date_formater(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
@@ -48,8 +48,8 @@ module AnalyticsHelper
     credits_refunds_fee = @current_event.refunds.online_refund_fee.each { |o| o.credit_name = @credit_name }.as_json
     credits = online_packs + ticket_packs + online_topup + credits_onsite + credits_refunds + credits_refunds_fee
     credits.each do |p|
-      p['date_time'] = time_zoner(p['date_time'], @current_event)
-      p['event_day'] = event_day(p['date_time'], @current_event)
+      p['date_time'] = date_formater(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
@@ -64,8 +64,8 @@ module AnalyticsHelper
   def pokes_sales(credit, rate = 1)
     sales = @current_event.pokes.products_sale(credit).as_json.map { |p| p.merge('money' => -1 * p['credit_amount'] * rate) }
     sales.each do |p|
-      p['date_time'] = time_zoner(p['date_time'], @current_event)
-      p['event_day'] = event_day(p['date_time'], @current_event)
+      p['date_time'] = date_formater(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
@@ -80,8 +80,8 @@ module AnalyticsHelper
   def pokes_sale_quantity
     products_stock = @current_event.pokes.products_sale_stock.as_json
     products_stock.each do |p|
-      p['date_time'] = time_zoner(p['date_time'], @current_event)
-      p['event_day'] = event_day(p['date_time'], @current_event)
+      p['date_time'] = date_formater(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
@@ -91,8 +91,8 @@ module AnalyticsHelper
     @current_event.tickets.map { |t| ticket_codes.merge!([t.customer_id, t.ticket_type_id] => t.code) }
     checkin = @current_event.pokes.checkin_ticket_type.as_json
     checkin.each do |p|
-      p['date_time'] = time_zoner(p['date_time'], @current_event)
-      p['event_day'] = event_day(p['date_time'], @current_event)
+      p['date_time'] = date_formater(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
       p['code'] = ticket_codes[[p['customer_id'], p['ticket_type_id']]]
     end
   end
@@ -108,8 +108,8 @@ module AnalyticsHelper
   def pokes_access
     access = @current_event.pokes.access.as_json
     access.each do |p|
-      p['date_time'] = time_zoner(p['date_time'], @current_event)
-      p['event_day'] = event_day(p['date_time'], @current_event)
+      p['date_time'] = date_formater(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
