@@ -6,7 +6,7 @@ module Api
 
         # TODO: refactor, remove, i (jake) dont care, but this is not good code. This should be a call to events/:id
         def index # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize, Metrics/CyclomaticComplexity
-          render(status: 304, json: :none) && return if @modified && @current_event.updated_at.httpdate <= @modified
+          render(status: :not_modified, json: :none) && return if @modified && @current_event.updated_at.httpdate <= @modified
 
           cols = %w[uid_reverse sync_time_gtags sync_time_tickets transaction_buffer days_to_keep_backup sync_time_customers fast_removal_password
                     private_zone_password sync_time_server_date sync_time_basic_download sync_time_event_parameters gtag_type maximum_gtag_balance

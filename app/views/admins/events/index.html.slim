@@ -31,16 +31,13 @@
       - else
         .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
           .mdl-tabs__tab-bar
-            = link_to "All", "#all-events", class: "mdl-tabs__tab is-active", id: "filters_all"
             = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id: "filters_created"
-            = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab", id: "filters_launched"
+            = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab is-active", id: "filters_launched"
             = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id: "filters_closed"
             = link_to "New", "#event-form", remote: true, class: "mdl-tabs__tab"
 
-          .mdl-tabs__panel id="all-events" class="mdl-tabs__panel is-active" = render "list", events: @events
-
           - @events.group_by(&:state).each do |state, events|
-            .mdl-tabs__panel id="#{state}-panel" class="mdl-tabs__panel" = render "list", events: events
+            .mdl-tabs__panel id="#{state}-panel" class="mdl-tabs__panel #{'is-active' if state.eql?("launched")}" = render "list", events: events
 
           .mdl-tabs__panel id="event-form" = render "form", event: @event, event_series: @event_series
 

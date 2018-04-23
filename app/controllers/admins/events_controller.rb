@@ -94,6 +94,7 @@ module Admins
     def close
       @current_event.update! state: "closed", open_devices_api: false, open_portal: false, open_portal_intercom: false, open_api: false
       @current_event.device_registrations.update_all(allowed: true)
+      @current_event.ticketing_integrations.update_all(status: "inactive")
 
       redirect_to [:admins, @current_event], notice: t("alerts.updated")
     end

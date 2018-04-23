@@ -21,7 +21,7 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
-  .mdl-cell.mdl-cell--12-col
+  .mdl-cell.mdl-cell--8-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         .mdl-cell.mdl-cell--12-col
@@ -32,28 +32,47 @@
         .table-responsive
           table.mdl-data-table.mdl-js-data-table.within-card
             tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Eventbrite
-                td = link_to "Connect", admins_event_eventbrite_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
-              tr
-                td.mdl-data-table__cell--non-numeric Universe
-                td = link_to "Connect", admins_event_universe_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
-              tr
-                td.mdl-data-table__cell--non-numeric Palco4
-                - if @current_event.palco4_token
-                  td = link_to "Palco4", admins_event_palco4_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised"
-                - else
-                  td = link_to "Connect", '#add-user-modal', class: "mdl-button mdl-js-button mdl-button--raised"
-  .mdl-layout-spacer
+              - @integrations.each do |integration|
+                tr class="#{'resource-hidden' unless integration.active?}"
+                  td.mdl-data-table__cell--non-numeric
+                    - if integration.integration_event_name
+                      | #{integration.integration_event_name} @ #{integration.name.humanize}
+                    - else
+                      | Not connected @ #{integration.name}
+                  td.mdl-data-table__cell--non-numeric #{pluralize(@current_event.tickets.where(ticket_type: integration.ticket_types).count, "ticket")} in #{pluralize(integration.ticket_types.count, "ticket type")}
+                  td.mdl-data-table__cell--non-numeric = integration.status.humanize
+                  td
+                    = link_to [:admins, @current_event, integration, :import_tickets] do
+                      button.icon.material-icons id="import_#{integration.id}" import_export
+                    - if integration.inactive?
+                      = link_to activate_admins_event_ticketing_integration_path(@current_event, integration) do
+                        button.icon.material-icons id="activate_#{integration.id}" sync
+                    - else
+                      = link_to deactivate_admins_event_ticketing_integration_path(@current_event, integration) do
+                        button.icon.material-icons id="deactivate_#{integration.id}" sync_disabled
+                    - if @current_event.created?
+                      = link_to admins_event_ticketing_integration_path(@current_event, integration), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_integration_#{integration.id}"  do
+                        button.icon.material-icons id="delete_#{integration.id}" delete_forever
 
-  .remodal data-remodal-id="add-user-modal"
-    button.remodal-close data-remodal-action="close"
-    h3.remodal__title Connect to the Palco4
-    = simple_form_for :user, url: admins_event_palco4_path(@current_event), html: { multipart: true }, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
-      p = f.input :username, placeholder: true, as: :string, autofocus: true
-      p = f.input :password
-      .remodal__actions
-        = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+                  span.mdl-tooltip data-mdl-for="import_#{integration.id}" Force Import
+                  span.mdl-tooltip data-mdl-for="activate_#{integration.id}" Activate
+                  span.mdl-tooltip data-mdl-for="deactivate_#{integration.id}" Deactivate
+                  span.mdl-tooltip data-mdl-for="delete_#{integration.id}" Delete
+
+  .mdl-cell.mdl-cell--4-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col
+          i.material-icons bookmark_border
+          | Connect
+
+      .mdl-card__supporting-text
+        - TicketingIntegration::NAMES.each do |name, _|
+          = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), class: "mdl-button mdl-js-button mdl-button--raised"
+          span &nbsp; &nbsp;
+
+
+  .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -64,9 +83,9 @@
         table.mdl-data-table.mdl-js-data-table.within-card
           thead
             tr
+              th.mdl-data-table__cell--non-numeric Connected to
               th.mdl-data-table__cell--non-numeric Name
               th Company
-              th Company Code
               th Item
               th Tickets
               th Gtags
@@ -74,30 +93,31 @@
               th Hidden
               th
           tbody
-            - @ticket_types.each do |ticket_type|
-              tr class="#{'resource-hidden' if ticket_type.hidden?}"
-                td.mdl-data-table__cell--non-numeric data-label="Name" = best_in_place ticket_type, :name, url: [:admins, @current_event, ticket_type]
-                td data-label="Company" = best_in_place ticket_type, :company, url: [:admins, @current_event, ticket_type]
-                td data-label="Company Code" = best_in_place ticket_type, :company_code, url: [:admins, @current_event, ticket_type]
-                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
-                td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
-                td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
-                td data-label="Price/Fee" #{best_in_place ticket_type, :money_base, url: [:admins, @current_event, ticket_type]} / #{best_in_place ticket_type, :money_fee, url: [:admins, @current_event, ticket_type]}
-                td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
-                td.table-actions
-                  .table-action
-                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), id:"ticket_type_#{ticket_type.id}"do
-                      button.icon.material-icons info
-                  .table-action
-                    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type), id:"edit_#{ticket_type.id}" do
-                      button.icon.material-icons edit
-                  .table-action
-                    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{ticket_type.id}"  do
-                      button.icon.material-icons delete_forever
+            - @ticket_types.group_by(&:ticketing_integration).each do |integration, ticket_types|
+              tr
+                td.mdl-data-table__cell--non-numeric colspan="9" = integration.integration_event_name if integration
 
-              span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
-              span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit
-              span.mdl-tooltip data-mdl-for="delete_#{ticket_type.id}" Delete
+              - ticket_types.each do |ticket_type|
+                tr class="#{'resource-hidden' if ticket_type.hidden?}"
+                  td
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = link_to ticket_type.name, [:admins, @current_event, ticket_type]
+                  td data-label="Company" = ticket_type.company&.humanize
+                  td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
+                  td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
+                  td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
+                  td data-label="Price/Fee" #{best_in_place ticket_type, :money_base, url: [:admins, @current_event, ticket_type]} / #{best_in_place ticket_type, :money_fee, url: [:admins, @current_event, ticket_type]}
+                  td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
+                  td.table-actions
+                    .table-action
+                      = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type), id:"edit_#{ticket_type.id}" do
+                        button.icon.material-icons edit
+                    .table-action
+                      = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{ticket_type.id}"  do
+                        button.icon.material-icons delete_forever
+
+                span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
+                span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit
+                span.mdl-tooltip data-mdl-for="delete_#{ticket_type.id}" Delete
 
     = render "layouts/pagination", objects: @ticket_types
   .mdl-layout-spacer

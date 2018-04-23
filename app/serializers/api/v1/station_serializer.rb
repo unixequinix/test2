@@ -12,7 +12,7 @@ module Api
       end
 
       def payment_methods
-        object.event.emv_enabled? ? %w[card cash] : %w[emv cash]
+        object.event.emv_enabled? ? %w[emv cash] : %w[card cash]
       end
 
       def display_stats

@@ -10,11 +10,12 @@ module Admins
       end
 
       def index
-        @q = @current_event.ticket_types.order(%i[company name]).ransack(params[:q])
+        @q = @current_event.ticket_types.includes(:ticketing_integration).order(%i[company name]).ransack(params[:q])
         @ticket_types = @q.result
         @catalog_items = @current_event.catalog_items.order(:type).map { |i| [i.id, i.name.humanize] }
         @ticket_counts = @current_event.tickets.group(:ticket_type_id).count
         @gtag_counts = @current_event.gtags.group(:ticket_type_id).count
+        @integrations = @current_event.ticketing_integrations.order(%i[type])
         authorize @ticket_types
         @ticket_types = @ticket_types.page(params[:page])
       end
@@ -74,7 +75,7 @@ module Admins
       end
 
       def permitted_params
-        params.require(:ticket_type).permit(:company, :name, :company_code, :catalog_item_id, :hidden, :money_base, :money_fee)
+        params.require(:ticket_type).permit(:name, :catalog_item_id, :hidden, :money_base, :money_fee)
       end
     end
   end

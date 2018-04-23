@@ -51,7 +51,7 @@ class Poke < ApplicationRecord
   }
 
   scope :products_sale, lambda { |credit|
-    select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, "COALESCE(products.name, pokes.description) as product_name, sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", count_operations, product_quantity)
+    select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", count_operations, product_quantity)
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
       .where(credit_id: credit)
@@ -59,7 +59,7 @@ class Poke < ApplicationRecord
   }
 
   scope :products_sale_stock, lambda {
-    select(:operation_id, :description, :sale_item_quantity, "gtags.tag_uid as operator_uid, CONCAT(customers.first_name, ' ', customers.last_name) as operator_name, devices.asset_tracker as device_name", dimensions_station, date_time_poke, "COALESCE(products.name, pokes.description) as product_name")
+    select(:operation_id, :description, :sale_item_quantity, "gtags.tag_uid as operator_uid, CONCAT(customers.first_name, ' ', customers.last_name) as operator_name, devices.asset_tracker as device_name", dimensions_station, date_time_poke, product_name)
       .joins(:station, :device, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
       .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "date_time, product_name")
@@ -80,7 +80,7 @@ class Poke < ApplicationRecord
   }
 
   scope :top_products, lambda {
-    select("COALESCE(products.name, pokes.description) as product_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credit_amount")
+    select(product_name, "row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credit_amount")
       .left_outer_joins(:product)
       .sales.is_ok
       .group("product_name")
@@ -90,20 +90,20 @@ class Poke < ApplicationRecord
 
   has_paper_trail on: %i[update destroy]
 
-  def self.date_time_sort
-    "date_trunc('hour', date) as date_time_sort"
-  end
-
   def self.date_time_poke
     "date_trunc('hour', date) as date_time"
   end
 
   def self.payment_method_pokes
-    "coalesce(CASE WHEN payment_method='other' THEN 'hospitality' ELSE payment_method END, 'Not Defined') as payment_method"
+    "coalesce(payment_method, 'Not Defined') as payment_method"
   end
 
   def self.dimensions_customers
     "customers.id as customer_id, gtags.tag_uid as customer_uid, CONCAT(customers.first_name, ' ', customers.last_name) as customer_name"
+  end
+
+  def self.product_name
+    "COALESCE(products.name, pokes.description) as product_name"
   end
 
   def self.grouping_customers

@@ -17,7 +17,7 @@ module Api::V2
 
     # POST api/v2/events/:event_id/stations
     def create
-      @station = @current_event.stations.new(station_params.merge(category: "vendor"))
+      @station = @current_event.stations.new(station_params)
       authorize @station
 
       if @station.save
@@ -32,6 +32,7 @@ module Api::V2
       if @station.update(station_params)
         render json: @station
       else
+        @station.errors.add(:category, "Must be 'bar' or 'vendor'")
         render json: @station.errors, status: :unprocessable_entity
       end
     end
@@ -47,12 +48,13 @@ module Api::V2
     # Use callbacks to share common setup or constraints between actions.
     def set_station
       @station = @current_event.stations.find(params[:id])
+      @station.api_validations = true
       authorize @station
     end
 
     # Only allow a trusted parameter "white list" through.
     def station_params
-      params.require(:station).permit(:name, :location, :reporting_category, :address, :registration_num, :official_name, :hidden)
+      params.require(:station).permit(:name, :category, :location, :reporting_category, :address, :registration_num, :official_name, :hidden)
     end
   end
 end

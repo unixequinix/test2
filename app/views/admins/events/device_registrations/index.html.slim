@@ -88,7 +88,7 @@
                 .mdl-card__supporting-text style="text-align: center; width: 100%;" Devices cannot appear here until they have been staged.
               .mdl-layout-spacer
 
-          - %w(to_check live staged locked no_idea ).each do |type|
+          - %w(to_check live staged locked event_assigned ).each do |type|
             - next unless @registrations[type]
             - klass = classes[type.to_sym]
             .admin-card-wide.mdl-card.mdl-shadow--2dp class="#{klass}_header"

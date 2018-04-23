@@ -39,8 +39,8 @@ html
                             = " (#{item.quantity})"
                     td = t.station&.name
                     td = l Time.zone.parse(t.device_created_at)
-                    td.transaction-item-amount = number_to_token t.credits
+                    td.transaction-item-amount = number_to_token t.payments.map { |k, v| v['amount'].to_f }.sum
                 tr
                   td.transactions-total colspan="4"
                     p.bill-total-title total:
-                    p.bill-total-value = number_to_token(@pdf_transactions.map(&:credits).sum)
+                    p.bill-total-value = number_to_token(@pdf_transactions.map(&:payments).map { |k, v| k.values[0]['amount'].to_f }.sum)

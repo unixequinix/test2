@@ -53,6 +53,10 @@ Rails.application.routes.draw do
       get :auth
     end
 
+    namespace :palco4 do
+      get :auth
+    end
+
     namespace :universe do
       get :auth
       post :webhooks
@@ -135,25 +139,27 @@ Rails.application.routes.draw do
           get :resend, on: :member
         end
 
-        # Eventbrite
-        get "eventbrite", to: "eventbrite#index"
-        get "eventbrite/import_tickets", to: "eventbrite#import_tickets"
-        get "eventbrite/disconnect", to: "eventbrite#disconnect"
-        get "eventbrite/disconnect_event", to: "eventbrite#disconnect_event"
-        get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
-        post "eventbrite/webhooks", to: "eventbrite#webhooks"
+        resources :ticketing_integrations do
+          get :activate, on: :member
+          get :deactivate, on: :member
 
-        # Universe
-        get "universe", to: "universe#index"
-        get "universe/import_tickets", to: "universe#import_tickets"
-        get "universe/connect/:uv_event_id", to: "universe#connect", as: 'universe_connect'
-        get "universe/disconnect", to: "universe#disconnect"
-        get "universe/disconnect_event", to: "universe#disconnect_event"
+          # Eventbrite
+          get "eventbrite", to: "eventbrite#index"
+          get "eventbrite/import_tickets", to: "eventbrite#import_tickets"
+          get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
+          post "eventbrite/webhooks", to: "eventbrite#webhooks"
 
-        # Palco4
-        get "palco4", to: "palco4#index"
-        post "palco4", to: "palco4#index"
-        get "palco4/show/:p4_uuid", to: "palco4#show", as: 'palco4_show'
+          # Universe
+          get "universe", to: "universe#index"
+          get "universe/import_tickets", to: "universe#import_tickets"
+          get "universe/connect/:uv_event_id", to: "universe#connect", as: 'universe_connect'
+
+          # Palco4
+          get "palco4", to: "palco4#index"
+          get "palco4/import_tickets", to: "palco4#import_tickets"
+          get "palco4/connect/:p4_uuid", to: "palco4#connect", as: "palco4_connect"
+        end
+
 
         resources :transactions, only: [:index, :show, :update, :destroy] do
           get :download_raw_transactions, on: :collection

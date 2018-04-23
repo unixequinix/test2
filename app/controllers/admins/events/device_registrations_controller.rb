@@ -86,7 +86,7 @@ module Admins
         zip_file = Tempfile.new(["db_backups_#{@device.id}__", ".zip"])
         Zip::File.open(zip_file.path, Zip::File::CREATE) do |zipfile|
           files.each do |filename|
-            file = Tempfile.new(@device.id)
+            file = Tempfile.new("temp_backupfile_#{@device.id}_")
             bucket.object(filename).get(response_target: file.path)
             zipfile.add(filename.split("/").last, file.path)
           end
