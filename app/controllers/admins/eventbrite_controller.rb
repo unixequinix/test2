@@ -5,7 +5,7 @@ module Admins
     def auth
       skip_authorization
       event = Event.find_by slug: cookies.signed[:event_slug]
-      redirect_to(admins_event_path(event), alert: "Access Denied") && return if params[:error]
+      redirect_to([:admins, event, :ticket_types], alert: "Access Denied") && return if params[:error]
 
       uri = URI("https://www.eventbrite.com/oauth/token")
       secret = Rails.application.secrets.eventbrite_client_secret
@@ -14,8 +14,9 @@ module Admins
       res = Net::HTTP.post_form(uri, code: params[:code], client_secret: secret, client_id: client, grant_type: "authorization_code")
       token = JSON.parse(res.body)["access_token"]
 
-      event.update! eventbrite_token: token
-      redirect_to admins_event_eventbrite_path(event), notice: "Eventbrite login successful"
+      integration = event.eventbrite_ticketing_integrations.find(cookies.signed[:ticketing_integration_id])
+      integration.update! token: token
+      redirect_to [:admins, event, integration], notice: "Eventbrite login successful"
     end
   end
 end

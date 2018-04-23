@@ -1,125 +1,25 @@
-- content_for(:navigation_actions) do
-  = link_to admins_event_path(@current_event), class: "mdl-button mdl-button--icon" do
-    span#undo_link.icon.material-icons undo
-    span.mdl-tooltip data-mdl-for="undo_link" Back
 
-- if @current_event.universe_event.present?
-  .remodal data-remodal-id="disconnect-event-modal"
-    button.remodal-close data-remodal-action="close"
-    h3.remodal__title Very Important!
-    | After Disconnecting
-    ul style="text-align: left"
-      li All tickets from the event #{@uv_event.title} event will be banned
-      li You can reconnect at a later moment, but tickets will remain banned
-      li If you would like to unban them as well, you can do it form the ticket types page
+- content_for(:title) do
+  | Connect Universe and Glownet
 
-    h6 style="text-align: center" Still want to disconnect?
-    h4 style="text-align: center"
-      = link_to admins_event_universe_disconnect_event_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
-        span.mdl-button__ripple-container Yes
-      br
-      = link_to "#", data: {remodal: {action: "close"}}, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
-        span.mdl-button__ripple-container NO
-
-.remodal data-remodal-id="disconnect-modal"
-  button.remodal-close data-remodal-action="close"
-  h3.remodal__title Very Important!
-  | After Disconnecting
-  ul style="text-align: left"
-    li All tickets from the currently connected event will be banned
-    li You can reconnect at a later moment, but tickets will remain banned
-    li If you would like to unban them as well, you can do it form the ticket types page
-
-  h6 style="text-align: center" Still want to disconnect?
-  h4 style="text-align: center"
-    = link_to admins_event_universe_disconnect_path(@current_event), class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
-      span.mdl-button__ripple-container Yes
-    br
-    = link_to "#", data: {remodal: {action: "close"}}, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
-      span.mdl-button__ripple-container NO
-
-- content_for(:actions) do
-  .floaty#floaty
-    ul.floaty-list#actions-list
-      - if @current_event.universe_event.present?
-        li.floaty-list-item
-          = link_to '#disconnect-event-modal' do
-            button#disconnect_event.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons perm_device_information
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="disconnect_event" Disconnect Event
-      li.floaty-list-item
-        = link_to '#disconnect-modal' do
-          button#disconnect.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons phonelink_erase
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="disconnect" Disconnect
-
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
-
-
-
-
-- if @current_event.universe_event.present?
-  - content_for(:title) do
-    | Connected to '#{@uv_event.title}'
-
-  .content-grid.mdl-grid
-    .mdl-layout-spacer
-    .mdl-cell.mdl-cell--6-col
-      .admin-card-wide.mdl-card.mdl-shadow--2dp
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
         table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th ID
+              th Connect
           tbody
-            tr
-              td.mdl-data-table__cell--non-numeric Start
-              td = Time.parse(@uv_event.start_time).to_s(:long)
-            tr
-              td.mdl-data-table__cell--non-numeric End
-              td = Time.parse(@uv_event.end_time).to_s(:long)
-            tr
-              td.mdl-data-table__cell--non-numeric Attendees
-              td = "#{@uv_attendees.to_i} sold out of #{@uv_event.capacity}"
-            tr
-              td.mdl-data-table__cell--non-numeric Status
-              td = @uv_event.state
-            tr
-              td.mdl-data-table__cell--non-numeric Currency
-              td = @uv_event.src_currency
-            tr
-              td.mdl-data-table__cell--non-numeric ID
-              td = @uv_event.id
-            tr
-              td.mdl-data-table__cell--non-numeric URL
-              td = link_to @uv_event.slug_param, "https://www.universe.com/events/#{@uv_event.slug_param}", target: "_blank"
-    .mdl-layout-spacer
-
-- else
-  - content_for(:title) do
-    | Connect Universe and Glownet
-
-  .content-grid.mdl-grid
-    .mdl-layout-spacer
-    .mdl-cell.mdl-cell--12-col
-      .admin-card-wide.mdl-card.mdl-shadow--2dp
-        .table-responsive
-          table.mdl-data-table.mdl-js-data-table.within-card
-            thead
-              tr
-                th.mdl-data-table__cell--non-numeric Name
-                th ID
-                th Connect
-            tbody
-              - if @uv_events.present?
-                - @uv_events.each do |event|
-                  tr
-                    td.mdl-data-table__cell--non-numeric data-label="Name" = event.title
-                    td data-label="ID" = event.id
-                    td data-label="Connect"
-                      - if @current_event.universe_event.eql?(event.id)
-                        = fa_icon 'check'
-                      - else
-                        = link_to fa_icon('plug'), admins_event_universe_connect_path(@current_event, event.id)
+            - if @uv_events.present?
+              - @uv_events.each do |event|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = event.title
+                  td data-label="ID" = event.id
+                  td data-label="Connect" = link_to fa_icon('plug'), [:admins, @current_event, @integration, :connect, uv_event_id: event.id]
 
 
-    .mdl-layout-spacer
+  .mdl-layout-spacer

@@ -6,9 +6,7 @@
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
   = simple_form_for [:admins, @current_event, ticket_type], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .form-inputs
-      = f.input :name
-      = f.input :company_code
-      = f.input :company
+      = f.input :name, autofocus: true
       = f.input :catalog_item_id, collection: @catalog_items, include_blank: true, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
 
       label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'

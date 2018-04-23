@@ -23,6 +23,10 @@ class Event < ApplicationRecord
   has_many :device_caches, dependent: :destroy
   has_many :pokes, dependent: :restrict_with_error
   has_many :api_metrics, dependent: :destroy
+  has_many :ticketing_integrations, dependent: :destroy
+  has_many :eventbrite_ticketing_integrations, class_name: "TicketingIntegrationEventbrite", dependent: :destroy, inverse_of: :event
+  has_many :universe_ticketing_integrations, class_name: "TicketingIntegrationUniverse", dependent: :destroy, inverse_of: :event
+  has_many :palco4_ticketing_integrations, class_name: "TicketingIntegrationPalco4", dependent: :destroy, inverse_of: :event
 
   has_one :credit, dependent: :destroy
   has_one :virtual_credit, dependent: :destroy
@@ -120,13 +124,6 @@ class Event < ApplicationRecord
 
   def message
     "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped." if launched?
-  end
-
-  def import_tickets
-    url = URI("https://test.palco4.com/accessControlApi/barcodes/json/#{palco4_event}")
-    @token = palco4_token
-    @tickets = api_response(url)
-    @tickets&.each { |ticket| Palco4Importer.perform_now(ticket, self) }
   end
 
   def currency_symbol

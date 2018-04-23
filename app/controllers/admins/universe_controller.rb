@@ -9,24 +9,25 @@ module Admins
     def auth
       skip_authorization
       event = Event.find_by slug: cookies.signed[:event_slug]
+      integration = event.universe_ticketing_integrations.find(cookies.signed[:ticketing_integration_id])
+
       redirect_to(admins_event_path(event), alert: "Access Denied") && return if params[:error]
 
       uri = URI("https://www.universe.com/oauth/token")
-      secret = Figaro.env.universe_client_secret
       client = Figaro.env.universe_client_id
-      callback = Figaro.env.universe_app_uri
-
+      secret = Figaro.env.universe_client_secret
+      callback = "https://glownet.ngrok.io/admins/universe/auth"
       res = Net::HTTP.post_form(uri, code: params[:code], grant_type: "authorization_code", client_id: client, client_secret: secret, redirect_uri: callback)
       token = JSON.parse(res.body)["access_token"]
 
-      event.update! universe_token: token
-      redirect_to admins_event_universe_path(event), notice: "Universe login successful"
+      integration.update! token: token
+      redirect_to [:admins, event, integration], notice: "Universe login successful"
     end
 
     def webhooks
       JSON.parse(request.body)["cost_items"].to_a.each do |new_ticket|
-        events = Event.where(universe_event: new_ticket["event_id"])
-        events.each { |event| UniverseImporter.perform_later(new_ticket, event) }
+        integrations = TicketingIntegration.where(integration_event_id: new_ticket["event_id"], status: "active", event: Event.launched)
+        integrations.each { |integration| UniverseImporter.perform_later(new_ticket, integration) }
       end
       head(:ok)
     end

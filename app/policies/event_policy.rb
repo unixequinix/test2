@@ -63,46 +63,6 @@ class EventPolicy < ApplicationPolicy
     admin_or_promoter
   end
 
-  def eventbrite_index?
-    admin_or_promoter
-  end
-
-  def eventbrite_connect?
-    admin_or_promoter && event_open
-  end
-
-  def eventbrite_disconnect?
-    admin_or_promoter
-  end
-
-  def eventbrite_import_tickets?
-    admin_or_promoter && event_open
-  end
-
-  def universe_index?
-    admin_or_promoter
-  end
-
-  def universe_connect?
-    admin_or_promoter && event_open
-  end
-
-  def universe_disconnect?
-    admin_or_promoter
-  end
-
-  def universe_import_tickets?
-    admin_or_promoter && event_open
-  end
-
-  def palco4_index?
-    admin_or_promoter
-  end
-
-  def palco4_show?
-    admin_or_promoter
-  end
-
   def missing?
     admin_or_promoter
   end
