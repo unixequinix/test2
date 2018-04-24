@@ -23,6 +23,7 @@ module Admins
       end
 
       def import_tickets
+        @integration.ignore_last_import_date = true
         @integration.import
         redirect_to [:admins, @current_event, :ticket_types], notice: "All tickets imported"
       end

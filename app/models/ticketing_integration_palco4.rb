@@ -3,13 +3,15 @@ class TicketingIntegrationPalco4 < TicketingIntegration
 
   store :data, accessors: %i[userId venue last_import_date], coder: JSON
 
+  attr_accessor :ignore_last_import_date
+
   def self.policy_class
     TicketingIntegrationPalco4
   end
 
   def import
     params = { sessions: integration_event_id }
-    params = params.merge(date: last_import_date) if last_import_date
+    params = params.merge(date: last_import_date) if last_import_date && !ignore_last_import_date
     url = URI("https://eur.stubhubtickets.com/accessControlApi/barcodes/getListFromActiveSessions/json?#{params.to_param}")
     # url = URI("https://test.palco4.com/accessControlApi/barcodes/getListFromActiveSessions/json?#{params}")
 
