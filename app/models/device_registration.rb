@@ -15,7 +15,7 @@ class DeviceRegistration < ApplicationRecord
     current_time.present? ? current_time - updated_at : 0
   end
 
-  def status
+  def status # rubocop:disable Metrics/PerceivedComplexity
     case
       when (server_transactions != number_of_transactions) && action != "device_initialization" then "to_check"
       when action.in?(%w[pack_device lock_device]) then "locked"
