@@ -142,7 +142,7 @@ class Order < ApplicationRecord
   end
 
   def credits
-    order_items.sum(&:credits)
+    order_items.includes(:catalog_item).sum(&:credits)
   end
 
   def virtual_credits
