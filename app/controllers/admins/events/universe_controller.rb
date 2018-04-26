@@ -7,10 +7,8 @@ module Admins
       def index
         cookies.signed[:event_slug] = @current_event.slug
 
-        client = Figaro.env.universe_client_id
-        atts = { client_id: client, response_type: :code, redirect_uri: "https://glownet.ngrok.io/admins/universe/auth", response_params: { event_slug: @current_event.slug } }.to_param
-        url = "https://www.universe.com/oauth/authorize?#{atts}"
-        redirect_to(url) && return if @token.blank?
+        atts = { client_id: GlownetWeb.config.universe_client_id, response_type: :code, redirect_uri: GlownetWeb.config.universe_app_url, response_params: { event_slug: @current_event.slug } }
+        redirect_to("#{GlownetWeb.config.universe_auth_url}?#{atts.to_param}") && return if @token.blank?
 
         @uv_events = universe_events.reject { |event| event.id.in? @current_event.universe_ticketing_integrations.pluck(:integration_event_id) }
         @uv_event = @uv_events.find { |event| @integration.integration_event_id.eql? event.id }
@@ -39,8 +37,8 @@ module Admins
       end
 
       def universe_events
-        user_id = @integration.api_response(URI("https://www.universe.com/api/v2/current_user"))["current_user"]["id"]
-        data = @integration.api_response(URI("https://www.universe.com/api/v2/listings?user_id=#{user_id}"))
+        user_id = @integration.api_response(URI(GlownetWeb.config.universe_user_url))["current_user"]["id"]
+        data = @integration.api_response(URI("#{GlownetWeb.config.universe_listings_url}?user_id=#{user_id}"))
 
         data["listings"].map do |listing|
           event_data = data["events"].find { |event| event["id"] == listing["event_id"] }
@@ -49,7 +47,7 @@ module Admins
       end
 
       def universe_attendees
-        url = URI("https://www.universe.com/api/v2/guestlists?event_id=#{@integration.integration_event_id}")
+        url = URI("#{GlownetWeb.config.universe_barcodes_url}?event_id=#{@integration.integration_event_id}")
         @uv_attendees = @integration.api_response(url)["meta"]["count"]
       end
     end

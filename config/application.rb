@@ -7,6 +7,11 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module GlownetWeb
+
+  def self.config
+    Hashie::Mash.new(Rails.application.config_for(:custom_config))
+  end
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
