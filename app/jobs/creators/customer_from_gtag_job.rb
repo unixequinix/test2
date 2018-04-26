@@ -3,10 +3,18 @@ module Creators
     queue_as :medium
 
     def perform(old_gtag, new_event, balance_selection)
-      gtag = create_gtag(old_gtag.tag_uid, new_event, old_gtag.attributes.slice(:banned, :format, :active))
+      gtag = create_gtag(old_gtag.tag_uid, new_event, old_gtag.attributes.slice('banned', 'format', 'active'))
       old_customer = old_gtag.customer
-      customer = gtag.customer
-      customer ||= old_customer&.registered? ? copy_customer(old_customer, new_event) : new_event.customers.create!
+
+      customer = if old_customer&.registered?
+                   copy_customer(old_customer, new_event)
+                 else
+                   if old_customer&.gtags&.count.to_i > 1 && new_event.gtags.pluck(:customer_id).compact.count >= 1
+                     new_event.gtags.where(tag_uid: (old_customer.gtags.pluck(:tag_uid) - [gtag.tag_uid]))&.first&.customer
+                   else
+                     new_event.customers.create!
+                   end
+                 end
 
       gtag.update!(customer: customer)
 
