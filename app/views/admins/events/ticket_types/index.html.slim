@@ -95,7 +95,7 @@
           tbody
             - @ticket_types.group_by(&:ticketing_integration).each do |integration, ticket_types|
               tr
-                td.mdl-data-table__cell--non-numeric colspan="9" = integration.integration_event_name if integration
+                td.mdl-data-table__cell--non-numeric colspan="9" = integration.blank? ? 'Glownet' : integration.integration_event_name
 
               - ticket_types.each do |ticket_type|
                 tr class="#{'resource-hidden' if ticket_type.hidden?}"

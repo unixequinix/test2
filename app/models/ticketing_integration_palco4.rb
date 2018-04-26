@@ -12,8 +12,7 @@ class TicketingIntegrationPalco4 < TicketingIntegration
   def import
     params = { sessions: integration_event_id }
     params = params.merge(date: last_import_date) if last_import_date && !ignore_last_import_date
-    url = URI("https://eur.stubhubtickets.com/accessControlApi/barcodes/getListFromActiveSessions/json?#{params.to_param}")
-    # url = URI("https://test.palco4.com/accessControlApi/barcodes/getListFromActiveSessions/json?#{params}")
+    url = URI("#{GlownetWeb.config.palco4_barcodes_url}?#{params.to_param}")
 
     update!(last_import_date: Time.zone.now - 1.minute)
 

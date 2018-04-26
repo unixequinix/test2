@@ -6,9 +6,8 @@ module Admins
       before_action :set_params
 
       def index
-        client = Rails.application.secrets.eventbrite_client_id
-        atts = { response_type: :code, client_id: client, response_params: { event_slug: @current_event.slug } }.to_param
-        url = "https://www.eventbrite.com/oauth/authorize?#{atts}"
+        atts = { response_type: :code, client_id: GlownetWeb.config.eventbrite_client_id, response_params: { event_slug: @current_event.slug } }
+        url = "#{GlownetWeb.config.eventbrite_auth_url}?#{atts.to_param}"
         redirect_to(url) && return if @token.blank?
 
         @eb_events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events.reject { |event| event.id.in? @current_event.eventbrite_ticketing_integrations.pluck(:integration_event_id) }
@@ -21,7 +20,6 @@ module Admins
         events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events
 
         if @integration.update integration_event_id: event_id, integration_event_name: events.find { |e| e.id.eql? event_id }.name.text, status: "active"
-          # url = "http://glownet.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
           url = url_for([:admins, @current_event, @integration, :webhooks])
           actions = "order.placed,order.refunded,order.updated"
           Eventbrite::Webhook.create({ endpoint_url: url, event_id: event_id, actions: actions }, @token)

@@ -21,10 +21,6 @@ test:
   host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
   username: <%= ENV["POSTGRES_USERNAME"] %>
 
-demo:
-  <<: *default
-  database: cloud_demo
-
 integration:
   <<: *default
   database: cloud_integration
@@ -36,15 +32,6 @@ sandbox:
 staging:
   <<: *default
   database: cloud_staging
-
-howler:
-  <<: *default
-  database: cloud_howler
-
-hotfix:
-  <<: *default
-  pool: 15
-  database: cloud_hotfix
 
 production:
   <<: *default

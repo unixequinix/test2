@@ -113,21 +113,21 @@ html
         .page-content.remodal-bg
           = yield
 
-  = yield(:actions)
+    = yield(:actions)
 
-  javascript:
-      var floaty = $('#floaty ');
-      $(floaty).find('.floaty-btn button').on('mouseenter click', floatyMouseEnter);
-      floaty.on('mouseleave', floatyMouseLeave);
+javascript:
+  var floaty = $('#floaty');
+  $(floaty).find('.floaty-btn button').on('mouseenter click', floatyMouseEnter);
+  floaty.on('mouseleave', floatyMouseLeave);
 
-      function floatyMouseEnter() {
-        $('#button').toggleClass('on');
-        $('#changeIcon').html('clear');
-        $('#actions-list').toggleClass('show');
-      }
+  function floatyMouseEnter() {
+    $('#button').toggleClass('on');
+    $('#changeIcon').html('clear');
+    $('#actions-list').toggleClass('show');
+  }
 
-      function floatyMouseLeave() {
-        $('#button').removeClass('on');
-        $('#changeIcon').html('build');
-        $('#actions-list').removeClass('show');
-      }
+  function floatyMouseLeave() {
+    $('#button').removeClass('on');
+    $('#changeIcon').html('build');
+    $('#actions-list').removeClass('show');
+  }

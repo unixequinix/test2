@@ -4,14 +4,10 @@ module Admins
       protect_from_forgery
       before_action :set_integration
 
-      # https://eur.stubhubtickets.com
-
       def index
         redirect_to(%i[admins palco4 auth]) && return unless @token
 
-        # @sessions = @integration.api_response(URI("https://test.palco4.com/accessControlApi/sessions/info/json?sVenues=#{@integration.venue}"))
-        @sessions = @integration.api_response(URI("https://eur.stubhubtickets.com/accessControlApi/sessions/info/json?sVenues=#{@integration.venue}"))
-        @sessions = @sessions.select { |session| session["sessionUUID"].present? }
+        @sessions = @integration.api_response(URI("#{GlownetWeb.config.palco4_venues_url}?sVenues=#{@integration.venue}"))
       end
 
       def connect

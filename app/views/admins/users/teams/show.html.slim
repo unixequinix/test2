@@ -12,11 +12,11 @@
             button#add-user.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
               i.material-icons person_add
               span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add-user" Add user
-        li.floaty-list-item
-          = link_to remove_devices_admins_user_team_path(current_user), method: :delete do
-            button#delete_devices.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-              i.material-icons delete_forever
-              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete_devices" Remove unused devices
+      li.floaty-list-item
+        = link_to remove_devices_admins_user_team_path(current_user), method: :delete do
+          button#delete_devices.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons delete_forever
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete_devices" Remove unused devices
 
     ul.floaty-btn#button
       li

@@ -13,10 +13,11 @@ module Admins
 
       redirect_to(admins_event_path(event), alert: "Access Denied") && return if params[:error]
 
-      uri = URI("https://www.universe.com/oauth/token")
-      client = Figaro.env.universe_client_id
-      secret = Figaro.env.universe_client_secret
-      callback = "https://glownet.ngrok.io/admins/universe/auth"
+      uri = URI(GlownetWeb.config.universe_token_url)
+      client = GlownetWeb.config.universe_client_id
+      secret = GlownetWeb.config.universe_client_secret
+      callback = GlownetWeb.config.universe_app_url
+
       res = Net::HTTP.post_form(uri, code: params[:code], grant_type: "authorization_code", client_id: client, client_secret: secret, redirect_uri: callback)
       token = JSON.parse(res.body)["access_token"]
 

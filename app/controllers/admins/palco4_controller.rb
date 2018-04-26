@@ -5,8 +5,8 @@ module Admins
       event = Event.find_by slug: cookies.signed[:event_slug]
       integration = event.palco4_ticketing_integrations.find(cookies.signed[:ticketing_integration_id])
 
-      url = URI("https://eur.stubhubtickets.com/accessControlApi/users/login")
-      # url = URI("https://test.palco4.com/accessControlApi/users/login")
+      url = URI(GlownetWeb.config.palco4_auth_url)
+
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       request = Net::HTTP::Get.new(url)
