@@ -6,10 +6,13 @@ module Api
           render(status: :bad_request, json: :bad_request) && return unless params[:_json]
           errors = { atts: [] }
 
+          credit = @current_event.credit.id
+          v_credit = @current_event.virtual_credit.id
+
           params[:_json].each.with_index do |atts, index|
             att_errors = validate_params(atts.keys, atts[:type], index)
             errors[:atts] << att_errors && next if att_errors
-            Transactions::Base.perform_later(atts.to_unsafe_h)
+            Transactions::Base.perform_later(atts.to_unsafe_h, credit, v_credit)
           end
 
           params[:_json].delete_if { |elem| validate_params(elem.keys, elem[:type]) }
