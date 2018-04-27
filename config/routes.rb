@@ -308,6 +308,7 @@ Rails.application.routes.draw do
           resources :tickets do
             resources :pokes, only: [:index]
 
+            post :create_sonar_operator, on: :collection
             post :topup, on: :member
             post :virtual_topup, on: :member
           end
