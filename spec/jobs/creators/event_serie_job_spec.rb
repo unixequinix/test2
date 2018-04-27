@@ -136,4 +136,13 @@ RSpec.describe Creators::EventSerieJob, type: :job do
       expect(anonymous_customer.credits).to eql(0.to_f)
     end
   end
+
+  context "moving multiple gtags" do
+    before { create(:gtag, event: old_event, customer: anonymous_customer, active: false) }
+
+    it "moves to new copied customer" do
+      expect { worker.perform_now(new_event, old_event, %w[0 1], "1") }.to change { new_event.gtags.count }.by(3)
+      expect(new_event.customers.anonymous.last.gtags.count).to eql(2)
+    end
+  end
 end
