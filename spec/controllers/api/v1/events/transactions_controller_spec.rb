@@ -49,7 +49,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: %i[controller api]
       end
 
       it "sends all JSON parameters to the base writer" do
-        expect(Transactions::Base).to receive(:perform_later).once.with(params.first).and_return(transaction)
+        expect(Transactions::Base).to receive(:perform_later).once.with(params.first, event.credit.id, event.virtual_credit.id).and_return(transaction)
         post :create, params: { event_id: event.id, _json: params }
       end
     end

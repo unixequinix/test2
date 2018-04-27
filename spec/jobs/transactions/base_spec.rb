@@ -60,19 +60,18 @@ RSpec.describe Transactions::Base, type: :job do
   context "creating transactions" do
     describe "from devices" do
       it "ignores attributes not present in table" do
-        expect do
-          base.perform_now(atts.merge(foo: "not valid"))
-        end.to change(CreditTransaction, :count).by(1)
+        expect { base.perform_now(atts.merge(foo: "not valid")) }.to change(CreditTransaction, :count).by(1)
       end
 
       it "works even if jobs fail" do
         atts[:action] = "sale"
         allow(Transactions::PostProcessor).to receive(:perform_later).and_raise("Error_1")
-        expect { base.perform_now(atts) }.to raise_error("Error_1")
+        expect { base.perform_now(atts, event.credit.id, event.virtual_credit.id) }.to raise_error("Error_1")
         atts.delete(:transaction_id)
         atts.delete(:customer_id)
         atts.delete(:device_created_at)
         atts.delete(:type)
+        atts.delete(:credits)
 
         expect(CreditTransaction.where(atts)).not_to be_empty
       end
