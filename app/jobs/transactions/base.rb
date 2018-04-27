@@ -6,7 +6,7 @@ module Transactions
 
     def perform(atts, credit = nil, v_credit = nil)
       begin
-        params = preformat_atts(attsm, credit, v_credit)
+        params = preformat_atts(atts, credit, v_credit)
         klass = params[:type].constantize
         transaction = klass.find_or_initialize_by(params.slice(*SEARCH_ATTS))
 
@@ -36,15 +36,19 @@ module Transactions
       params[:device_created_at] = params[:device_created_at_fixed][0, 19]
 
       # TODO: Remove this when Zoho stops
-      crds = params[:payments][credit.to_s] || {}
-      credits = crds["amount"].to_f
-      final_credit_balance = crds["final_balance"].to_f
+      crds = params[:payments][credit] || {}
+      credits = crds[:amount].to_f
+      final_credit_balance = crds[:final_balance].to_f
 
-      v_crds = params[:payments][v_credit.to_s] || {}
-      v_credits = v_crds["amount"].to_f
-      final_virtual_credit_balance = v_crds["final_balance"].to_f
+      v_crds = params[:payments][v_credit] || {}
+      v_credits = v_crds[:amount].to_f
+      final_virtual_credit_balance = v_crds[:final_balance].to_f
 
-      params = params.merge(credits: credits + v_credits, refundable_credits: credits, final_balance: final_credit_balance + final_virtual_credit_balance, final_refundable_balance: final_credit_balance)
+      params[:credits] = credits + v_credits
+      params[:refundable_credits] = credits
+      params[:final_balance] = final_credit_balance + final_virtual_credit_balance
+      params[:final_refundable_balance] = final_credit_balance
+
       params
     end
 
