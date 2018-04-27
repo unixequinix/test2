@@ -19,7 +19,7 @@ class Rack::Attack
     req.params.try(:[], 'customer').try(:[], 'email').presence if req.path.include?('/login') && req.post?
   end
 
-  throttle("limit api v2 by ip", limit: 90000, period: 1.minutes) do |req|
+  throttle("limit api v2 by ip", limit: 6000, period: 1.minutes) do |req|
     # Throttle API V2 attempts
     req.env['HTTP_AUTHORIZATION']&.partition('=')&.last&.strip || req.ip if req.path.include?('/api/v2')
   end
