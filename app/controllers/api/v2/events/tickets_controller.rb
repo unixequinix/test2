@@ -74,6 +74,31 @@ module Api::V2
       end
     end
 
+    # POST api/v2/events/:event_id/tickets
+    def create_sonar_operator
+      atts = sonar_ticket_params.dup
+
+      stations = @current_event.stations.find(atts.delete(:stations))
+      permissions = stations.map { |station| @current_event.operator_permissions.find_or_create_by!(station: station, group: OperatorPermission.groups[station.category], role: 1) }
+
+      @ticket = @current_event.tickets.new(atts)
+      authorize @ticket
+
+      if @ticket.save
+        if @ticket.customer
+          customer = @ticket.customer
+          customer.update!(operator: true)
+          customer.build_order(permissions.map{ |permission| [permission.id, 1] }).complete!
+        else
+          render json: { errors: "Ticket must have a valid customer ID" }, status: :unprocessable_entity
+        end
+
+        render json: @ticket, status: :created, location: [:admins, @current_event, @ticket]
+      else
+        render json: @ticket.errors, status: :unprocessable_entity
+      end
+    end
+
     # PATCH/PUT api/v2/events/:event_id/tickets/:id
     def update
       if @ticket.update(ticket_params)
@@ -109,7 +134,11 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def ticket_params
-      params.require(:ticket).permit(:ticket_type_id, :code, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :customer_id)
+      params.require(:ticket).permit(:ticket_type_id, :code, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :customer_id, stations: [])
+    end
+
+    def sonar_ticket_params
+      params.require(:ticket).permit(:ticket_type_id, :code, :customer_id, stations: [])
     end
   end
 end

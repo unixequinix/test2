@@ -102,4 +102,8 @@ class AdmissionPolicy < ApplicationPolicy
   def make_active?
     admin_or_promoter && event_open
   end
+
+  def create_sonar_operator?
+    all_allowed && event_open
+  end
 end
