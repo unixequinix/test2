@@ -1,7 +1,7 @@
 - content_for(:title) do
   | Devices
 
-- classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", no_idea: "unknown"}
+- classes = { to_check: "bad", live: "neutral", locked: "good", staged: "neutral2", event_assigned: "unknown"}
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_device_registrations_path do |f|
