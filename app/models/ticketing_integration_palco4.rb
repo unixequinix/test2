@@ -6,7 +6,15 @@ class TicketingIntegrationPalco4 < TicketingIntegration
   attr_accessor :ignore_last_import_date
 
   def self.policy_class
-    TicketingIntegrationPalco4
+    TicketingIntegrationPolicy
+  end
+
+  def remote_events
+    api_response(URI("#{GlownetWeb.config.palco4_venues_url}?sVenues=#{venue}"))
+  end
+
+  def remote_event
+    Hashie::Mash.new(remote_events.find { |e| e["sessionId"].eql? integration_event_id.to_i })
   end
 
   def import

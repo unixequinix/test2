@@ -6,7 +6,7 @@ class Customer < ApplicationRecord
          sign_in_after_reset_password: true,
          omniauth_providers: %i[facebook google_oauth2]
 
-  belongs_to :event, counter_cache: true
+  belongs_to :event
 
   has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag", inverse_of: :customer
   has_many :orders, dependent: :restrict_with_error

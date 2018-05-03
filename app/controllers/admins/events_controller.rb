@@ -177,8 +177,6 @@ module Admins
                                     :official_address,
                                     :address,
                                     :registration_num,
-                                    :eventbrite_client_key,
-                                    :eventbrite_event,
                                     :timezone,
                                     :phone_mandatory,
                                     :address_mandatory,

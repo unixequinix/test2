@@ -1,5 +1,5 @@
 class Alert < ApplicationRecord
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :subject, polymorphic: true
 
   validates :body, presence: true

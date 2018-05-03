@@ -1,10 +1,16 @@
 class TicketingIntegrationEventbrite < TicketingIntegration
-  enum status: { unauthorized: 0, active: 1, inactive: 2 }
-
   belongs_to :event, inverse_of: :eventbrite_ticketing_integrations
 
   def self.policy_class
     TicketingIntegrationPolicy
+  end
+
+  def remote_events
+    Eventbrite::User.owned_events({ user_id: "me" }, token).events
+  end
+
+  def remote_event
+    remote_events.find { |e| e.id.eql? integration_event_id }
   end
 
   def import

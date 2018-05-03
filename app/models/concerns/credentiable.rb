@@ -2,7 +2,7 @@ module Credentiable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :event, counter_cache: true
+    belongs_to :event
     belongs_to :customer, optional: true, touch: true
 
     has_many :transactions, dependent: :restrict_with_error

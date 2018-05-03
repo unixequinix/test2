@@ -144,10 +144,6 @@ class Event < ApplicationRecord
     Gem::Version.new(app_version) <= Gem::Version.new(device_version.delete("^0-9\."))
   end
 
-  def eventbrite?
-    eventbrite_token.present? && eventbrite_event.present?
-  end
-
   def portal_station
     stations.find_by(category: "customer_portal")
   end

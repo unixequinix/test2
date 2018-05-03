@@ -1,5 +1,5 @@
 class DeviceTransaction < ApplicationRecord
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :device
 
   ACTIONS = %w[device_initialization pack_device lock_device].freeze

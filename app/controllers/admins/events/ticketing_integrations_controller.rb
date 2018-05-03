@@ -11,7 +11,7 @@ module Admins
         @integration.save!
 
         cookies.signed[:event_slug] = @current_event.slug
-        cookies.signed[:integration_id] = @integration.id
+        cookies.signed[:ticketing_integration_id] = @integration.id
 
         redirect_to [:admins, @current_event, @integration]
       end

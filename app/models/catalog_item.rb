@@ -1,5 +1,5 @@
 class CatalogItem < ApplicationRecord
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :station, optional: true
 
   has_many :station_catalog_items, dependent: :destroy

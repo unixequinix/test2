@@ -1,5 +1,5 @@
 class Station < ApplicationRecord
-  belongs_to :event, counter_cache: true
+  belongs_to :event
 
   has_many :station_ticket_types, dependent: :destroy
   has_many :ticket_types, through: :station_ticket_types

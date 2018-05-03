@@ -7,7 +7,7 @@ module Admins
       def index
         redirect_to(%i[admins palco4 auth]) && return unless @token
 
-        @sessions = @integration.api_response(URI("#{GlownetWeb.config.palco4_venues_url}?sVenues=#{@integration.venue}"))
+        @sessions = @integration.remote_events
       end
 
       def connect

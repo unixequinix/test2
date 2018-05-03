@@ -5,7 +5,7 @@ class Refund < ApplicationRecord
 
   attr_accessor :iban, :bsb
 
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :customer
 
   validates :gateway, presence: true

@@ -35,22 +35,25 @@
               - @integrations.each do |integration|
                 tr class="#{'resource-hidden' unless integration.active?}"
                   td.mdl-data-table__cell--non-numeric
-                    - if integration.integration_event_name
-                      | #{integration.integration_event_name} @ #{integration.name.humanize}
-                    - else
-                      | Not connected @ #{integration.name}
+                    = link_to admins_event_ticketing_integration_path(@current_event, integration) do
+                      - if integration.integration_event_name
+                        | #{integration.integration_event_name} @ #{integration.name.humanize}
+                      - else
+                        | Not connected @ #{integration.name}
                   td.mdl-data-table__cell--non-numeric #{pluralize(@current_event.tickets.where(ticket_type: integration.ticket_types).count, "ticket")} in #{pluralize(integration.ticket_types.count, "ticket type")}
                   td.mdl-data-table__cell--non-numeric = integration.status.humanize
                   td
                     = link_to [:admins, @current_event, integration, :import_tickets] do
                       button.icon.material-icons id="import_#{integration.id}" import_export
+
                     - if integration.inactive?
                       = link_to activate_admins_event_ticketing_integration_path(@current_event, integration) do
                         button.icon.material-icons id="activate_#{integration.id}" sync
                     - else
                       = link_to deactivate_admins_event_ticketing_integration_path(@current_event, integration) do
                         button.icon.material-icons id="deactivate_#{integration.id}" sync_disabled
-                    - if @current_event.created?
+
+                    - if policy(integration).destroy?
                       = link_to admins_event_ticketing_integration_path(@current_event, integration), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_integration_#{integration.id}"  do
                         button.icon.material-icons id="delete_#{integration.id}" delete_forever
 

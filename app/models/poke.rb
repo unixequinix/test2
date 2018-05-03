@@ -1,7 +1,7 @@
 class Poke < ApplicationRecord
   include Reportable
 
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :operation, class_name: "Transaction", optional: true, inverse_of: :pokes
   belongs_to :device, optional: true
   belongs_to :station, optional: true

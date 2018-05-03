@@ -4,7 +4,7 @@ class Order < ApplicationRecord
   include Creditable
   include Reportable
 
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :customer, touch: true
 
   has_many :order_items, dependent: :destroy, inverse_of: :order
