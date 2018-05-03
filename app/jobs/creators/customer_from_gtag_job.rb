@@ -15,7 +15,6 @@ module Creators
                  end
 
       gtag.update!(customer: customer)
-
       balance = old_customer&.credits.to_f
       virtual_balance = balance_selection.to_i.zero? ? balance_selection.to_f : old_customer&.virtual_credits.to_f
 
