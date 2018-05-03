@@ -61,9 +61,10 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Online Services
                   td = best_in_place @current_event, :open_api, best_in_place_checkbox([:admins, @current_event])
-                tr
-                  td.mdl-data-table__cell--non-numeric Devices
-                  td = best_in_place @current_event, :open_devices_api, best_in_place_checkbox([:admins, @current_event])
+                - if @current_event.launched?
+                  tr
+                    td.mdl-data-table__cell--non-numeric Devices
+                    td = best_in_place @current_event, :open_devices_api, best_in_place_checkbox([:admins, @current_event])
 
             - if @current_event.created?
               br
