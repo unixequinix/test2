@@ -80,11 +80,11 @@ class Poke < ApplicationRecord
   }
 
   scope :top_products, lambda {
-    select(product_name, "row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credit_amount")
+    select(product_name, "row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
       .left_outer_joins(:product)
       .sales.is_ok
       .group("product_name")
-      .order("credit_amount desc")
+      .order("credits desc")
       .limit(10)
   }
 

@@ -8,8 +8,7 @@ module Admins
       before_action :check_request_format, only: %w[cash_flow sales gates partner_reports]
 
       def show
-        product_names = Product.where(station: @current_event.stations).pluck(:id, :name).to_h
-        @top_products = @current_event.pokes.where(action: "sale").where.not(product_id: nil).group(:product_id).sum(:credit_amount).sort_by(&:last).slice(0..9).map.with_index { |atts, index| { product_name: product_names[atts.first], credits: -atts.last, sorter: index } }
+        @top_products = @current_event.pokes.top_products.as_json
 
         non_alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: false))
         alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: true))

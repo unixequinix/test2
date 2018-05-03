@@ -88,7 +88,7 @@ module Api::V2
         if @ticket.customer
           customer = @ticket.customer
           customer.update!(operator: true)
-          customer.build_order(permissions.map{ |permission| [permission.id, 1] }).complete!
+          customer.build_order(permissions.map { |permission| [permission.id, 1] }).complete!
         else
           render json: { errors: "Ticket must have a valid customer ID" }, status: :unprocessable_entity
         end
