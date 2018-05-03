@@ -168,8 +168,11 @@
                       td.mdl-data-table__cell--non-numeric All stations initialize gtags
                       td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
                     tr
-                      td.mdl-data-table__cell--non-numeric EMV payments
-                      td = best_in_place @current_event, :emv_enabled, best_in_place_checkbox([:admins, @current_event])
+                      td.mdl-data-table__cell--non-numeric Topup EMV payments
+                      td = best_in_place @current_event, :emv_topup_enabled, best_in_place_checkbox([:admins, @current_event])
+                    tr
+                      td.mdl-data-table__cell--non-numeric POS EMV payments
+                      td = best_in_place @current_event, :emv_pos_enabled, best_in_place_checkbox([:admins, @current_event])
 
             - if current_user.admin?
               .mdl-card__title

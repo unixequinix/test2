@@ -12,7 +12,11 @@ module Api
       end
 
       def payment_methods
-        object.event.emv_enabled? ? %w[emv cash] : %w[card cash]
+        if object.category.eql?("top_up_refund")
+          object.event.emv_topup_enabled ? %w[emv cash] : %w[card cash]
+        elsif object.category.in?(%w[bar vendor])
+          object.event.emv_pos_enabled ? %w[emv credits] : %w[credits]
+        end
       end
 
       def display_stats
