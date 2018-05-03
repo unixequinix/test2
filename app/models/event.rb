@@ -45,7 +45,7 @@ class Event < ApplicationRecord
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
 
   USER_FLAGS = %w[alcohol_forbidden banned initial_topup].freeze
-  DEFAULT_STATIONS = { cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", hospitality_top_up: "Glownet Food", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
+  DEFAULT_STATIONS = { sync: "Sync", cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", hospitality_top_up: "Glownet Food", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
 
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
 
