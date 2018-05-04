@@ -54,7 +54,7 @@ RSpec.describe Api::V2::Events::PokesController, type: %i[controller api] do
 
     describe "get tickets pokes" do
       let(:ticket) { create(:ticket, event: event) }
-      before { create(:poke, event: event, credential: ticket) }
+      before { create(:poke, event: event, ticket_id: ticket.id) }
 
       it "returns a success response" do
         get :index, params: { event_id: event.id, ticket_id: ticket.id }

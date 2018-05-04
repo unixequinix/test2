@@ -13,7 +13,7 @@ class Poke < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :catalog_item, optional: true
   belongs_to :order, optional: true
-  belongs_to :credential, polymorphic: true, optional: true
+  belongs_to :ticket, optional: true
   belongs_to :credit, polymorphic: true, optional: true
 
   scope :topups, -> { where(action: "topup") }

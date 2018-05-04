@@ -6,7 +6,6 @@ module Credentiable
     belongs_to :customer, optional: true, touch: true
 
     has_many :transactions, dependent: :restrict_with_error
-    has_many :pokes_as_credential, as: :credential, class_name: "Poke", dependent: :restrict_with_error # rubocop:disable Rails/InverseOf
 
     scope :redeemed, -> { where(redeemed: true) }
     scope :unredeemed, -> { where(redeemed: false) }
