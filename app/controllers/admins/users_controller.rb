@@ -38,8 +38,10 @@ module Admins
     def edit; end
 
     def update
+      @user.team_invitations.where(active: true).last.update!(leader: true, team_id: permitted_params[:team].to_i) if permitted_params.include?(:team) && @user.glowball?
+
       respond_to do |format|
-        if @user.update(permitted_params)
+        if @user.update(permitted_params.except(:team))
           format.html { redirect_to admins_user_path(@user), notice: t("alerts.updated") }
           format.json { render status: :ok, json: @user }
         else
@@ -94,7 +96,7 @@ module Admins
     end
 
     def permitted_params
-      params.require(:user).permit(:role, :email, :username, :access_token, :password, :password_confirmation, :avatar)
+      params.require(:user).permit(:role, :email, :username, :access_token, :password, :password_confirmation, :avatar, :team)
     end
 
     def invitation_permitted_params

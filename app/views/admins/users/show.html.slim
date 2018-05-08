@@ -39,11 +39,13 @@
               tr
                 td.mdl-data-table__cell--non-numeric Team
                 td
-                  - if @user.team.present?
-                    = link_to @user.team&.name, admins_user_team_path(@user, @user.team)
-                  - else
-                    = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
+                  - if @user.glowball?
+                    = best_in_place @user, :team, as: :select, place_holder: @user&.team&.name&.humanize, collection: Team.all.map{ |team| [team.id, team&.name&.humanize] }, url: [:admins, @user], id: "user_team_#{@user.id}"
+                  -else
+                    - link = link_to @user.team&.name, admins_user_team_path(@user, @user.team) if @user.team.present?
+                    - link = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
                       button.icon.material-icons id="create_team" group_add
+                    = link
   .mdl-layout-spacer
 
 - if @user.team_invitations.where.not(active: true).any?
