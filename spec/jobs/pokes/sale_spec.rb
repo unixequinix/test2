@@ -91,4 +91,30 @@ RSpec.describe Pokes::Sale, type: :job do
       expect(@poke.credit_amount).to eql(-11)
     end
   end
+
+  describe "gtag updates" do
+    let(:customer) { create(:customer, event: event, anonymous: false) }
+    let(:gtag) { create(:gtag, event: event, customer: customer, active: true) }
+
+    before do
+      transaction.gtag = gtag
+      transaction.customer = customer
+      transaction.save!
+
+      @first_poke = [worker.perform_now(transaction)].flatten.first
+      @last_poke = [worker.perform_now(transaction)].flatten.last
+    end
+
+    context "credits on pokes" do
+      it "should update customer gtag balance" do
+        expect(@first_poke.customer_gtag.credits).to eql(-11)
+        expect(@first_poke.customer_gtag.virtual_credits).to eql(0)
+      end
+
+      it "should update customer gtag balance" do
+        expect(@last_poke.customer_gtag.credits).to eql(-33)
+        expect(@last_poke.customer_gtag.virtual_credits).to eql(-30)
+      end
+    end
+  end
 end
