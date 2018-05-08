@@ -41,21 +41,24 @@ class Poke < ApplicationRecord
       .has_money.is_ok
       .where.not(payment_method: t)
       .group(:action, :description, :source, :payment_method, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
+      .having("sum(monetary_total_price) !=0")
   }
 
   scope :credit_flow, lambda {
     select(balance, detail, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, "sum(credit_amount) as credit_amount, credit_name as payment_method", countd_operations)
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag)
-      .where.not(credit_amount: nil).is_ok
+      .where.not(credit_amount: nil).has_credits.is_ok
       .group(:action, :description, :credit_name, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
+      .having("sum(credit_amount) != 0")
   }
 
   scope :products_sale, lambda { |credit|
     select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", count_operations, product_quantity)
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
-      .sales.is_ok
+      .sales.has_credits.is_ok
       .where(credit_id: credit)
       .group(:action, :description, :credit_name, grouping_customers, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_name")
+      .having("sum(credit_amount) != 0")
   }
 
   scope :products_sale_stock, lambda {
@@ -63,11 +66,12 @@ class Poke < ApplicationRecord
       .joins(:station, :device, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
       .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "date_time, product_name")
+      .having("sum(credit_amount) != 0")
   }
 
   scope :checkin_ticket_type, lambda {
     select(:action, :description, :ticket_type_id, dimensions_customers, dimensions_operators_devices, dimensions_station, date_time_poke, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets")
-      .left_outer_joins(:station, :device, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag, :ticket_type)
+      .joins(:station, :device, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag, :ticket_type)
       .where(action: %w[checkin purchase]).is_ok
       .group(:action, :description, :ticket_type_id, grouping_customers, grouping_operators_devices, grouping_station, "date_time, device_name, catalog_item_name, ticket_type_name")
   }
