@@ -64,7 +64,7 @@ it:
     refund: Rimborsi
     order: Richiesta
     orders:
-      success_title: Complimenti!
+      success_title: Grazie per il vostro acquisto
       credits: Crediti
       catalog_items: Altri articoli
       disclaimer: Gli ordini online si applicheranno all´entrare nel complesso. Solo devi arrivare all´evento ed iniziare ad utilizzare i tuoi crediti immediatamente!

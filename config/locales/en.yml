@@ -69,7 +69,7 @@ en:
     refund: Refund
     order: Order
     orders:
-      success_title: "Ka-ching! Time to use those %{credit_name} to treat yourself!"
+      success_title: Thank you for your purchase
       credits: Credits
       catalog_items: Other Items
       disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
