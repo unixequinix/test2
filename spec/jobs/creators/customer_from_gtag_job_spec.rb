@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# rubocop:disable all
 RSpec.describe Creators::CustomerFromGtagJob, type: :job do
   let(:worker) { Creators::CustomerFromGtagJob }
   let(:old_event) { create(:event) }
@@ -18,6 +19,18 @@ RSpec.describe Creators::CustomerFromGtagJob, type: :job do
       old_customer.anonymous = true
       old_customer.save!
       expect { worker.perform_now(old_gtag, event, "0") }.to change { event.customers.count }.by(1)
+    end
+    it "can create a customer with multiple gtags" do
+      create(:gtag, event: old_event, customer: old_customer, active: false, credits:50.to_f, virtual_credits: 10.to_f)
+      old_customer.anonymous = true
+      old_customer.save!
+
+      expect {
+        worker.perform_now(old_gtag, event, "0")
+      }.to change { event.customers.count }.by(1)
+       .and change { event.gtags.count }.by(2)
+
+      expect(event.gtags.pluck(:customer_id).uniq).to eql(event.customers.pluck(:id).uniq)
     end
   end
   context "creating orders" do
