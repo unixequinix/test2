@@ -11,19 +11,19 @@ module Api::V2
       render(json: { customer: "Has no current active Gtag" }, status: :unprocessable_entity) && return if old_gtag.nil?
 
       old_gtag.replace!(new_gtag)
-      render json: @customer.reload, serializer: Full::CustomerSerializer
+      render json: @customer.reload, serializer: CustomerSerializer
     end
 
     # POST api/v2/events/:event_id/customers/:id/ban
     def ban
       @customer.credentials.map { |c| c.update(banned: true) }
-      render json: @customer, serializer: Full::CustomerSerializer
+      render json: @customer, serializer: CustomerSerializer
     end
 
     # POST api/v2/events/:event_id/customers/:id/unban
     def unban
       @customer.credentials.map { |c| c.update(banned: false) }
-      render json: @customer, serializer: Full::CustomerSerializer
+      render json: @customer, serializer: CustomerSerializer
     end
 
     # POST api/v2/events/:event_id/customers/:id/assign_gtag
@@ -37,7 +37,7 @@ module Api::V2
       @gtag.assign_customer(@customer, @current_user) unless @gtag.customer == @customer
       @gtag.make_active! if params[:active].eql?("true")
 
-      render json: @customer, serializer: Full::CustomerSerializer
+      render json: @customer, serializer: CustomerSerializer
     end
 
     # POST api/v2/events/:event_id/customers/:id/assign_gtag
@@ -47,7 +47,7 @@ module Api::V2
       render(json: @ticket.errors, status: :unprocessable_entity) && return unless @ticket.validate_assignation
 
       @ticket.assign_customer(@customer, @current_user) unless @ticket.customer == @customer
-      render json: @customer, serializer: Full::CustomerSerializer
+      render json: @customer, serializer: CustomerSerializer
     end
 
     # POST api/v2/events/:event_id/customers/:id/topup
@@ -99,15 +99,15 @@ module Api::V2
 
     # GET api/v2/events/:event_id/customers
     def index
-      @customers = @current_event.customers
+      @customers = @current_event.customers.includes(:refunds, orders: :order_items, gtags: { ticket_type: :catalog_item }, tickets: { ticket_type: :catalog_item })
       authorize @customers
 
-      paginate json: @customers, each_serializer: Simple::CustomerSerializer
+      paginate json: @customers, each_serializer: CustomerSerializer
     end
 
     # GET api/v2/events/:event_id/customers/:id
     def show
-      render json: @customer, serializer: Full::CustomerSerializer
+      render json: @customer, serializer: CustomerSerializer
     end
 
     # POST api/v2/events/:event_id/customers
@@ -121,7 +121,7 @@ module Api::V2
       authorize @customer
 
       if @customer.save
-        render json: @customer, serializer: Full::CustomerSerializer, status: :created, location: [:admins, @current_event, @customer]
+        render json: @customer, serializer: CustomerSerializer, status: :created, location: [:admins, @current_event, @customer]
       else
         render json: @customer.errors, status: :unprocessable_entity
       end
@@ -130,7 +130,7 @@ module Api::V2
     # PATCH/PUT api/v2/events/:event_id/customers/:id
     def update
       if @customer.update(customer_params)
-        render json: @customer, serializer: Full::CustomerSerializer
+        render json: @customer, serializer: CustomerSerializer
       else
         render json: @customer.errors, status: :unprocessable_entity
       end

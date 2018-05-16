@@ -6,7 +6,6 @@ module Api::V2
 
     attribute :credit
 
-
     def credit
       Api::V2::CreditSerializer.new(object.credit)
     end
