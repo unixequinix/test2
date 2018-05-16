@@ -40,7 +40,7 @@
                 td.mdl-data-table__cell--non-numeric Team
                 td
                   - if @user.glowball?
-                    = best_in_place @user, :team, as: :select, place_holder: @user&.team&.name&.humanize, collection: Team.all.map{ |team| [team.id, team&.name&.humanize] }, url: [:admins, @user], id: "user_team_#{@user.id}"
+                    = best_in_place @user, :team, as: :select, url: [:admins, @user], place_holder: @user&.team&.name&.humanize, data: { turbolinks: false }, collection: Team.all.map{ |team| [team.id, team.name&.humanize] }.sort_by{ |x| x[0]==@user.team&.id ? 0 : 1 }
                   -else
                     - link = link_to @user.team&.name, admins_user_team_path(@user, @user.team) if @user.team.present?
                     - link = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
@@ -87,3 +87,4 @@
         .form-actions
           = f.button :submit, "Change password", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
   .mdl-layout-spacer
+  
