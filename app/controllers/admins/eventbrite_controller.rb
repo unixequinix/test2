@@ -8,8 +8,8 @@ module Admins
       redirect_to([:admins, event, :ticket_types], alert: "Access Denied") && return if params[:error]
 
       uri = URI("https://www.eventbrite.com/oauth/token")
-      secret = Rails.application.secrets.eventbrite_client_secret
-      client = Rails.application.secrets.eventbrite_client_id
+      secret = GlownetWeb.config.eventbrite_client_secret
+      client = GlownetWeb.config.eventbrite_client_id
 
       res = Net::HTTP.post_form(uri, code: params[:code], client_secret: secret, client_id: client, grant_type: "authorization_code")
       token = JSON.parse(res.body)["access_token"]
