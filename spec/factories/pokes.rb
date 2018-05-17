@@ -53,6 +53,14 @@ FactoryBot.define do
       end
     end
 
+    trait :as_access do
+      before(:create) do |instance|
+        instance.action = "checkpoint"
+        instance.catalog_item.id = 5
+        instance.access_direction = 1
+      end
+    end
+
     trait :with_sale_items do
       transient do
         operation_transaction nil

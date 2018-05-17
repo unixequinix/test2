@@ -20,6 +20,7 @@ RSpec.describe Poke, type: :model do
     @access = create(:poke, action: 'checkpoint', event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, ticket_type: ticket_type, catalog_item: catalog_item, access_direction: 1)
     @money_json = event.pokes.money_recon.as_json
     @credit_json = event.pokes.credit_flow.as_json
+    @sales_simple_json = event.pokes.products_sale_simple(event.credits).as_json
     @sales_json = event.pokes.products_sale(event.credits).as_json
     @checkin_json = event.pokes.checkin_ticket_type.as_json
   end
@@ -58,6 +59,16 @@ RSpec.describe Poke, type: :model do
 
       it "should have customer UID" do
         expect(@credit_json.map { |i| i['customer_uid'] }.uniq).to eq(event.customers.where(operator: false).joins(:gtags).select(:tag_uid).pluck(:tag_uid))
+      end
+    end
+
+    context "should return sale simple" do
+      it "should have correct credit values" do
+        expect(@sales_simple_json.map { |i| i['credit_amount'].to_f }.sum).to eq(event.pokes.where(action: 'sale').map(&:credit_amount).sum.to_f.abs)
+      end
+
+      it "simple sales should have correct fields" do
+        expect(@sales_simple_json.last.keys).to eq(%w[id action description payment_method credit_name credit_amount date_time location station_type station_name])
       end
     end
 
@@ -102,6 +113,14 @@ RSpec.describe Poke, type: :model do
     end
 
     context "should return access" do
+      it "should return the correct sum for in-out accesses" do
+        expect(event.pokes.access_in_out(catalog_item).as_json.map { |i| i['access_direction'] }.sum).to eq(event.pokes.where(action: 'checkpoint').map(&:access_direction).sum)
+      end
+
+      it "should return the correct sum for access capacity" do
+        expect(event.pokes.access_capacity(catalog_item).as_json.map { |i| i['capacity'] }.sum).to eq(event.pokes.where(action: 'checkpoint').map(&:access_direction).sum)
+      end
+
       it "should have correct fields" do
         expect(event.pokes.access.as_json.last.keys).to eq(%w[id access_direction date_time station_name zone direction direction_in direction_out capacity])
       end

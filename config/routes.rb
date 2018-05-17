@@ -126,7 +126,12 @@ Rails.application.routes.draw do
         end
 
         resources :catalog_items, only: :update
-        resources :accesses
+
+        resources :accesses do
+          get :capacity, on: :member
+          get :ticket_type, on: :member
+        end
+
         resources :devices, only: [:new, :create]
         resources :device_caches, only: :destroy
         resources :operator_permissions

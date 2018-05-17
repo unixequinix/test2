@@ -52,6 +52,15 @@ class Poke < ApplicationRecord
       .having("sum(credit_amount) != 0")
   }
 
+  scope :products_sale_simple, lambda { |credit|
+    select(:action, :description, :credit_name, date_time_poke, dimensions_station, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method")
+      .joins(:station)
+      .sales.has_credits.is_ok
+      .where(credit_id: credit)
+      .group(:action, :description, :credit_name, grouping_station, "date_time")
+      .having("sum(credit_amount) != 0")
+  }
+
   scope :products_sale, lambda { |credit|
     select(:action, :description, :credit_name, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, is_alcohol, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", count_operations, product_quantity)
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
@@ -76,9 +85,21 @@ class Poke < ApplicationRecord
       .group(:action, :description, :ticket_type_id, grouping_customers, grouping_operators_devices, grouping_station, "date_time, device_name, catalog_item_name, ticket_type_name")
   }
 
+  scope :access_in_out, lambda { |access|
+    select(date_time_poke, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction, sum(access_direction) as access_direction")
+      .where(catalog_item_id: access.id).where.not(access_direction: nil).is_ok
+      .group(:access_direction, "date_time")
+  }
+
+  scope :access_capacity, lambda { |access|
+    select(date_time_poke, access_capacity_query)
+      .where(catalog_item_id: access.id).where.not(access_direction: nil).is_ok
+      .group(:access_direction, "date_time")
+  }
+
   scope :access, lambda {
-    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity)
-      .joins(:station, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag)
+    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity_all_query)
+      .joins(:station, :catalog_item)
       .where.not(access_direction: nil).is_ok
       .group("station_name, date_time, catalog_item_id, zone, direction, access_direction")
   }
@@ -150,7 +171,12 @@ class Poke < ApplicationRecord
     "CASE WHEN products.is_alcohol = TRUE then 'Alcohol Product' ELSE 'Non' END as is_alcohol"
   end
 
-  def self.access_capacity
+  def self.access_capacity_query
+    "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction,
+    sum(sum(access_direction))  OVER (PARTITION BY access_direction ORDER BY date_trunc('hour', date) ) as capacity"
+  end
+
+  def self.access_capacity_all_query
     "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction,
     sum(access_direction) as access_direction,
     sum(CASE access_direction WHEN 1 THEN 1 ELSE 0 END) as direction_in,

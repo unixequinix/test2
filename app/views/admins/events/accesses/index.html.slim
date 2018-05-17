@@ -26,6 +26,9 @@
             tr
               th.mdl-data-table__cell--non-numeric Name
               th.mdl-data-table__cell--non-numeric Mode
+              th.mdl-data-table__cell--numeric In
+              th.mdl-data-table__cell--numeric Out
+              th.mdl-data-table__cell--numeric Total
               - if @current_event.created?
                 th
           tbody
@@ -33,6 +36,9 @@
               tr
                 td.mdl-data-table__cell--non-numeric data-label="Name"= link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
                 td.mdl-data-table__cell--non-numeric data-label="Mode"= access.mode
+                td.mdl-data-table__cell--numeric data-label="IN"= @current_event.pokes.where(catalog_item_id: access.id, access_direction: 1).sum(:access_direction)
+                td.mdl-data-table__cell--numeric data-label="OUT"= @current_event.pokes.where(catalog_item_id: access.id, access_direction: -1).sum(:access_direction)
+                td.mdl-data-table__cell--numeric data-label="Total"= @current_event.pokes.where(catalog_item_id: access.id).sum(:access_direction)
                 td.table-actions
                   - if @current_event.created?
                     .table-action

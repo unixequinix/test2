@@ -61,6 +61,14 @@ module AnalyticsHelper
     end
   end
 
+  def pokes_sales_simple(credit, rate = 1)
+    sales = @current_event.pokes.products_sale_simple(credit).as_json.map { |p| p.merge('money' => -1 * p['credit_amount'] * rate) }
+    sales.each do |p|
+      p['date_time'] = time_zoner(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
+    end
+  end
+
   def pokes_sales(credit, rate = 1)
     sales = @current_event.pokes.products_sale(credit).as_json.map { |p| p.merge('money' => -1 * p['credit_amount'] * rate) }
     sales.each do |p|
@@ -110,6 +118,33 @@ module AnalyticsHelper
     access.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+    end
+  end
+
+  def pokes_access_in_out(access)
+    data = @current_event.pokes.access_in_out(access).as_json
+    data.each do |p|
+      p['date_time'] = time_zoner(p['date_time'])
+    end
+  end
+
+  def pokes_access_capacity(access)
+    data = @current_event.pokes.access_capacity(access).as_json
+    data.each do |p|
+      p['date_time'] = time_zoner(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
+    end
+  end
+
+  def pokes_access_by_ticket_type(access)
+    data = JSON.parse(PokesQuery.new(@current_event).access_by_ticket_type(access))
+    tickets = JSON.parse(PokesQuery.new(@current_event).access_catalog_item_by_customer(access))
+    customers = {}
+    tickets.map { |t| customers.merge!([t["customer_id"], t["catalog_item_id"]] => { ticket_type: t["ticket_type"], catalog_item: t["catalog_item"] }) }
+    data.each do |p|
+      p['date_time'] = time_zoner(p['date_time'])
+      p["ticket_type_name"], = customers[[p['customer_id'], p['catalog_item_id']]][:ticket_type]
+      p["catalog_item_name"], = customers[[p['customer_id'], p['catalog_item_id']]][:catalog_item]
     end
   end
 

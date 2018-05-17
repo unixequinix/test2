@@ -61,7 +61,7 @@ module Admins
         total_sale = -@current_event.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
 
         cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        product_sale = pokes_sales(@current_event.credits.pluck(:id))
+        product_sale = pokes_sales_simple(@current_event.credits.pluck(:id))
         sales = prepare_pokes(cols, product_sale)
 
         stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Product Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
@@ -93,7 +93,7 @@ module Admins
         @views = [{ chart_id: "checkin_rate", title: "Ticket Check-in Rate", cols: [], rows: ["Ticket Type", "Redeemed"], data: checkin_rate, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Table" },
                   { chart_id: "checkin_ticket_type", title: "Check-in and Box office purchase", cols: ["Date Time"], rows: ["Catalog Item"], data: checkin_ticket_type, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" },
                   { chart_id: "access_control", title: "Venue Capacity", cols: ["Date Time"], rows: ["Zone"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
-        prepare_data(params["action"])
+        prepare_data(params[:action])
       end
 
       private

@@ -14,7 +14,7 @@ module Admins
       end
 
       def money
-        cols = ['Action', 'Description', 'Source', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money']
+        cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money']
         @money = prepare_pokes(cols, pokes_money)
         prepare_data params[:action], @money, [['Payment Method'], ['Action'], ['Money'], 1]
       end

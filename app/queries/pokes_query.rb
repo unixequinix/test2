@@ -3,6 +3,14 @@ class PokesQuery
     @event = event
   end
 
+  def access_by_ticket_type(access)
+    Poke.connection.select_all(access_by_ticket_type_quey(access)).to_json
+  end
+
+  def access_catalog_item_by_customer(access)
+    Poke.connection.select_all(access_catalog_item_by_customer_query(access)).to_json
+  end
+
   def cash_flow_by_day
     Poke.connection.select_all(cash_flow_query).to_json
   end
@@ -28,6 +36,40 @@ class PokesQuery
   end
 
   private
+
+  def access_by_ticket_type_quey(access)
+    <<-SQL
+    SELECT date_trunc('hour', date) as date_time, pokes.customer_id, catalog_item_id, 1 as access_direction
+    FROM pokes
+    JOIN (SELECT customer_id, min(gtag_counter) as min_gtag_counter
+      FROM pokes
+      WHERE action = 'checkpoint'
+            AND event_id=#{@event.id}
+            AND catalog_item_id=#{access.id}
+      GROUP BY 1) first
+      ON first.customer_id = pokes.customer_id
+      AND first.min_gtag_counter = pokes.gtag_counter
+    SQL
+  end
+
+  def access_catalog_item_by_customer_query(access)
+    <<-SQL
+    SELECT customer_id, catalog_item_id, min(ticket_type) as ticket_type, min(catalog_item_name) as catalog_item
+    FROM (
+      SELECT customer_id,
+      COALESCE(item2.id, item.id) as catalog_item_id,
+      t2.name as ticket_type,
+      item.name as catalog_item_name
+      FROM tickets
+        JOIN ticket_types t2 ON tickets.ticket_type_id = t2.id
+        JOIN catalog_items item ON t2.catalog_item_id = item.id
+        LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+        LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+        WHERE COALESCE(item2.type, item.type) = 'Access' and COALESCE(item2.id, item.id) = #{access.id}
+      ) cataglog_item
+      GROUP BY 1,2
+    SQL
+  end
 
   def cash_flow_query
     <<-SQL

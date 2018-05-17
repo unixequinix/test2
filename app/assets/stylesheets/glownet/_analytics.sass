@@ -25,6 +25,17 @@
     .pvtColTotalLabel, .pvtAxisLabel
       max-width: 15%
 
+.report_card_access
+  table
+
+    .pvtColTotalLabel, .pvtAxisLabel
+      max-width: 15%
+
+    tbody
+      tr
+        th.pvtTotalLabel, .colTotal, .pvtGrandTotal
+          display: none
+
 .report_chart
   .pvtAxisContainer, .pvtVals
     display: none
@@ -168,7 +179,7 @@
   transition-property: all
   transition-duration: 0.7s
   overflow: hidden
-  
+
   &.open
     max-height: 500px
 
