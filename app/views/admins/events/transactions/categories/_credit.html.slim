@@ -51,7 +51,7 @@
           tbody
             - @transaction.sale_items.each do |item|
               tr
-                td.mdl-data-table__cell--non-numeric = item.product&.name || "Other Amount"
+                td.mdl-data-table__cell--non-numeric = item.product&.name || item.sale_item_type.humanize
                 td = item.quantity
                 td = item.standard_unit_price
                 td = item.standard_total_price
