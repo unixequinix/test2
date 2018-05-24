@@ -34,7 +34,8 @@ module Transactions
         Alert.propagate(event, transaction, msg)
         return
       end
-
+      
+      customers = event.customers.where(id: customers.pluck(:id)).sort_by { |i| i.registered? ? 1 : 2 }
       Customer.claim(event, customers.first, customers.slice(1..-1)) || event.customers.create!
     end
   end
