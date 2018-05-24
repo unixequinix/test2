@@ -79,8 +79,8 @@ class Poke < ApplicationRecord
   }
 
   scope :checkin_ticket_type, lambda {
-    select(:action, :description, :ticket_type_id, dimensions_customers, dimensions_operators_devices, dimensions_station, date_time_poke, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, ticket_types.name as ticket_type_name, count(pokes.id) as total_tickets")
-      .joins(:station, :device, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag, :ticket_type)
+    select(:action, :description, :ticket_type_id, dimensions_customers, dimensions_operators_devices, dimensions_station, date_time_poke, "devices.asset_tracker as device_name, catalog_items.name as catalog_item_name, COALESCE(ticket_types.name,catalog_items.name) as ticket_type_name, count(pokes.id) as total_tickets")
+      .joins(:station, :device, :catalog_item, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:ticket_type)
       .where(action: %w[checkin purchase]).is_ok
       .group(:action, :description, :ticket_type_id, grouping_customers, grouping_operators_devices, grouping_station, "date_time, device_name, catalog_item_name, ticket_type_name")
   }

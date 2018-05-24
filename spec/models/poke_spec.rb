@@ -17,7 +17,7 @@ RSpec.describe Poke, type: :model do
     @topups_credits = create_list(:poke, 3, :as_record_credit_topups, event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag)
     @sales = create_list(:poke, 4, :as_sales, event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag)
     @checkin = create(:poke, action: 'checkin', event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, ticket_type: ticket_type, catalog_item: catalog_item)
-    @access = create(:poke, action: 'checkpoint', event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, ticket_type: ticket_type, catalog_item: catalog_item, access_direction: 1)
+    @access = create_list(:poke, 4, :as_access, event: event, station: station, catalog_item: catalog_item)
     @money_json = event.pokes.money_recon.as_json
     @credit_json = event.pokes.credit_flow.as_json
     @sales_simple_json = event.pokes.products_sale_simple(event.credits).as_json
@@ -109,6 +109,10 @@ RSpec.describe Poke, type: :model do
 
       it "should have customer UID" do
         expect(@checkin_json.map { |i| i['customer_uid'] }.uniq).to eq(event.customers.where(operator: false).joins(:gtags).select(:tag_uid).pluck(:tag_uid))
+      end
+
+      it "should have Ticket Type" do
+        expect(@checkin_json.map { |i| i['ticket_type_name'] }.uniq).to eq(event.ticket_types.pluck(:name))
       end
     end
 

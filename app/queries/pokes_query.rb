@@ -4,7 +4,7 @@ class PokesQuery
   end
 
   def access_by_ticket_type(access)
-    Poke.connection.select_all(access_by_ticket_type_quey(access)).to_json
+    Poke.connection.select_all(access_by_ticket_type_query(access)).to_json
   end
 
   def access_catalog_item_by_customer(access)
@@ -37,7 +37,7 @@ class PokesQuery
 
   private
 
-  def access_by_ticket_type_quey(access)
+  def access_by_ticket_type_query(access)
     <<-SQL
     SELECT date_trunc('hour', date) as date_time, pokes.customer_id, catalog_item_id, 1 as access_direction
     FROM pokes
@@ -54,20 +54,53 @@ class PokesQuery
 
   def access_catalog_item_by_customer_query(access)
     <<-SQL
-    SELECT customer_id, catalog_item_id, min(ticket_type) as ticket_type, min(catalog_item_name) as catalog_item
+    SELECT customer_id, catalog_item_id, ticket_type, catalog_item_name as catalog_item, checkin
     FROM (
-      SELECT customer_id,
-      COALESCE(item2.id, item.id) as catalog_item_id,
-      t2.name as ticket_type,
-      item.name as catalog_item_name
-      FROM tickets
-        JOIN ticket_types t2 ON tickets.ticket_type_id = t2.id
-        JOIN catalog_items item ON t2.catalog_item_id = item.id
-        LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
-        LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
-        WHERE COALESCE(item2.type, item.type) = 'Access' and COALESCE(item2.id, item.id) = #{access.id}
+          SELECT customer_id,
+          COALESCE(item2.id, item.id) as catalog_item_id,
+          item.name as catalog_item_name,
+          t2.name as ticket_type,
+          row_number() OVER(PARTITION BY customer_id, COALESCE(item2.id, item.id)) as row_number,
+          'ticket' as checkin
+          FROM tickets
+            JOIN ticket_types t2 ON tickets.ticket_type_id = t2.id
+            JOIN catalog_items item ON t2.catalog_item_id = item.id
+            LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+            LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+            WHERE COALESCE(item2.type, item.type) = 'Access'
+            and COALESCE(item2.id, item.id) = #{access.id}
+          UNION ALL
+          SELECT customer_id,
+          COALESCE(item2.id, item.id) as catalog_item_id,
+          item.name as catalog_item_name,
+          item.name as ticket_type,
+          row_number() OVER(PARTITION BY pokes.customer_id, pokes.catalog_item_id) as row_number,
+          CASE WHEN pokes.payment_method ='none' THEN 'accreditation' ELSE 'box_office' END as checkin
+          FROM pokes
+            JOIN catalog_items item ON pokes.catalog_item_id = item.id
+            LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+            LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+          WHERE action = 'purchase'
+          AND COALESCE(item2.type, item.type) = 'Access'
+          AND COALESCE(item2.id, item.id) = #{access.id}
+          UNION ALL
+          SELECT
+            customer_id,
+            COALESCE(item2.id, item.id) as catalog_item_id,
+            item.name as catalog_item_name,
+            item.name as ticket_type,
+            row_number() OVER(PARTITION BY orders.customer_id, o.catalog_item_id) as row_number,
+            'order' as checkin
+
+          FROM orders
+            JOIN order_items o ON orders.id = o.order_id
+            JOIN catalog_items item ON o.catalog_item_id = item.id
+            LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+            LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+          WHERE COALESCE(item2.type, item.type) = 'Access' AND COALESCE(item2.id, item.id) = #{access.id}
+
       ) cataglog_item
-      GROUP BY 1,2
+      WHERE row_number = 1
     SQL
   end
 
