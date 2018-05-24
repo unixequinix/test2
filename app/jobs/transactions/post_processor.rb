@@ -23,6 +23,7 @@ module Transactions
 
       return if transaction.status_not_ok?
       Time.use_zone(event.timezone) { Pokes::Base.execute_descendants(transaction) }
+      Validators::MissingCounter.perform_later(transaction)
     end
 
     def resolve_customer(event, transaction, ticket, gtag, order)

@@ -188,9 +188,15 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   describe "executing operations" do
     before { transaction.update!(action: "sale") }
     before { allow(Pokes::Sale).to receive(:perform_later) }
+    before { allow(Validators::MissingCounter).to receive(:perform_later) }
 
     it "executes tasks based on triggers" do
       expect(Pokes::Sale).to receive(:perform_later).once.with(transaction)
+      worker.perform(transaction)
+    end
+
+    it "executes validators" do
+      expect(Validators::MissingCounter).to receive(:perform_later).once.with(transaction)
       worker.perform(transaction)
     end
 
