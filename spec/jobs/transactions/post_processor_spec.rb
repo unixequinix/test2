@@ -137,8 +137,8 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   end
 
   describe ".decode_ticket" do
-    let(:ctt_id) { "99" }
-    let(:ticket_code) { "TE469A2F95B47623C" }
+    let(:ctt_id) { "111" }
+    let(:ticket_code) { "G31C4AFB4E92A0DB2" }
 
     before do
       @ctt = create(:ticket_type, event: event, company_code: ctt_id)
