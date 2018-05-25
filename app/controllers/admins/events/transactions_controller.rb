@@ -23,7 +23,7 @@ module Admins
       def index
         @transactions = params[:q] ? @current_event.transactions : @current_event.transactions.none
         authorize @transactions
-        @q = @transactions.search(params[:q])
+        @q = @transactions.order(:device_created_at).search(params[:q])
         @transactions = @q.result.page(params[:page]).includes(:customer, :station)
       end
 
