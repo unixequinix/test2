@@ -57,6 +57,11 @@ Rails.application.routes.draw do
       get :auth
     end
 
+    namespace :qwantiq do
+      get :auth
+    end
+
+
     namespace :universe do
       get :auth
       post :webhooks
@@ -163,6 +168,11 @@ Rails.application.routes.draw do
           get "palco4", to: "palco4#index"
           get "palco4/import_tickets", to: "palco4#import_tickets"
           get "palco4/connect/:p4_uuid", to: "palco4#connect", as: "palco4_connect"
+
+          # Qwantiq
+          get "qwantiq", to: "qwantiq#index"
+          get "qwantiq/import_tickets", to: "qwantiq#import_tickets"
+          get "qwantiq/connect/:p4_uuid", to: "qwantiq#connect", as: "qwantiq_connect"
         end
 
 

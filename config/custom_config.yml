@@ -18,6 +18,10 @@ common: &common
   palco4_venues_url: https://test.palco4.com/accessControlApi/sessions/info/json
   palco4_barcodes_url: https://test.palco4.com/accessControlApi/barcodes/getListFromActiveSessions/json
 
+  qwantiq_auth_url: https://test.palco4.com/accessControlApi/users/login
+  qwantiq_venues_url: https://test.palco4.com/accessControlApi/sessions/info/json
+  qwantiq_barcodes_url: https://test.palco4.com/accessControlApi/barcodes/getListFromActiveSessions/json
+
 development:
   <<: *common
 
