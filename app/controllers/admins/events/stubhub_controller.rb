@@ -1,11 +1,11 @@
 module Admins
   module Events
-    class Palco4Controller < Admins::Events::BaseController
+    class StubhubController < Admins::Events::BaseController
       protect_from_forgery
       before_action :set_integration
 
       def index
-        redirect_to(%i[admins palco4 auth]) && return unless @token
+        redirect_to(%i[admins stubhub auth]) && return unless @token
 
         @sessions = @integration.remote_events
       end
@@ -27,7 +27,7 @@ module Admins
       private
 
       def set_integration
-        @integration = @current_event.palco4_ticketing_integrations.find(params[:ticketing_integration_id])
+        @integration = @current_event.stubhub_ticketing_integrations.find(params[:ticketing_integration_id])
         authorize(@current_event.ticketing_integrations.new)
         cookies.signed[:ticketing_integration_id] = @integration.id
         cookies.signed[:event_slug] = @current_event.slug

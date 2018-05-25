@@ -1,5 +1,5 @@
-class TicketingIntegrationPalco4 < TicketingIntegration
-  belongs_to :event, inverse_of: :palco4_ticketing_integrations
+class TicketingIntegrationStubhub < TicketingIntegration
+  belongs_to :event, inverse_of: :stubhub_ticketing_integrations
 
   store :data, accessors: %i[userId venue last_import_date], coder: JSON
 
@@ -10,7 +10,7 @@ class TicketingIntegrationPalco4 < TicketingIntegration
   end
 
   def remote_events
-    api_response(URI("#{GlownetWeb.config.palco4_venues_url}?sVenues=#{venue}"))
+    api_response(URI("#{GlownetWeb.config.stubhub_venues_url}?sVenues=#{venue}"))
   end
 
   def remote_event
@@ -20,11 +20,11 @@ class TicketingIntegrationPalco4 < TicketingIntegration
   def import
     params = { sessions: integration_event_id }
     params = params.merge(date: last_import_date) if last_import_date && !ignore_last_import_date
-    url = URI("#{GlownetWeb.config.palco4_barcodes_url}?#{params.to_param}")
+    url = URI("#{GlownetWeb.config.stubhub_barcodes_url}?#{params.to_param}")
 
     update!(last_import_date: Time.zone.now - 1.minute)
 
     response = api_response(url)
-    response&.each { |ticket| Ticketing::Palco4Importer.perform_later(ticket, self) }
+    response&.each { |ticket| Ticketing::StubhubImporter.perform_later(ticket, self) }
   end
 end

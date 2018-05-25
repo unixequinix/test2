@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       get :auth
     end
 
-    namespace :palco4 do
+    namespace :stubhub do
       get :auth
     end
 
@@ -164,10 +164,10 @@ Rails.application.routes.draw do
           get "universe/import_tickets", to: "universe#import_tickets"
           get "universe/connect/:uv_event_id", to: "universe#connect", as: 'universe_connect'
 
-          # Palco4
-          get "palco4", to: "palco4#index"
-          get "palco4/import_tickets", to: "palco4#import_tickets"
-          get "palco4/connect/:p4_uuid", to: "palco4#connect", as: "palco4_connect"
+          # Stubhub
+          get "stubhub", to: "stubhub#index"
+          get "stubhub/import_tickets", to: "stubhub#import_tickets"
+          get "stubhub/connect/:p4_uuid", to: "stubhub#connect", as: "stubhub_connect"
 
           # Qwantiq
           get "qwantiq", to: "qwantiq#index"

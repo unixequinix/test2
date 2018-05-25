@@ -26,7 +26,7 @@ class Event < ApplicationRecord
   has_many :ticketing_integrations, dependent: :destroy
   has_many :eventbrite_ticketing_integrations, class_name: "TicketingIntegrationEventbrite", dependent: :destroy, inverse_of: :event
   has_many :universe_ticketing_integrations, class_name: "TicketingIntegrationUniverse", dependent: :destroy, inverse_of: :event
-  has_many :palco4_ticketing_integrations, class_name: "TicketingIntegrationPalco4", dependent: :destroy, inverse_of: :event
+  has_many :stubhub_ticketing_integrations, class_name: "TicketingIntegrationStubhub", dependent: :destroy, inverse_of: :event
   has_many :qwantiq_ticketing_integrations, class_name: "TicketingIntegrationQwantiq", dependent: :destroy, inverse_of: :event
 
   has_one :credit, dependent: :destroy
