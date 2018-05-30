@@ -67,9 +67,9 @@ module Admins
       end
 
       def ticket_type
-        cols = ['Date Time', 'Ticket Type', 'Catalog Item', 'Check In', 'Access']
+        cols = ['Date Time', 'Ticket Type', 'Catalog Item', 'Check In', 'Access', 'Zone', 'Location', 'Station Type', 'Station Name']
         access_by_ticket_type = prepare_pokes(cols, pokes_access_by_ticket_type(@access))
-        @views = { chart_id: "access_ticket_type", title: "Access by Ticket Type", cols: ["Ticket Type"], rows: ["Date Time"], data: access_by_ticket_type, metric: ["Access"], decimals: 0 }
+        @views = { chart_id: "access_ticket_type", title: "Unique Access by Ticket Type", cols: ["Ticket Type"], rows: ["Date Time"], data: access_by_ticket_type, metric: ["Access"], decimals: 0 }
         prepare_data params[:action], [['Direction'], ['Date Time'], ['Access'], 0]
       end
 

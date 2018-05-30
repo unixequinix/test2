@@ -39,13 +39,20 @@ class PokesQuery
 
   def access_by_ticket_type_query(access)
     <<-SQL
-    SELECT date_trunc('hour', date) as date_time, pokes.customer_id, catalog_item_id, 1 as access_direction
+    SELECT
+      date_trunc('hour', date) as date_time,
+      pokes.customer_id,
+      catalog_item_id, 1 as access_direction,
+      stations.location as location,
+      stations.category as station_type,
+      stations.name as station_name
     FROM pokes
+    JOIN stations ON pokes.station_id = stations.id
     JOIN (SELECT customer_id, min(gtag_counter) as min_gtag_counter
       FROM pokes
       WHERE action = 'checkpoint'
             AND event_id=#{@event.id}
-            AND catalog_item_id=#{access.id}
+            AND catalog_item_id in (#{access.id})
       GROUP BY 1) first
       ON first.customer_id = pokes.customer_id
       AND first.min_gtag_counter = pokes.gtag_counter
@@ -54,10 +61,11 @@ class PokesQuery
 
   def access_catalog_item_by_customer_query(access)
     <<-SQL
-    SELECT customer_id, catalog_item_id, ticket_type, catalog_item_name as catalog_item, checkin
+    SELECT customer_id, catalog_item_id, access_name, ticket_type, catalog_item_name as catalog_item, checkin
     FROM (
           SELECT customer_id,
           COALESCE(item2.id, item.id) as catalog_item_id,
+          COALESCE(item2.name, item.name) as access_name,
           item.name as catalog_item_name,
           t2.name as ticket_type,
           row_number() OVER(PARTITION BY customer_id, COALESCE(item2.id, item.id)) as row_number,
@@ -72,6 +80,7 @@ class PokesQuery
           UNION ALL
           SELECT customer_id,
           COALESCE(item2.id, item.id) as catalog_item_id,
+          COALESCE(item2.name, item.name) as access_name,
           item.name as catalog_item_name,
           item.name as ticket_type,
           row_number() OVER(PARTITION BY pokes.customer_id, pokes.catalog_item_id) as row_number,
@@ -87,6 +96,7 @@ class PokesQuery
           SELECT
             customer_id,
             COALESCE(item2.id, item.id) as catalog_item_id,
+            COALESCE(item2.name, item.name) as access_name,
             item.name as catalog_item_name,
             item.name as ticket_type,
             row_number() OVER(PARTITION BY orders.customer_id, o.catalog_item_id) as row_number,

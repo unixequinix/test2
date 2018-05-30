@@ -121,6 +121,14 @@ module AnalyticsHelper
     end
   end
 
+  def raw_data_access
+    CSV.generate do |csv|
+      csv << ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
+      data = %w[station_name event_day date_time direction capacity access_direction zone]
+      pokes_access.map { |row| csv << data.map { |col| row[col] } }
+    end
+  end
+
   def pokes_access_in_out(access)
     data = @current_event.pokes.access_in_out(access).as_json
     data.each do |p|
@@ -140,21 +148,27 @@ module AnalyticsHelper
     data = JSON.parse(PokesQuery.new(@current_event).access_by_ticket_type(access))
     tickets = JSON.parse(PokesQuery.new(@current_event).access_catalog_item_by_customer(access))
     customers = {}
-    tickets.map { |t| customers.merge!([t["customer_id"], t["catalog_item_id"]].join => { ticket_type: t["ticket_type"], catalog_item: t["catalog_item"], checkin: t["checkin"] }) }
+    tickets.map { |t| customers.merge!([t["customer_id"], t["catalog_item_id"]].join => { customer_id: t["customer_id"], ticket_type: t["ticket_type"], access_name: t["access_name"], catalog_item: t["catalog_item"], checkin: t["checkin"] }) }
     data.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       key = [p['customer_id'], p['catalog_item_id']].join
-      p["ticket_type_name"], = customers[key][:ticket_type]
-      p["checkin"], = customers[key][:checkin]
+      p["customer_id"] = customers[key][:customer_id]
+      p["ticket_type_name"] = customers[key][:ticket_type]
+      p["access_name"] = customers[key][:access_name]
+      p["checkin"] = customers[key][:checkin]
+      p["zone"] = access.name
       p["catalog_item_name"], = customers[key][:catalog_item]
     end
   end
 
-  def raw_data_access
+  def raw_data_access_ticket_type
     CSV.generate do |csv|
-      csv << ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
-      data = %w[station_name event_day date_time direction capacity access_direction zone]
-      pokes_access.map { |row| csv << data.map { |col| row[col] } }
+      csv << ["Customer ID", "Date Time", "Ticket Type", "Catalog Item", "Access Name", "Check In", "Access", "Zone"]
+      data = %w[customer_id date_time ticket_type_name catalog_item_name access_name checkin access_direction zone]
+      accesses = @current_event.catalog_items.where(type: 'Access')
+      access_by_ticket_type = []
+      accesses.map { |access| access_by_ticket_type.append(pokes_access_by_ticket_type(access)) }
+      access_by_ticket_type.flatten.map { |row| csv << data.map { |col| row[col] } }
     end
   end
 end

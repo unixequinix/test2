@@ -16,32 +16,41 @@ module Admins
       def money
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money']
         @money = prepare_pokes(cols, pokes_money)
-        prepare_data params[:action], @money, [['Payment Method'], ['Action'], ['Money'], 1]
+        prepare_data params[:action], @money, [['Event Day', 'Payment Method'], ['Location', 'Action'], ['Money'], 1]
       end
 
       def credits
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Device', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Credit Name', 'Credits']
         @credits = prepare_pokes(cols, pokes_credits)
-        prepare_data params[:action], @credits, [['Credit Name'], ['Action'], ['Credits'], 1]
+        prepare_data params[:action], @credits, [['Event Day', 'Credit Name'], ['Location', 'Action'], ['Credits'], 1]
       end
 
       def sales
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Alcohol Product', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
         product_sale = pokes_sales(@current_event.credits.pluck(:id))
         @sales = prepare_pokes(cols, product_sale)
-        prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Station Type', 'Station Name'], ['Credits'], 1]
+        prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type', 'Station Name'], ['Credits'], 1]
       end
 
       def checkin
         cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time',  'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Total Tickets']
         @checkin = prepare_pokes(cols, pokes_checkin)
-        prepare_data params[:action], @checkin, [['Event Day'], ['Catalog Item'], ['Total Tickets'], 0]
+        prepare_data params[:action], @checkin, [['Event Day'], ['Location', 'Date Time', 'Ticket Type'], ['Total Tickets'], 0]
       end
 
       def access
         access_cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
         @access = prepare_pokes(access_cols, pokes_access)
         prepare_data params[:action], @access, [['Direction'], ['Zone', 'Date Time'], ['Capacity'], 0]
+      end
+
+      def access_ticket_type
+        cols = ['Date Time', 'Ticket Type', 'Catalog Item', 'Check In', 'Access', 'Zone', 'Location', 'Station Type', 'Station Name']
+        accesses = @current_event.catalog_items.where(type: 'Access')
+        access_by_ticket_type = []
+        accesses.map { |access| access_by_ticket_type.append(pokes_access_by_ticket_type(access)) }
+        @access_by_ticket_type = prepare_pokes(cols, access_by_ticket_type.flatten)
+        prepare_data params[:action], @access_by_ticket_type, [['Ticket Type'], ['Zone', 'Date Time'], ['Access'], 0]
       end
 
       private

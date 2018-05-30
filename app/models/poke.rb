@@ -87,20 +87,22 @@ class Poke < ApplicationRecord
 
   scope :access_in_out, lambda { |access|
     select(date_time_poke, "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction, sum(access_direction) as access_direction")
-      .where(catalog_item_id: access.id).where.not(access_direction: nil).is_ok
+      .joins(:customer)
+      .where(catalog_item_id: access.id).where.not(access_direction: nil).is_ok.where('customers.operator = false')
       .group(:access_direction, "date_time")
   }
 
   scope :access_capacity, lambda { |access|
     select(date_time_poke, access_capacity_query)
-      .where(catalog_item_id: access.id).where.not(access_direction: nil).is_ok
+      .joins(:customer)
+      .where(catalog_item_id: access.id).where.not(access_direction: nil).is_ok.where('customers.operator = false')
       .group(:access_direction, "date_time")
   }
 
   scope :access, lambda {
     select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity_all_query)
-      .joins(:station, :catalog_item)
-      .where.not(access_direction: nil).is_ok
+      .joins(:station, :catalog_item, :customer)
+      .where.not(access_direction: nil).is_ok.where('customers.operator = false')
       .group("station_name, date_time, catalog_item_id, zone, direction, access_direction")
   }
 

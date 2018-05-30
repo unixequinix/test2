@@ -35,19 +35,19 @@
           .mdl-cell class="mdl-cell--4-col"
             .mld-card.analytics-card-front
               .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: 1).sum(:access_direction)
+                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: 1).joins(:customer).where('customers.operator = false').sum(:access_direction)
               .mdl-card__supporting-text
                 span.analytics-text In
           .mdl-cell class="mdl-cell--4-col"
             .mld-card.analytics-card-front
               .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: -1).sum(:access_direction)
+                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: -1).joins(:customer).where('customers.operator = false').sum(:access_direction)
               .mdl-card__supporting-text
                 span.analytics-text Out
           .mdl-cell class="mdl-cell--4-col"
             .mld-card.analytics-card-front
               .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id).sum(:access_direction)
+                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id).joins(:customer).where('customers.operator = false').sum(:access_direction)
               .mdl-card__supporting-text
                 span.analytics-text Total
 .mdl-grid.light-grid
@@ -61,7 +61,7 @@
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
           = link_to ticket_type_admins_event_access_path(@current_event, @access), remote: true, class: "mdl-tabs__tab" do
-            | Access by Ticket Type
+            | Unique Access by Ticket Type
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
           .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"

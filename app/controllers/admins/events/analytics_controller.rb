@@ -78,7 +78,6 @@ module Admins
 
       def gates
         total_checkins = @current_event.pokes.where(action: "checkin").count
-        total_access = @current_event.pokes.sum(:access_direction)
         activations = @current_event.customers.count
         staff = @current_event.customers.where(operator: true).count
 
@@ -89,7 +88,7 @@ module Admins
         cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Zone"]
         access_control = prepare_pokes(cols, pokes_access)
 
-        @totals = { total_checkins: total_checkins, total_access: total_access, activations: activations, staff: staff }.map { |k, v| [k, number_to_delimited(v)] }
+        @totals = { total_checkins: total_checkins, activations: activations, staff: staff }.map { |k, v| [k, number_to_delimited(v)] }
         @views = [{ chart_id: "checkin_rate", title: "Ticket Check-in Rate", cols: [], rows: ["Ticket Type", "Redeemed"], data: checkin_rate, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Table" },
                   { chart_id: "checkin_ticket_type", title: "Check-in and Box office purchase", cols: ["Date Time"], rows: ["Catalog Item"], data: checkin_ticket_type, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" },
                   { chart_id: "access_control", title: "Venue Capacity", cols: ["Date Time"], rows: ["Zone"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
