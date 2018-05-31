@@ -78,7 +78,7 @@ module Api::V2
     def create_sonar_operator
       atts = sonar_ticket_params.dup
 
-      stations = @current_event.stations.find(atts.delete(:stations))
+      stations = @current_event.stations.where(id: atts.delete(:stations))
       permissions = stations.map { |station| @current_event.operator_permissions.find_or_create_by!(station: station, group: OperatorPermission.groups[station.category], role: 1) }
 
       @ticket = @current_event.tickets.new(atts)
@@ -88,7 +88,7 @@ module Api::V2
         if @ticket.customer
           customer = @ticket.customer
           customer.update!(operator: true)
-          customer.build_order(permissions.map { |permission| [permission.id, 1] }).complete!
+          customer.build_order(permissions.map { |permission| [permission.id, 1] }).complete! if permissions.any?
         else
           render json: { errors: "Ticket must have a valid customer ID" }, status: :unprocessable_entity
         end
