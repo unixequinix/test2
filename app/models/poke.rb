@@ -20,6 +20,7 @@ class Poke < ApplicationRecord
   scope :purchases, -> { where(action: "purchase") }
   scope :refunds, -> { where(action: "refund") }
   scope :sales, -> { where(action: "sale") }
+  scope :exhibitor_note, -> { where(action: "exhibitor_note") }
   scope :record_credit, -> { where(action: "record_credit") }
   scope :not_record_credit, -> { where.not(description: "record_credit") }
   scope :credit_ops, -> { where(action: %w[record_credit sale]) }
@@ -104,6 +105,13 @@ class Poke < ApplicationRecord
       .joins(:station, :catalog_item, :customer)
       .where.not(access_direction: nil).is_ok.where('customers.operator = false')
       .group("station_name, date_time, catalog_item_id, zone, direction, access_direction")
+  }
+
+  scope :engagement, lambda {
+    select(:message, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, count_operations, "AVG(priority) as priority")
+      .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag)
+      .exhibitor_note.is_ok
+      .group(:message, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
   }
 
   scope :top_products, lambda {

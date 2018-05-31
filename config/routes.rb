@@ -113,6 +113,8 @@ Rails.application.routes.draw do
           get :download_raw_data_access
           get :access_ticket_type
           get :download_raw_data_access_ticket_type
+          get :engagement
+          get :download_raw_data_engagement
         end
 
         resources :alerts, only: [:index, :update, :destroy] do

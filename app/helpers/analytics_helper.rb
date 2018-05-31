@@ -171,4 +171,20 @@ module AnalyticsHelper
       access_by_ticket_type.flatten.map { |row| csv << data.map { |col| row[col] } }
     end
   end
+
+  def pokes_engagement
+    engagement = @current_event.pokes.engagement.as_json
+    engagement.each do |p|
+      p['date_time'] = time_zoner(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
+    end
+  end
+
+  def raw_data_engagement
+    CSV.generate do |csv|
+      csv << ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Message', 'Priority', 'Number of Operations']
+      data = %w[location station_type station_name event_day date_time customer_uid customer_name operator_uid operator_name device_name message priority num_operations]
+      pokes_engagement.map { |row| csv << data.map { |col| row[col] } }
+    end
+  end
 end

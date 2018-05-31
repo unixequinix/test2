@@ -39,6 +39,8 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :is_alcohol, key: "Alcohol Product"
   attribute :code, key: "Ticket Code"
   attribute :checkin, key: "Check In"
+  attribute :message, key: "Message"
+  attribute :priority, key: "Priority"
 
   def sorter
     object.try(:[], 'sorter')
@@ -198,5 +200,13 @@ class PokeSerializer < ActiveModel::Serializer
 
   def checkin
     object.try(:[], 'checkin')&.humanize
+  end
+
+  def message
+    object.try(:[], 'message')
+  end
+
+  def priority
+    object.try(:[], 'priority')
   end
 end

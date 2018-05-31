@@ -258,7 +258,7 @@ class PokesQuery
   def customer_topup_query
     <<-SQL
       SELECT to_char(topup_amount, '999') as lable,
-       to_char((ROUND(sum(customer) / (SELECT count(id) FROM customers WHERE event_id = 89), 4) * 100), '999.99') as metric
+       to_char((ROUND(sum(customer) / (SELECT count(id) FROM customers WHERE event_id = #{@event.id}), 4) * 100), '999.99') as metric
       FROM
       (
         SELECT

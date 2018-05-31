@@ -22,18 +22,25 @@
             | Sales
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
-          = link_to checkin_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+          = link_to checkin_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do 
             | Checkin
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
-          = link_to access_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-            | Access Capacity
-            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-              span.mdl-ripple
-          = link_to access_ticket_type_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
-            | Unique Access by Ticket Type
-            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-              span.mdl-ripple
+          - if @current_event.stations.pluck(:category).include?("access_control")
+            = link_to access_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+              | Access Capacity
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if @current_event.stations.pluck(:category).include?("access_control")
+            = link_to access_ticket_type_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+              | Unique Access by Ticket Type
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if @current_event.stations.pluck(:category).include?("exhibitor")
+            = link_to engagement_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+              | Exibitor Notes
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
           .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"
             i.material-icons#downloadIcon file_download
 

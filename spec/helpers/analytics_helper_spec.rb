@@ -18,6 +18,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
     @credit_sales = create_list(:poke, 4, :as_sales, event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, credit: event.credit)
     @virtual_credit_sales = create_list(:poke, 4, :as_sales, event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, credit: event.virtual_credit)
     create(:poke, action: 'checkin', event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, ticket_type: ticket_type, catalog_item: catalog_item)
+    create(:poke, action: 'exhibitor_note', event: event, station: station, device: device, customer: customer, customer_gtag: gtag, operator: operator, operator_gtag: operator_gtag, message: 'holi', priority: 3)
     create_list(:poke, 4, :as_access, event: event, station: station, catalog_item: catalog_item, customer: customer)
     create(:ticket, event: event, ticket_type: ticket_type, customer: customer, redeemed: true)
 
@@ -128,6 +129,28 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
       it "access should have correct fields" do
         expect(pokes_access.last.keys).to eq(%w[id access_direction date_time station_name zone direction direction_in direction_out capacity event_day])
+      end
+    end
+
+    context "should return exhibitor notes" do
+      it "should return the correct sum for in-out accesses" do
+        expect(pokes_engagement.map { |i| i['message'] }).to eq(event.pokes.where(action: 'exhibitor_note').map(&:message))
+      end
+
+      it "should return the correct sum for in-out accesses" do
+        expect(pokes_engagement.map { |i| i['priority'].to_f }.sum).to eq(event.pokes.where(action: 'exhibitor_note').map(&:priority).sum.to_f)
+      end
+
+      it "should have operator UID" do
+        expect(pokes_engagement.map { |i| i['operator_uid'] }.uniq.compact).to eq(operator.gtags.pluck(:tag_uid))
+      end
+
+      it "should have customer UID" do
+        expect(pokes_engagement.map { |i| i['customer_uid'] }.uniq.compact).to eq(customer.gtags.pluck(:tag_uid))
+      end
+
+      it "access should have correct fields" do
+        expect(pokes_engagement.last.keys).to eq(%w[id customer_id message priority date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name num_operations event_day])
       end
     end
   end
