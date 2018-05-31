@@ -3,7 +3,7 @@ module Api::V2
     attributes :id, :tag_uid, :format, :banned, :active, :redeemed, :consistent, :credits, :virtual_credits, :final_balance, :final_virtual_balance
 
     has_one :ticket_type
-    has_one :customer, serializer: Simple::CustomerSerializer
+    has_one :customer, serializer: CustomerSerializer
 
     def consistent
       object.valid_balance?

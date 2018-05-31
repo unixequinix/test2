@@ -6,7 +6,7 @@ class TicketType < ApplicationRecord
   has_many :station_ticket_types, dependent: :destroy
   has_many :stations, through: :station_ticket_types
 
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :catalog_item, optional: true
   belongs_to :ticketing_integration, optional: true
 

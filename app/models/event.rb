@@ -26,7 +26,8 @@ class Event < ApplicationRecord
   has_many :ticketing_integrations, dependent: :destroy
   has_many :eventbrite_ticketing_integrations, class_name: "TicketingIntegrationEventbrite", dependent: :destroy, inverse_of: :event
   has_many :universe_ticketing_integrations, class_name: "TicketingIntegrationUniverse", dependent: :destroy, inverse_of: :event
-  has_many :palco4_ticketing_integrations, class_name: "TicketingIntegrationPalco4", dependent: :destroy, inverse_of: :event
+  has_many :stubhub_ticketing_integrations, class_name: "TicketingIntegrationStubhub", dependent: :destroy, inverse_of: :event
+  has_many :qwantiq_ticketing_integrations, class_name: "TicketingIntegrationQwantiq", dependent: :destroy, inverse_of: :event
 
   has_one :credit, dependent: :destroy
   has_one :virtual_credit, dependent: :destroy
@@ -43,9 +44,6 @@ class Event < ApplicationRecord
   enum state: { created: 1, launched: 2, closed: 3 }
   enum bank_format: { nothing: 0, iban: 1, bsb: 2 }
   enum gtag_format: { both: 0, wristband: 1, card: 2 }
-
-  USER_FLAGS = %w[alcohol_forbidden banned initial_topup].freeze
-  DEFAULT_STATIONS = { cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", hospitality_top_up: "Glownet Food", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
 
   S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
 
@@ -144,21 +142,18 @@ class Event < ApplicationRecord
     Gem::Version.new(app_version) <= Gem::Version.new(device_version.delete("^0-9\."))
   end
 
-  def eventbrite?
-    eventbrite_token.present? && eventbrite_event.present?
-  end
-
   def portal_station
     stations.find_by(category: "customer_portal")
   end
 
   def initial_setup!
+    default_user_flags = %w[alcohol_forbidden banned initial_topup].freeze
+    default_stations = { customer_portal: "Customer Portal", sync: "Sync", vault: "Vault", cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", hospitality_top_up: "Glownet Food", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
+
     create_credit!(value: 1, name: "CRD")
     create_virtual_credit!(value: 1, name: "Virtual")
-    USER_FLAGS.each { |name| user_flags.create!(name: name) }
-    DEFAULT_STATIONS.each { |category, name| stations.create! category: category, name: name }
-    station = stations.create! name: "Customer Portal", category: "customer_portal"
-    station.station_catalog_items.create(catalog_item: credit, price: 1)
+    default_user_flags.each { |name| user_flags.create!(name: name) }
+    default_stations.each { |category, name| stations.create! category: category, name: name }
   end
 
   def start_end_dates_range

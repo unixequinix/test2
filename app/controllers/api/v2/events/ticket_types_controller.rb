@@ -29,7 +29,7 @@ module Api::V2
 
     # GET api/v2/events/:event_id/ticket_types/:id
     def show
-      render json: @ticket_type, serializer: Full::TicketTypeSerializer
+      render json: @ticket_type, serializer: TicketTypeSerializer
     end
 
     # POST api/v2/events/:event_id/ticket_types

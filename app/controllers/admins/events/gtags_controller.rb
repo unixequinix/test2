@@ -97,7 +97,7 @@ module Admins
       end
 
       def recalculate_balance
-        @gtag.recalculate_balance
+        @gtag.recalculate_all
         redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
       end
 

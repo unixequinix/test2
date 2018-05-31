@@ -8,9 +8,8 @@
       .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
           button#download_raw_transactions.mdl-button.mdl-js-button.mdl-button--raised
             | RAW
-
-    .mdl-cell.mdl-cell--12-col.reports-grid
-      #table
+    .mdl-cell.mdl-cell--12-col class="#{name.eql?('access') ? 'report_card_access' : 'reports-grid'}"
+        #table
 
 javascript:
 
@@ -23,7 +22,7 @@ javascript:
     var decs = "#{decimals}"
     var decimals = "#{decimals}"
     var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers, $.pivotUtilities.c3_renderers);
-    var sum = $.pivotUtilities.aggregatorTemplates.sum;
+    var sum = ("#{aggregator}" == "average") ? $.pivotUtilities.aggregatorTemplates.average : $.pivotUtilities.aggregatorTemplates.sum;
     var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: "#{decimals}"});
     var type = null
     var chartId = "#table"

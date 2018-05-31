@@ -1,30 +1,40 @@
 = render "admins/events/event_modals"
 
 .mdl-grid.light-grid
-  .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-grid
-        .mdl-cell.mdl-cell--12-col
-          .mdl-card__title
-            .mdl-cell.mdl-cell--6-col
-              i.material-icons flight_takeoff
-              = @current_event.state.humanize
-            .mdl-cell.mdl-cell--6-col.right
-              - if @current_event.created?
-                = link_to '#launch-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
-                  | Launch
+      .mdl-card__title
+        .mdl-grid.light-grid
+          .mdl-cell.mdl-cell--6-col
+            i.material-icons flight_takeoff
+            = @current_event.state.humanize
+          .mdl-cell.mdl-cell--6-col.right
+            - if @current_event.created?
+              = link_to '#launch-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
+                | Launch
 
-              - if @current_event.launched?
-                = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
-                  | Close
-          -if @current_event.pokes.empty? && @current_event.transactions.reload.any?
-            .mdl-cell.mdl-cell--12-col
-              .center-card-title
-                h4 style="text-align: center; width: 100%; color: #999"
-                  |Your analytics where not generated here, please download them
-                  = link_to " here", zoho_report_admins_event_path(@current_event)
-                  |.
-        .mdl-cell.mdl-cell--12-col
-          = render "resources"
-  .mdl-layout-spacer
+            - if @current_event.launched?
+              = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
+                | Close
+      -if @current_event.pokes.empty? && @current_event.transactions.reload.any?
+        .center-card-title
+          h4 style="text-align: center; width: 100%; color: #999"
+            |Your analytics where not generated here, please download them
+            = link_to " here", zoho_report_admins_event_path(@current_event)
+            |.
+      -else
+        .mdl-grid
+          = render "admins/events/analytics/box", cols: 6,
+                                                  id: 'outstading',
+                                                  custom_class: 'hovering',
+                                                  colors: ['#009688', '#66FF99'],
+                                                  icon: 'account_balance_wallet',
+                                                  title_text: 'Outstanding',
+                                                  title_number: number_to_event_currency(@current_event.cash_income - @current_event.cash_outcome)
+          = render "admins/events/analytics/box", cols: 6,
+                                                  id: 'spending_power',
+                                                  custom_class: 'hovering',
+                                                  colors: ['#FF0066', '#FF9999'],
+                                                  icon: 'loyalty',
+                                                  title_text: "Spending Power",
+                                                  title_number: number_to_event_currency(@current_event.total_spending_power)

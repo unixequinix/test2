@@ -27,7 +27,7 @@ class Gtag < ApplicationRecord
   validate_associations
 
   scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits virtual_credits final_balance final_virtual_balance]) })
-  scope :inconsistent, (-> { where(inconsistent: true) })
+  scope :inconsistent, (-> { where(consistent: false) })
   scope :missing_transactions, (-> { where(missing_transactions: true) })
 
   alias_attribute :reference, :tag_uid
@@ -52,6 +52,11 @@ class Gtag < ApplicationRecord
     update!(active: true)
   end
 
+  def recalculate_all
+    recalculate_balance
+    validate_missing_counters
+  end
+
   def recalculate_balance
     pks = pokes.is_ok.order(:gtag_counter, :date)
     credit_pokes = pks.where(credit: event.credit)
@@ -63,10 +68,14 @@ class Gtag < ApplicationRecord
     self.final_balance = credit_pokes.last.final_balance.to_f if credit_pokes.last
     self.final_virtual_balance = virtual_credit_pokes.last.final_balance.to_f if virtual_credit_pokes.last
 
+    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_virtual_balance.negative?
+
+    save! if changed?
+  end
+
+  def validate_missing_counters
     self.complete = missing_counters.empty?
     self.consistent = valid_balance?
-
-    Alert.propagate(event, self, "has negative balance") if final_balance.negative? || final_virtual_balance.negative?
 
     save! if changed?
   end

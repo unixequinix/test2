@@ -1,6 +1,6 @@
 class DeviceRegistration < ApplicationRecord
   belongs_to :device
-  belongs_to :event, counter_cache: true
+  belongs_to :event
 
   attr_accessor :operator, :station, :last_time_used
 

@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   include Alertable
 
-  belongs_to :event, counter_cache: true
+  belongs_to :event
   belongs_to :device, optional: true
   belongs_to :station, optional: true
   belongs_to :operator, class_name: "Customer", optional: true, inverse_of: :transactions_as_operator

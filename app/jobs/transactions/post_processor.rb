@@ -23,6 +23,7 @@ module Transactions
 
       return if transaction.status_not_ok?
       Time.use_zone(event.timezone) { Pokes::Base.execute_descendants(transaction) }
+      Validators::MissingCounter.perform_later(transaction)
     end
 
     def resolve_customer(event, transaction, ticket, gtag, order)
@@ -34,6 +35,7 @@ module Transactions
         return
       end
 
+      customers = event.customers.where(id: customers.pluck(:id)).sort_by { |i| i.registered? ? 1 : 2 }
       Customer.claim(event, customers.first, customers.slice(1..-1)) || event.customers.create!
     end
   end

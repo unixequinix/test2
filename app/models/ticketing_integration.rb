@@ -1,5 +1,5 @@
 class TicketingIntegration < ApplicationRecord
-  NAMES = { eventbrite: "TicketingIntegrationEventbrite", universe: "TicketingIntegrationUniverse", palco4: "TicketingIntegrationPalco4" }.freeze
+  NAMES = { eventbrite: "TicketingIntegrationEventbrite", universe: "TicketingIntegrationUniverse", stubhub: "TicketingIntegrationStubhub", qwantiq: "TicketingIntegrationQwantiq" }.freeze
   AUTOMATIC_INTEGRATIONS = %w[eventbrite universe].freeze
 
   has_many :ticket_types, dependent: :destroy

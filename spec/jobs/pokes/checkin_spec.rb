@@ -34,14 +34,14 @@ RSpec.describe Pokes::Checkin, type: :job do
     it "assigns the ticket to the poke for ticket actions" do
       transaction.update!(action: %w[ticket_checkin ticket_validation].sample)
       poke = worker.perform_now(transaction)
-      expect(poke.credential).to eql(ticket)
+      expect(poke.ticket).to eql(ticket)
     end
 
     it "assigns the ticket to the poke for gtag actions" do
       gtag = create(:gtag, event: event)
       transaction.update!(action: %w[gtag_checkin].sample, gtag: gtag)
       poke = worker.perform_now(transaction)
-      expect(poke.credential).to eq(gtag)
+      expect(poke.customer_gtag).to eq(gtag)
     end
   end
 

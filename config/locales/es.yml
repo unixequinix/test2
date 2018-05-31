@@ -65,7 +65,7 @@ es:
     refund: Devolucion
     order: Pedido
     orders:
-      success_title: Enhorabuena!
+      success_title: Grácias por su compra
       credits: Créditos
       catalog_items: Otros artículos
       disclaimer: Los pedidos online se aplicarán al entrar en el recinto. Solo tienes que llegar al evento y empezar a usar tus créditos de inmediato!

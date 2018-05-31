@@ -42,16 +42,6 @@ RSpec.describe Event, type: :model do
     end
   end
 
-  describe ".eventbrite?" do
-    it "returns true if the event has eventbrite_token and eventbrite_event" do
-      expect(subject).not_to be_eventbrite
-      subject.eventbrite_token = "test"
-      expect(subject).not_to be_eventbrite
-      subject.eventbrite_event = "test"
-      expect(subject).to be_eventbrite
-    end
-  end
-
   describe ".event_serie_id" do
     before do
       create(:event_serie, :with_events, associated_events: subject)

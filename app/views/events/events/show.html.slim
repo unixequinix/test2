@@ -123,7 +123,7 @@
                     span.order__name
                       | ##{order.number}
                       - if order.gateway
-                        | (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
+                        | &nbsp; (#{order.gateway.humanize.gsub("Paypal", "PayPal")})
                     span.order__price = number_to_event_currency(order.money_base)
 
             ul.items__list

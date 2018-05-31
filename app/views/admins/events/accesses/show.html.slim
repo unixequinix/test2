@@ -1,3 +1,9 @@
+- content_for(:javascripts) do
+  = javascript_include_tag 'specific/pivot_tables'
+
+- content_for(:title) do
+  | Access for #{@access.name}
+
 - content_for(:navigation_actions) do
   = link_to admins_event_accesses_path, class: "mdl-button mdl-button--icon" do
     span#undo_link.icon.material-icons undo
@@ -23,6 +29,56 @@
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+      .mld-card.analytics-card-back
+        .mdl-grid
+          .mdl-cell class="mdl-cell--4-col"
+            .mld-card.analytics-card-front
+              .mdl-card__title.mdl-card--expand
+                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: 1).joins(:customer).where('customers.operator = false').sum(:access_direction)
+              .mdl-card__supporting-text
+                span.analytics-text In
+          .mdl-cell class="mdl-cell--4-col"
+            .mld-card.analytics-card-front
+              .mdl-card__title.mdl-card--expand
+                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: -1).joins(:customer).where('customers.operator = false').sum(:access_direction)
+              .mdl-card__supporting-text
+                span.analytics-text Out
+          .mdl-cell class="mdl-cell--4-col"
+            .mld-card.analytics-card-front
+              .mdl-card__title.mdl-card--expand
+                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id).joins(:customer).where('customers.operator = false').sum(:access_direction)
+              .mdl-card__supporting-text
+                span.analytics-text Total
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+        .mdl-tabs__tab-bar
+          = link_to capacity_admins_event_access_path(@current_event, @access), remote: true, class: "mdl-tabs__tab is-active" do
+            | Access Capacity
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
+          = link_to ticket_type_admins_event_access_path(@current_event, @access), remote: true, class: "mdl-tabs__tab" do
+            | Unique Access by Ticket Type
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
+          .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"
+            i.material-icons#downloadIcon file_download
+
+        #load-report
+          = render 'admins/events/spinner'
+          .content
+
+          - if @current_event.launched?
+            .mdl-cell.mdl-cell--12-col#analytics-text
+              .center-card-title
+                span.analytics-text = @current_event.message
+
+  .mdl-layout-spacer
+
+
   .mdl-cell.mdl-cell--6-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp
       table.mdl-data-table.mdl-js-data-table.within-card
@@ -34,3 +90,19 @@
             td.mdl-data-table__cell--non-numeric Mode
             td = best_in_place @access, :mode, as: :select, collection: Access::MODES.map{ |mode| [mode, mode.humanize] }, url: [:admins, @current_event, @access]
   .mdl-layout-spacer
+
+javascript:
+  $(window).load(function(e) {
+    $(".is-active").click();
+  });
+
+  $(document).ready(function() {
+    $(".mdl-tabs__tab").click(function(e) {
+      var elem = e.currentTarget;
+      var elems = $(".mdl-tabs__tab");
+
+      elems.splice($.inArray(elem, elems), 1);
+      elems.removeClass("is-active");
+      $(elem).addClass("is-active");
+    });
+  });

@@ -69,7 +69,7 @@ br:
     refund: Reembolso
     order: Encomenda
     orders:
-      success_title: "Ka-ching! Hora para usar %{credit_name} para se recompensar!"
+      success_title: Obrigado pela sua compra
       credits: Créditos
       catalog_items: Outros Items
       disclaimer: A compra online será creditada no local do evento. Venha e comece a comprar de imediato!

@@ -20,10 +20,17 @@
 .report_card
   overflow-x: scroll
   table
-    width: 100%
 
     .pvtColTotalLabel, .pvtAxisLabel
       max-width: 15%
+
+.report_card_access
+  table
+
+    tbody
+      tr
+        th.pvtColTotalLabel, td.colTotal, td.pvtGrandTotal
+          display: none
 
 .report_chart
   .pvtAxisContainer, .pvtVals
@@ -168,7 +175,7 @@
   transition-property: all
   transition-duration: 0.7s
   overflow: hidden
-  
+
   &.open
     max-height: 500px
 

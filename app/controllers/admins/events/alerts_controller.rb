@@ -7,7 +7,7 @@ module Admins
       # GET /alerts.json
       def index
         @resolved = params[:resolved].eql?("true") ? true : false
-        @q = @current_event.alerts.where(resolved: @resolved).order(priority: :desc, event_id: :asc, created_at: :desc).ransack(params[:q])
+        @q = @current_event.alerts.includes(:subject).where(resolved: @resolved).order(priority: :desc, event_id: :asc, created_at: :desc).ransack(params[:q])
         @alerts = @q.result
 
         authorize(@alerts)

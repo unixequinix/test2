@@ -54,7 +54,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :gtag_replacement, params: new_atts
-      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "CustomerSerializer"))
     end
   end
 
@@ -66,7 +66,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :ban, params: atts
-      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "CustomerSerializer"))
     end
 
     it "bans all the gtags" do
@@ -88,7 +88,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :unban, params: atts
-      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "CustomerSerializer"))
     end
 
     it "bans all the gtags" do
@@ -113,7 +113,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :assign_gtag, params: new_atts
-      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "CustomerSerializer"))
     end
 
     it "assigns the gtag to the customer" do
@@ -149,7 +149,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       post :assign_ticket, params: new_atts
-      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "CustomerSerializer"))
     end
 
     it "assigns the ticket to the customer" do
@@ -240,7 +240,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     it "does not return customers from another event" do
       customer.update!(event: create(:event))
       get :index, params: { event_id: event.id }
-      expect(json).not_to include(obj_to_json_v2(customer, "Simple::CustomerSerializer"))
+      expect(json).not_to include(obj_to_json_v2(customer, "CustomerSerializer"))
     end
   end
 
@@ -252,7 +252,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
 
     it "returns the customer as JSON" do
       get :show, params: atts
-      expect(json).to eq(obj_to_json_v2(customer, "Full::CustomerSerializer"))
+      expect(json).to eq(obj_to_json_v2(customer, "CustomerSerializer"))
     end
   end
 

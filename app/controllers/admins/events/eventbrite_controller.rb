@@ -6,13 +6,15 @@ module Admins
       before_action :set_params
 
       def index
-        atts = { response_type: :code, client_id: GlownetWeb.config.eventbrite_client_id, response_params: { event_slug: @current_event.slug } }
-        url = "#{GlownetWeb.config.eventbrite_auth_url}?#{atts.to_param}"
-        redirect_to(url) && return if @token.blank?
-
-        @eb_events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events.reject { |event| event.id.in? @current_event.eventbrite_ticketing_integrations.pluck(:integration_event_id) }
-        @eb_event = @eb_events.select { |event| event.id.eql? @current_event.eventbrite_event }.first
-        @eb_attendees = Eventbrite::Attendee.all({ event_id: @eb_event.id }, @token).pagination.object_count if @eb_event
+        if @token.blank?
+          atts = { response_type: :code, client_id: GlownetWeb.config.eventbrite_client_id }
+          url = "#{GlownetWeb.config.eventbrite_auth_url}?#{atts.to_param}"
+          cookies.signed[:event_slug] = @current_event.slug
+          cookies.signed[:ticketing_integration_id] = @integration.id
+          redirect_to(url)
+        else
+          @eb_events = @integration.remote_events.reject { |event| event.id.in? @current_event.eventbrite_ticketing_integrations.pluck(:integration_event_id) }
+        end
       end
 
       def connect
@@ -49,9 +51,9 @@ module Admins
       def set_params
         @integration = @current_event.eventbrite_ticketing_integrations.find(params[:ticketing_integration_id])
         authorize(@integration)
-        cookies.signed[:ticketing_integration_id] = @integration.id
         @token = @integration.token
         return unless @token
+
         begin
           Eventbrite::User.retrieve("me", @token)
         rescue Eventbrite::AuthenticationError

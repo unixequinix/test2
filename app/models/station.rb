@@ -1,5 +1,5 @@
 class Station < ApplicationRecord
-  belongs_to :event, counter_cache: true
+  belongs_to :event
 
   has_many :station_ticket_types, dependent: :destroy
   has_many :ticket_types, through: :station_ticket_types
@@ -18,7 +18,7 @@ class Station < ApplicationRecord
 
   GROUPS = { access: %i[ticket_validation check_in box_office staff_accreditation access_control],
              event_management: %i[incident_report exhibitor customer_service customer_portal operator_permissions hospitality_top_up cs_topup_refund cs_accreditation gtag_replacement yellow_card],
-             glownet: %i[gtag_recycler envelope_linker],
+             glownet: %i[gtag_recycler envelope_linker sync vault],
              monetary: %i[bar vendor top_up_refund],
              touchpoint: [:touchpoint] }.freeze
 

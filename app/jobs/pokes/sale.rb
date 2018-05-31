@@ -15,7 +15,10 @@ class Pokes::Sale < Pokes::Base
         atts = extract_credit_atts(credit_id, payment, extract_sale_item_atts(item, global_index, description: description, action: "sale"))
         atts[:credit_amount] = -atts[:credit_amount]
 
-        create_poke(extract_atts(transaction, atts))
+        poke = create_poke(extract_atts(transaction, atts))
+        poke.customer_gtag&.recalculate_balance
+
+        poke
       end
     end.flatten
   end

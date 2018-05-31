@@ -1,0 +1,25 @@
+.mdl-cell.mdl-cell--12-col.reports-grid
+  #table
+
+javascript:
+  $(document).ready(function() {
+    var data = JSON.parse("#{escape_javascript(data.html_safe)}");
+    var cols = jQuery.parseJSON("#{ escape_javascript(cols.html_safe) }");
+    var rows = jQuery.parseJSON("#{ escape_javascript(rows.html_safe) }");
+    var metric = jQuery.parseJSON("#{ escape_javascript(metric.html_safe) }");
+    var decimals = #{decimals};
+    var title = "#title";
+    var chartId = "#table";
+    var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
+    var sum = $.pivotUtilities.aggregatorTemplates.sum;
+    var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: decimals});
+    var type = "TSV Export"
+    var show = "_hidden"
+
+    setTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat);
+    setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
+
+    $("#" + "#table_button").click(function() {
+      exportCSV("#table_hidden", "#title");
+    });
+  });

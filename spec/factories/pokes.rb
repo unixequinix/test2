@@ -16,12 +16,22 @@ FactoryBot.define do
       end
     end
 
-    trait :as_sales do
+    trait :as_access do
       before(:create) do |instance|
+        instance.action = "checkpoint"
+        instance.access_direction = 1
+      end
+    end
+
+    trait :as_sales do
+      transient do
+        credit nil
+      end
+
+      before(:create) do |instance, evaluator|
         instance.action = "sale"
-        instance.credit = instance.credit || instance.event.credit
+        instance.credit = evaluator.credit || instance.event.credit
         instance.credit_amount = -rand(100)
-        instance.credit_name = instance.event.credit.name
         instance.sale_item_unit_price = rand(100)
         instance.final_balance = rand(100)
         instance.customer = create(:customer, event: instance.event)
@@ -50,6 +60,14 @@ FactoryBot.define do
         instance.final_balance = rand(100)
         instance.customer = create(:customer, event: instance.event)
         instance.station = create(:station, event: instance.event)
+      end
+    end
+
+    trait :as_access do
+      before(:create) do |instance|
+        instance.action = "checkpoint"
+        instance.catalog_item.id = 5
+        instance.access_direction = 1
       end
     end
 

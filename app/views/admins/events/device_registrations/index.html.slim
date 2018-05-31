@@ -150,9 +150,6 @@
                   tr
                     td.mdl-data-table__cell--non-numeric Fast Removal Password
                     td = best_in_place @current_event, :fast_removal_password, url: [:admins, @current_event]
-                  tr
-                    td.mdl-data-table__cell--non-numeric Min App Version
-                    td = best_in_place @current_event, :emv_enabled, url: [:admins, @current_event]
 
                   - if current_user.admin?
                     tr
@@ -162,14 +159,20 @@
                       td.mdl-data-table__cell--non-numeric Reverse UID
                       td = best_in_place @current_event, :uid_reverse, best_in_place_checkbox([:admins, @current_event])
                     tr
+                      td.mdl-data-table__cell--non-numeric All stations apply tickets
+                      td = best_in_place @current_event, :stations_apply_tickets, best_in_place_checkbox([:admins, @current_event])
+                    tr
                       td.mdl-data-table__cell--non-numeric All stations apply orders
                       td = best_in_place @current_event, :stations_apply_orders, best_in_place_checkbox([:admins, @current_event])
                     tr
                       td.mdl-data-table__cell--non-numeric All stations initialize gtags
                       td = best_in_place @current_event, :stations_initialize_gtags, best_in_place_checkbox([:admins, @current_event])
                     tr
-                      td.mdl-data-table__cell--non-numeric EMV payments
-                      td = best_in_place @current_event, :stations_apply_tickets, best_in_place_checkbox([:admins, @current_event])
+                      td.mdl-data-table__cell--non-numeric Topup EMV payments
+                      td = best_in_place @current_event, :emv_topup_enabled, best_in_place_checkbox([:admins, @current_event])
+                    tr
+                      td.mdl-data-table__cell--non-numeric POS EMV payments
+                      td = best_in_place @current_event, :emv_pos_enabled, best_in_place_checkbox([:admins, @current_event])
 
             - if current_user.admin?
               .mdl-card__title

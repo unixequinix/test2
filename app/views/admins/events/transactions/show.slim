@@ -57,13 +57,8 @@
                 tbody
                   tr
                     td.mdl-data-table__cell--non-numeric Device
-                    - device = Device.find_by_mac(@transaction.device_uid)
-
-                    - if device && @current_user.team == device.team
-                      td = link_to(@transaction.device_uid, admins_user_team_device_path(@current_user, device))
-
-                    - else
-                      td = @transaction.device_uid
+                    - name = @transaction.device.asset_tracker.blank? ? @transaction.device.mac : @transaction.device.asset_tracker
+                    td = link_to(name, admins_user_team_device_path(@current_user, @transaction.device)) if @transaction.device
                   tr
                     td.mdl-data-table__cell--non-numeric Device db index
                     td = @transaction.device_db_index

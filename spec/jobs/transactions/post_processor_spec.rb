@@ -137,8 +137,8 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   end
 
   describe ".decode_ticket" do
-    let(:ctt_id) { "99" }
-    let(:ticket_code) { "TE469A2F95B47623C" }
+    let(:ctt_id) { "111" }
+    let(:ticket_code) { "G31C4AFB4E92A0DB2" }
 
     before do
       @ctt = create(:ticket_type, event: event, company_code: ctt_id)
@@ -188,9 +188,15 @@ RSpec.describe Transactions::PostProcessor, type: :job do
   describe "executing operations" do
     before { transaction.update!(action: "sale") }
     before { allow(Pokes::Sale).to receive(:perform_later) }
+    before { allow(Validators::MissingCounter).to receive(:perform_later) }
 
     it "executes tasks based on triggers" do
       expect(Pokes::Sale).to receive(:perform_later).once.with(transaction)
+      worker.perform(transaction)
+    end
+
+    it "executes validators" do
+      expect(Validators::MissingCounter).to receive(:perform_later).once.with(transaction)
       worker.perform(transaction)
     end
 

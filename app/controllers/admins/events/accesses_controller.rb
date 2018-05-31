@@ -2,6 +2,7 @@ module Admins
   module Events
     class AccessesController < Admins::Events::BaseController
       before_action :set_access, except: %i[index new create]
+      include AnalyticsHelper
 
       def index
         @accesses = @current_event.accesses.page(params[:page])
@@ -52,6 +53,26 @@ module Admins
         end
       end
 
+      def capacity
+        cols = ['Date Time', 'Direction', 'Access', 'Capacity']
+        access_in_out = prepare_pokes(cols, pokes_access_in_out(@access))
+        access_capacity = prepare_pokes(cols, pokes_access_capacity(@access))
+
+        @views = [
+          { chart_id: "in_out_", title: "In-Out by Hour", cols: ["Direction"], rows: ["Date Time"], data: access_in_out, metric: ["Access"], decimals: 0 },
+          { chart_id: "capacity_", title: "Capacity by Hour", cols: ["Direction"], rows: ["Date Time"], data: access_capacity, metric: ["Capacity"], decimals: 0 }
+        ]
+
+        prepare_data params[:action], [['Direction'], ['Date Time'], ['Access'], 0]
+      end
+
+      def ticket_type
+        cols = ['Date Time', 'Ticket Type', 'Catalog Item', 'Check In', 'Access', 'Zone', 'Location', 'Station Type', 'Station Name']
+        access_by_ticket_type = prepare_pokes(cols, pokes_access_by_ticket_type(@access))
+        @views = { chart_id: "access_ticket_type", title: "Unique Access by Ticket Type", cols: ["Ticket Type"], rows: ["Date Time"], data: access_by_ticket_type, metric: ["Access"], decimals: 0 }
+        prepare_data params[:action], [['Direction'], ['Date Time'], ['Access'], 0]
+      end
+
       private
 
       def set_access
@@ -61,6 +82,13 @@ module Admins
 
       def permitted_params
         params.require(:access).permit(:name, :mode)
+      end
+
+      def prepare_data(name, _array)
+        @name = name
+        respond_to do |format|
+          format.js { render action: :load_report }
+        end
       end
     end
   end

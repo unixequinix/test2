@@ -8,8 +8,7 @@ module Admins
       before_action :check_request_format, only: %w[cash_flow sales gates partner_reports]
 
       def show
-        product_names = Product.where(station: @current_event.stations).pluck(:id, :name).to_h
-        @top_products = @current_event.pokes.where(action: "sale").where.not(product_id: nil).group(:product_id).sum(:credit_amount).sort_by(&:last).slice(0..9).map.with_index { |atts, index| { product_name: product_names[atts.first], credits: -atts.last, sorter: index } }
+        @top_products = @current_event.pokes.top_products.as_json
 
         non_alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: false))
         alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: true))
@@ -62,7 +61,7 @@ module Admins
         total_sale = -@current_event.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
 
         cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Credit Name", "Credits", "Event Day", "Operator UID", "Operator Name", "Device"]
-        product_sale = pokes_sales(@current_event.credits.pluck(:id))
+        product_sale = pokes_sales_simple(@current_event.credits.pluck(:id))
         sales = prepare_pokes(cols, product_sale)
 
         stock_cols = ["Description", "Location", "Station Type", "Station Name", "Product Name", "Product Quantity", "Event Day", "Operator UID", "Operator Name", "Device"]
@@ -79,7 +78,6 @@ module Admins
 
       def gates
         total_checkins = @current_event.pokes.where(action: "checkin").count
-        total_access = @current_event.pokes.sum(:access_direction)
         activations = @current_event.customers.count
         staff = @current_event.customers.where(operator: true).count
 
@@ -90,11 +88,11 @@ module Admins
         cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Zone"]
         access_control = prepare_pokes(cols, pokes_access)
 
-        @totals = { total_checkins: total_checkins, total_access: total_access, activations: activations, staff: staff }.map { |k, v| [k, number_to_delimited(v)] }
+        @totals = { total_checkins: total_checkins, activations: activations, staff: staff }.map { |k, v| [k, number_to_delimited(v)] }
         @views = [{ chart_id: "checkin_rate", title: "Ticket Check-in Rate", cols: [], rows: ["Ticket Type", "Redeemed"], data: checkin_rate, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Table" },
                   { chart_id: "checkin_ticket_type", title: "Check-in and Box office purchase", cols: ["Date Time"], rows: ["Catalog Item"], data: checkin_ticket_type, metric: ["Total Tickets"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" },
                   { chart_id: "access_control", title: "Venue Capacity", cols: ["Date Time"], rows: ["Zone"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
-        prepare_data(params["action"])
+        prepare_data(params[:action])
       end
 
       private

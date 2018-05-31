@@ -1,4 +1,8 @@
 class TicketingIntegrationPolicy < ApplicationPolicy
+  def show?
+    admin_or_promoter
+  end
+
   def activate?
     admin_or_promoter
   end
@@ -25,5 +29,9 @@ class TicketingIntegrationPolicy < ApplicationPolicy
 
   def create?
     admin_or_promoter
+  end
+
+  def destroy?
+    admin_or_promoter && record.ticket_types.blank?
   end
 end
