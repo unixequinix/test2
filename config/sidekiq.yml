@@ -4,7 +4,7 @@
 # Place this file at config/sidekiq.yml and Sidekiq will
 # pick it up automatically.
 :verbose: false
-:concurrency: 2
+:concurrency: 1
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: log/sidekiq.log
 
@@ -22,7 +22,7 @@
 
 # you can override settings based on environment
 production:
-  :concurrency: 2
+  :concurrency: 1
 
 development:
   :concurrency: 10
