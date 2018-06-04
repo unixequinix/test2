@@ -21,18 +21,6 @@ RSpec.describe "Events in the admin panel", type: :feature do
         create(:refund, event: event, customer: customer, credit_base: gtag.credits, status: 2)
       end
     end
-
-    context "check cards on event dashboard" do
-      before { visit admins_event_path(event) }
-
-      it "should have correct outstading value" do
-        expect(find('#outstading .analytic-card-title .number').text).to include(number_to_reports(event.cash_income - event.cash_outcome))
-      end
-
-      it "should have correct spending power value" do
-        expect(find('#spending_power .analytic-card-title .number').text).to include(number_to_reports(event.total_spending_power.abs.to_f))
-      end
-    end
   end
 
   describe "create event" do
