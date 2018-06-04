@@ -89,5 +89,5 @@
                   - if pokes_in.size > 1
                     span.mdl-tooltip.mdl-tooltip--right for="poke_#{poke.id}_products"
                       - pokes_in.each do |pk|
-                        div style="text-align: left" #{pk.sale_item_quantity} x #{pk.product&.name || pk.description.humanize}
+                        div style="text-align: left" #{pk.sale_item_quantity} x #{pk.product&.name || pk.description&.humanize}
     .mdl-layout-spacer
