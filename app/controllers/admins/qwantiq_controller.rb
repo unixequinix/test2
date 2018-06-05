@@ -13,15 +13,11 @@ module Admins
       request.basic_auth(integration.client_key, integration.client_secret)
       response = http.request(request)
 
-      begin
-        body = JSON.parse(response.body)
-      rescue JSON::ParserError
-        body = { "token" => response.body }
-      end
+      body = JSON.parse(response.body)
 
       redirect_to([:admins, event, :ticket_types], alert: t("alerts.not_authorized")) && return if body.eql?("ERROR")
 
-      integration.update!(token: body["token"], userId: body["userId"], status: "active")
+      integration.update!(token: body, status: "active")
       redirect_to [:admins, event, integration], notice: "Qwantiq login successful"
     end
   end

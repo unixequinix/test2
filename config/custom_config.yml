@@ -25,6 +25,14 @@ common: &common
 development:
   <<: *common
 
+  stubhub_auth_url: https://eur.stubhubtickets.com/accessControlApi/users/login
+  stubhub_venues_url: https://eur.stubhubtickets.com/accessControlApi/sessions/info/json
+  stubhub_barcodes_url: https://eur.stubhubtickets.com/accessControlApi/barcodes/getListFromActiveSessions/json
+
+  qwantiq_auth_url: https://www.entradas.plus/accessControlApi/users/login
+  qwantiq_venues_url: https://www.entradas.plus/accessControlApi/sessions/info/json
+  qwantiq_barcodes_url: https://www.entradas.plus/accessControlApi/barcodes/getListFromActiveSessions/json
+
 test:
   <<: *common
 

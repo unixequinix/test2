@@ -1,5 +1,7 @@
 module Ticketing
   class EventbriteImporter < ApplicationJob
+    queue_as :default
+
     def perform(order, integration)
       order = JSON.parse(order).symbolize_keys
 

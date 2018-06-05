@@ -37,7 +37,7 @@ module Admins
 
     def edit; end
 
-    def update
+    def update # rubocop:disable Metrics/PerceivedComplexity
       change_team_conditions = permitted_params.include?(:team) && @user.glowball?
       @user.team_invitations.create(active: true, leader: true, team_id: permitted_params[:team].to_i) if change_team_conditions && @user.team_invitations.empty?
       @user.team_invitations.where(active: true).last.update!(leader: true, team_id: permitted_params[:team].to_i) if change_team_conditions && @user.team_invitations.where(active: true).any?
