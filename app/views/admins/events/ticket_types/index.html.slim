@@ -92,7 +92,6 @@
               th Item
               th Tickets
               th Gtags
-              th Price / Fee (#{@current_event.currency_symbol})
               th Hidden
               th
           tbody
@@ -108,7 +107,6 @@
                   td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
                   td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
                   td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
-                  td data-label="Price/Fee" #{best_in_place ticket_type, :money_base, url: [:admins, @current_event, ticket_type]} / #{best_in_place ticket_type, :money_fee, url: [:admins, @current_event, ticket_type]}
                   td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
                   td.table-actions
                     .table-action

@@ -23,8 +23,6 @@ class TicketingIntegrationStubhub < TicketingIntegration
     url = URI("#{GlownetWeb.config.stubhub_barcodes_url}?#{params.to_param}")
 
     update!(last_import_date: Time.zone.now - 1.minute)
-
-    response = api_response(url)
-    response&.each { |ticket| Ticketing::StubhubImporter.perform_later(ticket, self) }
+    Ticketing::Palco4BaseImporter.perform_later(api_response(url), self)
   end
 end

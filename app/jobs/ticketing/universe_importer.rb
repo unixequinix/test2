@@ -1,5 +1,7 @@
 module Ticketing
   class UniverseImporter < ApplicationJob
+    queue_as :default
+
     def perform(ticket, integration)
       ticket = Hashie::Mash.new ticket
 

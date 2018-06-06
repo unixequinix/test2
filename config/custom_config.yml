@@ -14,13 +14,13 @@ common: &common
   universe_listings_url: https://www.universe.com/api/v2/listings
   universe_barcodes_url: https://www.universe.com/api/v2/guestlists
 
-  stubhub_auth_url: https://test.palco4.com/accessControlApi/users/login
-  stubhub_venues_url: https://test.palco4.com/accessControlApi/sessions/info/json
-  stubhub_barcodes_url: https://test.palco4.com/accessControlApi/barcodes/getListFromActiveSessions/json
+  stubhub_auth_url: https://eur.stubhubtickets.com/accessControlApi/users/login
+  stubhub_venues_url: https://eur.stubhubtickets.com/accessControlApi/sessions/info/json
+  stubhub_barcodes_url: https://eur.stubhubtickets.com/accessControlApi/barcodes/getListFromActiveSessions/json
 
-  qwantiq_auth_url: https://test.palco4.com/accessControlApi/users/login
-  qwantiq_venues_url: https://test.palco4.com/accessControlApi/sessions/info/json
-  qwantiq_barcodes_url: https://test.palco4.com/accessControlApi/barcodes/getListFromActiveSessions/json
+  qwantiq_auth_url: https://www.entradas.plus/accessControlApi/users/login
+  qwantiq_venues_url: https://www.entradas.plus/accessControlApi/sessions/info/json
+  qwantiq_barcodes_url: https://www.entradas.plus/accessControlApi/barcodes/getListFromActiveSessions/json
 
 development:
   <<: *common
@@ -36,14 +36,6 @@ sandbox:
   <<: *common
   universe_app_url: https://sandbox.glownet.com/admins/universe/auth
 
-  stubhub_auth_url: https://eur.stubhubtickets.com/accessControlApi/users/login
-  stubhub_venues_url: https://eur.stubhubtickets.com/accessControlApi/sessions/info/json
-  stubhub_barcodes_url: https://eur.stubhubtickets.com/accessControlApi/barcodes/getListFromActiveSessions/json
-
-  qwantiq_auth_url: https://www.entradas.plus/accessControlApi/users/login
-  qwantiq_venues_url: https://www.entradas.plus/accessControlApi/sessions/info/json
-  qwantiq_barcodes_url: https://www.entradas.plus/accessControlApi/barcodes/getListFromActiveSessions/json
-
 staging:
   <<: *common
   universe_app_url: https://staging.glownet.com/admins/universe/auth
@@ -51,11 +43,3 @@ staging:
 production:
   <<: *common
   universe_app_url: https://gspot.glownet.com/admins/universe/auth
-
-  stubhub_auth_url: https://eur.stubhubtickets.com/accessControlApi/users/login
-  stubhub_venues_url: https://eur.stubhubtickets.com/accessControlApi/sessions/info/json
-  stubhub_barcodes_url: https://eur.stubhubtickets.com/accessControlApi/barcodes/getListFromActiveSessions/json
-
-  qwantiq_auth_url: https://www.entradas.plus/accessControlApi/users/login
-  qwantiq_venues_url: https://www.entradas.plus/accessControlApi/sessions/info/json
-  qwantiq_barcodes_url: https://www.entradas.plus/accessControlApi/barcodes/getListFromActiveSessions/json
