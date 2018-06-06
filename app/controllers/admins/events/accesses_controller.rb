@@ -58,10 +58,10 @@ module Admins
         access_in_out = prepare_pokes(cols, pokes_access_in_out(@access))
         access_capacity = prepare_pokes(cols, pokes_access_capacity(@access))
 
-        @views = [
+        @views =
           { chart_id: "in_out_", title: "In-Out by Hour", cols: ["Direction"], rows: ["Date Time"], data: access_in_out, metric: ["Access"], decimals: 0 },
           { chart_id: "capacity_", title: "Capacity by Hour", cols: ["Direction"], rows: ["Date Time"], data: access_capacity, metric: ["Capacity"], decimals: 0 }
-        ]
+
 
         prepare_data params[:action], [['Direction'], ['Date Time'], ['Access'], 0]
       end

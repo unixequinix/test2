@@ -39,78 +39,86 @@ class PokesQuery
 
   def access_by_ticket_type_query(access)
     <<-SQL
-    SELECT
-      date_trunc('hour', date) as date_time,
-      pokes.customer_id,
-      catalog_item_id, 1 as access_direction,
-      stations.location as location,
-      stations.category as station_type,
-      stations.name as station_name
-    FROM pokes
-    JOIN stations ON pokes.station_id = stations.id
-    JOIN (SELECT customer_id, min(gtag_counter) as min_gtag_counter
+      SELECT
+        date_trunc('hour', date) as date_time,
+        pokes.customer_id,
+        pokes.catalog_item_id,
+        1 as access_direction,
+        stations.location as location,
+        stations.category as station_type,
+        stations.name as station_name,
+        tickets.access_name,
+        tickets.ticket_type as ticket_type_name,
+        tickets.catalog_item as catalog_item_name,
+        tickets.checkin
       FROM pokes
-      WHERE action = 'checkpoint'
-            AND event_id=#{@event.id}
-            AND catalog_item_id in (#{access.id})
-      GROUP BY 1) first
-      ON first.customer_id = pokes.customer_id
-      AND first.min_gtag_counter = pokes.gtag_counter
-    SQL
-  end
+        JOIN stations ON pokes.station_id = stations.id
+        JOIN (SELECT customer_id, min(gtag_counter) as min_gtag_counter
+        FROM pokes
+        WHERE action = 'checkpoint'
+          AND event_id=#{@event.id}
+          AND catalog_item_id in (#{access.id})
+          GROUP BY customer_id
+        ) first
+        ON first.customer_id = pokes.customer_id AND first.min_gtag_counter = pokes.gtag_counter
 
-  def access_catalog_item_by_customer_query(access)
-    <<-SQL
-    SELECT customer_id, catalog_item_id, access_name, ticket_type, catalog_item_name as catalog_item, checkin
-    FROM (
-          SELECT customer_id,
+      JOIN (
+        SELECT
+          customer_id,
+          catalog_item_id,
+          access_name,
+          ticket_type,
+          catalog_item_name as catalog_item,
+          checkin
+        FROM (
+        SELECT
+          customer_id,
           COALESCE(item2.id, item.id) as catalog_item_id,
           COALESCE(item2.name, item.name) as access_name,
           item.name as catalog_item_name,
           t2.name as ticket_type,
           row_number() OVER(PARTITION BY customer_id, COALESCE(item2.id, item.id)) as row_number,
           'ticket' as checkin
-          FROM tickets
-            JOIN ticket_types t2 ON tickets.ticket_type_id = t2.id
-            JOIN catalog_items item ON t2.catalog_item_id = item.id
-            LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
-            LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
-            WHERE COALESCE(item2.type, item.type) = 'Access'
-            and COALESCE(item2.id, item.id) = #{access.id}
-          UNION ALL
-          SELECT customer_id,
+        FROM tickets
+          JOIN ticket_types t2 ON tickets.ticket_type_id = t2.id
+          JOIN catalog_items item ON t2.catalog_item_id = item.id
+          LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+          LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+        WHERE COALESCE(item2.type, item.type) = 'Access'
+          AND COALESCE(item2.id, item.id) = #{access.id}
+        UNION ALL
+        SELECT
+          customer_id,
           COALESCE(item2.id, item.id) as catalog_item_id,
           COALESCE(item2.name, item.name) as access_name,
           item.name as catalog_item_name,
           item.name as ticket_type,
           row_number() OVER(PARTITION BY pokes.customer_id, pokes.catalog_item_id) as row_number,
           CASE WHEN pokes.payment_method ='none' THEN 'accreditation' ELSE 'box_office' END as checkin
-          FROM pokes
-            JOIN catalog_items item ON pokes.catalog_item_id = item.id
-            LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
-            LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
-          WHERE action = 'purchase'
-          AND COALESCE(item2.type, item.type) = 'Access'
-          AND COALESCE(item2.id, item.id) = #{access.id}
-          UNION ALL
-          SELECT
-            customer_id,
-            COALESCE(item2.id, item.id) as catalog_item_id,
-            COALESCE(item2.name, item.name) as access_name,
-            item.name as catalog_item_name,
-            item.name as ticket_type,
-            row_number() OVER(PARTITION BY orders.customer_id, o.catalog_item_id) as row_number,
-            'order' as checkin
-
-          FROM orders
-            JOIN order_items o ON orders.id = o.order_id
-            JOIN catalog_items item ON o.catalog_item_id = item.id
-            LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
-            LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
-          WHERE COALESCE(item2.type, item.type) = 'Access' AND COALESCE(item2.id, item.id) = #{access.id}
-
-      ) cataglog_item
-      WHERE row_number = 1
+        FROM pokes
+          JOIN catalog_items item ON pokes.catalog_item_id = item.id
+          LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+          LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+        WHERE action = 'purchase'
+           AND COALESCE(item2.type, item.type) = 'Access'
+           AND COALESCE(item2.id, item.id) = #{access.id}
+        UNION ALL
+        SELECT
+          customer_id,
+          COALESCE(item2.id, item.id) as catalog_item_id,
+          COALESCE(item2.name, item.name) as access_name,
+          item.name as catalog_item_name,
+          item.name as ticket_type,
+          row_number() OVER(PARTITION BY orders.customer_id, o.catalog_item_id) as row_number,
+          'order' as checkin
+        FROM orders
+          JOIN order_items o ON orders.id = o.order_id
+          JOIN catalog_items item ON o.catalog_item_id = item.id
+          LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
+          LEFT JOIN catalog_items item2 ON i.catalog_item_id = item2.id
+        WHERE COALESCE(item2.type, item.type) = 'Access' AND COALESCE(item2.id, item.id) = #{access.id}) cataglog_item
+        WHERE row_number = 1
+      ) tickets ON tickets.customer_id = pokes.customer_id AND tickets.catalog_item_id = pokes.catalog_item_id
     SQL
   end
 
