@@ -10,6 +10,7 @@ server "gspot.glownet.com", user: "deploy", roles: %w[web app db]
 
 ask(:branch, proc { `git rev-parse --abbrev-ref master`.chomp })
 set(:rails_env, "production")
+set :rollbar_sourcemaps_minified_url_base, "https://gspot.glownet.com"
 
 set :sidekiq_processes, 1
 

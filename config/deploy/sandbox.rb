@@ -10,6 +10,7 @@ server "sandbox.glownet.com", user: "deploy", roles: %w[web app db]
 
 ask(:branch, proc { `git rev-parse --abbrev-ref master`.chomp })
 set(:rails_env, "sandbox")
+set :rollbar_sourcemaps_minified_url_base, "https://sandbox.glownet.com"
 
 # role-based syntax
 # ==================

@@ -10,6 +10,7 @@ server "staging.glownet.com", user: "deploy", roles: %w[web app db]
 
 ask(:branch, proc { `git rev-parse --abbrev-ref develop`.chomp })
 set(:rails_env, "staging")
+set :rollbar_sourcemaps_minified_url_base, "https://staging.glownet.com"
 
 # role-based syntax
 # ==================
