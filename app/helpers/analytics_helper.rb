@@ -146,18 +146,9 @@ module AnalyticsHelper
 
   def pokes_access_by_ticket_type(access)
     data = JSON.parse(PokesQuery.new(@current_event).access_by_ticket_type(access))
-    tickets = JSON.parse(PokesQuery.new(@current_event).access_catalog_item_by_customer(access))
-    customers = {}
-    tickets.map { |t| customers.merge!([t["customer_id"], t["catalog_item_id"]].join => { customer_id: t["customer_id"], ticket_type: t["ticket_type"], access_name: t["access_name"], catalog_item: t["catalog_item"], checkin: t["checkin"] }) }
     data.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
-      key = [p['customer_id'], p['catalog_item_id']].join
-      p["customer_id"] = customers[key][:customer_id]
-      p["ticket_type_name"] = customers[key][:ticket_type]
-      p["access_name"] = customers[key][:access_name]
-      p["checkin"] = customers[key][:checkin]
       p["zone"] = access.name
-      p["catalog_item_name"], = customers[key][:catalog_item]
     end
   end
 
