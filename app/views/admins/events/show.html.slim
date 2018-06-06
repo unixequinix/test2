@@ -1,24 +1,31 @@
 = render "admins/events/event_modals"
 
-.mdl-grid.light-grid
-  .mdl-cell.mdl-cell--12-col
-    .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-grid.light-grid
-          .mdl-cell.mdl-cell--6-col
+.content-grid.mdl-grid
+  .admin-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-grid
+      .mdl-cell.mdl-cell--6-col
+        .mdl-card__title
+          .mdl-card__title-text
             i.material-icons flight_takeoff
             = @current_event.state.humanize
-          .mdl-cell.mdl-cell--6-col.right
-            - if @current_event.created?
-              = link_to '#launch-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
-                | Launch
 
-            - if @current_event.launched?
-              = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
-                | Close
-      -if @current_event.pokes.empty? && @current_event.transactions.reload.any?
-        .center-card-title
-          h4 style="text-align: center; width: 100%; color: #999"
-            |Your analytics where not generated here, please download them
-            = link_to " here", zoho_report_admins_event_path(@current_event)
-            |.
+      .mdl-cell.mdl-cell--6-col
+        .mdl-card__title
+          - if @current_event.created?
+            = link_to '#launch-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
+              | Launch
+
+          - if @current_event.launched?
+            = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
+              | Close
+
+      .mdl-cell.mdl-cell--12-col
+        -if @current_event.pokes.empty? && @current_event.transactions.any?
+          .center-card-title
+            h4 style="text-align: center; width: 100%; color: #999"
+              |Your analytics where not generated here, please download them
+              = link_to " here", zoho_report_admins_event_path(@current_event)
+              |.
+
+    .mdl-cell.mdl-cell--12-col
+      = render "layouts/resources"
