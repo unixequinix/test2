@@ -417,4 +417,16 @@ Rails.application.routes.draw do
       end
     end
   end
+
+
+  ##----------------------------------------------------------
+  # Thirdparty API
+  #----------------------------------------------------------
+  namespace :companies do
+    namespace :api, defaults: { format: "json" } do
+      namespace :v1 do
+        resources :banned_tickets, path: "tickets/blacklist", only: [:index, :create, :destroy]
+      end
+    end
+  end
 end
