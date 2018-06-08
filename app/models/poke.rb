@@ -25,16 +25,22 @@ class Poke < ApplicationRecord
   scope :not_record_credit, -> { where.not(description: "record_credit") }
   scope :credit_ops, -> { where(action: %w[record_credit sale]) }
   scope :fees, -> { where(action: 'fee') }
-  scope :initial_fees, -> { where(action: "initial_fee") }
-  scope :topup_fees, -> { where(action: "topup_fee") }
-  scope :deposit_fees, -> { where(action: "gtag_deposit_fee") }
-  scope :return_fees, -> { where(action: "gtag_return_fee") }
+  scope :initial_fees, -> { where(description: "initial") }
+  scope :topup_fees, -> { where(description: "topup") }
+  scope :deposit_fees, -> { where(description: "gtag_deposit") }
+  scope :return_fees, -> { where(description: "gtag_return") }
   scope :online_orders, -> { where(action: "record_credit", description: %w[record_credit order_applied_onsite]) }
   scope :has_money, -> { where.not(monetary_total_price: nil) }
   scope :has_credits, -> { where.not(credit_amount: nil) }
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: "online") }
+  scope :with_credit, ->(credits) { credits.present? ? where(credit: credits) : all }
+  scope :with_payment, ->(payments) { payments.present? ? where(payment_method: payments) : all }
+  scope :with_station, ->(stations) { stations.present? ? where(station: stations) : all }
+  scope :with_catalog_item, ->(items) { items.present? ? where(catalog_item: items) : all }
+  scope :with_operator, ->(operators) { operators.present? ? where(operator: operators) : all }
+  scope :with_product, ->(products) { products.present? ? where(product: products) : all }
 
   scope :money_recon, lambda { |t = ''|
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action, action as description", :source, :payment_method, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, sum_money, count_operations)
@@ -114,13 +120,22 @@ class Poke < ApplicationRecord
       .group(:message, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
   }
 
-  scope :top_products, lambda {
+  scope :top_products, lambda { |limit|
     select(product_name, "row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
-      .left_outer_joins(:product)
+      .joins(:product)
       .sales.is_ok
       .group("product_name")
       .order("credits desc")
-      .limit(10)
+      .limit(limit)
+  }
+
+  scope :top_stations, lambda { |category, credits = event.credits|
+    select("stations.name as station_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
+      .joins(:station)
+      .where(stations: { category: category }, credit: credits)
+      .sales.is_ok
+      .group("name")
+      .order("credits desc")
   }
 
   has_paper_trail on: %i[update destroy]

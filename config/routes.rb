@@ -95,9 +95,10 @@ Rails.application.routes.draw do
 
         resource :analytics do
           get :cash_flow
-          get :sales
+          get :credits_flow
           get :gates
           get :partner_reports
+          get :sub_report
         end
 
         resource :custom_analytics do

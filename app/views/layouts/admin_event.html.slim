@@ -74,7 +74,7 @@ html
           = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons record_voice_over
             |  Customer service
-          - unless @current_event.created? || @current_event.pokes.empty?
+          - unless @current_event.created?
             = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons equalizer
               |  Analytics

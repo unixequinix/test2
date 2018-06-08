@@ -11,4 +11,9 @@ class VirtualCredit < CatalogItem
   def virtual_credits
     1
   end
+
+  def credits_for(crd = [])
+    crd = [crd].flatten
+    in?(crd) ? 1 : 0
+  end
 end

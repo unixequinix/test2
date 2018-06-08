@@ -21,6 +21,7 @@ class Refund < ApplicationRecord
   enum status: { started: 1, completed: 2, cancelled: 3 }
 
   scope :for_csv, -> { joins(:customer).select(:id, :credit_base, :credit_fee, :fields, "customers.first_name, customers.last_name, customers.email") }
+  scope :with_gateway, ->(gateways) { gateways.present? ? where(gateway: gateways) : all }
 
   scope :online_refund, lambda {
     select(:customer_id, transaction_type_refund, dimension_operation_refund, dimensions_station, event_day_refund, date_time_refund, payment_method, count_operations, "-1 * sum(credit_base) as money")

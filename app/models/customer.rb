@@ -48,6 +48,7 @@ class Customer < ApplicationRecord
 
   scope :anonymous, -> { where(anonymous: true) }
   scope :registered, -> { where(anonymous: false) }
+  scope :operator, -> { where(operator: true) }
 
   def self.policy_class
     AdmissionPolicy
@@ -134,11 +135,19 @@ class Customer < ApplicationRecord
   def build_order(items, atts = {})
     order = orders.new(atts.merge(event: event, status: "in_progress"))
 
-    items.each do |arr|
+    credit_info = items.map do |arr|
       arr.unshift(event.credit.id) if arr.size.eql?(1)
       item_id, amount = arr
-      order.order_items.new(catalog_item: event.catalog_items.find(item_id), amount: amount.to_f) unless amount.to_f.zero?
+      [0, 0] if amount.to_f.zero?
+
+      item = event.catalog_items.find(item_id)
+      order.order_items.new(catalog_item: item, amount: amount.to_f)
+      [item.credits * amount.to_f, item.virtual_credits * amount.to_f]
     end
+
+    order.credits = credit_info.map(&:first).sum
+    order.virtual_credits = credit_info.map(&:last).sum
+
     order.set_counters
   end
 

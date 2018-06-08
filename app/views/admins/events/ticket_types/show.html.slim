@@ -68,12 +68,6 @@
               td.mdl-data-table__cell--non-numeric Name
               td = best_in_place @ticket_type, :name, url: [:admins, @current_event, @ticket_type]
             tr
-              td.mdl-data-table__cell--non-numeric Price
-              td #{best_in_place @ticket_type, :money_base, url: [:admins, @current_event, @ticket_type]} #{@current_event.currency_symbol}
-            tr
-              td.mdl-data-table__cell--non-numeric Price
-              td #{best_in_place @ticket_type, :money_fee, url: [:admins, @current_event, @ticket_type]} #{@current_event.currency_symbol}
-            tr
               td.mdl-data-table__cell--non-numeric Company
               td
                 - if @ticket_type.ticketing_integration_id

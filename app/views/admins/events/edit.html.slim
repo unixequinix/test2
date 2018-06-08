@@ -66,8 +66,8 @@
                     td.mdl-data-table__cell--non-numeric Devices
                     td = best_in_place @current_event, :open_devices_api, best_in_place_checkbox([:admins, @current_event])
 
-            - if @current_event.created?
-              br
+          - if @current_event.created?
+            .transaction-card-wide.mdl-card.mdl-shadow--2dp
               .mdl-card__title style="color: red !important"
                 .mdl-cell.mdl-cell--12-col
                   i.material-icons error_outline

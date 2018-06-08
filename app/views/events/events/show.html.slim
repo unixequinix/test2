@@ -16,10 +16,14 @@
               .mdl-grid
                 .mdl-cell.mdl-cell--6-col
                   span.amount = number_to_token(@current_customer.credits)
-              - unless @current_customer.virtual_credits.zero?
-                .mdl-cell.mdl-cell--6-col.tools
-                  span.web-version = @current_event.virtual_credit.name
-                  span.amount.right = number_to_credit(@current_customer.virtual_credits, @current_event.virtual_credit)
+                  span.web-version
+                    | (#{@current_event.credit.name})
+
+                - unless @current_customer.virtual_credits.zero?
+                  .mdl-cell.mdl-cell--6-col.tools
+                    span.amount.right = number_to_credit(@current_customer.virtual_credits, @current_event.virtual_credit)
+                    span.web-version
+                      | (#{@current_event.virtual_credit.name})
       - else
         h5 = t('dashboard.credits.header_invalid')
 

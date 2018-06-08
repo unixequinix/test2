@@ -20,6 +20,19 @@ FactoryBot.define do
       end
     end
 
+    trait :with_virtual_credit do
+      after :build do |pack|
+        pack.pack_catalog_items.build(catalog_item: pack.event.virtual_credit, amount: 10)
+      end
+    end
+
+    trait :with_credits do
+      after :build do |pack|
+        pack.pack_catalog_items.build(catalog_item: pack.event.credit, amount: 10)
+        pack.pack_catalog_items.build(catalog_item: pack.event.virtual_credit, amount: 5)
+      end
+    end
+
     trait :with_access do
       after :build do |pack|
         pack.pack_catalog_items.build(catalog_item: create(:access), amount: 1)

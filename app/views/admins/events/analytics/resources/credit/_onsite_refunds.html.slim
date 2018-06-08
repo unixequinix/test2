@@ -1,0 +1,40 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col.analytics
+    .mdl-card__title.mdl-card--expand
+      .mdl-card__title-text Onsite Refunds Analytics
+
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - @refunds.keys.sort.each do |date|
+            th.pvtColLabel.high-contrast = date
+          th.pvtColLabel.high-contrast Totals
+        tr
+          - @refunds.keys.sort.each do |date|
+            th.pvtColLabel.low-contrast = @credit.name
+          th.pvtColLabel.low-contrast = @credit.name
+
+      tbody
+        - @stations.each do |station|
+          - data = @current_event.credit_onsite_refunds(grouping: :day, station_filter: station)
+          tr
+            th.pvtRowLabel.low-contrast = station.name
+            - @refunds.keys.sort.each do |date|
+              td = number_to_reports(data[date])
+
+            td.pvtTotal.rowTotal.totals = number_to_reports(data.values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+
+          - @refunds.keys.sort.each do |date|
+
+            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_onsite_refunds(grouping: :day, station_filter: @stations)[date].to_f)
+
+          td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_onsite_refunds_total( station_filter: @stations))
+
+  .mdl-layout-spacer
+
+= render 'line_chart', pos_views: @pos_views, name: 'Onsite refunds per hour', label_filter: @credits.map(&:class).map(&:name)

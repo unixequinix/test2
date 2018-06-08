@@ -6,7 +6,7 @@ RSpec.describe Api::V2::Events::PokesController, type: %i[controller api] do
 
   before do
     token_login(user, event)
-    create(:poke, event: event)
+    create(:poke, :as_topups, event: event)
   end
 
   context "GET #index" do
@@ -23,7 +23,7 @@ RSpec.describe Api::V2::Events::PokesController, type: %i[controller api] do
         expect(response).to have_http_status(:not_found)
       end
 
-      before { create(:poke, event: event, customer: customer) }
+      before { create(:poke, :as_topups, event: event, customer: customer) }
 
       it "returns all pokes for the gtag" do
         get :index, params: { event_id: event.id, customer_id: customer.id }
@@ -44,7 +44,7 @@ RSpec.describe Api::V2::Events::PokesController, type: %i[controller api] do
         expect(response).to have_http_status(:not_found)
       end
 
-      before { create(:poke, event: event, customer_gtag: gtag) }
+      before { create(:poke, :as_topups, event: event, customer_gtag: gtag) }
 
       it "returns all pokes for the gtag" do
         get :index, params: { event_id: event.id, gtag_id: gtag.id }
@@ -54,7 +54,8 @@ RSpec.describe Api::V2::Events::PokesController, type: %i[controller api] do
 
     describe "get tickets pokes" do
       let(:ticket) { create(:ticket, event: event) }
-      before { create(:poke, event: event, ticket_id: ticket.id) }
+
+      before { create(:poke, :as_topups, event: event, ticket_id: ticket.id) }
 
       it "returns a success response" do
         get :index, params: { event_id: event.id, ticket_id: ticket.id }

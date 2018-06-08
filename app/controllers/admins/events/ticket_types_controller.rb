@@ -75,7 +75,7 @@ module Admins
       end
 
       def permitted_params
-        params.require(:ticket_type).permit(:name, :catalog_item_id, :hidden, :money_base, :money_fee)
+        params.require(:ticket_type).permit(:name, :catalog_item_id, :hidden)
       end
     end
   end

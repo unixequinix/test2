@@ -100,7 +100,7 @@
     display: block
     position: absolute
     top: 40%
-    right: -23%
+    right: -20%
     border-radius: 15px
     color: #fff
     background-color: #A1A1A1
@@ -115,6 +115,14 @@
     padding: 0
     .mdl-grid
       padding: 0
+    .hovering
+      text-decoration: none
+      color: white !important
+      &:hover
+        text-shadow: 0 0 3px white
+      &.active
+        text-shadow: 0 0 3px white
+
 
 .analytic-card-icon
   text-align: center
@@ -182,3 +190,35 @@
 .slide-icon-container
   text-align: center
   cursor: pointer
+
+
+// Tables
+.analytics
+  min-width: 100%
+  overflow-x: auto
+
+  table.pvtTable
+    width: 100%
+    thead
+      th
+        white-space: nowrap
+        &.empty
+          border: 0
+          background-color: transparent
+        &.high-contrast
+          border-color: #b4b2b2
+        &.low-contrast
+          text-align: end
+    tbody
+      text-align: center
+      th
+        width: 15%
+        text-align: left
+      tr
+        border-color: #e8e6e6
+  .totals
+    background-color: #f6f6f6
+  .high-contrast
+    background-color: $graySilver
+  .low-contrast
+    background-color: $form_gray

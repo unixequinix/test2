@@ -10,15 +10,15 @@
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
         .mdl-tabs__tab-bar
-          = link_to money_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab is-active" do
+          = link_to money_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab is-active", "data-spinner" => "content" do
             | Money
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
-          = link_to credits_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+          = link_to credits_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
             | Credits
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
-          = link_to sales_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab" do
+          = link_to sales_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
             | Sales
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
@@ -46,12 +46,12 @@
 
         #load-report
           = render 'admins/events/spinner'
-          .content
+          #content
 
           - if @current_event.launched?
             .mdl-cell.mdl-cell--12-col#analytics-text
               .center-card-title
-                span.analytics-text = @current_event.message
+                span.analytics-text Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped.
   .mdl-layout-spacer
 
 javascript:

@@ -1,6 +1,5 @@
 module Api::V2
   class Events::PokesController < BaseController
-    # GET api/v2/events/:event_id/pokes
     # GET api/v2/events/:event_id/customers/:customer_id/pokes
     # GET api/v2/events/:event_id/gtags/:gtag_id/pokes
     # GET api/v2/events/:event_id/devices/:device_id/pokes

@@ -13,5 +13,5 @@ Rails.application.config.assets.version = '2.1'
 assets = %w( .svg .eot .woff .ttf welcome_admin.css admin.css cable.js customer.css customer.js layout.css)
 Rails.application.config.assets.precompile += assets
 
-specific = %w( specific/pivot_tables.js specific/events-form.js specific/intercom.js specific/devices_draggable.js specific/ticket_types_draggable.js)
+specific = %w( specific/reports.js specific/pivot_tables.js specific/events-form.js specific/intercom.js specific/devices_draggable.js specific/ticket_types_draggable.js)
 Rails.application.config.assets.precompile += specific

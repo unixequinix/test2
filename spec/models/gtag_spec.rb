@@ -45,8 +45,8 @@ RSpec.describe Gtag, type: :model do
   describe ".recalculate_balance" do
     context "with payments" do
       before do
-        create_list(:poke, 3, customer_gtag: subject, credit: event.credit, credit_amount: 30, final_balance: 2)
-        create_list(:poke, 3, customer_gtag: subject, credit: event.virtual_credit, credit_amount: 70, final_balance: 20)
+        create_list(:poke, 3, :as_topups, customer_gtag: subject, credit: event.credit, credit_amount: 30, final_balance: 2)
+        create_list(:poke, 3, :as_topups, customer_gtag: subject, credit: event.virtual_credit, credit_amount: 70, final_balance: 20)
       end
 
       it "changes the gtags credits" do
@@ -70,9 +70,10 @@ RSpec.describe Gtag, type: :model do
   describe ".validate_missing_counters" do
     context "with payments" do
       before do
-        create_list(:poke, 3, customer_gtag: subject, credit: event.credit, credit_amount: 30, final_balance: 2)
-        create_list(:poke, 3, customer_gtag: subject, credit: event.virtual_credit, credit_amount: 70, final_balance: 20)
+        create_list(:poke, 3, :as_topups, customer_gtag: subject, credit: event.credit, credit_amount: 30, final_balance: 2)
+        create_list(:poke, 3, :as_topups, customer_gtag: subject, credit: event.virtual_credit, credit_amount: 70, final_balance: 20)
       end
+
       it "sets consistent to the value of valid_balance?" do
         allow(subject).to receive(:valid_balance?).and_return(false)
         expect { subject.validate_missing_counters }.to change { subject.reload.consistent? }.from(true).to(false)

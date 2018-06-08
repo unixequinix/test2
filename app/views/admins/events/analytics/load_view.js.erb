@@ -1,1 +1,1 @@
-$("#load-view .content").html("<%= escape_javascript(render partial: @partial || 'admins/events/analytics/view', locals: { views: @views, name: @name, totals: @totals}) %>");
+$("#load-view #content").html("<%= escape_javascript(render partial: @partial || 'admins/events/analytics/view', locals: { views: @views, name: @name, totals: @totals}) %>");

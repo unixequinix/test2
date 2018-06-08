@@ -5,7 +5,7 @@ FactoryBot.define do
     customer { build(:customer, event: event) }
 
     after :build do |order|
-      order.order_items << build(:order_item, :with_credit, order: order, amount: rand(1..100))
+      order.order_items << build(:order_item, :with_access, order: order, amount: rand(1..100))
     end
 
     trait :with_different_items do
@@ -21,6 +21,22 @@ FactoryBot.define do
     trait :with_credit do
       after :build do |order|
         order.order_items << build(:order_item, :with_credit, order: order, amount: rand(1..100))
+      end
+    end
+
+    trait :with_virtual_credit do
+      after :build do |order|
+        order.order_items << build(:order_item, :with_virtual_credit, order: order, amount: rand(1..100))
+      end
+    end
+
+    trait :with_pack do
+      transient do
+        pack nil
+      end
+
+      after :build do |order, instance|
+        order.order_items << create(:order_item, catalog_item_id: instance.pack.id, amount: 1)
       end
     end
 

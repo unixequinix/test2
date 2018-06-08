@@ -1,6 +1,7 @@
 module Admins
   module Events
     class StationsController < Admins::Events::BaseController
+      include ApplicationHelper
       include StationHelper
 
       before_action :set_station, except: %i[index new create]
@@ -17,33 +18,12 @@ module Admins
         @stations = @stations.group_by(&:group)
       end
 
-      def show # rubocop:disable Metrics/AbcSize
+      def show
         authorize @station
         @load_analytics_resources = true
-
-        @items = @station.all_station_items
-        @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
-        @transactions = @station.transactions
-        @pokes = @station.pokes
-        @sales = - @station.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
-        @sales_credits = - @station.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
-        @operators = @station.pokes.pluck(:operator_id).uniq.count
-        @devices = @station.pokes.pluck(:device_id).uniq.count
+        @items = @station.all_station_items.sort_by { |i| i.class.sort_column.to_s }
         @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types)
         @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types)
-
-        money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
-        @money = prepare_pokes(money_cols, pokes_onsite_money(@station))
-        credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day", "Date Time"]
-        @credits = prepare_pokes(credit_cols, pokes_onsite_credits(@station))
-        product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
-        @products = prepare_pokes(product_cols, pokes_sales(@station, [@current_event.credit.id, @current_event.virtual_credit.id]))
-        stock_cols = ["Description", "Product Name", "Product Quantity", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
-        @products_stock = prepare_pokes(stock_cols, pokes_sale_quantity(@station))
-        access_cols = ["Event Day", "Date Time", "Direction", "Access"]
-        @access_control = prepare_pokes(access_cols, pokes_access(@station))
-        ticket_cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer ID', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Redeemed', 'Total Tickets']
-        @checkin_ticket_type = prepare_pokes(ticket_cols, pokes_checkin(@station))
       end
 
       def new
