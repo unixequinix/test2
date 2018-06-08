@@ -107,7 +107,7 @@ class Poke < ApplicationRecord
   }
 
   scope :access, lambda {
-    select(date_time_poke, "stations.name as station_name, catalog_items.name as zone", access_capacity_all_query)
+    select(date_time_poke, "stations.name as station_name", sonar_access_patch, access_capacity_all_query)
       .joins(:station, :catalog_item, :customer)
       .where.not(access_direction: nil).is_ok.where('customers.operator = false')
       .group("station_name, date_time, catalog_item_id, zone, direction, access_direction")
@@ -139,6 +139,13 @@ class Poke < ApplicationRecord
   }
 
   has_paper_trail on: %i[update destroy]
+
+  def self.sonar_access_patch
+    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.development? || Rails.env.test?
+    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.staging?
+    result = "CASE WHEN catalog_items.id = 9552ww THEN 'Noche Sábado' WHEN catalog_items.id = 9553 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.production?
+    result
+  end
 
   def self.date_time_poke
     "date_trunc('hour', date) as date_time"
