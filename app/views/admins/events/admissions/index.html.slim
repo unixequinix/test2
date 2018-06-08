@@ -82,11 +82,11 @@
                             = link_to [:new, :admins, @current_event, :ticket] do
                               span.material-icons add_circle_outline
                         tr
-                          td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types]
+                          td.mdl-data-table__cell--non-numeric = link_to "Operator Permissions", admins_event_operator_permissions_path(@current_event, group: "event_management")
                           td
-                            = @current_event.ticket_types.count
+                            = @current_event.operator_permissions.count
                             | &nbsp;
-                            = link_to [:new, :admins, @current_event, :ticket_type] do
+                            = link_to new_admins_event_operator_permission_path(@current_event) do
                               span.material-icons add_circle_outline
                         tr
                           td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers]
