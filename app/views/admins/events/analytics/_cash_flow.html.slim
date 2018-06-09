@@ -18,7 +18,7 @@
                                   no_content: true,
                                   custom_class: 'cash_flow_card',
                                   style: 'padding: 0 5px',
-                                  subtitle:   { topups: { value: @current_event.money_topups_total, data: "money_topups", filter: { group: :hour }},
+                                  subtitle:   { onsite_topups: { value: @current_event.money_topups_total, data: "money_topups", filter: { group: :hour }},
                                                 online_topups: { value: @current_event.money_online_orders_base_total, data: "money_orders", filter: { group: :hour }},
                                                 box_office: { value: @current_event.money_box_office_total, data: "money_box_office", filter: { group: :hour, station_type: %w[box_office] }},
                                                 fees: { value: @current_event.money_income_fees_total, data: "money_fees", filter: { group: :hour }}}
@@ -36,9 +36,8 @@
                                   no_content: true,
                                   custom_class: 'cash_flow_card',
                                   style: 'padding: 0 5px',
-                                  subtitle: { online_refunds: {value: @current_event.money_online_refunds_base_total, data: "money_online_refunds", filter: { group: :hour } },
-                                              onsite_refunds: { value: @current_event.money_onsite_refunds_total, data: "money_onsite_refunds", filter: { group: :hour } },
-                                              gtag_return: {value: @current_event.money_outcome_fees_total, data: "money_gtag_return", filter: { group: :hour } }}
+                                  subtitle: { onsite_refunds: { value: @current_event.money_onsite_refunds_total, data: "money_onsite_refunds", filter: { group: :hour } },
+                                              online_refunds: {value: @current_event.money_online_refunds_base_total, data: "money_online_refunds", filter: { group: :hour } } }}
             .mdl-cell.mdl-cell--4-col.no-wrapper-style.margin-auto
               = render "box", cols: 12,
                               no_content: true,

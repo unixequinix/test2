@@ -36,11 +36,11 @@
                       style: 'padding: 0 5px',
                       credit: credit,
                       type: :credit,
-                      subtitle: { topups: { value: @current_event.credit_topups_base_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
-                                  fees: { value: @current_event.credit_income_fees_total(credit_filter: @credits), data: "credit_income_fees", filter: { group: :hour } },
+                      subtitle: { online_topups: { value: @current_event.credit_online_orders_income_total(credit_filter: @credits), data: "credit_orders", filter: { group: :hour } },
+                                  onsite_topups: { value: @current_event.credit_topups_base_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
                                   ticket_bundles: { value: @current_event.credit_credential_total(credit_filter: @credits), data: "credit_credentials", filter: { group: :hour } },
-                                  online_topups: { value: @current_event.credit_online_orders_income_total(credit_filter: @credits), data: "credit_orders", filter: { group: :hour } },
-                                  box_office: { value:  @current_event.credit_box_office_total(credit_filter: @credits) , data: "credit_box_office", filter: { group: :hour } } }
+                                  box_office: { value:  @current_event.credit_box_office_total(credit_filter: @credits) , data: "credit_box_office", filter: { group: :hour } },
+                                  fees: { value: @current_event.credit_income_fees_total(credit_filter: @credits), data: "credit_income_fees", filter: { group: :hour } }}
             .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
               = render "box", cols: 12,
                       no_content: true,
@@ -81,8 +81,8 @@
                       type: :credit,
                       subtitle: { online_refunds: { value: @current_event.credit_online_refunds_base_total(credit_filter: @credits), data: "credit_online_refunds", filter: { group: :hour } },
                                   onsite_refunds: { value: @current_event.credit_onsite_refunds_base_total(credit_filter: @credits), data: "credit_onsite_refunds", filter: { group: :hour } },
-                                  fees: { value: @current_event.credit_outcome_fees_total(credit_filter: @credits), data: "credit_outcome_fees", filter: { group: :hour } },
-                                  admin_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } } }
+                                  admin_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } },
+                                  fees: { value: @current_event.credit_outcome_fees_total(credit_filter: @credits), data: "credit_outcome_fees", filter: { group: :hour } } }
 
             - if @credits.size.eql?(1)
               .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
