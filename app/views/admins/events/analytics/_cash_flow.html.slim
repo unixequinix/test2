@@ -37,7 +37,7 @@
                                   custom_class: 'cash_flow_card',
                                   style: 'padding: 0 5px',
                                   subtitle: { onsite_refunds: { value: @current_event.money_onsite_refunds_total, data: "money_onsite_refunds", filter: { group: :hour } },
-                                              online_refunds: {value: @current_event.money_online_refunds_base_total, data: "money_online_refunds", filter: { group: :hour } } }}
+                                              online_refunds: {value: @current_event.money_online_refunds_base_total, data: "money_online_refunds", filter: { group: :hour } }}
             .mdl-cell.mdl-cell--4-col.no-wrapper-style.margin-auto
               = render "box", cols: 12,
                               no_content: true,
