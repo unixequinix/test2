@@ -325,6 +325,9 @@ Rails.application.routes.draw do
     # V2
     #---------------
     namespace :v2 do
+      resources :users, except: [:show, :index, :update, :new, :edit, :create] do
+        post :can_login, on: :collection
+      end
       resources :events, only: [:show, :index, :update] do
         scope module: "events" do
           resources :accesses
