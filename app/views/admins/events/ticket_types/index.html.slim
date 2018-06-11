@@ -10,7 +10,7 @@
   .floaty#floaty
     ul.floaty-list#actions-list
       li.floaty-list-item
-        = link_to new_admins_event_ticket_type_path, id: "new_ticket_type" do
+        = link_to new_admins_event_ticket_type_path(operator: @operator_mode), id: "new_ticket_type" do
           button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons add
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
