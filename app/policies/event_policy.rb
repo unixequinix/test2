@@ -3,6 +3,10 @@ class EventPolicy < ApplicationPolicy
     true
   end
 
+  def can_login?
+    true
+  end
+
   def show?
     user.glowball? || user.registration_for(record).present?
   end

@@ -329,6 +329,8 @@ Rails.application.routes.draw do
         post :can_login, on: :collection
       end
       resources :events, only: [:show, :index, :update] do
+        post :can_login
+
         scope module: "events" do
           resources :accesses
 
