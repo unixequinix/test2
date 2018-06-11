@@ -24,7 +24,7 @@ module Ticketing
       end
 
       ticket_type = integration.ticket_types.find_or_initialize_by(company_code: company_code, event_id: integration.event_id)
-      ticket_type.update!(name: ticket_name, company: "Universe", money_base: ticket_price)
+      ticket_type.update!(name: ticket_name, company: "Universe")
       new_ticket = ticket_type.tickets.find_or_initialize_by(code: ticket_code, event_id: integration.event_id)
       new_ticket.update!(ticket_type: ticket_type, purchaser_first_name: first_name, purchaser_last_name: last_name, purchaser_email: email)
     end
