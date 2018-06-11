@@ -26,7 +26,7 @@
           - quantity = @current_event.count_sales(grouping: :day, station_filter: station)
           - data = @credits.map { |credit| [credit, @current_event.credit_sales(grouping: :day, credit_filter: credit, station_filter: station)] }.to_h
           tr
-            th.pvtRowLabel.low-contrast = station.name
+            th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
             - @dates.each do |date|
               td = quantity[date]
               - @credits.each do |credit|

@@ -28,7 +28,7 @@
           - data = @credits.map { |credit| [credit, @current_event.credit_topups(credit_filter: credit, station_filter: station)] }.to_h
           tr
             th.pvtRowLabel.low-contrast
-              = station.name
+              = link_to station.name, [:admins, @current_event, station]
               = link_to " ?", '#danger-modal', style: "float: right" if danger
 
             - @topups.keys.sort.each do |date|

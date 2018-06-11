@@ -23,7 +23,7 @@
           - data = @current_event.credit_income_fees(credit_filter: @credits, station_filter: station)
           - quantity = @current_event.count_credit_income_fees(credit_filter: @credits, station_filter: station)
           tr
-            th.pvtRowLabel.low-contrast = station.name
+            th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
             - @dates.each do |date|
               td = quantity[date]
               td = number_to_reports(data[date])
