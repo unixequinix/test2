@@ -51,6 +51,6 @@ RSpec.describe SonarDecoder, type: :domain_logic do
   end
 
   it ".perform returns the company_ticket_code form the encoded string" do
-    expect(decoder.perform(ticket_code)).to eq(111)
+    expect(decoder.perform(ticket_code)).to eq("111")
   end
 end
