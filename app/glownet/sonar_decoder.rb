@@ -5,7 +5,7 @@ class SonarDecoder
     return nil if ticket_code.blank?
     ticket_number = decode(ticket_code)
     return nil unless verify_prefix(ticket_number)
-    ticket_number.to_s[-3..-1].to_i
+    ticket_number.to_s[-3..-1]
   end
 
   def self.decode(ticket_code)
