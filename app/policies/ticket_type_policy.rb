@@ -10,11 +10,11 @@ class TicketTypePolicy < ApplicationPolicy
   private
 
   def all_allowed
+    return true if user.admin?
+
     registration = user.registration_for(record.event)
-    if record.operator?
-      user.admin? || (registration && (registration.staff_accreditation? || registration.promoter?))
-    else
-      user.admin? || (registration && (registration.support? || registration.promoter?))
-    end
+    return false unless registration
+    return true if registration.promoter?
+    record.operator? ? registration.staff_accreditation? : registration.support?
   end
 end

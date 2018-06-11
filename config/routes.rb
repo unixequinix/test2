@@ -325,6 +325,9 @@ Rails.application.routes.draw do
     # V2
     #---------------
     namespace :v2 do
+      resources :users, except: [:show, :index, :update, :new, :edit, :create] do
+        post :can_login, on: :collection
+      end
       resources :events, only: [:show, :index, :update] do
         scope module: "events" do
           resources :accesses
@@ -333,8 +336,12 @@ Rails.application.routes.draw do
             resources :pokes, only: [:index]
 
             post :create_sonar_operator, on: :collection
-            post :topup, on: :member
-            post :virtual_topup, on: :member
+            member do
+              post :topup
+              post :virtual_topup
+              post :ban
+              post :unban
+            end
           end
 
           resources :gtags do
