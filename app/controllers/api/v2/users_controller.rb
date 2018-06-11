@@ -3,7 +3,12 @@ module Api::V2
     # POST /users/can_login
     def can_login
       user = User.authenticate(user_params[:login], user_params[:password])
-      render status: user ? :ok : :unauthorized
+
+      if user
+        render json: user
+      else
+        render status: :unauthorized
+      end
     end
 
     private
