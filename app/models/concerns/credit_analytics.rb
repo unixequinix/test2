@@ -92,7 +92,7 @@ module CreditAnalytics
 
     credentials = ticket_types.includes(:catalog_item).where(catalog_items: { id: catalog_filter }).map do |tt|
       sum = [credit_filter].flatten.map { |cred| tt.catalog_item.credits_for(cred) }.reject(&:zero?).sum
-      credential_filter.map { |credential| credential.keys[0].constantize.where(id: credential.values, ticket_type: tt.id).group_by_period(grouping, :created_at).sum(sum) }.delete_if &:empty? unless sum.zero?
+      credential_filter.map { |credential| credential.keys[0].constantize.where(id: credential.values, ticket_type: tt.id).group_by_period(grouping, :created_at).sum(sum) }.delete_if(&:empty?) unless sum.zero?
     end.compact.flatten
 
     credentials.inject { |h1, h2| merge(h1, h2) } || {}
