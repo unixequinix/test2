@@ -150,13 +150,13 @@ module Admins
 
       def credit_credentials
         @partial = "credit/credentials"
-        @items = @current_event.catalog_items.select { |t| t.credits > 1 }
-
+        
         crds = @current_event.credit_credential(grouping: :hour, credit_filter: @credit)
         v_crds = @current_event.credit_credential(grouping: :hour, credit_filter: @virtual_credit)
         @catalog_items = @current_event.catalog_items
+        @items = @catalog_items.select { |t| t.credits >= 1 || t.virtual_credits >= 1 } - @current_event.credits
         @credit_credential = @current_event.credit_credential.reject { |_, v| v.zero? }
-
+        
         @pos_views = { chart_id: "credentials_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds, virtual_credit: v_crds), decimals: 2 }
       end
 

@@ -14,7 +14,7 @@ class CatalogItem < ApplicationRecord
 
   scope(:accesses, -> { where(type: "Access") })
   scope(:operator_permissions, -> { where(type: "OperatorPermission") })
-  scope(:credits, -> { where(type: "Credit").or(where(type: "VirtualCredit")) })
+  scope(:credits, -> { where(type: %w[Credit VirtualCredit]) })
   scope(:packs, -> { where(type: "Pack") })
   scope(:not_packs, -> { where.not(type: "Pack") })
   scope(:user_flags, -> { where(type: "UserFlag") })

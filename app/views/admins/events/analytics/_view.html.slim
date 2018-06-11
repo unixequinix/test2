@@ -12,4 +12,4 @@
                   span.analytics-text = k.to_s.humanize
 
   - views.each do |view|
-    = render view[:partial] || "report_card", chart_id: view[:chart_id], title: view[:title] , cols: view[:cols] , rows: view[:rows] , data: view[:data] , metric: view[:metric] , decimals: view[:decimals], type: view[:type]
+    = render view[:partial] || "report_card", chart_id: view[:chart_id], title: view[:title] , cols: view[:cols] , rows: view[:rows] , data: view[:data] , metric: view[:metric] , decimals: view[:decimals], type: view[:type] unless JSON.parse(view[:data]).empty?

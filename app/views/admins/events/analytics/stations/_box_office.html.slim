@@ -1,0 +1,30 @@
+= render "admins/events/analytics/stations/report_card", title: "Money", chart_id: "money"
+= render "admins/events/analytics/stations/report_card", title: "Tickets in #{station.name}", chart_id: "checkin_ticket_type"
+
+javascript:
+    $(function () {
+        var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.c3_renderers, $.pivotUtilities.export_renderers);
+        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var numberFormat = $.pivotUtilities.numberFormat;
+        var frFormat = numberFormat({digitsAfterDecimal: 0});
+        var frFormat1 = numberFormat({digitsAfterDecimal: 1});
+
+        var money = jQuery.parseJSON('#{ escape_javascript(money.html_safe)}');
+
+        $("#money").pivotUI(money, {
+            renderers: renderers,
+            cols: ["Event Day"], rows: ["Action"],
+            rendererName: "Table",
+            aggregators: { "Money": function () { return tpl.sum(frFormat1)(["Money"]) } }
+        });
+
+        var checkin_ticket_type = jQuery.parseJSON('#{ escape_javascript(checkin_ticket_type.html_safe)}');
+
+        $("#checkin_ticket_type").pivotUI(checkin_ticket_type, {
+            renderers: renderers,
+            cols: ["Event Day"], rows: ["Station Name", "Catalog Item"],
+            rendererName: "Table",
+            aggregators: { "Catalog Item": function () { return tpl.sum(frFormat)(["Total Tickets"]) } }
+        });
+
+    });
