@@ -41,10 +41,12 @@ module Credentiable
 
   def ban
     update_attribute(:banned, true)
+    touch
   end
 
   def unban
     update_attribute(:banned, false)
+    touch
   end
 
   def assign_customer(new_customer, _operator = nil)

@@ -336,8 +336,12 @@ Rails.application.routes.draw do
             resources :pokes, only: [:index]
 
             post :create_sonar_operator, on: :collection
-            post :topup, on: :member
-            post :virtual_topup, on: :member
+            member do
+              post :topup
+              post :virtual_topup
+              post :ban
+              post :unban
+            end
           end
 
           resources :gtags do
