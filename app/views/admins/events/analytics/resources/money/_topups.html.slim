@@ -26,7 +26,7 @@
           - quantity = @current_event.count_topups(grouping: :day, station_filter: station)
           - data = @payments.map { |payment| [payment, @current_event.money_topups(grouping: :day, payment_filter: payment, station_filter: station)] }.to_h
           tr
-            th.pvtRowLabel.low-contrast = station.name
+            th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
             - @topups.keys.sort.each do |date|
               td = quantity[date] unless quantity[date].to_f.zero?
               - @payments.each do |payment|

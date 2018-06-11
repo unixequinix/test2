@@ -20,7 +20,7 @@
         - @stations.each do |station|
           - data = @current_event.credit_onsite_refunds(grouping: :day, station_filter: station)
           tr
-            th.pvtRowLabel.low-contrast = station.name
+            th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
             - @refunds.keys.sort.each do |date|
               td = number_to_reports(data[date])
 
