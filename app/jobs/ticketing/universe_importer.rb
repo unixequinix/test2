@@ -8,7 +8,6 @@ module Ticketing
       if ticket.event_id.present?
         company_code = ticket.rate_id
         ticket_name = ticket.name
-        ticket_price = ticket.price.to_f
         ticket_code = ticket.qr_code
         first_name = ticket.guest_first_name
         last_name = ticket.guest_last_name
@@ -16,7 +15,6 @@ module Ticketing
       else
         company_code = ticket.ticket_type.id
         ticket_name = ticket.ticket_type.name
-        ticket_price = ticket.ticket_type.price.to_f
         ticket_code = ticket.token
         first_name = ticket.answers.first.value
         last_name = ticket.answers.second.value
