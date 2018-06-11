@@ -5,5 +5,6 @@ class Pokes::Operator < Pokes::Base
 
   def perform(transaction)
     transaction.customer.update! operator: true
+    transaction.gtag&.update! operator: true
   end
 end
