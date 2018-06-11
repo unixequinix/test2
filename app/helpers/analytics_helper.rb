@@ -18,6 +18,10 @@ module AnalyticsHelper
     (date.to_datetime.in_time_zone(@current_event.timezone) - delay.hour).to_date
   end
 
+  def event_day_money(date, delay = 8)
+    (date.to_datetime - delay.hour).to_date
+  end
+
   def pokes_money
     onsite_money = @current_event.pokes.money_recon(%w[none other]).as_json
     online_purchase = @current_event.orders.online_purchase.as_json
@@ -26,8 +30,7 @@ module AnalyticsHelper
     products_sale = pokes_sales(@current_event.credit.id, @current_event.credit.value)
     money = onsite_money + online_purchase + online_purchase_fee + online_refunds + products_sale
     money.each do |p|
-      p['date_time'] = time_zoner(p['date_time'])
-      p['event_day'] = event_day(p['date_time'])
+      p['event_day'] = event_day_money(p['date_time'])
     end
   end
 

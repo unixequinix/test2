@@ -15,7 +15,7 @@ class Order < ApplicationRecord
 
   validates :number, :status, presence: true
   validates :order_items, presence: true
-  validates :money_fee, :money_base, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :money_fee, :money_base, :credits, :virtual_credits, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   validate :max_credit_reached
 
@@ -25,6 +25,7 @@ class Order < ApplicationRecord
 
   scope :has_money, -> { where.not(money_base: nil) }
   scope :not_refund, -> { where.not(gateway: "refund") }
+  scope :with_gateway, ->(gateways) { gateways.present? ? where(gateway: gateways) : all }
 
   scope :online_purchase, lambda {
     select(:customer_id, transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, countd_operations, "sum(money_base) as money")
@@ -139,14 +140,6 @@ class Order < ApplicationRecord
 
   def redeemed?
     order_items.pluck(:redeemed).all?
-  end
-
-  def credits
-    order_items.sum(&:credits)
-  end
-
-  def virtual_credits
-    order_items.sum(&:virtual_credits)
   end
 
   private

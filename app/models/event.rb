@@ -1,6 +1,9 @@
 class Event < ApplicationRecord
   extend FriendlyId
 
+  include MoneyAnalytics
+  include CreditAnalytics
+
   has_many :device_registrations, dependent: :destroy
   has_many :devices, through: :device_registrations, dependent: :destroy
   has_many :transactions, dependent: :restrict_with_error
@@ -67,62 +70,7 @@ class Event < ApplicationRecord
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
   validate :currency_symbol
 
-  def credits
-    [credit, virtual_credit].compact
-  end
-
-  def cash_income
-    orders.completed.includes(order_items: :catalog_item).where.not(catalog_items: { type: 'VirtualCredit' }).pluck(:money_base, :money_fee).flatten.sum +
-      credential_income +
-      pokes.where(action: %w[purchase topup]).where.not(payment_method: %w[none other]).is_ok.sum(:monetary_total_price)
-  end
-
-  def cash_outcome
-    (onsite_sales.sum(:credit_amount).to_f.abs * credit.value) +
-      (refunds.completed.sum(:credit_base).abs * credit.value) +
-      pokes.where(action: 'refund').is_ok.sum(:monetary_total_price).abs
-  end
-
-  def credential_income
-    tickets.where.not(customer_id: nil).joins(:ticket_type).select("tickets.*, (ticket_types.money_base + ticket_types.money_fee) AS money").sum(&:money)
-  end
-
-  def onsite_sales
-    pokes.where(action: 'sale', credit: credit).is_ok.includes(:station)
-  end
-
-  def onsite_refunds
-    pokes.where(action: 'refund').is_ok
-  end
-
-  def onsite_topups
-    pokes.where(action: 'topup').where.not(payment_method: %w[none other]).is_ok
-  end
-
-  def topup_order_items
-    OrderItem.where(order: orders.completed, catalog_item: credit)
-  end
-
-  def total_spending_power
-    onsite_spending_power + online_spending_power
-  end
-
-  def onsite_spending_power
-    pokes.where(credit: credit).is_ok.sum(:credit_amount) * credit.value
-  end
-
-  def online_spending_power
-    ticket_type_credits = ticket_types.includes(:catalog_item).where.not(catalog_item_id: nil).map { |tt| [tt.id, tt.catalog_item.credits] }.to_h
-    credential_sp = tickets.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum + gtags.with_customer.unredeemed.pluck(:ticket_type_id).map { |tt_id| ticket_type_credits[tt_id].to_f }.sum
-    order_sp = OrderItem.where(order: orders.completed, redeemed: false, catalog_item: credit).sum(:amount)
-    refund_sp = refunds.completed.sum("credit_base + credit_fee")
-
-    (credential_sp + order_sp - refund_sp) * credit.value
-  end
-
-  def message
-    "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped." if launched?
-  end
+  delegate :credits, to: :catalog_items
 
   def currency_symbol
     Money::Currency.find(currency.downcase.to_sym).symbol if currency.present?
@@ -148,7 +96,7 @@ class Event < ApplicationRecord
 
   def initial_setup!
     default_user_flags = %w[alcohol_forbidden banned initial_topup].freeze
-    default_stations = { customer_portal: "Customer Portal", sync: "Sync", vault: "Vault", cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", hospitality_top_up: "Glownet Food", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
+    default_stations = { customer_portal: "Customer Portal", sync: "Sync", vault: "Vault", cs_topup_refund: "CS Topup/Refund", cs_accreditation: "CS Accreditation", touchpoint: "Touchpoint", operator_permissions: "Operator Permissions", gtag_recycler: "Gtag Recycler", gtag_replacement: "Gtag Replacement", yellow_card: "Yellow Card" }.freeze
 
     create_credit!(value: 1, name: "CRD")
     create_virtual_credit!(value: 1, name: "Virtual")

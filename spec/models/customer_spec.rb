@@ -155,14 +155,10 @@ RSpec.describe Customer, type: :model do
 
   describe ".build_order" do
     before do
-      @station = create(:station, category: "customer_portal", event: event)
-      @accesses = create_list(:access, 2, event: event)
-      @items = @accesses.map do |item|
-        num = rand(10..100)
-        @station.station_catalog_items.create!(catalog_item: item, price: num)
-        [item.id, 11]
-      end
-      @order = customer.build_order(@items)
+      accesses = create_list(:access, 2, event: event)
+      @accesses = accesses.map { |item| [item.id, rand(100)] }
+      @credits = event.credits.map { |item| [item.id, 100] }
+      @order = customer.build_order(@accesses + @credits)
       expect(@order.save).to be_truthy
     end
 
@@ -171,8 +167,30 @@ RSpec.describe Customer, type: :model do
     end
 
     it "allows for extra atts" do
-      order = customer.build_order(@items, ip: "127.0.0.1")
+      order = customer.build_order(@accesses, ip: "127.0.0.1")
       expect(order.ip).to eq("127.0.0.1")
+    end
+
+    describe "calculating credits" do
+      before { @pack = create(:pack, :with_credits, event: event) }
+
+      it "adds the credits as to order" do
+        expect(@order.credits).to eq(100)
+      end
+
+      it "adds the virtual_credits as to order" do
+        expect(@order.virtual_credits).to eq(100)
+      end
+
+      it "accounts for pack credits" do
+        expect(@pack.credits).not_to be_zero
+        expect(customer.build_order([[@pack.id, 10]] + @credits + @accesses).credits).to eq((@pack.credits * 10) + 100)
+      end
+
+      it "accounts for pack virtual_credits" do
+        expect(@pack.credits).not_to be_zero
+        expect(customer.build_order([[@pack.id, 10]] + @credits + @accesses).virtual_credits).to eq((@pack.virtual_credits * 10) + 100)
+      end
     end
 
     describe "creates order_items" do
@@ -184,18 +202,17 @@ RSpec.describe Customer, type: :model do
       end
 
       it "with correct counters" do
-        expect(@order_items.map(&:counter).sort).to eq([1, 2])
+        expect(@order_items.map(&:counter).sort).to eq([1, 2, 3, 4])
       end
     end
 
     describe "on a second run" do
       before do
-        @items = @accesses.map { |item| [item.id, 11] }
-        @order = customer.build_order(@items)
+        @order = customer.build_order(@accesses)
       end
 
       it "should add counters" do
-        expect(@order.order_items.map(&:counter).sort).to eq([3, 4])
+        expect(@order.order_items.map(&:counter).sort).to eq([5, 6])
       end
     end
   end

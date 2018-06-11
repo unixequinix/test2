@@ -18,6 +18,12 @@ class Pack < CatalogItem
     pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "VirtualCredit" }).sum(:amount)
   end
 
+  def credits_for(crd = [])
+    crd = [crd].flatten
+    crd.empty? ? event.credits : crd
+    pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: crd.map(&:class).map(&:to_s) }).sum(:amount)
+  end
+
   def only_infinite_items?
     catalog_items.all? { |item| item.is_a?(Access) && item.infinite? }
   end

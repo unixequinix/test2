@@ -71,10 +71,15 @@ html
           = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons phone_android
             |  Devices
-          = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons record_voice_over
-            |  Customer service
-          - unless @current_event.created? || @current_event.pokes.empty?
+          - if @current_user.admin? || @event_registration.promoter? || @event_registration.support?
+            = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons record_voice_over
+              |  Customer service
+          - if @current_user.admin? || @event_registration.promoter? || @event_registration.staff_accreditation?
+            = link_to admins_event_operators_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons face
+              |  Staff Management
+          - unless @current_event.created?
             = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons equalizer
               |  Analytics

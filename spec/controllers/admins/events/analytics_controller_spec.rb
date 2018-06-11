@@ -36,7 +36,7 @@ RSpec.describe Admins::Events::AnalyticsController, type: :controller do
 
   describe "GET #sales" do
     it "returns a success response" do
-      get :sales, params: { event_id: event.id }, xhr: true
+      get :credits_flow, params: { event_id: event.id }, xhr: true
       expect(response).to have_http_status(:ok)
     end
   end

@@ -26,3 +26,70 @@
               |Your analytics where not generated here, please download them
               = link_to " here", zoho_report_admins_event_path(@current_event)
               |.
+        -else
+
+          .mdl-grid
+            .mdl-layout-spacer
+            .mdl-cell.mdl-cell--10-col
+              .mdl-card__title.mdl-card--expand
+                .mdl-card__title-text Event Activity
+              canvas#event_activity
+            .mdl-layout-spacer
+
+    .mdl-cell.mdl-cell--12-col
+      = render "layouts/resources"
+
+javascript:
+    var ctx = document.getElementById("event_activity").getContext('2d');
+    var views = JSON.parse("#{escape_javascript(@activity.to_json.html_safe)}");
+    var eventData = views.data;
+
+    var datasets = {
+        topups: { label: 'Topups', data: [], fill: false, borderColor: "#F9D423", extraData: [] },
+        sales: { label: 'Sales', data: [], fill: false, borderColor: "#26D0CE", extraData: [] },
+        refunds: { label: 'Refunds', data: [], fill: false, borderColor: "#F3A183", extraData: [] }
+    };
+
+    ctx.canvas.height = 100;
+
+    $.each(eventData, function(i, item) {
+        datasets.topups.data.push(item.topups);
+        datasets.sales.data.push(item.sales);
+        datasets.refunds.data.push(item.refunds);
+    });
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: eventData.map(function(item) {return item.date_time}),
+            datasets: Object.keys(datasets).map(function(key) {return datasets[key]})
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            },
+            legend: {
+                position: 'bottom'
+            },
+            tooltips: {
+                custom: function(tooltip) {
+                    if (!tooltip) return;
+                    tooltip.displayColors = false;
+                },
+                callbacks: {
+                    title: function(tooltipItem, data) {
+                        var titleData = tooltipItem[0];
+                        var key = Object.keys(datasets)[titleData.datasetIndex];
+                        return [
+                            key.charAt(0).toUpperCase() + key.slice(1),
+                            titleData.xLabel
+                        ]
+                    }
+                }
+            }
+        }
+    });

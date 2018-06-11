@@ -93,11 +93,16 @@ Rails.application.routes.draw do
           get :merge, on: :member
         end
 
+        resources :operators, only: [:index] do
+          get :merge, on: :member
+        end
+
         resource :analytics do
           get :cash_flow
-          get :sales
+          get :credits_flow
           get :gates
           get :partner_reports
+          get :sub_report
         end
 
         resource :custom_analytics do
@@ -413,6 +418,18 @@ Rails.application.routes.draw do
           end
           get "/time", to: "time#index"
         end
+      end
+    end
+  end
+
+
+  ##----------------------------------------------------------
+  # Thirdparty API
+  #----------------------------------------------------------
+  namespace :companies do
+    namespace :api, defaults: { format: "json" } do
+      namespace :v1 do
+        resources :banned_tickets, path: "tickets/blacklist", only: [:index, :create, :destroy]
       end
     end
   end

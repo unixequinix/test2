@@ -1,3 +1,4 @@
+
 require "rails_helper"
 
 RSpec.describe Order, type: :model do
@@ -64,27 +65,10 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    describe ".credits" do
-      it "returns the sum of the order_items credits" do
-        allow(@access).to receive(:credits).and_return(10)
-        allow(@credit).to receive(:credits).and_return(23)
-        expect(subject.credits).to eq(33)
-      end
-    end
-
-    describe ".virtual_credits" do
-      it "returns the sum of the order_items virtual credits" do
-        allow(@access).to receive(:virtual_credits).and_return(10)
-        allow(@credit).to receive(:virtual_credits).and_return(23)
-
-        expect(subject.virtual_credits).to eq(33)
-      end
-    end
-
     describe ".max_credit_reached" do
       it "adds an error if the credits exceeds the maximum allowed" do
         expect(subject).to be_valid
-        subject.order_items << build(:order_item, :with_credit, amount: 100_000, order: subject)
+        subject.credits = 100_000
         expect(subject).not_to be_valid
       end
     end

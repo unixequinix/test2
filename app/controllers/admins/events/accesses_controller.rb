@@ -62,7 +62,6 @@ module Admins
           { chart_id: "in_out_", title: "In-Out by Hour", cols: ["Direction"], rows: ["Date Time"], data: access_in_out, metric: ["Access"], decimals: 0 },
           { chart_id: "capacity_", title: "Capacity by Hour", cols: ["Direction"], rows: ["Date Time"], data: access_capacity, metric: ["Capacity"], decimals: 0 }
 
-
         prepare_data params[:action], [['Direction'], ['Date Time'], ['Access'], 0]
       end
 

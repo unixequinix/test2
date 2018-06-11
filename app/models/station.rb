@@ -1,4 +1,6 @@
 class Station < ApplicationRecord
+  include StationAnalytics
+
   belongs_to :event
 
   has_many :station_ticket_types, dependent: :destroy
@@ -39,6 +41,8 @@ class Station < ApplicationRecord
 
   after_create :add_predefined_values
   before_create :add_station_event_id
+
+  scope :with_category, ->(cat) { where(category: cat) }
 
   attr_accessor :api_validations
 

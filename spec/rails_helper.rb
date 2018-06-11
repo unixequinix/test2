@@ -97,6 +97,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
+  config.include AnalyticsHelper, type: :model
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :helper
   config.include FactoryBot::Syntax::Methods

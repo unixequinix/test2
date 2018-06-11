@@ -1,8 +1,9 @@
 - content_for(:title) do
-  | Ticket Types
+  | #{'Staff' if @operator_mode} Ticket Types
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_ticket_types_path do |f|
+    = hidden_field_tag :operator, @operator_mode
     = f.search_field :name_or_company_or_catalog_item_name_or_company_code_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do
@@ -18,64 +19,62 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
+- unless @operator_mode
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--8-col
+      .transaction-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title
+          .mdl-cell.mdl-cell--12-col
+            i.material-icons bookmark_border
+            | Ticketing Integrations
 
-.content-grid.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--8-col
-    .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--12-col
-          i.material-icons bookmark_border
-          | Ticketing Integrations
+        .mdl-card__supporting-text
+          .table-responsive
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                - @integrations.each do |integration|
+                  tr class="#{'resource-hidden' unless integration.active?}"
+                    td.mdl-data-table__cell--non-numeric
+                      = link_to admins_event_ticketing_integration_path(@current_event, integration) do
+                        - if integration.integration_event_name
+                          | #{integration.integration_event_name} @ #{integration.name.humanize}
+                        - else
+                          | Not connected @ #{integration.name}
+                    td.mdl-data-table__cell--non-numeric #{pluralize(@current_event.tickets.where(ticket_type: integration.ticket_types).count, "ticket")} in #{pluralize(integration.ticket_types.count, "ticket type")}
+                    td.mdl-data-table__cell--non-numeric = integration.status.humanize
+                    td
+                      = link_to [:admins, @current_event, integration, :import_tickets] do
+                        button.icon.material-icons id="import_#{integration.id}" import_export
 
-      .mdl-card__supporting-text
-        .table-responsive
-          table.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              - @integrations.each do |integration|
-                tr class="#{'resource-hidden' unless integration.active?}"
-                  td.mdl-data-table__cell--non-numeric
-                    = link_to admins_event_ticketing_integration_path(@current_event, integration) do
-                      - if integration.integration_event_name
-                        | #{integration.integration_event_name} @ #{integration.name.humanize}
+                      - if integration.inactive?
+                        = link_to activate_admins_event_ticketing_integration_path(@current_event, integration) do
+                          button.icon.material-icons id="activate_#{integration.id}" sync
                       - else
-                        | Not connected @ #{integration.name}
-                  td.mdl-data-table__cell--non-numeric #{pluralize(@current_event.tickets.where(ticket_type: integration.ticket_types).count, "ticket")} in #{pluralize(integration.ticket_types.count, "ticket type")}
-                  td.mdl-data-table__cell--non-numeric = integration.status.humanize
-                  td
-                    = link_to [:admins, @current_event, integration, :import_tickets] do
-                      button.icon.material-icons id="import_#{integration.id}" import_export
+                        = link_to deactivate_admins_event_ticketing_integration_path(@current_event, integration) do
+                          button.icon.material-icons id="deactivate_#{integration.id}" sync_disabled
 
-                    - if integration.inactive?
-                      = link_to activate_admins_event_ticketing_integration_path(@current_event, integration) do
-                        button.icon.material-icons id="activate_#{integration.id}" sync
-                    - else
-                      = link_to deactivate_admins_event_ticketing_integration_path(@current_event, integration) do
-                        button.icon.material-icons id="deactivate_#{integration.id}" sync_disabled
+                      - if policy(integration).destroy?
+                        = link_to admins_event_ticketing_integration_path(@current_event, integration), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_integration_#{integration.id}"  do
+                          button.icon.material-icons id="delete_#{integration.id}" delete_forever
 
-                    - if policy(integration).destroy?
-                      = link_to admins_event_ticketing_integration_path(@current_event, integration), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_integration_#{integration.id}"  do
-                        button.icon.material-icons id="delete_#{integration.id}" delete_forever
+                    span.mdl-tooltip data-mdl-for="import_#{integration.id}" Force Import
+                    span.mdl-tooltip data-mdl-for="activate_#{integration.id}" Activate
+                    span.mdl-tooltip data-mdl-for="deactivate_#{integration.id}" Deactivate
+                    span.mdl-tooltip data-mdl-for="delete_#{integration.id}" Delete
 
-                  span.mdl-tooltip data-mdl-for="import_#{integration.id}" Force Import
-                  span.mdl-tooltip data-mdl-for="activate_#{integration.id}" Activate
-                  span.mdl-tooltip data-mdl-for="deactivate_#{integration.id}" Deactivate
-                  span.mdl-tooltip data-mdl-for="delete_#{integration.id}" Delete
+    .mdl-cell.mdl-cell--4-col
+      .transaction-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title
+          .mdl-cell.mdl-cell--12-col
+            i.material-icons bookmark_border
+            | Connect
 
-  .mdl-cell.mdl-cell--4-col
-    .transaction-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        .mdl-cell.mdl-cell--12-col
-          i.material-icons bookmark_border
-          | Connect
-
-      .mdl-card__supporting-text
-        - TicketingIntegration::NAMES.each do |name, _|
-          = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), class: "mdl-button mdl-js-button mdl-button--raised"
-          span &nbsp; &nbsp;
-
-
-  .mdl-layout-spacer
+        .mdl-card__supporting-text
+          - TicketingIntegration::NAMES.each do |name, _|
+            = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), class: "mdl-button mdl-js-button mdl-button--raised"
+            span &nbsp; &nbsp;
+    .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -88,37 +87,19 @@
             tr
               th.mdl-data-table__cell--non-numeric Connected to
               th.mdl-data-table__cell--non-numeric Name
-              th Company
               th Item
               th Tickets
               th Gtags
               th Hidden
-              th
           tbody
-            - @ticket_types.group_by(&:ticketing_integration).each do |integration, ticket_types|
-              tr
-                td.mdl-data-table__cell--non-numeric colspan="9" = integration.blank? ? 'Glownet' : integration.integration_event_name
+            - @ticket_types.each do |ticket_type|
+              tr class="#{'resource-hidden' if ticket_type.hidden?}"
+                td.mdl-data-table__cell--non-numeric #{ticket_type.company || "No company"} - #{ticket_type.ticketing_integration&.integration_event_name || "Not Connected"}
+                td.mdl-data-table__cell--non-numeric data-label="Name" = link_to ticket_type.name, [:admins, @current_event, ticket_type]
+                td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
+                td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
+                td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
+                td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
 
-              - ticket_types.each do |ticket_type|
-                tr class="#{'resource-hidden' if ticket_type.hidden?}"
-                  td
-                  td.mdl-data-table__cell--non-numeric data-label="Name" = link_to ticket_type.name, [:admins, @current_event, ticket_type]
-                  td data-label="Company" = ticket_type.company&.humanize
-                  td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
-                  td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
-                  td data-label="Gtags" = @gtag_counts[ticket_type.id].to_i
-                  td data-label="Hidden" = best_in_place ticket_type, :hidden, best_in_place_checkbox([:admins, @current_event, ticket_type])
-                  td.table-actions
-                    .table-action
-                      = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type), id:"edit_#{ticket_type.id}" do
-                        button.icon.material-icons edit
-                    .table-action
-                      = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{ticket_type.id}"  do
-                        button.icon.material-icons delete_forever
-
-                span.mdl-tooltip data-mdl-for="ticket_type_#{ticket_type.id}" Info
-                span.mdl-tooltip data-mdl-for="edit_#{ticket_type.id}" Edit
-                span.mdl-tooltip data-mdl-for="delete_#{ticket_type.id}" Delete
-
-    = render "layouts/pagination", objects: @ticket_types
+  = render "layouts/pagination", objects: @ticket_types
   .mdl-layout-spacer

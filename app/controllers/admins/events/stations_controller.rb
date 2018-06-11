@@ -1,6 +1,7 @@
 module Admins
   module Events
     class StationsController < Admins::Events::BaseController
+      include ApplicationHelper
       include StationHelper
 
       before_action :set_station, except: %i[index new create]
@@ -20,7 +21,6 @@ module Admins
       def show # rubocop:disable Metrics/AbcSize
         authorize @station
         @load_analytics_resources = true
-
         @items = @station.all_station_items
         @items.sort_by! { |i| i.class.sort_column.to_s } if @items.first
         @transactions = @station.transactions

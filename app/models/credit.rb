@@ -14,6 +14,11 @@ class Credit < CatalogItem
     1
   end
 
+  def credits_for(crd = [])
+    crd = [crd].flatten
+    in?(crd) ? 1 : 0
+  end
+
   private
 
   def set_customer_portal_price

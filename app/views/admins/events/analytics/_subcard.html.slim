@@ -1,30 +1,27 @@
-.mdl-cell class="mdl-cell--#{cols}-col" style="#{style if local_assigns[:style]}"
-  .mld-card.analytic-card-front class="#{custom_class if local_assigns[:custom_class]}" style="background: linear-gradient(to bottom right, #8c8686, #CCCCCC"
-    - if local_assigns[:slide_button]
-    .slide-icon-container
-      i.material-icons.open-pane keyboard_arrow_down
-    div class="#{'slide-content' if local_assigns[:slide_button]}"
-      .mdl-grid.no-wrapper-style.padding
-        - subtitle.each_pair do |key, value|
-          .mdl-cell.mdl-cell--12-col.analytic-card-title
-            .mdl-grid.vertical-center-items
-              .mdl-cell.mdl-cell--4-col.analytic-card-content.no-wrapper-style
-                .text = key.to_s.humanize
-              .mdl-cell.mdl-cell--8-col.analytic-card-content.no-wrapper-style.right
-                .number = number_to_reports_currency(value)
+- type ||= :money
+- credit ||= nil
 
-      hr style="height:2px;border:none;color:#fff;background-color:#fff;margin: 0"
-        .mdl-cell.mdl-cell--12-col.analytic-card-title
-          .mdl-grid.vertical-center-items
-            .mdl-cell.mdl-cell--4-col.analytic-card-content.no-wrapper-style
-              .text Total:
-            .mdl-cell.mdl-cell--8-col.analytic-card-content.no-wrapper-style.right
-              .number = number_to_reports_currency(subtitle.values.map(&:to_f).sum)
+- unless subtitle.values.map{ |k, v| k[:value] }.sum.zero? 
+  .mdl-cell class="mdl-cell--#{cols}-col" style="#{style if local_assigns[:style]}"
+    .mld-card.analytic-card-front class="#{custom_class if local_assigns[:custom_class]}" style="background: linear-gradient(to bottom right, #8c8686, #CCCCCC)"
+      div class="open #{'slide-content' if local_assigns[:slide_button]}"
+        .mdl-grid.no-wrapper-style.padding
+          - subtitle.each do |key, data|
+            - next if data[:value].zero?
+            .mdl-cell.mdl-cell--12-col.analytic-card-title
+              = link_to sub_report_admins_event_analytics_path(@current_event, analytics: { data: data[:data], selected: key, filter: data[:filter] }), remote: true, name: key, class: "hovering", "data-spinner" => "render_data_analytics", onclick: "activeCurrentLink(this)" do
+                .mdl-grid.vertical-center-items
+                  .mdl-cell.mdl-cell--4-col.analytic-card-content.no-wrapper-style
+                    .text = key.to_s.humanize
+                  .mdl-cell.mdl-cell--8-col.analytic-card-content.no-wrapper-style.right
+                    .number
+                      - if type.eql?(:money)
+                        = number_to_reports_currency(data[:value])
+                      - else
+                        = number_to_reports_credit(data[:value], credit)
 
-javascript:
-  $('.slide-icon-container').on('click', function(e) {
-    var icon = $(e.currentTarget).find('.open-pane');
-    var pane = $(e.currentTarget).siblings('.slide-content');
-    pane[0].classList.toggle('open');
-    pane.hasClass('open') ? $(icon).text('keyboard_arrow_up') : $(icon).text('keyboard_arrow_down');
-  });
+  javascript:
+    function activeCurrentLink(link) {
+      $('a.hovering').removeClass('active');
+      $(link).addClass('active')
+    };

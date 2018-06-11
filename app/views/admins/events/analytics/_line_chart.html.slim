@@ -1,0 +1,25 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-card__title.mdl-card--expand
+      .mdl-card__title-text = name
+    canvas#analytics_line_chart
+
+javascript:
+  var label_filter = JSON.parse("#{local_assigns[:label_filter].present? ? escape_javascript(label_filter.map{|k| k.underscore}.to_json.html_safe) : []}");
+  label_filter = label_filter.length <= 1 ? label_filter : []
+  var colors = ["#F9D423", "#26D0CE", "#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD","#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD","#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD"]
+  var ctx = document.getElementById("analytics_line_chart").getContext('2d');
+  var views = JSON.parse("#{escape_javascript(pos_views.to_json.html_safe)}");
+  var metric = (typeof views.metric === 'undefined' ? '' : views.metric);
+  var eventData = views.data;
+  var labels = eventData.map(function(item) {return item.date_time});
+  var keys = Object.keys(eventData[0]).filter(function(i) { return !['date_time_sort', 'date_time'].includes(i)});
+  var datasets = {};
+
+  keys.forEach(function(k, i) {
+    var key = label_filter.length > 0 ? label_filter[0] : k
+    if(eventData.map(function(item) { return item[key.toString()]}).filter(Number).length == 0) { return }
+    $.extend(datasets, {[key]: { label: key.humanize(), data: eventData.map(function(item) { return item[key.toString()]}), fill: false, borderColor: colors[keys.indexOf(key)], extraData: [] } })
+  });
+
+  lineChart(labels, datasets, metric);

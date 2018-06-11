@@ -28,6 +28,10 @@ module Admins
     end
 
     def show
+      @load_analytics_resources = true
+      data = @current_event.plot(topups: @current_event.count_topups(grouping: :hour), sales: @current_event.count_sales(grouping: :hour), refunds: @current_event.count_all_refunds(grouping: :hour))
+      @activity = { chart_id: "event_activity", data: data }
+
       render layout: "admin_event"
     end
 
@@ -150,6 +154,7 @@ module Admins
     def set_event
       @current_event = Event.friendly.find(params[:id])
       authorize(@current_event)
+      @event_registration = @current_user.registration_for(@current_event)
       @credit_value = @current_event.credit.value
     end
 

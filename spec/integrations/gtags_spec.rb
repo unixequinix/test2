@@ -33,7 +33,7 @@ RSpec.describe "GTags in the admin panel", type: :feature do
         first('#gtag_ticket_type_id option', minimum: 1).select_option
       end
       expect { find("input[name=commit]").click }.to change(Gtag, :count).by(1)
-      expect(page).to have_current_path admins_event_gtags_path(event)
+      expect(page).to have_current_path admins_event_gtags_path(event, operator: false)
       expect(event.gtags.last.tag_uid).to eq("GTAGTEST1")
     end
   end

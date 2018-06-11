@@ -2,9 +2,10 @@ module Admins
   module Events
     class GtagsController < Admins::Events::BaseController
       before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance merge make_active]
+      before_action :set_operator, only: %i[index new]
 
       def index
-        @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])
+        @q = @current_event.gtags.where(operator: @operator_mode).includes(:customer).order(:tag_uid).ransack(params[:q])
         @gtags = @q.result
         authorize @gtags
         @gtags = @gtags.page(params[:page])
@@ -25,7 +26,7 @@ module Admins
       end
 
       def new
-        @gtag = @current_event.gtags.new
+        @gtag = @current_event.gtags.new(operator: @operator_mode)
         authorize @gtag
       end
 
@@ -33,8 +34,9 @@ module Admins
         @gtag = @current_event.gtags.new(permitted_params)
         authorize @gtag
         if @gtag.save
-          redirect_to admins_event_gtags_path, notice: t("alerts.created")
+          redirect_to admins_event_gtags_path(operator: @gtag.operator?), notice: t("alerts.created")
         else
+          @operator_mode = @gtag.operator?
           flash.now[:alert] = t("alerts.error")
           render :new
         end
@@ -145,8 +147,12 @@ module Admins
         authorize @gtag
       end
 
+      def set_operator
+        @operator_mode = params[:operator].eql?("true")
+      end
+
       def permitted_params
-        params.require(:gtag).permit(:event_id, :tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format, :active)
+        params.require(:gtag).permit(:tag_uid, :format, :redeemed, :banned, :ticket_type_id, :format, :active, :operator)
       end
     end
   end

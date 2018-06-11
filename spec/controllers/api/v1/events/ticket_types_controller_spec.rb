@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Events::TicketTypesController, type: %i[controller api] 
       end
       it "returns the necessary keys" do
         get :index, params: params
-        ticket_type_keys = %w[id name ticket_type_ref catalog_item_id catalog_item_type company_id company_name]
+        ticket_type_keys = %w[id name catalog_item_id catalog_item_type company_id company_name ticket_type_ref]
         JSON.parse(response.body).map { |ticket_type| expect(ticket_type.keys).to eq(ticket_type_keys) }
       end
 
