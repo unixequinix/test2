@@ -21,7 +21,7 @@ class User < ApplicationRecord
 
   enum role: { glowball: 2, admin: 0, promoter: 1 }
 
-  attr_accessor :login
+  attr_accessor :login, :operator_mode
 
   def team_role
     team_leader? ? 'leader' : 'guest'

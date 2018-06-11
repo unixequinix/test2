@@ -19,6 +19,7 @@ class TicketType < ApplicationRecord
 
   scope :for_devices, -> { where.not(catalog_item_id: nil) }
   scope :no_catalog_item, -> { where(catalog_item_id: nil) }
+  scope :operator, -> { where(operator: true) }
 
   scope :checkin_rate, -> { select("name as ticket_type_name, count(tickets.id) as total_tickets, count(CASE tickets.redeemed WHEN TRUE THEN tickets.id END) as redeemed").joins(:tickets).group(:name) }
 

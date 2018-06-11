@@ -1,8 +1,9 @@
 - content_for(:title) do
-  | Tickets
+  | #{'Staff' if @operator_mode} Tickets
 
 - content_for(:search) do
   = search_form_for @q, url: admins_event_tickets_path do |f|
+    = hidden_field_tag :operator, @operator_mode
     = f.search_field :code_or_purchaser_email_or_purchaser_first_name_or_purchaser_last_name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
 
 - content_for(:actions) do

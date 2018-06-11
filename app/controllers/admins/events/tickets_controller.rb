@@ -2,9 +2,10 @@ module Admins
   module Events
     class TicketsController < Admins::Events::BaseController
       before_action :set_ticket, except: %i[index new create import sample_csv]
+      before_action :set_operator, only: %i[index new]
 
       def index
-        @q = @current_event.tickets.includes(:customer, :ticket_type).order(created_at: :desc).ransack(params[:q])
+        @q = @current_event.tickets.where(operator: @operator_mode).includes(:customer, :ticket_type).order(created_at: :desc).ransack(params[:q])
         @tickets = @q.result
         authorize @tickets
         @tickets = @tickets.page(params[:page])
@@ -21,7 +22,7 @@ module Admins
       end
 
       def new
-        @ticket = @current_event.tickets.new
+        @ticket = @current_event.tickets.new(operator: @operator_mode)
         authorize @ticket
       end
 
@@ -29,8 +30,9 @@ module Admins
         @ticket = @current_event.tickets.new(permitted_params)
         authorize @ticket
         if @ticket.save
-          redirect_to [:admins, @current_event, @ticket], notice: t("alerts.created")
+          redirect_to [:admins, @current_event, @ticket, operator: @ticket.operator?], notice: t("alerts.created")
         else
+          @operator_mode = @ticket.operator?
           flash.now[:alert] = t("alerts.error")
           render :new
         end
@@ -127,8 +129,12 @@ module Admins
         authorize @ticket
       end
 
+      def set_operator
+        @operator_mode = params[:operator].eql?("true")
+      end
+
       def permitted_params
-        params.require(:ticket).permit(:code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id)
+        params.require(:ticket).permit(:code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id, :operator)
       end
     end
   end

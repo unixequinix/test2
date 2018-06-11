@@ -19,7 +19,7 @@ RSpec.describe "Tests on ticket type view", type: :feature do
       within("#new_ticket_type") { fill_in 'ticket_type_name', with: "TESTTICKETTYPENAME" }
 
       expect { find("input[name=commit]").click }.to change(TicketType, :count).by(1)
-      expect(page).to have_current_path admins_event_ticket_types_path(event)
+      expect(page).to have_current_path admins_event_ticket_types_path(event, operator: false)
       expect(TicketType.last.name).to eql("TESTTICKETTYPENAME")
     end
 
@@ -62,29 +62,6 @@ RSpec.describe "Tests on ticket type view", type: :feature do
       find("#ticket_type_catalog_item_id").select(event.virtual_credit.name)
       expect { find("input[name=commit]").click }.to change { ticket_type.reload.name }.to("Saturday")
       expect(page).to have_current_path(admins_event_ticket_types_path(event))
-    end
-  end
-
-  describe "Actions on a ticket type" do
-    it "load edit view" do
-      click_link("edit_#{ticket_type.id}")
-      expect(page).to have_current_path(edit_admins_event_ticket_type_path(event, ticket_type))
-    end
-
-    describe  "delete a ticket type" do
-      it "can be done if event status is created" do
-        expect { click_link("delete_#{ticket_type.id}") }.to change(TicketType, :count).by(-1)
-      end
-
-      it "cannot be done if event status is launched" do
-        event.update! state: "launched"
-        expect { click_link("delete_#{ticket_type.id}") }.not_to change(TicketType, :count)
-      end
-
-      it "cannot be done if event status is closed" do
-        event.update! state: "closed"
-        expect { click_link("delete_#{ticket_type.id}") }.not_to change(TicketType, :count)
-      end
     end
   end
 end

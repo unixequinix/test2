@@ -1,4 +1,8 @@
 class AdmissionPolicy < ApplicationPolicy
+  def show?
+    all_allowed && scope.where(id: record.id).exists?
+  end
+
   def resend_confirmation?
     all_allowed && event_open
   end
@@ -105,5 +109,16 @@ class AdmissionPolicy < ApplicationPolicy
 
   def create_sonar_operator?
     all_allowed && event_open
+  end
+
+  private
+
+  def all_allowed
+    registration = user.registration_for(record.event)
+    if record.operator?
+      user.admin? || (registration && (registration.staff_accreditation? || registration.promoter?))
+    else
+      user.admin? || (registration && (registration.support? || registration.promoter?))
+    end
   end
 end

@@ -1,0 +1,86 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Staff Management
+
+- searching = params[:q].present? && params[:q][:email_cont].present?
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+
+      - if searching
+
+        - content_for(:search) do
+          = search_form_for @q, url: admins_event_operators_path do |f|
+            = f.search_field :email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+        .right.small style="padding: 10px" Displaying #{@operators.count} results
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card#operators_list
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Name
+                th.mdl-data-table__cell--non-numeric Type
+                th.mdl-data-table__cell--non-numeric Customer
+                th Data
+
+            tbody
+              - @operators.each do |operator|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = link_to operator.name, [:admins, @current_event, operator]
+                  td.mdl-data-table__cell--non-numeric data-label="Type" = operator.class.to_s.humanize
+                  td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to operator.customer.name, [:admins, @current_event, operator] if operator.customer
+                  td data-label="Data"
+                    - if operator.is_a?(Ticket)
+                      = link_to operator.ticket_type.name, [:admins, @current_event, operator.ticket_type]
+
+                    - if operator.is_a?(Gtag)
+                      .small style="#{"color: red" unless operator.consistent?}"
+                        = number_to_token operator.credits
+                        br
+                        = number_to_token operator.virtual_credits
+
+                    - if operator.is_a?(Customer)
+                      = operator.email
+
+      - else
+        .mdl-cell.mdl-cell--12-col
+          .mdl-grid
+            .mdl-layout-spacer
+            .mdl-cell.mdl-cell--4-col
+              .transaction-card-wide.mdl-card.mdl-shadow--2dp
+                .mdl-card__title
+                  .mdl-cell.mdl-cell--12-col
+                    i.material-icons loyalty
+                    | Credentials
+                .mdl-card__supporting-text
+                  .table-responsive
+                    table.mdl-data-table.mdl-js-data-table.within-card
+                      tbody
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Staff Gtags", [:admins, @current_event, :gtags, operator: true]
+                          td
+                            = link_to [:new, :admins, @current_event, :gtag, operator: true] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Staff Ticket Types", [:admins, @current_event, :ticket_types, operator: true]
+                          td
+                            = link_to [:new, :admins, @current_event, :ticket_type, operator: true] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Staff Tickets", [:admins, @current_event, :tickets, operator: true]
+                          td
+                            = link_to [:new, :admins, @current_event, :ticket, operator: true] do
+                              span.material-icons add_circle_outline
+                        tr
+                          td.mdl-data-table__cell--non-numeric = link_to "Operator Permissions", [:admins, @current_event, :operator_permissions]
+                          td
+                            = link_to [:new, :admins, @current_event, :operator_permission] do
+                              span.material-icons add_circle_outline
+
+            .mdl-cell.mdl-cell--8-col style="text-align: center"
+              i.material-icons style="font-size: 100px; color: #009688;" search
+              = search_form_for @q, url: admins_event_operators_path do |f|
+                .mdl-textfield.mdl-js-textfield
+                  = f.search_field :email_cont, class: "mdl-textfield__input", autofocus: true
+                  .small  You can search for #{link_to 'Customers', [:admins, @current_event, :customers]}, #{link_to 'Tickets', [:admins, @current_event, :tickets]} and #{link_to 'Gtags', [:admins, @current_event, :gtags]}
+            .mdl-layout-spacer

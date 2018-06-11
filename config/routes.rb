@@ -93,6 +93,10 @@ Rails.application.routes.draw do
           get :merge, on: :member
         end
 
+        resources :operators, only: [:index] do
+          get :merge, on: :member
+        end
+
         resource :analytics do
           get :cash_flow
           get :credits_flow

@@ -1,6 +1,7 @@
 - content_for(:javascripts) do
   = javascript_include_tag 'specific/pivot_tables'
   = javascript_include_tag 'specific/reports'
+
 - content_for(:title) do
   | Analytics
 
@@ -14,8 +15,7 @@
       | &nbsp;do not have money backing.
     | Meaning these credits were given, for free, at some point during the event.
 
-  p
-    | Virtual credits cannot be refunded, and suppose less of a risk, but real credits given out can cause discrepancy, even losses in your cashflow.
+  p Virtual credits cannot be refunded, and suppose less of a risk, but real credits given out can cause discrepancy, even losses in your cashflow.
 
   p Beware if this numbers get too high in topups.
 
@@ -40,10 +40,11 @@
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
 
-          = link_to gates_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
-            | Gates
-            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-              span.mdl-ripple
+          - if @current_user.glowball? || @current_user.registration_for(@current_event)&.promoter? || @current_user.registration_for(@current_event)&.gates_manager?
+            = link_to gates_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Gates
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
 
           - if @current_user.team&.id==2 || @current_user.glowball?
             = link_to partner_reports_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do

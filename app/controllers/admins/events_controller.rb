@@ -154,6 +154,7 @@ module Admins
     def set_event
       @current_event = Event.friendly.find(params[:id])
       authorize(@current_event)
+      @event_registration = @current_user.registration_for(@current_event)
       @credit_value = @current_event.credit.value
     end
 

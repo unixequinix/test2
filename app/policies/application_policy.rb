@@ -67,6 +67,7 @@ class ApplicationPolicy
   end
 
   def all_allowed
-    user.admin? || user.events.include?(record.event)
+    registration = user.registration_for(record.event)
+    user.admin? || (registration && (registration.support? || registration.promoter?))
   end
 end

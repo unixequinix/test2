@@ -3,6 +3,7 @@ module Admins
     class TicketTypesController < Admins::Events::BaseController
       before_action :set_ticket_type, except: %i[index new create]
       before_action :set_catalog_items, except: [:destroy]
+      before_action :set_operator, only: %i[index new]
 
       def unban
         @ticket_type.tickets.update_all(banned: false)
@@ -10,7 +11,7 @@ module Admins
       end
 
       def index
-        @q = @current_event.ticket_types.includes(:ticketing_integration).order(%i[company name]).ransack(params[:q])
+        @q = @current_event.ticket_types.where(operator: @operator_mode).includes(:ticketing_integration).order(%i[company name]).ransack(params[:q])
         @ticket_types = @q.result
         @catalog_items = @current_event.catalog_items.order(:type).map { |i| [i.id, i.name.humanize] }
         @ticket_counts = @current_event.tickets.group(:ticket_type_id).count
@@ -27,7 +28,7 @@ module Admins
       end
 
       def new
-        @ticket_type = @current_event.ticket_types.new
+        @ticket_type = @current_event.ticket_types.new(operator: @operator_mode)
         authorize @ticket_type
       end
 
@@ -35,8 +36,9 @@ module Admins
         @ticket_type = @current_event.ticket_types.new(permitted_params)
         authorize @ticket_type
         if @ticket_type.save
-          redirect_to admins_event_ticket_types_path, notice: t("alerts.created")
+          redirect_to admins_event_ticket_types_path(operator: @ticket_type.operator?), notice: t("alerts.created")
         else
+          @operator_mode = @ticket_type.operator?
           flash.now[:alert] = t("alerts.error")
           render :new
         end
@@ -74,8 +76,12 @@ module Admins
         authorize @ticket_type
       end
 
+      def set_operator
+        @operator_mode = params[:operator].eql?("true")
+      end
+
       def permitted_params
-        params.require(:ticket_type).permit(:name, :catalog_item_id, :hidden)
+        params.require(:ticket_type).permit(:name, :catalog_item_id, :hidden, :operator)
       end
     end
   end

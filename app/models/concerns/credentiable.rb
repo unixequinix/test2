@@ -9,9 +9,9 @@ module Credentiable
 
     scope :redeemed, -> { where(redeemed: true) }
     scope :unredeemed, -> { where(redeemed: false) }
-
     scope :banned, -> { where(banned: true) }
     scope :with_customer, -> { where.not(customer_id: nil) }
+    scope :operator, -> { where(operator: true) }
   end
 
   def merge(admission)
