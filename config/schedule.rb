@@ -27,6 +27,6 @@ every 10.minutes do
   runner "CronJobs.try_to_open_refunds"
 end
 
-every 1.minute do
+every 5.minutes do
   runner "CronJobs.import_tickets"
 end
