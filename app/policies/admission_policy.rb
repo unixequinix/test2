@@ -1,6 +1,30 @@
 class AdmissionPolicy < ApplicationPolicy
+  def index?
+    user.admin? || user.event_ids.include?(record.scope_for_create["event_id"])
+  end
+
   def show?
     all_allowed && scope.where(id: record.id).exists?
+  end
+
+  def create?
+    all_allowed && event_open
+  end
+
+  def new?
+    all_allowed && event_open
+  end
+
+  def update?
+    all_allowed && event_open
+  end
+
+  def edit?
+    all_allowed && event_open
+  end
+
+  def destroy?
+    all_allowed && record.event.created?
   end
 
   def resend_confirmation?
@@ -40,7 +64,7 @@ class AdmissionPolicy < ApplicationPolicy
   end
 
   def download_transactions?
-    admin_or_promoter
+    all_allowed
   end
 
   def new_credential?
@@ -92,19 +116,19 @@ class AdmissionPolicy < ApplicationPolicy
   end
 
   def import?
-    admin_or_promoter && event_open
+    all_allowed && event_open
   end
 
   def sample_csv?
-    admin_or_promoter && event_open
+    all_allowed && event_open
   end
 
   def merge?
-    admin_or_promoter && event_open
+    all_allowed && event_open
   end
 
   def make_active?
-    admin_or_promoter && event_open
+    all_allowed && event_open
   end
 
   def create_sonar_operator?
