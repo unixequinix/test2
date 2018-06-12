@@ -135,6 +135,10 @@ class AdmissionPolicy < ApplicationPolicy
     all_allowed && event_open
   end
 
+  def can_login?
+    true
+  end
+
   private
 
   def all_allowed
