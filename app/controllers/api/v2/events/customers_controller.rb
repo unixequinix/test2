@@ -3,6 +3,13 @@ module Api::V2
     before_action :set_customer, except: %i[index create]
     before_action :check_credits, only: %i[topup virtual_topup]
 
+    # POST /events/:id/can_login
+    def can_login
+      @current_user = Customer.authenticate(params[:customer][:email], params[:customer][:password])
+      authorize(@current_event)
+      render status: :ok
+    end
+
     # POST api/v2/events/:event_id/customers/:id/ban
     def gtag_replacement
       old_gtag = @customer.active_gtag

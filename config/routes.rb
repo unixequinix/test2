@@ -329,8 +329,6 @@ Rails.application.routes.draw do
         post :can_login, on: :collection
       end
       resources :events, only: [:show, :index, :update] do
-        post :can_login
-
         scope module: "events" do
           resources :accesses
 
@@ -360,6 +358,7 @@ Rails.application.routes.draw do
 
           resources :customers, constraints: { id: /.*/ } do
             resources :pokes, only: [:index]
+            post :can_login
 
             member do
               post :ban
