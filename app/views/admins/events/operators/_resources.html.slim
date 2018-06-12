@@ -1,0 +1,32 @@
+.transaction-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      i.material-icons import_export
+      | Staff Management
+  .mdl-card__supporting-text
+    .table-responsive
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Operators", [:admins, @current_event, :customers]
+            td
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags]
+            td
+              = link_to [:new, :admins, @current_event, :gtag] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types]
+            td
+              = link_to [:new, :admins, @current_event, :ticket_type] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets]
+            td
+              = link_to [:new, :admins, @current_event, :ticket] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions]
+            td
+              = link_to [:new, :admins, @current_event, :operator_permission] do
+                span.material-icons add_circle_outline
