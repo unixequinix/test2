@@ -328,6 +328,7 @@ Rails.application.routes.draw do
       resources :users, except: [:show, :index, :update, :new, :edit, :create] do
         post :can_login, on: :collection
       end
+
       resources :events, only: [:show, :index, :update] do
         scope module: "events" do
           resources :accesses
@@ -358,7 +359,6 @@ Rails.application.routes.draw do
 
           resources :customers, constraints: { id: /.*/ } do
             resources :pokes, only: [:index]
-            post :can_login
 
             member do
               post :ban
@@ -369,6 +369,7 @@ Rails.application.routes.draw do
               post :assign_ticket
               post :gtag_replacement
               post :refund
+              post :can_login
               get :refunds
               get :transactions
             end
