@@ -371,6 +371,7 @@ Rails.application.routes.draw do
               post :gtag_replacement
               post :refund
               get :refunds
+              get :transactions
             end
           end
 
