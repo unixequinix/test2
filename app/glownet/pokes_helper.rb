@@ -49,7 +49,7 @@ module PokesHelper
 
     { operation_id: transaction.id,
       source: transaction.transaction_origin,
-      date: Time.zone.parse(transaction.device_created_at),
+      date: Time.zone.parse(transaction.device_created_at_fixed),
       action: transaction.action,
       event_id: transaction.event_id,
       line_counter: 1,

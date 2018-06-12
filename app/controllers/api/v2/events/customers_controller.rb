@@ -7,7 +7,7 @@ module Api::V2
     def can_login
       skip_authorization
       if @customer&.valid_password?(params[:password])
-        render status: :ok
+        render json: @customer
       else
         render status: :unauthorized
       end

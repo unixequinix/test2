@@ -22,7 +22,7 @@ module Transactions
       [ticket, gtag].map { |credential| credential&.update!(customer: customer) } if customer
 
       return if transaction.status_not_ok?
-      Time.use_zone(event.timezone) { Pokes::Base.execute_descendants(transaction) }
+      Pokes::Base.execute_descendants(transaction)
       Validators::MissingCounter.perform_later(transaction)
     end
 

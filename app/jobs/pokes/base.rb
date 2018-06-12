@@ -16,6 +16,7 @@ class Pokes::Base < ApplicationJob
   end
 
   def self.load_classes
+    Pokes::CashRecon.inspect
     Pokes::Checkin.inspect
     Pokes::Checkpoint.inspect
     Pokes::Credit.inspect

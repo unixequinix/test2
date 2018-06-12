@@ -41,6 +41,7 @@ class Poke < ApplicationRecord
   scope :with_catalog_item, ->(items) { items.present? ? where(catalog_item: items) : all }
   scope :with_operator, ->(operators) { operators.present? ? where(operator: operators) : all }
   scope :with_product, ->(products) { products.present? ? where(product: products) : all }
+  scope :with_device, ->(devices) { devices.present? ? where(device: devices) : all }
 
   scope :money_recon, lambda { |t = ''|
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action, action as description", :source, :payment_method, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, sum_money, count_operations)

@@ -223,6 +223,8 @@ module Admins
         @topups = @current_event.money_topups.reject { |_, sum| sum.zero? }
         @payments = @current_event.monetary_topups.distinct.pluck(:payment_method)
 
+        @cash_recon = @current_event.cash_recon.order(:date)
+
         data = @current_event.plot(@payments.map { |payment| [payment.underscore, @current_event.money_topups(payment_filter: payment)] }.to_h)
         @pos_views = { chart_id: "topups_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
