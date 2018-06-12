@@ -73,11 +73,6 @@ class Customer < ApplicationRecord
     customer
   end
 
-  def self.authenticate(email, password)
-    customer = Customer.find_for_database_authentication(email: email)
-    customer&.valid_password?(password) ? customer : nil
-  end
-
   def valid_balance?
     positive = (credits && virtual_credits) >= 0
     active_gtag.present? ? (active_gtag.valid_balance? && positive) : positive

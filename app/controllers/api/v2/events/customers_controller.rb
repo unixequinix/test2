@@ -5,9 +5,12 @@ module Api::V2
 
     # POST /events/:id/can_login
     def can_login
-      @current_user = Customer.authenticate(params[:customer][:email], params[:customer][:password])
-      authorize(@current_event)
-      render status: :ok
+      skip_authorization
+      if @customer&.valid_password?(params[:password])
+        render status: :ok
+      else
+        render status: :unauthorized
+      end
     end
 
     # POST api/v2/events/:event_id/customers/:id/ban
