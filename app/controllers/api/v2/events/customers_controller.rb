@@ -101,7 +101,6 @@ module Api::V2
       render json: @customer, serializer: CustomerTransactionsSerializer
     end
 
-
     # GET api/v2/events/:event_id/customers
     def index
       @customers = @current_event.customers.includes(:refunds, orders: :order_items, gtags: { ticket_type: :catalog_item }, tickets: { ticket_type: :catalog_item })
