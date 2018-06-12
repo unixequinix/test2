@@ -24,8 +24,9 @@
       tbody
         - @stations.each do |station|
           - danger = station.category.in?(%w[hospitality_top_up cs_topup_refund])
-          - quantity = @current_event.count_topups(grouping: :day, station_filter: station)
+          - quantity = @current_event.count_topups(grouping: :day, station_filter: station, credit_filter: @credits)
           - data = @credits.map { |credit| [credit, @current_event.credit_topups(credit_filter: credit, station_filter: station)] }.to_h
+
           tr
             th.pvtRowLabel.low-contrast
               = link_to station.name, [:admins, @current_event, station]

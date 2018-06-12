@@ -23,8 +23,8 @@
 
       tbody
         - @stations.each do |station|
+          - quantity = @current_event.count_box_office(station_filter: station, credit_filter: @credits)
           - data = @credits.map { |credit| [credit, @current_event.credit_box_office(station_filter: station, credit_filter: credit)] }.to_h
-          - quantity = @current_event.count_box_office(station_filter: station)
           tr
             th.pvtRowLabel.low-contrast = station.name
             - @dates.each do |date|
