@@ -3,6 +3,16 @@ module Api::V2
     before_action :set_customer, except: %i[index create]
     before_action :check_credits, only: %i[topup virtual_topup]
 
+    # POST /events/:id/can_login
+    def can_login
+      skip_authorization
+      if @customer&.valid_password?(params[:password])
+        render status: :ok
+      else
+        render status: :unauthorized
+      end
+    end
+
     # POST api/v2/events/:event_id/customers/:id/ban
     def gtag_replacement
       old_gtag = @customer.active_gtag
@@ -95,6 +105,10 @@ module Api::V2
     def refunds
       @refunds = @customer.refunds
       render json: @refunds, each_serializer: RefundSerializer
+    end
+
+    def transactions
+      render json: @customer, serializer: CustomerTransactionsSerializer
     end
 
     # GET api/v2/events/:event_id/customers

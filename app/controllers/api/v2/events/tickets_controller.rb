@@ -81,7 +81,7 @@ module Api::V2
       stations = @current_event.stations.where(id: atts.delete(:stations))
       permissions = stations.map { |station| @current_event.operator_permissions.find_or_create_by!(station: station, group: OperatorPermission.groups[station.category], role: 1) }
 
-      @ticket = @current_event.tickets.new(atts)
+      @ticket = @current_event.tickets.new(atts.merge(operator: true))
       authorize @ticket
 
       if @ticket.save

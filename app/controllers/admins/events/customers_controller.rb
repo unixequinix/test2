@@ -2,9 +2,10 @@ module Admins
   module Events
     class CustomersController < Admins::Events::BaseController
       before_action :set_customer, except: [:index]
+      before_action :set_operator, only: %i[index]
 
       def index
-        @q = @current_event.customers.ransack(params[:q])
+        @q = @current_event.customers.where(operator: @operator_mode).ransack(params[:q])
         @customers = @q.result.includes(:orders, :active_gtag, :tickets)
         authorize @customers
         @customers = @customers.page(params[:page])
@@ -76,6 +77,10 @@ module Admins
       def set_customer
         @customer = @current_event.customers.find(params[:id])
         authorize @customer
+      end
+
+      def set_operator
+        @operator_mode = params[:operator].eql?("true")
       end
     end
   end

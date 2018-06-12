@@ -1,0 +1,28 @@
+.transaction-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      i.material-icons loyalty
+      | Customer Service
+  .mdl-card__supporting-text
+    .table-responsive
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags, operator: true]
+            td
+              = link_to [:new, :admins, @current_event, :gtag, operator: true] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets, operator: true]
+            td
+              = link_to [:new, :admins, @current_event, :ticket, operator: true] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers, operator: true]
+            td
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Orders", [:admins, @current_event, :orders]
+            td
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Refunds", [:admins, @current_event, :refunds]
+            td

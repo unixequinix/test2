@@ -28,13 +28,6 @@ module Api::V2
       end
     end
 
-    # POST /events/:id/can_login
-    def can_login
-      @current_user = User.authenticate(params[:user][:login], params[:user][:password])
-      authorize(@current_event)
-      render status: :ok
-    end
-
     private
 
     def event_params
