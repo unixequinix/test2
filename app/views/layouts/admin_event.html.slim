@@ -86,23 +86,27 @@ html
               i.mdl-color-text--teal-200.material-icons face
               |  Staff Management
 
-          - if policy(@current_event).analytics?
+          - if admin_or_promoter_or(:support, :staff_manager, :gates_manager, :monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
             = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons equalizer
               |  Analytics
+
+          - if admin_or_promoter_or(:gates_manager, :monetary_manager)
             = link_to admins_event_custom_analytics_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons timeline
               |  Custom Analytics
 
-        - if admin_or_promoter_or(:support)
+        - if admin_or_promoter_or(:support, :gates_manager)
           nav.mdl-navigation.global-nav
             span.nav-title ACCESS CONTROL
-            = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons import_export
-              |  Accesses
-            = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons view_module
-              |  Packs
+            - if admin_or_promoter_or(:support, :gates_manager)
+              = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
+                i.mdl-color-text--teal-200.material-icons import_export
+                |  Accesses
+            - if admin_or_promoter_or(:support)
+              = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
+                i.mdl-color-text--teal-200.material-icons view_module
+                |  Packs
 
         - if policy(@current_event).event_settings? || admin_or_promoter_or(:support)
           nav.mdl-navigation.global-nav

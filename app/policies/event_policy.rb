@@ -92,7 +92,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def custom_analytics?
-    admin_or_promoter
+    admin_or_promoter_or(:gates_manager, :monetary_manager)
   end
 
   class Scope < Scope
