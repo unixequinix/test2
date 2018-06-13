@@ -6,15 +6,24 @@ module Admins
 
       ANALYTICS_METHODS = %w[money_topups money_orders money_box_office money_online_refunds money_onsite_refunds money_fees credit_topups credit_sales credit_orders credit_credentials credit_box_office credit_onsite_refunds credit_online_refunds credit_outcome_fees credit_income_fees credit_outcome_orders].map { |s| [s.to_sym, s.to_sym] }.to_h.freeze
 
-      before_action :authorize_billing
-      before_action :check_request_format, only: %i[cash_flow gates partner_reports]
+      before_action :set_credits
+      before_action :authorize_analytics, except: %i[show]
+      before_action :check_request_format, only: %i[dashboard cash_flow gates partner_reports]
 
       def show
+        authorize(@current_event, :analytics?)
+      end
+
+      def dashboard
+        cookies.delete :analytics_credit_report
         @top_products = @current_event.pokes.top_products(10).as_json
 
         non_alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: false))
         alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: true))
         @alcohol_products = [{ is_alcohol: "Non Alcohol", credits: -non_alcohol.sum(:credit_amount), amount: non_alcohol.count }, { is_alcohol: "Alcohol", credits: -alcohol.sum(:credit_amount), amount: alcohol.count }]
+
+        @partial = 'admins/events/analytics/dashboard'
+        prepare_view(params[:action])
       end
 
       def cash_flow
@@ -53,7 +62,7 @@ module Admins
         @credits = prepare_pokes(cols, pokes_credits)
 
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        product_sale = pokes_sales(@current_event.credits.pluck(:id))
+        product_sale = pokes_sales
         sales = prepare_pokes(cols, product_sale)
 
         cols = ['Product Name', 'Credits', 'sorter']
@@ -295,7 +304,6 @@ module Admins
       def check_request_format
         return if request.format.js?
         flash.now[:alert] = 'Unable to open in a new tab'
-
         respond_to do |format|
           format.html { render action: :show }
         end
@@ -305,11 +313,16 @@ module Admins
         @name = name
         respond_to do |format|
           format.js { render action: :load_view }
+          format.html { render :show }
         end
       end
 
-      def authorize_billing
-        authorize(@current_event, :analytics?)
+      def authorize_analytics
+        raise(Pundit::NotAuthorizedError) unless AnalyticsPolicy.new(@current_user, @current_event).method("#{params[:action]}?".to_sym).call
+        skip_authorization
+      end
+
+      def set_credits
         @load_analytics_resources = true
         @credit_value = @current_event.credit.value
         @credit_name = @current_event.credit.name

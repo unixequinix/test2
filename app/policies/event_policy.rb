@@ -88,7 +88,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def analytics?
-    admin_or_promoter
+    admin_or_promoter_or(:gates_manager, :monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
   end
 
   def custom_analytics?

@@ -347,8 +347,8 @@ RSpec.describe Admins::Users::TeamsController, type: :controller do
 
         it "should not destroy user team record from team if it the last one" do
           expect { delete :remove_users, params: { user_id: user.id, user: { email: user.email } } }.to change(TeamInvitation, :count).by(0)
-          expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include("You are not authorized to perform this action")
+          expect(flash[:error]).to be_present
+          expect(flash[:error]).to include("You are not authorized to perform this action")
         end
       end
     end

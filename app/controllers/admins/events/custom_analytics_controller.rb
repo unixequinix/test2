@@ -14,21 +14,20 @@ module Admins
       end
 
       def money
-        cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money']
-        @money = prepare_pokes(cols, pokes_money)
+        cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Payment Method', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Money']
+        @money = prepare_pokes(cols, pokes_money_simple)
         prepare_data params[:action], @money, [['Event Day', 'Payment Method'], %w[Location Action], ['Money'], 1, 'sum']
       end
 
       def credits
-        cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Device', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Credit Name', 'Credits']
-        @credits = prepare_pokes(cols, pokes_credits)
+        cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Device', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Credit Name', 'Credits']
+        @credits = prepare_pokes(cols, pokes_credits_simple)
         prepare_data params[:action], @credits, [['Event Day', 'Credit Name'], %w[Location Action], ['Credits'], 1, 'sum']
       end
 
       def sales
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Alcohol Product', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        product_sale = pokes_sales(@current_event.credits.pluck(:id))
-        @sales = prepare_pokes(cols, product_sale)
+        @sales = prepare_pokes(cols, pokes_sales_simple)
         prepare_data params[:action], @sales, [['Event Day', 'Credit Name'], ['Location', 'Station Type', 'Station Name'], ['Credits'], 1, 'sum']
       end
 
@@ -39,7 +38,7 @@ module Admins
       end
 
       def access
-        cols = ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
+        cols = ["Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
         @access = prepare_pokes(cols, pokes_access)
         prepare_data params[:action], @access, [['Direction'], ['Zone', 'Date Time'], ['Capacity'], 0, 'sum']
       end

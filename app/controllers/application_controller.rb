@@ -8,10 +8,13 @@ class ApplicationController < ActionController::Base
   protected
 
   def user_not_authorized
+    flash[:error] = t("alerts.not_authorized")
+
     respond_to do |format|
-      format.html { redirect_to admins_events_path, alert: t("alerts.not_authorized") }
-      format.json { render json: { error: t("alerts.not_authorized") }, status: :unauthorized }
+      format.html { redirect_to admins_events_path }
+      format.json { render json: { error: flash[:error] }, status: :unauthorized }
       format.text { "User not authorized" }
+      format.js { render action: 'role_not_authorized' }
     end
   end
 

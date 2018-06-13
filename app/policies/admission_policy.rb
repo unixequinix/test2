@@ -147,6 +147,6 @@ class AdmissionPolicy < ApplicationPolicy
     registration = user.registration_for(record.event)
     return false unless registration
     return true if registration.promoter?
-    record.operator? ? registration.staff_accreditation? : registration.support?
+    record.operator? ? registration.staff_manager? : registration.support?
   end
 end

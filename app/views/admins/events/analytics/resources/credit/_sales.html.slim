@@ -8,18 +8,20 @@
       thead
         tr
           th.pvtColLabel.empty rowspan="2"
-          - columns = @credits.count + 1
+          - columns = admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager) ? @credits.count + 1 : 1
           - @dates.each do |date|
             th.pvtColLabel.high-contrast colspan="#{columns}" = date
           th.pvtColLabel.high-contrast colspan="#{columns}" Totals
         tr
           - @dates.each do |date|
             th.pvtColLabel.low-contrast Qty
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @credits.each do |credit|
+                th.pvtColLabel.low-contrast = credit.name
+          th.pvtColLabel.low-contrast Qty
+          - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
             - @credits.each do |credit|
               th.pvtColLabel.low-contrast = credit.name
-          th.pvtColLabel.low-contrast Qty
-          - @credits.each do |credit|
-            th.pvtColLabel.low-contrast = credit.name
 
       tbody
         - @stations.each do |station|
@@ -29,14 +31,15 @@
             th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
             - @dates.each do |date|
               td = quantity[date]
-              - @credits.each do |credit|
-                td = number_to_reports(data[credit][date])
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+                - @credits.each do |credit|
+                  td = number_to_reports(data[credit][date])
 
             td.totals
               b = quantity.values.sum
-
-            - @credits.each do |credit|
-              td.pvtTotal.rowTotal.totals = number_to_reports(data[credit].values.sum)
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @credits.each do |credit|
+                td.pvtTotal.rowTotal.totals = number_to_reports(data[credit].values.sum)
 
         tr
           th.pvtRowLabel.low-contrast Totals
@@ -45,53 +48,55 @@
           - @dates.each do |date|
             td.pvtTotal.rowTotal.totals = quantity[date]
 
-            - @credits.each do |credit|
-              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_sales(grouping: :day, credit_filter: credit, station_filter: @stations)[date].to_f)
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @credits.each do |credit|
+                td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_sales(grouping: :day, credit_filter: credit, station_filter: @stations)[date].to_f)
 
           td.pvtTotal.rowTotal.totals = quantity.values.sum
 
-          - @credits.each do |credit|
-            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_sales_total(credit_filter: credit, station_filter: @stations))
+          - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+            - @credits.each do |credit|
+              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_sales_total(credit_filter: credit, station_filter: @stations))
 
   .mdl-layout-spacer
 
-    = render 'line_chart', pos_views: @pos_views, name: 'Sales per hour', label_filter: @credits.map(&:class).map(&:name)
+    = render 'line_chart', pos_views: @pos_views, name: 'Sales per hour', label_filter: @credits.map(&:class).map(&:name) if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
       
-  -if @top_stations.any?
+  -if @top_stations.any? && admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
     .mdl-cell.mdl-cell--6-col
       .mdl-card__title.mdl-card--expand
         .mdl-card__title-text Total sales per station
       canvas#top_stations
 
+- if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+  javascript:
+    // Doughnut
+    var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
+    var data_p = #{@top_stations.to_json.html_safe};
+    var labels = data_p.map(function (e) { return e.station_name });
+    var credits = data_p.map(function (e) { return e.credits });
+    var currentCredits = JSON.parse("#{escape_javascript(@credits.pluck(:name).to_json.html_safe)}");
+    var ctx = document.getElementById("top_stations").getContext('2d');
 
-javascript:
-  // Doughnut
-  var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
-  var data_p = #{@top_stations.to_json.html_safe};
-  var labels = data_p.map(function (e) { return e.station_name });
-  var credits = data_p.map(function (e) { return e.credits });
-  var currentCredits = JSON.parse("#{escape_javascript(@credits.pluck(:name).to_json.html_safe)}");
-  var ctx = document.getElementById("top_stations").getContext('2d');
+    var datasets = {
+      stations: {
+        label: (function() {
+          var credit = "All credits";
+          if(currentCredits.length < 2) {
+            credit = currentCredits[0]
+          }
+          return credit
+        })(),
+        data: credits,
+        backgroundColor: color_scale_p.map(function (colors) {
+          return gradientSector(ctx, colors)
+        }),
+        hoverBackgroundColor: color_scale_p.map(function (colors) {
+          return gradientSector(ctx, colors)
+        }),
+        hoverBorderWidth: 2,
+        hoverBorderColor: '#CCCCCC'
+      }
+    };
 
-  var datasets = {
-    stations: {
-      label: (function() {
-        var credit = "All credits";
-        if(currentCredits.length < 2) {
-          credit = currentCredits[0]
-        }
-        return credit
-      })(),
-      data: credits,
-      backgroundColor: color_scale_p.map(function (colors) {
-        return gradientSector(ctx, colors)
-      }),
-      hoverBackgroundColor: color_scale_p.map(function (colors) {
-        return gradientSector(ctx, colors)
-      }),
-      hoverBorderWidth: 2,
-      hoverBorderColor: '#CCCCCC'
-    }
-  };
-  
-  doughnutChart(labels, datasets);
+    doughnutChart(labels, datasets);

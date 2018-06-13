@@ -37,12 +37,12 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
     context "should return money" do
       pending "should have correct money values" do
-        money = @onsite_topups.map(&:monetary_total_price).sum + (@credit_sales.map(&:credit_amount).sum + event.refunds.completed.map(&:credit_base).sum) * event.credit.value
+        money = @onsite_topups.map(&:monetary_total_price).sum + event.refunds.completed.map(&:credit_base).sum * event.credit.value
         expect(pokes_money.map { |i| i['money'].to_f }.sum).to eq(money.to_f)
       end
 
       it "should have correct fields" do
-        expect(pokes_money.last.keys).to eq(%w[id action description customer_id sale_item_quantity payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name is_alcohol product_name num_operations money event_day])
+        expect(pokes_money.first.keys).to eq(%w[id action description source customer_id payment_method date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
       end
 
       it "should have operator UID" do
@@ -54,6 +54,21 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
     end
 
+    context "should return money simplified" do
+      pending "should have correct money values" do
+        money = @onsite_topups.map(&:monetary_total_price).sum + event.refunds.completed.map(&:credit_base).sum * event.credit.value
+        expect(pokes_money_simple.map { |i| i['money'].to_f }.sum).to eq(money.to_f)
+      end
+
+      it "should have correct fields" do
+        expect(pokes_money_simple.last.keys).to eq(%w[id customer_id action description source operator_uid operator_name device_name location station_type station_name event_day date_time payment_method num_operations money])
+      end
+
+      it "should have operator UID" do
+        expect(pokes_money_simple.map { |i| i['operator_uid'] }.uniq.compact).to eq(operator.gtags.pluck(:tag_uid))
+      end
+    end
+
     context "should return credit flow" do
       it "should have correct credit values" do
         credits = @topups_credits.map(&:credit_amount).sum + @credit_sales.map(&:credit_amount).sum + @virtual_credit_sales.map(&:credit_amount).sum - event.refunds.completed.map(&:credit_fee).sum - event.refunds.completed.map(&:credit_base).sum
@@ -61,7 +76,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "should have correct fields" do
-        expect(pokes_credits.last.keys).to eq(%w[id customer_id action description source location station_type station_name event_day date_time num_operations credit_name device_name credit_amount])
+        expect(pokes_credits.first.keys).to eq(%w[id action description customer_id payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name num_operations event_day])
       end
 
       it "should have operator UID" do
@@ -75,21 +90,21 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
     context "should return sale simple" do
       it "should have correct credit values" do
-        expect(pokes_sales_simple(event.credits.pluck(:id)).map { |i| i['credit_amount'].to_f }.sum).to eq((@credit_sales.map(&:credit_amount).sum + @virtual_credit_sales.map(&:credit_amount).sum).to_f.abs)
+        expect(pokes_sales_simple.map { |i| i['credit_amount'].to_f }.sum).to eq((@credit_sales.map(&:credit_amount).sum + @virtual_credit_sales.map(&:credit_amount).sum).to_f.abs)
       end
 
       it "simple sales should have correct fields" do
-        expect(pokes_sales_simple(event.credits.pluck(:id)).last.keys).to eq(%w[id action description payment_method credit_name credit_amount date_time location station_type station_name money event_day])
+        expect(pokes_sales_simple.last.keys).to eq(%w[id action description payment_method credit_name credit_amount operator_uid operator_name device_name date_time location station_type station_name event_day])
       end
     end
 
     context "should return sale" do
       it "should have correct credit values" do
-        expect(pokes_sales(event.credits.pluck(:id)).map { |i| i['credit_amount'].to_f }.sum).to eq((@credit_sales.map(&:credit_amount).sum + @virtual_credit_sales.map(&:credit_amount).sum).to_f.abs)
+        expect(pokes_sales.map { |i| i['credit_amount'].to_f }.sum).to eq((@credit_sales.map(&:credit_amount).sum + @virtual_credit_sales.map(&:credit_amount).sum).to_f.abs)
       end
 
       it "product sales should have correct fields" do
-        expect(pokes_sales(event.credits.pluck(:id)).last.keys).to eq(%w[id action description customer_id sale_item_quantity payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name is_alcohol product_name num_operations money event_day])
+        expect(pokes_sales.last.keys).to eq(%w[id action description customer_id sale_item_quantity payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name is_alcohol product_name num_operations event_day])
       end
     end
 
@@ -129,7 +144,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "access should have correct fields" do
-        expect(pokes_access.last.keys).to eq(%w[id access_direction date_time station_name zone direction direction_in direction_out capacity event_day])
+        expect(pokes_access.last.keys).to eq(%w[id access_direction date_time zone direction direction_in direction_out capacity event_day])
       end
     end
 

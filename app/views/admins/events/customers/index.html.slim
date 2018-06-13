@@ -33,7 +33,6 @@
               th.mdl-data-table__cell--non-numeric Name
               th Tickets
               th Gtags
-              th Operator?
               - if any_orders
                 th Orders
           tbody
@@ -51,8 +50,6 @@
                     i.material-icons done
                   - else
                     i.material-icons clear
-                td data-label="Operator"
-                  i.material-icons = customer.operator? ? "done" : "clear"
                 - if any_orders
                   td data-label="Orders"
                     = customer.orders.size

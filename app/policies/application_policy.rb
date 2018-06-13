@@ -4,7 +4,7 @@ class ApplicationPolicy
   def initialize(user, record)
     raise Pundit::NotAuthorizedError, "must be logged in" unless user
     @user = user
-    @record = record
+    @record = @record = record.is_a?(Array) ? record.last : record
   end
 
   def index?
@@ -59,7 +59,12 @@ class ApplicationPolicy
   end
 
   def admin_or_promoter
-    user.admin? || user.registration_for(record.event)&.promoter?
+    user.admin? || user.registration_for(record.try(:event) || record)&.promoter?
+  end
+
+  def admin_or_promoter_or(*roles)
+    registration = user.registration_for(record.try(:event) || record)
+    user.admin? || registration&.promoter? || roles.any? { |role| registration&.method("#{role}?".to_sym)&.call }
   end
 
   def admin_or_device_register
@@ -67,7 +72,12 @@ class ApplicationPolicy
   end
 
   def all_allowed
-    registration = user.registration_for(record.event)
+    registration = user.registration_for(record.try(:event) || record)
     user.admin? || (registration && (registration.support? || registration.promoter?))
+  end
+
+  def gates_manager?
+    registration = user.registration_for(record)
+    registration&.gates_manager?
   end
 end

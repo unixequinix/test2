@@ -19,7 +19,7 @@ class User < ApplicationRecord
                        format: { with: /\A(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[a-z])\z/, message: 'must include 1 lowercase letter and 1 digit' },
                        unless: (-> { password.nil? })
 
-  enum role: { glowball: 2, admin: 0, promoter: 1 }
+  enum role: { admin: 0, promoter: 1, glowball: 2 }
 
   attr_accessor :login, :operator_mode
 
