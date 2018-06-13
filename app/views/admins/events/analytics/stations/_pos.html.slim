@@ -1,43 +1,44 @@
 - pos_stats = @station.credit_product_sales.select{|k,v| v!=0}
 - credit_sales = @current_event.credit_sales_total(station_filter: @station)
 
-.mdl-grid
-  .mdl-layout-spacer
-  .mdl-cell.mdl-cell--11-col
-    .mdl-grid
-      = render "admins/events/analytics/box", cols: 3,
-              id: 'sales',
-              custom_class: 'hovering',
-              colors: ['#009688', '#66FF99'],
-              icon: 'attach_money',
-              title_text: "Sales",
-              title_number: number_to_reports(credit_sales),
-              subtitle: [{ text: 'Credits', number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @current_event.credit, station_filter: @station), @current_event.credit) }, { text: 'Virtual', number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @current_event.virtual_credit, station_filter: @station), @current_event.virtual_credit) }]
-      = render "admins/events/analytics/box", cols: 3,
-              id: 'devices',
-              custom_class: 'hovering',
-              colors: ['#FF4E50', '#F9D423'],
-              icon: 'attach_money',
-              title_text: "Devices",
-              title_number: @station.count_devices,
-              subtitle: [{ text: 'Per operator', number: number_to_reports(@station.count_devices.to_f / @station.count_operators.to_f) }, { text: 'Avg sales', number: number_to_reports_credit(credit_sales / @station.count_devices, @current_event.credit) }]
-      = render "admins/events/analytics/box", cols: 3,
-              id: 'operators',
-              custom_class: 'hovering',
-              colors: ['#FF5050', '#F3A183'],
-              icon: 'attach_money',
-              title_text: "Operators",
-              title_number: @station.count_operators,
-              subtitle: [{ text: 'Avg Tips', number: number_to_reports_currency(@station.money_product_sales_total(product_type_filter: "tip") / @station.count_operators.to_f) }, { text: 'Avg sales', number: number_to_reports_credit(credit_sales / @station.count_operators.to_f, @current_event.credit) }]
-      = render "admins/events/analytics/box", cols: 3,
-              id: 'products',
-              custom_class: 'hovering',
-              colors: ['#355C7D', '#C06C84'],
-              icon: 'attach_money',
-              title_text: "Products",
-              title_number: @station.products.count,
-              subtitle: [{ text: 'Avg quantity', number: number_to_reports(@station.count_product_sales_total / @station.products.count) }, { text: 'Avg price', number: number_to_reports_credit(credit_sales / @station.products.count, @current_event.credit) }]
-  .mdl-layout-spacer
+- if admin_or_promoter_or(:monetary_manager, :vendor_manager)
+  .mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--11-col
+      .mdl-grid
+        = render "admins/events/analytics/box", cols: 3,
+                id: 'sales',
+                custom_class: 'hovering',
+                colors: ['#009688', '#66FF99'],
+                icon: 'attach_money',
+                title_text: "Sales",
+                title_number: number_to_reports(credit_sales),
+                subtitle: [{ text: 'Credits', number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @current_event.credit, station_filter: @station), @current_event.credit) }, { text: 'Virtual', number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @current_event.virtual_credit, station_filter: @station), @current_event.virtual_credit) }]
+        = render "admins/events/analytics/box", cols: 3,
+                id: 'devices',
+                custom_class: 'hovering',
+                colors: ['#FF4E50', '#F9D423'],
+                icon: 'attach_money',
+                title_text: "Devices",
+                title_number: @station.count_devices,
+                subtitle: [{ text: 'Per operator', number: number_to_reports(@station.count_devices.to_f / @station.count_operators.to_f) }, { text: 'Avg sales', number: number_to_reports_credit(credit_sales / @station.count_devices, @current_event.credit) }]
+        = render "admins/events/analytics/box", cols: 3,
+                id: 'operators',
+                custom_class: 'hovering',
+                colors: ['#FF5050', '#F3A183'],
+                icon: 'attach_money',
+                title_text: "Operators",
+                title_number: @station.count_operators,
+                subtitle: [{ text: 'Avg Tips', number: number_to_reports_currency(@station.money_product_sales_total(product_type_filter: "tip") / @station.count_operators.to_f) }, { text: 'Avg sales', number: number_to_reports_credit(credit_sales / @station.count_operators.to_f, @current_event.credit) }]
+        = render "admins/events/analytics/box", cols: 3,
+                id: 'products',
+                custom_class: 'hovering',
+                colors: ['#355C7D', '#C06C84'],
+                icon: 'attach_money',
+                title_text: "Products",
+                title_number: @station.products.count,
+                subtitle: [{ text: 'Avg quantity', number: number_to_reports(@station.count_product_sales_total / @station.products.count) }, { text: 'Avg price', number: number_to_reports_credit(credit_sales / @station.products.count, @current_event.credit) }]
+    .mdl-layout-spacer
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
@@ -46,49 +47,54 @@
       thead
         tr
           th.pvtColLabel rowspan="2" colspan="2"
-          - columns = @current_event.credits.count + 1
+          - columns = admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager) ? @current_event.credits.count + 1 : 1
           - pos_stats.keys.sort.each do |date|
             th.pvtColLabel colspan="#{columns}" = date
           th.pvtColLabel colspan="#{columns}" Totals
         tr
           - pos_stats.keys.sort.each do |date|
             th.pvtColLabel Qty
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                th.pvtColLabel = credit.name
+          th.pvtColLabel Qty
+          - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
             - @current_event.credits.each do |credit|
               th.pvtColLabel = credit.name
-          th.pvtColLabel Qty
-          - @current_event.credits.each do |credit|
-            th.pvtColLabel = credit.name
 
       tbody
         - @station.reload.products.each do |product|
           - quantity = @station.count_product_sales(product_filter: product)
-          - data = @current_event.credits.map { |credit| [credit, @station.credit_product_sales(credit_filter: credit, product_filter: product)] }.to_h
+          - data = @current_event.credits.map { |credit| [credit, @station.credit_product_sales(credit_filter: credit, product_filter: product)] }.to_h if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
           tr
             th.pvtRowLabel colspan="2"  = product.name
             - pos_stats.keys.sort.each do |date|
               td = quantity[date]
-              - @current_event.credits.each do |credit|
-                td = number_to_reports(data[credit][date])
-
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+                - @current_event.credits.each do |credit|
+                  td = number_to_reports(data[credit][date])
             td = quantity.values.sum
 
-            - @current_event.credits.each do |credit|
-              td.pvtTotal.rowTotal = number_to_reports(data[credit].values.sum)
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                td.pvtTotal.rowTotal = number_to_reports(data[credit].values.sum)
 
         - @station.pokes.where.not(description: 'product').pluck(:description).uniq.each do |description|
           - quantity = @station.count_product_sales(product_type_filter: description)
-          - data = @current_event.credits.map { |credit| [credit, @station.credit_product_sales(credit_filter: credit, product_type_filter: description)] }.to_h
+          - data = @current_event.credits.map { |credit| [credit, @station.credit_product_sales(credit_filter: credit, product_type_filter: description)] }.to_h if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
           tr
             th.pvtRowLabel colspan="2" = description.humanize
             - pos_stats.keys.sort.each do |date|
               td = quantity[date]
-              - @current_event.credits.each do |credit|
-                td = number_to_reports(data[credit][date])
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+                - @current_event.credits.each do |credit|
+                  td = number_to_reports(data[credit][date])
 
             td = quantity.values.sum
 
-            - @current_event.credits.each do |credit|
-              td.pvtTotal.rowTotal = number_to_reports(data[credit].values.sum)
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                td.pvtTotal.rowTotal = number_to_reports(data[credit].values.sum)
 
 
         tr
@@ -98,143 +104,146 @@
           - pos_stats.keys.sort.each do |date|
             td.pvtTotal.rowTotal = quantity[date]
 
-            - @current_event.credits.each do |credit|
-              td.pvtTotal.rowTotal = number_to_reports(@station.credit_product_sales(credit_filter: credit)[date].to_f)
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                td.pvtTotal.rowTotal = number_to_reports(@station.credit_product_sales(credit_filter: credit)[date].to_f)
 
           td.pvtTotal.rowTotal = quantity.values.sum
 
-          - @current_event.credits.each do |credit|
-            td.pvtTotal.rowTotal = number_to_reports(@station.credit_product_sales_total(credit_filter: credit))
+          - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+            - @current_event.credits.each do |credit|
+              td.pvtTotal.rowTotal = number_to_reports(@station.credit_product_sales_total(credit_filter: credit))
 
   .mdl-layout-spacer
 
-- crds = @station.credit_product_sales(grouping: :hour, credit_filter: @current_event.credit)
-- v_crds = @station.credit_product_sales(grouping: :hour, credit_filter: @current_event.virtual_credit)
-- pos_views = { chart_id: "sales_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credits: crds, virtual_credits: v_crds), metric: ["Credits"], decimals: 2 }
+- if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+  - crds = @station.credit_product_sales(grouping: :hour, credit_filter: @current_event.credit)
+  - v_crds = @station.credit_product_sales(grouping: :hour, credit_filter: @current_event.virtual_credit)
+  - pos_views = { chart_id: "sales_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credits: crds, virtual_credits: v_crds), metric: ["Credits"], decimals: 2 }
 
-.content-grid.mdl-grid
-  .mdl-cell.mdl-cell--12-col
-    .mdl-grid
-      .mdl-cell.mdl-cell--6-col
-        .mdl-card__title.mdl-card--expand
-          .mdl-card__title-text Sales per hour
-        canvas#cash_flow
+  .content-grid.mdl-grid
+    .mdl-cell.mdl-cell--12-col
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          .mdl-card__title.mdl-card--expand
+            .mdl-card__title-text Sales per hour
+          canvas#cash_flow
 
-      .mdl-cell.mdl-cell--6-col
-        .mdl-card__title.mdl-card--expand
-          .mdl-card__title-text Top 10 products
-        canvas#top_products
+        .mdl-cell.mdl-cell--6-col
+          .mdl-card__title.mdl-card--expand
+            .mdl-card__title-text Top 10 products
+          canvas#top_products
 
 
-javascript:
-  componentHandler.upgradeDom();
-  var ctx = document.getElementById("cash_flow").getContext('2d');
-  var views = JSON.parse("#{escape_javascript(pos_views.to_json.html_safe)}");
-  var eventData = views.data;
-  var money_symbol = '#{ @current_event.currency_symbol }';
+  javascript:
+    componentHandler.upgradeDom();
+    var ctx = document.getElementById("cash_flow").getContext('2d');
+    var views = JSON.parse("#{escape_javascript(pos_views.to_json.html_safe)}");
+    var eventData = views.data;
+    var money_symbol = '#{ @current_event.currency_symbol }';
 
-  var datasets = {
-    credits: { label: 'Credits', data: [], fill: false, borderColor: "#F9D423", extraData: [] },
-    virtual_credits: { label: 'Virtual', data: [], fill: false, borderColor: "#26D0CE", extraData: [] }
-  };
+    var datasets = {
+      credits: { label: 'Credits', data: [], fill: false, borderColor: "#F9D423", extraData: [] },
+      virtual_credits: { label: 'Virtual', data: [], fill: false, borderColor: "#26D0CE", extraData: [] }
+    };
 
-  $.each(eventData, function(i, item) {
-    datasets.credits.data.push(item.credits);
-    datasets.virtual_credits.data.push(item.virtual_credits);
-  });
+    $.each(eventData, function(i, item) {
+      datasets.credits.data.push(item.credits);
+      datasets.virtual_credits.data.push(item.virtual_credits);
+    });
 
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: eventData.map(function(item) {return item.date_time}),
-      datasets: Object.keys(datasets).map(function(key) {return datasets[key]})
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero:true
-          }
-        }]
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: eventData.map(function(item) {return item.date_time}),
+        datasets: Object.keys(datasets).map(function(key) {return datasets[key]})
       },
-      legend: {
-        position: 'right'
-      },
-      tooltips: {
-        custom: function(tooltip) {
-          if (!tooltip) return;
-          tooltip.displayColors = false;
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
         },
-        callbacks: {
-          title: function(tooltipItem, data) {
-            var titleData = tooltipItem[0];
-            var key = Object.keys(datasets)[titleData.datasetIndex];
-            return [
-              key.charAt(0).toUpperCase() + key.slice(1),
-              titleData.xLabel
-            ]
+        legend: {
+          position: 'right'
+        },
+        tooltips: {
+          custom: function(tooltip) {
+            if (!tooltip) return;
+            tooltip.displayColors = false;
           },
-          label: function(tooltipItem, data) {
-            var key = Object.keys(datasets)[tooltipItem.datasetIndex];
-            return ["Credits: " + datasets[key]['data'][tooltipItem.index] + " " + views.currency]
+          callbacks: {
+            title: function(tooltipItem, data) {
+              var titleData = tooltipItem[0];
+              var key = Object.keys(datasets)[titleData.datasetIndex];
+              return [
+                key.charAt(0).toUpperCase() + key.slice(1),
+                titleData.xLabel
+              ]
+            },
+            label: function(tooltipItem, data) {
+              var key = Object.keys(datasets)[tooltipItem.datasetIndex];
+              return ["Credits: " + datasets[key]['data'][tooltipItem.index] + " " + views.currency]
+            }
           }
         }
       }
+    });
+
+    function gradientSector(ctx, colors) {
+        var gradient = ctx.createLinearGradient(0, 200, 100, 20);
+        gradient.addColorStop(0, colors[0]);
+        gradient.addColorStop(1, colors[1]);
+        return gradient
     }
-  });
 
-  function gradientSector(ctx, colors) {
-      var gradient = ctx.createLinearGradient(0, 200, 100, 20);
-      gradient.addColorStop(0, colors[0]);
-      gradient.addColorStop(1, colors[1]);
-      return gradient
-  }
+    var credit_symbol = '#{ @current_event.credit.symbol }'
+    var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
+    var data_p = #{@station.pokes.top_products(10).as_json.to_json.html_safe};
+    var product_name = data_p.map(function (e) {return e.product_name });
+    var credits = data_p.map(function (e) {return e.credits});
+    var ctx_products = document.getElementById("top_products").getContext('2d');
 
-  var credit_symbol = '#{ @current_event.credit.symbol }'
-  var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
-  var data_p = #{@station.pokes.top_products(10).as_json.to_json.html_safe};
-  var product_name = data_p.map(function (e) {return e.product_name });
-  var credits = data_p.map(function (e) {return e.credits});
-  var ctx_products = document.getElementById("top_products").getContext('2d');
-
-  new Chart(ctx_products, {
-      type: 'doughnut',
-      data: {
-          labels: product_name,
-          datasets: [
-              {
-                  label: "Product" + credit_symbol,
-                  data: credits,
-                  backgroundColor: color_scale_p.map(function (colors) {
-                      return gradientSector(ctx_products, colors)
-                  }),
-                  hoverBackgroundColor: color_scale_p.map(function (colors) {
-                      return gradientSector(ctx_products, colors)
-                  }),
-                  hoverBorderWidth: 2,
-                  hoverBorderColor: '#CCCCCC'
-              }
-          ]
-      },
-      options: {
-          legend: {
-              position: 'right'
-          },
-          tooltips: {
-              custom: function (tooltip) {
-                  if (!tooltip) return;
-                  tooltip.displayColors = false;
-              },
-              callbacks: {
-                  title: function (tooltipItem, data) {
-                      return [data.labels[tooltipItem[0].index]]
-                  },
-                  label: function (tooltipItem, data) {
-                      return [
-                          "Credits: " + data.datasets[0].data[tooltipItem.index] + " " + "#{@event_currency}"
-                      ]
-                  }
-              }
-          }
-      }
-  });
+    new Chart(ctx_products, {
+        type: 'doughnut',
+        data: {
+            labels: product_name,
+            datasets: [
+                {
+                    label: "Product" + credit_symbol,
+                    data: credits,
+                    backgroundColor: color_scale_p.map(function (colors) {
+                        return gradientSector(ctx_products, colors)
+                    }),
+                    hoverBackgroundColor: color_scale_p.map(function (colors) {
+                        return gradientSector(ctx_products, colors)
+                    }),
+                    hoverBorderWidth: 2,
+                    hoverBorderColor: '#CCCCCC'
+                }
+            ]
+        },
+        options: {
+            legend: {
+                position: 'right'
+            },
+            tooltips: {
+                custom: function (tooltip) {
+                    if (!tooltip) return;
+                    tooltip.displayColors = false;
+                },
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        return [data.labels[tooltipItem[0].index]]
+                    },
+                    label: function (tooltipItem, data) {
+                        return [
+                            "Credits: " + data.datasets[0].data[tooltipItem.index] + " " + "#{@event_currency}"
+                        ]
+                    }
+                }
+            }
+        }
+    });

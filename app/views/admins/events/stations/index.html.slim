@@ -13,7 +13,9 @@
         .mdl-tabs__tab-bar
           - @stations.keys.sort.reverse.each.with_index do |group, index|
             = link_to group.to_s.humanize, "##{group}-panel", class: "mdl-tabs__tab #{'is-active' if index.zero?}"
-          = link_to "New", "#station-form", class: "mdl-tabs__tab"
+
+          - if policy(@current_event.stations.new).new?
+            = link_to "New", "#station-form", class: "mdl-tabs__tab"
 
         - @stations.keys.sort.reverse.each.with_index do |group, index|
           .mdl-tabs__panel id="#{group}-panel" class="#{'is-active' if index.zero?}"

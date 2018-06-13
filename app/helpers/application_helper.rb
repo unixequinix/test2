@@ -1,5 +1,14 @@
 module ApplicationHelper
   # :nocov:
+  def admin_or_promoter_or(*roles)
+    registration = @current_user.registration_for(@current_event)
+    @current_user.admin? || registration&.promoter? || roles.any? { |role| registration.method("#{role}?".to_sym).call }
+  end
+
+  def admin_or_promoter
+    @current_user.admin? || @current_user.registration_for(@current_event)&.promoter?
+  end
+
   def link_to_add_fields(name, form, association)
     new_object = form.object.method(association).call.klass.new
     id = new_object.object_id

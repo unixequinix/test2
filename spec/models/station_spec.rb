@@ -50,11 +50,4 @@ RSpec.describe Station, type: :model do
       expect(station2.station_event_id).to eq(2)
     end
   end
-
-  describe ".unassigned_catalog_items" do
-    it "returns the catalog items which aren't current in the station" do
-      access = create(:access, event_id: subject.event_id)
-      expect(subject.unassigned_catalog_items).to include(access)
-    end
-  end
 end

@@ -20,71 +20,76 @@
       .content-grid.mdl-grid
         .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
           .mdl-grid.no-wrapper-style.padding
-            .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
-              = render "box", cols: 12,
-                      no_content: true,
-                      custom_class: 'cash_flow_card',
-                      style: 'padding: 0 5px',
-                      icon_name: "#{'remove' if @credits.size.eql?(1)}",
-                      colors: ['#1A2980', '#26D0CE'],
-                      icon: 'input',
-                      title_text: 'Inflow',
-                      title_number: number_to_reports_credit(@current_event.credit_income_total(credit_filter: @credits), credit)
-              = render "subcard", cols: 12,
-                      no_content: true,
-                      custom_class: 'cash_flow_card',
-                      style: 'padding: 0 5px',
-                      credit: credit,
-                      type: :credit,
-                      subtitle: { online_topups: { value: @current_event.credit_online_orders_income_total(credit_filter: @credits), data: "credit_orders", filter: { group: :hour } },
-                                  onsite_topups: { value: @current_event.credit_topups_base_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
-                                  ticket_bundles: { value: @current_event.credit_credential_total(credit_filter: @credits), data: "credit_credentials", filter: { group: :hour } },
-                                  box_office: { value:  @current_event.credit_box_office_total(credit_filter: @credits) , data: "credit_box_office", filter: { group: :hour } },
-                                  fees: { value: @current_event.credit_income_fees_total(credit_filter: @credits), data: "credit_income_fees", filter: { group: :hour } }}
-            .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
-              = render "box", cols: 12,
-                      no_content: true,
-                      custom_class: 'cash_flow_card',
-                      style: 'padding: 0 5px',
-                      icon_name: "#{'remove' if @credits.size.eql?(1)}",
-                      colors: ['#FF4E50', '#F9D423'],
-                      icon: 'equalizer',
-                      title_text: 'Sales',
-                      credit: credit,
-                      type: :credit,
-                      title_number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @credits), credit)
-              = render "subcard", cols: 12,
-                      no_content: true,
-                      custom_class: 'cash_flow_card',
-                      style: 'padding: 0 5px',
-                      credit: credit,
-                      type: :credit,
-                      subtitle: { bars: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'bar')), data: "credit_sales", filter: { group: :hour, station_type: 'bar' } },
-                                  vendors: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'vendor')), data: "credit_sales", filter: { group: :hour, station_type: 'vendor' } } }
-            .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
-              = render "box", cols: 12,
-                      no_content: true,
-                      custom_class: 'cash_flow_card',
-                      style: 'padding: 0 5px',
-                      icon_name: "#{'drag_handle' if @credits.size.eql?(1)}",
-                      colors: ['#FF5050', '#F3A183'],
-                      icon: 'money_off',
-                      title_text: 'Outflow',
-                      credit: credit,
-                      type: :credit,
-                      title_number: number_to_reports_credit(@current_event.credit_outcome_total(credit_filter: @credits), credit)
-              = render "subcard", cols: 12,
-                      no_content: true,
-                      custom_class: 'cash_flow_card',
-                      style: 'padding: 0 5px',
-                      credit: credit,
-                      type: :credit,
-                      subtitle: { online_refunds: { value: @current_event.credit_online_refunds_base_total(credit_filter: @credits), data: "credit_online_refunds", filter: { group: :hour } },
-                                  onsite_refunds: { value: @current_event.credit_onsite_refunds_base_total(credit_filter: @credits), data: "credit_onsite_refunds", filter: { group: :hour } },
-                                  admin_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } },
-                                  fees: { value: @current_event.credit_outcome_fees_total(credit_filter: @credits), data: "credit_outcome_fees", filter: { group: :hour } } }
+            .mdl-layout-spacer
+            - if admin_or_promoter_or(:monetary_manager)
+              .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
+                = render "box", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        icon_name: "#{'remove' if @credits.size.eql?(1)}",
+                        colors: ['#1A2980', '#26D0CE'],
+                        icon: 'input',
+                        title_text: 'Inflow',
+                        title_number: number_to_reports_credit(@current_event.credit_income_total(credit_filter: @credits), credit)
+                = render "subcard", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        credit: credit,
+                        type: :credit,
+                        subtitle: { online_topups: { value: @current_event.credit_online_orders_income_total(credit_filter: @credits), data: "credit_orders", filter: { group: :hour } },
+                                    onsite_topups: { value: @current_event.credit_topups_base_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
+                                    ticket_bundles: { value: @current_event.credit_credential_total(credit_filter: @credits), data: "credit_credentials", filter: { group: :hour } },
+                                    box_office: { value:  @current_event.credit_box_office_total(credit_filter: @credits) , data: "credit_box_office", filter: { group: :hour } },
+                                    fees: { value: @current_event.credit_income_fees_total(credit_filter: @credits), data: "credit_income_fees", filter: { group: :hour } }}
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
+              - subtitle = { bars: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'bar')), data: "credit_sales", filter: { group: :hour, station_type: 'bar' } }, vendors: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'vendor')), data: "credit_sales", filter: { group: :hour, station_type: 'vendor' } } }
+              .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
+                = render "box", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        icon_name: "#{'remove' if @credits.size.eql?(1)}",
+                        colors: ['#FF4E50', '#F9D423'],
+                        icon: 'equalizer',
+                        title_text: 'Sales',
+                        credit: credit,
+                        type: :credit,
+                        title_number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @credits), credit)
+                = render "subcard", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        credit: credit,
+                        type: :credit,
+                        subtitle: subtitle
 
-            - if @credits.size.eql?(1)
+              - if admin_or_promoter_or(:monetary_manager)
+                .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
+                  = render "box", cols: 12,
+                          no_content: true,
+                          custom_class: 'cash_flow_card',
+                          style: 'padding: 0 5px',
+                          icon_name: "#{'drag_handle' if @credits.size.eql?(1)}",
+                          colors: ['#FF5050', '#F3A183'],
+                          icon: 'money_off',
+                          title_text: 'Outflow',
+                          credit: credit,
+                          type: :credit,
+                          title_number: number_to_reports_credit(@current_event.credit_outcome_total(credit_filter: @credits), credit)
+                  = render "subcard", cols: 12,
+                          no_content: true,
+                          custom_class: 'cash_flow_card',
+                          style: 'padding: 0 5px',
+                          credit: credit,
+                          type: :credit,
+                          subtitle: { online_refunds: { value: @current_event.credit_online_refunds_base_total(credit_filter: @credits), data: "credit_online_refunds", filter: { group: :hour } },
+                                      onsite_refunds: { value: @current_event.credit_onsite_refunds_base_total(credit_filter: @credits), data: "credit_onsite_refunds", filter: { group: :hour } },
+                                      admin_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } },
+                                      fees: { value: @current_event.credit_outcome_fees_total(credit_filter: @credits), data: "credit_outcome_fees", filter: { group: :hour } } }
+
+            - if @credits.size.eql?(1) && admin_or_promoter_or(:monetary_manager)
               .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
                 = render "box", cols: 12,
                         no_content: true,
@@ -96,7 +101,7 @@
                         credit: credit,
                         type: :credit,
                         title_number: number_to_reports_credit(@current_event.credit_outstanding_total(credit_filter: @credits), credit)
-
+            .mdl-layout-spacer
 .mdl-grid.no-wrapper-style.padding
   .mdl-cell.mdl-cell--12-col
     .mdl-grid

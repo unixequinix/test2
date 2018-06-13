@@ -56,30 +56,37 @@ html
               span.mdl-badge.mdl-badge--overlap data-badge="#{@current_event.alerts.unresolved.count}"
             div style="width: 10px;"
 
-          = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
-            span#settings.i.mdl-color-text--white.material-icons settings
-            span.mdl-tooltip data-mdl-for="settings" Settings
+          - if policy(@current_event).event_settings?
+            = link_to edit_admins_event_path(@current_event), class: "mdl-button mdl-button--icon", style: "overflow: visible" do
+              span#settings.i.mdl-color-text--white.material-icons settings
+              span.mdl-tooltip data-mdl-for="settings" Settings
 
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(image_path('glownet-event-logo.png')), admins_events_path
 
         nav.mdl-navigation.global-nav
+
           = link_to admins_event_stations_path(@current_event), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons store_mall_directory
             |  Stations
-          = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons phone_android
-            |  Devices
-          - if @current_user.admin? || @event_registration.promoter? || @event_registration.support?
+
+          - if admin_or_promoter
+            = link_to admins_event_device_registrations_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons phone_android
+              |  Devices
+
+          - if admin_or_promoter_or(:support)
             = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons record_voice_over
               |  Customer service
-          - if @current_user.admin? || @event_registration.promoter? || @event_registration.staff_accreditation?
+
+          - if admin_or_promoter_or(:staff_manager)
             = link_to admins_event_operators_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons face
               |  Staff Management
-          - unless @current_event.created?
+
+          - if policy(@current_event).analytics?
             = link_to admins_event_analytics_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons equalizer
               |  Analytics
@@ -87,27 +94,27 @@ html
               i.mdl-color-text--teal-200.material-icons timeline
               |  Custom Analytics
 
-        nav.mdl-navigation.global-nav
-          span.nav-title ACCESS CONTROL
-          = link_to admins_event_ticket_types_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons class
-            |  Ticket types
-          = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons import_export
-            |  Accesses
-          = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons view_module
-            |  Packs
+        - if admin_or_promoter_or(:support)
+          nav.mdl-navigation.global-nav
+            span.nav-title ACCESS CONTROL
+            = link_to admins_event_accesses_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons import_export
+              |  Accesses
+            = link_to admins_event_packs_path(@current_event), class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons view_module
+              |  Packs
 
-        nav.mdl-navigation.global-nav
-          span.nav-title SUPPORT
-          - if policy(@current_event).event_settings?
-            = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
-              i.mdl-color-text--teal-200.material-icons person
-              |  Users
-          = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
-            i.mdl-color-text--teal-200.material-icons import_export
-            |  Transactions
+        - if policy(@current_event).event_settings? || admin_or_promoter_or(:support)
+          nav.mdl-navigation.global-nav
+            span.nav-title SUPPORT
+            - if policy(@current_event).event_settings?
+              = link_to admins_event_event_registrations_path(@current_event), class: "mdl-navigation__link" do
+                i.mdl-color-text--teal-200.material-icons person
+                |  Users
+            - if admin_or_promoter_or(:support)
+              = link_to admins_event_transactions_path(@current_event), class: "mdl-navigation__link" do
+                i.mdl-color-text--teal-200.material-icons import_export
+                |  Transactions
 
         span.web-version = WEB_VERSION
 

@@ -4,7 +4,7 @@
     .form-inputs
       = hidden_field_tag :item_type, "station_catalog_item"
       = f.input :price
-      = f.input :catalog_item_id, collection: @station.unassigned_catalog_items
+      = f.input :catalog_item_id, collection: @catalog_items_collection, include_blank: false, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
       = f.input :station_id, as: :hidden, input_html: { value: @station.id }
     .form-actions
       = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

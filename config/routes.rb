@@ -98,6 +98,7 @@ Rails.application.routes.draw do
         end
 
         resource :analytics do
+          get :dashboard
           get :cash_flow
           get :credits_flow
           get :gates

@@ -5,7 +5,6 @@
 - content_for(:title) do
   | Analytics
 
-
 .remodal data-remodal-id="danger-modal"
   button.remodal-close data-remodal-action="close"
   h3.remodal__title Why are some numbers in red?
@@ -28,110 +27,25 @@
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
         .mdl-tabs__tab-bar.analytics-card-back
-          = link_to "Dashboard", "#dashboard-panel", class: "mdl-tabs__tab is-active"
+          = link_to_if admin_or_promoter_or(:gates_manager), "Dashboard", dashboard_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+           span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
 
-          = link_to cash_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
-            | Money
+          = link_to_if admin_or_promoter_or(:monetary_manager), "Money", cash_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
 
-          = link_to credits_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
-            | Credits
+          = link_to_if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager), "Credits", credits_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
             span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
 
-          - if @current_user.glowball? || @current_user.registration_for(@current_event)&.promoter? || @current_user.registration_for(@current_event)&.gates_manager?
-            = link_to gates_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
-              | Gates
-              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-                span.mdl-ripple
+          = link_to_if admin_or_promoter_or(:gates_manager), 'Gates', gates_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
 
-          - if @current_user.team&.id==2 || @current_user.glowball?
-            = link_to partner_reports_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
-              | Partner Reports
-              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
-                span.mdl-ripple
-
-        #dashboard-panel.mdl-tabs__panel.is-active
-          .mdl-grid
-            .mdl-layout-spacer
-            .mdl-cell.mdl-cell--10-col
-              .mld-card
-                .content-grid.mdl-grid
-                  .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
-                    .mdl-grid.no-wrapper-style.padding
-                      = render "box", cols: 3,
-                              id: 'topups',
-                              custom_class: 'hovering',
-                              colors: ['#009688', '#66FF99'],
-                              icon: 'attach_money',
-                              title_text: "Total Topups in #{@current_event.currency_symbol}",
-                              title_number: number_to_reports(@current_event.money_online_orders_total + @current_event.money_topups_total),
-                              subtitle: [{ text: 'Online', number: number_to_reports(@current_event.money_online_orders_total) }, { text: 'Onsite', number: number_to_reports(@current_event.money_topups_total) }]
-
-                      = render "box", cols: 3,
-                              id: 'sales',
-                              custom_class: 'hovering',
-                              colors: ['#FF4E50', '#F9D423'],
-                              icon: 'equalizer',
-                              title_text: "Total Sales in #{@current_event.currency_symbol}",
-                              title_number: number_to_reports(@current_event.credit_sales_total),
-                              subtitle: [{ text: 'At Bars', number: number_to_reports(@current_event.credit_sales_total(station_filter: @current_event.stations.where(category: "bar"))) },{ text: 'At vendors', number: number_to_reports(@current_event.credit_sales_total(station_filter: @current_event.stations.where(category: "vendor"))) }]
-
-                      = render "box", cols: 3,
-                              id: 'spending_power',
-                              custom_class: 'hovering',
-                              colors: ['#FF5050', '#F3A183'],
-                              icon: 'loyalty',
-                              title_text: "Unspent credits",
-                              title_number: number_to_reports(@current_event.leftover_balance_total),
-                              subtitle: [{ text: 'Online', number: number_to_reports(@current_event.credit_online_leftover_balance_total) }, { text: 'Onsite', number: number_to_reports(@current_event.credit_onsite_leftover_balance_total) }]
-
-                      = render "box", cols: 3,
-                              id: 'spending_customers',
-                              custom_class: 'hovering',
-                              colors: ['#355C7D', '#C06C84'],
-                              icon: 'supervisor_account',
-                              title_text: 'Spending Customers',
-                              title_number: number_with_delimiter(@current_event.spending_customers),
-                              subtitle: [{ text: 'Average Spent per Customer', number: number_to_event_currency(@current_event.spending_customer_average) }]
-
-                  .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
-                    .mdl-grid.no-wrapper-style.padding
-                      = render "bar_card", cols: 6,
-                              id: 'tickets_orders',
-                              colors: ['#F2F2F2', '#F2F2F2'],
-                              data: { tickets: { text: 'Tickets Checked In / Tickets in System', current: @current_event.tickets.where(redeemed: true).count, total: @current_event.tickets.count },
-                              orders: { text: "Orders Redeemed / Orders in System", current: @current_event.credit_online_orders_total(redeemed: true), total: @current_event.credit_online_orders_total }}
-                      = render "box", cols: 3,
-                              id: 'products',
-                              custom_class: 'hovering',
-                              colors: ['#514A9D', '#24C6DC'],
-                              icon: 'add_shopping_cart',
-                              title_text: 'Total Products Sold',
-                              title_number: number_with_delimiter(@current_event.sales.where("credit_amount < 0").count),
-                              subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.sales(station_filter: @current_event.stations.where(category: 'bar')).where("credit_amount < 0").count) }, { text: 'At vendors', number: number_with_delimiter(@current_event.sales(station_filter: @current_event.stations.where(category: 'vendor')).where("credit_amount < 0").count) }]
-                      = render "box", cols: 3,
-                              id: 'activations',
-                              custom_class: 'hovering',
-                              colors: ['#FF0066', '#FF9999'],
-                              icon: 'touch_app',
-                              title_text: 'Total Activations',
-                              title_number: number_with_delimiter(@current_event.customers.count),
-                              subtitle: [{ text: 'Customers', number: number_with_delimiter(@current_event.customers.where(operator: false).count) }, { text: 'Staff', number: number_with_delimiter(@current_event.customers.where(operator: true).count) }]
-
-
-              .mld-card
-                .content-grid.mdl-grid
-                  .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
-                    .mdl-grid.no-wrapper-style.padding
-                      .mdl-cell.analytics-card-back.mdl-cell--6-col
-                        .mdl-cell.mdl-cell--12-col
-                          canvas#top_products
-                      .mdl-cell.analytics-card-back.mdl-cell--6-col
-                        .mdl-cell.mdl-cell--12-col
-                          canvas#alcohol_products
-            .mdl-layout-spacer
+          = link_to_if (@current_user.team&.id==2 || @current_user.glowball?), 'Partner Reports', partner_reports_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+              span.mdl-ripple
 
         #load-view
           = render 'admins/events/spinner'
@@ -142,103 +56,9 @@
         .mdl-cell.mdl-cell--12-col
           .center-card-title
             span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
-
+  
 javascript:
-  var credit_symbol = '#{ @current_event.credit.symbol }'
-  var color_scale_a = [["#11998E", "#38EF7D"], ["#74EBD5", "#ACB6E5"]]
-  var data_a = #{ @alcohol_products.to_json.html_safe }
-  var is_alcohol = data_a.map(function (e) { return e.is_alcohol });
-  var credits = data_a.map(function (e) { return e.credits });
-  var ctx_alcohol = document.getElementById("alcohol_products").getContext('2d');
-
-  new Chart(ctx_alcohol, {
-    type: 'doughnut',
-    data: {
-      labels: is_alcohol,
-      datasets: [
-        {
-          label: "Product" + credit_symbol,
-          data: credits,
-          backgroundColor: color_scale_a.map(function(colors) {return gradientSector(ctx_alcohol, colors)}),
-          hoverBackgroundColor: color_scale_a.map(function(colors) {return gradientSector(ctx_alcohol, colors)}),
-          hoverBorderWidth: 2,
-					hoverBorderColor: '#CCCCCC'
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Alcohol Products vs Non Alcohol'
-      },
-      legend: {
-        position: 'right'
-      },
-      tooltips: {
-        custom: function(tooltip) {
-          if (!tooltip) return;
-          tooltip.displayColors = false;
-        },
-        callbacks: {
-          title: function(tooltipItem, data) {
-            return [data.labels[tooltipItem[0].index]]
-          },
-          label: function(tooltipItem, data) {
-            return [
-              "Credits: " + data.datasets[0].data[tooltipItem.index] + " " + "#{@event_currency}",
-              "Amount: " + data_a[tooltipItem.index].amount
-            ]
-          }
-        }
-      }
-    }
-  });
-
-  var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
-  var data_p = #{@top_products.to_json.html_safe};
-  var product_name = data_p.map(function (e) { return e.product_name });
-  var credits = data_p.map(function (e) { return e.credits });
-  var ctx_products = document.getElementById("top_products").getContext('2d');
-
-
-  new Chart(ctx_products, {
-    type: 'doughnut',
-    data: {
-      labels: product_name,
-      datasets: [
-        {
-          label: "Product" + credit_symbol,
-          data: credits,
-          backgroundColor: color_scale_p.map(function(colors) {return gradientSector(ctx_products, colors)}),
-          hoverBackgroundColor: color_scale_p.map(function(colors) {return gradientSector(ctx_products, colors)}),
-          hoverBorderWidth: 2,
-					hoverBorderColor: '#CCCCCC'
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: "Top " + product_name.length + " products " + credit_symbol
-      },
-      legend: {
-        position: 'right'
-      },
-      tooltips: {
-        custom: function(tooltip) {
-          if (!tooltip) return;
-          tooltip.displayColors = false;
-        },
-        callbacks: {
-          title: function(tooltipItem, data) {
-            return [data.labels[tooltipItem[0].index]]
-          },
-          label: function(tooltipItem, data) {
-            return [
-              "Credits: " + data.datasets[0].data[tooltipItem.index] + " " + "#{@event_currency}",
-            ]
-          }
-        }
-      }
-    }    
+  $(window).load(function() {
+    $('.mdl-tabs__tab').first().addClass('is-active')
+    $('.mdl-tabs__tab').first().click();
   });

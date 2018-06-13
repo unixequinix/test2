@@ -8,10 +8,10 @@ module Admins
       before_action :set_groups, only: %i[index new create edit update]
 
       def index
-        @q = @current_event.stations.includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
-                           .order(:hidden, :category, :name)
-                           .where.not(category: "touchpoint")
-                           .ransack(params[:q])
+        @q = policy_scope(@current_event.stations).includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
+                                                  .order(:hidden, :category, :name)
+                                                  .where.not(category: "touchpoint")
+                                                  .ransack(params[:q])
         @stations = @q.result
         authorize @stations
         @station = @current_event.stations.new
@@ -32,6 +32,7 @@ module Admins
         @devices = @station.pokes.pluck(:device_id).uniq.count
         @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types)
         @current_ticket_types = @current_event.ticket_types.where(id: @station.ticket_types)
+        @catalog_items_collection = @current_event.catalog_items.order(:name).not_credits.where.not(id: @station.station_catalog_items.pluck(:catalog_item_id)).group_by { |item| item.type.underscore.humanize.pluralize }
 
         money_cols = ["Action", "Description", "Money", "Payment Method", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
         @money = prepare_pokes(money_cols, pokes_onsite_money(@station))

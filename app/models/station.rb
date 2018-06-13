@@ -61,10 +61,6 @@ class Station < ApplicationRecord
     GROUPS.find { |_, value| value.include?(category.to_sym) }&.first.to_s
   end
 
-  def unassigned_catalog_items
-    event.catalog_items - station_catalog_items.map(&:catalog_item)
-  end
-
   def all_station_items
     topup_credits + station_catalog_items + products + access_control_gates
   end
