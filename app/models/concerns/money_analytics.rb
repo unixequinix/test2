@@ -156,4 +156,14 @@ module MoneyAnalytics
   def money_outstanding_total
     money_income_total - money_outcome_total
   end
+
+  # Cash Recon
+  #
+  def cash_recon(operator_filter: [], station_filter: [], device_filter: [])
+    pokes.where(action: "cash_recon", description: "close_shift").with_station(station_filter).with_operator(operator_filter).with_device(device_filter).is_ok
+  end
+
+  def money_cash_recon(grouping: :day, operator_filter: [], station_filter: [], device_filter: [])
+    cash_recon(operator_filter: operator_filter, station_filter: station_filter, device_filter: device_filter).group_by_period(grouping, :date).sum(:monetary_total_price)
+  end
 end

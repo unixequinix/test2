@@ -55,4 +55,38 @@
 
   .mdl-layout-spacer
 
+- if @cash_recon.present?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col.analytics
+      .mdl-card__title.mdl-card--expand
+        .mdl-card__title-text Cash Reconciliation
+
+      table.pvtTable
+        thead
+          tr
+            th.pvtColLabel.high-contrast Operator
+            th.pvtColLabel.high-contrast UID
+            th.pvtColLabel.high-contrast Location
+            th.pvtColLabel.high-contrast Station
+            th.pvtColLabel.high-contrast Device
+            th.pvtColLabel.high-contrast Session finish
+            th.pvtColLabel.high-contrast Record result
+
+
+        tbody
+          - @cash_recon.each do |poke|
+            - danger = !poke.monetary_total_price.zero?
+            tr
+              th.pvtRowLabel.low-contrast style="#{'color: #d9534f' if danger }" = poke.operator.name
+              td style="#{'color: #d9534f' if danger }" = poke.operator_gtag.tag_uid
+              td style="#{'color: #d9534f' if danger }" = poke.station.location
+              td style="#{'color: #d9534f' if danger }" = poke.station.name
+              td style="#{'color: #d9534f' if danger }" = poke.device.asset_tracker
+              td style="#{'color: #d9534f' if danger }" = poke.date
+              td style="#{'color: #d9534f' if danger }" = number_to_reports(poke.monetary_total_price)
+
+
+  .mdl-layout-spacer
+
 = render 'line_chart', credits: @credits, pos_views: @pos_views, name: 'Topups per hour'
