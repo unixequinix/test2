@@ -33,8 +33,8 @@ module AnalyticsHelper
     online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @current_event.credit.value }.as_json
     money = onsite_money + online_purchase + online_purchase_fee + online_refunds
     money.each do |p|
-      p['date_time'] = time_zoner_money(p['date_time'])
-      p['event_day'] = event_day_money(p['date_time'])
+      p['date_time'] = time_zoner(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
@@ -45,8 +45,8 @@ module AnalyticsHelper
     online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @current_event.credit.value }.as_json
     money = onsite_money + online_purchase + online_purchase_fee + online_refunds
     money.each do |p|
-      p['date_time'] = time_zoner_money(p['date_time'])
-      p['event_day'] = event_day_money(p['date_time'])
+      p['date_time'] = time_zoner(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
