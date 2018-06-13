@@ -43,6 +43,7 @@ RSpec.describe "Events in the admin panel", type: :feature do
 
     context "a sample event" do
       before do
+        user.glowball!
         visit sample_event_admins_events_path
         @event = Event.last
       end
@@ -52,15 +53,15 @@ RSpec.describe "Events in the admin panel", type: :feature do
       end
     end
 
-    context "by promoter" do
-      before { user.promoter! }
+    context "by admin" do
+      before { user.admin! }
 
       it "can create a standard event" do
         visit new_admins_event_path
         expect(page).to have_current_path(new_admins_event_path)
       end
 
-      it "can create a sample event" do
+      it "cannot create a sample event" do
         visit sample_event_admins_events_path
         expect(page).to have_current_path(admins_events_path)
       end
