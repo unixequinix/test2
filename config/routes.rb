@@ -373,6 +373,7 @@ Rails.application.routes.draw do
               post :can_login
               get :refunds
               get :transactions
+              get :store_redirection
             end
           end
 

@@ -13,6 +13,10 @@ module Api::V2
       end
     end
 
+    def store_redirection
+      render json: { store_path: @current_event.store_redirection(@customer, :topup) }
+    end
+
     # POST api/v2/events/:event_id/customers/:id/ban
     def gtag_replacement
       old_gtag = @customer.active_gtag

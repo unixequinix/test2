@@ -62,4 +62,58 @@ RSpec.describe Event, type: :model do
       expect(subject.currency_symbol).to be_nil
     end
   end
+
+  describe "store_redirection" do
+    let(:customer) { create(:customer, event: subject) }
+
+    before { subject.update! auto_refunds: true }
+
+    context "orders redirection" do
+      it "should be to wiredlion" do
+        expect(subject.store_redirection(customer, :order)).to include("wiredlion")
+      end
+
+      it "should contain the glownet portion of the URL" do
+        expect(subject.store_redirection(customer, :order)).to include("register")
+      end
+
+      it "should contain the customer id" do
+        expect(subject.store_redirection(customer, :order)).to include(customer.id.to_s)
+      end
+    end
+
+    context "refunds redirection" do
+      before(:each) do
+        create(:gtag, event: subject, customer: customer)
+      end
+
+      it "not be new refunds path" do
+        expect(subject.store_redirection(customer, :refund, gtag_uid: customer.active_gtag.tag_uid)).not_to eql("/#{subject.slug}/refunds/new")
+      end
+
+      it "should contain the glownet portion of the URL" do
+        expect(subject.store_redirection(customer, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include("refund")
+      end
+
+      it "should contain the customer email" do
+        expect(subject.store_redirection(customer, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include(customer.email.split("@").first)
+      end
+
+      it "should contain the customer gtag_id" do
+        expect(subject.store_redirection(customer, :refund, gtag_uid: customer.active_gtag.tag_uid)).to include(customer.active_gtag.tag_uid)
+      end
+    end
+
+    it "should contain dev if environment is not production" do
+      expect(subject.store_redirection(customer, :order)).to include("dev")
+    end
+
+    it "should contain the event slug" do
+      expect(subject.store_redirection(customer, :order)).to include(subject.slug)
+    end
+
+    it "should contain the protocol HTTPS" do
+      expect(subject.store_redirection(customer, :order)).to include("http")
+    end
+  end
 end
