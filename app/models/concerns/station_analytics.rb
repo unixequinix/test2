@@ -22,21 +22,21 @@ module StationAnalytics
   # Money Sales
   #
   def money_product_sales(grouping: :day, product_filter: [], credit_filter: [], product_type_filter: SALE_DESCRIPTIONS)
-    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).group_by_period(grouping, :date).sum("ABS(credit_amount * #{credit.value})")
+    abs(product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).group_by_period(grouping, :date).sum("credit_amount * #{credit.value}"))
   end
 
   def money_product_sales_total(product_filter: [], credit_filter: [], product_type_filter: SALE_DESCRIPTIONS)
-    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).sum("ABS(credit_amount * #{event.credit.value})")
+    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).sum("credit_amount * #{event.credit.value}").abs
   end
 
   # Credit Sales
   #
   def credit_product_sales(grouping: :day, credit_filter: [], product_filter: [], product_type_filter: SALE_DESCRIPTIONS)
-    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+    abs(product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).group_by_period(grouping, :date).sum(:credit_amount))
   end
 
   def credit_product_sales_total(credit_filter: [], product_filter: [], product_type_filter: SALE_DESCRIPTIONS)
-    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).sum("ABS(credit_amount)")
+    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).sum(:credit_amount).abs
   end
 
   # Random
