@@ -8,11 +8,11 @@ class EventPolicy < ApplicationPolicy
   end
 
   def show?
-    user.glowball? || user.registration_for(record).present?
+    user.admin? || user.registration_for(record).present?
   end
 
   def new?
-    true
+    user.admin?
   end
 
   def sample_event?
@@ -20,7 +20,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    user.admin?
   end
 
   def edit?
