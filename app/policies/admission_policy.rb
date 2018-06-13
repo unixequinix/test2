@@ -139,6 +139,10 @@ class AdmissionPolicy < ApplicationPolicy
     true
   end
 
+  def store_redirection?
+    all_allowed
+  end
+
   private
 
   def all_allowed

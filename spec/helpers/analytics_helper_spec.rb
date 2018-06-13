@@ -94,7 +94,12 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "simple sales should have correct fields" do
-        expect(pokes_sales_simple.last.keys).to eq(%w[id action description payment_method credit_name credit_amount operator_uid operator_name device_name date_time location station_type station_name event_day])
+        expect(pokes_sales_simple.first.keys).to eq(%w[id action description payment_method credit_name credit_amount operator_uid operator_name device_name date_time location station_type station_name is_alcohol product_name event_day])
+      end
+
+      it "should have product" do
+        comun_products = @current_event.stations.map { |t| t.products.pluck(:name) }.flatten & pokes_sales.map { |i| i['product_name'] }.uniq.compact
+        expect(pokes_sales.map { |i| i['product_name'] }.uniq.compact.sort).to eq(comun_products.sort)
       end
     end
 
@@ -105,6 +110,11 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
       it "product sales should have correct fields" do
         expect(pokes_sales.last.keys).to eq(%w[id action description customer_id sale_item_quantity payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name is_alcohol product_name num_operations event_day])
+      end
+
+      it "should have product" do
+        comun_products = @current_event.stations.map { |t| t.products.pluck(:name) }.flatten & pokes_sales.map { |i| i['product_name'] }.uniq.compact
+        expect(pokes_sales.map { |i| i['product_name'] }.uniq.compact.sort).to eq(comun_products.sort)
       end
     end
 

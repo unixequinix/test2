@@ -31,13 +31,13 @@
       .tools
         - if @current_event.open_topups? && @current_customer.active_credentials.any?
           .tool-item
-            = link_to store_redirection(@current_event, :order), id: "new_top_up" do
+            = link_to @current_event.store_redirection(@current_customer, :order), id: "new_top_up" do
               .credit-tooltip = t("dashboard.topup")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons add_shopping_cart
         - if @current_event.open_refunds? && !@current_customer.credits.zero? && @current_customer.valid_balance?
           .tool-item
-            = link_to store_redirection(@current_event, :refund, { gtag_uid: @current_customer.active_gtag.try(:tag_uid) }) do
+            = link_to @current_event.store_redirection(@current_customer, :refund, { gtag_uid: @current_customer.active_gtag.try(:tag_uid) }) do
               .credit-tooltip = t("dashboard.refund")
               .mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
                 span.material-icons money_off

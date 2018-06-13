@@ -108,6 +108,19 @@ class Event < ApplicationRecord
     (start_date.to_date.to_datetime..end_date.to_datetime).map(&:to_date)
   end
 
+  def store_redirection(customer, type, options = {})
+    if type == :refund
+      return "/#{slug}/refunds/new" unless auto_refunds?
+      params = { path: "/refund/#{slug}/customer-details", query: { email: customer.email, gtag: options[:gtag_uid] }.to_param }
+    else
+      params = { path: "/register/#{slug}/glownet/#{customer.id}" }
+    end
+
+    url = { host: Rails.application.secrets.wiredlion_host }.merge(params)
+
+    URI::HTTP.build(url).to_s
+  end
+
   private
 
   def should_generate_new_friendly_id?

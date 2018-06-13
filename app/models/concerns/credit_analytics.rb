@@ -242,7 +242,7 @@ module CreditAnalytics
   #
   def credit_online_leftover_balance(grouping: :day, credit_filter: credits)
     income = merge(credit_online_orders(grouping: grouping, credit_filter: credit_filter, redeemed: false), credit_credential(grouping: grouping, credit_filter: credit_filter, credential_filter: [tickets.unredeemed, gtags.unredeemed]))
-    outcome = credit_onsite_refunds(grouping: grouping)
+    outcome = credit_online_refunds(grouping: grouping)
 
     merge_subtract(income, outcome)
   end

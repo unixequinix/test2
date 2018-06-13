@@ -84,10 +84,10 @@ class Poke < ApplicationRecord
   #
 
   scope :products_sale_simple, lambda {
-    select(:action, :description, :credit_name, dimensions_operators_devices_simple, date_time_poke, dimensions_station, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method")
-      .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag)
+    select(:action, :description, :credit_name, dimensions_operators_devices_simple, date_time_poke, dimensions_station, is_alcohol, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method")
+      .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.has_credits.is_ok
-      .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time")
+      .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_name")
       .having("sum(credit_amount) != 0")
   }
 
