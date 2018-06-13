@@ -9,24 +9,28 @@
         tbody
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Operators", [:admins, @current_event, :customers, operator: true]
-            td
+            td = @current_event.customers.where(operator: true).count
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags, operator: true]
             td
+              = @current_event.gtags.where(operator: true).count
               = link_to [:new, :admins, @current_event, :gtag] do
                 span.material-icons add_circle_outline
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types, operator: true]
             td
+              = @current_event.ticket_types.where(operator: true).count
               = link_to [:new, :admins, @current_event, :ticket_type] do
                 span.material-icons add_circle_outline
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets, operator: true]
             td
+              = @current_event.tickets.where(operator: true).count
               = link_to [:new, :admins, @current_event, :ticket] do
                 span.material-icons add_circle_outline
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions, operator: true]
             td
+              = @current_event.operator_permissions.count
               = link_to [:new, :admins, @current_event, :operator_permission] do
                 span.material-icons add_circle_outline

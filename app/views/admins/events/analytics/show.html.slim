@@ -27,8 +27,8 @@
     .transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
         .mdl-tabs__tab-bar.analytics-card-back
-          = link_to_if admin_or_promoter_or(:gates_manager), "Dashboard", dashboard_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
-           span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+          = link_to_if admin_or_promoter_or(:monetary_manager), "Dashboard", dashboard_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+            span.mdl-tabs__ripple-container.mdl-js-ripple-effect
               span.mdl-ripple
 
           = link_to_if admin_or_promoter_or(:monetary_manager), "Money", cash_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
