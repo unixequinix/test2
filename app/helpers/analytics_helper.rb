@@ -18,18 +18,34 @@ module AnalyticsHelper
     (date.to_datetime.in_time_zone(@current_event.timezone) - delay.hour).to_date
   end
 
+  def time_zoner_money(date)
+    date.to_datetime.strftime("%Y-%m-%d %Hh")
+  end
+
   def event_day_money(date, delay = 8)
     (date.to_datetime - delay.hour).to_date
   end
 
-  def pokes_money
-    onsite_money = @current_event.pokes.money_recon(%w[none other]).as_json
+  def pokes_money_simple
+    onsite_money = @current_event.pokes.money_recon_simple.as_json
     online_purchase = @current_event.orders.online_purchase.as_json
     online_purchase_fee = @current_event.orders.online_purchase_fee.as_json
     online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @current_event.credit.value }.as_json
-    products_sale = pokes_sales(@current_event.credit.id, @current_event.credit.value)
-    money = onsite_money + online_purchase + online_purchase_fee + online_refunds + products_sale
+    money = onsite_money + online_purchase + online_purchase_fee + online_refunds
     money.each do |p|
+      p['date_time'] = time_zoner_money(p['date_time'])
+      p['event_day'] = event_day_money(p['date_time'])
+    end
+  end
+
+  def pokes_money
+    onsite_money = @current_event.pokes.money_recon.as_json
+    online_purchase = @current_event.orders.online_purchase.as_json
+    online_purchase_fee = @current_event.orders.online_purchase_fee.as_json
+    online_refunds = @current_event.refunds.online_refund.each { |o| o.money = o.money * @current_event.credit.value }.as_json
+    money = onsite_money + online_purchase + online_purchase_fee + online_refunds
+    money.each do |p|
+      p['date_time'] = time_zoner_money(p['date_time'])
       p['event_day'] = event_day_money(p['date_time'])
     end
   end
@@ -39,6 +55,20 @@ module AnalyticsHelper
       csv << ['Action', 'Description', 'Source', 'Payment Method', 'Event Day', 'Date Time', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money', 'Number of Operations']
       data = %w[action description source payment_method event_day date_time location station_type station_name customer_uid customer_name operator_uid operator_name device_name money num_operations]
       pokes_money.map { |row| csv << data.map { |col| row[col] } }
+    end
+  end
+
+  def pokes_credits_simple
+    credits_onsite = @current_event.pokes.credit_flow_simple.as_json
+    online_packs = Order.online_packs(@current_event).as_json
+    ticket_packs = Ticket.online_packs(@current_event).as_json
+    online_topup = @current_event.orders.online_topup.as_json
+    credits_refunds = @current_event.refunds.online_refund_credits.each { |o| o.credit_name = @credit_name }.as_json
+    credits_refunds_fee = @current_event.refunds.online_refund_fee.each { |o| o.credit_name = @credit_name }.as_json
+    credits = online_packs + ticket_packs + online_topup + credits_onsite + credits_refunds + credits_refunds_fee
+    credits.each do |p|
+      p['date_time'] = time_zoner(p['date_time'])
+      p['event_day'] = event_day(p['date_time'])
     end
   end
 
@@ -64,16 +94,16 @@ module AnalyticsHelper
     end
   end
 
-  def pokes_sales_simple(credit, rate = 1)
-    sales = @current_event.pokes.products_sale_simple(credit).as_json.map { |p| p.merge('money' => -1 * p['credit_amount'] * rate) }
+  def pokes_sales_simple
+    sales = @current_event.pokes.products_sale_simple.as_json
     sales.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
     end
   end
 
-  def pokes_sales(credit, rate = 1)
-    sales = @current_event.pokes.products_sale(credit).as_json.map { |p| p.merge('money' => -1 * p['credit_amount'] * rate) }
+  def pokes_sales
+    sales = @current_event.pokes.products_sale.as_json
     sales.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
@@ -84,7 +114,7 @@ module AnalyticsHelper
     CSV.generate do |csv|
       csv << ['Description', 'Event Day', 'Date Time', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Alcohol Product', 'Product Name', 'Credit Name', 'Credits', 'Number of Operations', 'Product Quantity']
       data = %w[description event_day date_time location station_type station_name customer_uid customer_name operator_uid operator_name device_name is_alcohol product_name credit_name credit_amount num_operations sale_item_quantity]
-      pokes_sales(@current_event.credits.pluck(:id)).map { |row| csv << data.map { |col| row[col] } }
+      pokes_sales.map { |row| csv << data.map { |col| row[col] } }
     end
   end
 

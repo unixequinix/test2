@@ -53,7 +53,7 @@ module Admins
         @credits = prepare_pokes(cols, pokes_credits)
 
         cols = ['Description', 'Location', 'Station Type', 'Station Name', 'Product Name', 'Event Day', 'Date Time', 'Operator UID', 'Operator Name', 'Device', 'Credit Name', 'Credits']
-        product_sale = pokes_sales(@current_event.credits.pluck(:id))
+        product_sale = pokes_sales
         sales = prepare_pokes(cols, product_sale)
 
         cols = ['Product Name', 'Credits', 'sorter']

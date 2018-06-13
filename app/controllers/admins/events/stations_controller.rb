@@ -26,7 +26,8 @@ module Admins
         @transactions = @station.transactions
         @pokes = @station.pokes
         @sales = - @station.pokes.where(credit: @current_event.credits).sales.is_ok.sum(:credit_amount)
-        @sales_credits = - @station.pokes.where(credit: @current_event.credit).sales.is_ok.sum(:credit_amount)
+        @sales_credits = - @station.pokes.where(credit: @current_event
+          .credit).sales.is_ok.sum(:credit_amount)
         @operators = @station.pokes.pluck(:operator_id).uniq.count
         @devices = @station.pokes.pluck(:device_id).uniq.count
         @available_ticket_types = @current_event.ticket_types.where.not(id: @station.ticket_types)
@@ -37,7 +38,7 @@ module Admins
         credit_cols = ["Action", "Description", "Credit Name", "Credits", "Operator UID", "Operator Name", "Device", "Event Day", "Date Time"]
         @credits = prepare_pokes(credit_cols, pokes_onsite_credits(@station))
         product_cols = ["Description", "Product Name", "Credit Name", "Credits", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
-        @products = prepare_pokes(product_cols, pokes_sales(@station, [@current_event.credit.id, @current_event.virtual_credit.id]))
+        @products = prepare_pokes(product_cols, pokes_sales(@station))
         stock_cols = ["Description", "Product Name", "Product Quantity", "Event Day", "Date Time", "Operator UID", "Operator Name", "Device"]
         @products_stock = prepare_pokes(stock_cols, pokes_sale_quantity(@station))
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]

@@ -19,15 +19,15 @@ module StationHelper
   end
 
   def pokes_onsite_money(object)
-    money = object.pokes.money_recon(%w[none other]).as_json
+    money = object.pokes.money_recon.as_json
     money.each do |p|
       p["date_time"] = time_zoner(p["date_time"])
       p["event_day"] = event_day(p["date_time"])
     end
   end
 
-  def pokes_sales(object, credit, rate = 1)
-    sales = object.pokes.products_sale(credit).as_json.map { |p| p.merge('money' => -1 * p['credit_amount'] * rate) }
+  def pokes_sales(object)
+    sales = object.pokes.products_sale.as_json
     sales.each do |p|
       p["date_time"] = time_zoner(p["date_time"])
       p["event_day"] = event_day(p["date_time"])
