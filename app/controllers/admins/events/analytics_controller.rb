@@ -175,7 +175,7 @@ module Admins
         @stations = @current_event.stations.where(category: Event::BOX_OFFICE_STATIONS)
         @dates = @current_event.credit_box_office.reject { |_, v| v.zero? }.keys
 
-        data = @current_event.plot(@stations.map { |station| [station.name, @current_event.credit_box_office(station_filter: station)] }.to_h)
+        data = @current_event.plot(@stations.map { |station| [station.name, @current_event.credit_box_office(grouping: :hour, station_filter: station)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -234,7 +234,7 @@ module Admins
 
         @cash_recon = @current_event.cash_recon.order(:date)
 
-        data = @current_event.plot(@payments.map { |payment| [payment.underscore, @current_event.money_topups(payment_filter: payment)] }.to_h)
+        data = @current_event.plot(@payments.map { |payment| [payment.underscore, @current_event.money_topups(grouping: :hour, payment_filter: payment)] }.to_h)
         @pos_views = { chart_id: "topups_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -244,7 +244,7 @@ module Admins
         @orders = @current_event.money_online_orders_base.reject { |_, v| v.zero? }
         @gateways = @current_event.online_orders.distinct.pluck(:gateway)
 
-        data = @current_event.plot(@gateways.map { |gateways| [gateways.underscore, @current_event.money_online_orders_base(payment_filter: gateways)] }.to_h)
+        data = @current_event.plot(@gateways.map { |gateways| [gateways.underscore, @current_event.money_online_orders_base(grouping: :hour, payment_filter: gateways)] }.to_h)
         @pos_views = { chart_id: "orders_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -255,7 +255,7 @@ module Admins
         @payments = @current_event.monetary_box_office.select(:payment_method).distinct.pluck(:payment_method)
         @dates = @current_event.money_box_office.reject { |_, v| v.zero? }.keys
 
-        data = @current_event.plot(@items.map { |item| [item.name.underscore, @current_event.money_box_office(catalog_filter: item)] }.to_h)
+        data = @current_event.plot(@items.map { |item| [item.name.underscore, @current_event.money_box_office(grouping: :hour, catalog_filter: item)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -266,7 +266,7 @@ module Admins
         @payments = @current_event.online_payment_methods
         @dates = @fees.reject { |_, sum| sum.zero? }.keys.sort
 
-        data = @current_event.plot(@payments.map { |payments| [payments.underscore, @current_event.money_income_fees(payment_filter: payments)] }.to_h)
+        data = @current_event.plot(@payments.map { |payments| [payments.underscore, @current_event.money_income_fees(grouping: :hour, payment_filter: payments)] }.to_h)
         @pos_views = { chart_id: "topups_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -276,7 +276,7 @@ module Admins
         @refunds = @current_event.money_online_refunds_base.reject { |_, v| v.zero? }
         @gateways = @current_event.online_refunds(payment_filter: @filter).distinct.pluck(:gateway)
 
-        data = @current_event.plot(@gateways.map { |gateway| [gateway.to_sym, @current_event.money_online_refunds_base(payment_filter: gateway)] }.to_h)
+        data = @current_event.plot(@gateways.map { |gateway| [gateway.to_sym, @current_event.money_online_refunds_base(grouping: :hour, payment_filter: gateway)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -287,15 +287,15 @@ module Admins
         @refunds = @current_event.money_onsite_refunds(station_filter: @stations).reject { |_, v| v.zero? }
         @payments = @current_event.monetary_topups.distinct.pluck(:payment_method)
 
-        data = @current_event.plot(@payments.map { |payment| [payment, @current_event.money_onsite_refunds(payment_filter: payment)] }.to_h)
+        data = @current_event.plot(@payments.map { |payment| [payment, @current_event.money_onsite_refunds(grouping: :hour, payment_filter: payment)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
       def money_income_fees
         @partial = "money/income_fees"
 
-        orders_fees = @current_event.money_online_orders_fee(grouping: :day).reject { |_, v| v.zero? }
-        refunds_fees = @current_event.money_online_refunds_fee(grouping: :day).reject { |_, v| v.zero? }
+        orders_fees = @current_event.money_online_orders_fee(grouping: :hour).reject { |_, v| v.zero? }
+        refunds_fees = @current_event.money_online_refunds_fee(grouping: :hour).reject { |_, v| v.zero? }
 
         data = @current_event.plot(online_topups: orders_fees, online_refunds: refunds_fees)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }

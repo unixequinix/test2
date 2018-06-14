@@ -24,7 +24,7 @@ RSpec.describe "Orders on admin panel", type: :feature do
       expect(page.all('td', text: order.number).any?).to be_truthy
     end
     it "must include customer" do
-      expect(page.all('td', text: order.customer.email).any?).to be_truthy
+      expect(page.all('td', text: order.customer.name).any?).to be_truthy
     end
     it "must include amount" do
       expect(page.all('td', text: order.money_total).any?).to be_truthy
