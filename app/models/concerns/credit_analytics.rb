@@ -77,7 +77,7 @@ module CreditAnalytics
   # Sales
   #
   def credit_sales(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
-    abs(sales(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("credit_amount"))
+    sales(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("credit_amount * -1")
   end
 
   def credit_sales_total(credit_filter: [], station_filter: [], operator_filter: [])
