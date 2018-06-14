@@ -30,11 +30,11 @@
               .mdl-cell.mdl-cell--6-col
                 h4 Available devices
                 #available_devices_table
-                  = render 'form', resources: @available_devices
+                  = render 'form', resources: @available_devices, param_name: :devicesout
               .mdl-cell.mdl-cell--6-col
                 h4 Event devices
                 #current_devices_table
-                  = render 'form', resources: @current_device_registrations, form_disable: true
+                  = render 'form', resources: @current_device_registrations, form_disable: true, param_name: :devicesin
 
         #caches-panel.mdl-tabs__panel
           .mdl-card__supporting-text

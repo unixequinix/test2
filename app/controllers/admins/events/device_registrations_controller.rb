@@ -145,7 +145,7 @@ module Admins
 
       def set_devices
         @device_registration = @current_event.device_registrations.new
-        @current_device_registrations = @current_event.device_registrations.not_allowed.includes(:device).where(devices: { team_id: @current_user&.team&.id })
+        @current_device_registrations = @current_event.device_registrations.not_allowed.joins(:device).where(devices: { team_id: @current_user&.team&.id })
 
         device_ids = @current_user&.team&.devices&.includes(:device_registrations)&.where(device_registrations: { allowed: false })&.pluck(:id)
         @available_devices = @current_user&.team&.devices&.where&.not(id: device_ids) || []
@@ -153,9 +153,9 @@ module Admins
         # Search form variables
         @r = @current_device_registrations.ransack(persist_query([:p]))
         @s = @available_devices.empty? ? Device.none.ransack(persist_query([:q])) : @available_devices.search(persist_query([:q]))
-
-        @current_device_registrations = @r.result.page
-        @available_devices = @s.result.page(params[:page])
+        
+        @current_device_registrations = @r.result.page(params[:devicesin])
+        @available_devices = @s.result.page(params[:devicesout])
       end
 
       def persist_query(cookie_keys, clear = false) # rubocop:disable  Metrics/PerceivedComplexity
@@ -169,7 +169,7 @@ module Admins
       end
 
       def devices_usage
-        @current_event.device_registrations.not_allowed.group_by { |dr| dr.device.serie }.map do |k, v|
+        @current_event.device_registrations.not_allowed.includes(:device).group_by { |dr| dr.device.serie }.map do |k, v|
           { k => { 'used' => v.count, 'total' => @current_user&.team&.devices&.count } }
         end
       end

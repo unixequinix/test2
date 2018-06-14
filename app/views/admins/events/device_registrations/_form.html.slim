@@ -31,7 +31,7 @@
           button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.form-submit id=selector
             = selector.humanize
 
-      = render "layouts/pagination", objects: resources
+      = render "layouts/pagination", objects: resources, param_name: param_name
 
       table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card.droppable.sortable id="#{selector}_table"
         thead
