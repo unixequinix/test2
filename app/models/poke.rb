@@ -20,7 +20,7 @@ class Poke < ApplicationRecord
   scope :purchases, -> { where(action: "purchase") }
   scope :refunds, -> { where(action: "refund") }
   scope :sales, -> { where(action: "sale") }
-  scope :not_cash_recon, -> {where.not(action: "cash_recon")}
+  scope :not_cash_recon, -> { where.not(action: "cash_recon") }
   scope :exhibitor_note, -> { where(action: "exhibitor_note") }
   scope :record_credit, -> { where(action: "record_credit") }
   scope :not_record_credit, -> { where.not(description: "record_credit") }

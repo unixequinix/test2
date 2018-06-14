@@ -153,7 +153,7 @@ module Admins
         # Search form variables
         @r = @current_device_registrations.ransack(persist_query([:p]))
         @s = @available_devices.empty? ? Device.none.ransack(persist_query([:q])) : @available_devices.search(persist_query([:q]))
-        
+
         @current_device_registrations = @r.result.page(params[:devicesin])
         @available_devices = @s.result.page(params[:devicesout])
       end

@@ -4,17 +4,17 @@ module Ticketing
 
     def perform(order, integration)
       order = JSON.parse(order).symbolize_keys
-
       barcodes = order[:attendees].map { |attendee| attendee["barcodes"].map { |b| b["barcode"] } }.flatten
+      company = integration.class.to_s.gsub("TicketingIntegration", "")
 
-      integration.event.tickets.where(code: barcodes).update_all(banned: true) && return unless order[:status].eql?("placed")
+      integration.event.tickets.where(code: barcodes, ticket_type: integration.ticket_types).update_all(banned: true) && return unless order[:status].eql?("placed")
 
       order[:attendees].each do |guest|
         guest["barcodes"].each do |barcode|
           profile = guest["profile"]
           begin
             ctt = integration.ticket_types.find_or_initialize_by(company_code: guest["ticket_class_id"], event_id: integration.event_id)
-            ctt.update!(company: "Eventbrite", name: guest["ticket_class_name"])
+            ctt.update!(company: company, name: guest["ticket_class_name"])
           rescue ActiveRecord::RecordNotUnique
             retry
           end

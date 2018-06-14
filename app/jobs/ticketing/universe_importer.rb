@@ -4,6 +4,7 @@ module Ticketing
 
     def perform(ticket, integration)
       ticket = Hashie::Mash.new ticket
+      company = integration.class.to_s.gsub("TicketingIntegration", "")
 
       if ticket.event_id.present?
         company_code = ticket.rate_id
@@ -21,8 +22,8 @@ module Ticketing
         email = ticket.answers.third.value
       end
 
-      ticket_type = integration.ticket_types.find_or_initialize_by(company_code: company_code, event_id: integration.event_id)
-      ticket_type.update!(name: ticket_name, company: "Universe")
+      ticket_type = integration.ticket_types.find_or_initialize_by(company_code: company_code, event_id: integration.event_id, company: company)
+      ticket_type.update!(name: ticket_name)
       new_ticket = ticket_type.tickets.find_or_initialize_by(code: ticket_code, event_id: integration.event_id)
       new_ticket.update!(ticket_type: ticket_type, purchaser_first_name: first_name, purchaser_last_name: last_name, purchaser_email: email)
     end
