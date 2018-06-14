@@ -20,6 +20,7 @@ class Poke < ApplicationRecord
   scope :purchases, -> { where(action: "purchase") }
   scope :refunds, -> { where(action: "refund") }
   scope :sales, -> { where(action: "sale") }
+  scope :not_cash_recon, -> {where.not(action: "cash_recon")}
   scope :exhibitor_note, -> { where(action: "exhibitor_note") }
   scope :record_credit, -> { where(action: "record_credit") }
   scope :not_record_credit, -> { where.not(description: "record_credit") }
@@ -48,7 +49,7 @@ class Poke < ApplicationRecord
   scope :money_recon_simple, lambda {
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action, action as description", :source, :payment_method, dimensions_customers, dimensions_operators_devices_simple, date_time_poke, dimensions_station, sum_money, count_operations)
       .joins(:station, :device, :operator, :operator_gtag)
-      .has_money.is_ok
+      .has_money.is_ok.not_cash_recon
       .group(:action, :description, :source, :payment_method, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
       .having("sum(monetary_total_price) !=0")
   }
@@ -56,7 +57,7 @@ class Poke < ApplicationRecord
   scope :money_recon, lambda {
     select("CASE WHEN action = 'topup' THEN 'income' ELSE action END as action, action as description", :source, :payment_method, date_time_poke, dimensions_customers, dimensions_operators_devices, dimensions_station, sum_money, count_operations)
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag)
-      .has_money.is_ok
+      .has_money.is_ok.not_cash_recon
       .group(:action, :description, :source, :payment_method, grouping_customers, grouping_operators_devices, grouping_station, "date_time")
       .having("sum(monetary_total_price) !=0")
   }
