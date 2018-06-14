@@ -50,7 +50,7 @@
 
             .mdl-cell.mdl-cell--8-col style="text-align: center"
               i.material-icons style="font-size: 100px; color: #009688;" search
-              = search_form_for @q, url: admins_event_operators_path do |f|
+              = search_form_for @q, url: admins_event_admissions_path do |f|
                 .mdl-textfield.mdl-js-textfield
                   = f.search_field :email_cont, class: "mdl-textfield__input", autofocus: true
                   .small  You can search for #{link_to 'Customers', [:admins, @current_event, :customers]}, #{link_to 'Tickets', [:admins, @current_event, :tickets]} and #{link_to 'Gtags', [:admins, @current_event, :gtags]}

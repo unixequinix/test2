@@ -32,7 +32,7 @@ module StationAnalytics
   # Credit Sales
   #
   def credit_product_sales(grouping: :day, credit_filter: [], product_filter: [], product_type_filter: SALE_DESCRIPTIONS)
-    abs(product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).group_by_period(grouping, :date).sum(:credit_amount))
+    product_sales(product_filter: product_filter, credit_filter: credit_filter, product_type_filter: product_type_filter).group_by_period(grouping, :date).sum("credit_amount * -1")
   end
 
   def credit_product_sales_total(credit_filter: [], product_filter: [], product_type_filter: SALE_DESCRIPTIONS)
