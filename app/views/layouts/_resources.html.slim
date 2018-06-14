@@ -1,10 +1,9 @@
-.mdl-grid
-  .mdl-layout-spacer
-  - if admin_or_promoter_or(:staff_manager)
-    .mdl-cell.mdl-cell--6-col = render "admins/events/operators/resources"
-  
-  - if admin_or_promoter_or(:support)
-    .mdl-cell.mdl-cell--6-col = render "admins/events/admissions/resources"
-  .mdl-layout-spacer
+- if admin_or_promoter_or(:staff_manager)
+  = render "admins/events/operators/resources"
+  br
+
+- if admin_or_promoter_or(:support)
+  = render "admins/events/admissions/resources"
+
 
 

@@ -61,6 +61,17 @@ html
               span#settings.i.mdl-color-text--white.material-icons settings
               span.mdl-tooltip data-mdl-for="settings" Settings
 
+          - if admin_or_promoter
+            - if @current_event.created?
+              = link_to '#launch-modal', class: "mdl-button mdl-button--icon", style: "overflow: visible" do
+                span#launch-event-button.i.mdl-color-text--white.material-icons flight_takeoff
+                span.mdl-tooltip data-mdl-for="launch-event-button" Launch
+
+            - if @current_event.launched?
+              = link_to '#close-modal', class: "mdl-button" do
+                span#close-event-button.i.mdl-color-text--white.material-icons flight_land
+                span.mdl-tooltip data-mdl-for="close-event-button" Close
+
       .mdl-layout__drawer
 
         #event_logo = link_to image_tag(image_path('glownet-event-logo.png')), admins_events_path
@@ -121,6 +132,8 @@ html
                 |  Transactions
 
         span.web-version = WEB_VERSION
+
+      = render "admins/events/event_modals"
 
       main.mdl-layout__content
         #notifications
