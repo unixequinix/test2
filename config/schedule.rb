@@ -21,12 +21,6 @@
 
 set :output, "log/cron.log"
 
-# 1.minute 1.day 1.week 1.month 1.year is also supported
-every 10.minutes do
-  runner "CronJobs.try_to_end_refunds"
-  runner "CronJobs.try_to_open_refunds"
-end
-
 every 5.minutes do
   runner "CronJobs.import_tickets"
 end

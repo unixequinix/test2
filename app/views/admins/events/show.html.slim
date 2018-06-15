@@ -1,25 +1,10 @@
-= render "admins/events/event_modals"
-
 .content-grid.mdl-grid
   .admin-card-wide.mdl-card.mdl-shadow--2dp
-    .mdl-grid
-      .mdl-cell.mdl-cell--6-col
-        .mdl-card__title
-          .mdl-card__title-text
-            i.material-icons flight_takeoff
-            = @current_event.state.humanize
+    .mdl-grid style="width: 100%"
+      .mdl-cell.mdl-cell--6-col.left
+        = render "layouts/resources"
 
       .mdl-cell.mdl-cell--6-col
-        .mdl-card__title
-          - if @current_event.created?
-            = link_to '#launch-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
-              | Launch
-
-          - if @current_event.launched?
-            = link_to '#close-modal', class: "mdl-button mdl-js-button mdl-button--raised" do
-              | Close
-
-      .mdl-cell.mdl-cell--12-col
         -if @current_event.pokes.empty? && @current_event.transactions.any?
           .center-card-title
             h4 style="text-align: center; width: 100%; color: #999"
@@ -27,17 +12,9 @@
               = link_to " here", zoho_report_admins_event_path(@current_event)
               |.
         -else
-
-          .mdl-grid
-            .mdl-layout-spacer
-            .mdl-cell.mdl-cell--10-col
-              .mdl-card__title.mdl-card--expand
-                .mdl-card__title-text Event Activity
-              canvas#event_activity
-            .mdl-layout-spacer
-
-    .mdl-cell.mdl-cell--12-col
-      = render "layouts/resources"
+          .mdl-card__title.mdl-card--expand
+            .mdl-card__title-text Event Activity
+          canvas#event_activity
 
 javascript:
     var ctx = document.getElementById("event_activity").getContext('2d');
@@ -50,7 +27,7 @@ javascript:
         refunds: { label: 'Refunds', data: [], fill: false, borderColor: "#F3A183", extraData: [] }
     };
 
-    ctx.canvas.height = 100;
+    ctx.canvas.height = 300;
 
     $.each(eventData, function(i, item) {
         datasets.topups.data.push(item.topups);

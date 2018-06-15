@@ -7,14 +7,6 @@ class PokesQuery
     Poke.connection.select_all(access_by_ticket_type_query(access)).to_json
   end
 
-  def access_catalog_item_by_customer(access)
-    Poke.connection.select_all(access_catalog_item_by_customer_query(access)).to_json
-  end
-
-  def cash_flow_by_day
-    Poke.connection.select_all(cash_flow_query).to_json
-  end
-
   def top_topup
     Poke.connection.select_all(top_topup_query).to_json
   end
@@ -41,16 +33,16 @@ class PokesQuery
     <<-SQL
       SELECT
         date_trunc('hour', date) as date_time,
-        pokes.customer_id,
         pokes.catalog_item_id,
-        1 as access_direction,
         stations.location as location,
         stations.category as station_type,
         stations.name as station_name,
         tickets.access_name,
         tickets.ticket_type as ticket_type_name,
         tickets.catalog_item as catalog_item_name,
-        tickets.checkin
+        tickets.checkin,
+        tickets.staff,
+        count(pokes.customer_id) as access_direction
       FROM pokes
         JOIN stations ON pokes.station_id = stations.id
         JOIN (SELECT customer_id, min(gtag_counter) as min_gtag_counter
@@ -69,7 +61,8 @@ class PokesQuery
           access_name,
           ticket_type,
           catalog_item_name as catalog_item,
-          checkin
+          checkin,
+          staff
         FROM (
         SELECT
           customer_id,
@@ -78,7 +71,8 @@ class PokesQuery
           item.name as catalog_item_name,
           t2.name as ticket_type,
           row_number() OVER(PARTITION BY customer_id, COALESCE(item2.id, item.id)) as row_number,
-          'ticket' as checkin
+          'ticket' as checkin,
+          CASE WHEN t2.operator = true THEN 'Staff' ELSE 'Customer' END as staff
         FROM tickets
           JOIN ticket_types t2 ON tickets.ticket_type_id = t2.id
           JOIN catalog_items item ON t2.catalog_item_id = item.id
@@ -94,7 +88,8 @@ class PokesQuery
           item.name as catalog_item_name,
           item.name as ticket_type,
           row_number() OVER(PARTITION BY pokes.customer_id, pokes.catalog_item_id) as row_number,
-          CASE WHEN pokes.payment_method ='none' THEN 'accreditation' ELSE 'box_office' END as checkin
+          CASE WHEN pokes.payment_method ='none' THEN 'accreditation' ELSE 'box_office' END as checkin,
+          CASE WHEN pokes.payment_method ='none' THEN 'accreditation' ELSE 'N/A' END as staff
         FROM pokes
           JOIN catalog_items item ON pokes.catalog_item_id = item.id
           LEFT JOIN pack_catalog_items i ON item.id = i.pack_id
@@ -110,7 +105,8 @@ class PokesQuery
           item.name as catalog_item_name,
           item.name as ticket_type,
           row_number() OVER(PARTITION BY orders.customer_id, o.catalog_item_id) as row_number,
-          'order' as checkin
+          'order' as checkin,
+          'N/A' as staff
         FROM orders
           JOIN order_items o ON orders.id = o.order_id
           JOIN catalog_items item ON o.catalog_item_id = item.id
@@ -119,86 +115,17 @@ class PokesQuery
         WHERE COALESCE(item2.type, item.type) = 'Access' AND COALESCE(item2.id, item.id) = #{access.id}) cataglog_item
         WHERE row_number = 1
       ) tickets ON tickets.customer_id = pokes.customer_id AND tickets.catalog_item_id = pokes.catalog_item_id
-    SQL
-  end
-
-  def cash_flow_query
-    <<-SQL
-    SELECT date_time,
-          date_time_sort,
-          sum(sales) as sales,
-          sum(topups) as topups,
-          sum(refunds) as refunds,
-          sum(sales_count) as sales_count,
-          sum(topups_count) as topups_count,
-          sum(refunds_count) as refunds_count
-    FROM (
-      SELECT  to_char(date_trunc('hour', date), 'YY-MM-DD HH24h') as date_time,
-              date_trunc('hour', date) as date_time_sort,
-              sum(CASE WHEN description = 'topup' then credit_amount ELSE 0 END) as topups,
-              -1 * sum(CASE WHEN action = 'sale' then credit_amount ELSE 0 END) as sales,
-              -1 * sum(CASE WHEN (action = 'record_credit' and description = 'refund') then credit_amount ELSE 0 END) as refunds,
-              count(CASE WHEN description = 'topup' then credit_amount ELSE null END) as topups_count,
-              count(CASE WHEN action = 'sale' then credit_amount ELSE null END) as sales_count,
-              count(CASE WHEN (action = 'record_credit' and description = 'refund') then credit_amount ELSE null END) as refunds_count
-      FROM pokes
-      WHERE pokes.event_id = #{@event.id}
-            AND pokes.status_code = 0
-            AND pokes.error_code IS NULL
-            AND pokes.credit_id in (#{@event.credit.id}, #{@event.virtual_credit.id})
-      GROUP BY date_time_sort, date_time
-      UNION ALL
-      SELECT  to_char(date_trunc('day', completed_at), 'YY-MM-DD HH24h') as date_time,
-              date_trunc('day', completed_at) as date_time_sort,
-              sum(order_items.amount) as topups,
-              0 as sales,
-              0 as refunds,
-              count(orders) as topups_count,
-              0 as sales_count,
-              0 as refunds_count
-      FROM orders
-          JOIN order_items ON order_items.order_id = orders.id
-          JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
-          AND orders.event_id = #{@event.id}
-          AND (catalog_items.type in ('Credit', 'VirtualCredit'))
-          AND orders.status = #{Order.statuses['completed']}
-      GROUP BY date_time_sort, date_time
-      UNION ALL
-      SELECT
-        to_char(date_trunc('hour', completed_at), 'YY-MM-DD HH24h') as date_time,
-        date_trunc('day', completed_at) as date_time_sort,
-        sum(o.amount * i.amount) as topups,
-        0 as sales,
-        0 as refunds,
-        0 as topups_count,
-        count(o.amount) as sales_count,
-        0 as refunds_count
-      FROM orders
-        JOIN order_items o ON orders.id = o.order_id
-        JOIN catalog_items item ON o.catalog_item_id = item.id
-        JOIN pack_catalog_items i ON item.id = i.pack_id
-        JOIN catalog_items item2 ON i.catalog_item_id = item2.id
-        AND item.type in ('Pack')
-        AND item2.type in ('Credit', 'VirtualCredit')
-        AND item.event_id = #{@event.id}
-        AND orders.status = #{Order.statuses['completed']}
-      GROUP BY date_time_sort, date_time
-      UNION ALL
-      SELECT
-          to_char(date_trunc('day', created_at), 'YY-MM-DD HH24h') as date_time,
-          date_trunc('day', created_at) as date_time_sort,
-          0 as topups,
-          0 as sale,
-          sum(credit_base) as refunds,
-          0 as topups_count,
-          0 as sales_count,
-          count(credit_base) as refunds_count
-      FROM refunds
-      WHERE status = 2 AND event_id = #{@event.id}
-      GROUP BY date_time_sort, date_time
-    ) credits
-    GROUP BY date_time_sort, date_time
-    ORDER BY date_time_sort ASC
+      GROUP BY
+        date_time,
+        pokes.catalog_item_id,
+        location,
+        station_type,
+        station_name,
+        tickets.access_name,
+        ticket_type_name,
+        catalog_item_name,
+        tickets.checkin,
+        tickets.staff
     SQL
   end
 

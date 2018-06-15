@@ -41,6 +41,7 @@ class PokeSerializer < ActiveModel::Serializer
   attribute :checkin, key: "Check In"
   attribute :message, key: "Message"
   attribute :priority, key: "Priority"
+  attribute :staff, key: "Staff"
 
   def sorter
     object.try(:[], 'sorter')
@@ -208,5 +209,9 @@ class PokeSerializer < ActiveModel::Serializer
 
   def priority
     object.try(:[], 'priority')
+  end
+
+  def staff
+    object.try(:[], 'staff')&.humanize
   end
 end

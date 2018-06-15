@@ -33,6 +33,17 @@ html
               = @current_event.name
               span.mdl-tooltip data-mdl-for="event_details_link" Event Dashboard
 
+            - if admin_or_promoter
+              - if @current_event.created?
+                = link_to '#launch-modal', class: "mdl-button", style: "overflow: visible" do
+                  span#launch-event-button.i.mdl-color-text--white.material-icons flight_takeoff
+                  span.mdl-tooltip data-mdl-for="launch-event-button" Launch
+
+              - if @current_event.launched?
+                = link_to '#close-modal', class: "mdl-button", style: "overflow: visible" do
+                  span#close-event-button.i.mdl-color-text--white.material-icons flight_land
+                  span.mdl-tooltip data-mdl-for="close-event-button" Close
+
           .mdl-layout-spacer
           .mdl-layout-title.header-item = yield(:title)
           .mdl-layout-spacer
@@ -121,6 +132,8 @@ html
                 |  Transactions
 
         span.web-version = WEB_VERSION
+
+      = render "admins/events/event_modals"
 
       main.mdl-layout__content
         #notifications
