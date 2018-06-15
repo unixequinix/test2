@@ -44,7 +44,7 @@ module Admins
       end
 
       def access_ticket_type
-        cols = ['Date Time', 'Ticket Type', 'Catalog Item', 'Check In', 'Access', 'Zone', 'Location', 'Station Type', 'Station Name']
+        cols = ['Date Time', 'Ticket Type', 'Staff', 'Catalog Item', 'Check In', 'Access', 'Zone', 'Location', 'Station Type', 'Station Name']
         accesses = @current_event.catalog_items.where(type: 'Access')
         access_by_ticket_type = []
         accesses.map { |access| access_by_ticket_type.append(pokes_access_by_ticket_type(access)) }

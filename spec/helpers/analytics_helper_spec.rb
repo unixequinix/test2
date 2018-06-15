@@ -99,7 +99,15 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
       it "should have product" do
         comun_products = @current_event.stations.map { |t| t.products.pluck(:name) }.flatten & pokes_sales.map { |i| i['product_name'] }.uniq.compact
-        expect(pokes_sales.map { |i| i['product_name'] }.uniq.compact.sort).to eq(comun_products.sort)
+        expect(pokes_sales_simple.map { |i| i['product_name'] }.uniq.compact.sort).to eq(comun_products.sort)
+      end
+
+      it "should have operator UID" do
+        expect(pokes_sales_simple.map { |i| i['operator_uid'] }.uniq.compact).to eq(operator.gtags.pluck(:tag_uid))
+      end
+
+      it "should have customer UID" do
+        expect(pokes_sales_simple.map { |i| i['customer_uid'] }.uniq.compact).to eq([])
       end
     end
 
@@ -115,6 +123,14 @@ RSpec.describe AnalyticsHelper, type: :helper do
       it "should have product" do
         comun_products = @current_event.stations.map { |t| t.products.pluck(:name) }.flatten & pokes_sales.map { |i| i['product_name'] }.uniq.compact
         expect(pokes_sales.map { |i| i['product_name'] }.uniq.compact.sort).to eq(comun_products.sort)
+      end
+
+      it "should have operator UID" do
+        expect(pokes_sales.map { |i| i['operator_uid'] }.uniq.compact).to eq(operator.gtags.pluck(:tag_uid))
+      end
+
+      it "should have customer UID" do
+        expect(pokes_sales.map { |i| i['customer_uid'] }.uniq.compact).to eq(customer.gtags.pluck(:tag_uid))
       end
     end
 
