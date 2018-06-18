@@ -108,7 +108,7 @@ class Poke < ApplicationRecord
       .having("sum(credit_amount) != 0")
   }
 
-  scope :top_products, lambda { |limit|
+  scope :top_products, lambda { |limit = 10|
     select(product_name, "row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
       .joins(:product)
       .sales.is_ok
@@ -117,13 +117,39 @@ class Poke < ApplicationRecord
       .limit(limit)
   }
 
-  scope :top_stations, lambda { |category, credits = event.credits|
+  scope :top_items, lambda { |limit = 10|
+    select("catalog_items.name as product_name, row_number() OVER (ORDER BY  sum(monetary_total_price) ) as sorter, sum(monetary_total_price) as credits")
+      .joins(:catalog_item)
+      .purchases.is_ok
+      .group("product_name")
+      .order("credits desc")
+      .limit(limit)
+  }
+
+  scope :top_money_topup_amounts, lambda { |limit = 10|
+    select("monetary_total_price as product_name, row_number() OVER (ORDER BY sum(monetary_total_price) ) as sorter, sum(monetary_total_price) as credits")
+      .topups.is_ok
+      .group("monetary_total_price")
+      .order("credits desc")
+      .limit(limit)
+  }
+
+  scope :top_credit_topup_amounts, lambda { |limit = 10|
+    select("credit_amount as product_name, row_number() OVER (ORDER BY sum(credit_amount) ) as sorter, sum(credit_amount) as credits")
+      .topups.is_ok
+      .group("credit_amount")
+      .order("credits desc")
+      .limit(limit)
+  }
+
+  scope :top_stations, lambda { |category, credits = event.credits, limit = 10|
     select("stations.name as station_name, row_number() OVER (ORDER BY  sum(credit_amount) ) as sorter, sum(credit_amount)*-1 as credits")
       .joins(:station)
       .where(stations: { category: category }, credit: credits)
       .sales.is_ok
       .group("name")
       .order("credits desc")
+      .limit(limit)
   }
 
   # Checkin

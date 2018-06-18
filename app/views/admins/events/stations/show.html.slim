@@ -1,8 +1,9 @@
 - content_for(:title) do
    = @station.name.to_s.humanize
 
-- content_for :javascript do
+- content_for :javascripts do
   = javascript_include_tag "specific/ticket_types_draggable"
+  = javascript_include_tag 'specific/reports'
 
 - content_for(:navigation_actions) do
   = link_to admins_event_stations_path(group: @station.group), class: "mdl-button mdl-button--icon" do
@@ -35,25 +36,48 @@
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
           i.material-icons#changeIcon build
 
+.remodal data-remodal-id="danger-modal"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Why are some numbers in red?
+  p
+    | Numbers in read represent credits which
+    b
+      | &nbsp;do not have money backing.
+    | Meaning these credits were given, for free, at some point during the event.
+
+  p Virtual credits cannot be refunded, and suppose less of a risk, but real credits given out can cause discrepancy, even losses in your cashflow.
+
+  p Beware if this numbers get too high in topups.
+
+  h4 style="text-align: center"
+    = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container OK
+      
 - if @station.pokes.present?
   .content-grid.mdl-grid
     .mdl-layout-spacer
     .mdl-cell.mdl-cell--12-col
       .customer-card.mdl-card.mdl-shadow--2dp.station-tables
-        .mdl-col--12
-          - case @station.type
-            - when "pos" then
+        .mdl-cell.mdl-cell--12-col
+          - case @station.category
+            - when "bar" || "vendor" then
               = render "admins/events/analytics/stations/pos"
+            - when "bar" then
+              = render "admins/events/analytics/stations/pos"
+            - when 'top_up_refund' then
+              = render "admins/events/analytics/stations/topups"
+            - when 'cs_topup_refund' then
+              = render "admins/events/analytics/stations/credit_topups"
+            - when 'hospitality_top_up' then
+              = render "admins/events/analytics/stations/credit_topups"
+            - when 'box_office' then
+              = render "admins/events/analytics/stations/box_office"
             - when 'access' then
               = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
             - when 'credential' then
               = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
-            - when 'money_credit' then
-              = render "admins/events/analytics/stations/money_credits", station: @station, money: @money, credits: @credits
-            - when 'money' then
-              = render "admins/events/analytics/stations/money", station: @station, money: @money
-            - when 'box_office' then
-              = render "admins/events/analytics/stations/box_office", station: @station, money: @money, checkin_ticket_type: @checkin_ticket_type
+
+
 
     .mdl-layout-spacer
 

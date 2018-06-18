@@ -126,7 +126,7 @@ module Admins
       def credit_topups
         @partial = "credit/topups"
         @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).order(:category, :name)
-        @topups = @current_event.credit_topups(credit_filter: @credits).reject { |_, v| v.zero? }
+        @dates = @current_event.count_topups(credit_filter: @credits).reject { |_, v| v.zero? }.keys
 
         crds = @current_event.credit_topups(grouping: :hour, credit_filter: @credit, station_filter: @stations)
         v_crds = @current_event.credit_topups(grouping: :hour, credit_filter: @virtual_credit, station_filter: @stations)
@@ -139,7 +139,7 @@ module Admins
         @partial = "credit/sales"
 
         @stations = @current_event.stations.where(category: @filter)
-        @dates = @current_event.credit_sales(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys.sort
+        @dates = @current_event.count_sales(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys.sort
 
         crds = @current_event.credit_sales(grouping: :hour, credit_filter: @credit, station_filter: @stations)
         v_crds = @current_event.credit_sales(grouping: :hour, credit_filter: @virtual_credit, station_filter: @stations)
@@ -150,7 +150,7 @@ module Admins
       def credit_orders
         @partial = "credit/orders"
 
-        @gateways = @current_event.credit_income_online_orders.select(:gateway).distinct.pluck(:gateway)
+        @gateways = @current_event.online_orders_income.select(:gateway).distinct.pluck(:gateway)
         @dates = @current_event.credit_online_orders_income(credit_filter: @credits).reject { |_, v| v.zero? }.keys.sort
 
         data = @gateways.map { |gateway| [gateway.underscore.to_sym, @current_event.credit_online_orders_income(grouping: :hour, credit_filter: @credits, payment_filter: gateway)] }.to_h
@@ -164,7 +164,7 @@ module Admins
         v_crds = @current_event.credit_credential(grouping: :hour, credit_filter: @virtual_credit)
         @catalog_items = @current_event.catalog_items
         @items = @catalog_items.select { |t| t.credits >= 1 || t.virtual_credits >= 1 } - @current_event.credits
-        @credit_credential = @current_event.credit_credential.reject { |_, v| v.zero? }
+        @dates = @current_event.credit_credential.reject { |_, v| v.zero? }.keys
 
         @pos_views = { chart_id: "credentials_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds, virtual_credit: v_crds), decimals: 2 }
       end
@@ -173,7 +173,7 @@ module Admins
         @partial = "credit/box_office"
 
         @stations = @current_event.stations.where(category: Event::BOX_OFFICE_STATIONS)
-        @dates = @current_event.credit_box_office.reject { |_, v| v.zero? }.keys
+        @dates = @current_event.count_box_office.reject { |_, v| v.zero? }.keys
 
         data = @current_event.plot(@stations.map { |station| [station.name, @current_event.credit_box_office(grouping: :hour, station_filter: station)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
@@ -183,7 +183,7 @@ module Admins
         @partial = "credit/onsite_refunds"
 
         @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).reject { |station| @current_event.credit_onsite_refunds_total(station_filter: station).zero? }
-        @refunds = @current_event.credit_onsite_refunds(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }
+        @dates = @current_event.credit_onsite_refunds(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys
 
         crds = @current_event.credit_onsite_refunds_base(grouping: :hour, credit_filter: @credit, station_filter: @stations)
         @pos_views = { chart_id: "onsite_refunds_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds), decimals: 2 }
@@ -199,8 +199,8 @@ module Admins
       def credit_outcome_fees
         @partial = "credit/outcome_fees"
 
-        @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).select { |station| station.pokes.where(action: 'fee').positive? }
-        @fees = @current_event.credit_outcome_fees(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }
+        @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).select { |station| @current_event.credit_outcome_fees_total(station_filter: station).positive? }
+        @dates = @current_event.credit_outcome_fees(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys
 
         crds = @current_event.credit_outcome_fees(grouping: :hour, credit_filter: [@credit])
         @pos_views = { chart_id: "outcome_fees_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds), decimals: 2 }
@@ -219,7 +219,7 @@ module Admins
       def credit_outcome_orders
         @partial = "credit/outcome_orders"
 
-        @gateways = @current_event.credit_outcome_online_orders.select(:gateway).distinct.pluck(:gateway)
+        @gateways = @current_event.credit_online_orders_outcome.select(:gateway).distinct.pluck(:gateway)
 
         data = @gateways.map { |gateway| [gateway.underscore, @current_event.credit_online_orders_outcome(grouping: :hour, credit_filter: @credits, payment_filter: gateway)] }.to_h
         @pos_views = { chart_id: "orders_flow", cols: ["Credits"], currency: "", data: @current_event.plot(data), decimals: 2 }
@@ -229,10 +229,10 @@ module Admins
         @partial = "money/topups"
 
         @stations = @current_event.stations.where(category: "top_up_refund")
-        @topups = @current_event.money_topups.reject { |_, sum| sum.zero? }
+        @dates = @current_event.money_topups.reject { |_, sum| sum.zero? }.keys
         @payments = @current_event.monetary_topups.distinct.pluck(:payment_method)
 
-        @cash_recon = @current_event.cash_recon.order(:date)
+        @cash_recon = @current_event.cash_recon.order(:date).includes(:station, :device, :operator_gtag, :operator)
 
         data = @current_event.plot(@payments.map { |payment| [payment.underscore, @current_event.money_topups(grouping: :hour, payment_filter: payment)] }.to_h)
         @pos_views = { chart_id: "topups_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
@@ -241,7 +241,7 @@ module Admins
       def money_orders
         @partial = "money/orders"
 
-        @orders = @current_event.money_online_orders_base.reject { |_, v| v.zero? }
+        @dates = @current_event.money_online_orders_base.reject { |_, v| v.zero? }.keys
         @gateways = @current_event.online_orders.distinct.pluck(:gateway)
 
         data = @current_event.plot(@gateways.map { |gateways| [gateways.underscore, @current_event.money_online_orders_base(grouping: :hour, payment_filter: gateways)] }.to_h)
@@ -253,7 +253,7 @@ module Admins
 
         @items = @current_event.catalog_items.where(id: @current_event.monetary_box_office.select(:catalog_item_id).distinct.pluck(:catalog_item_id))
         @payments = @current_event.monetary_box_office.select(:payment_method).distinct.pluck(:payment_method)
-        @dates = @current_event.money_box_office.reject { |_, v| v.zero? }.keys
+        @dates = @current_event.count_money_box_office.reject { |_, v| v.zero? }.keys
 
         data = @current_event.plot(@items.map { |item| [item.name.underscore, @current_event.money_box_office(grouping: :hour, catalog_filter: item)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
@@ -273,7 +273,7 @@ module Admins
       def money_online_refunds
         @partial = "money/online_refunds"
 
-        @refunds = @current_event.money_online_refunds_base.reject { |_, v| v.zero? }
+        @dates = @current_event.money_online_refunds_base.reject { |_, v| v.zero? }.keys
         @gateways = @current_event.online_refunds(payment_filter: @filter).distinct.pluck(:gateway)
 
         data = @current_event.plot(@gateways.map { |gateway| [gateway.to_sym, @current_event.money_online_refunds_base(grouping: :hour, payment_filter: gateway)] }.to_h)
@@ -284,7 +284,7 @@ module Admins
         @partial = "money/onsite_refunds"
 
         @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).reject { |station| @current_event.money_onsite_refunds_total(station_filter: station).zero? }
-        @refunds = @current_event.money_onsite_refunds(station_filter: @stations).reject { |_, v| v.zero? }
+        @dates = @current_event.count_money_onsite_refunds(station_filter: @stations).reject { |_, v| v.zero? }.keys
         @payments = @current_event.monetary_topups.distinct.pluck(:payment_method)
 
         data = @current_event.plot(@payments.map { |payment| [payment, @current_event.money_onsite_refunds(grouping: :hour, payment_filter: payment)] }.to_h)

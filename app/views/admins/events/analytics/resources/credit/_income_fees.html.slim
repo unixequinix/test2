@@ -22,6 +22,8 @@
         - @stations.each do |station|
           - quantity = @current_event.count_credit_income_fees(credit_filter: @credits, station_filter: station)
           - data = @current_event.credit_income_fees(credit_filter: @credits, station_filter: station)
+          - next if data.values.all? && quantity.values.sum.zero?
+
           tr
             th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
             - @dates.each do |date|
@@ -43,4 +45,4 @@
 
   .mdl-layout-spacer
 
-= render 'line_chart', pos_views: @pos_views, name: 'Fees per hour', credit_filter: @credits.map(&:class).map(&:name)
+= render 'line_chart', chart_data: @pos_views, name: 'Fees per hour', credit_filter: @credits.map(&:class).map(&:name)

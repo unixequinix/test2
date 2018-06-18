@@ -7,12 +7,12 @@ module MoneyAnalytics
 
   # Onsite Topups
   #
-  def money_topups(grouping: :day, station_filter: [], payment_filter: [])
-    monetary_topups(station_filter: station_filter, payment_filter: payment_filter).group_by_period(grouping, :date).sum(:monetary_total_price)
+  def money_topups(grouping: :day, station_filter: [], payment_filter: [], operator_filter: [])
+    monetary_topups(station_filter: station_filter, payment_filter: payment_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum(:monetary_total_price)
   end
 
-  def money_topups_total(station_filter: [], payment_filter: [])
-    monetary_topups(station_filter: station_filter, payment_filter: payment_filter).sum(:monetary_total_price)
+  def money_topups_total(station_filter: [], payment_filter: [], operator_filter: [])
+    monetary_topups(station_filter: station_filter, payment_filter: payment_filter, operator_filter: operator_filter).sum(:monetary_total_price)
   end
 
   # Online Orders

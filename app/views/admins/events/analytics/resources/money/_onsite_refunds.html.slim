@@ -5,54 +5,56 @@
       .mdl-card__title-text Onsite Refunds Analytics
 
     table.pvtTable
-        thead
-          tr
-            th.pvtColLabel.empty rowspan="2"
-            - columns = @payments.count + 1
-            - @refunds.keys.sort.each do |date|
-              th.pvtColLabel.high-contrast colspan="#{columns}" = date
-            th.pvtColLabel.high-contrast colspan="#{columns}" Totals
-          tr
-            - @refunds.keys.sort.each do |date|
-              th.pvtColLabel.low-contrast Qty
-              - @payments.each do |payment|
-                th.pvtColLabel.low-contrast = payment.humanize
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = @payments.count + 1
+          - @dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - @dates.each do |date|
             th.pvtColLabel.low-contrast Qty
             - @payments.each do |payment|
               th.pvtColLabel.low-contrast = payment.humanize
+          th.pvtColLabel.low-contrast Qty
+          - @payments.each do |payment|
+            th.pvtColLabel.low-contrast = payment.humanize
 
-        tbody
-          - @stations.each do |station|
-            - quantity = @current_event.count_money_onsite_refunds(grouping: :day, station_filter: station)
-            - data = @payments.map { |payment| [payment, @current_event.money_onsite_refunds(grouping: :day, payment_filter: payment, station_filter: station)] }.to_h
-            tr
-              th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
-              - @refunds.keys.sort.each do |date|
-                td = quantity[date] unless quantity[date].to_f.zero?
-                - @payments.each do |payment|
-                  td = number_to_reports(data[payment][date]) unless data[payment][date].to_f.zero?
-
-              td.totals
-                b = quantity.values.sum
-
-              - @payments.each do |payment|
-                td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+      tbody
+        - @stations.each do |station|
+          - quantity = @current_event.count_money_onsite_refunds(grouping: :day, station_filter: station)
+          - data = @payments.map { |payment| [payment, @current_event.money_onsite_refunds(grouping: :day, payment_filter: payment, station_filter: station)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
 
           tr
-            th.pvtRowLabel.low-contrast Totals
-            - quantity = @current_event.count_money_onsite_refunds(grouping: :day, station_filter: @stations)
-
-            - @refunds.keys.sort.each do |date|
-              td.pvtTotal.rowTotal.totals = quantity[date]
-
+            th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
+            - @dates.each do |date|
+              td = quantity[date] unless quantity[date].to_f.zero?
               - @payments.each do |payment|
-                td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_onsite_refunds(grouping: :day, payment_filter: payment, station_filter: @stations)[date].to_f)
+                td = number_to_reports(data[payment][date]) unless data[payment][date].to_f.zero?
 
-            td.pvtTotal.rowTotal.totals = quantity.values.sum
+            td.totals
+              b = quantity.values.sum
 
             - @payments.each do |payment|
-              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_onsite_refunds_total(payment_filter: payment, station_filter: @stations))
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @current_event.count_money_onsite_refunds(grouping: :day, station_filter: @stations)
+
+          - @dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - @payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_onsite_refunds(grouping: :day, payment_filter: payment, station_filter: @stations)[date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - @payments.each do |payment|
+            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_onsite_refunds_total(payment_filter: payment, station_filter: @stations))
 
     .mdl-layout-spacer
-  
-= render 'line_chart', pos_views: @pos_views, name: 'Onsite refunds per hour'
+
+= render 'line_chart', chart_data: @pos_views, name: 'Onsite refunds per hour'

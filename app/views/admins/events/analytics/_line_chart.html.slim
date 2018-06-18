@@ -9,7 +9,7 @@ javascript:
   label_filter = label_filter.length <= 1 ? label_filter : []
   var colors = ["#F9D423", "#26D0CE", "#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD","#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD","#F6DC93", "#A458FC", "#9AC5F0", "#FFA69E", "#DEC5E3", "#FFFF9E", "#FC7676", "#8AE1C4", "#FF9EF0", "#CDEDFD"]
   var ctx = document.getElementById("analytics_line_chart").getContext('2d');
-  var views = JSON.parse("#{escape_javascript(pos_views.to_json.html_safe)}");
+  var views = JSON.parse("#{escape_javascript(chart_data.to_json.html_safe)}");
   var metric = (typeof views.metric === 'undefined' ? '' : views.metric);
   var eventData = views.data;
   var labels = eventData.map(function(item) {return item.date_time});
@@ -17,7 +17,7 @@ javascript:
   var datasets = {};
 
   keys.forEach(function(k, i) {
-    var key = label_filter.length > 0 ? label_filter[0] : k
+    var key = label_filter.length > 0 ? label_filter[0] : k;
     if(eventData.map(function(item) { return item[key.toString()]}).filter(Number).length == 0) { return }
     $.extend(datasets, {[key]: { label: key.humanize(), data: eventData.map(function(item) { return item[key.toString()]}), fill: false, borderColor: colors[keys.indexOf(key)], extraData: [] } })
   });
