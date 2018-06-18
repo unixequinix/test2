@@ -8,11 +8,10 @@ Rails.application.routes.draw do
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
   get "/admins/sign_in" => redirect("admins/users/sign_in")
+  get "/api/v1/events", to: redirect("404.html")
   patch "/api/v2/events/pure-and-crafted-jhb/stations/5980/products", to: redirect("404.html")
 
   mount ActionCable.server => '/cable'
-
-
 
   #----------------------------------------------------------
   # Admin panel
