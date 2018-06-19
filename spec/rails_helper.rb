@@ -111,11 +111,20 @@ RSpec.configure do |config|
 
   Warden.test_mode!
   Sidekiq::Testing.inline!
-
+  
   config.before(:suite) do
     Sidekiq::Worker.clear_all
   end
+  
   config.before(:suite) { FactoryBot.lint } if ENV["LINT"]
+  
+  config.before(:each) do
+    $reports.redis.flushdb
+  end
+
+  config.after(:each) do
+    $reports.redis.flushdb
+  end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

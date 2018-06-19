@@ -1,6 +1,11 @@
 module AnalyticsHelper
   include ApplicationHelper
+  include CacheAnalyticsHelper
   include ActiveSupport::NumberHelper
+
+  def cache_method(action, params, expire = 300)
+    helpers.cache_control(action, expire, params)
+  end
 
   def prepare_pokes(atts, data)
     data.map { |poke| PokeSerializer.new(poke).to_h.slice(*atts) }.to_json

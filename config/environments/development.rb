@@ -18,6 +18,8 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=172800' }
+  elsif ENV['REDIS_CLIENT_URL'].present?
+    config.cache_store = :redis_store, ENV["REDIS_CLIENT_URL"] || "redis://localhost:6379/2"
   else
     config.action_controller.perform_caching = false
 

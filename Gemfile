@@ -12,6 +12,9 @@ gem 'turbolinks', '~> 5'
 gem 'figaro'
 gem 'aws-sdk-s3'
 gem 'redis', '~> 3.0' # Use Redis adapter to run Action Cable in production
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
 gem 'cookies_eu'
 gem 'http-accept' # parsers for dealing with HTTP Accept, Accept-Language...
 # gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password
