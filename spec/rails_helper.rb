@@ -117,13 +117,9 @@ RSpec.configure do |config|
   end
   
   config.before(:suite) { FactoryBot.lint } if ENV["LINT"]
-  
-  config.before(:each) do
-    $reports.redis.flushdb
-  end
 
   config.after(:each) do
-    $reports.redis.flushdb
+    $reports.redis.flushdb if $reports.present?
   end
 
   config.expect_with :rspec do |expectations|

@@ -1,6 +1,6 @@
 module AnalyticsHelper
   include ApplicationHelper
-  include CacheAnalyticsHelper
+  include Analytics::AnalyticsHelper
   include ActiveSupport::NumberHelper
 
   def cache_method(action, params, expire = 300)

@@ -1,17 +1,20 @@
 # rubocop:disable Style/GlobalVars
-module CacheAnalyticsHelper
+module Analytics::AnalyticsHelper
   def cache_control(action, expire, params)
     send(action, action, expire, params)
   end
 
   def set_cache(data, action, expire)
-    $reports.setex(get_key(action), expire, data)
+    key = "reports_queries:event:#{@current_event.id}:#{action}"
+    $reports.setex(key, expire, data)
   end
 
-  private
+  protected
 
   def event_analytics(action, expire, _params)
-    set_cache(@current_event.plot(topups: @current_event.count_topups(grouping: :hour), sales: @current_event.count_sales(grouping: :hour), refunds: @current_event.count_all_refunds(grouping: :hour)).to_json.to_s, action, expire) unless $reports.exists(get_key(action))
+    data = $reports&.get(get_key(action)) || @current_event.plot(topups: @current_event.count_topups(grouping: :hour), sales: @current_event.count_sales(grouping: :hour), refunds: @current_event.count_all_refunds(grouping: :hour))
+    return data unless $reports.present?
+    set_cache(data.to_json.to_s, action, expire) unless $reports.exists(get_key(action))
     keys_to_date($reports.get(get_key(action)))
   end
 
@@ -101,7 +104,7 @@ module CacheAnalyticsHelper
   end
 
   private
-
+  
   def get_key(action, subkey = nil)
     if subkey.present?
       "reports_queries:event:#{@current_event.id}:#{action}:#{subkey}"
