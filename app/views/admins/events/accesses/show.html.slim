@@ -9,47 +9,52 @@
     span#undo_link.icon.material-icons undo
     span.mdl-tooltip data-mdl-for="undo_link" Back
 
-- content_for(:actions) do
-  .floaty#floaty
-    ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to edit_admins_event_access_path(@current_event, @access) do
-          button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons edit
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
-      li.floaty-list-item
-        = link_to admins_event_access_path(@current_event, @access), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_access" do
-          button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons delete_forever
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
-    ul.floaty-btn#button
-      li
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
-          i.material-icons#changeIcon build
+- if policy(@access).edit? || policy(@access).destroy?
+  - content_for(:actions) do
+    .floaty#floaty
+      ul.floaty-list#actions-list
+        - if policy(@access).edit?
+        li.floaty-list-item
+          = link_to edit_admins_event_access_path(@current_event, @access), id: "edit_access" do
+            button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons edit
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+
+        - if policy(@access).destroy?
+          li.floaty-list-item
+            = link_to admins_event_access_path(@current_event, @access), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_access" do
+              button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+                i.material-icons delete_forever
+                span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
+      ul.floaty-btn#button
+        li
+          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+            i.material-icons#changeIcon build
 
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col
-      .mld-card.analytics-card-back
-        .mdl-grid
-          .mdl-cell class="mdl-cell--4-col"
-            .mld-card.analytics-card-front
-              .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: 1).joins(:customer).where('customers.operator = false').sum(:access_direction)
-              .mdl-card__supporting-text
-                span.analytics-text In
-          .mdl-cell class="mdl-cell--4-col"
-            .mld-card.analytics-card-front
-              .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: -1).joins(:customer).where('customers.operator = false').sum(:access_direction)
-              .mdl-card__supporting-text
-                span.analytics-text Out
-          .mdl-cell class="mdl-cell--4-col"
-            .mld-card.analytics-card-front
-              .mdl-card__title.mdl-card--expand
-                h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id).joins(:customer).where('customers.operator = false').sum(:access_direction)
-              .mdl-card__supporting-text
-                span.analytics-text Total
+    .mld-card.analytics-card-back
+      .mdl-grid
+        .mdl-cell class="mdl-cell--4-col"
+          .mld-card.analytics-card-front
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: 1).joins(:customer).where('customers.operator = false').sum(:access_direction)
+            .mdl-card__supporting-text
+              span.analytics-text In
+        .mdl-cell class="mdl-cell--4-col"
+          .mld-card.analytics-card-front
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id, access_direction: -1).joins(:customer).where('customers.operator = false').sum(:access_direction)
+            .mdl-card__supporting-text
+              span.analytics-text Out
+        .mdl-cell class="mdl-cell--4-col"
+          .mld-card.analytics-card-front
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text = @current_event.pokes.where(catalog_item_id: @access.id).joins(:customer).where('customers.operator = false').sum(:access_direction)
+            .mdl-card__supporting-text
+              span.analytics-text Total
+
 .mdl-grid.light-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col
