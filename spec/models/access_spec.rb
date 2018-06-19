@@ -26,16 +26,40 @@ RSpec.describe Access, type: :model do
   end
 
   context "before validations" do
-    describe ".position " do
-      it "adds the next memory_position to the new subject" do
-        subject.save!
-        access = create(:access, event: event)
-        expect(access.memory_position).to eq(subject.memory_position + subject.memory_length)
-      end
+    it "calls set_memory" do
+      access = build(:access, event: event)
+      expect(access).to receive(:set_memory).once
+      access.save
     end
   end
 
-  describe ".set_memory_length" do
+  describe ".recalculate_all_positions" do
+    let(:access) { build(:access, event: event) }
+
+    it "decreases memory position for other accesses if change is from permanent to counter" do
+      subject.save!
+      access.save!
+      subject.mode = "permanent"
+      expect { subject.save! }.to change { access.reload.memory_position }.by(-1)
+    end
+
+    it "increases memory position for other accesses if change is from counter to permanent" do
+      access.save!
+      subject.save!
+      access.mode = "counter"
+      expect { access.save! }.to change { subject.reload.memory_position }.by(1)
+    end
+
+    it "does not allow the change if there is not enough space" do
+      stub_const("Gtag::DEFINITIONS", ultralight_c: { entitlement_limit: 4, credential_limit: 32 })
+      access.save!
+      subject.save!
+      access.mode = "counter"
+      expect(access).not_to be_valid
+    end
+  end
+
+  describe ".set_memory" do
     it "sets the subject memory_length to 2 if counter " do
       subject.update! mode: "counter"
       expect(subject.memory_length).to eq(2)
@@ -44,6 +68,12 @@ RSpec.describe Access, type: :model do
     it "sets the subject memory_length to 1 if permanent " do
       subject.update! mode: %w[permanent permanent_strict].sample
       expect(subject.memory_length).to eq(1)
+    end
+
+    it "adds the next memory_position to the new access" do
+      subject.save!
+      access = create(:access, event: event)
+      expect(access.memory_position).to eq(subject.memory_position + subject.memory_length)
     end
   end
 end
