@@ -52,89 +52,94 @@
   h4 style="text-align: center"
     = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
       span.mdl-button__ripple-container OK
-      
-- if @station.pokes.present?
-  .content-grid.mdl-grid
-    .mdl-layout-spacer
-    .mdl-cell.mdl-cell--12-col
-      .customer-card.mdl-card.mdl-shadow--2dp.station-tables
-        .mdl-cell.mdl-cell--12-col
-          - case @station.category
-            - when "bar" || "vendor" then
-              = render "admins/events/analytics/stations/pos"
-            - when "vendor" then
-              = render "admins/events/analytics/stations/pos"
-            - when 'top_up_refund' then
-              = render "admins/events/analytics/stations/topups"
-            - when 'cs_topup_refund' then
-              = render "admins/events/analytics/stations/credit_topups"
-            - when 'hospitality_top_up' then
-              = render "admins/events/analytics/stations/credit_topups"
-            - when 'box_office' then
-              = render "admins/events/analytics/stations/box_office"
-            - when 'check_in' then
-              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-            - when 'ticket_validation' then
-              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-            - when 'staff_accreditation' then
-              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-            - when 'cs_accreditation' then
-              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-            - when 'credential' then
-              = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
 
 
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+        .mdl-tabs__tab-bar
+          = link_to "Settings", "#station_settings", class: "mdl-tabs__tab is-active"
+          = link_to "Analytics", "#station_analytics", class: "mdl-tabs__tab "
 
-    .mdl-layout-spacer
+        .mdl-tabs__panel id="station_settings" class="mdl-tabs__panel is-active"
+          .content-grid.mdl-grid
+            .mdl-cell.mdl-cell--3-col
+              .admin-card-wide.mdl-card.mdl-shadow--2dp
+                table.mdl-data-table.mdl-js-data-table.within-card
+                  thead
+                    tr
+                      th.mdl-data-table__cell--non-numeric Grouping
+                      th #{@station.category&.humanize} (#{@station.group&.humanize})
+                  tbody
+                    tr
+                      td.mdl-data-table__cell--non-numeric Name
+                      td = best_in_place @station, :name, url: [:admins, @current_event, @station]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Location
+                      td = best_in_place @station, :location, url: [:admins, @current_event, @station]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Official Name
+                      td = best_in_place @station, :official_name, url: [:admins, @current_event, @station]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Address
+                      td = best_in_place @station, :address, url: [:admins, @current_event, @station]
+                    tr
+                      td.mdl-data-table__cell--non-numeric Registration Num
+                      td = best_in_place @station, :registration_num, url: [:admins, @current_event, @station]
 
-.content-grid.mdl-grid
-  .mdl-cell.mdl-cell--3-col
-    .admin-card-wide.mdl-card.mdl-shadow--2dp
-      table.mdl-data-table.mdl-js-data-table.within-card
-        thead
-          tr
-            th.mdl-data-table__cell--non-numeric Grouping
-            th #{@station.category&.humanize} (#{@station.group&.humanize})
-        tbody
-          tr
-            td.mdl-data-table__cell--non-numeric Name
-            td = best_in_place @station, :name, url: [:admins, @current_event, @station]
-          tr
-            td.mdl-data-table__cell--non-numeric Location
-            td = best_in_place @station, :location, url: [:admins, @current_event, @station]
-          tr
-            td.mdl-data-table__cell--non-numeric Official Name
-            td = best_in_place @station, :official_name, url: [:admins, @current_event, @station]
-          tr
-            td.mdl-data-table__cell--non-numeric Address
-            td = best_in_place @station, :address, url: [:admins, @current_event, @station]
-          tr
-            td.mdl-data-table__cell--non-numeric Registration Num
-            td = best_in_place @station, :registration_num, url: [:admins, @current_event, @station]
+            - if @station.form
+              .mdl-cell.mdl-cell--3-col
+                = render(partial: "admins/events/stations/#{@station.form}/form")
+              .mdl-cell.mdl-cell--6-col
+                = render(partial: "admins/events/stations/#{@station.form}/list")
 
-  - if @station.form
-    .mdl-cell.mdl-cell--3-col
-      = render(partial: "admins/events/stations/#{@station.form}/form")
-    .mdl-cell.mdl-cell--6-col
-      = render(partial: "admins/events/stations/#{@station.form}/list")
+          - if @station.category.in?(%w[ticket_validation check_in])
+            .content-grid.mdl-grid
+              .mdl-layout-spacer
+              .mdl-cell.mdl-cell--12-col
+                .mdl-grid
+                  .mdl-cell.mdl-cell--6-col
+                    .customer-card.mdl-card.mdl-shadow--2dp
+                      .mdl-card__title.mdl-card--expand
+                        h3.mdl-card__title-text Available ticket types
+                      .mdl-card__supporting-text
+                        #available_ticket_types_table
+                        = render 'ticket_types', resources: @available_ticket_types
+                  .mdl-cell.mdl-cell--6-col
+                    .customer-card.mdl-card.mdl-shadow--2dp
+                      .mdl-card__title.mdl-card--expand
+                        h3.mdl-card__title-text Station's ticket types
+                      .mdl-card__supporting-text
+                        #current_ticket_types_table
+                        = render 'ticket_types', resources: @current_ticket_types, form_disable: true
+              .mdl-layout-spacer
 
-- if @station.category.in?(%w[ticket_validation check_in])
-  .content-grid.mdl-grid
-    .mdl-layout-spacer
-    .mdl-cell.mdl-cell--12-col
-      .mdl-grid
-        .mdl-cell.mdl-cell--6-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text Available ticket types
-            .mdl-card__supporting-text
-              #available_ticket_types_table
-              = render 'ticket_types', resources: @available_ticket_types
-        .mdl-cell.mdl-cell--6-col
-          .customer-card.mdl-card.mdl-shadow--2dp
-            .mdl-card__title.mdl-card--expand
-              h3.mdl-card__title-text Station's ticket types
-            .mdl-card__supporting-text
-              #current_ticket_types_table
-              = render 'ticket_types', resources: @current_ticket_types, form_disable: true
-    .mdl-layout-spacer
+        .mdl-tabs__panel id="station_analytics" class="mdl-tabs__panel"
+          - if @station.pokes.present?
+            .content-grid.mdl-grid
+              .mdl-cell.mdl-cell--12-col
+                - case @station.category
+                - when "bar" || "vendor" then
+                  = render "admins/events/analytics/stations/pos"
+                - when "vendor" then
+                  = render "admins/events/analytics/stations/pos"
+                - when 'top_up_refund' then
+                  = render "admins/events/analytics/stations/topups"
+                - when 'cs_topup_refund' then
+                  = render "admins/events/analytics/stations/credit_topups"
+                - when 'hospitality_top_up' then
+                  = render "admins/events/analytics/stations/credit_topups"
+                - when 'box_office' then
+                  = render "admins/events/analytics/stations/box_office"
+                - when 'check_in' then
+                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+                - when 'ticket_validation' then
+                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+                - when 'staff_accreditation' then
+                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+                - when 'cs_accreditation' then
+                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+                - when 'credential' then
+                  = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
