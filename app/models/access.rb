@@ -32,7 +32,7 @@ class Access < CatalogItem
     self.memory_length = calculate_memory_length
   end
 
-  # protected
+  protected
 
   def calculate_memory_length
     counter? ? 2 : 1

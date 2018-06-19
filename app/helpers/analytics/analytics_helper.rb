@@ -13,7 +13,7 @@ module Analytics::AnalyticsHelper
 
   def event_analytics(action, expire, _params)
     data = $reports&.get(get_key(action)) || @current_event.plot(topups: @current_event.count_topups(grouping: :hour), sales: @current_event.count_sales(grouping: :hour), refunds: @current_event.count_all_refunds(grouping: :hour))
-    return data unless $reports.present?
+    return data if $reports.blank?
     set_cache(data.to_json.to_s, action, expire) unless $reports.exists(get_key(action))
     keys_to_date($reports.get(get_key(action)))
   end
@@ -104,7 +104,7 @@ module Analytics::AnalyticsHelper
   end
 
   private
-  
+
   def get_key(action, subkey = nil)
     if subkey.present?
       "reports_queries:event:#{@current_event.id}:#{action}:#{subkey}"
@@ -136,3 +136,4 @@ module Analytics::AnalyticsHelper
     end
   end
 end
+# rubocop:enable Style/GlobalVars
