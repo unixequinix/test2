@@ -62,7 +62,7 @@
           - case @station.category
             - when "bar" || "vendor" then
               = render "admins/events/analytics/stations/pos"
-            - when "bar" then
+            - when "vendor" then
               = render "admins/events/analytics/stations/pos"
             - when 'top_up_refund' then
               = render "admins/events/analytics/stations/topups"
@@ -72,7 +72,13 @@
               = render "admins/events/analytics/stations/credit_topups"
             - when 'box_office' then
               = render "admins/events/analytics/stations/box_office"
-            - when 'access' then
+            - when 'check_in' then
+              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+            - when 'ticket_validation' then
+              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+            - when 'staff_accreditation' then
+              = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+            - when 'cs_accreditation' then
               = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
             - when 'credential' then
               = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
