@@ -20,15 +20,7 @@ module AnalyticsHelper
   end
 
   def event_day(date, delay = 8)
-    (date.to_datetime.in_time_zone(@current_event.timezone) - delay.hour).to_date
-  end
-
-  def time_zoner_money(date)
-    date.to_datetime.strftime("%Y-%m-%d %Hh")
-  end
-
-  def event_day_money(date, delay = 8)
-    (date.to_datetime - delay.hour).to_date
+    (date.to_datetime - delay.hour).in_time_zone(@current_event.timezone).to_date
   end
 
   def pokes_money_simple
