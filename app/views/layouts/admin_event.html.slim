@@ -90,7 +90,7 @@ html
           - if admin_or_promoter_or(:support)
             = link_to admins_event_admissions_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons record_voice_over
-              |  Customer service
+              |  Customer Management
 
           - if admin_or_promoter_or(:staff_manager)
             = link_to admins_event_operators_path(@current_event), class: "mdl-navigation__link" do
