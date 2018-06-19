@@ -29,7 +29,7 @@
               th.mdl-data-table__cell--numeric In
               th.mdl-data-table__cell--numeric Out
               th.mdl-data-table__cell--numeric Total
-              - if @current_event.created?
+              - if policy(@current_event.accesses.new).edit? || policy(@current_event.accesses.new).destroy?
                 th
           tbody
             - @accesses.each do |access|
@@ -39,7 +39,7 @@
                 td.mdl-data-table__cell--numeric data-label="IN"= @current_event.pokes.where(catalog_item_id: access.id, access_direction: 1).joins(:customer).where('customers.operator = false').sum(:access_direction)
                 td.mdl-data-table__cell--numeric data-label="OUT"= @current_event.pokes.where(catalog_item_id: access.id, access_direction: -1).joins(:customer).where('customers.operator = false').sum(:access_direction)
                 td.mdl-data-table__cell--numeric data-label="Total"= @current_event.pokes.where(catalog_item_id: access.id).joins(:customer).where('customers.operator = false').sum(:access_direction)
-                - if @current_event.created?
+                - if policy(access).edit? || policy(access).destroy?
                   td.table-actions
                     .table-action
                       = link_to edit_admins_event_access_path(@current_event, access) do
