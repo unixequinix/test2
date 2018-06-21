@@ -20,7 +20,7 @@ module AnalyticsHelper
   end
 
   def event_day(date, delay = 8)
-    (date.to_datetime - delay.hour).in_time_zone(@current_event.timezone).to_date
+    (date.to_datetime - (delay + 2).hour).in_time_zone(@current_event.timezone).to_date
   end
 
   def pokes_money_simple
