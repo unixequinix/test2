@@ -11,7 +11,7 @@ function lineChart(labels, datasets, customLabel) {
           ticks: {
             beginAtZero: true
           }
-        }],
+        }]
       },
       legend: {
         position: 'right'
@@ -83,12 +83,12 @@ function gradientSector(ctx, colors) {
 
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 
 String.prototype.humanize = function() {
   return this.replace(/[_\s]+/g, ' ').capitalize().decamelize();
-}
+};
 
 String.prototype.decamelize = function() {
   return this.split(/\s*(?=[A-Z])/).join(' ')
-}
+};

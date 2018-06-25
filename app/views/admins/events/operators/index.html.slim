@@ -27,7 +27,7 @@
               - @operators.each do |operator|
                 tr
                   td.mdl-data-table__cell--non-numeric data-label="Name" = link_to operator.name, [:admins, @current_event, operator]
-                  td.mdl-data-table__cell--non-numeric data-label="Type" = operator.class.to_s.humanize
+                  td.mdl-data-table__cell--non-numeric data-label="Type" = operator.class.to_s.humanize.gsub("Customer", "Operator")
                   td.mdl-data-table__cell--non-numeric data-label="Customer" = link_to operator.customer.name, [:admins, @current_event, operator] if operator.customer
                   td data-label="Data"
                     - if operator.is_a?(Ticket)

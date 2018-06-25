@@ -7,25 +7,25 @@ module BaseAnalytics
 
   # Onsite Topups
   #
-  def topups_base(station_filter: [], credit_filter: [])
-    pokes.where(action: "record_credit", description: "topup").with_station(station_filter).with_credit(credit_filter).is_ok
+  def topups_base(station_filter: [], credit_filter: [], operator_filter: [])
+    pokes.where(action: "record_credit", description: "topup").with_station(station_filter).with_credit(credit_filter).with_operator(operator_filter).is_ok
   end
 
-  def topups_fee(station_filter: stations.with_category(TOPUPS_STATIONS), credit_filter: credits, fee_filter: TOPUP_FEES)
+  def topups_fee(station_filter: stations.with_category(TOPUPS_STATIONS), credit_filter: credits, fee_filter: TOPUP_FEES, operator_filter: [])
     return pokes.none unless credit.in?([credit_filter].flatten)
-    pokes.where(action: "fee", description: fee_filter, station: station_filter).is_ok
+    pokes.where(action: "fee", description: fee_filter, station: station_filter).with_operator(operator_filter).is_ok
   end
 
-  def topups(station_filter: [], credit_filter: [])
-    pokes.where(action: %w[record_credit fee], description: TOPUP_FEES).with_station(station_filter).with_credit(credit_filter).is_ok
+  def topups(station_filter: [], credit_filter: [], operator_filter: [])
+    pokes.where(action: %w[record_credit fee], description: TOPUP_FEES).with_station(station_filter).with_credit(credit_filter).with_operator(operator_filter).is_ok
   end
 
-  def monetary_topups(station_filter: [], payment_filter: [])
-    pokes.where(action: "topup").with_station(station_filter).with_payment(payment_filter).is_ok
+  def monetary_topups(station_filter: [], payment_filter: [], operator_filter: [])
+    pokes.where(action: "topup").with_station(station_filter).with_payment(payment_filter).with_operator(operator_filter).is_ok
   end
 
-  def count_topups(grouping: :day, station_filter: [], credit_filter: [])
-    topups(station_filter: station_filter, credit_filter: credit_filter).group_by_period(grouping, :date).count
+  def count_topups(grouping: :day, station_filter: [], credit_filter: [], operator_filter: [])
+    topups(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
   end
 
   # Online orders
@@ -40,12 +40,20 @@ module BaseAnalytics
     merge(*credit_filter.map { |credit| online_orders(payment_filter: payment_filter, redeemed: redeemed).where("#{credit.class.to_s.underscore.pluralize} > 0").group_by_period(grouping, :created_at).count })
   end
 
-  def credit_income_online_orders(payment_filter: [], redeemed: [])
+  def online_orders_income(payment_filter: [], redeemed: [])
     online_orders(payment_filter: payment_filter, redeemed: redeemed).where("credits > 0")
   end
 
-  def credit_outcome_online_orders(payment_filter: [], redeemed: [])
+  def count_online_orders_income(grouping: :day, payment_filter: [], redeemed: [])
+    online_orders(payment_filter: payment_filter, redeemed: redeemed).where("credits > 0").group_by_period(grouping, :created_at).count
+  end
+
+  def online_orders_outcome(payment_filter: [], redeemed: [])
     online_orders(payment_filter: payment_filter, redeemed: redeemed).where("credits < 0")
+  end
+
+  def count_online_orders_outcome(grouping: :day, payment_filter: [], redeemed: [])
+    online_orders(payment_filter: payment_filter, redeemed: redeemed).where("credits < 0").group_by_period(grouping, :created_at).count
   end
 
   # Box Office
@@ -133,6 +141,10 @@ module BaseAnalytics
 
   def online_payment_methods
     (online_orders.select(:gateway).distinct.pluck(:gateway) + online_refunds.select(:gateway).distinct.pluck(:gateway)).uniq.compact
+  end
+
+  def onsite_payment_methods
+    pokes.where.not(monetary_total_price: [0, nil]).select(:payment_method).distinct.pluck(:payment_method).uniq.compact
   end
 
   # Helpers

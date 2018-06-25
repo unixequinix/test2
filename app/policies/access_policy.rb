@@ -3,6 +3,14 @@ class AccessPolicy < ApplicationPolicy
     admin_or_promoter_or(:support, :gates_manager)
   end
 
+  def edit?
+    admin_or_promoter && event_created
+  end
+
+  def update?
+    admin_or_promoter && event_created
+  end
+
   def capacity?
     admin_or_promoter
   end

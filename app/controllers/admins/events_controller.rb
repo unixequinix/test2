@@ -29,7 +29,7 @@ module Admins
 
     def show
       @load_analytics_resources = true
-      data = @current_event.plot(topups: @current_event.count_topups(grouping: :hour), sales: @current_event.count_sales(grouping: :hour), refunds: @current_event.count_all_refunds(grouping: :hour))
+      data = cache_method("event_analytics", { group: :hour, credits: @credits }, 3600)
       @activity = { chart_id: "event_activity", data: data }
 
       render layout: "admin_event"

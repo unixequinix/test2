@@ -9,11 +9,11 @@
         tr
           th.pvtColLabel.empty rowspan="2"
           - columns = @payments.count + 1
-          - @topups.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.high-contrast colspan="#{columns}" = date
           th.pvtColLabel.high-contrast colspan="#{columns}" Totals
         tr
-          - @topups.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.low-contrast Qty
             - @payments.each do |payment|
               th.pvtColLabel.low-contrast = payment.humanize
@@ -25,9 +25,11 @@
         - @stations.each do |station|
           - quantity = @current_event.count_topups(grouping: :day, station_filter: station)
           - data = @payments.map { |payment| [payment, @current_event.money_topups(grouping: :day, payment_filter: payment, station_filter: station)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+          
           tr
             th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
-            - @topups.keys.sort.each do |date|
+            - @dates.each do |date|
               td = quantity[date] unless quantity[date].to_f.zero?
               - @payments.each do |payment|
                 td = number_to_reports(data[payment][date]) unless data[payment][date].to_f.zero?
@@ -42,7 +44,7 @@
           th.pvtRowLabel.low-contrast Totals
           - quantity = @current_event.count_topups(grouping: :day, station_filter: @stations)
 
-          - @topups.keys.sort.each do |date|
+          - @dates.each do |date|
             td.pvtTotal.rowTotal.totals = quantity[date]
 
             - @payments.each do |payment|
@@ -92,4 +94,4 @@
 
   .mdl-layout-spacer
 
-= render 'line_chart', credits: @credits, pos_views: @pos_views, name: 'Topups per hour'
+= render 'line_chart', credits: @credits, chart_data: @pos_views, name: 'Topups per hour'

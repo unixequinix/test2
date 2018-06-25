@@ -47,8 +47,6 @@ $(document).on("ready", function(){
     if(elem.hasAttribute('data-spinner')) {
       $('#' + $(elem).data('spinner')).map(function(i, elem) { $(elem).hide() });
       $('#' + $(elem).data('spinner')).siblings(".spinner").find('.loader-container').fadeIn('slow');
-    } else {
-      $('.loader-container').fadeIn('slow');
     }
   }).ajaxStop(function(e) {
     var elem = e.currentTarget.activeElement
@@ -57,7 +55,7 @@ $(document).on("ready", function(){
       $('#' + $(elem).data('spinner')).map(function(i, elem) { $(elem).show() });
       $('#' + $(elem).data('spinner')).siblings(".spinner").find('.loader-container').hide();
     } else {
-      $('.loader-container').hide();
+      $(elem).parents().find('.spinner').find('.loader-container').hide();
     }
   });
 });

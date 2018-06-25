@@ -36,13 +36,13 @@ RSpec.describe AnalyticsHelper, type: :helper do
     before(:each) { @current_event = event }
 
     context "should return money" do
-      pending "should have correct money values" do
-        money = @onsite_topups.map(&:monetary_total_price).sum + event.refunds.completed.map(&:credit_base).sum * event.credit.value
+      it "should have correct money values" do
+        money = @onsite_topups.map(&:monetary_total_price).sum - event.refunds.completed.map(&:credit_base).sum * event.credit.value
         expect(pokes_money.map { |i| i['money'].to_f }.sum).to eq(money.to_f)
       end
 
       it "should have correct fields" do
-        expect(pokes_money.first.keys).to eq(%w[id action description source customer_id payment_method date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
+        expect(pokes_money.first.keys).to match_array(%w[id action description source customer_id payment_method date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
       end
 
       it "should have operator UID" do
@@ -55,8 +55,8 @@ RSpec.describe AnalyticsHelper, type: :helper do
     end
 
     context "should return money simplified" do
-      pending "should have correct money values" do
-        money = @onsite_topups.map(&:monetary_total_price).sum + event.refunds.completed.map(&:credit_base).sum * event.credit.value
+      it "should have correct money values" do
+        money = @onsite_topups.map(&:monetary_total_price).sum - event.refunds.completed.map(&:credit_base).sum * event.credit.value
         expect(pokes_money_simple.map { |i| i['money'].to_f }.sum).to eq(money.to_f)
       end
 

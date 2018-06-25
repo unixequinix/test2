@@ -25,6 +25,8 @@
         - @stations.each do |station|
           - quantity = @current_event.count_box_office(station_filter: station, credit_filter: @credits)
           - data = @credits.map { |credit| [credit, @current_event.credit_box_office(station_filter: station, credit_filter: credit)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
           tr
             th.pvtRowLabel.low-contrast = station.name
             - @dates.each do |date|
@@ -56,4 +58,4 @@
 
     .mdl-layout-spacer
 
-= render 'line_chart', pos_views: @pos_views, name: 'Box office purchasers per hour', label_filter: @stations.pluck(:name)
+= render 'line_chart', chart_data: @pos_views, name: 'Box office purchasers per hour', label_filter: @stations.pluck(:name)

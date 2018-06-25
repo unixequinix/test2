@@ -38,3 +38,6 @@ script:
 matrix:
   fast_finish: true
 
+services:
+  - redis-server
+

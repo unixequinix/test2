@@ -10,18 +10,18 @@ RSpec.describe "Accesses in the admin panel", type: :feature do
   end
 
   describe "delete: " do
-    before { visit admins_event_access_path(event, access) }
-
     it "can be achieved if the event is in 'created' state" do
       event.update! state: "created"
+      visit admins_event_access_path(event, access)
+      expect(page).to have_link("delete_access")
       expect { find("#delete_access").click }.to change { event.accesses.count }.by(-1)
       expect(page).to have_current_path admins_event_accesses_path(event)
     end
 
     it "cannot be achieved if the event is in 'launched' state" do
       event.update! state: "launched"
-      expect { find("#delete_access").click }.not_to change(event.accesses, :count)
-      expect(page).to have_current_path admins_events_path
+      visit admins_event_access_path(event, access)
+      expect(page).to have_no_link("#delete_access")
     end
   end
 
@@ -65,12 +65,28 @@ RSpec.describe "Accesses in the admin panel", type: :feature do
   end
 
   describe "edit: " do
+    it "can be achieved if the event is in 'created' state" do
+      event.update! state: "created"
+      visit admins_event_access_path(event, access)
+      expect(page).to have_link("edit_access")
+      find("#edit_access").click
+
+      expect(page).to have_current_path edit_admins_event_access_path(event, access)
+    end
+
+    it "cannot be achieved if the event is in 'launched' state" do
+      event.update! state: "launched"
+      visit admins_event_access_path(event, access)
+
+      expect(page).to have_no_link("#edit_access")
+    end
+
     it "cannot be edited as nameless" do
+      event.update! state: "created"
       visit edit_admins_event_access_path(event, access)
-
       within("#edit_access_#{access.id}") { fill_in 'access_name', with: "" }
-      expect { find("input[name=commit]").click }.not_to change { access.reload.name }.from(access.name)
 
+      expect { find("input[name=commit]").click }.not_to change { access.reload.name }.from(access.name)
       expect(page).to have_current_path(admins_event_access_path(event, access))
     end
   end

@@ -8,11 +8,11 @@
       thead
         tr
           th.pvtColLabel.empty rowspan="2"
-          - @orders.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.high-contrast  colspan="2" = date
           th.pvtColLabel.high-contrast  colspan="2" Totals
         tr
-          - @orders.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.low-contrast Qty
             th.pvtColLabel.low-contrast = @current_event.currency_symbol
           th.pvtColLabel.low-contrast Qty
@@ -22,9 +22,11 @@
         - @gateways.each do |gateway|
           - quantity = @current_event.count_online_orders(grouping: :day, payment_filter: gateway)
           - data = @current_event.money_online_orders_base(grouping: :day, payment_filter: gateway)
+          - next if data.values.all? && quantity.values.sum.zero?
+
           tr
             th.pvtRowLabel.low-contrast = gateway.humanize
-            - @orders.keys.sort.each do |date|
+            - @dates.each do |date|
               td = quantity[date] unless quantity[date].to_f.zero?
               td = number_to_reports(data[date])
             td.totals
@@ -34,7 +36,7 @@
         tr
           th.pvtRowLabel.low-contrast Totals
           - quantity = @current_event.count_online_orders(grouping: :day, payment_filter: @gateways)
-          - @orders.keys.sort.each do |date|
+          - @dates.each do |date|
             td.pvtTotal.rowTotal.totals = quantity[date]
             td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_online_orders_base(grouping: :day, payment_filter: @gateways)[date].to_f)
           td.pvtTotal.rowTotal.totals = quantity.values.sum
@@ -42,4 +44,4 @@
 
   .mdl-layout-spacer
 
-= render 'line_chart', credits: @credits, pos_views: @pos_views, name: 'Online Purchases per hour'
+= render 'line_chart', credits: @credits, chart_data: @pos_views, name: 'Online Purchases per hour'

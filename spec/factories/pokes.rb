@@ -43,8 +43,7 @@ FactoryBot.define do
 
     trait :as_topups do
       before(:create) do |instance|
-        instance.action = instance.action || "record_credit"
-        instance.description = instance.description || "topup"
+        instance.action = instance.action || "topup"
         instance.credit = instance.credit || instance.event.credit
         instance.payment_method = %w[card cash].sample
         instance.monetary_quantity = rand(5)

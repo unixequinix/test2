@@ -23,10 +23,12 @@
 
       tbody
         - @items.each do |item|
-          - data = @payments.map { |payment| [payment, @current_event.money_box_office(catalog_filter: item, payment_filter: payment)] }.to_h
           - quantity = @current_event.count_money_box_office(catalog_filter: item)
+          - data = @payments.map { |payment| [payment, @current_event.money_box_office(catalog_filter: item, payment_filter: payment)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
           tr
-            th.pvtRowLabel.low-contrast = item.name
+            th.pvtRowLabel.low-contrast = link_to_if can_link?(item), item.name, [:admins, @current_event, item]
             - @dates.each do |date|
               td = quantity[date] unless quantity[date].to_f.zero?
               - @payments.each do |payment|
@@ -56,4 +58,4 @@
 
     .mdl-layout-spacer
 
-= render 'line_chart', pos_views: @pos_views, name: 'Box office purchasers per hour'
+= render 'line_chart', chart_data: @pos_views, name: 'Box office purchasers per hour'

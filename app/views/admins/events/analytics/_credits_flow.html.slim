@@ -102,7 +102,7 @@
                         type: :credit,
                         title_number: number_to_reports_credit(@current_event.credit_outstanding_total(credit_filter: @credits), credit)
             .mdl-layout-spacer
-.mdl-grid.no-wrapper-style.padding
+
   .mdl-cell.mdl-cell--12-col
     .mdl-grid
       .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
@@ -112,7 +112,7 @@
 
 javascript:
     var selected = "#{@selected_report}"
-    if(selected) { $('a[name=' + selected + ']').click(); }    
+    if(selected) { $('a[name=' + selected + ']').click(); }
     
     var ctx = document.getElementById("cash_flow").getContext('2d');
     var views = JSON.parse("#{escape_javascript(views.to_json.html_safe)}");

@@ -9,16 +9,24 @@
 - content_for(:actions) do
   .floaty#floaty
     ul.floaty-list#actions-list
-      li.floaty-list-item
-        = link_to edit_admins_event_pack_path(@current_event, @pack) do
-          button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons edit
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
-      li.floaty-list-item
-        = link_to clone_admins_event_pack_path(@current_event, @pack), method: :post do
-          button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
-            i.material-icons content_copy
-            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone
+      - if policy(@pack).destroy?
+        li.floaty-list-item
+          = link_to admins_event_access_path(@current_event, @pack), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "delete_pack" do
+            button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons delete_forever
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
+      - if policy(@pack).edit?
+        li.floaty-list-item
+          = link_to edit_admins_event_pack_path(@current_event, @pack) do
+            button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons edit
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+      - if policy(@pack).clone?
+        li.floaty-list-item
+          = link_to clone_admins_event_pack_path(@current_event, @pack), method: :post do
+            button#content_copy.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons content_copy
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="content_copy" Clone
     ul.floaty-btn#button
       li
         button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored

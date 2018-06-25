@@ -58,6 +58,10 @@ class ApplicationPolicy
     !record.event.closed?
   end
 
+  def event_created
+    record.event.created?
+  end
+
   def admin_or_promoter
     user.admin? || user.registration_for(record.try(:event) || record)&.promoter?
   end

@@ -2,18 +2,22 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col.analytics
     .mdl-card__title.mdl-card--expand
-      .mdl-card__title-text Topups Analytics
+      .mdl-cell.mdl-cell--6-col
+        .mdl-card__title-text
+          | Topups Analytics
+      .mdl-cell.mdl-cell--6-col
+        .small = link_to "*Why red numbers?", '#danger-modal', style: "float: right" if @stations.pluck(:category).uniq.to_set.superset?(%w[hospitality_top_up cs_topup_refund].to_set)
 
     table.pvtTable
       thead
         tr
           th.pvtColLabel.empty rowspan="2"
           - columns = @credits.count + 1
-          - @topups.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.high-contrast colspan="#{columns}" = date
           th.pvtColLabel.high-contrast colspan="#{columns}" Totals
         tr
-          - @topups.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.low-contrast Qty
             - @credits.each do |credit|
               th.pvtColLabel.low-contrast = credit.name
@@ -26,13 +30,13 @@
           - danger = station.category.in?(%w[hospitality_top_up cs_topup_refund])
           - quantity = @current_event.count_topups(grouping: :day, station_filter: station, credit_filter: @credits)
           - data = @credits.map { |credit| [credit, @current_event.credit_topups(credit_filter: credit, station_filter: station)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
 
           tr
             th.pvtRowLabel.low-contrast
               = link_to station.name, [:admins, @current_event, station]
-              = link_to " ?", '#danger-modal', style: "float: right" if danger
 
-            - @topups.keys.sort.each do |date|
+            - @dates.each do |date|
               td style="#{'color: #d9534f' if danger }" = quantity[date]
               - @credits.each do |credit|
                 td style="#{'color: #d9534f' if danger }" = number_to_reports(data[credit][date])
@@ -46,7 +50,7 @@
         tr
           th.pvtRowLabel.low-contrast Totals
           - quantity = @current_event.count_topups(grouping: :day, station_filter: @stations)
-          - @topups.keys.sort.each do |date|
+          - @dates.each do |date|
             td.pvtTotal.rowTotal.totals = quantity[date]
 
             - @credits.each do |credit|
@@ -59,4 +63,4 @@
 
   .mdl-layout-spacer
 
-= render 'line_chart', pos_views: @pos_views, name: 'Topups per hour', label_filter: @credits.map(&:class).map(&:name)
+= render 'line_chart', chart_data: @pos_views, name: 'Topups per hour', label_filter: @credits.map(&:class).map(&:name)

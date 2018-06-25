@@ -9,11 +9,11 @@
         tr
           th.pvtColLabel.empty rowspan="2"
           - columns = 2
-          - @fees.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.high-contrast colspan="#{columns}" = date
           th.pvtColLabel.high-contrast colspan="#{columns}" Totals
         tr
-          - @fees.keys.sort.each do |date|
+          - @dates.each do |date|
             th.pvtColLabel.low-contrast Qty
             th.pvtColLabel.low-contrast = @credit.name
           th.pvtColLabel.low-contrast Qty
@@ -23,9 +23,11 @@
         - @stations.each do |station|
           - quantity = @current_event.count_credit_topups_fees(grouping: :day, station_filter: station, credit_filter: @credits)
           - data = @credits.map { |credit| [credit, @current_event.credit_outcome_fees(grouping: :day, credit_filter: credit, station_filter: station)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
           tr
             th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
-            - @fees.keys.sort.each do |date|
+            - @dates.each do |date|
               td = quantity[date]
               td = number_to_reports(data[@credit][date])
 
@@ -37,7 +39,7 @@
           th.pvtRowLabel.low-contrast Totals
           - quantity = @current_event.count_credit_topups_fees(grouping: :day, station_filter: @stations)
 
-          - @fees.keys.sort.each do |date|
+          - @dates.each do |date|
             td.pvtTotal.rowTotal.totals = quantity[date]
             td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_outcome_fees(grouping: :day, credit_filter: @credit, station_filter: @stations)[date].to_f)
 
@@ -46,4 +48,4 @@
 
   .mdl-layout-spacer
 
-= render 'line_chart', pos_views: @pos_views, name: 'Fees per hour', label_filter: @credits.map(&:class).map(&:name)
+= render 'line_chart', chart_data: @pos_views, name: 'Fees per hour', label_filter: @credits.map(&:class).map(&:name)

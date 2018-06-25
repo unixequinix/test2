@@ -16,8 +16,8 @@ module CreditAnalytics
     topups_fee(station_filter: station_filter, credit_filter: credit_filter, fee_filter: fee_filter).group_by_period(grouping, :date).count
   end
 
-  def credit_topups(grouping: :day, credit_filter: [], station_filter: [])
-    topups_base(station_filter: station_filter, credit_filter: credit_filter).group_by_period(grouping, :date).sum(:credit_amount)
+  def credit_topups(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    topups_base(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum(:credit_amount)
   end
 
   def credit_topups_base_total(credit_filter: [], station_filter: [])
@@ -28,20 +28,20 @@ module CreditAnalytics
     topups_fee(station_filter: station_filter, credit_filter: credit_filter, fee_filter: fee_filter).sum(:credit_amount).abs
   end
 
-  def credit_topups_total(credit_filter: [], station_filter: [])
-    topups_base(station_filter: station_filter, credit_filter: credit_filter).sum(:credit_amount)
+  def credit_topups_total(credit_filter: [], station_filter: [], operator_filter: [])
+    topups_base(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).sum(:credit_amount)
   end
 
   # Online orders
   #
   def credit_online_orders_income(grouping: :day, payment_filter: [], credit_filter: [], redeemed: [])
     sum = credit_filter.present? ? [credit_filter].flatten.map { |credit| credit.class.to_s.underscore.pluralize.to_s }.join("+") : "credits + virtual_credits"
-    credit_income_online_orders(payment_filter: payment_filter, redeemed: redeemed).group_by_period(grouping, :created_at).sum(sum)
+    online_orders_income(payment_filter: payment_filter, redeemed: redeemed).group_by_period(grouping, :created_at).sum(sum)
   end
 
   def credit_online_orders_outcome(grouping: :day, payment_filter: [], credit_filter: [], redeemed: [])
     sum = credit_filter.present? ? [credit_filter].flatten.map { |credit| credit.class.to_s.underscore.pluralize.to_s }.join("+") : "credits + virtual_credits"
-    credit_outcome_online_orders(payment_filter: payment_filter, redeemed: redeemed).group_by_period(grouping, :created_at).sum(sum)
+    online_orders_outcome(payment_filter: payment_filter, redeemed: redeemed).group_by_period(grouping, :created_at).sum(sum)
   end
 
   def credit_online_orders(grouping: :day, payment_filter: [], credit_filter: [], redeemed: [])
@@ -51,12 +51,12 @@ module CreditAnalytics
 
   def credit_online_orders_income_total(credit_filter: credits, payment_filter: [], redeemed: [])
     sum = credit_filter.present? ? [credit_filter].flatten.map { |credit| credit.class.to_s.underscore.pluralize.to_s }.join("+") : "credits + virtual_credits"
-    credit_income_online_orders(payment_filter: payment_filter, redeemed: redeemed).sum(sum).abs
+    online_orders_income(payment_filter: payment_filter, redeemed: redeemed).sum(sum).abs
   end
 
   def credit_online_orders_outcome_total(credit_filter: credits, payment_filter: [], redeemed: [])
     sum = credit_filter.present? ? [credit_filter].flatten.map { |credit| credit.class.to_s.underscore.pluralize.to_s }.join("+") : "credits + virtual_credits"
-    credit_outcome_online_orders(payment_filter: payment_filter, redeemed: redeemed).sum(sum)
+    online_orders_outcome(payment_filter: payment_filter, redeemed: redeemed).sum(sum)
   end
 
   def credit_online_orders_total(credit_filter: credits, payment_filter: [], redeemed: [])
