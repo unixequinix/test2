@@ -12,7 +12,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin?
+    user.promoter? || user.admin?
   end
 
   def sample_event?
@@ -20,7 +20,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    user.promoter? || user.admin?
   end
 
   def edit?

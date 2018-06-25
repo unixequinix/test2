@@ -59,7 +59,19 @@
             label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='all_orders'
               span.mdl-radio__label.form-label Include all credit types
               = radio_button_tag "copy_data[orders]", "1", nil, id: 'all_orders', class: 'mdl-radio__button'
+        .section-header
+          i.material-icons info_outline
+          span Initial fees
+        .fieldset
+          .form-inputs
+            label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='no_fees'
+              span.mdl-radio__label.form-label Dont include initial fees
+              = radio_button_tag "copy_data[fees]", "0", true, id: 'no_fees', class: 'mdl-radio__button'
 
+          .form-inputs
+            label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect for='fees'
+              span.mdl-radio__label.form-label Include initial fees
+              = radio_button_tag "copy_data[fees]", "1", nil, id: 'fees', class: 'mdl-radio__button'
         .form-actions
           .col-sm-offset-3.col-sm-9
             = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

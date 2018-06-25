@@ -14,7 +14,7 @@ module Ticketing
           profile = guest["profile"]
           begin
             ctt = integration.ticket_types.find_or_initialize_by(company_code: guest["ticket_class_id"], event_id: integration.event_id)
-            ctt.update!(company: company, name: guest["ticket_class_name"])
+            ctt.update!(company: company, name: guest["ticket_class_name"]) unless integration.ticket_types.find_by(name: guest["ticket_class_name"])
           rescue ActiveRecord::RecordNotUnique
             retry
           end
