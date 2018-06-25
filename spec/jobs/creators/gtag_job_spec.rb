@@ -6,7 +6,7 @@ RSpec.describe Creators::GtagJob, type: :job do
   let(:customer) { create(:customer, event: event) }
   let!(:gtag) { create(:gtag, tag_uid: SecureRandom.hex(6), event: event) }
   let(:uid) { SecureRandom.hex(6) }
-  let!(:balance) { rand(100) }
+  let!(:balance) { rand(1..100) }
 
   context "creating gtags" do
     it "can create a gtag" do

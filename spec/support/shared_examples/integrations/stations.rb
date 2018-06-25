@@ -1,4 +1,3 @@
-
 RSpec.shared_examples "UI stations" do
   describe "Create new station" do
     it "is located in correct path " do

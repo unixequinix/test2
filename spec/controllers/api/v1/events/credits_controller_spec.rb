@@ -1,4 +1,3 @@
-
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::CreditsController, type: %i[controller api] do

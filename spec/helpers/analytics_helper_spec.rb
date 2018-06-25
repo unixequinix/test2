@@ -42,7 +42,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "should have correct fields" do
-        expect(pokes_money.first.keys).to eq(%w[id action description source customer_id payment_method date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
+        expect(pokes_money.first.keys).to match_array(%w[id action description source customer_id payment_method date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
       end
 
       it "should have operator UID" do

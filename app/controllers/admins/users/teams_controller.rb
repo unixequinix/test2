@@ -1,4 +1,3 @@
-
 module Admins
   module Users
     class TeamsController < Admins::BaseController

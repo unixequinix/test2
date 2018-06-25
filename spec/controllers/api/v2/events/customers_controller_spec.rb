@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
