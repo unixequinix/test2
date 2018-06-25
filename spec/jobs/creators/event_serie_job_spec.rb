@@ -8,6 +8,7 @@ RSpec.describe Creators::EventSerieJob, type: :job do
   let!(:anonymous_customer) { old_event.customers.create! }
   let!(:gtag) { create(:gtag, event: old_event, customer: registered_customer, active: true) }
   let!(:anonymous_gtag) { create(:gtag, event: old_event, customer: anonymous_customer, active: true) }
+  let!(:initial_topup_flag) { create(:user_flag, event: new_event, name: 'initial_topup') }
 
   context "comparing events" do
     it "new event has got some base event params" do
@@ -143,6 +144,21 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     it "moves to new copied customer" do
       expect { worker.perform_now(new_event, old_event, %w[0 1], "1") }.to change { new_event.gtags.count }.by(3)
       expect(new_event.customers.anonymous.last.gtags.count).to eql(2)
+    end
+  end
+
+  context "create initial fee orders" do
+    before(:each) do
+      create(:poke, action: 'fee', description: 'initial', event: old_event, customer: anonymous_customer)
+      anonymous_customer.update(initial_topup_fee_paid: true)
+
+      @params = [new_event, old_event, %w[0 1], "0", "0", "1"]
+    end
+
+    it "creates initial fee order in new event" do
+      worker.perform_now(*@params)
+
+      expect(new_event.orders.count).to eql(1)
     end
   end
 end

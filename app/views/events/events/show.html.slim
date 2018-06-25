@@ -29,7 +29,7 @@
 
     .mdl-cell.mdl-cell--4-col
       .tools
-        - if @current_event.open_topups? && @current_customer.active_credentials.any?
+        - if @current_event.open_topups? && (@current_customer.active_credentials.any? || (@current_event.id.eql?(428) && Rails.env.production?)) #TODO[fmoya] remove after bbf ends
           .tool-item
             = link_to @current_event.store_redirection(@current_customer, :order), id: "new_top_up" do
               .credit-tooltip = t("dashboard.topup")
