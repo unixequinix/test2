@@ -63,6 +63,21 @@ RSpec.describe Event, type: :model do
     end
   end
 
+  describe "update emv stations on emv fields changes" do
+    let!(:topup_station) { create(:station, category: 'top_up_refund') }
+    let!(:pos_station) { create(:station, category: 'vendor') }
+
+    it "should update topup stations" do
+      subject.update! emv_topup_enabled: true
+      expect(topup_station.updated_at.to_s).to eq(subject.updated_at.to_s)
+    end
+
+    it "should update pos stations" do
+      subject.update! emv_pos_enabled: true
+      expect(pos_station.updated_at.to_s).to eq(subject.updated_at.to_s)
+    end
+  end
+
   describe "store_redirection" do
     let(:customer) { create(:customer, event: subject) }
 

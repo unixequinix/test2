@@ -55,6 +55,7 @@ class Event < ApplicationRecord
 
   before_create :generate_tokens
   before_save :round_fees
+  after_update :update_emv_stations
 
   validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, :currency, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 }
@@ -122,6 +123,11 @@ class Event < ApplicationRecord
   end
 
   private
+
+  def update_emv_stations
+    stations.where(category: %w[top_up_refund box_office]).update_all(updated_at: updated_at) if saved_change_to_attribute?(:emv_topup_enabled)
+    stations.where(category: Station::TYPE[:pos]).update_all(updated_at: updated_at) if saved_change_to_attribute?(:emv_pos_enabled)
+  end
 
   def should_generate_new_friendly_id?
     false || super
