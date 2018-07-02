@@ -5,7 +5,7 @@ module Api::V2
 
     # POST /events/:id/can_login
     def can_login
-      skip_authorization
+      render status: :forbidden and return if @customer.confirmed_at.nil?
       if @customer&.valid_password?(params[:password])
         render json: @customer
       else
@@ -135,7 +135,7 @@ module Api::V2
       new_params[:encrypted_password] = SecureRandom.hex(24) if new_params[:password].blank? && new_params[:password_confirmation].blank?
 
       @customer = @current_event.customers.new(new_params)
-      @customer.skip_confirmation!
+      @customer.skip_confirmation! unless JSON.parse(customer_params[:confirmation] || false) #TODO[fmoya] Ana's project hack to send email on user creation
       authorize @customer
 
       if @customer.save
@@ -176,7 +176,7 @@ module Api::V2
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :postcode, :address, :city, :country, :gender, :password)
+      params.require(:customer).permit(:first_name, :last_name, :email, :phone, :birthdate, :postcode, :address, :city, :country, :gender, :password, :confirmation)
     end
   end
 end

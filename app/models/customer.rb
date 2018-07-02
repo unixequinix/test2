@@ -43,7 +43,8 @@ class Customer < ApplicationRecord
   validates :city, presence: true, if: (-> { custom_validation("address") })
   validates :country, presence: true, if: (-> { custom_validation("address") })
   validates :gender, presence: true, if: (-> { custom_validation("gender") })
-
+  
+  attr_accessor :confirmation #TODO[fmoya] Ana's project hack to send email on user creation
   alias customer itself
 
   scope :anonymous, -> { where(anonymous: true) }
