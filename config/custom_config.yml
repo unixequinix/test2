@@ -62,4 +62,4 @@ staging:
 production:
   <<: *common
   universe_app_url: https://gspot.glownet.com/admins/universe/auth
-  ticket_master_event: 428
+  ticket_master_event: 450
