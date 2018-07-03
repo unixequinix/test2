@@ -17,14 +17,21 @@ module Admins
       end
 
       def create
-        @integration = @current_event.ticketing_integrations.new(permitted_params.merge(type: TicketingIntegration::NAMES[params[:name].to_sym]))
+        # TODO[ticketmaster] remove after bbf
+        ticket_master = params[:name].to_s.eql?('ticket_master') && @current_event.is_ticketmaster?
+        @integration = @current_event.ticketing_integrations.new(integration_event_id: @current_event.id, integration_event_name: @current_event.name, type: TicketingIntegration::NAMES[params[:name].to_sym], token: @current_user.id) if ticket_master
+        @integration = @current_event.ticketing_integrations.new(permitted_params.merge(type: TicketingIntegration::NAMES[params[:name].to_sym])) unless ticket_master
         authorize(TicketingIntegration.new)
 
         if @integration.save
-          redirect_to [:admins, @current_event, @integration]
+          # TODO[ticketmaster] remove after bbf
+          redirect_to admins_event_ticketing_integration_ticket_master_connect_path(@current_event, @integration) if ticket_master
+          redirect_to [:admins, @current_event, @integration] unless ticket_master
         else
+          # TODO[ticketmaster] remove after bbf
           flash.now[:alert] = t("alerts.error")
-          render :new
+          render :new unless ticket_master
+          redirect_to admins_event_ticket_types_path(@current_event), alert: "Event already connected" if ticket_master
         end
       end
 

@@ -1,0 +1,29 @@
+module Admins
+  module Events
+    class TicketMasterController < Admins::Events::BaseController
+      protect_from_forgery
+      before_action :set_integration
+
+      def connect
+        if @integration.update(status: "active")
+          redirect_to [:admins, @current_event, @integration, :import_tickets]
+        else
+          redirect_to [:admins, @current_event, :ticket_types], alert: "Event already connected, choose another"
+        end
+      end
+
+      def import_tickets
+        @integration.ignore_last_import_date = true
+        @integration.import
+        redirect_to [:admins, @current_event, :ticket_types], notice: "You are connected, tickets are being imported now"
+      end
+
+      private
+
+      def set_integration
+        @integration = @current_event.ticket_master_ticketing_integrations.find(params[:ticketing_integration_id])
+        authorize(@current_event.ticketing_integrations.new)
+      end
+    end
+  end
+end

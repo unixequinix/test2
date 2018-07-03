@@ -21,10 +21,28 @@ common: &common
   qwantiq_auth_url: https://www.entradas.plus/accessControlApi/users/login
   qwantiq_venues_url: https://www.entradas.plus/accessControlApi/sessions/info/json
   qwantiq_barcodes_url: https://www.entradas.plus/accessControlApi/barcodes/getListFromActiveSessions/json
+  
+  ticketmaster_url_1: http://glowtm.ddns.net/TicketingServices_ES/formatedService.php
+  ticket_master_params:
+    header:
+      ver: 1
+      sid: SYSTEMCALL
+      bid: SYSTEMCALL
+      cip: 1.2.3.4
+      token: 0
+      mode: 0
+    command1: 
+      cmd: AccessControl.getEntryCodes
+      reference: 0
+      cmd_header:
+        cmd_ver: 1_0_0_0
+        lang_code: es
+        market: ES
+      extended_response_format: 0
 
 development:
   <<: *common
-
+  ticket_master_event: 
 test:
   <<: *common
 
@@ -35,6 +53,7 @@ integration:
 sandbox:
   <<: *common
   universe_app_url: https://sandbox.glownet.com/admins/universe/auth
+  ticket_master_event: 200
 
 staging:
   <<: *common
@@ -43,3 +62,4 @@ staging:
 production:
   <<: *common
   universe_app_url: https://gspot.glownet.com/admins/universe/auth
+  ticket_master_event: 428

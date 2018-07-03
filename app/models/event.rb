@@ -31,6 +31,7 @@ class Event < ApplicationRecord
   has_many :universe_ticketing_integrations, class_name: "TicketingIntegrationUniverse", dependent: :destroy, inverse_of: :event
   has_many :stubhub_ticketing_integrations, class_name: "TicketingIntegrationStubhub", dependent: :destroy, inverse_of: :event
   has_many :qwantiq_ticketing_integrations, class_name: "TicketingIntegrationQwantiq", dependent: :destroy, inverse_of: :event
+  has_many :ticket_master_ticketing_integrations, class_name: "TicketingIntegrationTicketMaster", dependent: :destroy, inverse_of: :event
 
   has_one :credit, dependent: :destroy
   has_one :virtual_credit, dependent: :destroy
@@ -120,6 +121,11 @@ class Event < ApplicationRecord
     url = { host: Rails.application.secrets.wiredlion_host }.merge(params)
 
     URI::HTTP.build(url).to_s
+  end
+
+  # TODO[ticketmaster] remove after bbf
+  def is_ticketmaster?
+    GlownetWeb.config.ticket_master_event.present? && GlownetWeb.config.ticket_master_event.eql?(id)
   end
 
   private
