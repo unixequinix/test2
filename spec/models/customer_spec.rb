@@ -337,4 +337,12 @@ RSpec.describe Customer, type: :model do
       end
     end
   end
+
+  describe ".gdpr_acceptance" do
+    it "should have acceptance datetime if gdpr_acceptance is true" do
+      customer.gdpr_acceptance = true
+      customer.save!
+      expect(customer.gdpr_acceptance_at).to_not eql(nil)
+    end
+  end
 end

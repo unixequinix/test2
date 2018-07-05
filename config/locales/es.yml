@@ -40,6 +40,7 @@ es:
     conjunction: y
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
+  gdpr: "Quiero recibir las últimas noticias y ofertas relativas a este evento organizado por %{event}"
   credentials:
     reference: Código
     name: Credencial

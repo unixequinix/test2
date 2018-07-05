@@ -47,6 +47,8 @@ class Customer < ApplicationRecord
   attr_accessor :confirmation # TODO[fmoya] Ana's project hack to send email on user creation
   alias customer itself
 
+  before_save :set_gdpr_acceptance
+
   scope :anonymous, -> { where(anonymous: true) }
   scope :registered, -> { where(anonymous: false) }
   scope :operator, -> { where(operator: true) }
@@ -189,6 +191,10 @@ class Customer < ApplicationRecord
   end
 
   private
+
+  def set_gdpr_acceptance
+    self.gdpr_acceptance_at = Time.now if gdpr_acceptance
+  end
 
   def generate_token(column)
     loop do

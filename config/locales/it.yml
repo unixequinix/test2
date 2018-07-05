@@ -39,6 +39,7 @@ it:
     conjunction: e
     privacy_conditions: La politica di privacy
     terms_of_use: le condizioni d´uso
+  gdpr: "Voglio ricevere le ultime notizie e offerte in relazione ad eventi organizzati e/o promossi da  %{event}"
   credentials:
     reference: Codice
     name: Credenziali
