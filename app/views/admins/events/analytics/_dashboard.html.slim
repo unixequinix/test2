@@ -54,8 +54,8 @@
 										colors: ['#514A9D', '#24C6DC'],
 										icon: 'add_shopping_cart',
 										title_text: 'Total Products Sold',
-										title_number: number_with_delimiter(@current_event.sales.where("credit_amount < 0").count),
-										subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.sales(station_filter: @current_event.stations.where(category: 'bar')).where("credit_amount < 0").count) }, { text: 'At vendors', number: number_with_delimiter(@current_event.sales(station_filter: @current_event.stations.where(category: 'vendor')).where("credit_amount < 0").count) }]
+										title_number: number_with_delimiter(@current_event.sales.sum(:sale_item_quantity)),
+										subtitle: [{ text: 'At Bars', number: number_with_delimiter(@current_event.sales(station_filter: @current_event.stations.where(category: 'bar')).sum(:sale_item_quantity)) }, { text: 'At vendors', number: number_with_delimiter(@current_event.sales(station_filter: @current_event.stations.where(category: 'vendor')).sum(:sale_item_quantity)) }]
 						= render "box", cols: 3,
 										id: 'activations',
 										custom_class: 'hovering',
