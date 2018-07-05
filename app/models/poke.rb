@@ -196,15 +196,13 @@ class Poke < ApplicationRecord
   has_paper_trail on: %i[update destroy]
 
   def self.sonar_access_patch
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.development? || Rails.env.test?
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.staging?
+    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" unless Rails.env.production?
     result = "CASE WHEN catalog_items.id = 9552 THEN 'Noche Sábado' WHEN catalog_items.id = 9553 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.production?
     result
   end
 
   def self.sonar_access_patch_capacity
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END" if Rails.env.development? || Rails.env.test?
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END" if Rails.env.staging?
+    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END" unless Rails.env.production?
     result = "CASE WHEN catalog_items.id = 9552 THEN 'Noche Sábado' WHEN catalog_items.id = 9553 THEN 'Noche Viernes' ELSE catalog_items.name END" if Rails.env.production?
     result
   end
