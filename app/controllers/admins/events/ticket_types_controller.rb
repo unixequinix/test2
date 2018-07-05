@@ -17,7 +17,6 @@ module Admins
         @ticket_counts = @current_event.tickets.group(:ticket_type_id).count
         @gtag_counts = @current_event.gtags.group(:ticket_type_id).count
         @integrations = @current_event.ticketing_integrations.order(%i[type]).includes(:ticket_types)
-        @integrations - @current_event.ticket_master_ticketing_integrations unless @current_event.is_ticketmaster? # TODO[ticketmaster] remove after bbf
         authorize @ticket_types
         @ticket_types = @ticket_types.page(params[:page])
       end

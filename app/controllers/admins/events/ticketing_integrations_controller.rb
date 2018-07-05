@@ -17,21 +17,26 @@ module Admins
       end
 
       def create
-        # TODO[ticketmaster] remove after bbf
-        ticket_master = params[:name].to_s.eql?('ticket_master') && @current_event.is_ticketmaster?
-        @integration = @current_event.ticketing_integrations.new(integration_event_id: @current_event.id, integration_event_name: @current_event.name, type: TicketingIntegration::NAMES[params[:name].to_sym], token: @current_user.id) if ticket_master
-        @integration = @current_event.ticketing_integrations.new(permitted_params.merge(type: TicketingIntegration::NAMES[params[:name].to_sym])) unless ticket_master
+        if params[:name].to_s.eql?('ticket_master')
+          @integration = @current_event.ticketing_integrations.find_or_initialize_by(integration_event_id: @current_event.id, integration_event_name: @current_event.name, type: TicketingIntegration::NAMES[params[:name].to_sym], token: @current_user.id)
+          @integration.data[:events] = { "#{permitted_params[:data][:event_code]}": {} } if @integration.new_record?
+          @integration.data[:events] = @integration.data[:events].merge("#{permitted_params[:data][:event_code]}": {
+                                                                          begin_date: permitted_params[:data][:begin_date],
+                                                                          end_date: permitted_params[:data][:end_date],
+                                                                          access_control_system: permitted_params[:data][:access_control_system],
+                                                                          system_id: permitted_params[:data][:system_id]
+                                                                        })
+        else
+          @integration = @current_event.ticketing_integrations.new(permitted_params.merge(type: TicketingIntegration::NAMES[params[:name].to_sym]))
+        end
+
         authorize(TicketingIntegration.new)
 
         if @integration.save
-          # TODO[ticketmaster] remove after bbf
-          redirect_to admins_event_ticketing_integration_ticket_master_connect_path(@current_event, @integration) if ticket_master
-          redirect_to [:admins, @current_event, @integration] unless ticket_master
+          redirect_to [:admins, @current_event, @integration]
         else
-          # TODO[ticketmaster] remove after bbf
           flash.now[:alert] = t("alerts.error")
-          render :new unless ticket_master
-          redirect_to admins_event_ticket_types_path(@current_event), alert: "Event already connected" if ticket_master
+          render :new
         end
       end
 

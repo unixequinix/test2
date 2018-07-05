@@ -71,12 +71,8 @@
             | Connect
 
         .mdl-card__supporting-text
-          - names = {}.merge(TicketingIntegration::NAMES) # TODO[ticketmaster] remove after bbf
-          - names.delete(:ticket_master) unless @current_event.is_ticketmaster? # TODO[ticketmaster] remove after bbf
-          - names.freeze.each do |name, _|
-            = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), style: "margin: 5px", class: "mdl-button mdl-js-button mdl-button--raised" unless name.to_s.eql?('ticket_master')
-            - # TODO[ticketmaster] remove after bbf
-            = link_to name, {controller: 'admins/events/ticketing_integrations', action: 'create', event_id: @current_event.id, name: name }, method: :post, style: "margin: 5px", class: "mdl-button mdl-js-button mdl-button--raised" if name.to_s.eql?('ticket_master') && @current_event.is_ticketmaster?
+          - TicketingIntegration::NAMES.freeze.each do |name, _|
+            = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), style: "margin: 5px", class: "mdl-button mdl-js-button mdl-button--raised"
     .mdl-layout-spacer
 
 .content-grid.mdl-grid

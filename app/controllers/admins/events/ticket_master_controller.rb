@@ -18,6 +18,16 @@ module Admins
         redirect_to [:admins, @current_event, :ticket_types], notice: "You are connected, tickets are being imported now"
       end
 
+      def destroy
+        @integration.data[:events].delete(params[:name])
+        if @integration.save!
+          redirect_to request.referrer, notice: "Configuration has been correctly removed"
+        else
+          flash[:error] = 'Something went wrong'
+          redirect_to [:admins, @current_event, :ticket_types]
+        end
+      end
+
       private
 
       def set_integration

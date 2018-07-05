@@ -1,0 +1,8 @@
+fieldset.wrapper-preevent-product
+	.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+		= f.input :begin_date, id: "begin_date", input_html: { class: "mdl-textfield__input date-time-picker" }
+		= f.input :end_date, id: "end_date", input_html: { class: "mdl-textfield__input date-time-picker" }
+		= f.input :event_code
+		= f.input :access_control_system
+		= f.input :system_id, input_html: { type: "number" }
+		

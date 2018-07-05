@@ -9,15 +9,14 @@ class TicketingIntegrationTicketMaster < TicketingIntegration
     TicketingIntegrationPolicy
   end
 
-  def import
-    if event.is_ticketmaster?
-      update!(last_import_date: Time.zone.now - 1.minute)
-      [{ 5327 => 'Barcelona Beach Festival' }, { 5333 => 'Barcelona Beach Festival - VIP Experience' }, { 5329 => 'Barcelona Beach Festival - Premium' }].each do |hash|
-        event_id = hash.keys[0]
-        ticket_type_name = hash.values[0]
+  def remote_events
+    data[:events]&.keys
+  end
 
-        Ticketing::TicketMasterImporter.perform_later(event_id, ticket_type_name, self)
-      end
+  def import
+    update!(last_import_date: Time.zone.now - 1.minute)
+    data[:events].each_pair do |k, v|
+      Ticketing::TicketMasterImporter.perform_later(k, v, self)
     end
   end
 end
