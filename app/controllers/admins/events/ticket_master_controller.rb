@@ -21,7 +21,7 @@ module Admins
       def destroy
         @integration.data[:events].delete(params[:name])
         if @integration.save!
-          redirect_to request.referrer, notice: "Configuration has been correctly removed"
+          redirect_to request.referer, notice: "Configuration has been correctly removed"
         else
           flash[:error] = 'Something went wrong'
           redirect_to [:admins, @current_event, :ticket_types]

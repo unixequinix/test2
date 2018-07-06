@@ -167,7 +167,7 @@ module Admins
     end
 
     def permitted_params
-      params[:event][:voucher_product_ids] = params[:event][:voucher_product_ids]&.split(',')
+      params[:event][:voucher_products] = params[:event][:voucher_products]&.split(',')
       params.require(:event).permit(:action,
                                     :state,
                                     :name,
@@ -236,7 +236,7 @@ module Admins
                                     :event_serie_id,
                                     :accounting_code,
                                     :voucher_id,
-                                    voucher_product_ids: [],
+                                    voucher_products: [],
                                     credit_attributes: %i[id name value],
                                     refund_fields: [])
     end
