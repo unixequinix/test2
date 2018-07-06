@@ -71,9 +71,8 @@
             | Connect
 
         .mdl-card__supporting-text
-          - TicketingIntegration::NAMES.each do |name, _|
-            = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), class: "mdl-button mdl-js-button mdl-button--raised"
-            span &nbsp; &nbsp;
+          - TicketingIntegration::NAMES.freeze.each do |name, _|
+            = link_to name, new_admins_event_ticketing_integration_path(@current_event, name: name), style: "margin: 5px", class: "mdl-button mdl-js-button mdl-button--raised"
     .mdl-layout-spacer
 
 .content-grid.mdl-grid

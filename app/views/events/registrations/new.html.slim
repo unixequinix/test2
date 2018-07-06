@@ -33,6 +33,10 @@
         = f.check_box :agreed_on_registration, :id => 'action', class: "mdl-checkbox__input"
         = f.label :agreed_on_registration 
           = raw "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}"
+      .session-accept-terms.center
+        = f.check_box :gdpr_acceptance, class: "mdl-checkbox__input"
+        = f.label :gdpr_acceptance 
+          = "#{t('gdpr', event: @current_event.name.humanize)}"
       
       .recaptcha
         = recaptcha_tags unless Rails.env.development?

@@ -21,10 +21,45 @@ common: &common
   qwantiq_auth_url: https://www.entradas.plus/accessControlApi/users/login
   qwantiq_venues_url: https://www.entradas.plus/accessControlApi/sessions/info/json
   qwantiq_barcodes_url: https://www.entradas.plus/accessControlApi/barcodes/getListFromActiveSessions/json
-
+  
+  ticketmaster_url_1: http://glowtm.ddns.net/TicketingServices_ES/formatedService.php
+  ticket_master_params_1:
+    header:
+      ver: 1
+      sid: SYSTEMCALL
+      bid: SYSTEMCALL
+      cip: 1.2.3.4
+      token: 0 
+      mode: 0
+    command1:
+      cmd: AccessControl.GetFchartFiles
+      reference: 0
+      cmd_header:
+        cmd_ver: 1_0_0_0
+        lang_code: es
+        market: ES
+      format: JSON
+      filters:
+        import_demo: 0
+  ticket_master_params_2:
+    header:
+      ver: 1
+      sid: SYSTEMCALL
+      bid: SYSTEMCALL
+      cip: 1.2.3.4
+      token: 0
+      mode: 0
+    command1: 
+      cmd: AccessControl.getEntryCodes
+      reference: 0
+      cmd_header:
+        cmd_ver: 1_0_0_0
+        lang_code: es
+        market: ES
+      extended_response_format: 0
+      
 development:
   <<: *common
-
 test:
   <<: *common
 

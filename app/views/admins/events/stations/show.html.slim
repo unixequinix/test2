@@ -121,25 +121,15 @@
             .content-grid.mdl-grid
               .mdl-cell.mdl-cell--12-col
                 - case @station.category
-                - when "bar" || "vendor" then
-                  = render "admins/events/analytics/stations/pos"
-                - when "vendor" then
-                  = render "admins/events/analytics/stations/pos"
-                - when 'top_up_refund' then
-                  = render "admins/events/analytics/stations/topups"
-                - when 'cs_topup_refund' then
-                  = render "admins/events/analytics/stations/credit_topups"
-                - when 'hospitality_top_up' then
-                  = render "admins/events/analytics/stations/credit_topups"
-                - when 'box_office' then
-                  = render "admins/events/analytics/stations/box_office"
-                - when 'check_in' then
-                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-                - when 'ticket_validation' then
-                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-                - when 'staff_accreditation' then
-                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-                - when 'cs_accreditation' then
-                  = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-                - when 'credential' then
-                  = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
+                  - when "bar", "vendor"
+                    = render "admins/events/analytics/stations/pos"
+                  - when 'top_up_refund'
+                    = render "admins/events/analytics/stations/topups"
+                  - when 'cs_topup_refund', 'hospitality_top_up'
+                    = render "admins/events/analytics/stations/credit_topups"
+                  - when 'box_office', 'cs_accreditation', 'staff_accreditation'
+                    = render "admins/events/analytics/stations/box_office"
+                  - when 'access_control'
+                    = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
+                  - when 'check_in', 'ticket_validation'
+                    = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type

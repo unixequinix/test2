@@ -44,6 +44,7 @@ en:
     conjunction: and
     privacy_conditions: the privacy policy
     terms_of_use: the terms of use
+  gdpr: "I want to receive the latest news & offers regarding events organized or promoted by %{event}"
   credentials:
     reference: Reference
     name: Credential

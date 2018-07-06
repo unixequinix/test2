@@ -40,6 +40,7 @@ de:
     conjunction: und
     privacy_conditions: die Datenschutzbestimmungen
     terms_of_use: die Nutzungsbedingungen
+  gdpr: "Ich würde gerne die letzte Neuigkeiten und Angebote geschickt bekommen, die Beziehung zu Events die bei %{event} organisiert beziehungsweise beworben wurden haben."
   credentials:
     reference: Zeichen
     name: Berechtigung

@@ -89,7 +89,6 @@ class Poke < ApplicationRecord
       .joins(:station, :device, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.has_credits.is_ok
       .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_name")
-      .having("sum(credit_amount) != 0")
   }
 
   scope :products_sale, lambda {
@@ -97,7 +96,6 @@ class Poke < ApplicationRecord
       .joins(:station, :device, :customer, :customer_gtag, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.has_credits.is_ok
       .group(:action, :description, :credit_name, grouping_customers, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_name")
-      .having("sum(credit_amount) != 0")
   }
 
   scope :products_sale_stock, lambda {
@@ -105,7 +103,6 @@ class Poke < ApplicationRecord
       .joins(:station, :device, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.is_ok
       .group(:operation_id, :description, :sale_item_quantity, grouping_operators_devices, grouping_station, "date_time, product_name")
-      .having("sum(credit_amount) != 0")
   }
 
   scope :top_products, lambda { |limit = 10|
@@ -199,15 +196,13 @@ class Poke < ApplicationRecord
   has_paper_trail on: %i[update destroy]
 
   def self.sonar_access_patch
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.development? || Rails.env.test?
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.staging?
+    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" unless Rails.env.production?
     result = "CASE WHEN catalog_items.id = 9552 THEN 'Noche Sábado' WHEN catalog_items.id = 9553 THEN 'Noche Viernes' ELSE catalog_items.name END as zone" if Rails.env.production?
     result
   end
 
   def self.sonar_access_patch_capacity
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END" if Rails.env.development? || Rails.env.test?
-    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END" if Rails.env.staging?
+    result = "CASE WHEN catalog_items.id = 3984 THEN 'Noche Sábado' WHEN catalog_items.id = 3983 THEN 'Noche Viernes' ELSE catalog_items.name END" unless Rails.env.production?
     result = "CASE WHEN catalog_items.id = 9552 THEN 'Noche Sábado' WHEN catalog_items.id = 9553 THEN 'Noche Viernes' ELSE catalog_items.name END" if Rails.env.production?
     result
   end

@@ -71,7 +71,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
   end
 
   def configure_permitted_parameters
-    customer = %i[first_name last_name phone postcode address city country gender birthdate provider uid agreed_on_registration]
+    customer = %i[first_name last_name phone postcode address city country gender birthdate provider uid agreed_on_registration gdpr_acceptance]
 
     devise_parameter_sanitizer.permit(:account_update, keys: customer)
     devise_parameter_sanitizer.permit(:sign_up, keys: customer)

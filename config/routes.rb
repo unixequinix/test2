@@ -182,6 +182,12 @@ Rails.application.routes.draw do
           get "qwantiq", to: "qwantiq#index"
           get "qwantiq/import_tickets", to: "qwantiq#import_tickets"
           get "qwantiq/connect/:p4_uuid", to: "qwantiq#connect", as: "qwantiq_connect"
+
+          # TicketMaster
+          get "ticket_master", to: "ticket_master#index"
+          get "ticket_master/import_tickets", to: "ticket_master#import_tickets"
+          get "ticket_master/connect", to: "ticket_master#connect", as: "ticket_master_connect"
+          delete "ticket_master/destroy", to: "ticket_master#destroy", as: "ticket_master_destroy"
         end
 
 

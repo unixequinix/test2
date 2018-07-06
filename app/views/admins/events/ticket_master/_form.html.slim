@@ -1,0 +1,66 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, :ticket_types], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons style="color: white" undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+- content_for(:title) do
+  | Connect TicketMaster and Glownet
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-cell.mdl-cell--12-col
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            h3.mdl-card__title-text
+              | Connected TicketMaster Events
+            .table-responsive
+              table.mdl-data-table.mdl-js-data-table.within-card
+                thead
+                  tr
+                    th.mdl-data-table__cell--non-numeric Event Code
+                    th.mdl-data-table__cell--non-numeric Begin Data
+                    th.mdl-data-table__cell--non-numeric End Date
+                    th.mdl-data-table__cell--non-numeric Access Control System
+                    th.mdl-data-table__cell--non-numeric System ID
+                  tbody
+                    - remote_events = @integration.data[:events] || {}
+                    - remote_events.each_pair do |k, v|
+                      tr
+                        td.mdl-data-table__cell--non-numeric data-label="Event Code" = k.capitalize
+                        td.mdl-data-table__cell--non-numeric data-label="Begin Date" = v[:begin_date]
+                        td.mdl-data-table__cell--non-numeric data-label="End Date" = v[:end_date]
+                        td.mdl-data-table__cell--non-numeric data-label="Access Control System" = v[:access_control_system]
+                        td.mdl-data-table__cell--non-numeric data-label="System ID" = v[:system_id]
+                        td 
+                          = link_to admins_event_ticketing_integration_ticket_master_destroy_path(@current_event, ticketing_integration_id: @integration.id, name: k), method: :delete do
+                            button.icon.material-icons delete_forever
+
+          .mdl-cell.mdl-cell--6-col
+            = simple_form_for @integration, url: admins_event_ticketing_integrations_path(@current_event), as: :ticketing_integration, method: :post, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch} do |f|
+              .fieldset
+                .section-header		
+                = f.simple_fields_for :data, OpenStruct.new(@integration.data) do |ff, index|
+                  = hidden_field_tag :name, @integration.name
+                  = render "admins/events/ticket_master/data_event_fields", f: ff
+                
+              .form-actions
+                = f.button :submit, "Create", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+                = link_to "Connect", admins_event_ticketing_integration_ticket_master_connect_path(@current_event, @integration), class: "mdl-button mdl-js-button mdl-button--accent form-submit" if @integration.persisted?
+
+
+javascript:
+	$('.date-time-picker').each(function(i, elem) {
+    $("#" + elem.id).datetimepicker({
+      timeInput: true,
+      format: "hh:mm tt",
+      currentText: 'Time now',
+      closeText: 'Update',
+      onClose: function() {
+        if (elem.value.length) {
+          $(elem).parent('.mdl-textfield').addClass('is-dirty');
+        };
+      }
+    });
+  });
