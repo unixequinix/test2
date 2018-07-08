@@ -122,6 +122,8 @@ Rails.application.routes.draw do
           get :download_raw_data_engagement
         end
 
+        resources :control_gates, only: [:index]
+
         resources :alerts, only: [:index, :update, :destroy] do
           get :read_all, on: :collection
         end
