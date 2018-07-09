@@ -2,6 +2,7 @@ class TicketingIntegrationTicketMaster < TicketingIntegration
   belongs_to :event, inverse_of: :ticket_master_ticketing_integrations
   before_save :set_events
 
+
   store :data, accessors: %i[userId venue last_import_date], coder: JSON
 
   attr_accessor :ignore_last_import_date

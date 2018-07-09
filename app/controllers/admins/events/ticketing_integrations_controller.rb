@@ -18,6 +18,7 @@ module Admins
 
       def create # rubocop:disable Metrics/AbcSize
         @integration = @current_event.ticketing_integrations.new(permitted_params.merge(type: TicketingIntegration::NAMES[params[:name].to_sym]))
+        
         authorize(TicketingIntegration.new)
         
         if @integration.save
