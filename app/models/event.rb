@@ -123,11 +123,6 @@ class Event < ApplicationRecord
     URI::HTTP.build(url).to_s
   end
 
-  # TODO[ticketmaster] remove after bbf
-  def is_ticketmaster? # rubocop:disable Naming/PredicateName
-    GlownetWeb.config.ticket_master_event.present? && GlownetWeb.config.ticket_master_event.eql?(id)
-  end
-
   private
 
   def update_emv_stations

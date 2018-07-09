@@ -35,7 +35,7 @@ module Ticketing
           integration_offset = hash[:offset]
         end
 
-        integration.data[:events][event_code][:offset] = integration.data[:events][event_code].merge(offset: integration_offset)
+        integration.data[:events][event_code][:offset] = integration_offset
         integration.save!
 
         request_body = GlownetWeb.config.ticket_master_params_2.merge(command1: { event_id: event_id, entry_code_offset: integration.data[:events][event_code][:offset] })
