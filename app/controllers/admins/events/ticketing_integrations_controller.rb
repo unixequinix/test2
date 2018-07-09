@@ -16,7 +16,7 @@ module Admins
         redirect_to [:admins, @current_event, @integration]
       end
 
-      def create
+      def create # rubocop:disable Metrics/AbcSize
         if params[:name].to_s.eql?('ticket_master')
           @integration = @current_event.ticketing_integrations.find_or_initialize_by(integration_event_id: @current_event.id, integration_event_name: @current_event.name, type: TicketingIntegration::NAMES[params[:name].to_sym], token: @current_user.id)
           @integration.data[:events] = { "#{permitted_params[:data][:event_code]}": {} } if @integration.new_record?

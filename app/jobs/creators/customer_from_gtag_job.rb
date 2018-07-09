@@ -2,7 +2,7 @@ module Creators
   class CustomerFromGtagJob < Base
     queue_as :medium
 
-    def perform(old_gtag, new_event, balance_selection, fee_selection) # rubocop:disable Metrics/PerceivedComplexity
+    def perform(old_gtag, new_event, balance_selection, fee_selection) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
       old_customer = old_gtag&.customer
       initial_fee = fee_selection.to_i.zero? ? false : old_customer.initial_topup_fee_paid
 

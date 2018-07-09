@@ -32,68 +32,68 @@ module Api
           return [].to_json unless ids.any?
 
           sql = <<-SQL
-          SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
-          FROM (
-            SELECT
-              customers.id,
-              customers.banned,
-              customers.updated_at,
-              customers.first_name,
-              customers.last_name,
-              customers.email,
-              cred.credentials,
-              ord.orders
-            FROM customers
+            SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
+            FROM (
+              SELECT
+                customers.id,
+                customers.banned,
+                customers.updated_at,
+                customers.first_name,
+                customers.last_name,
+                customers.email,
+                cred.credentials,
+                ord.orders
+              FROM customers
 
-              LEFT JOIN (
-                SELECT
-                  cr.customer_id AS customer_id,
-                  json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) AS credentials
-                FROM (
+                LEFT JOIN (
                   SELECT
-                    customer_id,
-                    code     AS reference,
-                    redeemed,
-                    'ticket' AS type
-                  FROM tickets
-                  WHERE tickets.customer_id IN (#{ids.join(', ')})
+                    cr.customer_id AS customer_id,
+                    json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) AS credentials
+                  FROM (
+                    SELECT
+                      customer_id,
+                      code     AS reference,
+                      redeemed,
+                      'ticket' AS type
+                    FROM tickets
+                    WHERE tickets.customer_id IN (#{ids.join(', ')})
 
-                  UNION ALL
+                    UNION ALL
 
+                    SELECT
+                      customer_id,
+                      tag_uid AS reference,
+                      redeemed,
+                      'gtag'  AS type
+                    FROM gtags
+                    WHERE gtags.customer_id IN (#{ids.join(', ')})
+                  ) cr GROUP BY cr.customer_id
+                ) cred ON customers.id = cred.customer_id
+
+                LEFT JOIN (
                   SELECT
-                    customer_id,
-                    tag_uid AS reference,
-                    redeemed,
-                    'gtag'  AS type
-                  FROM gtags
-                  WHERE gtags.customer_id IN (#{ids.join(', ')})
-                ) cr GROUP BY cr.customer_id
-              ) cred ON customers.id = cred.customer_id
+                    o.customer_id                                              AS customer_id,
+                    json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
+                  FROM (
+                    SELECT
+                      order_items.id,
+                      counter,
+                      customer_id,
+                      order_items.amount,
+                      catalog_item_id,
+                      catalog_items.type AS catalog_item_type,
+                      redeemed,
+                      'completed' AS status
+                    FROM order_items
+                      JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
+                      JOIN orders ON orders.id = order_items.order_id
+                        AND orders.customer_id IN (#{ids.join(', ')})
+                        AND orders.status = 3
+                  ) o GROUP BY o.customer_id
+                ) ord ON customers.id = ord.customer_id
 
-        LEFT JOIN (
-          SELECT
-            o.customer_id                                              AS customer_id,
-            json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) AS orders
-          FROM (
-            SELECT
-              order_items.id,
-              counter,
-              customer_id,
-              order_items.amount,
-              catalog_item_id,
-              catalog_items.type AS catalog_item_type,
-              redeemed,
-              'completed' AS status
-            FROM order_items
-              JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
-              JOIN orders ON orders.id = order_items.order_id
-                AND orders.customer_id IN (#{ids.join(', ')})
-                AND orders.status = 3
-          ) o GROUP BY o.customer_id
-        ) ord ON customers.id = ord.customer_id
-
-            WHERE customers.id IN (#{ids.join(', ')})
-          ) cep
+              WHERE customers.id IN (#{ids.join(', ')})
+            ) cep
           SQL
           ActiveRecord::Base.connection.select_value(sql)
         end
