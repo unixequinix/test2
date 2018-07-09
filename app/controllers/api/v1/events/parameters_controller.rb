@@ -13,6 +13,7 @@ module Api
                     stations_apply_orders stations_initialize_gtags stations_apply_tickets tips_enabled voucher_id voucher_products]
 
           body = cols.map { |col| { name: col, value: @current_event.method(col).call } }
+          body.find {|b| b[:value] = b[:value].join(',') if b[:name] == "voucher_products"}
 
           dev_env = Rails.env.development? || Rails.env.test? || Rails.env.integration?
           fake_key = "11111111111111111111111111111111"

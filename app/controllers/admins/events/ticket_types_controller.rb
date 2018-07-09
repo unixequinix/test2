@@ -77,7 +77,7 @@ module Admins
       end
 
       def set_operator
-        @operator_mode = params[:operator].eql?("true")
+        @operator_mode = params[:operator].present? && params[:operator].eql?("true")
       end
 
       def permitted_params
