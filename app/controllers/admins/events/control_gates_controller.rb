@@ -22,8 +22,8 @@ module Admins
 
       private
 
-			def set_control_gates
-        @access_transactions = @current_event.transactions.where(action: 'access_checkpoint', direction: -1).order('device_created_at DESC').to_a.uniq { |t| t.customer_id }
+      def set_control_gates
+        @access_transactions = @current_event.transactions.where(action: 'access_checkpoint', direction: -1).order('device_created_at DESC').to_a.uniq(&:customer_id)
         access_transactions_ids = @access_transactions.pluck(:id)
         access_transactions_customer_ids = @access_transactions.pluck(:customer_id)
 

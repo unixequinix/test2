@@ -22,7 +22,7 @@
         - @gateways.each do |gateway|
           - quantity = @current_event.count_online_refunds(grouping: :day, payment_filter: gateway)
           - data = @current_event.money_online_refunds_base(grouping: :day, payment_filter: gateway)
-          - next if data.values.all? && quantity.values.sum.zero?
+          - next if data.values.all?(&:zero?) && quantity.values.sum.zero?
 
           tr
             th.pvtRowLabel.low-contrast = gateway.humanize

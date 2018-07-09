@@ -18,8 +18,8 @@
 
       tbody
         - @stations.each do |station|
-          - data = @current_event.credit_onsite_refunds(grouping: :day, station_filter: station)
-          - next if data.values.all?
+          - data = @current_event.credit_onsite_refunds_base(grouping: :day, station_filter: station)
+          - next if data.values.all?(&:zero?)
 
           tr
             th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
@@ -33,9 +33,9 @@
 
           - @dates.each do |date|
 
-            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_onsite_refunds(grouping: :day, station_filter: @stations)[date].to_f)
+            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_onsite_refunds_base(grouping: :day, station_filter: @stations)[date].to_f)
 
-          td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_onsite_refunds_total( station_filter: @stations))
+          td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_onsite_refunds_base_total( station_filter: @stations))
 
   .mdl-layout-spacer
 

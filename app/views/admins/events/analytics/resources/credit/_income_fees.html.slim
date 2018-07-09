@@ -22,7 +22,7 @@
         - @stations.each do |station|
           - quantity = @current_event.count_credit_income_fees(credit_filter: @credits, station_filter: station)
           - data = @current_event.credit_income_fees(credit_filter: @credits, station_filter: station)
-          - next if data.values.all? && quantity.values.sum.zero?
+          - next if data.values.all?(&:zero?) && quantity.values.sum.zero?
 
           tr
             th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
