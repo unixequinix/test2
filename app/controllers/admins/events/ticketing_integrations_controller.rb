@@ -16,11 +16,11 @@ module Admins
         redirect_to [:admins, @current_event, @integration]
       end
 
-      def create # rubocop:disable Metrics/AbcSize
+      def create
         @integration = @current_event.ticketing_integrations.new(permitted_params.merge(type: TicketingIntegration::NAMES[params[:name].to_sym]))
-        
+
         authorize(TicketingIntegration.new)
-        
+
         if @integration.save
           redirect_to [:admins, @current_event, @integration]
         else

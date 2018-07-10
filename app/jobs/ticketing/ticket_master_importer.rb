@@ -17,8 +17,8 @@ module Ticketing
                                                                     })
 
       response = TicketingIntegration.new.api_response(uri, request_body)
-      if response['command1']['events'].present?                                                                 
-        event_id = response['command1']['events'][0]['event_id'] 
+      if response['command1']['events'].present?
+        event_id = response['command1']['events'][0]['event_id']
         company = response['command1']['events'][0]['title']
         ticket_types_data = response['command1']['events'][0]['price_types'].each_with_object({}) { |pt, hash| hash[(pt['extended_ids']).to_s] = { name: pt['name'], code: pt['code'] } }
         ticket_types_data.values.map { |tt| integration.event.ticket_types.find_or_create_by!(company: company, company_code: tt[:code], ticketing_integration_id: integration.id, event_id: integration.event_id, name: tt[:name]) }
