@@ -5,7 +5,7 @@ module Admins
       before_action :set_integration
 
       def connect
-        if @integration.update(status: "active")
+        if @integration.update(status: "active", token: @current_event.id)
           redirect_to [:admins, @current_event, @integration, :import_tickets]
         else
           redirect_to [:admins, @current_event, :ticket_types], alert: "Event already connected, choose another"

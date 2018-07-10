@@ -19,7 +19,7 @@ RSpec.describe Creators::OrderJob, type: :job do
 
     it "can create an order with virtual credits" do
       worker.perform_now(event, customer, 0, balance)
-      expect(event.orders.last.order_items.first.catalog_item).to eq(event.virtual_credit)
+      expect(customer.orders.last.order_items.first.catalog_item).to eq(event.virtual_credit)
     end
 
     it "cannot create an order with previous gateway" do

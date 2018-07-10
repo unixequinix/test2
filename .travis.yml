@@ -41,3 +41,6 @@ matrix:
 services:
   - redis-server
 
+notifications:
+  email: false
+

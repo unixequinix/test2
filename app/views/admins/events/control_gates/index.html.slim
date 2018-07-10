@@ -1,0 +1,10 @@
+- content_for(:title) do
+  = "Customers #{params[:filter]}".humanize
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+		.mdl-grid
+			= render "list", resources: @control_gates_in, search: @p, search_key: :p, search_params: :customer_tag_uid_cont, param_name: :customersin, search_title: "Search customers by tag uid", title: "Customers in event"
+			= render "list", resources: @customers, search: @q, search_key: :q, search_params: :email_or_first_name_cont, param_name: :customersout, search_title: "Search customers by email or name", title: "Customers out of event"
+						

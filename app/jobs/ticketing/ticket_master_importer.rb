@@ -2,7 +2,7 @@ module Ticketing
   class TicketMasterImporter < ApplicationJob
     queue_as :default
 
-    def perform(event_code, event_data, integration)
+    def perform(event_code, event_data, integration) # rubocop:disable Metrics/AbcSize
       uri = URI(GlownetWeb.config.ticketmaster_url_1.to_s)
       request_body = GlownetWeb.config.ticket_master_params_1.merge(command1: {
                                                                       access_control_system: event_data[:access_control_system],
@@ -35,7 +35,7 @@ module Ticketing
           integration_offset = hash[:offset]
         end
 
-        integration.data[:events][event_code][:offset] = integration.data[:events][event_code].merge(offset: integration_offset)
+        integration.data[:events][event_code][:offset] = integration_offset
         integration.save!
 
         request_body = GlownetWeb.config.ticket_master_params_2.merge(command1: { event_id: event_id, entry_code_offset: integration.data[:events][event_code][:offset] })

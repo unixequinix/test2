@@ -46,8 +46,8 @@
 						= render "bar_card", cols: 6,
 										id: 'tickets_orders',
 										colors: ['#F2F2F2', '#F2F2F2'],
-										data: { tickets: { text: 'Tickets Checked In / Tickets in System', current: @current_event.tickets.where(redeemed: true).count, total: @current_event.tickets.count },
-										orders: { text: "Orders Redeemed / Orders in System", current: @current_event.credit_online_orders_total(redeemed: true), total: @current_event.credit_online_orders_total }}
+										data: { tickets: { text: 'Tickets Checked In / Tickets in System', current: @current_event.tickets.where(redeemed: true).count, total: @current_event.tickets.count, icon: 'bookmark_border' },
+										orders: { text: "Orders Redeemed / Orders in System", current: @current_event.credit_online_orders_total(redeemed: true), total: @current_event.credit_online_orders_total, icon: 'shopping_cart' }}
 						= render "box", cols: 3,
 										id: 'products',
 										custom_class: 'hovering',
@@ -64,7 +64,10 @@
 										title_text: 'Total Activations',
 										title_number: number_with_delimiter(@current_event.customers.count),
 										subtitle: [{ text: 'Customers', number: number_with_delimiter(@current_event.customers.where(operator: false).count) }, { text: 'Staff', number: number_with_delimiter(@current_event.customers.where(operator: true).count) }]
-
+						= render "bar_card", cols: 12,
+										id: 'customers',
+										colors: ['#F2F2F2', '#F2F2F2'],
+										data: { customers: { text: 'Customers Access In / Customers in the Event', current: @checked_in_customers.count, total: @current_event.customers.count, icon: 'done_all', link_path: admins_event_control_gates_path(@current_event) } }
 		.mld-card
 			.content-grid.mdl-grid
 				.mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto

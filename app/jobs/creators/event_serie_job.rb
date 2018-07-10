@@ -1,6 +1,6 @@
 module Creators
   class EventSerieJob < Base
-    def perform(new_event, old_event, customers_selection, gtags_selection = "0", balance_selection = "0", fee_selection = "0")
+    def perform(new_event, old_event, customers_selection, gtags_selection = "0", balance_selection = "0", fee_selection = "0") # rubocop:disable Metrics/ParameterLists
       customers = old_event.customers.where(anonymous: customers_selection)
 
       gtags = old_event.gtags.where(customer: customers).to_a.uniq(&:customer_id)

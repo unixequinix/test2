@@ -21,6 +21,7 @@ module Admins
         non_alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: false))
         alcohol = @current_event.pokes.where(action: "sale", product: Product.where(station: @current_event.stations, is_alcohol: true))
         @alcohol_products = [{ is_alcohol: "Non Alcohol", credits: -non_alcohol.sum(:credit_amount), amount: non_alcohol.count }, { is_alcohol: "Alcohol", credits: -alcohol.sum(:credit_amount), amount: alcohol.count }]
+        @checked_in_customers = @current_event.transactions.where(action: 'access_checkpoint', direction: -1).select(:customer_id).distinct
 
         @partial = 'admins/events/analytics/dashboard'
         prepare_view(params[:action])
@@ -182,7 +183,7 @@ module Admins
       def credit_onsite_refunds
         @partial = "credit/onsite_refunds"
 
-        @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).reject { |station| @current_event.credit_onsite_refunds_total(station_filter: station).zero? }
+        @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).reject { |station| @current_event.credit_onsite_refunds_base_total(station_filter: station).zero? }
         @dates = @current_event.credit_onsite_refunds(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys
 
         crds = @current_event.credit_onsite_refunds_base(grouping: :hour, credit_filter: @credit, station_filter: @stations)

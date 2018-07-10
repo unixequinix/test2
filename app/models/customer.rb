@@ -193,7 +193,7 @@ class Customer < ApplicationRecord
   private
 
   def set_gdpr_acceptance
-    self.gdpr_acceptance_at = Time.now if gdpr_acceptance
+    self.gdpr_acceptance_at = Time.current if gdpr_acceptance
   end
 
   def generate_token(column)
