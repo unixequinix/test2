@@ -15,7 +15,7 @@ class Order < ApplicationRecord
 
   validates :number, :status, presence: true
   validates :order_items, presence: true
-  validates :money_fee, :money_base, :credits, :virtual_credits, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :money_fee, :money_base, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   validate :max_credit_reached
 
@@ -79,7 +79,7 @@ class Order < ApplicationRecord
 
   def topup?
     # event.catalog_items.where(id: order_items.pluck(:catalog_item_id)).select(:type).distinct.pluck(:type).all? { |klass| klass.include?("Credit") }
-    order_items.all? { |item| item.catalog_item.class.to_s.include?("Credit") }
+    order_items.includes(:catalog_item).all? { |item| item.catalog_item.class.to_s.include?("Credit") }
   end
 
   def purchase?

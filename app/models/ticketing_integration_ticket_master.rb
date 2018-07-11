@@ -2,7 +2,6 @@ class TicketingIntegrationTicketMaster < TicketingIntegration
   belongs_to :event, inverse_of: :ticket_master_ticketing_integrations
   before_save :set_events
 
-
   store :data, accessors: %i[userId venue last_import_date], coder: JSON
 
   attr_accessor :ignore_last_import_date
@@ -29,15 +28,14 @@ class TicketingIntegrationTicketMaster < TicketingIntegration
     integration.integration_event_id = nil
     integration.data[:events] = { "#{data[:event_code]}": {} } if integration.new_record?
     integration.data[:events] = integration.data[:events].merge("#{data[:event_code]}": {
-                                                                    begin_date: data[:begin_date],
-                                                                    end_date: data[:end_date],
-                                                                    access_control_system: data[:access_control_system],
-                                                                    system_id: data[:system_id]
-                                                                  })
-    if new_record?
-      integration.destroy 
-      self.id = integration&.id
-      self.attributes = integration.attributes
-    end
+                                                                  begin_date: data[:begin_date],
+                                                                  end_date: data[:end_date],
+                                                                  access_control_system: data[:access_control_system],
+                                                                  system_id: data[:system_id]
+                                                                })
+    return unless new_record?
+    integration.destroy
+    self.id = integration&.id
+    self.attributes = integration.attributes
   end
 end
