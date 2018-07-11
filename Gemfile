@@ -128,7 +128,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-mocks'
   gem 'rspec-activemodel-mocks'
-  gem 'awesome_print', require:'ap'
+  gem 'awesome_print'
   gem 'guard'
   gem 'guard-rubocop', require: false
   gem 'guard-rspec', require: false
