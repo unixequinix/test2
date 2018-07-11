@@ -33,6 +33,11 @@ staging:
   <<: *default
   database: cloud_staging
 
+bacardi:
+  <<: *default
+  database: cloud_bacardi
+  pool: 10
+
 production:
   <<: *default
   database: cloud_production

@@ -75,6 +75,10 @@ staging:
   <<: *common
   universe_app_url: https://staging.glownet.com/admins/universe/auth
 
+bacardi:
+  <<: *common
+  universe_app_url: https://staging.glownet.com/admins/universe/auth
+
 production:
   <<: *common
   universe_app_url: https://gspot.glownet.com/admins/universe/auth
