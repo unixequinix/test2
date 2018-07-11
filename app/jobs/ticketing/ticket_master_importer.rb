@@ -21,7 +21,7 @@ module Ticketing
         event_id = response['command1']['events'][0]['event_id']
         company = response['command1']['events'][0]['title']
         ticket_types_data = response['command1']['events'][0]['price_types'].each_with_object({}) { |pt, hash| hash[(pt['extended_ids']).to_s] = { name: pt['name'], code: pt['code'] } }
-        ticket_types_data.values.map { |tt| integration.event.ticket_types.find_or_create_by!(company: company, company_code: tt[:code], ticketing_integration_id: integration.id, event_id: integration.event_id, name: tt[:name]) }
+        ticket_types_data.values.map { |tt| integration.ticket_types.find_or_create_by!(company: company, company_code: tt[:code], ticketing_integration_id: integration.id, event_id: integration.event_id, name: tt[:name]) }
         request_body = GlownetWeb.config.ticket_master_params_2.merge(command1: { event_id: event_id, entry_code_offset: (event_data[:offset] || 1) })
       end
 
@@ -32,7 +32,7 @@ module Ticketing
         tickets.map { |t| { offset: (t['entry_code_offset'].to_i + 1), code: t["entry_code_info"]["value"], banned: !t["status"].eql?("ACTIVE"), index: t["price_type"].to_i } }.each do |hash|
           index = 0
           ticket_types_data.keys.each { |i| index = i if JSON.parse(i).include?(hash[:index]) }
-          ticket_type = integration.event.ticket_types.find_by(company_code: ticket_types_data[index][:code])
+          ticket_type = integration.ticket_types.find_by(company_code: ticket_types_data[index][:code])
           ticket = integration.event.tickets.find_or_create_by!(ticket_type: ticket_type, code: hash[:code])
           ticket.update(banned: hash[:banned])
           integration_offset = hash[:offset]
