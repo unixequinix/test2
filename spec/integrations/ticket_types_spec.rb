@@ -61,7 +61,7 @@ RSpec.describe "Tests on ticket type view", type: :feature do
       within("#edit_ticket_type_#{ticket_type.id}") { fill_in 'ticket_type_name', with: "Saturday" }
       find("#ticket_type_catalog_item_id").select(event.virtual_credit.name)
       expect { find("input[name=commit]").click }.to change { ticket_type.reload.name }.to("Saturday")
-      expect(page).to have_current_path(admins_event_ticket_types_path(event))
+      expect(page).to have_current_path(admins_event_ticket_types_path(event, operator: false))
     end
   end
 end

@@ -8,7 +8,7 @@
     .form-inputs.short-input
       = f.input :operator, as: :hidden, input_html: { value: @operator_mode }
       = f.input :tag_uid, placeholder: true, as: :string, autofocus: true
-      = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.pluck(:name, :id), include_blank: true, placeholder: true
+      = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.where(operator: @operator_mode).pluck(:name, :id), include_blank: true, placeholder: true
     .file
       label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='banned'
         span.mdl-switch__label.form-label Banned

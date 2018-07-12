@@ -10,7 +10,7 @@ class Ticket < ApplicationRecord
   validates :code, uniqueness: { scope: :event_id }, presence: true
   validate_associations
 
-  scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
+  scope :query_for_csv, ->(event, operator = false) { event.tickets.where(operator: operator).select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
 
   alias_attribute :reference, :code
 
