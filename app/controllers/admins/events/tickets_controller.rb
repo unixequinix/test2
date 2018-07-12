@@ -85,8 +85,8 @@ module Admins
 
         begin
           ticket_types = []
-          CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << row.field("ticket_type") }
-          ticket_types = ticket_types.compact.uniq.map { |name| @current_event.ticket_types.find_or_create_by(name: name) }
+          CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << [row.field("ticket_type"), row.field("company")] }
+          ticket_types = ticket_types.compact.uniq.map { |name, company| @current_event.ticket_types.find_or_create_by(name: name, company: company) }
           ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
 
           CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
@@ -103,8 +103,8 @@ module Admins
 
       def sample_csv
         authorize @current_event.tickets.new
-        header = %w[ticket_type reference first_name last_name email]
-        data = [["VIP Night", "0011223344", "Jon", "Snow", "jon@snow.com"], ["VIP Day", "4433221100", "Arya", "Stark", "arya@stark.com"]]
+        header = %w[company ticket_type reference first_name last_name email]
+        data = [["Ticket Company1", "VIP Night", "0011223344", "Jon", "Snow", "jon@snow.com"], ["Ticket Company1", "VIP Day", "4433221100", "Arya", "Stark", "arya@stark.com"]]
 
         respond_to do |format|
           format.csv { send_data(CsvExporter.sample(header, data)) }

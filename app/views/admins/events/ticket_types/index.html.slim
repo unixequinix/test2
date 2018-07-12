@@ -93,7 +93,7 @@
           tbody
             - @ticket_types.each do |ticket_type|
               tr class="#{'resource-hidden' if ticket_type.hidden?}"
-                td.mdl-data-table__cell--non-numeric #{ticket_type.company || "No company"} - #{ticket_type.ticketing_integration&.integration_event_name || "Not Connected"}
+                td.mdl-data-table__cell--non-numeric #{ticket_type.company || "No company"} - #{ticket_type.ticketing_integration&.integration_event_name || "No event"}
                 td.mdl-data-table__cell--non-numeric data-label="Name" = link_to ticket_type.name, [:admins, @current_event, ticket_type]
                 td data-label="Item" = best_in_place ticket_type, :catalog_item_id, as: :select, collection: @catalog_items, url: [:admins, @current_event, ticket_type]
                 td data-label="Tickets" = @ticket_counts[ticket_type.id].to_i
