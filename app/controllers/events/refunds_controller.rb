@@ -34,6 +34,8 @@ class Events::RefundsController < Events::EventsController
   end
 
   def permitted_params
+    params[:refund][:fields].keys.each {|k| params[:refund][:fields][k] = params[:refund][:fields][k].delete(' ')}
+
     params.require(:refund).permit(:gateway, fields: {})
   end
 end
