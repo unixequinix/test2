@@ -31,6 +31,8 @@ module Admins
         @access_control = prepare_pokes(access_cols, pokes_access(@station))
         ticket_cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer ID', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Redeemed', 'Total Tickets']
         @checkin_ticket_type = prepare_pokes(ticket_cols, pokes_checkin(@station))
+        ticket_val_cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer ID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Redeemed', 'Total Tickets']
+        @validation_ticket_type = prepare_pokes(ticket_val_cols, pokes_ticket_validation(@station))
       end
 
       def new

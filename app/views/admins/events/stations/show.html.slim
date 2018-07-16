@@ -131,5 +131,7 @@
                     = render "admins/events/analytics/stations/box_office"
                   - when 'access_control'
                     = render "admins/events/analytics/stations/access", station: @station, access_control: @access_control
-                  - when 'check_in', 'ticket_validation'
+                  - when 'check_in'
                     = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @checkin_ticket_type
+                  - when 'ticket_validation'
+                    = render "admins/events/analytics/stations/credential", station: @station, checkin_ticket_type: @validation_ticket_type
