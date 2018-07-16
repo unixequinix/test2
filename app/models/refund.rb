@@ -94,9 +94,9 @@ class Refund < ApplicationRecord
 
   def correct_iban_and_swift
     validator = IBANTools::IBAN
-    msg = validator.new(fields[:iban]).validation_errors.map(&:to_s).map(&:humanize).to_sentence
-    errors.add(:iban, msg) unless validator.valid?(fields[:iban])
-    validator = ISO::SWIFT.new(fields[:swift])
+    msg = validator.new(fields["IBAN"]).validation_errors.map(&:to_s).map(&:humanize).to_sentence
+    errors.add(:iban, msg) unless validator.valid?(fields["IBAN"])
+    validator = ISO::SWIFT.new(fields["SWIFT"])
     msg = validator.errors.map(&:to_s).map(&:humanize).to_sentence
     errors.add(:swift, msg) unless validator.valid?
   end
