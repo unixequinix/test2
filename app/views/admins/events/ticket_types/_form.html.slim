@@ -8,7 +8,7 @@
     .form-inputs
       = f.input :operator, as: :hidden, input_html: { value: @operator_mode }
       = f.input :name, autofocus: true
-      = f.input :catalog_item_id, collection: @catalog_items, include_blank: true, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
+      = f.input :catalog_item_id, collection: @catalog_items, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
 
       label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
         span.mdl-switch__label.form-label Hidden

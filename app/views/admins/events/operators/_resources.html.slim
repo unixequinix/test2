@@ -15,19 +15,19 @@
             td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags, operator: true]
             td
               = @current_event.gtags.where(operator: true).count if @current_event.gtags.where(operator: true).any?
-              = link_to [:new, :admins, @current_event, :gtag] do
+              = link_to [:new, :admins, @current_event, :gtag, operator: true] do
                 span.material-icons add_circle_outline
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Ticket Types", [:admins, @current_event, :ticket_types, operator: true]
             td
               = @current_event.ticket_types.where(operator: true).count if @current_event.ticket_types.where(operator: true).any?
-              = link_to [:new, :admins, @current_event, :ticket_type] do
+              = link_to [:new, :admins, @current_event, :ticket_type, operator: true] do
                 span.material-icons add_circle_outline
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets, operator: true]
             td
               = @current_event.tickets.where(operator: true).count if @current_event.tickets.where(operator: true).any?
-              = link_to [:new, :admins, @current_event, :ticket] do
+              = link_to [:new, :admins, @current_event, :ticket, operator: true] do
                 span.material-icons add_circle_outline
           tr
             td.mdl-data-table__cell--non-numeric = link_to "Permissions", [:admins, @current_event, :operator_permissions, operator: true]

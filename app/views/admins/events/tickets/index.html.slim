@@ -15,7 +15,7 @@
             i.material-icons add
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
       li.floaty-list-item
-        = link_to admins_event_tickets_path(format: "csv") do
+        = link_to admins_event_tickets_path(format: "csv", operator: @operator_mode) do
           button#download_csv.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
             i.material-icons file_download
             span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download_csv" Download CSV
@@ -32,7 +32,7 @@
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
   h3.remodal__title Import products by CSV file
-  = simple_form_for :file, url: import_admins_event_tickets_path(@current_event.id), html: { multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+  = simple_form_for :file, url: import_admins_event_tickets_path(@current_event, operator: @operator_mode), html: { multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     p = f.file_field :data, label: :import
     p
       | Download a

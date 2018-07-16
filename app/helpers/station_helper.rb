@@ -61,6 +61,17 @@ module StationHelper
     end
   end
 
+  def pokes_ticket_validation(object)
+    ticket_codes = {}
+    @current_event.tickets.map { |t| ticket_codes.merge!([t.customer_id, t.ticket_type_id] => t.code) }
+    checkin = object.pokes.validation_ticket_type.as_json
+    checkin.each do |p|
+      p["date_time"] = time_zoner(p["date_time"])
+      p["event_day"] = event_day(p["date_time"])
+      p["code"] = ticket_codes[[p["customer_id"], p["ticket_type_id"]]]
+    end
+  end
+
   def pokes_access(object)
     access = object.pokes.access.as_json
     access.each do |p|

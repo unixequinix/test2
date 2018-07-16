@@ -7,7 +7,7 @@
   = simple_form_for [:admins, @current_event, ticket], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .form-inputs
       = f.input :operator, as: :hidden, input_html: { value: @operator_mode }
-      = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.order(:name).pluck(:name, :id), include_blank: false, placeholder: true
+      = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.where(operator: @operator_mode).order(:name).pluck(:name, :id), include_blank: false, placeholder: true
       = f.input :code, placeholder: true, as: :string, autofocus: true
       = f.input :purchaser_first_name
       = f.input :purchaser_last_name

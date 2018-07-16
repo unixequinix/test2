@@ -26,7 +26,7 @@ class Gtag < ApplicationRecord
 
   validate_associations
 
-  scope :query_for_csv, (->(event) { event.gtags.select(%i[id tag_uid banned credits virtual_credits final_balance final_virtual_balance]) })
+  scope :query_for_csv, (->(event, operator) { event.gtags.where(operator: operator).select(%i[id tag_uid banned credits virtual_credits final_balance final_virtual_balance]) })
   scope :inconsistent, (-> { where(consistent: false) })
   scope :missing_transactions, (-> { where(missing_transactions: true) })
 

@@ -2,7 +2,7 @@ module Admins
   module Events
     class GtagsController < Admins::Events::BaseController
       before_action :set_gtag, only: %i[show edit update destroy solve_inconsistent recalculate_balance merge make_active]
-      before_action :set_operator, only: %i[index new]
+      before_action :set_operator, only: %i[index new import]
 
       def index
         @q = @current_event.gtags.where(operator: @operator_mode).includes(:customer).order(:tag_uid).ransack(params[:q])
@@ -16,7 +16,7 @@ module Admins
 
         respond_to do |format|
           format.html
-          format.csv { send_data(CsvExporter.to_csv(Gtag.query_for_csv(@current_event))) }
+          format.csv { send_data(CsvExporter.to_csv(Gtag.query_for_csv(@current_event, @operator_mode))) }
         end
       end
 
@@ -42,12 +42,15 @@ module Admins
         end
       end
 
-      def edit; end
+      def edit
+        @operator_mode = @gtag.operator?
+      end
 
       def update
+        @operator_mode = @gtag.operator?
         respond_to do |format|
           if @gtag.update(permitted_params)
-            format.html { redirect_to admins_event_gtag_path(@current_event, @gtag), notice: t("alerts.updated") }
+            format.html { redirect_to [:admins, @current_event, @gtag], notice: t("alerts.updated") }
             format.json { render json: @gtag }
           else
             flash.now[:alert] = t("alerts.error")
@@ -95,12 +98,12 @@ module Admins
 
       def solve_inconsistent
         @gtag.update!(consistent: true)
-        redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was made consistent"
+        redirect_to [:admins, @current_event, @gtag], notice: "Gtag balance was made consistent"
       end
 
       def recalculate_balance
         @gtag.recalculate_all
-        redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
+        redirect_to [:admins, @current_event, @gtag], notice: "Gtag balance was recalculated successfully"
       end
 
       def make_active
@@ -111,7 +114,9 @@ module Admins
 
       def import
         authorize @current_event.gtags.new
-        redirect_to(admins_event_gtags_path(@current_event), alert: "File not supplied") && return unless params[:file]
+        url = [:admins, @current_event, :gtags, operator: @operator_mode]
+
+        redirect_to(url, alert: "File not supplied") && return unless params[:file]
         file = params[:file][:data].tempfile.path
         count = 0
 
@@ -121,14 +126,14 @@ module Admins
 
         begin
           CSV.foreach(file, headers: true, col_sep: ";") do |row|
-            Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance"), row.field("VirtualBalance"), ticket_type_id: ticket_types[row.field("Type")])
+            Creators::GtagJob.perform_later(@current_event, row.field("UID"), row.field("Balance"), row.field("VirtualBalance"), operator: @operator_mode, ticket_type_id: ticket_types[row.field("Type")])
             count += 1
           end
         rescue StandardError
-          return redirect_to(admins_event_gtags_path(@current_event), alert: t("alerts.import.error"))
+          return redirect_to(url, alert: t("alerts.import.error"))
         end
 
-        redirect_to(admins_event_gtags_path(@current_event), notice: t("alerts.import.delayed", count: count, item: "GTags"))
+        redirect_to(url, notice: t("alerts.import.delayed", count: count, item: "GTags"))
       end
 
       def sample_csv

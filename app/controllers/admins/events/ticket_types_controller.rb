@@ -44,10 +44,15 @@ module Admins
         end
       end
 
+      def edit
+        @operator_mode = @ticket_type.operator?
+      end
+
       def update
+        @operator_mode = @ticket_type.operator?
         respond_to do |format|
           if @ticket_type.update(permitted_params)
-            format.html { redirect_to admins_event_ticket_types_path, notice: t("alerts.updated") }
+            format.html { redirect_to admins_event_ticket_types_path(operator: @operator_mode), notice: t("alerts.updated") }
             format.json { render json: @ticket_type }
           else
             flash.now[:alert] = t("alerts.errors")
