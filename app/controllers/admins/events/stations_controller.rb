@@ -10,7 +10,7 @@ module Admins
       def index
         @q = policy_scope(@current_event.stations).includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
                                                   .order(:hidden, :category, :name)
-                                                  .where.not(category: "touchpoint")
+                                                  .where.not(category: %W[touchpoint vault sync gtag_recycler])
                                                   .ransack(params[:q])
         @stations = @q.result
         authorize @stations
