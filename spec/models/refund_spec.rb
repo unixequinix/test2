@@ -99,27 +99,27 @@ RSpec.describe Refund, type: :model do
 
   describe ".correct_iban_and_swift" do
     it "works with a valid iban" do
-      subject.fields[:iban] = "ES80 2310 0001 1800 0001 2345"
+      subject.fields["IBAN"] = "ES80 2310 0001 1800 0001 2345"
       expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:iban] })
     end
 
     it "checks iban length" do
-      subject.fields[:iban] = "AA"
+      subject.fields["IBAN"] = "AA"
       expect { subject.correct_iban_and_swift }.to change { subject.errors[:iban] }.from([]).to(["Too short"])
     end
 
     it "checks iban country code and check digits" do
-      subject.fields[:iban] = "ZZ111111111111"
+      subject.fields["IBAN"] = "ZZ111111111111"
       expect { subject.correct_iban_and_swift }.to change { subject.errors[:iban] }.from([]).to(["Unknown country code and Bad check digits"])
     end
 
     it "checks swift length and format" do
-      subject.fields[:swift] = "BBVAESMMRELL"
+      subject.fields["SWIFT"] = "BBVAESMMRELL"
       expect { subject.correct_iban_and_swift }.to change { subject.errors[:swift] }.from([]).to(["Too long and Bad format"])
     end
 
     it "works with a valid swift code" do
-      subject.fields[:swift] = "BBVAESMMREL"
+      subject.fields["SWIFT"] = "BBVAESMMREL"
       expect { subject.correct_iban_and_swift }.not_to(change { subject.errors[:swift] })
     end
   end
