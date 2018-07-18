@@ -18,7 +18,8 @@ module Api
           dev_env = Rails.env.development? || Rails.env.test? || Rails.env.integration?
           fake_key = "11111111111111111111111111111111"
           value = dev_env ? fake_key : @current_event.gtag_key
-
+          
+          body << { name: "refund_fee", value: @current_event.onsite_refund_fee } if @current_event.onsite_refund_fee.present?
           body << { name: "initial_topup_fee", value: @current_event.onsite_initial_topup_fee } if @current_event.onsite_initial_topup_fee.present?
           body << { name: "topup_fee", value: @current_event.every_topup_fee } if @current_event.every_topup_fee.present?
           body << { name: "gtag_deposit_fee", value: @current_event.gtag_deposit_fee } if @current_event.gtag_deposit_fee.present?

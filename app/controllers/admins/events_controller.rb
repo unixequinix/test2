@@ -208,6 +208,7 @@ module Admins
                                     :online_initial_topup_fee,
                                     :every_topup_fee,
                                     :refund_fee,
+                                    :onsite_refund_fee,
                                     :refund_minimum,
                                     :auto_refunds,
                                     :ultralight_c,
