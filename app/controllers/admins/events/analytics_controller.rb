@@ -127,7 +127,7 @@ module Admins
         @p = @current_event.customers.ransack(params[:p])
         @q = @current_event.customers.ransack(params[:q])
 
-        @access = @current_event.accesses.find(10296) # 10456 for prod
+        @access = @current_event.accesses.find(10456)
         pokes = @current_event.pokes.where(action: 'checkpoint', catalog_item_id: @access.id).includes(:customer)
         @control_gates_in = pokes.where(customer: @p.result).order(date: :asc).page(params[:customersin]).group_by {|poke| poke.customer}.map { |_, pokes| pokes.last if pokes.last.access_direction.eql?(1) }.flatten.compact
         @control_gates_out = pokes.where(customer: @q.result).order(date: :asc).page(params[:customersin]).group_by {|poke| poke.customer}.map { |_, pokes| pokes.last if pokes.last.access_direction.eql?(-1) }.flatten.compact
