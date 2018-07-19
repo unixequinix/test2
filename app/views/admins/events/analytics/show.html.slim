@@ -21,7 +21,7 @@
   h4 style="text-align: center"
     = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
       span.mdl-button__ripple-container OK
-
+- byebug
 .mdl-grid.light-grid
   .mdl-cell.mdl-cell--12-col
     .mdl-layout__content.transaction-card-wide.mdl-card.mdl-shadow--2dp
@@ -32,6 +32,8 @@
           = link_to_if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager), "Credits", credits_flow_admins_event_analytics_path(@current_event), remote: true, id: "credits", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
           = link_to_if admin_or_promoter_or(:gates_manager), 'Gates', gates_admins_event_analytics_path(@current_event), remote: true, id: "gates", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
           = link_to_if (@current_user.team&.id==2 || @current_user.glowball?), 'Partner Reports', partner_reports_admins_event_analytics_path(@current_event), remote: true, id: "partners", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
+          / - if @current_event.id.eql?(469)
+          = link_to_if admin_or_promoter_or(:monetary_manager), 'Parking', lambeth_parking_admins_event_analytics_path(@current_event), remote: true, id: "parking", class: "mdl-tabs__tab spinneable #{'is-active' if (@p.base.values.any? || @q.base.values.any?)}", "data-spinner" => "content"
 
         #load-view
           = render 'admins/events/spinner'
@@ -45,6 +47,7 @@
   
 javascript:
   $(window).load(function() {
+    if(JSON.parse("#{(@p.base.values.any? || @q.base.values.any?)}")) { return }
     $('.mdl-tabs__tab').first().addClass('is-active')
     $('.mdl-tabs__tab').first().click();
     $('.loader-container').fadeIn('slow');

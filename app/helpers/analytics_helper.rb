@@ -19,6 +19,10 @@ module AnalyticsHelper
     date.to_datetime.in_time_zone(@current_event.timezone).strftime("%Y-%m-%d %Hh")
   end
 
+  def time_zoner_time(date)
+    date.to_datetime.in_time_zone(@current_event.timezone).strftime("%Y-%m-%d %T")
+  end
+
   def event_day(date, delay = 8)
     (date.to_datetime - (delay + 2).hour).in_time_zone(@current_event.timezone).to_date
   end

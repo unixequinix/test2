@@ -122,6 +122,19 @@ module Admins
         end
       end
 
+      def lambeth_parking
+        @p = @current_event.customers.ransack(params[:p])
+        @q = @current_event.customers.ransack(params[:q])
+
+        access = @current_event.accesses.first # 10456
+        access_transactions = @current_event.pokes.where(action: 'checkpoint', catalog_item_id: access.id).includes(:customer)
+        @control_gates_in = access_transactions.where(customer: @p.result).order(date: :asc).page(params[:customersin]).group_by {|poke| poke.customer}.map{|customer, pokes| pokes.last if pokes.last.access_direction.eql?(1)}.flatten.compact
+        @control_gates_out = access_transactions.where(customer: @q.result).order(date: :asc).page(params[:customersin]).group_by {|poke| poke.customer}.map{|customer, pokes| pokes.last if pokes.last.access_direction.eql?(-1)}.flatten.compact
+        
+        @partial = 'admins/events/analytics/parking'
+        prepare_view(params[:action])
+      end
+
       private
 
       def credit_topups

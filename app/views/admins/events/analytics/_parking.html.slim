@@ -1,0 +1,61 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+		.mdl-grid
+				.mdl-cell.mdl-cell--6-col
+					.admin-card-wide.mdl-card.mdl-shadow--2dp
+						.mdl-card__title
+							h4 = 'Customers In'
+
+						= search_form_for @p, url: lambeth_parking_admins_event_analytics_path(@current_event), as: :p do |s|
+							.mdl-card__title
+								i.material-icons search
+								.mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
+									= s.search_field :email_or_first_name_cont, class: "mdl-textfield__input"
+									label.mdl-textfield__label for="search-available-devices" = 'Customer email or name'
+						
+
+						.table-responsive
+							table.mdl-data-table.mdl-js-data-table.within-card.sortable
+								thead
+									tr
+										th.mdl-data-table__cell--non-numeric Name
+										th.mdl-data-table__cell--non-numeric Email
+										th.mdl-data-table__cell--non-numeric Date
+
+
+								tbody
+									- @control_gates_in.each do |control_gate|
+										tr 
+											td.mdl-data-table__cell--non-numeric data-label="Name" = control_gate.customer.name
+											td.mdl-data-table__cell--non-numeric data-label="Email" = link_to control_gate.customer.full_email, admins_event_customer_path(@current_event, control_gate.customer), id:"email_#{control_gate.customer.id}"
+											td.mdl-data-table__cell--non-numeric data-label="Date" = time_zoner_time(control_gate.date)
+
+				.mdl-cell.mdl-cell--6-col
+					.admin-card-wide.mdl-card.mdl-shadow--2dp
+						.mdl-card__title
+							h4 = 'Customers Out'
+
+						= search_form_for @q, url: lambeth_parking_admins_event_analytics_path(@current_event), as: :q do |s|
+							.mdl-card__title
+								i.material-icons search
+								.mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
+									= s.search_field :email_or_first_name_cont, class: "mdl-textfield__input"
+									label.mdl-textfield__label for="search-available-devices" = 'Customer email or name'
+						
+
+						.table-responsive
+							table.mdl-data-table.mdl-js-data-table.within-card.sortable
+								thead
+									tr
+										th.mdl-data-table__cell--non-numeric Name
+										th.mdl-data-table__cell--non-numeric Email
+										th.mdl-data-table__cell--non-numeric Date
+
+
+								tbody
+									- @control_gates_out.each do |control_gate|
+										tr 
+											td.mdl-data-table__cell--non-numeric data-label="Name" = control_gate.customer.name
+											td.mdl-data-table__cell--non-numeric data-label="Email" = link_to control_gate.customer.full_email, admins_event_customer_path(@current_event, control_gate.customer), id:"email_#{control_gate.customer.id}"
+											td.mdl-data-table__cell--non-numeric data-label="Date" = time_zoner_time(control_gate.date)
