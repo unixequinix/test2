@@ -19,6 +19,10 @@ module AnalyticsHelper
     date.to_datetime.in_time_zone(@current_event.timezone).strftime("%Y-%m-%d %Hh")
   end
 
+  def time_zoner_with_time(date)
+    date.to_datetime.in_time_zone(@current_event.timezone).strftime("%Y-%m-%d %T")
+  end
+
   def event_day(date, delay = 8)
     (date.to_datetime - (delay + 2).hour).in_time_zone(@current_event.timezone).to_date
   end
@@ -32,6 +36,7 @@ module AnalyticsHelper
     money.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
@@ -44,13 +49,14 @@ module AnalyticsHelper
     money.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
   def raw_data_money
     CSV.generate do |csv|
-      csv << ['Action', 'Description', 'Source', 'Payment Method', 'Event Day', 'Date Time', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money', 'Number of Operations']
-      data = %w[action description source payment_method event_day date_time location station_type station_name customer_uid customer_name operator_uid operator_name device_name money num_operations]
+      csv << ['Action', 'Description', 'Source', 'Payment Method', 'Event Day', 'Date Time', 'Date', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Money', 'Number of Operations']
+      data = %w[action description source payment_method event_day date_time date location station_type station_name customer_uid customer_name operator_uid operator_name device_name money num_operations]
       pokes_money.map { |row| csv << data.map { |col| row[col] } }
     end
   end
@@ -66,6 +72,7 @@ module AnalyticsHelper
     credits.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
@@ -80,13 +87,14 @@ module AnalyticsHelper
     credits.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
   def raw_data_credits
     CSV.generate do |csv|
-      csv << ['Action', 'Description', 'Event Day', 'Date Time', 'Location', 'Station Type', 'Station Name', 'Device', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Credit Name', 'Credits', 'Number of Operations']
-      data = %w[action description event_day date_time location station_type station_name device_name customer_uid customer_name operator_uid operator_name credit_name credit_amount num_operations]
+      csv << ['Action', 'Description', 'Event Day', 'Date Time', 'Date', 'Location', 'Station Type', 'Station Name', 'Device', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Credit Name', 'Credits', 'Number of Operations']
+      data = %w[action description event_day date_time date location station_type station_name device_name customer_uid customer_name operator_uid operator_name credit_name credit_amount num_operations]
       pokes_credits.map { |row| csv << data.map { |col| row[col] } }
     end
   end
@@ -96,6 +104,7 @@ module AnalyticsHelper
     sales.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
@@ -104,13 +113,14 @@ module AnalyticsHelper
     sales.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
   def raw_data_sales
     CSV.generate do |csv|
-      csv << ['Description', 'Event Day', 'Date Time', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Alcohol Product', 'Product Name', 'Credit Name', 'Credits', 'Number of Operations', 'Product Quantity']
-      data = %w[description event_day date_time location station_type station_name customer_uid customer_name operator_uid operator_name device_name is_alcohol product_name credit_name credit_amount num_operations sale_item_quantity]
+      csv << ['Description', 'Event Day', 'Date Time', 'Date', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Alcohol Product', 'Product Name', 'Credit Name', 'Credits', 'Number of Operations', 'Product Quantity']
+      data = %w[description event_day date_time date location station_type station_name customer_uid customer_name operator_uid operator_name device_name is_alcohol product_name credit_name credit_amount num_operations sale_item_quantity]
       pokes_sales.map { |row| csv << data.map { |col| row[col] } }
     end
   end
@@ -120,6 +130,7 @@ module AnalyticsHelper
     products_stock.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
@@ -131,14 +142,15 @@ module AnalyticsHelper
     checkin.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
       p['code'] = ticket_codes[[p['customer_id'], p['ticket_type_id']]]
     end
   end
 
   def raw_data_checkin
     CSV.generate do |csv|
-      csv << ['Description', 'Event Day', 'Date Time', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Total Tickets']
-      data = %w[description event_day date_time location station_type station_name customer_uid customer_name operator_uid operator_name device_name catalog_item_name ticket_type_name code total_tickets]
+      csv << ['Description', 'Event Day', 'Date Time', 'Date', 'Location', 'Station Type', 'Station Name', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Total Tickets']
+      data = %w[description event_day date_time date location station_type station_name customer_uid customer_name operator_uid operator_name device_name catalog_item_name ticket_type_name code total_tickets]
       pokes_checkin.map { |row| csv << data.map { |col| row[col] } }
     end
   end
@@ -148,13 +160,14 @@ module AnalyticsHelper
     access.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
   def raw_data_access
     CSV.generate do |csv|
-      csv << ["Station Name", "Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
-      data = %w[station_name event_day date_time direction capacity access_direction zone]
+      csv << ["Station Name", "Event Day", "Date Time", "Time", "Direction", "Capacity", "Access", "Zone"]
+      data = %w[station_name event_day date_time date direction capacity access_direction zone]
       pokes_access.map { |row| csv << data.map { |col| row[col] } }
     end
   end
@@ -163,6 +176,7 @@ module AnalyticsHelper
     data = @current_event.pokes.access_in_out(access).as_json
     data.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
@@ -171,6 +185,7 @@ module AnalyticsHelper
     data.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
@@ -179,13 +194,14 @@ module AnalyticsHelper
     data.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p["zone"] = access.name
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
   def raw_data_access_ticket_type
     CSV.generate do |csv|
-      csv << ["Customer ID", "Date Time", "Ticket Type", "Catalog Item", "Access Name", "Check In", "Access", "Zone"]
-      data = %w[customer_id date_time ticket_type_name catalog_item_name access_name checkin access_direction zone]
+      csv << ["Customer ID", "Date Time", "Time", "Ticket Type", "Catalog Item", "Access Name", "Check In", "Access", "Zone"]
+      data = %w[customer_id date_time date ticket_type_name catalog_item_name access_name checkin access_direction zone]
       accesses = @current_event.catalog_items.where(type: 'Access')
       access_by_ticket_type = []
       accesses.map { |access| access_by_ticket_type.append(pokes_access_by_ticket_type(access)) }
@@ -198,13 +214,14 @@ module AnalyticsHelper
     engagement.each do |p|
       p['date_time'] = time_zoner(p['date_time'])
       p['event_day'] = event_day(p['date_time'])
+      p['date'] = time_zoner_with_time(p['date'])
     end
   end
 
   def raw_data_engagement
     CSV.generate do |csv|
-      csv << ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Message', 'Priority', 'Number of Operations']
-      data = %w[location station_type station_name event_day date_time customer_uid customer_name operator_uid operator_name device_name message priority num_operations]
+      csv << ['Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Date', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Message', 'Priority', 'Number of Operations']
+      data = %w[location station_type station_name event_day date_time date customer_uid customer_name operator_uid operator_name device_name message priority num_operations]
       pokes_engagement.map { |row| csv << data.map { |col| row[col] } }
     end
   end
