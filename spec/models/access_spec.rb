@@ -39,13 +39,17 @@ RSpec.describe Access, type: :model do
     it "decreases memory position for other accesses if change is from permanent to counter" do
       subject.save!
       access.save!
-      expect { subject.update(mode: "permanent") }.to change { access.reload.memory_position }.by(-1)
+      memory_position = access.memory_position
+      subject.update(mode: "permanent")
+      expect(access.reload.memory_position).to eq(memory_position - 1)
     end
 
     it "increases memory position for other accesses if change is from counter to permanent" do
       access.save!
       subject.save!
-      expect { access.update(mode: "counter") }.to change { subject.reload.memory_position }.by(1)
+      memory_position = subject.memory_position
+      access.update(mode: "counter")
+      expect(subject.reload.memory_position).to eq(memory_position + 1)
     end
 
     it "does not allow the change if there is not enough space" do
