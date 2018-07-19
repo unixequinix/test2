@@ -8,7 +8,7 @@
         -if @current_event.pokes.empty? && @current_event.transactions.any?
           .center-card-title
             h4 style="text-align: center; width: 100%; color: #999"
-              |Your analytics where not generated here, please download them
+              |Your analytics were not generated here, please download them
               = link_to " here", zoho_report_admins_event_path(@current_event)
               |.
         -else
