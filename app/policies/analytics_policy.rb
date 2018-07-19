@@ -19,6 +19,10 @@ class AnalyticsPolicy < ApplicationPolicy
     admin_or_promoter_or(:gates_manager)
   end
 
+  def lambeth_parking?
+    true
+  end
+
   def sub_report?
     true
   end

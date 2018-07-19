@@ -27,26 +27,22 @@
     .mdl-layout__content.transaction-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-tabs.mdl-js-tabs
         .mdl-tabs__tab-bar.analytics-card-back
-          = link_to_if admin_or_promoter_or(:monetary_manager), "Dashboard", dashboard_admins_event_analytics_path(@current_event), remote: true, id: "dashboard", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
+          = link_to_if admin_or_promoter_or(:monetary_manager), "Dashboard", dashboard_admins_event_analytics_path(@current_event), remote: true, id: "dashboard", class: "mdl-tabs__tab spinneable #{'is-active' unless @parking}", "data-spinner" => "content"
           = link_to_if admin_or_promoter_or(:monetary_manager), "Money", cash_flow_admins_event_analytics_path(@current_event), remote: true, id: "money", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
           = link_to_if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager), "Credits", credits_flow_admins_event_analytics_path(@current_event), remote: true, id: "credits", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
           = link_to_if admin_or_promoter_or(:gates_manager), 'Gates', gates_admins_event_analytics_path(@current_event), remote: true, id: "gates", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
           = link_to_if (@current_user.team&.id==2 || @current_user.glowball?), 'Partner Reports', partner_reports_admins_event_analytics_path(@current_event), remote: true, id: "partners", class: "mdl-tabs__tab spinneable", "data-spinner" => "content"
+          - if @current_event.id.eql?(469)
+            = link_to_if admin_or_promoter_or(:monetary_manager), 'Parking', lambeth_parking_admins_event_analytics_path(@current_event), remote: true, id: "parking", class: "mdl-tabs__tab spinneable #{'is-active' if @parking}", "data-spinner" => "content"
 
         #load-view
           = render 'admins/events/spinner'
-          #content
+          #content= render @partial if @parking
+
       .mdl-layout-spacer
 
       - if @current_event.launched?
         .mdl-cell.mdl-cell--12-col
           .center-card-title
             span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
-  
-javascript:
-  $(window).load(function() {
-    $('.mdl-tabs__tab').first().addClass('is-active')
-    $('.mdl-tabs__tab').first().click();
-    $('.loader-container').fadeIn('slow');
-  });
   
