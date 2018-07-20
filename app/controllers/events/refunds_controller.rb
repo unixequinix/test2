@@ -29,7 +29,7 @@ class Events::RefundsController < Events::EventsController
     if amount.positive? && @current_event.refund_minimum.to_f <= @current_customer.credits
       @refund = @current_customer.refunds.new(atts)
     else
-      redirect_to(event_path(@current_event), alert: "The minimum refund amount is #{@current_event.refund_minimum.to_f} #{@current_event.currency} you do not have sufficient balance")
+      redirect_to(event_path(@current_event), alert: t('refunds.min_refund', minimum: @current_event.refund_minimum.to_f, currency: @current_event.currency)
     end
   end
 

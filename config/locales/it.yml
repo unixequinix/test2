@@ -227,6 +227,7 @@ it:
     total_credits: Crediti totali
     product_description: Quantitá da restituire
     success: La sua devoluzione é stata processata correttamente, in breve riceverà il suo credito
+    min_refund: Il saldo minimo rimborsabile è di %{minimum} %{currency}, pertanto non è possibile effettuare il tuo rimborso.
   registration:
     edit:
       button: Attualizzare

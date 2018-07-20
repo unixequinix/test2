@@ -228,6 +228,7 @@ de:
     total_credits: Totale Kreditpunkte
     product_description: Rückzuzahlender Betrag
     success: Falls ihre Rückerstattung korrekt bearbeitet wurde, werden sie bald ihre Kreditpunkte erhalten
+    min_refund: Die Mindestrückgabe ist %{minimum} %{currency}. Du hast kein ausreichendes Guthaben.
   registration:
     edit:
       button: Aktualisieren
