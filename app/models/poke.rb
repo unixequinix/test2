@@ -311,6 +311,8 @@ class Poke < ApplicationRecord
     result = action.humanize.to_s if action.present? && description.blank?
     result = "#{catalog_item.name.humanize} flag applied" if action.eql?("user_flag") && user_flag_value
     result = "#{catalog_item.name.humanize} flag removed" if action.eql?("user_flag") && !user_flag_value
+    result = "IN #{catalog_item.name}" if action.eql?("checkpoint") && access_direction.positive?
+    result = "OUT #{catalog_item.name}" if action.eql?("checkpoint") && access_direction.negative?
     result = "Sale of #{sale_item_quantity} x #{product&.name}" if action.eql?("sale") && product
     result = "Sale of unknown product" if action.eql?("sale") && !product
     result = "Credit #{description.humanize.downcase}" if action.eql?("record_credit")
