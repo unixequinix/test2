@@ -190,6 +190,14 @@ class Poke < ApplicationRecord
       .group("date_time, zone, direction, access_direction")
   }
 
+  scope :access_lambeth, lambda {
+    select('min(date) as date', date_time_poke, sonar_access_patch, access_capacity_all_query)
+      .joins(:station, :catalog_item, :customer)
+      .where.not(access_direction: nil).is_ok.where('customers.operator = false')
+      .where("catalog_items.name != 'Parking'")
+      .group("date_time, zone, direction, access_direction")
+  }
+
   # Engagement
   #
 
