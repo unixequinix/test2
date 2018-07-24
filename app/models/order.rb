@@ -28,21 +28,21 @@ class Order < ApplicationRecord
   scope :with_gateway, ->(gateways) { gateways.present? ? where(gateway: gateways) : all }
 
   scope :online_purchase, lambda {
-    select(:customer_id, transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, countd_operations, "sum(money_base) as money")
+    select(:customer_id, "min(completed_at) as date", transaction_type, dimension_operation, dimensions_station, event_day_order, date_time_order, payment_method, countd_operations, "sum(money_base) as money")
       .completed
       .group(:customer_id, grouper_transaction_type, grouper_dimension_operation, grouper_dimensions_station, grouper_event_day, grouper_date_time, grouper_payment_method)
       .having("sum(money_base)!=0")
   }
 
   scope :online_purchase_fee, lambda {
-    select(:customer_id, event_day_order, date_time_order, dimensions_station, payment_method, countd_operations, "'fee' as action, 'online_applied_fee' as description, NULL as device_name, 'x' as credit_name", "sum(money_fee) as money")
+    select(:customer_id, "min(completed_at) as date", event_day_order, date_time_order, dimensions_station, payment_method, countd_operations, "'fee' as action, 'online_applied_fee' as description, NULL as device_name, 'x' as credit_name", "sum(money_fee) as money")
       .completed
       .group(:customer_id, grouper_event_day, grouper_date_time, grouper_dimensions_station, grouper_payment_method, "action, description, device_name, credit_name")
       .having("sum(money_fee)!=0")
   }
 
   scope :online_topup, lambda {
-    select(:customer_id, event_day_order, date_time_order, dimensions_station, countd_operations, "'income' as action, 'unredeemed_topup_online' as description, NULL as device_name, catalog_items.name as credit_name, sum(order_items.amount) as credit_amount")
+    select(:customer_id, "min(completed_at) as date", event_day_order, date_time_order, dimensions_station, countd_operations, "'income' as action, 'unredeemed_topup_online' as description, NULL as device_name, catalog_items.name as credit_name, sum(order_items.amount) as credit_amount")
       .joins(order_items: :catalog_item)
       .where(catalog_items: { type: %w[Credit VirtualCredit], order_items: { redeemed: false } })
       .completed
@@ -53,6 +53,7 @@ class Order < ApplicationRecord
     connection.select_all("SELECT
     1 as id,
     customer_id,
+    MIN(completed_at) as date,
     to_char(date_trunc('day', completed_at), 'YYYY-MM-DD') as event_day,
     to_char(date_trunc('hour', completed_at), 'YYYY-MM-DD HH24h') as date_time,
     'Customer Portal' as location,

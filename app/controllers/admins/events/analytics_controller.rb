@@ -106,6 +106,15 @@ module Admins
                   { chart_id: "access_control", title: "Venue Capacity", cols: ["Date Time"], rows: ["Zone"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
         prepare_view(params[:action])
       end
+      
+      def monetary_stations
+        return unless @current_event.id.eql?(461)
+        @stations = @current_event.stations.where(category: %w[bar, vendor])
+        @pos_stats = @current_event.credit_sales(station_filter: @stations).reject { |k, v| v.zero? }
+        @partial = 'admins/events/analytics/monetary_stations'
+        
+        prepare_view(params[:action])
+      end
 
       def sub_report
         cookies.signed[:analytics_credit_report] = analytics_params[:selected]

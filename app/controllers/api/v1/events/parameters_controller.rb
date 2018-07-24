@@ -10,15 +10,15 @@ module Api
 
           cols = %w[uid_reverse sync_time_gtags sync_time_tickets transaction_buffer days_to_keep_backup sync_time_customers fast_removal_password
                     private_zone_password sync_time_server_date sync_time_basic_download sync_time_event_parameters gtag_type maximum_gtag_balance
-                    stations_apply_orders stations_initialize_gtags stations_apply_tickets tips_enabled voucher_id voucher_products]
+                    stations_apply_orders stations_initialize_gtags stations_apply_tickets tips_enabled]
 
           body = cols.map { |col| { name: col, value: @current_event.method(col).call } }
-          body.find { |b| b[:value] = b[:value].join(',') if b[:name] == "voucher_products" }
 
           dev_env = Rails.env.development? || Rails.env.test? || Rails.env.integration?
           fake_key = "11111111111111111111111111111111"
           value = dev_env ? fake_key : @current_event.gtag_key
-
+          
+          body << { name: "refund_fee", value: @current_event.onsite_refund_fee } if @current_event.onsite_refund_fee.present?
           body << { name: "initial_topup_fee", value: @current_event.onsite_initial_topup_fee } if @current_event.onsite_initial_topup_fee.present?
           body << { name: "topup_fee", value: @current_event.every_topup_fee } if @current_event.every_topup_fee.present?
           body << { name: "gtag_deposit_fee", value: @current_event.gtag_deposit_fee } if @current_event.gtag_deposit_fee.present?

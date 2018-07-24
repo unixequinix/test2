@@ -53,12 +53,6 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Accounting Code
                   td = best_in_place @current_event, :accounting_code, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Voucher ID
-                  td = best_in_place @current_event, :voucher_id, url: [:admins, @current_event]
-                tr
-                  td.mdl-data-table__cell--non-numeric Voucher Products
-                  td = best_in_place @current_event, :voucher_products, url: [:admins, @current_event]
 
           .transaction-card-wide.mdl-card.mdl-shadow--2dp
             .mdl-card__title API Controls
@@ -150,9 +144,16 @@
                 tr
                   td.mdl-data-table__cell--non-numeric
                     = check_box_tag :refund_fee, "yes", @current_event.refund_fee.present?, class: "refund_fee", id: "every_refund_fee_checkbox"
-                    | &nbsp; Refund Fee
+                    | &nbsp; Online Refund Fee
                   td
                     = best_in_place @current_event, :refund_fee, url: [:admins, @current_event], class: "event_fee", id: "refund_fee", style: @current_event.refund_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :onsite_refund_fee, "yes", @current_event.onsite_refund_fee.present?, class: "onsite_refund_fee", id: "every_onsite_refund_fee_checkbox"
+                    | &nbsp; Onsite Refund Fee
+                  td
+                    = best_in_place @current_event, :onsite_refund_fee, url: [:admins, @current_event], class: "event_fee", id: "onsite_refund_fee", style: @current_event.onsite_refund_fee.nil? ? "display: none" : ""
                     |  #{@current_event.credit.symbol}
                 tr
                   td.mdl-data-table__cell--non-numeric
@@ -327,6 +328,7 @@ javascript:
   doFees("online_initial_topup_fee");
   doFees("every_topup_fee");
   doFees("refund_fee");
+  doFees("onsite_refund_fee");
   doFees("refund_minimum");
   doFees("gtag_deposit_fee");
 

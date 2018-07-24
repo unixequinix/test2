@@ -103,6 +103,7 @@ Rails.application.routes.draw do
           get :gates
           get :partner_reports
           get :sub_report
+          get :monetary_stations
           get :lambeth_parking
         end
 

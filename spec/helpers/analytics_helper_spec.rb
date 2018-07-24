@@ -42,7 +42,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "should have correct fields" do
-        expect(pokes_money.first.keys).to match_array(%w[id action description source customer_id payment_method date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
+        expect(pokes_money.first.keys).to match_array(%w[id action description source customer_id payment_method date date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name money num_operations event_day])
       end
 
       it "should have operator UID" do
@@ -61,7 +61,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "should have correct fields" do
-        expect(pokes_money_simple.last.keys).to eq(%w[id customer_id action description source operator_uid operator_name device_name location station_type station_name event_day date_time payment_method num_operations money])
+        expect(pokes_money_simple.last.keys).to match_array(%w[id customer_id action description source operator_uid operator_name device_name location station_type station_name event_day date_time date payment_method num_operations money])
       end
 
       it "should have operator UID" do
@@ -76,7 +76,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "should have correct fields" do
-        expect(pokes_credits.first.keys).to eq(%w[id action description customer_id payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name num_operations event_day])
+        expect(pokes_credits.first.keys).to match_array(%w[id action description customer_id payment_method credit_name credit_amount date date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name num_operations event_day])
       end
 
       it "should have operator UID" do
@@ -94,7 +94,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "simple sales should have correct fields" do
-        expect(pokes_sales_simple.first.keys).to eq(%w[id action description payment_method credit_name credit_amount operator_uid operator_name device_name date_time location station_type station_name is_alcohol product_name event_day])
+        expect(pokes_sales_simple.first.keys).to match_array(%w[id action description payment_method credit_name credit_amount operator_uid operator_name device_name date_time date location station_type station_name is_alcohol product_name event_day])
       end
 
       it "should have product" do
@@ -117,7 +117,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "product sales should have correct fields" do
-        expect(pokes_sales.last.keys).to eq(%w[id action description customer_id sale_item_quantity payment_method credit_name credit_amount date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name is_alcohol product_name num_operations event_day])
+        expect(pokes_sales.last.keys).to match_array(%w[id action description customer_id sale_item_quantity payment_method credit_name credit_amount date date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name is_alcohol product_name num_operations event_day])
       end
 
       it "should have product" do
@@ -136,7 +136,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
     context "should return checkin" do
       it "should have correct fields" do
-        expect(pokes_checkin.last.keys).to eq(%w[id action description customer_id ticket_type_id customer_uid customer_name operator_uid operator_name device_name location station_type station_name date_time catalog_item_name ticket_type_name total_tickets event_day code])
+        expect(pokes_checkin.last.keys).to match_array(%w[id action description customer_id ticket_type_id customer_uid customer_name operator_uid operator_name device_name location station_type station_name date date_time catalog_item_name ticket_type_name total_tickets event_day code])
       end
 
       it "should have operator UID" do
@@ -170,7 +170,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "access should have correct fields" do
-        expect(pokes_access.last.keys).to eq(%w[id access_direction date_time zone direction direction_in direction_out capacity event_day])
+        expect(pokes_access.last.keys).to match_array(%w[id access_direction date date_time zone direction direction_in direction_out capacity event_day])
       end
     end
 
@@ -192,7 +192,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "access should have correct fields" do
-        expect(pokes_engagement.last.keys).to eq(%w[id customer_id message priority date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name num_operations event_day])
+        expect(pokes_engagement.last.keys).to match_array(%w[id customer_id message priority date date_time customer_uid customer_name operator_uid operator_name device_name location station_type station_name num_operations event_day])
       end
     end
   end

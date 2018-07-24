@@ -260,6 +260,7 @@ br:
     product_description: Saldo a ser reembolsado
     products: Produtos
     success: Reembolso reivindicado com sucesso, em breve você receberá sua transferência
+    min_refund: O saldo mínimo reembolsável é %{minimum} %{currency} pelo que não tens saldo suficiente para efectuar um pedido de reembolso.
   registration:
     edit:
       button: Atualização

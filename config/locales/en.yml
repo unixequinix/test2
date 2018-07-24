@@ -256,6 +256,7 @@ en:
     product_description: Balance to be refunded
     products: Products
     success: Refund successfully claimed, soon you will receive your transfer
+    min_refund: The minimum refund amount is %{minimum} %{currency}. You do not have sufficient balance.
   registration:
     edit:
       button: Update

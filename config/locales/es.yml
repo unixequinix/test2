@@ -242,6 +242,7 @@ es:
     total_credits: Creditos totales
     product_description: Cantidad a ser devuelta
     success: Si Devolucion ha sido procesada correctamente, en breve recibira su credito
+    min_refund: La cantidad mínima de devolución es %{minimum} %{currency}. Tu saldo actual no alcanza el mínimo necesario.
   registration:
     edit:
       button: Actualizar

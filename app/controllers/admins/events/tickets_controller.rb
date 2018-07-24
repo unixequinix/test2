@@ -86,7 +86,7 @@ module Admins
         begin
           ticket_types = []
           CSV.foreach(file, headers: true, col_sep: ";") { |row| ticket_types << [row.field("ticket_type"), row.field("company")] }
-          ticket_types = ticket_types.compact.uniq.map { |name, company| @current_event.ticket_types.find_or_create_by(name: name, company: company) }
+          ticket_types = ticket_types.compact.uniq.map { |name, company| @current_event.ticket_types.find_or_create_by(name: name, company: company, operator: @operator_mode) }
           ticket_types = ticket_types.map { |tt| [tt.name, tt.id] }.to_h
 
           CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|

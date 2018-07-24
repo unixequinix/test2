@@ -30,6 +30,7 @@ class Ticket < ApplicationRecord
     connection.select_all("
     SELECT
     1 as id,
+    MIN(tickets.created_at) as date,
     to_char(date_trunc('day', tickets.updated_at), 'YYYY-MM-DD') as event_day,
     to_char(date_trunc('hour', tickets.updated_at), 'YYYY-MM-DD HH24h') as date_time,
     '' as location,

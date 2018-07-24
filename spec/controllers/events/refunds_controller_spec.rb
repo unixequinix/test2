@@ -16,8 +16,16 @@ RSpec.describe Events::RefundsController, type: :controller do
       end
 
       it 'GET new' do
+        order = create(:order, :with_credit, event: event, customer: customer)
+        order.complete!
+
         get :new, params: { event_id: event }
         expect(response).to be_ok
+      end
+
+      it 'GET new redirection' do
+        get :new, params: { event_id: event }
+        expect(response).to redirect_to(event_path(event))
       end
     end
 

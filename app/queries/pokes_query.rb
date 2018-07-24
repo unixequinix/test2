@@ -32,6 +32,7 @@ class PokesQuery
   def access_by_ticket_type_query(access)
     <<-SQL
       SELECT
+        MIN(date) as date,
         date_trunc('hour', date) as date_time,
         pokes.catalog_item_id,
         stations.location as location,

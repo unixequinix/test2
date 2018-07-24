@@ -10,7 +10,7 @@ module Admins
       def index
         @q = policy_scope(@current_event.stations).includes(:access_control_gates, :topup_credits, :station_catalog_items, :products)
                                                   .order(:hidden, :category, :name)
-                                                  .where.not(category: "touchpoint")
+                                                  .where.not(category: %w[customer_portal sync vault touchpoint operator_permissions gtag_recycler gtag_replacement yellow_card])
                                                   .ransack(params[:q])
         @stations = @q.result
         authorize @stations
@@ -125,6 +125,7 @@ module Admins
         groups = Station::GROUPS
         groups = groups.slice(@group.to_sym) if @group
         @categories = groups.to_a.map { |key, arr| [key.to_s.humanize, arr.map { |s| [s.to_s.humanize, s] }] }
+        @categories = @categories.map { |label, arr| [label, arr.delete_if { |__, key| key.in?(%i[customer_portal sync vault touchpoint operator_permissions gtag_recycler gtag_replacement yellow_card]) }] }.delete_if { |_, arr| arr.empty? }
       end
 
       def set_station
