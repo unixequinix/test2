@@ -88,7 +88,7 @@ class Poke < ApplicationRecord
     select('min(date) as date', :action, :description, :credit_name, dimensions_operators_devices_simple, date_time_poke, dimensions_station, is_alcohol, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method")
       .joins(:station, :device, :operator, :operator_gtag).left_outer_joins(:product)
       .sales.has_credits.is_ok
-      .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_namew")
+      .group(:action, :description, :credit_name, grouping_operators_devices, grouping_station, "date_time, is_alcohol, product_name")
   }
 
   scope :products_sale, lambda {
