@@ -19,7 +19,7 @@ module Transactions
 
       ts = { gtag: gtag, ticket: ticket, order: order, customer: customer, operator: operator, operator_gtag: operator_tag }.reject { |_, v| v.nil? }
       transaction.update!(ts)
-      [ticket, gtag].map { |credential| credential&.update!(customer: customer) } if customer
+      [ticket, gtag].map { |credential| credential&.update!(customer: customer, operator: customer.operator?) } if customer
 
       return if transaction.status_not_ok?
       Pokes::Base.execute_descendants(transaction)
