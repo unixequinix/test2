@@ -2,7 +2,7 @@ module Ticketing
   class TicketMasterImporter < ApplicationJob
     queue_as :default
 
-    def perform(event_code, event_data, integration) # rubocop:disable Metrics/AbcSize
+    def perform(event_code, event_data, integration) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
       uri = URI(GlownetWeb.config.ticketmaster_url_1.to_s)
       request_body = GlownetWeb.config.ticket_master_params_1.merge(command1: {
                                                                       access_control_system: event_data[:access_control_system],
@@ -22,10 +22,10 @@ module Ticketing
         company = response['command1']['events'][0]['title']
         ticket_types_data = response['command1']['events'][0]['price_types'].each_with_object({}) { |pt, hash| hash[(pt['extended_ids']).to_s] = { name: pt['name'], code: pt['code'] } }
         ticket_types_data.values.map do |tt|
-          name = tt[:name].gsub("á", "a").gsub("é", "e").gsub("í", "i").gsub("ó", "o").gsub("ú", "u")
+          name = tt[:name].tr("á", "a").tr("é", "e").tr("í", "i").tr("ó", "o").tr("ú", "u")
           name = "InvitacionD" if tt[:code] == "INVD"
           name = "InvitacionP" if tt[:code] == "INVP"
-          integration.ticket_types.find_or_create_by!(company: company, company_code: tt[:code], ticketing_integration_id: integration.id, event_id: integration.event_id, name: name)  
+          integration.ticket_types.find_or_create_by!(company: company, company_code: tt[:code], ticketing_integration_id: integration.id, event_id: integration.event_id, name: name)
         end
         request_body = GlownetWeb.config.ticket_master_params_2.merge(command1: { event_id: event_id, entry_code_offset: (event_data[:offset] || 1) })
       end
