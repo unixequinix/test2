@@ -99,11 +99,11 @@ class Poke < ApplicationRecord
   }
 
   scope :monetary_stations_products, lambda {
-    select('min(date) as date', :credit_name, date_time_poke, dimensions_station, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", product_quantity)
-    .joins(:station).left_outer_joins(:product)
-    .sales.has_credits.is_ok
-    .group(:credit_name, grouping_station, "date_time, product_name")
-}
+                                       select('min(date) as date', :credit_name, date_time_poke, dimensions_station, product_name, "sum(credit_amount)*-1 as credit_amount, credit_name as payment_method", product_quantity)
+                                         .joins(:station).left_outer_joins(:product)
+                                         .sales.has_credits.is_ok
+                                         .group(:credit_name, grouping_station, "date_time, product_name")
+                                     }
 
   scope :products_sale_stock, lambda {
     select('min(date) as date', :operation_id, :description, :sale_item_quantity, "gtags.tag_uid as operator_uid, CONCAT(customers.first_name, ' ', customers.last_name) as operator_name, devices.asset_tracker as device_name", dimensions_station, date_time_poke, product_name)

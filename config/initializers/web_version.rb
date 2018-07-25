@@ -1,1 +1,1 @@
-WEB_VERSION = 'version 2.3.0'
+WEB_VERSION = 'version 2.3.1'

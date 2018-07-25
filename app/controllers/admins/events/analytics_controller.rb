@@ -106,13 +106,13 @@ module Admins
                   { chart_id: "access_control", title: "Venue Capacity", cols: ["Date Time"], rows: ["Zone"], data: access_control, metric: ["Capacity"], decimals: 0, partial: "chart_card", type: "Stacked Bar Chart" }]
         prepare_view(params[:action])
       end
-      
+
       def monetary_stations
         return unless @current_event.id.eql?(461)
-        @stations = @current_event.stations.where(category: %w[bar, vendor])
-        @pos_stats = @current_event.credit_sales(station_filter: @stations).reject { |k, v| v.zero? }
+        @stations = @current_event.stations.where(category: %w[bar vendor])
+        @pos_stats = @current_event.credit_sales(station_filter: @stations).reject { |_k, v| v.zero? }
         @partial = 'admins/events/analytics/monetary_stations'
-        
+
         prepare_view(params[:action])
       end
 
@@ -136,11 +136,11 @@ module Admins
         @p = @current_event.customers.ransack(params[:p])
         @q = @current_event.customers.ransack(params[:q])
 
-        @access = @current_event.accesses.find(10456)
+        @access = @current_event.accesses.find(10_456)
         pokes = @current_event.pokes.where(action: 'checkpoint', catalog_item_id: @access.id).includes(:customer).order(date: :asc)
-        @control_gates_in = pokes.where(customer: @p.result).group_by {|poke| poke.customer}.map { |_, pokes| pokes.last if pokes.last.access_direction.eql?(1) }.flatten.compact
-        @control_gates_out = pokes.where(customer: @q.result).group_by {|poke| poke.customer}.map { |_, pokes| pokes.last if pokes.last.access_direction.eql?(-1) }.flatten.compact
-        
+        @control_gates_in = pokes.where(customer: @p.result).group_by(&:customer).map { |_, pks| pks.last if pks.last.access_direction.eql?(1) }.flatten.compact
+        @control_gates_out = pokes.where(customer: @q.result).group_by(&:customer).map { |_, pks| pks.last if pks.last.access_direction.eql?(-1) }.flatten.compact
+
         @partial = 'admins/events/analytics/parking'
         prepare_view(params[:action])
       end
