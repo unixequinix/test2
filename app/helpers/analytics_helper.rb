@@ -164,15 +164,6 @@ module AnalyticsHelper
     end
   end
 
-  def pokes_access_lambeth
-    access = @current_event.pokes.access_lambeth.as_json
-    access.each do |p|
-      p['date_time'] = time_zoner(p['date_time'])
-      p['event_day'] = event_day(p['date_time'])
-      p['date'] = time_zoner_with_time(p['date'])
-    end
-  end
-
   def raw_data_access
     CSV.generate do |csv|
       csv << ["Station Name", "Event Day", "Date Time", "Time", "Direction", "Capacity", "Access", "Zone"]
