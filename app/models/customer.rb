@@ -100,15 +100,17 @@ class Customer < ApplicationRecord
     credential_total = credential_catalog_items.sum(&:credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:credits)
     refund_total = refunds.completed.sum(&:credit_total)
+    gtag_credits = active_gtag&.final_balance.to_f
 
-    credential_total + order_total - refund_total + active_gtag&.credits.to_f
+    credential_total + order_total - refund_total + gtag_credits
   end
 
   def virtual_credits
     credential_total = credential_catalog_items.sum(&:virtual_credits)
     order_total = orders.completed.includes(:order_items).reject(&:redeemed?).sum(&:virtual_credits)
+    gtag_credits = active_gtag&.final_virtual_balance.to_f
 
-    credential_total + order_total + active_gtag&.virtual_credits.to_f
+    credential_total + order_total + gtag_credits
   end
 
   def credential_catalog_items
