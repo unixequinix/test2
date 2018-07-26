@@ -48,25 +48,25 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     end
 
     it "adds balances to customers" do
-      gtag.update! credits: 10, virtual_credits: 5
+      gtag.update! final_balance: 10, final_virtual_balance: 5
 
       expect { worker.perform_now(*@params) }.to change { new_event.orders.count }.by(1)
     end
 
     it "creates order in new event with expected credits for registered_customers" do
-      gtag.update! credits: 8.to_f
+      gtag.update! final_balance: 8.to_f
       worker.perform_now(*@params)
       expect(registered_customer.credits).to eql(8.to_f)
     end
 
     it "creates order in new event with expected virtual_credits for registered_customers" do
-      gtag.update! virtual_credits: 12.to_f
+      gtag.update! final_virtual_balance: 12.to_f
       worker.perform_now(*@params)
       expect(registered_customer.virtual_credits).to eql(12.to_f)
     end
 
     it "creates order in new event with expected value for anonymous_customers" do
-      gtag.update! credits: 10, virtual_credits: 5
+      gtag.update! final_balance: 10, final_virtual_balance: 5
 
       worker.perform_now(*@params)
       expect(anonymous_customer.credits).to eql(0.to_f)
@@ -92,12 +92,12 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     end
 
     it "create order in new event" do
-      gtag.update! credits: 10, virtual_credits: 5
+      gtag.update! final_balance: 10, final_virtual_balance: 5
       expect { worker.perform_now(*@params) }.to change { new_event.orders.count }.by(1)
     end
 
     it "create order in new event with expected value" do
-      gtag.update! credits: 10, virtual_credits: 5
+      gtag.update! final_balance: 10, final_virtual_balance: 5
 
       worker.perform_now(*@params)
       expect(registered_customer.credits).to eql(10.to_f)
@@ -125,13 +125,13 @@ RSpec.describe Creators::EventSerieJob, type: :job do
     end
 
     it "creates order in new event" do
-      gtag.update! credits: 10, virtual_credits: 5
+      gtag.update! final_balance: 10, final_virtual_balance: 5
 
       expect { worker.perform_now(*@params) }.to change { new_event.orders.count }.by(0)
     end
 
     it "creates order in new event with expected value" do
-      gtag.update! credits: 10, virtual_credits: 5
+      gtag.update! final_balance: 10, final_virtual_balance: 5
 
       worker.perform_now(*@params)
       expect(anonymous_customer.credits).to eql(0.to_f)

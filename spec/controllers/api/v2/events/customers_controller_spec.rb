@@ -189,7 +189,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     let(:new_gtag) { create(:gtag, event: event, customer: customer) }
 
     before do
-      new_gtag.update!(credits: 150)
+      new_gtag.update!(final_balance: 150)
     end
 
     it "returns a success response" do

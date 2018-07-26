@@ -9,7 +9,7 @@ RSpec.describe Refund, type: :model do
 
   describe "The factory" do
     before do
-      gtag.update!(credits: 150)
+      gtag.update!(final_balance: 150)
     end
 
     it "is a valid factory" do
@@ -26,7 +26,7 @@ RSpec.describe Refund, type: :model do
     subject { create(:refund, event: event, customer: customer, gateway: "bank_account") }
 
     before do
-      gtag.update!(credits: 150)
+      gtag.update!(final_balance: 150)
       event.credit = credit
       credit.station_catalog_items.create! station: customer_portal, price: "100"
     end
@@ -57,7 +57,7 @@ RSpec.describe Refund, type: :model do
     subject { create(:refund, event: event, customer: customer, gateway: "bank_account") }
 
     before do
-      gtag.update!(credits: 150)
+      gtag.update!(final_balance: 150)
       event.credit = credit
       credit.station_catalog_items.create! station: customer_portal, price: "100"
     end
