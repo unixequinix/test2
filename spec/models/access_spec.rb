@@ -36,13 +36,13 @@ RSpec.describe Access, type: :model do
   describe ".recalculate_all_positions" do
     let(:access) { build(:access, event: event) }
 
-    pending "decreases memory position for other accesses if change is from permanent to counter" do
+    it "decreases memory position for other accesses if change is from permanent to counter" do
       subject.save!
       access.save!
       expect { subject.update(mode: "permanent") && sleep(2) }.to change { access.reload.memory_position }.by(-1)
     end
 
-    pending "increases memory position for other accesses if change is from counter to permanent" do
+    it "increases memory position for other accesses if change is from counter to permanent" do
       access.save!
       subject.save!
       expect { access.update(mode: "counter") && sleep(2) }.to change { subject.reload.memory_position }.by(1)
