@@ -26,6 +26,7 @@ module Api
           body << { name: "ultralight_c_private_key", value: value } if @current_event.gtag_type.eql?("ultralight_c")
           body << { name: "gtag_key", value: value }
           body << { name: "cypher_enabled", value: @current_event.name.downcase.tr("ó", "o").include?("sonar") }
+          body << { name: "min_apk_version", value: @current_event.app_version } unless @current_event.app_version.eql?("all")
 
           serie = @current_event.event_serie
           old_events = serie ? serie.events.where.not(id: @current_event.id).map { |e| dev_env ? fake_key : e.gtag_key }.uniq.join(";") : "" # rubocop:disable Style/NestedTernaryOperator
