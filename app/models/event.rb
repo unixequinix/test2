@@ -132,7 +132,7 @@ class Event < ApplicationRecord
 
   def update_emv_stations
     stations.where(category: %w[top_up_refund box_office]).update_all(updated_at: updated_at) if saved_change_to_attribute?(:emv_topup_enabled)
-    stations.where(category: Station::TYPE[:pos]).update_all(updated_at: updated_at) if saved_change_to_attribute?(:emv_pos_enabled)
+    stations.where(category: Station::TYPES[:pos]).update_all(updated_at: updated_at) if saved_change_to_attribute?(:emv_pos_enabled)
   end
 
   def should_generate_new_friendly_id?
