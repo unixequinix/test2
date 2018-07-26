@@ -5,31 +5,19 @@ module CreditAnalytics
   # Onsite Topups
   #
   def credit_topups_base(grouping: :day, station_filter: [], credit_filter: [])
-    topups(station_filter: station_filter, credit_filter: credit_filter).group_by_period(grouping, :date).sum(:credit_amount)
-  end
-
-  def credit_topups_fee(grouping: :day, station_filter: stations.with_category(TOPUPS_STATIONS), credit_filter: credits, fee_filter: TOPUP_FEES)
-    abs(topups_fee(station_filter: station_filter, credit_filter: credit_filter, fee_filter: fee_filter).group_by_period(grouping, :date).sum(:credit_amount))
-  end
-
-  def count_credit_topups_fees(grouping: :day, station_filter: stations.with_category(TOPUPS_STATIONS), credit_filter: credits, fee_filter: TOPUP_FEES)
-    topups_fee(station_filter: station_filter, credit_filter: credit_filter, fee_filter: fee_filter).group_by_period(grouping, :date).count
+    topups_base(station_filter: station_filter, credit_filter: credit_filter).group_by_period(grouping, :date).sum(:credit_amount)
   end
 
   def credit_topups(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
-    topups_base(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum(:credit_amount)
+    topups(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum(:credit_amount)
   end
 
   def credit_topups_base_total(credit_filter: [], station_filter: [])
-    topups(station_filter: station_filter, credit_filter: credit_filter).sum(:credit_amount)
-  end
-
-  def credit_topups_fee_total(station_filter: stations.with_category(TOPUPS_STATIONS), credit_filter: credits, fee_filter: TOPUP_FEES)
-    topups_fee(station_filter: station_filter, credit_filter: credit_filter, fee_filter: fee_filter).sum(:credit_amount).abs
+    topups_base(station_filter: station_filter, credit_filter: credit_filter).sum(:credit_amount)
   end
 
   def credit_topups_total(credit_filter: [], station_filter: [], operator_filter: [])
-    topups_base(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).sum(:credit_amount)
+    topups(station_filter: station_filter, credit_filter: credit_filter, operator_filter: operator_filter).sum(:credit_amount)
   end
 
   # Online orders
@@ -104,28 +92,28 @@ module CreditAnalytics
 
   # Online Refunds
   #
-  def credit_online_refunds_fee(grouping: :day, credit_filter: credits, payment_filter: [])
-    online_refunds(credit_filter: credit_filter, payment_filter: payment_filter).group_by_period(grouping, :created_at).sum(:credit_fee)
+  def credit_online_refunds_fee(grouping: :day, credit_filter: [], payment_filter: [])
+    online_refunds(payment_filter: payment_filter, credit_filter: credit_filter).group_by_period(grouping, :created_at).sum("ABS(credit_fee)")
   end
 
-  def credit_online_refunds_base(grouping: :day, credit_filter: credits, payment_filter: [])
-    online_refunds(credit_filter: credit_filter, payment_filter: payment_filter).group_by_period(grouping, :created_at).sum(:credit_base)
+  def credit_online_refunds_base(grouping: :day, credit_filter: [], payment_filter: [])
+    online_refunds(payment_filter: payment_filter, credit_filter: credit_filter).group_by_period(grouping, :created_at).sum("ABS(credit_base)")
   end
 
-  def credit_online_refunds(grouping: :day, credit_filter: credits, payment_filter: [])
-    online_refunds(credit_filter: credit_filter, payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("credit_base + credit_fee")
+  def credit_online_refunds(grouping: :day, credit_filter: [], payment_filter: [])
+    online_refunds(payment_filter: payment_filter, credit_filter: credit_filter).group_by_period(grouping, :created_at).sum("ABS(credit_base + credit_fee)")
   end
 
-  def credit_online_refunds_base_total(credit_filter: credits, payment_filter: [])
-    online_refunds(credit_filter: credit_filter, payment_filter: payment_filter).sum(:credit_base)
+  def credit_online_refunds_fee_total(credit_filter: [], payment_filter: [])
+    online_refunds(payment_filter: payment_filter, credit_filter: credit_filter).sum("credit_fee").abs
   end
 
-  def credit_online_refunds_fee_total(credit_filter: credits, payment_filter: [])
-    online_refunds(credit_filter: credit_filter, payment_filter: payment_filter).sum(:credit_fee)
+  def credit_online_refunds_base_total(credit_filter: [], payment_filter: [])
+    online_refunds(payment_filter: payment_filter, credit_filter: credit_filter).sum("credit_base").abs
   end
 
-  def credit_online_refunds_total(credit_filter: credits, payment_filter: [])
-    online_refunds(credit_filter: credit_filter, payment_filter: payment_filter).sum("credit_base + credit_fee")
+  def credit_online_refunds_total(credit_filter: [], payment_filter: [])
+    online_refunds(payment_filter: payment_filter, credit_filter: credit_filter).sum("credit_base + credit_fee").abs
   end
 
   # Onsite Refunds
@@ -134,20 +122,12 @@ module CreditAnalytics
     onsite_refunds_base(credit_filter: credit_filter, station_filter: station_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
   end
 
-  def credit_onsite_refunds_fee(grouping: :day, credit_filter: [], station_filter: [])
-    onsite_refunds_fee(credit_filter: credit_filter, station_filter: station_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
-  end
-
   def credit_onsite_refunds(grouping: :day, credit_filter: [], station_filter: [])
     abs(onsite_refunds(credit_filter: credit_filter, station_filter: station_filter).group_by_period(grouping, :date).sum(:credit_amount))
   end
 
   def credit_onsite_refunds_base_total(credit_filter: [], station_filter: [])
     onsite_refunds_base(credit_filter: credit_filter, station_filter: station_filter).sum("ABS(credit_amount)")
-  end
-
-  def credit_onsite_refunds_fee_total(credit_filter: [], station_filter: [])
-    onsite_refunds_fee(credit_filter: credit_filter, station_filter: station_filter).sum("ABS(credit_amount)")
   end
 
   def credit_onsite_refunds_total(credit_filter: [], station_filter: [])
@@ -164,58 +144,168 @@ module CreditAnalytics
     credit_online_refunds_total(credit_filter: credit_filter) + credit_onsite_refunds_total(credit_filter: credit_filter)
   end
 
-  # Fees
+  # Topup Fees
   #
-  def credit_income_fees(grouping: :day, credit_filter: credits, station_filter: stations.where(category: TOPUPS_STATIONS))
-    credit_onsite_refunds_fee(grouping: grouping, credit_filter: credit_filter, station_filter: station_filter)
+  def gtag_deposit_fee_pokes(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: "gtag_deposit").with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
   end
 
-  def credit_outcome_fees(grouping: :day, credit_filter: credits, station_filter: stations.where(category: TOPUPS_STATIONS))
-    credit_topups_fee(grouping: grouping, credit_filter: credit_filter, station_filter: station_filter)
+  def credit_gtag_deposit_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    gtag_deposit_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
   end
 
-  def credit_fees(grouping: :day, credit_filter: credits)
-    merge_subtract(credit_income_fees(grouping: grouping, credit_filter: credit_filter), credit_outcome_fees(grouping: grouping, credit_filter: credit_filter))
+  def count_gtag_deposit_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    gtag_deposit_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
   end
 
-  def count_credit_income_fees(grouping: :day, credit_filter: credits, station_filter: stations.where(category: TOPUPS_STATIONS))
-    count_credit_onsite_refunds(grouping: grouping, credit_filter: credit_filter, station_filter: station_filter)
+  def credit_gtag_deposit_fee_total(credit_filter: [], station_filter: [], operator_filter: [])
+    gtag_deposit_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum("ABS(credit_amount)")
   end
 
-  def count_credit_outcome_fees(grouping: :day, credit_filter: credits, station_filter: stations.where(category: TOPUPS_STATIONS))
-    count_topups(grouping: grouping, credit_filter: credit_filter, station_filter: station_filter)
+  def onsite_initial_topup_fee_pokes(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: "initial").with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
   end
 
-  def credit_income_fees_total(credit_filter: credits, station_filter: stations.where(category: TOPUPS_STATIONS))
-    credit_onsite_refunds_fee_total(credit_filter: credit_filter, station_filter: station_filter)
+  def credit_onsite_initial_topup_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    onsite_initial_topup_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
   end
 
-  def credit_outcome_fees_total(credit_filter: credits, station_filter: stations.where(category: TOPUPS_STATIONS))
-    credit_topups_fee_total(credit_filter: credit_filter, station_filter: station_filter)
+  def count_onsite_initial_topup_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    onsite_initial_topup_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
   end
 
-  def credit_fees_total(credit_filter: credits)
-    credit_income_fees_total(credit_filter: credit_filter) - credit_outcome_fees_total(credit_filter: credit_filter)
+  def credit_onsite_initial_topup_fee_total(credit_filter: [], station_filter: [], operator_filter: [])
+    onsite_initial_topup_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum("ABS(credit_amount)")
+  end
+
+  def every_onsite_topup_fee_pokes(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: "topup").with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
+  end
+
+  def credit_every_onsite_topup_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    every_onsite_topup_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+  end
+
+  def count_every_onsite_topup_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    every_onsite_topup_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
+  end
+
+  def credit_every_onsite_topup_fee_total(credit_filter: [], station_filter: [], operator_filter: [])
+    every_onsite_topup_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum("ABS(credit_amount)")
+  end
+
+  # Refund fees
+  #
+  def gtag_return_fee_pokes(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: "gtag_return").with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
+  end
+
+  def credit_gtag_return_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    gtag_return_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+  end
+
+  def count_gtag_return_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    gtag_return_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
+  end
+
+  def credit_gtag_return_fee_total(credit_filter: [], station_filter: [], operator_filter: [])
+    gtag_return_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum("ABS(credit_amount)")
+  end
+
+  def every_onsite_refund_fee_pokes(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: "refund").with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
+  end
+
+  def credit_every_onsite_refund_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    every_onsite_refund_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+  end
+
+  def count_every_onsite_refund_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    every_onsite_refund_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
+  end
+
+  def credit_every_onsite_refund_fee_total(credit_filter: [], station_filter: [], operator_filter: [])
+    every_onsite_refund_fee_pokes(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum("ABS(credit_amount)")
+  end
+
+  # All Fees
+  #
+  def income_fees(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: INCOME_FEES).with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
+  end
+
+  def outcome_fees(credit_filter: [], station_filter: [], operator_filter: [])
+    pokes.where(action: "fee", description: OUTCOME_FEES).with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
+  end
+
+  def credit_income_fees(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    income_fees(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+  end
+
+  def credit_outcome_fees(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    outcome_fees(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+  end
+
+  def credit_fees(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    merge_subtract(credit_income_fees(grouping: grouping, credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter),
+                   credit_outcome_fees(grouping: grouping, credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter))
+  end
+
+  def count_credit_income_fees(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    income_fees(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
+  end
+
+  def count_credit_outcome_fees(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [])
+    outcome_fees(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).group_by_period(grouping, :date).count
+  end
+
+  def credit_income_fees_total(credit_filter: [], station_filter: [], operator_filter: [])
+    income_fees(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum(:credit_amount).abs
+  end
+
+  def credit_outcome_fees_total(credit_filter: [], station_filter: [], operator_filter: [])
+    outcome_fees(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter).sum(:credit_amount).abs
+  end
+
+  def credit_fees_total(credit_filter: credits, station_filter: [], operator_filter: [])
+    credit_income_fees_total(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter) -
+      credit_outcome_fees_total(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter)
+  end
+
+  def single_fee(credit_filter: [], station_filter: [], operator_filter: [], fee_filter: [])
+    pokes.where(action: "fee").with_description(fee_filter).with_station(station_filter).with_operator(operator_filter).with_credit(credit_filter).is_ok
+  end
+
+  def credit_single_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [], fee_filter: [])
+    single_fee(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter, fee_filter: fee_filter).group_by_period(grouping, :date).sum("ABS(credit_amount)")
+  end
+
+  def credit_single_fee_total(credit_filter: [], station_filter: [], operator_filter: [], fee_filter: [])
+    single_fee(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter, fee_filter: fee_filter).sum(:credit_amount).abs
+  end
+
+  def count_single_fee(grouping: :day, credit_filter: [], station_filter: [], operator_filter: [], fee_filter: [])
+    single_fee(credit_filter: credit_filter, station_filter: station_filter, operator_filter: operator_filter, fee_filter: fee_filter).group_by_period(grouping, :date).count
   end
 
   # Income
   #
   def credit_income(grouping: :day, credit_filter: credits)
-    merge(credit_topups(grouping: grouping, credit_filter: credit_filter), credit_onsite_refunds_fee(grouping: grouping, credit_filter: credit_filter), credit_credential(grouping: grouping, credit_filter: credit_filter), credit_box_office(grouping: grouping, credit_filter: credit_filter), credit_online_orders_income(grouping: grouping, credit_filter: credit_filter))
+    merge(credit_topups(grouping: grouping, credit_filter: credit_filter), credit_income_fees(grouping: grouping, credit_filter: credit_filter), credit_credential(grouping: grouping, credit_filter: credit_filter), credit_box_office(grouping: grouping, credit_filter: credit_filter), credit_online_orders_income(grouping: grouping, credit_filter: credit_filter))
   end
 
   def credit_income_total(credit_filter: credits)
-    credit_topups_total(credit_filter: credit_filter) + credit_onsite_refunds_fee_total(credit_filter: credit_filter) + credit_credential_total(credit_filter: credit_filter) + credit_box_office_total(credit_filter: credit_filter) + credit_online_orders_income_total(credit_filter: credit_filter)
+    credit_topups_total(credit_filter: credit_filter) + credit_income_fees_total(credit_filter: credit_filter) + credit_credential_total(credit_filter: credit_filter) + credit_box_office_total(credit_filter: credit_filter) + credit_online_orders_income_total(credit_filter: credit_filter)
   end
 
   # Outcome
   #
   def credit_outcome(grouping: :day, credit_filter: credits)
-    merge(credit_online_refunds_base(grouping: grouping, credit_filter: credit_filter), credit_onsite_refunds_base(grouping: grouping, credit_filter: credit_filter), credit_online_orders_outcome(grouping: grouping, credit_filter: credit_filter), credit_topups_fee(grouping: grouping, credit_filter: credit_filter))
+    merge(credit_online_refunds(grouping: grouping, credit_filter: credit_filter), credit_outcome_fees(grouping: grouping, credit_filter: credit_filter), credit_online_orders_outcome(grouping: grouping, credit_filter: credit_filter), credit_topups_fee(grouping: grouping, credit_filter: credit_filter))
   end
 
   def credit_outcome_total(credit_filter: credits)
-    credit_online_refunds_base_total(credit_filter: credit_filter) + credit_onsite_refunds_base_total(credit_filter: credit_filter) + credit_online_orders_outcome_total(credit_filter: credit_filter) + credit_topups_fee_total(credit_filter: credit_filter)
+    credit_online_refunds_total(credit_filter: credit_filter) + credit_onsite_refunds_base_total(credit_filter: credit_filter) + credit_outcome_fees_total(credit_filter: credit_filter) + credit_online_orders_outcome_total(credit_filter: credit_filter)
   end
 
   # Outstanding

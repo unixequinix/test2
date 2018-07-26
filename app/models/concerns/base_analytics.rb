@@ -1,22 +1,20 @@
 module BaseAnalytics
   TOPUPS_STATIONS = %w[top_up_refund cs_topup_refund hospitality_top_up].freeze
   SALES_STATIONS = %w[bar vendor].freeze
-  TOPUP_FEES = %w[gtag_deposit initial topup].freeze
   BOX_OFFICE_STATIONS = %w[box_office].freeze
   PAYMENT_METHODS = %w[card cash emv].freeze
+  TOPUP_FEES = %w[gtag_deposit initial topup].freeze
+  REFUND_FEES = %w[gtag_return refund].freeze
+  INCOME_FEES = %w[gtag_return].freeze
+  OUTCOME_FEES = %w[gtag_deposit initial topup refund].freeze
 
   # Onsite Topups
   #
-  def topups_base(station_filter: [], credit_filter: [], operator_filter: [])
+  def topups(station_filter: [], credit_filter: [], operator_filter: [])
     pokes.where(action: "record_credit", description: "topup").with_station(station_filter).with_credit(credit_filter).with_operator(operator_filter).is_ok
   end
 
-  def topups_fee(station_filter: stations.with_category(TOPUPS_STATIONS), credit_filter: credits, fee_filter: TOPUP_FEES, operator_filter: [])
-    return pokes.none unless credit.in?([credit_filter].flatten)
-    pokes.where(action: "fee", description: fee_filter, station: station_filter).with_operator(operator_filter).is_ok
-  end
-
-  def topups(station_filter: [], credit_filter: [], operator_filter: [])
+  def topups_base(station_filter: [], credit_filter: [], operator_filter: [])
     pokes.where(action: %w[record_credit fee], description: TOPUP_FEES).with_station(station_filter).with_credit(credit_filter).with_operator(operator_filter).is_ok
   end
 
@@ -32,7 +30,8 @@ module BaseAnalytics
   #
   def online_orders(payment_filter: [], redeemed: [])
     redeemed = [true, false] if redeemed.blank?
-    orders.where(id: OrderItem.where(order: orders.completed.with_gateway(payment_filter), redeemed: redeemed).select(:order_id).distinct.pluck(:order_id))
+    ids = OrderItem.where(order: orders, redeemed: redeemed).select(:order_id).distinct.pluck(:order_id)
+    orders.where(id: ids).completed.with_gateway(payment_filter)
   end
 
   def count_online_orders(grouping: :day, payment_filter: [], redeemed: [], credit_filter: [])
@@ -82,27 +81,26 @@ module BaseAnalytics
 
   # Online Refunds
   #
-  def online_refunds(credit_filter: credits, payment_filter: [])
-    return refunds.none unless credit.in?(credit_filter)
+  def online_refunds(credit_filter: [], payment_filter: [])
+    credit_filter = credits if credit_filter.blank?
+    return refunds.none unless credit.in?([credit_filter].flatten)
     refunds.completed.with_gateway(payment_filter)
   end
 
-  def count_online_refunds(grouping: :day, payment_filter: [])
+  def count_online_refunds(grouping: :day, payment_filter: [], credit_filter: [])
+    credit_filter = credits if credit_filter.blank?
+    return {} unless credit.in?([credit_filter].flatten)
     online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).count
   end
 
   # Onsite Refunds
   #
-  def onsite_refunds_fee(credit_filter: [], station_filter: [])
-    pokes.where(action: "fee", description: "gtag_return").with_station(station_filter).with_credit(credit_filter).is_ok
-  end
-
   def onsite_refunds_base(credit_filter: [], station_filter: [])
     pokes.where(action: "record_credit", description: "refund").with_station(station_filter).with_credit(credit_filter).is_ok
   end
 
   def onsite_refunds(credit_filter: [], station_filter: [])
-    pokes.where(action: %w[record_credit fee], description: %w[refund gtag_return]).with_station(station_filter).with_credit(credit_filter).is_ok
+    pokes.where(action: %w[record_credit fee], description: REFUND_FEES).with_station(station_filter).with_credit(credit_filter).is_ok
   end
 
   def count_credit_onsite_refunds(grouping: :day, station_filter: [], credit_filter: [])
@@ -139,8 +137,12 @@ module BaseAnalytics
     credit_sales_total / (spending_customers.nonzero? || 1)
   end
 
-  def online_payment_methods
-    (online_orders.select(:gateway).distinct.pluck(:gateway) + online_refunds.select(:gateway).distinct.pluck(:gateway)).uniq.compact
+  def online_payment_methods(source = %i[topups refunds])
+    source = [source].flatten
+    result = []
+    result += online_orders.select(:gateway).distinct.pluck(:gateway) if :topups.in?(source)
+    result += online_refunds.select(:gateway).distinct.pluck(:gateway) if :refunds.in?(source)
+    result.uniq.compact
   end
 
   def onsite_payment_methods

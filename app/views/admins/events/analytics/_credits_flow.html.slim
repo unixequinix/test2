@@ -39,10 +39,12 @@
                         credit: credit,
                         type: :credit,
                         subtitle: { online_topups: { value: @current_event.credit_online_orders_income_total(credit_filter: @credits), data: "credit_orders", filter: { group: :hour } },
-                                    onsite_topups: { value: @current_event.credit_topups_base_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
+                                    onsite_topups: { value: @current_event.credit_topups_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
                                     ticket_bundles: { value: @current_event.credit_credential_total(credit_filter: @credits), data: "credit_credentials", filter: { group: :hour } },
                                     box_office: { value:  @current_event.credit_box_office_total(credit_filter: @credits) , data: "credit_box_office", filter: { group: :hour } },
-                                    fees: { value: @current_event.credit_income_fees_total(credit_filter: @credits), data: "credit_income_fees", filter: { group: :hour } }}
+                                    gtag_return_fee: { value: @current_event.credit_gtag_return_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "gtag_return" } },
+                                  }
+
             - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
               - subtitle = { bars: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'bar')), data: "credit_sales", filter: { group: :hour, station_type: 'bar' } }, vendors: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'vendor')), data: "credit_sales", filter: { group: :hour, station_type: 'vendor' } } }
               .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
@@ -84,10 +86,13 @@
                           style: 'padding: 0 5px',
                           credit: credit,
                           type: :credit,
-                          subtitle: { online_refunds: { value: @current_event.credit_online_refunds_base_total(credit_filter: @credits), data: "credit_online_refunds", filter: { group: :hour } },
+                          subtitle: { online_refunds: { value: @current_event.credit_online_refunds_total(credit_filter: @credits), data: "credit_online_refunds", filter: { group: :hour } },
                                       onsite_refunds: { value: @current_event.credit_onsite_refunds_base_total(credit_filter: @credits), data: "credit_onsite_refunds", filter: { group: :hour } },
-                                      admin_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } },
-                                      fees: { value: @current_event.credit_outcome_fees_total(credit_filter: @credits), data: "credit_outcome_fees", filter: { group: :hour } } }
+                                      negative_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } },
+                                      gtag_deposit_fee: { value: @current_event.credit_gtag_deposit_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "gtag_deposit" } },
+                                      onsite_initial_topup_fee: { value: @current_event.credit_onsite_initial_topup_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "initial" } },
+                                      every_onsite_topup_fee: { value: @current_event.credit_every_onsite_topup_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "topup" } },
+                                    }
 
             - if @credits.size.eql?(1) && admin_or_promoter_or(:monetary_manager)
               .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto

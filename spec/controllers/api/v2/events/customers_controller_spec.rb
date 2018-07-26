@@ -206,7 +206,7 @@ RSpec.describe Api::V2::Events::CustomersController, type: %i[controller api] do
     end
 
     it "makes fee the same as event" do
-      event.update! refund_fee: 3
+      event.update! online_refund_fee: 3
       post :refund, params: atts
       refund = event.refunds.find(JSON.parse(response.body)["id"])
       expect(refund.credit_fee).to eq(3)

@@ -36,6 +36,7 @@ class Poke < ApplicationRecord
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: "online") }
+  scope :with_description, ->(description) { description.present? ? where(description: description) : all }
   scope :with_credit, ->(credits) { credits.present? ? where(credit: credits) : all }
   scope :with_payment, ->(payments) { payments.present? ? where(payment_method: payments) : all }
   scope :with_station, ->(stations) { stations.present? ? where(station: stations) : all }

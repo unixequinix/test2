@@ -60,7 +60,7 @@ class Event < ApplicationRecord
 
   validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, :currency, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 }
-  validates :onsite_initial_topup_fee, :online_initial_topup_fee, :gtag_deposit_fee, :every_topup_fee, :refund_fee, :refund_minimum, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :onsite_initial_topup_fee, :online_initial_topup_fee, :gtag_deposit_fee, :every_onsite_topup_fee, :online_refund_fee, :refund_minimum, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
   validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -143,8 +143,8 @@ class Event < ApplicationRecord
     self.onsite_initial_topup_fee = onsite_initial_topup_fee.to_f.round(2) if onsite_initial_topup_fee.present?
     self.online_initial_topup_fee = online_initial_topup_fee.to_f.round(2) if online_initial_topup_fee.present?
     self.gtag_deposit_fee = gtag_deposit_fee.to_f.round(2) if gtag_deposit_fee.present?
-    self.every_topup_fee = every_topup_fee.to_f.round(2) if every_topup_fee.present?
-    self.refund_fee = refund_fee.to_f.round(2) if refund_fee.present?
+    self.every_onsite_topup_fee = every_onsite_topup_fee.to_f.round(2) if every_onsite_topup_fee.present?
+    self.online_refund_fee = online_refund_fee.to_f.round(2) if online_refund_fee.present?
   end
 
   def end_date_after_start_date

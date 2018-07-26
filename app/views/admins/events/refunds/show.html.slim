@@ -29,10 +29,10 @@
             td = l @refund.created_at
           tr
             td.mdl-data-table__cell--non-numeric Credits
-            td #{number_to_token @refund.credit_base} (Fee #{number_to_token @refund.credit_fee}) = #{number_to_token @refund.credit_total}
+            td #{number_to_token @refund.credit_base}  + Fee #{number_to_token @refund.credit_fee} = #{number_to_token @refund.credit_total}
           tr
             td.mdl-data-table__cell--non-numeric Money
-            td #{number_to_event_currency @refund.money_base} (Fee #{number_to_event_currency @refund.money_fee}) = #{number_to_event_currency @refund.money_total}
+            td #{number_to_event_currency @refund.money_total} - Fee #{number_to_event_currency @refund.money_fee} = #{number_to_event_currency @refund.money_base}
           - @refund.fields.each do |name, value|
             tr
               td.mdl-data-table__cell--non-numeric = name

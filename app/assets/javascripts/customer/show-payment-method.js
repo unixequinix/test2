@@ -10,7 +10,7 @@ function showPaymentMethod() {
 
     triggers.not(this).removeClass("button-selected");
     $(this).toggleClass("button-selected");
-    $("#refund_fee").html(fee);
+    $("#online_refund_fee").html(fee);
     $("#refund_amount").html(amount);
     $("#refund_money").html(money);
     $("#refund_credits").html(credits);

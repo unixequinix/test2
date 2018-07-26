@@ -58,27 +58,27 @@ module MoneyAnalytics
   # Online Refunds
   #
   def money_online_refunds_fee(grouping: :day, payment_filter: [])
-    online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("credit_fee * #{credit.value}")
+    online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("ABS(credit_fee * #{credit.value})")
   end
 
   def money_online_refunds_base(grouping: :day, payment_filter: [])
-    online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("credit_base * #{credit.value}")
+    online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("ABS(credit_base * #{credit.value})")
   end
 
   def money_online_refunds(grouping: :day, payment_filter: [])
-    online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("(credit_base + credit_fee)  * #{credit.value}")
-  end
-
-  def money_online_refunds_base_total(payment_filter: [])
-    online_refunds(payment_filter: payment_filter).sum("ABS(credit_base* #{credit.value})")
+    online_refunds(payment_filter: payment_filter).group_by_period(grouping, :created_at).sum("ABS((credit_base + credit_fee)  * #{credit.value})")
   end
 
   def money_online_refunds_fee_total(payment_filter: [])
-    online_refunds(payment_filter: payment_filter).sum("ABS(credit_fee * #{credit.value})")
+    online_refunds(payment_filter: payment_filter).sum("credit_fee * #{credit.value}").abs
+  end
+
+  def money_online_refunds_base_total(payment_filter: [])
+    online_refunds(payment_filter: payment_filter).sum("credit_base * #{credit.value}").abs
   end
 
   def money_online_refunds_total(payment_filter: [])
-    online_refunds(payment_filter: payment_filter).sum("ABS(credit_base + credit_fee) * #{credit.value}")
+    online_refunds(payment_filter: payment_filter).sum("(credit_base + credit_fee) * #{credit.value}").abs
   end
 
   # Onsite Refunds
@@ -101,7 +101,7 @@ module MoneyAnalytics
     money_onsite_refunds_total(station_filter: station_filter) + money_online_refunds_total
   end
 
-  # Fees
+  # All Fees
   #
   def money_income_fees(grouping: :day, payment_filter: [])
     merge(money_online_orders_fee(grouping: grouping, payment_filter: payment_filter), money_online_refunds_fee(grouping: grouping, payment_filter: payment_filter))
@@ -130,11 +130,11 @@ module MoneyAnalytics
   # Income
   #
   def money_income(grouping: :day)
-    merge(money_topups(grouping: grouping), money_box_office(grouping: grouping), money_online_orders(grouping: grouping), money_income_fees(grouping: grouping))
+    merge(money_topups(grouping: grouping), money_box_office(grouping: grouping), money_online_orders_base(grouping: grouping), money_income_fees(grouping: grouping))
   end
 
   def money_income_total
-    money_topups_total + money_box_office_total + money_online_orders_total + money_income_fees_total
+    money_topups_total + money_box_office_total + money_online_orders_base_total + money_income_fees_total
   end
 
   # Outcome
@@ -144,7 +144,7 @@ module MoneyAnalytics
   end
 
   def money_outcome_total
-    money_online_refunds_base_total + money_onsite_refunds_total + money_outcome_fees_total
+    money_online_refunds_total + money_onsite_refunds_total + money_outcome_fees_total
   end
 
   # Outstanding

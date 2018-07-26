@@ -4,7 +4,7 @@ module Admins
       include ApplicationHelper
       include AnalyticsHelper
 
-      ANALYTICS_METHODS = %w[money_topups money_orders money_box_office money_online_refunds money_onsite_refunds money_fees credit_topups credit_sales credit_orders credit_credentials credit_box_office credit_onsite_refunds credit_online_refunds credit_outcome_fees credit_income_fees credit_outcome_orders].map { |s| [s.to_sym, s.to_sym] }.to_h.freeze
+      ANALYTICS_METHODS = %w[money_topups money_orders money_box_office money_online_refunds money_onsite_refunds money_topup_fees money_refund_fees credit_topups credit_sales credit_orders credit_credentials credit_box_office credit_onsite_refunds credit_online_refunds credit_onsite_refund_fees credit_fees credit_outcome_orders].map { |s| [s.to_sym, s.to_sym] }.to_h.freeze
 
       before_action :set_credits
       before_action :authorize_analytics, except: %i[show]
@@ -213,31 +213,35 @@ module Admins
         @pos_views = { chart_id: "onsite_refunds_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds), decimals: 2 }
       end
 
-      def credit_online_refunds
-        @partial = "credit/online_refunds"
-
-        crds = @current_event.credit_online_refunds_base(grouping: :hour, credit_filter: [@credit], payment_filter: @filter)
-        @pos_views = { chart_id: "online_refunds_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds), decimals: 2 }
-      end
-
-      def credit_outcome_fees
-        @partial = "credit/outcome_fees"
+      def credit_onsite_refund_fees
+        @partial = "credit/onsite_refund_fees"
 
         @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).select { |station| @current_event.credit_outcome_fees_total(station_filter: station).positive? }
-        @dates = @current_event.credit_outcome_fees(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys
+        @dates = @current_event.credit_onsite_refund_fees(credit_filter: @credits, station_filter: @stations).reject { |_, v| v.zero? }.keys
 
-        crds = @current_event.credit_outcome_fees(grouping: :hour, credit_filter: [@credit])
+        crds = @current_event.credit_onsite_refund_fees(grouping: :hour, credit_filter: [@credit])
         @pos_views = { chart_id: "outcome_fees_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds), decimals: 2 }
       end
 
-      def credit_income_fees
-        @partial = "credit/income_fees"
+      def credit_online_refunds
+        @partial = "credit/online_refunds"
 
-        @stations = @current_event.stations.where(category: "top_up_refund")
-        @dates = @current_event.credit_outcome_fees(credit_filter: @credits).reject { |_, v| v.zero? }.keys
+        @dates = @current_event.credit_online_refunds.reject { |_, v| v.zero? }.keys
+        @gateways = @current_event.online_refunds(payment_filter: @filter).distinct.pluck(:gateway)
 
-        crds = @current_event.credit_outcome_fees(grouping: :hour, credit_filter: @credits)
-        @pos_views = { chart_id: "outcome_fees_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credits: crds), decimals: 2 }
+        data = @current_event.plot(@gateways.map { |gateway| [gateway.to_sym, @current_event.credit_online_refunds(grouping: :hour, payment_filter: gateway)] }.to_h)
+        @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
+      end
+
+      def credit_fees
+        @fee_type = params[:analytics][:filter][:fee_type]
+        @partial = "credit/fees"
+
+        @stations = @current_event.stations.where(category: Event::TOPUPS_STATIONS).select { |station| @current_event.credit_single_fee_total(station_filter: station, fee_filter: @fee_type).positive? }
+        @dates = @current_event.credit_single_fee(credit_filter: @credits, station_filter: @stations, fee_filter: @fee_type).reject { |_, v| v.zero? }.keys
+
+        crds = @current_event.credit_single_fee(grouping: :hour, credit_filter: @credit, fee_filter: @fee_type)
+        @pos_views = { chart_id: "fees_flow", cols: ["Credits"], currency: "", data: @current_event.plot(credit: crds), decimals: 2 }
       end
 
       def credit_outcome_orders
@@ -283,24 +287,35 @@ module Admins
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
-      def money_fees
-        @partial = "money/fees"
+      def money_topup_fees
+        @partial = "money/topup_fees"
 
-        @fees = @current_event.money_income_fees
-        @payments = @current_event.online_payment_methods
+        @fees = @current_event.money_online_orders_fee
+        @payments = @current_event.online_payment_methods(:topups)
         @dates = @fees.reject { |_, sum| sum.zero? }.keys.sort
 
-        data = @current_event.plot(@payments.map { |payments| [payments.underscore, @current_event.money_income_fees(grouping: :hour, payment_filter: payments)] }.to_h)
+        data = @current_event.plot(@payments.map { |payments| [payments.underscore, @current_event.money_online_orders_fee(grouping: :hour, payment_filter: payments)] }.to_h)
+        @pos_views = { chart_id: "topups_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
+      end
+
+      def money_refund_fees
+        @partial = "money/refund_fees"
+
+        @fees = @current_event.money_online_refunds_fee
+        @payments = @current_event.online_payment_methods(:refunds)
+        @dates = @fees.reject { |_, sum| sum.zero? }.keys.sort
+
+        data = @current_event.plot(@payments.map { |payments| [payments.underscore, @current_event.money_online_refunds_fee(grouping: :hour, payment_filter: payments)] }.to_h)
         @pos_views = { chart_id: "topups_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
       def money_online_refunds
         @partial = "money/online_refunds"
 
-        @dates = @current_event.money_online_refunds_base.reject { |_, v| v.zero? }.keys
+        @dates = @current_event.money_online_refunds.reject { |_, v| v.zero? }.keys
         @gateways = @current_event.online_refunds(payment_filter: @filter).distinct.pluck(:gateway)
 
-        data = @current_event.plot(@gateways.map { |gateway| [gateway.to_sym, @current_event.money_online_refunds_base(grouping: :hour, payment_filter: gateway)] }.to_h)
+        data = @current_event.plot(@gateways.map { |gateway| [gateway.to_sym, @current_event.money_online_refunds(grouping: :hour, payment_filter: gateway)] }.to_h)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 
@@ -312,16 +327,6 @@ module Admins
         @payments = @current_event.monetary_topups.distinct.pluck(:payment_method)
 
         data = @current_event.plot(@payments.map { |payment| [payment, @current_event.money_onsite_refunds(grouping: :hour, payment_filter: payment)] }.to_h)
-        @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
-      end
-
-      def money_income_fees
-        @partial = "money/income_fees"
-
-        orders_fees = @current_event.money_online_orders_fee(grouping: :hour).reject { |_, v| v.zero? }
-        refunds_fees = @current_event.money_online_refunds_fee(grouping: :hour).reject { |_, v| v.zero? }
-
-        data = @current_event.plot(online_topups: orders_fees, online_refunds: refunds_fees)
         @pos_views = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
       end
 

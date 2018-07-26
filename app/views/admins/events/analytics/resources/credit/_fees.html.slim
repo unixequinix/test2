@@ -2,7 +2,7 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col.analytics
     .mdl-card__title.mdl-card--expand
-      .mdl-card__title-text Outcome Fee Analytics
+      .mdl-card__title-text #{@fee_type.humanize} Fee Analytics
 
     table.pvtTable
       thead
@@ -21,8 +21,8 @@
 
       tbody
         - @stations.each do |station|
-          - quantity = @current_event.count_credit_topups_fees(grouping: :day, station_filter: station, credit_filter: @credits)
-          - data = @credits.map { |credit| [credit, @current_event.credit_outcome_fees(grouping: :day, credit_filter: credit, station_filter: station)] }.to_h
+          - quantity = @current_event.count_single_fee(grouping: :day, station_filter: station, credit_filter: @credits, fee_filter: @fee_type)
+          - data = @credits.map { |credit| [credit, @current_event.credit_single_fee(grouping: :day, credit_filter: credit, station_filter: station, fee_filter: @fee_type)] }.to_h
           - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
 
           tr
@@ -37,14 +37,14 @@
 
         tr
           th.pvtRowLabel.low-contrast Totals
-          - quantity = @current_event.count_credit_topups_fees(grouping: :day, station_filter: @stations)
+          - quantity = @current_event.count_single_fee(grouping: :day, station_filter: @stations, fee_filter: @fee_type)
 
           - @dates.each do |date|
             td.pvtTotal.rowTotal.totals = quantity[date]
-            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_outcome_fees(grouping: :day, credit_filter: @credit, station_filter: @stations)[date].to_f)
+            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_single_fee(grouping: :day, credit_filter: @credit, station_filter: @stations, fee_filter: @fee_type)[date].to_f)
 
           td.pvtTotal.rowTotal.totals = quantity.values.sum
-          td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_outcome_fees_total(credit_filter: @credit, station_filter: @stations))
+          td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_single_fee_total(credit_filter: @credit, station_filter: @stations, fee_filter: @fee_type))
 
   .mdl-layout-spacer
 
