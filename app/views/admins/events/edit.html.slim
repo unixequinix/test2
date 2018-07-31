@@ -53,6 +53,12 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Accounting Code
                   td = best_in_place @current_event, :accounting_code, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Voucher ID
+                  td = best_in_place @current_event, :voucher_id, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Voucher Products
+                  td = best_in_place @current_event, :voucher_products, url: [:admins, @current_event]
 
           .transaction-card-wide.mdl-card.mdl-shadow--2dp
             .mdl-card__title API Controls
