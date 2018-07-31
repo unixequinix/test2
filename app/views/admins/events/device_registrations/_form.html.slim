@@ -37,9 +37,8 @@
         thead
           tr
             th.mdl-data-table__cell--non-numeric Asset
-            th.mdl-data-table__cell--non-numeric Mac
             th.mdl-data-table__cell--non-numeric Serial
-            th.mdl-data-table__cell--non-numeric Initialization
+            th Initialization
             th
 
         - resources.each do |resource|
@@ -47,11 +46,9 @@
           tr
             td.mdl-data-table__cell--non-numeric data-label="Asset" 
               span = best_in_place device, :asset_tracker, url: [:admins, @current_user, :team, device]
-            td.mdl-data-table__cell--non-numeric data-label="Mac"
-              span = device.mac   
             td.mdl-data-table__cell--non-numeric data-label="Serial"
               span = device.serial
-            td.mdl-data-table__cell--non-numeric data-label="Initialization"
+            td data-label="Initialization"
               - if form_disable
                 span = best_in_place resource, :initialization_type, as: :select, collection: @actions.map { |type| [type, type.to_s.humanize.gsub("initialization", "")]}, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
               - else
