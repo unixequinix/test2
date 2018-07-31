@@ -9,15 +9,14 @@ RSpec.describe Events::RefundsController, type: :controller do
       before(:each) { sign_in customer }
 
       it 'GET new with refunds closed' do
-        event.open_refunds = false
-        event.save
+        event.update! open_refunds: false
         get :new, params: { event_id: event }
         expect(response).to redirect_to(:customer_root)
       end
 
       it 'GET new' do
-        order = create(:order, :with_credit, event: event, customer: customer)
-        order.complete!
+        event.update! open_refunds: true
+        create(:order, :with_credit, event: event, customer: customer, credits: 100).complete!
 
         get :new, params: { event_id: event }
         expect(response).to be_ok

@@ -167,6 +167,7 @@ module Admins
     end
 
     def permitted_params
+      params[:event][:voucher_products] = params[:event][:voucher_products]&.split(',')
       params.require(:event).permit(:action,
                                     :state,
                                     :name,
@@ -205,8 +206,9 @@ module Admins
                                     :gtag_deposit,
                                     :onsite_initial_topup_fee,
                                     :online_initial_topup_fee,
-                                    :every_topup_fee,
-                                    :refund_fee,
+                                    :every_onsite_topup_fee,
+                                    :every_online_topup_fee,
+                                    :online_refund_fee,
                                     :onsite_refund_fee,
                                     :refund_minimum,
                                     :auto_refunds,
@@ -235,6 +237,8 @@ module Admins
                                     :refunds_end_date,
                                     :event_serie_id,
                                     :accounting_code,
+                                    :voucher_id,
+                                    voucher_products: [],
                                     credit_attributes: %i[id name value],
                                     refund_fields: [])
     end

@@ -39,7 +39,7 @@ module Admins
 
       def access
         cols = ["Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
-        @access = @current_event.id.eql?(469) ? prepare_pokes(cols, pokes_access_lambeth) : prepare_pokes(cols, pokes_access)
+        @access = prepare_pokes(cols, pokes_access)
         prepare_data params[:action], @access, [['Direction'], ['Zone', 'Date Time'], ['Capacity'], 0, 'sum']
       end
 

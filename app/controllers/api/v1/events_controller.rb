@@ -26,9 +26,9 @@ class Api::V1::EventsController < Api::V1::BaseController
   end
 
   def event_auth
-    return true if @current_user.glowball?
+    # return true if @current_user.glowball?
     # NOTE: DO NOT change the error messages
-    render json: { error: "This app version is no longer supported" }, status: :upgrade_required unless @current_event.valid_app_version?(params[:app_version])
-    render json: { error: "API is closed" }, status: :forbidden unless @current_event.open_devices_api?
+    render(json: { error: "This app version is no longer supported", min_apk_version: @current_event.app_version }, status: :upgrade_required) && return unless @current_event.valid_app_version?(params[:app_version])
+    render(json: { error: "API is closed" }, status: :forbidden) unless @current_event.open_devices_api?
   end
 end

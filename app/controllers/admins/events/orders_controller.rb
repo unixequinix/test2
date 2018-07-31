@@ -29,18 +29,19 @@ module Admins
         atts = permitted_params.dup
         alcohol_flag = atts.delete(:alcohol_forbidden)
         topup_flag = atts.delete(:initial_topup)
-        @order = @current_event.orders.new(atts)
-        @order.order_items.build(catalog_item: @alcohol_flag, amount: 1) if alcohol_flag.to_i.eql?(1)
-        @order.order_items.build(catalog_item: @topup_flag, amount: 1) if topup_flag.to_i.eql?(1)
+
+        items = atts[:order_items_attributes].to_h.values.select { |h| h["_destroy"].eql?("false") }.map { |h| [h["catalog_item_id"], h["amount"]] }
+        items << [@alcohol_flag.id, 1] if alcohol_flag.to_i.eql?(1)
+        items << [@topup_flag.id, 1] if topup_flag.to_i.eql?(1)
+
+        @order = @customer.build_order(items, atts.slice(:money_base, :money_fee))
         authorize @order
 
-        if @order.set_counters.save
-          @order.update(gateway: "admin", status: "completed", completed_at: Time.zone.now)
+        if @order.save
+          @order.complete!("admin")
           redirect_to [:admins, @current_event, @order.customer], notice: t("alerts.created")
         else
           @catalog_items_collection = @current_event.catalog_items.not_user_flags.group_by { |item| item.type.underscore.humanize.pluralize }
-          @order.order_items.build(catalog_item: @alcohol_flag, amount: alcohol_flag) if alcohol_flag.to_i.eql?(1)
-          @order.order_items.build(catalog_item: @topup_flag, amount: topup_flag) if topup_flag.to_i.eql?(1)
           flash.now[:alert] = t("alerts.error")
           render :new
         end
@@ -65,7 +66,7 @@ module Admins
       end
 
       def permitted_params
-        params.require(:order).permit(:money_base, :money_fee, :status, :customer_id, :credits, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
+        params.require(:order).permit(:money_base, :money_fee, :customer_id, :alcohol_forbidden, :initial_topup, order_items_attributes: %i[id catalog_item_id amount _destroy])
       end
     end
   end

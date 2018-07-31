@@ -72,8 +72,16 @@ module StationHelper
     end
   end
 
-  def pokes_access(object)
-    access = object.pokes.access.as_json
+  def pokes_access_customer(object)
+    access = object.pokes.access_customer.as_json
+    access.each do |p|
+      p["date_time"] = time_zoner(p["date_time"])
+      p["event_day"] = event_day(p["date_time"])
+    end
+  end
+
+  def pokes_access_operator(object)
+    access = object.pokes.access_operator.as_json
     access.each do |p|
       p["date_time"] = time_zoner(p["date_time"])
       p["event_day"] = event_day(p["date_time"])

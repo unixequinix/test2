@@ -44,7 +44,7 @@ class Gtag < ApplicationRecord
     return if Customer.claim(event, customer, new_gtag.customer).nil?
 
     update!(banned: true, active: false)
-    new_gtag.update!(active: true, customer: customer)
+    new_gtag.update!(active: true, customer: customer, operator: operator?)
   end
 
   def make_active!

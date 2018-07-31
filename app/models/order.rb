@@ -143,14 +143,6 @@ class Order < ApplicationRecord
     order_items.pluck(:redeemed).all?
   end
 
-  def credits
-    order_items.sum(&:credits)
-  end
-
-  def virtual_credits
-    order_items.sum(&:virtual_credits)
-  end
-
   private
 
   def max_credit_reached

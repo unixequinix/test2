@@ -103,7 +103,8 @@ Rails.application.routes.draw do
           get :gates
           get :partner_reports
           get :sub_report
-          get :monetary_stations
+          get :custom_seasplash
+          get :custom_voucher
           get :lambeth_parking
         end
 

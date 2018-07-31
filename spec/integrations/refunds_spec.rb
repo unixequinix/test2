@@ -8,10 +8,10 @@ RSpec.describe "Refunds in the admin panel", type: :feature do
   before(:each) do
     @customers = create_list(:customer, 3, event: event, anonymous: false)
     @customers.each do |customer|
-      gtag = create(:gtag, event: event, customer: customer, credits: rand(10..50))
+      gtag = create(:gtag, event: event, customer: customer, final_balance: rand(10..50))
       customer.reload
-      create(:refund, event: event, customer: customer, credit_base: gtag.credits - 2, credit_fee: 2, status: 2)
-      create(:refund, event: event, customer: customer, credit_base: gtag.credits - 2, credit_fee: 2, status: 1)
+      create(:refund, event: event, customer: customer, credit_base: gtag.final_balance - 2, credit_fee: 2, status: 2)
+      create(:refund, event: event, customer: customer, credit_base: gtag.final_balance - 2, credit_fee: 2, status: 1)
     end
 
     login_as(user, scope: :user)

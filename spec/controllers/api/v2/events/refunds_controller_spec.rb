@@ -13,7 +13,7 @@ RSpec.describe Api::V2::Events::RefundsController, type: %i[controller api] do
 
   before do
     token_login(user, event)
-    gtag.update!(credits: 150)
+    gtag.update!(final_balance: 150)
   end
 
   describe "GET #index" do

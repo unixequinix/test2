@@ -53,6 +53,12 @@
                 tr
                   td.mdl-data-table__cell--non-numeric Accounting Code
                   td = best_in_place @current_event, :accounting_code, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Voucher ID
+                  td = best_in_place @current_event, :voucher_id, url: [:admins, @current_event]
+                tr
+                  td.mdl-data-table__cell--non-numeric Voucher Products
+                  td = best_in_place @current_event, :voucher_products, url: [:admins, @current_event]
 
           .transaction-card-wide.mdl-card.mdl-shadow--2dp
             .mdl-card__title API Controls
@@ -107,60 +113,73 @@
               tr
                 td.mdl-data-table__cell--non-numeric Tips
                 td = best_in_place @current_event, :tips_enabled, best_in_place_checkbox([:admins, @current_event])
+              tr
+                td.mdl-data-table__cell--non-numeric
+                  = check_box_tag :refund_minimum, "yes", @current_event.refund_minimum.present?, class: "refund_minimum", id: "refund_minimum_checkbox"
+                  | &nbsp; Refund Minimum
+                td
+                  = best_in_place @current_event, :refund_minimum, url: [:admins, @current_event], class: "event_fee", id: "refund_minimum", style: @current_event.refund_minimum.nil? ? "display: none" : ""
+                  |  #{@current_event.credit.symbol}
+              tr
+                td.mdl-data-table__cell--non-numeric
+                  = check_box_tag :gtag_deposit_fee, "yes", @current_event.gtag_deposit_fee.present?, class: "gtag_deposit_fee", id: "gtag_deposit_fee_checkbox"
+                  | &nbsp; Gtag Deposit Fee
+                td
+                  = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], class: "event_fee", id: "gtag_deposit_fee", style: @current_event.gtag_deposit_fee.nil? ? "display: none" : ""
+                  |  #{@current_event.credit.symbol}
 
           .transaction-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title Fees
+            .mdl-card__title Topup Fees
 
             table.table-show.mdl-data-table.mdl-js-data-table.within-card
               tbody
                 tr
                   td.mdl-data-table__cell--non-numeric
-                    = check_box_tag :gtag_deposit_fee, "yes", @current_event.gtag_deposit_fee.present?, class: "gtag_deposit_fee", id: "gtag_deposit_fee_checkbox"
-                    | &nbsp; Gtag deposit
+                    = check_box_tag :every_onsite_topup_fee, "yes", @current_event.every_onsite_topup_fee.present?, class: "every_onsite_topup_fee", id: "every_onsite_topup_fee_checkbox"
+                    | &nbsp; Every <b>Onsite</b> Topup
                   td
-                    = best_in_place @current_event, :gtag_deposit_fee, url: [:admins, @current_event], class: "event_fee", id: "gtag_deposit_fee", style: @current_event.gtag_deposit_fee.nil? ? "display: none" : ""
-                    |  #{@current_event.credit.symbol}
-                tr
-                  td.mdl-data-table__cell--non-numeric
-                    = check_box_tag :every_topup_fee, "yes", @current_event.every_topup_fee.present?, class: "every_topup_fee", id: "every_topup_fee_checkbox"
-                    | &nbsp; Every Topup
-                  td
-                    = best_in_place @current_event, :every_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "every_topup_fee", style: @current_event.every_topup_fee.nil? ? "display: none" : ""
+                    = best_in_place @current_event, :every_onsite_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "every_onsite_topup_fee", style: @current_event.every_onsite_topup_fee.nil? ? "display: none" : ""
                     |  #{@current_event.credit.symbol}
                 tr
                   td.mdl-data-table__cell--non-numeric
                     = check_box_tag :onsite_initial_topup_fee, "yes", @current_event.onsite_initial_topup_fee.present?, class: "onsite_initial_topup_fee", id: "onsite_initial_topup_fee_checkbox"
-                    | &nbsp; <b>Onsite</b> Initial Topup
+                    | &nbsp; First <b>Onsite</b> Topup
                   td
                     = best_in_place @current_event, :onsite_initial_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "onsite_initial_topup_fee", style: @current_event.onsite_initial_topup_fee.nil? ? "display: none" : ""
                     |  #{@current_event.credit.symbol}
                 tr
                   td.mdl-data-table__cell--non-numeric
+                    = check_box_tag :every_online_topup_fee, "yes", @current_event.every_online_topup_fee.present?, class: "every_online_topup_fee", id: "every_online_topup_fee_checkbox"
+                    | &nbsp; Every <b>Online</b> Topup
+                  td
+                    = best_in_place @current_event, :every_online_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "every_online_topup_fee", style: @current_event.every_online_topup_fee.nil? ? "display: none" : ""
+                    |  #{@current_event.credit.symbol}
+                tr
+                  td.mdl-data-table__cell--non-numeric
                     = check_box_tag :online_initial_topup_fee, "yes", @current_event.online_initial_topup_fee.present?, class: "online_initial_topup_fee", id: "online_initial_topup_fee_checkbox"
-                    | &nbsp; <b>Online</b> Initial Topup fee
+                    | &nbsp; First <b>Online</b> Topup
                   td
                     = best_in_place @current_event, :online_initial_topup_fee, url: [:admins, @current_event], class: "event_fee", id: "online_initial_topup_fee", style: @current_event.online_initial_topup_fee.nil? ? "display: none" : ""
                     |  #{@current_event.credit.symbol}
-                tr
-                  td.mdl-data-table__cell--non-numeric
-                    = check_box_tag :refund_fee, "yes", @current_event.refund_fee.present?, class: "refund_fee", id: "every_refund_fee_checkbox"
-                    | &nbsp; Online Refund Fee
-                  td
-                    = best_in_place @current_event, :refund_fee, url: [:admins, @current_event], class: "event_fee", id: "refund_fee", style: @current_event.refund_fee.nil? ? "display: none" : ""
-                    |  #{@current_event.credit.symbol}
+
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title Refund Fees
+
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
                 tr
                   td.mdl-data-table__cell--non-numeric
                     = check_box_tag :onsite_refund_fee, "yes", @current_event.onsite_refund_fee.present?, class: "onsite_refund_fee", id: "every_onsite_refund_fee_checkbox"
-                    | &nbsp; Onsite Refund Fee
+                    | &nbsp; Every <b>Onsite</b> Refund
                   td
                     = best_in_place @current_event, :onsite_refund_fee, url: [:admins, @current_event], class: "event_fee", id: "onsite_refund_fee", style: @current_event.onsite_refund_fee.nil? ? "display: none" : ""
                     |  #{@current_event.credit.symbol}
                 tr
                   td.mdl-data-table__cell--non-numeric
-                    = check_box_tag :refund_minimum, "yes", @current_event.refund_minimum.present?, class: "refund_minimum", id: "refund_minimum_checkbox"
-                    | &nbsp; Refund Minimum
+                    = check_box_tag :online_refund_fee, "yes", @current_event.online_refund_fee.present?, class: "online_refund_fee", id: "online_refund_fee_checkbox"
+                    | &nbsp; Every <b>Online</b> Refund
                   td
-                    = best_in_place @current_event, :refund_minimum, url: [:admins, @current_event], class: "event_fee", id: "refund_minimum", style: @current_event.refund_minimum.nil? ? "display: none" : ""
+                    = best_in_place @current_event, :online_refund_fee, url: [:admins, @current_event], class: "event_fee", id: "online_refund_fee", style: @current_event.online_refund_fee.nil? ? "display: none" : ""
                     |  #{@current_event.credit.symbol}
 
 
@@ -326,8 +345,9 @@ javascript:
 
   doFees("onsite_initial_topup_fee");
   doFees("online_initial_topup_fee");
-  doFees("every_topup_fee");
-  doFees("refund_fee");
+  doFees("every_onsite_topup_fee");
+  doFees("every_online_topup_fee");
+  doFees("online_refund_fee");
   doFees("onsite_refund_fee");
   doFees("refund_minimum");
   doFees("gtag_deposit_fee");

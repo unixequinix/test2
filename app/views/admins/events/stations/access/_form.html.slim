@@ -7,5 +7,5 @@
       = f.input :access_id, collection: @current_event.accesses.where.not(id: @station.access_control_gates.pluck(:access_id)).pluck(:name, :id), include_blank: true
       = f.input :station_id, as: :hidden, input_html: { value: @station.id }
     .form-actions
-      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+      = f.button :submit, value: "Add", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 br

@@ -36,6 +36,7 @@ class Poke < ApplicationRecord
   scope :is_ok, -> { where(status_code: 0, error_code: nil) }
   scope :onsite, -> { where(source: "onsite") }
   scope :online, -> { where(source: "online") }
+  scope :with_description, ->(description) { description.present? ? where(description: description) : all }
   scope :with_credit, ->(credits) { credits.present? ? where(credit: credits) : all }
   scope :with_payment, ->(payments) { payments.present? ? where(payment_method: payments) : all }
   scope :with_station, ->(stations) { stations.present? ? where(station: stations) : all }
@@ -196,12 +197,16 @@ class Poke < ApplicationRecord
       .where.not(access_direction: nil).is_ok.where('customers.operator = false')
       .group("date_time, zone, direction, access_direction")
   }
-
-  scope :access_lambeth, lambda {
+  scope :access_customer, lambda {
     select('min(date) as date', date_time_poke, sonar_access_patch, access_capacity_all_query)
       .joins(:station, :catalog_item, :customer)
       .where.not(access_direction: nil).is_ok.where('customers.operator = false')
-      .where("catalog_items.name != 'Parking'")
+      .group("date_time, zone, direction, access_direction")
+  }
+  scope :access_operator, lambda {
+    select('min(date) as date', date_time_poke, sonar_access_patch, access_capacity_all_query)
+      .joins(:station, :catalog_item, :customer)
+      .where.not(access_direction: nil).is_ok.where('customers.operator = true')
       .group("date_time, zone, direction, access_direction")
   }
 

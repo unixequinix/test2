@@ -23,8 +23,8 @@ class Events::RefundsController < Events::EventsController
   private
 
   def set_refund
-    amount = @current_customer.credits - @current_event.refund_fee.to_f
-    atts = { credit_base: amount, credit_fee: @current_event.refund_fee.to_f, status: "started", gateway: "bank_account", event: @current_event }
+    amount = @current_customer.credits - @current_event.online_refund_fee.to_f
+    atts = { credit_base: amount, credit_fee: @current_event.online_refund_fee.to_f, status: "started", gateway: "bank_account", event: @current_event }
 
     if amount.positive? && @current_event.refund_minimum.to_f <= @current_customer.credits
       @refund = @current_customer.refunds.new(atts)

@@ -146,7 +146,7 @@ class Customer < ApplicationRecord
       [0, 0] if amount.to_f.zero?
 
       item = event.catalog_items.find(item_id)
-      order.order_items.new(catalog_item: item, amount: amount.to_f)
+      order.order_items.build(catalog_item: item, amount: amount.to_f)
       [item.credits * amount.to_f, item.virtual_credits * amount.to_f]
     end
 

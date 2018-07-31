@@ -10,7 +10,7 @@ module Api
 
           cols = %w[uid_reverse sync_time_gtags sync_time_tickets transaction_buffer days_to_keep_backup sync_time_customers fast_removal_password
                     private_zone_password sync_time_server_date sync_time_basic_download sync_time_event_parameters gtag_type maximum_gtag_balance
-                    stations_apply_orders stations_initialize_gtags stations_apply_tickets tips_enabled]
+                    stations_apply_orders stations_initialize_gtags stations_apply_tickets tips_enabled voucher_id voucher_products]
 
           body = cols.map { |col| { name: col, value: @current_event.method(col).call } }
 
@@ -20,12 +20,13 @@ module Api
 
           body << { name: "refund_fee", value: @current_event.onsite_refund_fee } if @current_event.onsite_refund_fee.present?
           body << { name: "initial_topup_fee", value: @current_event.onsite_initial_topup_fee } if @current_event.onsite_initial_topup_fee.present?
-          body << { name: "topup_fee", value: @current_event.every_topup_fee } if @current_event.every_topup_fee.present?
+          body << { name: "topup_fee", value: @current_event.every_onsite_topup_fee } if @current_event.every_onsite_topup_fee.present?
           body << { name: "gtag_deposit_fee", value: @current_event.gtag_deposit_fee } if @current_event.gtag_deposit_fee.present?
 
           body << { name: "ultralight_c_private_key", value: value } if @current_event.gtag_type.eql?("ultralight_c")
           body << { name: "gtag_key", value: value }
           body << { name: "cypher_enabled", value: @current_event.name.downcase.tr("ó", "o").include?("sonar") }
+          body << { name: "min_apk_version", value: @current_event.app_version } unless @current_event.app_version.eql?("all")
 
           serie = @current_event.event_serie
           old_events = serie ? serie.events.where.not(id: @current_event.id).map { |e| dev_env ? fake_key : e.gtag_key }.uniq.join(";") : "" # rubocop:disable Style/NestedTernaryOperator

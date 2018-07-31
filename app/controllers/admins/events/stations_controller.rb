@@ -28,7 +28,8 @@ module Admins
         @catalog_items_collection = @current_event.catalog_items.order(:name).not_credits.where.not(id: @station.station_catalog_items.pluck(:catalog_item_id)).group_by { |item| item.type.underscore.humanize.pluralize }
 
         access_cols = ["Event Day", "Date Time", "Direction", "Access"]
-        @access_control = prepare_pokes(access_cols, pokes_access(@station))
+        @access_control_customer = prepare_pokes(access_cols, pokes_access_customer(@station))
+        @access_control_operator = prepare_pokes(access_cols, pokes_access_operator(@station))
         ticket_cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer ID', 'Customer UID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Redeemed', 'Total Tickets']
         @checkin_ticket_type = prepare_pokes(ticket_cols, pokes_checkin(@station))
         ticket_val_cols = ['Action', 'Description', 'Location', 'Station Type', 'Station Name', 'Event Day', 'Date Time', 'Customer ID', 'Customer Name', 'Operator UID', 'Operator Name', 'Device', 'Catalog Item', 'Ticket Type', 'Ticket Code', 'Redeemed', 'Total Tickets']

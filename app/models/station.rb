@@ -1,5 +1,6 @@
 class Station < ApplicationRecord
   include StationAnalytics
+  include VoucherStationAnalytics
 
   belongs_to :event
 

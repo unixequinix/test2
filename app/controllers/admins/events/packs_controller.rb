@@ -68,8 +68,12 @@ module Admins
 
       def clone
         @pack = @pack.deep_clone(include: :pack_catalog_items, validate: false)
-        @pack.update!(name: "#{@pack.name} - #{@current_event.packs.count}")
-        redirect_to [:edit, :admins, @current_event, @pack], notice: t("alerts.created")
+        @pack.name = "CLONE - #{@pack.name}"
+
+        @item = @current_event.user_flags.find_by(name: "alcohol_forbidden")
+        @pack.pack_catalog_items.build(catalog_item: @item, amount: 0)
+
+        render :new
       end
 
       private

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :refund do
     event
-    customer { build(:customer, event: event) }
+    customer { build(:customer, event: event, active_gtag: build(:gtag, event: event, final_balance: 200)) }
     credit_base 10
     credit_fee 0
     gateway "paypal"

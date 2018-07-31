@@ -31,7 +31,7 @@ module Api::V2
     private
 
     def event_params
-      params.require(:event).permit(:every_topup_fee, :onsite_initial_topup_fee, :online_initial_topup_fee, :gtag_deposit_fee, :refund_fee, :maximum_gtag_balance)
+      params.require(:event).permit(:every_onsite_topup_fee, :every_online_topup_fee, :onsite_initial_topup_fee, :online_initial_topup_fee, :gtag_deposit_fee, :online_refund_fee, :maximum_gtag_balance)
     end
   end
 end

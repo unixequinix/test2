@@ -222,7 +222,7 @@ RSpec.describe Customer, type: :model do
 
     describe ".credits" do
       it "takes into account the gtag balance" do
-        gtag.update!(credits: 12.5)
+        gtag.update!(final_balance: 12.5)
         expect(customer.credits).to eq(12.5)
       end
 
@@ -245,7 +245,7 @@ RSpec.describe Customer, type: :model do
       end
 
       context "with refunds" do
-        before { gtag.update!(credits: 50) }
+        before { gtag.update!(final_balance: 50) }
 
         it "takes into account completed refunds as negative" do
           total = create_list(:refund, 2, customer: customer, status: "completed", event: event).sum(&:credit_total)
@@ -261,7 +261,7 @@ RSpec.describe Customer, type: :model do
 
     describe ".virtual_credits" do
       it "takes into account the gtag balance" do
-        gtag.update!(virtual_credits: 12.5)
+        gtag.update!(final_virtual_balance: 12.5)
         expect(customer.virtual_credits).to eq(12.5)
       end
 

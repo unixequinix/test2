@@ -57,8 +57,6 @@
                         = poke.date.strftime("%d %b")
                         br
                         b = poke.date.strftime("%H:%M")
-                        br
-                        = poke.id
 
                     td.mdl-data-table__cell--non-numeric data-label="Action"
                       - name = pokes_in.size == 1 ? poke.name : "Sale of #{pokes_in.size} items"

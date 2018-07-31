@@ -35,49 +35,47 @@ RSpec.describe Creators::CustomerFromGtagJob, type: :job do
     end
   end
   context "creating orders" do
+    before do
+      old_gtag.update! final_balance: 10.to_f, final_virtual_balance: 5.to_f
+    end
+
     # Balance
     it "can create order with credits but not virtual" do
-      old_gtag.credits = 10.to_f
-      old_gtag.virtual_credits = 5.to_f
-      old_gtag.save!
+      old_gtag.update! final_virtual_balance: 0
       expect { worker.perform_now(old_gtag, event, "0", "0") }.to change { event.orders.count }.by(1)
       expect(event.orders.last.virtual_credits).to eq(0.to_f)
     end
+
     it "can create order with credits and virtual" do
-      old_gtag.credits = 10.to_f
-      old_gtag.virtual_credits = 5.to_f
-      old_gtag.save!
       expect { worker.perform_now(old_gtag, event, "1", "0") }.to change { event.orders.count }.by(1)
       expect(event.orders.last.virtual_credits).to eq(5.to_f)
     end
+
     it "can create order with credits" do
-      old_gtag.credits = 10.to_f
-      old_gtag.save!
       expect { worker.perform_now(old_gtag, event, "0", "0") }.to change { event.orders.count }.by(1)
     end
+
     it "can create order with credits too" do
-      old_gtag.credits = 10.to_f
-      old_gtag.save!
       expect { worker.perform_now(old_gtag, event, "1", "0") }.to change { event.orders.count }.by(1)
     end
-    it "can't create order with virtual" do
-      old_gtag.virtual_credits = 10.to_f
-      old_gtag.save!
+
+    it "can't create order with virtual only" do
+      old_gtag.update! final_balance: 0
       expect { worker.perform_now(old_gtag, event, "0", "0") }.to change { event.orders.count }.by(0)
     end
+
     it "can create order with virtual" do
-      old_gtag.virtual_credits = 10.to_f
-      old_gtag.save!
       expect { worker.perform_now(old_gtag, event, "1", "0") }.to change { event.orders.count }.by(1)
     end
+
     it "can't create order without credits" do
-      old_gtag.credits = 0.to_f
-      old_gtag.save!
+      old_gtag.update! final_balance: 0
       expect { worker.perform_now(old_gtag, event, "0", "0") }.not_to change(Order, :count)
     end
 
     # Fees
     it "can create order" do
+      old_gtag.update! final_balance: 0, final_virtual_balance: 0
       create(:poke, action: 'fee', description: 'initial', event: old_event, customer: old_customer)
       old_customer.update(initial_topup_fee_paid: true)
 
@@ -86,6 +84,7 @@ RSpec.describe Creators::CustomerFromGtagJob, type: :job do
     end
 
     it "can't create order" do
+      old_gtag.update! final_balance: 0, final_virtual_balance: 0
       create(:poke, action: 'fee', description: 'initial', event: old_event, customer: old_customer)
       old_customer.update(initial_topup_fee_paid: false)
 

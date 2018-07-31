@@ -68,8 +68,8 @@ RSpec.describe Order, type: :model do
       it "adds an error if the credits exceeds the maximum allowed" do
         expect(subject).to be_valid
         subject.credits = 100_000
-        expect { subject.save! }.not_to change(subject, :credits)
-        expect { subject.save! }.to change(subject, :errors)
+        expect { subject.save }.not_to change(subject, :credits)
+        expect { subject.save }.to change(subject, :errors)
       end
     end
   end

@@ -12,7 +12,7 @@
         td.table-amount#refund_amount = number_to_token(@refund.credit_total)
       tr.border-bottom
         td = t('refunds.fee')
-        td.table-amount#refund_fee = number_to_token(@refund.credit_fee)
+        td.table-amount#online_refund_fee = number_to_token(@refund.credit_fee)
       tr.border-bottom
         td = t('refunds.total_credits')
         td.table-amount#refund_credits = number_to_token(@refund.credit_base)

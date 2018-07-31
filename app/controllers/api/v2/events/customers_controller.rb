@@ -92,7 +92,7 @@ module Api::V2
 
     # POST api/v2/events/:event_id/customers/:id/refunds
     def refund
-      fee = @current_event.refund_fee.to_f
+      fee = @current_event.online_refund_fee.to_f
       base = @customer.credits - fee
       params[:gateway] ||= "other"
 
