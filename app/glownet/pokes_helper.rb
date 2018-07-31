@@ -20,7 +20,8 @@ module PokesHelper
       sale_item_quantity: item.quantity,
       standard_unit_price: item.standard_unit_price,
       standard_total_price: item.standard_total_price,
-      line_counter: counter
+      line_counter: counter,
+      voucher_amount: item.quantity - item.payments.map { |_, data| data["amount"].to_f / data["unit_price"].to_f }.select(&:positive?).sum
     }.merge(extra_atts)
   end
 

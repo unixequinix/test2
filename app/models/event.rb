@@ -3,6 +3,7 @@ class Event < ApplicationRecord
 
   include MoneyAnalytics
   include CreditAnalytics
+  include VoucherAnalytics
 
   has_many :device_registrations, dependent: :destroy
   has_many :devices, through: :device_registrations, dependent: :destroy

@@ -107,11 +107,21 @@ module Admins
         prepare_view(params[:action])
       end
 
-      def monetary_stations
+      def custom_seasplash
         return unless @current_event.id.eql?(461)
         @stations = @current_event.stations.where(category: %w[bar vendor])
         @pos_stats = @current_event.credit_sales(station_filter: @stations).reject { |_k, v| v.zero? }
-        @partial = 'admins/events/analytics/monetary_stations'
+        @partial = 'admins/events/analytics/custom_seasplash'
+
+        prepare_view(params[:action])
+      end
+
+      def custom_voucher
+        return unless @current_event.id.in?([428, 439])
+        @stations = @current_event.stations.where(category: %w[bar vendor])
+        @pos_stats = @current_event.credit_voucher_sales(station_filter: @stations).reject { |_k, v| v.zero? }
+        @dates = @pos_stats.keys
+        @partial = 'admins/events/analytics/custom_voucher'
 
         prepare_view(params[:action])
       end

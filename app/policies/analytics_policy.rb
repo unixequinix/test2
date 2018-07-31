@@ -19,7 +19,11 @@ class AnalyticsPolicy < ApplicationPolicy
     admin_or_promoter_or(:gates_manager)
   end
 
-  def monetary_stations?
+  def custom_seasplash?
+    true
+  end
+
+  def custom_voucher?
     true
   end
 

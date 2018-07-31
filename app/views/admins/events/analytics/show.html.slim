@@ -35,7 +35,9 @@
           - if @current_event.id.eql?(469)
             = link_to 'Parking', lambeth_parking_admins_event_analytics_path(@current_event), remote: true, id: "parking", class: "mdl-tabs__tab spinneable #{'is-active' if @parking}", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
           - if @current_event.id.eql?(461)          
-            = link_to 'Seasplash Custom', monetary_stations_admins_event_analytics_path(@current_event), remote: true, id: "monetary_stations", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+            = link_to 'Seasplash Custom', monetary_stations_admins_event_analytics_path(@current_event), remote: true, id: "custom_seasplash", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+          - if @current_event.id.in?([428, 439])
+            = link_to 'Custom', custom_voucher_admins_event_analytics_path(@current_event), remote: true, id: "custom_voucher", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
 
         #load-view
           = render 'admins/events/spinner'
