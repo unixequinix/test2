@@ -2,7 +2,7 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      - all_products = Product.where(id: @current_event.voucher_sales.pluck(:product_id).uniq)
+      - all_products = Product.where(id: @current_event.voucher_sales.where.not(voucher_amount: 0).pluck(:product_id).uniq)
       = render "admins/events/analytics/box", cols: 6,
               id: 'voucher_products',
               custom_class: 'hovering',
