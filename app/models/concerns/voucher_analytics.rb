@@ -9,4 +9,12 @@ module VoucherAnalytics
   def credit_voucher_sales(grouping: :day, station_filter: [])
     voucher_sales(station_filter: station_filter).group_by_period(grouping, :date).sum(:voucher_amount)
   end
+
+  def voucher_sales_total(station_filter: [])
+    voucher_sales(station_filter: station_filter).sum(:voucher_amount)
+  end
+
+  def voucher_topups_total(station_filter: [])
+    transactions.where(action: "record_access", access_id: voucher_id).with_station(station_filter).status_ok.where("direction > 0").sum(:direction)
+  end
 end
