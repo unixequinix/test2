@@ -26,6 +26,7 @@ class Transaction < ApplicationRecord
   scope :online, -> { where(transaction_origin: "online") }
 
   scope :with_event, ->(event) { where(event: event) }
+  scope :with_station, ->(stations) { stations.present? ? where(station: stations) : all }
   scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
   scope :status_ok, -> { where(status_code: 0) }
   scope :status_not_ok, -> { where.not(status_code: 0) }
