@@ -2,7 +2,7 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
     .mdl-grid
-      - all_products = Product.where(station: @stations)
+      - all_products = Product.where(id: @pos_stats.pluck(:product_id).uniq)
       = render "admins/events/analytics/box", cols: 6,
               id: 'voucher_products',
               custom_class: 'hovering',
@@ -10,7 +10,7 @@
               icon: 'attach_money',
               title_text: "Products",
               title_number: all_products.count,
-              subtitle: [{ text: 'Avg price', number: number_to_reports_credit(all_products.sum(:price), @current_event.credit) }, { text: 'Max Price', number: number_to_reports_credit(all_products.maximum(:price), @current_event.credit) }]
+              subtitle: [{ text: 'Avg price', number: number_to_reports_credit(all_products.sum(:price) / all_products.count.to_f, @current_event.credit) }, { text: 'Max Price', number: number_to_reports_credit(all_products.maximum(:price), @current_event.credit) }]
       = render "admins/events/analytics/box", cols: 6,
               id: 'voucher_use',
               custom_class: 'hovering',
