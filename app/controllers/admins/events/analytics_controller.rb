@@ -107,8 +107,26 @@ module Admins
         prepare_view(params[:action])
       end
 
+      def custom_lambeth
+        @parking = true
+        @p = @current_event.customers.ransack(params[:p])
+        @q = @current_event.customers.ransack(params[:q])
+        @access = @current_event.accesses.find_by(id: @current_event.voucher_id)
+
+        if @access.nil?
+          @alert = "Parking access must be set in voucher_id"
+          render(action: 'role_not_authorized')
+        else
+          pokes = @current_event.pokes.where(action: 'checkpoint', catalog_item_id: @access.id).includes(:customer).order(date: :asc)
+          @control_gates_in = pokes.where(customer: @p.result).group_by(&:customer).map { |_, pks| pks.last if pks.last.access_direction.eql?(1) }.flatten.compact
+          @control_gates_out = pokes.where(customer: @q.result).group_by(&:customer).map { |_, pks| pks.last if pks.last.access_direction.eql?(-1) }.flatten.compact
+
+          @partial = 'admins/events/analytics/custom_lambeth'
+          prepare_view(params[:action])
+        end
+      end
+
       def custom_seasplash
-        return unless @current_event.id.eql?(461)
         @stations = @current_event.stations.where(category: %w[bar vendor])
         @pos_stats = @current_event.credit_sales(station_filter: @stations).reject { |_k, v| v.zero? }
         @partial = 'admins/events/analytics/custom_seasplash'
@@ -117,7 +135,6 @@ module Admins
       end
 
       def custom_voucher
-        return unless @current_event.id.in?([428, 439])
         @stations = @current_event.stations.where(category: %w[bar vendor])
         @pos_stats = @current_event.credit_voucher_sales(station_filter: @stations).reject { |_k, v| v.zero? }
         @dates = @pos_stats.keys
@@ -139,20 +156,6 @@ module Admins
         respond_to do |format|
           format.js { render action: :render_data, global: false }
         end
-      end
-
-      def lambeth_parking
-        @parking = true
-        @p = @current_event.customers.ransack(params[:p])
-        @q = @current_event.customers.ransack(params[:q])
-
-        @access = @current_event.accesses.find(10_456)
-        pokes = @current_event.pokes.where(action: 'checkpoint', catalog_item_id: @access.id).includes(:customer).order(date: :asc)
-        @control_gates_in = pokes.where(customer: @p.result).group_by(&:customer).map { |_, pks| pks.last if pks.last.access_direction.eql?(1) }.flatten.compact
-        @control_gates_out = pokes.where(customer: @q.result).group_by(&:customer).map { |_, pks| pks.last if pks.last.access_direction.eql?(-1) }.flatten.compact
-
-        @partial = 'admins/events/analytics/parking'
-        prepare_view(params[:action])
       end
 
       private
