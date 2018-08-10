@@ -52,8 +52,8 @@ class DownloadTransactionsQuery
         sum(tr.final_balance)                      AS "Final Balance",
         sum(tr.final_refundable_balance)          AS "Final Balance Refundable",
         sum(COALESCE(quantity, 1)) AS "Quantity",
-        sum(COALESCE(standard_unit_price, credits)) AS "Unit Price",
-        sum( tr.other_amount_credits) AS "Other Amount Sale",
+        sum(COALESCE(unit_price, credits)) AS "Unit Price",
+        sum(tr.other_amount_credits) AS "Other Amount Sale",
         sum(tr.credits - tr.other_amount_credits) AS "Products Amount Sale",
         sum(COALESCE(amount, credits)) AS "Amount"
 
@@ -72,7 +72,7 @@ class DownloadTransactionsQuery
               credit_transaction_id,
               quantity,
               standard_unit_price as unit_price,
-              -1 * quantity * unit_price as amount,
+              -1 * quantity * standard_unit_price as amount,
               price,
               name,
               is_alcohol ,
