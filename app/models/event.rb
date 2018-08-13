@@ -62,7 +62,7 @@ class Event < ApplicationRecord
   validates :name, :app_version, :support_email, :timezone, :start_date, :end_date, :currency, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 }
   validates :onsite_initial_topup_fee, :online_initial_topup_fee, :gtag_deposit_fee, :every_onsite_topup_fee, :online_refund_fee, :refund_minimum, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
-  validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0 }
+  validates :maximum_gtag_balance, :credit_step, numericality: { greater_than: 0, less_than_or_equal_to: 21_474_836 }
   validates :name, uniqueness: true
   validates :support_email, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :gtag_key, format: { with: /\A[a-zA-Z0-9]+\z/, message: I18n.t("alerts.only_letters_and_numbers") }, length: { is: 32 }, unless: -> { :new_record? }
