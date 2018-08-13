@@ -105,7 +105,7 @@ Rails.application.routes.draw do
           get :sub_report
           get :custom_seasplash
           get :custom_voucher
-          get :lambeth_parking
+          get :custom_lambeth
         end
 
         resource :custom_analytics do

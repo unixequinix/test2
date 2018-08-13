@@ -15,6 +15,7 @@ module Admins
                        order: OrderTransaction }.freeze
 
       def download_raw_transactions
+        authorize Transaction.new
         respond_to do |format|
           format.csv { send_data(DownloadTransactionsQuery.new(@current_event).to_csv) }
         end

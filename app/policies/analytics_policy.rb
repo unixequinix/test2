@@ -27,7 +27,7 @@ class AnalyticsPolicy < ApplicationPolicy
     true
   end
 
-  def lambeth_parking?
+  def custom_lambeth?
     true
   end
 
