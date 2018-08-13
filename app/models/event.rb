@@ -22,6 +22,7 @@ class Event < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :refunds, dependent: :destroy
   has_many :event_registrations, dependent: :destroy
+  has_many :event_invitations, dependent: :destroy
   has_many :users, through: :event_registrations, dependent: :destroy
   has_many :alerts, dependent: :destroy
   has_many :device_caches, dependent: :destroy

@@ -10,7 +10,7 @@ RSpec.describe Api::V1::Events::PacksController, type: %i[controller api] do
   let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
-    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    user.event_registrations.create!(user: user, event: event)
     request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
     http_login(user.email, user.access_token)
     @pack = create(:full_pack, event: event)

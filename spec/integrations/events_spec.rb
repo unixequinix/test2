@@ -6,7 +6,7 @@ RSpec.describe "Events in the admin panel", type: :feature do
   before { login_as(user, scope: :user) }
 
   describe "show event" do
-    let!(:registration) { create(:event_registration, event: event, email: user.email, user: user) }
+    let!(:registration) { create(:event_registration, event: event, user: user) }
 
     before(:each) do
       @online_topups = create_list(:order, 3, event: event, money_base: 10, money_fee: 5)

@@ -12,7 +12,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: %i[controller api] do
   before do
     create(:gtag, event: event, customer: create(:customer, event: event))
 
-    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    user.event_registrations.create!(user: user, event: event)
     request.headers["HTTP_DEVICE_TOKEN"] = Base64.encode64(device_token)
     http_login(user.email, user.access_token)
   end

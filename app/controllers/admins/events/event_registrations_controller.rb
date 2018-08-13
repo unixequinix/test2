@@ -1,11 +1,12 @@
 module Admins
   module Events
     class EventRegistrationsController < Admins::Events::BaseController
-      before_action :set_registration, only: %i[update resend destroy]
+      before_action :set_registration, only: %i[update destroy]
 
       def index
         @registrations = EventRegistration.where(event: @current_event).includes(:user).order(%i[role]).page(params[:page])
-        @registration = @current_event.event_registrations.new
+        @invitations = EventInvitation.pendings.where(event: @current_event).order(%i[role]).page(params[:page])
+        @invitation = @current_event.event_invitations.new
         authorize @registrations
       end
 
@@ -16,12 +17,7 @@ module Admins
         authorize(@registration)
 
         if @registration.save
-          if @user
-            redirect_to admins_event_event_registrations_path, notice: t("alerts.created")
-          else
-            UserMailer.invite_to_event(@registration).deliver_now
-            redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{email}', when accepted, it will be added to your users"
-          end
+          redirect_to admins_event_event_registrations_path, notice: t("alerts.created")
         else
           @registrations = EventRegistration.where(event: @current_event).order(%i[role]).page(params[:page])
           render :index
@@ -39,11 +35,6 @@ module Admins
             format.json { render json: @registration.errors.to_json, status: :unprocessable_entity }
           end
         end
-      end
-
-      def resend
-        UserMailer.invite_to_event(@registration).deliver_now
-        redirect_to admins_event_event_registrations_path, notice: "Invitation sent to '#{@registration.email}'"
       end
 
       def destroy
@@ -66,7 +57,7 @@ module Admins
       end
 
       def permitted_params
-        params.require(:event_registration).permit(:email, :role)
+        params.require(:event_registration).permit(:role)
       end
     end
   end

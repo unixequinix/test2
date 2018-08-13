@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Analytics in the admin panel", type: :feature do
   let(:event) { create(:event, state: "launched") }
   let(:user) { create(:user, role: :promoter) }
-  let!(:registration) { create(:event_registration, event: event, email: user.email, user: user) }
+  let!(:registration) { create(:event_registration, event: event, user: user) }
   let(:station) { create(:station, event: event, category: 'vendor') }
 
   before(:each) do
