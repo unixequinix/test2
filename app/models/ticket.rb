@@ -7,7 +7,7 @@ class Ticket < ApplicationRecord
 
   has_many :pokes, dependent: :restrict_with_error
 
-  validates :code, uniqueness: { scope: :event_id }, presence: true
+  validates :code, uniqueness: { scope: :event_id }, presence: true, length: { minimum: 1, maximum: 100 }
   validate_associations
 
   scope :query_for_csv, ->(event, operator = false) { event.tickets.where(operator: operator).select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
