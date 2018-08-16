@@ -20,7 +20,12 @@
 # Learn more: http://github.com/javan/whenever
 
 set :output, "log/cron.log"
+job_type :rake, "bash -c 'source ~deploy/.rvm/environments/ruby-2.5.0 && cd /home/deploy/current/ && RAILS_ENV=:environment bundle exec rake :task --silent :output'"
 
 every 5.minutes do
   runner "CronJobs.import_tickets"
+end
+
+every '00 02 17-19 8 *' do
+  rake "glownet:wework_script"
 end
