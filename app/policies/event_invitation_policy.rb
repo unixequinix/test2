@@ -1,6 +1,6 @@
-class EventRegistrationPolicy < ApplicationPolicy
-  def show?
-    false
+class EventInvitationPolicy < ApplicationPolicy
+  def resend?
+    true
   end
 
   def create?
@@ -21,5 +21,9 @@ class EventRegistrationPolicy < ApplicationPolicy
 
   def destroy?
     admin_or_promoter
+  end
+
+  def accept?
+    true
   end
 end

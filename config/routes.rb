@@ -159,8 +159,10 @@ Rails.application.routes.draw do
         end
 
         resources :ticket_assignments, only: :destroy
-        resources :event_registrations, except: :show  do
+        resources :event_registrations, except: :show
+        resources :event_invitations, except: [:show, :index] do
           get :resend, on: :member
+          get :accept, on: :member
         end
 
         resources :ticketing_integrations do

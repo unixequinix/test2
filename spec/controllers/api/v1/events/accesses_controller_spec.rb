@@ -11,7 +11,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: %i[controller api] do
   let(:device_token) { "#{device.app_id}+++#{device.serial}+++#{device.mac}+++#{device.imei}" }
 
   before do
-    user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+    user.event_registrations.create!(user: user, event: event)
     create(:access, event: event)
     @new_access = create(:access, event: event, updated_at: Time.zone.now + 4.hours)
 

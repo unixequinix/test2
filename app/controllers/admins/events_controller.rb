@@ -40,7 +40,7 @@ module Admins
       authorize(@event)
 
       if @event.save
-        @event.event_registrations.create!(user: current_user, email: current_user.email, role: :promoter)
+        @event.event_registrations.create!(user: current_user, role: :promoter)
         @event.initial_setup!
         redirect_to admins_event_path(@event), notice: t("alerts.created")
       else
@@ -85,7 +85,7 @@ module Admins
 
     def sample_event
       @event = SampleEvent.run(@current_user)
-      @event.event_registrations.create!(user: current_user, email: current_user.email, role: :promoter)
+      @event.event_registrations.create!(user: current_user, role: :promoter)
       authorize(@event)
       redirect_to [:admins, @event], notice: t("alerts.created")
     end

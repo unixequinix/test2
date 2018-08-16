@@ -4,7 +4,7 @@ module ControllerMacros
   end
 
   def token_login(user, event, role = "promoter")
-    event.event_registrations.create!(email: user.email, role: role, user: user)
+    event.event_registrations.create!(role: role, user: user)
     request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.access_token)
   end
 end

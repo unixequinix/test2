@@ -10,8 +10,11 @@ tr
                 h3.h3 Hello!
                 p
                   | You have been invited to participate in #{@event.name} with role &nbsp;
-                  b = @registration.role.humanize
+                  b = @invitation.role.humanize
 
-                p If you accept the invitation, please register first with us following the link below.
-
-                p style="text-align: center"= link_to "Create an Account", new_admins_user_url(email: @registration.email), { :style => "color: #ff0090; font-size: 18px; text-decoration: none;" }
+                - if @has_user
+                  p If you accept the invitation, please click the link below and login with this email if necessary.
+                  p style="text-align: center"= link_to "Accept invitation", accept_admins_event_event_invitation_url(event_id: @event.id, id: @invitation.id), { :style => "color: #ff0090; font-size: 18px; text-decoration: none;" }
+                - else
+                  p If you accept the invitation, please register first with us following the link below.
+                  p style="text-align: center"= link_to "Create an Account", new_admins_user_url(email: @invitation.email), { :style => "color: #ff0090; font-size: 18px; text-decoration: none;" }

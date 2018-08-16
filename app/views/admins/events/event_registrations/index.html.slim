@@ -5,14 +5,14 @@
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--12-col
     .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
-      = simple_form_for [:admins, @current_event, @registration], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+      = simple_form_for [:admins, @current_event, @invitation], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
         .field
           = f.input :email, placeholder: true
-          = f.full_error "user_id", style: "visibility: visible"
-          = f.input :role, as: :select, collection: EventRegistration.roles.keys.map {|format| [format.humanize, format]}, include_blank: false, placeholder: true
-
-        .form-actions
+          '
+          = f.input :role, as: :select, collection: EventInvitation.roles.keys.map {|format| [format.humanize, format]}, include_blank: false, placeholder: true
+          '
           = f.button :submit, "Invite", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
   .mdl-layout-spacer
 
 .content-grid.mdl-grid
@@ -21,27 +21,22 @@
     = render "layouts/pagination", objects: @registrations
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col Active users
       table.mdl-data-table.mdl-js-data-table.within-card
         thead
           tr
             th.mdl-data-table__cell--non-numeric User
             th.mdl-data-table__cell--non-numeric Role
-            th Accepted
+            th.mdl-data-table__cell--non-numeric Email
             th
         tbody
           - @registrations.each do |registration|
             tr
-              td.mdl-data-table__cell--non-numeric = registration.user&.username || registration.email
+              td.mdl-data-table__cell--non-numeric = link_to registration.user.username, admins_user_path(registration.user)
               td.mdl-data-table__cell--non-numeric = best_in_place registration, :role, as: :select, collection: EventRegistration.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, @current_event, registration]
-              td
-                - if registration.user
-                  i.material-icons done
-                - else
-                  i.material-icons clear
+              td.mdl-data-table__cell--non-numeric = link_to registration.user.email, admins_user_path(registration.user)
               td.table-actions
-                .table-action
-                  = link_to resend_admins_event_event_registration_path(@current_event, registration) do
-                    button.icon.material-icons id ="resend_#{registration.id}" autorenew
                 - if policy(registration).destroy?
                   .table-action
                     = link_to admins_event_event_registration_path(@current_event, registration), method: "delete", data: { confirm: t("alerts.confirm_delete") } do
@@ -49,7 +44,39 @@
 
             - if policy(registration).destroy?
               span.mdl-tooltip data-mdl-for="delete_registration_#{registration.id}" Delete
-            span.mdl-tooltip data-mdl-for="resend_#{registration.id}" Resend
 
     = render "layouts/pagination", objects: @registrations
   .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @invitations
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col Pending to accept the invitation
+      table.mdl-data-table.mdl-js-data-table.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Email
+            th.mdl-data-table__cell--non-numeric Role
+            th.mdl-data-table__cell--non-numeric Sent at
+            th
+        tbody
+          - @invitations.each do |invitation|
+            tr
+              td.mdl-data-table__cell--non-numeric = invitation.email
+              td.mdl-data-table__cell--non-numeric = best_in_place invitation, :role, as: :select, collection: EventInvitation.roles.keys.map {|format| [format, format.to_s.humanize]}, url: [:admins, @current_event, invitation]
+              td.mdl-data-table__cell--non-numeric = invitation.created_at.to_s(:db)
+              td.table-actions
+                .table-action
+                  = link_to resend_admins_event_event_invitation_path(@current_event, invitation) do
+                    button.icon.material-icons id ="resend_#{invitation.id}" autorenew
+                - if policy(invitation).destroy?
+                  .table-action
+                    = link_to admins_event_event_invitation_path(@current_event, invitation), method: "delete", data: {confirm: t("alerts.confirm_delete")} do
+                      button.icon.material-icons id="delete_invitation_#{invitation.id}" delete_forever
+
+            - if policy(invitation).destroy?
+              span.mdl-tooltip data-mdl-for="delete_invitation_#{invitation.id}" Delete
+            span.mdl-tooltip data-mdl-for="resend_#{invitation.id}" Resend
+
+    = render "layouts/pagination", objects: @invitations  

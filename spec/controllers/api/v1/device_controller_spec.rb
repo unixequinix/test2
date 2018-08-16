@@ -15,7 +15,7 @@ RSpec.describe Api::V1::DeviceController, type: :controller do
     let(:event) { create(:event) }
 
     before do
-      user.event_registrations.create!(email: "foo@bar.com", user: user, event: event)
+      user.event_registrations.create!(user: user, event: event)
       get :show, params: { device_token: device_token }
       @obj = JSON.parse(response.body).to_h.symbolize_keys
     end
