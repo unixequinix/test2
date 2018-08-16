@@ -136,6 +136,7 @@ module Admins
 
       def custom_voucher
         @stations = @current_event.stations.where(category: %w[bar vendor])
+        @stations = @current_event.stations.where(category: %w[vendor]) if @current_event.id.eql?(439) && Rails.env.production?
         @pos_stats = @current_event.credit_voucher_sales(station_filter: @stations).reject { |_k, v| v.zero? }
         @dates = @pos_stats.keys
         @partial = 'admins/events/analytics/custom_voucher'
