@@ -16,5 +16,19 @@
               td.mdl-data-table__cell--non-numeric Group
               td = permission.group&.humanize
             tr
-              td.mdl-data-table__cell--non-numeric Station ID
+              td.mdl-data-table__cell--non-numeric Station
               td = permission.station&.name
+      - else
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Role
+              td = @transaction.role&.humanize
+            - if @transaction.group.present?
+              tr
+                td.mdl-data-table__cell--non-numeric Group
+                td = @transaction.group.humanize
+            - if @transaction.station_permission_id.present?
+              tr
+                td.mdl-data-table__cell--non-numeric Station
+                td = @current_event.stations.find(@transaction.station_permission_id)&.name
