@@ -47,7 +47,7 @@ namespace :glownet do
 			end
 
 		elsif Rails.env.staging?
-			event = Event.find 557
+			event = Event.find 603
 			virtual_credit = event.virtual_credit
 			voucher = event.accesses.find(event.voucher_id)
 			datetime = DateTime.now
@@ -55,7 +55,7 @@ namespace :glownet do
 			max_voucher = 10.to_f
 			
 			if datetime.day.eql?(16)
-				ticket_types = event.ticket_types.where(id: [3022, 3023])
+				ticket_types = event.ticket_types.where(id: [3299, 3298])
 				tickets = event.tickets.where(ticket_type: ticket_types).where.not(customer_id: nil).uniq {|t| t.customer }
 				
 				tickets.each do |t|
