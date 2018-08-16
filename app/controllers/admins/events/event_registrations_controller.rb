@@ -38,8 +38,10 @@ module Admins
       end
 
       def destroy
+        user_email = @registration.user.email
+        
         respond_to do |format|
-          if @registration.destroy
+          if @registration.destroy && @current_event.event_invitations.where(email: user_email).destroy_all
             format.html { redirect_to request.referer, notice: t("alerts.destroyed") }
             format.json { render json: true }
           else
