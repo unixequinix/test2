@@ -2,10 +2,11 @@ namespace :glownet do
   desc "WeWork Script"
   task wework_script: :environment do
 		if Rails.env.production?
+			datetime = DateTime.now
+			puts "Starting WeWork Script at #{datetime}"
 			event = Event.find 439
 			virtual_credit = event.virtual_credit
 			voucher = event.accesses.find(event.voucher_id)
-			datetime = DateTime.now
 			ticket_types = event.ticket_types.where(id: [47366, 47365, 47387, 47391, 47394, 47388, 47392, 47393, 47389, 47390, 47383, 47384, 47385, 47386, 47364])
 			tickets = event.tickets.where(ticket_type: ticket_types).where.not(customer_id: nil).uniq {|t| t.customer }
 			gateway = 'wework_recharge'
@@ -45,12 +46,14 @@ namespace :glownet do
 					t.customer.build_order(order_atts).complete!(gateway) unless order_atts.empty?
 				end
 			end
-
+			puts "Ending WeWork Script at #{DateTime.now}"
 		elsif Rails.env.staging?
+			datetime = DateTime.now
+			puts "Starting WeWork Script at #{datetime}"
+
 			event = Event.find 603
 			virtual_credit = event.virtual_credit
 			voucher = event.accesses.find(event.voucher_id)
-			datetime = DateTime.now
 			max_virtual = 100.to_f
 			max_voucher = 10.to_f
 			
@@ -93,6 +96,7 @@ namespace :glownet do
 					t.customer.build_order(order_atts).complete!(gateway) unless order_atts.empty?
 				end
 			end
+			puts "Ending WeWork Script at #{DateTime.now}"
 		end
 	end
 end
