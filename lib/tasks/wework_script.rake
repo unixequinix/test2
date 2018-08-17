@@ -13,7 +13,7 @@ namespace :glownet do
 
 			if datetime.day.eql?(19)
 				max_virtual = 50.to_f
-				max_voucher = 100.to_f
+				max_voucher = 50.to_f
 				
 				tickets.each do |t|
 					order_atts = []
@@ -23,14 +23,13 @@ namespace :glownet do
 					customer_virtual_amount = (t.customer.active_gtag && !customer_virtual.zero?) ? (max_virtual - customer_virtual) : max_virtual
 					customer_vouchers_amount =  (t.customer.active_gtag && !customer_vouchers.zero?) ? (max_voucher - customer_vouchers) : max_voucher
 					
-					order_atts << [virtual_credit.id, customer_virtual_amount.to_i] unless (customer_virtual == max_virtual && last_order_not_redeemed)
-					order_atts << [voucher.id, customer_vouchers_amount.to_i] unless (customer_vouchers == max_voucher && last_order_not_redeemed)
+					order_atts << [virtual_credit.id, customer_virtual_amount.to_i]
 
 					t.customer.build_order(order_atts).complete!(gateway) unless order_atts.empty?
 				end
 			else
 				max_virtual = 100.to_f
-				max_voucher = 100.to_f
+				max_voucher = 50.to_f
 
 				tickets.each do |t|
 					order_atts = []
@@ -41,7 +40,7 @@ namespace :glownet do
 					customer_vouchers_amount =  (t.customer.active_gtag && !customer_vouchers.zero?) ? (max_voucher - customer_vouchers) : max_voucher
 					
 					order_atts << [virtual_credit.id, customer_virtual_amount.to_i] unless (customer_virtual == max_virtual && last_order_not_redeemed)
-					order_atts << [voucher.id, customer_vouchers_amount.to_i] unless (customer_vouchers == max_voucher && last_order_not_redeemed)
+					order_atts << [voucher.id, max_voucher.to_i]
 					
 					t.customer.build_order(order_atts).complete!(gateway) unless order_atts.empty?
 				end
