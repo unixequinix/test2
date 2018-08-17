@@ -13,7 +13,7 @@ namespace :glownet do
 
 			if datetime.day.eql?(19)
 				max_virtual = 50.to_f
-				max_voucher = 5.to_f
+				max_voucher = 100.to_f
 				
 				tickets.each do |t|
 					order_atts = []
@@ -30,7 +30,7 @@ namespace :glownet do
 				end
 			else
 				max_virtual = 100.to_f
-				max_voucher = 10.to_f
+				max_voucher = 100.to_f
 
 				tickets.each do |t|
 					order_atts = []
