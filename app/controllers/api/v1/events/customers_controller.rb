@@ -32,7 +32,7 @@ module Api
           return [].to_json unless ids.any?
           sql = nil
 
-          if (@current_event.id.eql?(439) or (Rails.env.staging? && @current_event.id.eql?(557)))
+          if (@current_event.id.eql?(439) && Rails.env.production?)
             sql = <<-SQL
               SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
               FROM (
