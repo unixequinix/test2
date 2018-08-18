@@ -23,8 +23,8 @@ namespace :glownet do
 					customer_virtual_amount = (t.customer.active_gtag && !customer_virtual.zero?) ? (max_virtual - customer_virtual) : max_virtual
 					customer_vouchers_amount =  (t.customer.active_gtag && !customer_vouchers.zero?) ? (max_voucher - customer_vouchers) : max_voucher
 					
-					order_atts << [virtual_credit.id, customer_virtual_amount.to_i]
-					order_atts << [voucher.id, max_voucher.to_i]
+					order_atts << [virtual_credit.id, customer_virtual_amount.to_i] unless (customer_virtual == max_virtual)
+					order_atts << [voucher.id, customer_vouchers_amount.to_i] unless (customer_vouchers == max_voucher)
 
 					t.customer.build_order(order_atts).complete!(gateway) unless order_atts.empty?
 				end
