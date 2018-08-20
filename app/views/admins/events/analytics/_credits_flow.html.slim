@@ -92,6 +92,7 @@
                                       gtag_deposit_fee: { value: @current_event.credit_gtag_deposit_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "gtag_deposit" } },
                                       onsite_initial_topup_fee: { value: @current_event.credit_onsite_initial_topup_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "initial" } },
                                       every_onsite_topup_fee: { value: @current_event.credit_every_onsite_topup_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "topup" } },
+                                      every_onsite_refund_fee: { value: @current_event.credit_every_onsite_refund_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "refund" } },
                                     }
 
             - if @credits.size.eql?(1) && admin_or_promoter_or(:monetary_manager)
