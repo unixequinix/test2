@@ -44,5 +44,5 @@
           - @device.device_registrations.each do |registration|
             tr
               td.mdl-data-table__cell--non-numeric = link_to registration.event.name, [:admins, registration.event, registration]
-              td = @device.pokes.count
+              td = registration.number_of_transactions
   .mdl-layout-spacer
