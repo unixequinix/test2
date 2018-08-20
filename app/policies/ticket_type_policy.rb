@@ -7,6 +7,10 @@ class TicketTypePolicy < ApplicationPolicy
     admin_or_promoter
   end
 
+  def unban?
+    admin_or_promoter
+  end
+
   private
 
   def all_allowed
