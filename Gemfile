@@ -106,6 +106,9 @@ gem 'bsb'
 # Rollbar
 gem 'rollbar'
 
+# XML parser
+gem 'nokogiri'
+
 group :development do
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'

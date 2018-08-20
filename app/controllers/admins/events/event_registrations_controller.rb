@@ -39,7 +39,7 @@ module Admins
 
       def destroy
         user_email = @registration.user.email
-        
+
         respond_to do |format|
           if @registration.destroy && @current_event.event_invitations.where(email: user_email).destroy_all
             format.html { redirect_to request.referer, notice: t("alerts.destroyed") }

@@ -357,6 +357,8 @@ module Admins
         respond_to do |format|
           format.js { render action: :load_view }
           format.html { render :show }
+          format.csv { send_data(generate_csv(render_to_string("show_#{name}"), name)) }
+          format.xls { render "show_#{name}" }
         end
       end
 
@@ -374,6 +376,47 @@ module Admins
 
       def analytics_params
         params.require(:analytics).permit(:data, :selected, filter: {})
+      end
+
+      def generate_csv(html, name) # rubocop:disable Metrics/AbcSize
+        filename = "tmp/#{name}_#{@current_event.id}.csv"
+        doc = Nokogiri::HTML(html)
+        csv = CSV.open(filename, 'w', col_sep: ";", quote_char: '\'', force_quotes: true)
+        doc.xpath('//table/thead/tr').each do |row|
+          tarray = []
+          (1..row.attr(:colspan).to_i - 1).each do |_r|
+            tarray << ''
+          end
+          row.xpath('th').each do |cell|
+            (1..cell.attr(:colspan).to_i - 1).each do |_c|
+              tarray << cell.text
+            end
+            tarray << cell.text
+          end
+          csv << tarray
+        end
+        doc.xpath('//table/tbody/tr').each do |row|
+          tarray = []
+          (1..row.attr(:colspan).to_i - 1).each do |_r|
+            tarray << ''
+          end
+          row.xpath('th').each do |cell|
+            (1..cell.attr(:colspan).to_i - 1).each do |_c|
+              tarray << ''
+            end
+            tarray << cell.text
+          end
+          row.xpath('td').each do |cell|
+            (1..cell.attr(:colspan).to_i - 1).each do |_c|
+              tarray << ''
+            end
+            tarray << cell.text
+          end
+          csv << tarray
+        end
+
+        csv.close
+        File.open(filename, "rb").read
       end
     end
   end
