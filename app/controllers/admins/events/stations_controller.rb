@@ -96,7 +96,7 @@ module Admins
       end
 
       def clone
-        @station = @station.deep_clone(include: %i[station_catalog_items products topup_credits access_control_gates], validate: false)
+        @station = @station.deep_clone(include: %i[station_catalog_items station_ticket_types products topup_credits access_control_gates], validate: false)
         index = @station.name.index(' - ')
         name = index.nil? ? @station.name : @station.name.byteslice(0...index)
         @station.name = "#{name} - #{@current_event.stations.where('stations.name LIKE :l_name', l_name: "#{name}%").count}"
