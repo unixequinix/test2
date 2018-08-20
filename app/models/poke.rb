@@ -195,19 +195,19 @@ class Poke < ApplicationRecord
     select('min(date) as date', date_time_poke, sonar_access_patch, access_capacity_all_query)
       .joins(:station, :catalog_item, :customer)
       .where.not(access_direction: nil).is_ok.where('customers.operator = false')
-      .group("date_time, zone, direction, access_direction")
+      .group("date_time, zone, direction, access_direction, station_name")
   }
   scope :access_customer, lambda {
     select('min(date) as date', date_time_poke, sonar_access_patch, access_capacity_all_query)
       .joins(:station, :catalog_item, :customer)
       .where.not(access_direction: nil).is_ok.where('customers.operator = false')
-      .group("date_time, zone, direction, access_direction")
+      .group("date_time, zone, direction, access_direction, station_name")
   }
   scope :access_operator, lambda {
     select('min(date) as date', date_time_poke, sonar_access_patch, access_capacity_all_query)
       .joins(:station, :catalog_item, :customer)
       .where.not(access_direction: nil).is_ok.where('customers.operator = true')
-      .group("date_time, zone, direction, access_direction")
+      .group("date_time, zone, direction, access_direction, station_name")
   }
 
   # Engagement
@@ -300,7 +300,8 @@ class Poke < ApplicationRecord
   end
 
   def self.access_capacity_all_query
-    "CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction,
+    "stations.name as station_name,
+    CASE access_direction WHEN 1 THEN 'IN' WHEN -1 THEN 'OUT' END as direction,
     sum(access_direction) as access_direction,
     sum(CASE access_direction WHEN 1 THEN 1 ELSE 0 END) as direction_in,
     sum(CASE access_direction WHEN -1 THEN -1 ELSE 0 END) as direction_out,

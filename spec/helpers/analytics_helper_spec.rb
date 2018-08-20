@@ -170,7 +170,7 @@ RSpec.describe AnalyticsHelper, type: :helper do
       end
 
       it "access should have correct fields" do
-        expect(pokes_access.last.keys).to match_array(%w[id access_direction date date_time zone direction direction_in direction_out capacity event_day])
+        expect(pokes_access.last.keys).to match_array(%w[id station_name access_direction date date_time zone direction direction_in direction_out capacity event_day])
       end
     end
 

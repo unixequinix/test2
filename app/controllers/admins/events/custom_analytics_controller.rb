@@ -38,7 +38,7 @@ module Admins
       end
 
       def access
-        cols = ["Event Day", "Date Time", "Direction", "Capacity", "Access", "Zone"]
+        cols = ['Event Day', 'Date Time', 'Direction', 'Capacity', 'Access', 'Zone']
         @access = prepare_pokes(cols, pokes_access)
         prepare_data params[:action], @access, [['Direction'], ['Zone', 'Date Time'], ['Capacity'], 0, 'sum']
       end
