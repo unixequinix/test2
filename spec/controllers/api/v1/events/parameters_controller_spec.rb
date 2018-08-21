@@ -93,29 +93,14 @@ RSpec.describe Api::V1::Events::ParametersController, type: %i[controller api] d
         test_inclusion("name" => "gtag_deposit_fee", "value" => event.gtag_deposit_fee)
       end
 
-      it "does not include gtag_deposit_fee if nil" do
-        event.update! gtag_deposit_fee: nil
-        test_absence("name" => "gtag_deposit_fee", "value" => nil)
-      end
-
       it "includes every_onsite_topup_fee if present" do
         event.update! every_onsite_topup_fee: 5
         test_inclusion("name" => "topup_fee", "value" => event.every_onsite_topup_fee)
       end
 
-      it "does not include every_onsite_topup_fee if nil" do
-        event.update! every_onsite_topup_fee: nil
-        test_absence("name" => "topup_fee", "value" => nil)
-      end
-
       it "includes onsite_initial_topup_fee if present as initial_topup_fee" do
         event.update! onsite_initial_topup_fee: 5
         test_inclusion("name" => "initial_topup_fee", "value" => event.onsite_initial_topup_fee)
-      end
-
-      it "does not include onsite_initial_topup_fee if nil" do
-        event.update! onsite_initial_topup_fee: nil
-        test_absence("name" => "initial_topup_fee", "value" => nil)
       end
     end
 
