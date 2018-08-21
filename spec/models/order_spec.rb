@@ -71,6 +71,13 @@ RSpec.describe Order, type: :model do
         expect { subject.save }.not_to change(subject, :credits)
         expect { subject.save }.to change(subject, :errors)
       end
+
+      it "adds an error if the virtual credits exceeds the maximum allowed" do
+        expect(subject).to be_valid
+        subject.virtual_credits = 100_000
+        expect { subject.save }.not_to change(subject, :virtual_credits)
+        expect { subject.save }.to change(subject, :errors)
+      end
     end
   end
 end

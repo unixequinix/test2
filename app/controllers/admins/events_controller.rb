@@ -214,6 +214,7 @@ module Admins
                                     :auto_refunds,
                                     :ultralight_c,
                                     :maximum_gtag_balance,
+                                    :maximum_gtag_virtual_balance,
                                     :credit_step,
                                     :gtag_deposit_fee,
                                     :card_return_fee,

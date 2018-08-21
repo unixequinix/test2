@@ -15,7 +15,7 @@ class PackCatalogItem < ApplicationRecord
   def calculate_maximum_amount
     result = 1
     result = pack.event.maximum_gtag_balance if catalog_item.is_a?(Credit)
-    result = 42_000_000 if catalog_item.is_a?(VirtualCredit) # this is to do with memory restrictions in the gtag
+    result = pack.event.maximum_gtag_virtual_balance if catalog_item.is_a?(VirtualCredit) # this is to do with memory restrictions in the gtag
     result = 127 if catalog_item.is_a?(Access) && catalog_item.counter?
     result
   end

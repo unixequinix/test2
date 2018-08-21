@@ -78,6 +78,10 @@ RSpec.describe Api::V1::Events::ParametersController, type: %i[controller api] d
         test_inclusion("name" => "maximum_gtag_balance", "value" => event.maximum_gtag_balance)
       end
 
+      it "includes maximum_gtag_virtual_balance" do
+        test_inclusion("name" => "maximum_gtag_virtual_balance", "value" => event.maximum_gtag_virtual_balance)
+      end
+
       it "includes old_event_keys" do
         test_inclusion("name" => "old_event_keys", "value" => "11111111111111111111111111111111")
       end

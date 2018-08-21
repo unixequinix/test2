@@ -17,11 +17,11 @@ RSpec.describe PackCatalogItem, type: :model do
       expect(subject.errors[:amount]).to include("must be less than or equal to #{event.maximum_gtag_balance}")
     end
 
-    it "should be 42000000 if the catalog_item is a VirtualCredit" do
+    it "should be the maximum_gtag_virtual_balance of the event if the catalog_item is a VirtualCredit" do
       subject.catalog_item = event.virtual_credit
-      subject.amount = 42_000_001
+      subject.amount = event.maximum_gtag_virtual_balance + 1
       expect(subject).not_to be_valid
-      expect(subject.errors[:amount]).to include("must be less than or equal to 42000000")
+      expect(subject.errors[:amount]).to include("must be less than or equal to #{event.maximum_gtag_virtual_balance}")
     end
 
     it "should be 127 if the catalog_item is a counter Access" do

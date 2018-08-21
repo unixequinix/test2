@@ -108,6 +108,11 @@
                   = best_in_place @current_event, :maximum_gtag_balance, url: [:admins, @current_event]
                   |  #{@current_event.credit.symbol}
               tr
+                td.mdl-data-table__cell--non-numeric Maximum Gtag Virtual Balance
+                td
+                  = best_in_place @current_event, :maximum_gtag_virtual_balance, url: [:admins, @current_event]
+                  |  #{@current_event.virtual_credit.symbol}
+              tr
                 td.mdl-data-table__cell--non-numeric Credit Step
                 td = best_in_place @current_event, :credit_step, url: [:admins, @current_event]
               tr
