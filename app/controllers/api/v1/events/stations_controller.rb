@@ -5,7 +5,7 @@ module Api
         before_action :set_modified
 
         def index
-          stations = @current_event.stations
+          stations = @current_event.stations.allowed_to_sync # Patch to fix bug GC-265, should be removed on stations refactor.
           stations = stations.where("updated_at > ?", @modified) if @modified
 
           json = stations.group_by(&:group).map { |group, items| { station_group: group, stations: items.map { |s| StationSerializer.new(s) } } }

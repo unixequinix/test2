@@ -45,6 +45,8 @@ class Station < ApplicationRecord
 
   scope :with_category, ->(cat) { where(category: cat) }
 
+  scope :allowed_to_sync, -> { where("(category = 'access_control' and exists (select id from access_control_gates where access_control_gates.station_id = stations.id)) or category <> 'access_control'") }
+
   attr_accessor :api_validations
 
   def form
