@@ -21,12 +21,12 @@ RSpec.describe "POS stations info view tests", type: :feature do
         fill_in 'product_price', with: "3"
         fill_in 'product_name', with: "Beer"
       end
-      expect { find("input[name=commit]").click }.to change(station.products, :count).by(1)
+      expect { find("#add_product_commit").click }.to change(station.products, :count).by(1)
     end
 
     it "new product without price" do
       within("#new_product") { fill_in 'product_name', with: "Beer" }
-      expect { find("input[name=commit]").click }.not_to change(station.products, :count)
+      expect { find("#add_product_commit").click }.not_to change(station.products, :count)
     end
 
     it "new product with incorrect price" do
@@ -34,7 +34,7 @@ RSpec.describe "POS stations info view tests", type: :feature do
         fill_in 'product_price', with: "NaN"
         fill_in 'product_name', with: "Beer"
       end
-      expect { find("input[name=commit]").click }.not_to change(station.products, :count)
+      expect { find("#add_product_commit").click }.not_to change(station.products, :count)
     end
   end
 
@@ -49,17 +49,17 @@ RSpec.describe "POS stations info view tests", type: :feature do
         fill_in 'product_price', with: "20"
         fill_in 'product_name', with: "T-shirt"
       end
-      expect { find("input[name=commit]").click }.to change(vendor.products, :count).by(1)
+      expect { find("#add_product_commit").click }.to change(vendor.products, :count).by(1)
     end
 
     it "new product without name" do
       within("#new_product") { fill_in 'product_price', with: "20" }
-      expect { find("input[name=commit]").click }.not_to change(vendor.products, :count)
+      expect { find("#add_product_commit").click }.not_to change(vendor.products, :count)
     end
 
     it "new product with existent name" do
       within("#new_product") { fill_in 'product_price', with: product_vendor.name }
-      expect { find("input[name=commit]").click }.not_to change(vendor.products, :count)
+      expect { find("#add_product_commit").click }.not_to change(vendor.products, :count)
     end
   end
 

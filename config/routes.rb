@@ -257,12 +257,18 @@ Rails.application.routes.draw do
           put :remove_ticket_types
           get :analytics
           scope module: :stations do
-            resources :products, only: [:update, :index]
+            resources :products, only: [:update, :index] do
+              collection do
+                get :sample_csv
+                post :import
+              end
+            end
             resources :station_items, only: [:create, :update, :destroy] do
               put :sort, on: :collection
               get :find_product, on: :collection
             end
           end
+
         end
 
         resources :ticket_types, except: :show do
