@@ -1,0 +1,21 @@
+version: 0.0
+os: linux
+files:
+  - source: . 
+    destination: /home/deploy/releases/$fecha
+permissions:
+  - object: /home/deploy/
+    owner: deploy
+    group: deploy
+    type:
+      - file
+      - directory
+hooks:
+  AfterInstall:
+    - location: afterdeploy.sh
+      timeout: 120
+      mode: 755
+  BeforeInstall:
+    - location: beforedeploy.sh
+      timeout: 120
+      mode: 755
