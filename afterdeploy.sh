@@ -12,8 +12,7 @@ chmod -R 775 /home/deploy/current
 chmod -R 775 /home/deploy/current
 
 service nginx start
-service redis start
+service redis-server start
 service sidekiq start
-service passenger start
 
 
