@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: . 
-    destination: /home/deploy/releases/$fecha
+    destination: /home/deploy/current
 permissions:
   - object: /home/deploy/
     owner: deploy
