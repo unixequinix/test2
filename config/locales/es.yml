@@ -1,0 +1,311 @@
+---
+es:
+  actions:
+    back: Atrás
+    check_news: Volver
+    delete: Borrar
+    edit: Editar
+    complete: Finalizar
+    repeat: Repetir
+  admissions:
+    button: Activar
+    call_to_action: ¡Activa tu Ticket del Evento!
+    description: Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento.
+    placeholders:
+      ticket_code: Código de Ticket
+  alerts:
+    request_captcha: Has excedido el máximo de peticiones.
+    created: Creado con éxito
+    cancelled: Cancelado con éxito
+    customer_without_transactions: The customer doesn't have credit transactions
+    destroyed: Destruido con éxito
+    error: El formulario contiene errores
+    only_letters_dnd_numbers: May only contain letters and numbers
+    order_complete: Pedido completado con éxito
+    order_error: Ha habido un problema con su pedido
+    updated: Succesfully updated
+    not_authorized: No estás autorizado a realizar esta acción
+    max_credits_reached: han alcanzado el límite permitido
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
+  checkout:
+    button: Confirmar Orden
+    description: Comprar online es una buena forma de ahorrar tiempo. Evita las colas en el evento seleccionando aqui lo que deseas comprar.
+    store: tienda
+    total: Total
+  conditions:
+    action: Acepto
+    conjunction: y
+    privacy_conditions: la política de privacidad
+    terms_of_use: las condiciones de uso
+  gdpr: "Quiero recibir las últimas noticias y ofertas relativas a este evento organizado por %{event}"
+  credentials:
+    reference: Código
+    name: Credencial
+    new_button: Continúa
+    already_assigned: "El %{item} ya está asignado"
+    without_credential: "%{item} esta vacio y no se puede asignar. Por favor, prueba en otro momento"
+    no_item_assigned: "El %{item} que ha introducido está siendo procesado por nuestro sistema y no puede ser asignado de momento. Por favor, vuelva más tarde o contacte con soporte"
+    blacklisted: "%{item} está en la Lista Negra"
+    inactive: "%{item} no está activa, esto quiere decir que ha sido reemplazada por otra. Debe introducir el credencial nuevo"
+    assigned: "%{item} asignado correctamente"
+    not_found: "%{item} no encontrado. Si lo ha comprado en las últimas 48 horas, por favor, vuelva a intentarlo más tarde hasta que actualicemos nuestro sistema con su compra. Si no, contacte con soporte."
+    unassigned: "%{item} desasignado correctamente"
+    invalid: "Parace que hay un problema con este %{item}. Por favor, contacta con soporte en support@glownet.com o a través de Intercom"
+    same_credential: "No puedes assignar un %{item} con el mismo contenido dos veces. "
+  dashboard:
+    header:
+      home: Inicio
+      edit_account: Cambiar Perfil
+      change_password: Cambiar contraseña
+      log_out: Salir
+    confirm_log_out: ¿Quieres finalizar la sesión?
+    topup: Recarga
+    refund: Devolucion
+    order: Pedido
+    orders:
+      success_title: Grácias por su compra
+      credits: Créditos
+      catalog_items: Otros artículos
+      disclaimer: Los pedidos online se aplicarán al entrar en el recinto. Solo tienes que llegar al evento y empezar a usar tus créditos de inmediato!
+      complete: Completar
+      cancel: Cancelar
+      failed: Este pedido NO se aplicará en el recinto
+      in_progress: En progreso (no se aplicará en el recinto)
+      cancelled: Cancelado
+      completed: ha sido completado y se aplicará en el recinto
+      redeemed: Completado y aplicado
+    admissions:
+      call_to_action: ¿Quiéres borrar el ticket?
+      call_to_action_started: El evento ya ha comenzado, no puedes cambiar tu ticket
+    credits:
+      button: Recarga
+      calculating_balance: Por favor escribenos a %{email} para procesar tu devolución.
+      call_to_action_no_admission_html: Para poder recargar online,<br>deberás activar un Ticket primero
+      call_to_action_started: El evento ya ha comenzado, no puedes recargar más
+      header: Tu saldo
+      header_invalid: Estamos recolectando todas tus compras de los dispositivos. Tu balance final se mostrará mas tarde.
+      body_invalid: Aun así, puedes comprobar tu balance en cualquier dispositivo de punto de ventas, recarga o cualquier otra estacion. Si queres, puedes contactar con nosotros con el icono de intercom abajo a al derecha, o mandarnos un email a
+      body_credits: Tu última transacción fue un '%{action}' en '%{station}' hace '%{time}'
+      body_balance: Tu balance en el evento en ese momento era
+      refundable: Reembolsable
+    credits_history:
+      button: Descargar transacciones
+      header: Historial de transacciones
+    event_started:
+      description: Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti.
+      title: Últimos detalles!
+    first_register:
+      gtag:
+        both: Añadir Pulsera o Tarjeta
+        card: Añadir Tarjeta
+        wristband: Añadir Pulsera
+      ticket: Añadir ticket
+    ticket_registration:
+      title: Tickets
+    gtag_registration:
+      title:
+        both: ID de Pulsera o Tarjeta
+        card: ID de Tarjeta
+        wristband: ID de Pulsera
+      card: Tarjeta
+      wristband: Pulsera
+      no_items: No contiene ningún producto asociado
+    paypal:
+      button: Sincroniza con PayPal
+    portal_closed:
+      claim: Lo sentimos
+      description: El portal de cliente para este evento está cerrado, ponte en contacto con soporte si tienes alguna duda.
+  email:
+    communication: Este es un mensaje automático de %{event_name}, las respuestas no serán leídas.
+    follow_on_twitter: Síguenos en Twitter
+    footer_glownet: Tienes alguna pregunta sobre el portal online? Mándanos un mensaje a
+    footer_organizer: ¿Tienes alguna pregunta para el organizador? Contacta con él en
+    like_on_facebook: Dale a me gusta en Facebook
+    order:
+      description: Todos los productos que has comprado serán añadidos automáticamente a tu Tarjeta o Pulsera al entrar al evento. Tu Tarjeta o Pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
+      greet: ¡Gracias por tu compra, %{name}!
+      order_number: Número de pedido
+      subject: Compra en %{event}
+      success: 'Aquí tienes los detalles de tu compra:'
+    our_company: Sobre Glownet
+    refund:
+      subject: Devolución de fondos de %{event}
+      refund_number: Número de devolución
+      success: Tu devolución está siendo procesada
+      cancel: Tu devolución ha sido cancelada
+    reset_password:
+      greet: ¡Hola, %{name}!
+      mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
+      mail_link: Cambiar mi contraseña
+      subject: Solicitud de cambio de contraseña.
+    confirmation:
+      subject: "Confirma tu email"
+      flash_message: 'Te hemos enviado un email de verificación a tu cuenta. Por favor, comprueba tu email y pincha en el enlace para confirmar tu cuenta.'
+      description: 'Haz click en el siguiente enlace para confirmar tu cuenta'
+      error: 'Ha ocurrido un error validando tu cuenta'
+      confirm: 'Confirmar'
+    welcome:
+      subject: Confirmación del registro en %{event_name}
+      greet: Hola, %{name},
+      mail_body: Gracias por registrarte con nosotros.
+      mail_body2: Para beneficiarte de todas las ventajas del portal online lo primeor que debes hacer es registrar tu ticket, pulsera o tarjeta
+      event_url: "Para tu comodidad, aquí tienes la url del evento:"
+    suscribe_on_you_tube: Suscríbete en YouTube
+  event:
+    locales:
+      en: ENG
+      es: ESP
+      de: DEU
+      it: ITA
+      pt: POR
+      br: BRA
+    subject_support: Necesito ayuda para %{event}
+  footer:
+    copyright: "© Glownet"
+    privacy: Política de privacidad
+    support: Soporte
+    use: Condiciones de uso
+  gtag_assignations:
+    button: Aceptar
+    call_to_action:
+      both: ¡Introduce el código de tu Tarjeta o Pulsera y continúa!
+      card: ¡Introduce el código de tu Tarjeta y continúa!
+      wristband: ¡Introduce el código de tu Pulsera y continúa!
+    description:
+      standard: Introduce la segunda fila de números y letras (resaltada en amarillo)
+    info: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
+    placeholder: 'e.j: BA6D7DC0'
+  gtag_unsubscribe:
+    banned: "Dado de baja"
+    ban: "Da de baja tu pulsera"
+    flash_message: "Tu pulsera ha sido dada de baja con éxito"
+    modal:
+      title: '¿Estás seguro?'
+      subtitle: 'Después de confirmar:'
+      statements:
+        first: 'No podrás utilizar tu pulsera o acceder a las diferentes zonas del recinto '
+        second: 'Ten en cuenta que los dispositivos que no estén sincronizados correctamente pueden realizar operaciones aunque la pulsera esté deshabilitada'
+        third: 'Esta acción no se puede deshacer'
+      confirmation: '¿Aún deseas dar de baja tu pulsera?'
+      confirm: 'Confirmar'
+      cancel: 'Cancelar'
+  links:
+    buttons:
+      sign_in: Inicia Sesión
+    forgot: ¿Olvidaste tu contraseña?
+  orders:
+    cancel_confirmation: "Está seguro de que quiere cancelar el pago de %{price}?"
+    already_cancelled: Este pedido ya ha sido cancelado
+    already_finalised: Este pedido ya ha sido finalizado previamente
+    button: Pagar
+    card_info: Información de tarjeta
+    order_review: Resumen de compra
+    payment: Detalles de Pago
+    payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
+      paypal:
+        icon: paypal
+        name: PayPal
+    price: Precio
+    products: Productos
+    total: Total
+    vat: IVA Incluido
+  passwords:
+    edit:
+      button: Cambiar tu contraseña
+      header: Nueva contraseña
+      password: Contraseña nueva
+      password_confirmation: Confirma tu nueva contraseña
+    new:
+      button: Reenviar instrucciones
+      title: "¿Olvidaste tu contraseña?"
+  pdf:
+    actions:
+      refund: Reembolso
+      sale: Venta
+      topup: Recarga
+    amount: Cantidad
+    date: Fecha
+    pdf_title: Historial de transacciones
+    station: Estación
+    type: Tipo
+  refunds:
+    title: Devoluciones
+    amount: Cantidad
+    button: Devolución
+    fee: Cargos adicionales
+    total_credits: Creditos totales
+    product_description: Cantidad a ser devuelta
+    success: Si Devolucion ha sido procesada correctamente, en breve recibira su credito
+    min_refund: La cantidad mínima de devolución es %{minimum} %{currency}. Tu saldo actual no alcanza el mínimo necesario.
+  registration:
+    edit:
+      button: Actualizar
+      password_hint: Déjala en blanco si no la quieres cambiar
+    new:
+      button: Regístrate
+      or: o
+      title: Regístrate
+      credential: Por favor, introduce el código de tu Ticket, Pulsera o Tarjeta para continuar.
+  sessions:
+    call_to_action: Regístrate con tu red social favorita o crea una cuenta con nosotros.
+    create_account:
+      link: "¡Crea una!"
+      lost_password: Contraseña perdida
+    log_in:
+      link: "Inicia sesión"
+      title: "¿Ya tienes cuenta?"
+      success: "Bienvenido a %{event}"
+      account_error: "Has introducido mal las credenciales de tu cuenta o aún no está validada"
+      confirmed_not_logged_error: "Accede a tu cuenta"
+    log_out:
+      success: "Nos vemos pronto!"
+    placeholder:
+      email: ej. nickname@mail.com
+      password: ej. · · · · · ·
+  social_login:
+    facebook: "Registrate con Facebook"
+    google: "Registrate con Google"
+  simple_form:
+    labels:
+      customer:
+        new:
+          address: Dirección
+          birthdate: Fecha de Nacimiento
+          city: Ciudad
+          country: País
+          current_password: Contraseña actual
+          email: Email
+          first_name: Nombre
+          gender: Género
+          last_name: Apellidos
+          password: Contraseña
+          password_confirmation: Confirmación de contraseña
+          phone: Número de Teléfono
+          postcode: Código Postal
+  teams:
+    created: Se ha creado el equipo con éxito.
+    destroyed: Se ha borrado el equipo con éxito.
+    not_belong: No perteneces a ningḉun equipo.
+    already_belong: Ya perteneces a un equipo.
+    unable_change_role: No se ha podido modificar el rol.
+    role_changed: Se ha modificado el rol con éxito.
+    remove_users:
+      current_user: Has sido eliminado del equipo con éxito.
+      user: Usuario eliminado con éxito del equipo.
+    add_users:
+      added: Usuario añadido con éxito al equipo.
+      exists: Usuario ya pertence a un equipo.
+    add_devices:
+      added: Dispositivo añadido con éxito.
+      already_belong: Dispositivo ya forma parte de un equipo.
+      import: 
+        not_supplied: Tipo de archivo no soportado.
+    remove_devices:
+      removed: Dispositivos eliminados con éxito del equipo.
+      failed: Algo no funcionó.

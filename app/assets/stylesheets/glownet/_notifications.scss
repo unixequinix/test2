@@ -1,0 +1,118 @@
+
+.alert {
+  border-radius: 3px;
+  background: #ff9900;
+  padding: 2rem;
+  color: #FFF;
+  margin-bottom: 1.8rem;
+
+  &__title {
+    color: #FFF;
+    margin: 0 0 1rem 0;
+
+    i {
+      margin-right: .6rem;
+    }
+  }
+
+  &__messages {
+    padding-left: 1.2rem;
+    li {
+      font-weight: bold;
+      list-style: disc;
+    }
+  }
+}
+
+.purr {
+  position: fixed;
+  width: 20em;
+  top: 20em;
+  right: 39%;
+  padding: 3em;
+  background-color: $red;
+  color: #DDD;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -moz-box-shadow: 1px #666;
+  -webkit-box-shadow: 1px #666;
+  box-shadow: 1px #666;
+  filter:alpha(opacity=90);
+  opacity: 0.9;
+  -moz-opacity:0.9;
+  z-index: 9999 !important;
+}
+.purr:hover .close	{
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  display: block;
+  width: 25px;
+  height: 25px;
+  text-indent: -9999px;
+  background: url("/images/close-button.gif") no-repeat;
+}
+
+.snackbar {
+  align-items: center;
+  background-color: $grayAsh;
+  border-radius: 3px 3px 0 0;
+  color: #FFF;
+  display: flex;
+  justify-content: space-between;
+  left: 2.4rem;
+  margin-top: 1.4rem;
+  margin: 0 auto;
+  max-width: 700px;
+  padding: .8rem 1.6rem;
+  position: fixed;
+  right: 2.4rem;
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1) 7;
+  z-index: 999;
+
+  &__msg {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+  }
+
+  i {
+    margin-right: .8rem;
+  }
+
+  button {
+    margin: 0;
+    background: none;
+    font-weight: bold;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    padding: .4rem .8rem;
+
+    &:hover {
+      background: #444;
+    }
+  }
+
+  &--success,
+  &--notice {
+    button { color: $green; }
+  }
+
+  &--error,
+  &--alert {
+    button { color: $red; }
+  }
+}
+
+.error {
+  width: 100%;
+  display: block;
+  padding: 0 modules(0.25);
+  background-color: $red;
+  &--success,
+  &--notice {
+    button { color: $green; }
+  }
+}

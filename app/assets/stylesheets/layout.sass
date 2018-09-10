@@ -1,0 +1,456 @@
+@import colors
+
+body.sessions.new
+  background-color: $baby_green
+a
+  color: $green !important
+  text-decoration: none
+  font-weight: 400
+
+.page-content
+  margin-bottom: 5rem
+
+span.mdl-tabs__tab.is-active
+  color: $green !important
+  text-decoration: none
+  font-weight: 400
+
+
+a.mdl-navigation__link
+  color: #757575 !important
+
+input:-webkit-autofill
+  -webkit-box-shadow: 0 0 0px 1000px white inset
+
+.mdl-grid.light-grid
+  padding: 0 !important
+
+.material-icons
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  vertical-align: middle
+
+.mdl-layout-title.header-item
+  color: white !important
+  text-decoration: none
+
+.mdl-data-table
+  -webkit-transform: translate3d(0,0,0)
+
+.mdl-navigation__link
+  padding: 8px 40px !important
+
+.mdl-textfield__error
+  visibility: visible !important
+
+.italic
+  font-style: italic
+
+.right
+  text-align: right
+
+.left
+  text-align: left !important
+
+.middle
+  text-align: center !important
+
+.uppercase
+  text-transform: uppercase
+
+.extra_small
+  font-size: 10px !important
+
+.small
+  font-size: 12px !important
+
+.p-title
+  color: $green
+  text-align: center
+  font-size: 17px
+  padding: 2% 5%
+
+.fieldset
+  border-left: 3px solid $green
+  padding-left: 5%
+  margin-bottom: 5%
+
+  &:last-child
+    border: 0
+
+.global-nav
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14)
+
+.drawer-logo
+  img
+    width: 90%
+    padding: 10px 35px
+
+.mdl-card.fix-height
+  min-height: 325px
+
+.mdl-card
+  overflow: visible !important
+
+.mdl-card__title
+  .tools
+    width: 100%
+    text-align: right
+    color: $green
+    cursor: pointer
+    a
+      color: $green !important
+    .tool-item
+      display: inline-block
+      margin: 0 1%
+      .subtool
+        display: inline-block
+        font-size: 13px
+        color: $grayAsh
+        text-transform: uppercase
+
+.table-show.mdl-data-table td
+  border: none !important
+
+.mdl-checkbox__box-outline
+  border: 1px solid $light_green !important
+
+.mdl-switch.mdl-js-switch
+  width: 30%
+  margin: 1%
+
+.mdl-data-table, .mdl-data-table.mdl-data-table--selectable
+  button
+    background: none
+    border: none
+    cursor: pointer
+    visibility: hidden
+    color: $grayBattleship
+    font-size: 20px
+    margin: 0
+  .table-actions
+    width: 150px
+    .table-action
+      display: inline-block
+
+.hiding
+  display: none
+
+.nav-title
+  display: block
+  flex-shrink: 0
+  padding: 7px 40px
+  margin: 0
+  color: #757575
+  font-weight: 700
+  font-size: 12px
+
+.form-card
+  padding: 5%
+  min-height: initial !important
+
+.search-card
+  padding: 0 5%
+  min-height: 30px !important
+
+.container-search
+  .form-inputs
+    .mdl-textfield
+      padding: 5px !important
+
+.form-inputs
+  .mdl-textfield
+    display: block
+    width: 100%
+    .mdl-textfield__input.datetime
+      display: inline-block
+      width: initial
+
+.form-texts
+  .mdl-textfield
+    padding-top: 0 !important
+
+.form-label
+  color: $green
+  font-size: 12px !important
+
+.collection_check_boxes
+  width: 25%
+  display: inline-block
+  background-color: $grayAsh
+  border-radius: 2px
+  color: white
+  white-space: nowrap
+  text-overflow: ellipsis
+  cursor: pointer
+  padding: 1%
+  margin: 1% 1% 1% 0
+  font-size: 13px
+  font-weight: 100
+  border: 1px solid white
+
+  &:hover
+    background-color: white
+    color: $green
+    border: 1px solid $grayAsh
+
+input[type=checkbox]:checked + .collection_check_boxes
+  background-color: $green
+  color: white
+  box-shadow: none
+
+  &:hover
+    background-color: $light_green
+
+.section-header
+  margin-bottom: 3%
+  i
+    display: inline-block
+    vertical-align: middle
+    line-height: normal
+  span
+    display: inline-block
+    vertical-align: middle
+    line-height: normal
+
+.mdl-button--file
+  input
+    cursor: pointer !important
+    height: 100% !important
+    right: 0 !important
+    opacity: 0 !important
+    position: absolute !important
+    top: 0 !important
+    width: 32px !important
+    z-index: 4 !important
+
+
+#fixed-header-drawer-exp
+  color: #2e2e2e
+
+.file-inputs
+  .mdl-textfield__input
+    display: inline
+    width: calc(100% - 37px)
+    box-sizing: border-box
+    margin-bottom: 3%
+    .mdl-button--file
+      right: 0
+
+.register-action
+  font-size: 0.9rem
+  padding: 0 16px 16px 16px
+  width: 100%
+  text-align: center
+  cursor: pointer
+  width: 90%
+
+.short-input
+  width: 30% !important
+
+.dropdown-search
+  text-align: right
+
+.form-submit
+  margin: 3% 0 !important
+
+.demo-card-wide.mdl-card.login-card
+  width: 100%
+
+.demo-card-wide.mdl-card.login-card .mdl-card__supporting-text, .register-action
+  padding-left: 55px
+
+.mdl-login-card__supporting-text
+  margin: 0 2rem
+
+.login-bg
+  display: flex
+  justify-content: center
+  width: 100%
+  height: 100vh
+
+  .login-card
+    width: 600px
+    align-self: center
+
+    .admin-login-logo
+      margin: 1.5rem 0 0 0
+      text-align: center
+      width: 100%
+      transform: scale(0.8)
+
+      img
+        width: 400px
+
+.login-header
+  text-align: center
+  margin: 25% 0 5% 0
+
+.login-submit
+  margin: 3% 0 !important
+  width: 100%
+
+.mdl-textfield.mdl-js-textfield.mdl-textfield--file.boolean.optional.admin_remember_me
+  display: none
+
+.mdl-textfield.pack
+  width: 100%
+
+.wrapper-preevent-product
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12)
+  padding: 16px
+  margin-top: 16px
+
+.resource-hidden
+  color: #BBB
+
+  a, td
+    color: #BBB !important
+
+.wrapper-instructions
+  background-color: $attention
+  color: #fff
+  padding: 10px
+
+.wrapper-instructions .condition
+  padding-left: 1rem
+
+label
+  display: block
+
+.btn-remove-fields
+  position: absolute
+  right: 0
+  display: inline-block
+  border-radius: 50px
+  color: $grayBattleship !important
+  text-align: center
+  text-transform: uppercase
+  z-index: 1
+  cursor: pointer
+
+  &:hover
+    color: $red !important
+
+.add_fields
+  display: inline-block
+  border-radius: 2px
+  border: none
+  padding: 10px 16px
+  margin-top: 16px
+  font-size: 14px
+  color: white !important
+  background-color: #BDBDBD
+  text-align: center
+  text-transform: uppercase
+  z-index: 1
+  cursor: pointer
+  overflow: hidden
+
+.container-invisible
+  color: white
+
+
+// AVATAR
+.avatar_edit
+  padding: 19px 15px
+
+.avatar_image
+  display: block
+  padding: 19px 15px
+  margin: 0 auto
+  text-align: center
+
+  img
+    height: 140px
+    width: 140px
+
+//LOGO
+.mdl-layout__drawer
+  #event_logo
+    text-align: center
+    img
+      margin: 0 auto
+      max-width: 200px
+
+//MENU BTN
+.floaty
+  width: 100%
+  position: absolute
+  bottom: 20px
+  z-index: 1000
+  text-align: right
+  vertical-align: middle
+  ul
+    padding: 0
+    &.floaty-btn
+      display: inline
+      width: auto
+      position: absolute
+      right: 2rem
+
+
+.floaty-list
+  display: inline
+  margin: 0 7rem 0 0
+  padding: 0 0 0 6px
+  list-style: none
+  visibility: hidden
+  opacity: 0
+  transition: visibility 0s, opacity 0.5s linear
+  li
+    display: inline-block
+
+.show
+  overflow: hidden
+  visibility: visible
+  opacity: 1
+
+.floaty-list-item
+  position: relative
+  width: 40px
+  height: 40px
+  margin: 10px 5px
+  button
+    background-color: #80CBC4 !important
+
+.floaty-btn.on
+  transform: rotate(360deg)
+  transition: transform 100ms cubic-bezier(0.1,0.7,1.0,0.1)
+
+// PAGINATION
+.pagination_left
+  float: left
+  padding: 5px
+
+
+.pagination_right
+  float: right
+  padding: 5px
+
+
+.yes_switch, .no_switch
+  width: 35px !important
+
+.event_name_header
+  position: relative
+  left: 0px
+
+  a
+    display: inline
+    line-height: 64px
+
+.web-version
+  align-self: center
+  color: #bdc3c7
+  padding: 10px 0px 10px 0px
+  font-style: italic
+
+
+// Fresh chat
+#fc_frame
+  position: absolute
+  left: 0px
+  bottom: 70px
+  margin-bottom: 50px

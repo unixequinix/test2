@@ -1,0 +1,17 @@
+.mdl-cell.mdl-cell--12-col
+  h4 Devices usage 
+  .admin-card-wide.mdl-card.mdl-shadow--2dp
+    .table-responsive
+      table.mdl-data-table.mdl-js-data-table.within-card.sortable
+        thead
+          th
+          th.mdl-data-table__cell--non-numeric Serie
+          th.mdl-data-table__cell--non-numeric Used - %
+          th.mdl-data-table__cell--non-numeric Total
+        tbody
+          - devices_usage.each do |hash|
+            tr
+              td
+              td.mdl-data-table__cell--non-numeric = hash.keys[0] || 'Without serie'
+              td.mdl-data-table__cell--non-numeric = devices_counter(hash.values[0]['used'], hash.values[0]['total'])
+              td.mdl-data-table__cell--non-numeric = "#{hash.values[0]['total']}"

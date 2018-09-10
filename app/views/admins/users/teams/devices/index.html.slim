@@ -1,0 +1,41 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Devices
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_user_team_devices_path(current_user) do |f|
+    = f.search_field :asset_tracker_or_mac_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @devices
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card#devices_list
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Asset Number
+              th Mac
+              th Events
+              th.mdl-data-table__cell--non-numeric Last Event Used
+              th Team
+              th
+          tbody
+            - @devices.each do |device|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Asset" = link_to (device.asset_tracker.present? ? device.asset_tracker : "NONE"), admins_user_team_device_path(current_user, device), id:"device_#{device.id}"
+                td data-label="Mac" = device.mac
+                td data-label="Events" = device.events.size
+                td.mdl-data-table__cell--non-numeric data-label="Last Event Used" = link_to device.events.last.name, [:admins, device.device_registrations.last.event, device.device_registrations.last] if device.events.last
+                td data-label="Team" = (@current_user&.team && device&.team == @current_user&.team ? link_to(device&.team&.name&.humanize, admins_user_team_path(@current_user)) : device&.team&.name&.humanize)
+                td.table-actions
+                  .table-action
+                    = link_to edit_admins_user_team_device_path(current_user, device), id:"edit_#{device.id}" do
+                      button.icon.material-icons edit
+                  .table-action
+                    = link_to admins_user_team_device_path(current_user, device), method: :delete, data: { confirm: t("alerts.confirm_delete") }, id:"delete_#{device.id}" do
+                      button.icon.material-icons delete_forever
+
+    = render "layouts/pagination", objects: @devices
+  .mdl-layout-spacer

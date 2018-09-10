@@ -1,0 +1,18 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, :ticket_types], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons style="color: white" undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for @integration, url: admins_event_ticketing_integrations_path(@current_event), as: :ticketing_integration, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch} do |f|
+    .form-inputs
+      = hidden_field_tag :name, @integration.name
+      = f.input :client_key, placeholder: true, as: :string, autofocus: true, required: true
+      = f.input :client_secret, required: true
+      = f.simple_fields_for :data, OpenStruct.new(@integration.data) do |ff|
+        = ff.input :venue, required: false
+
+    .form-actions
+      = f.button :submit, "Create", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
+

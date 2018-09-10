@@ -1,0 +1,22 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: tickets
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Reference
+              th Customer/Purchaser
+              th Credential Type
+
+          tbody
+            - tickets.each do |ticket|
+              tr
+                td.mdl-data-table__cell--non-numeric = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+                td = ticket.customer ? link_to(ticket.customer.name, [:admins, @current_event, ticket.customer]) : ticket.purchaser_full_name
+                td = link_to ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, ticket.ticket_type) if ticket.ticket_type
+
+    = render "layouts/pagination", objects: tickets
+  .mdl-layout-spacer

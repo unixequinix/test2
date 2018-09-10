@@ -1,0 +1,25 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--8-col
+    .mdl-card__title-text = @views[:title]
+  .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
+.mdl-card__supporting-text
+  .reports-grid id="#{@views[:chart_id]}"
+
+javascript:
+  $(document).ready(function() {
+    var data = JSON.parse("#{escape_javascript(@views[:data].html_safe)}");
+    var cols = JSON.parse("#{escape_javascript(@views[:cols].to_json.html_safe)}");
+    var rows = JSON.parse("#{escape_javascript(@views[:rows].to_json.html_safe)}");
+    var metric = JSON.parse("#{escape_javascript(@views[:metric].to_json.html_safe)}");
+    var decimals = #{@views[:decimals]};
+    var title = "#{@views[:title]}";
+    var chartId = "#"+"#{@views[:chart_id]}";
+    var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
+    var sum = $.pivotUtilities.aggregatorTemplates.sum;
+    var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: decimals});
+    var type = "Table"
+    var show = "#"+"#{@views[:chart_id]}";
+
+    setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
+
+  });

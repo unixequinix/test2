@@ -1,0 +1,44 @@
+- content_for(:search) do
+  = search_form_for @q, url: admins_events_path do |f|
+    = f.search_field :name_or_slug_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+- content_for(:title) do
+  .mdl-layout-title.header-item Events
+
+- unless Rails.env.production?
+  - content_for(:actions) do
+    .floaty#floaty
+      ul.floaty-list#actions-list
+        li.floaty-list-item
+          = link_to sample_event_admins_events_path, id: "sample_event_link" do
+            button#add-fake.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons add_box
+              span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add-fake" Sample Event
+      ul.floaty-btn#button
+        li
+          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+            i.material-icons#changeIcon build
+
+
+- searching = params[:q].present? && params[:q][:name_or_slug_cont].present?
+
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      - if searching
+        = render "list", events: @events
+      - else
+        .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+          .mdl-tabs__tab-bar
+            = link_to "Created", "#created-panel", class: "mdl-tabs__tab ", id: "filters_created"
+            = link_to "Launched", "#launched-panel", class: "mdl-tabs__tab is-active", id: "filters_launched"
+            = link_to "Closed", "#closed-panel", class: "mdl-tabs__tab", id: "filters_closed"
+            = link_to "New", "#event-form", remote: true, class: "mdl-tabs__tab", id: "filters_new"
+
+          - @events.group_by(&:state).each do |state, events|
+            .mdl-tabs__panel id="#{state}-panel" class="mdl-tabs__panel #{'is-active' if state.eql?("launched")}" = render "list", events: events
+
+          .mdl-tabs__panel id="event-form" = render "form", event: @event, event_series: @event_series
+
+  .mdl-layout-spacer

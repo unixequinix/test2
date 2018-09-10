@@ -1,0 +1,89 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item
+    | User &nbsp;
+    = @user.email
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--4-col
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
+          .avatar_image= image_tag @user.avatar.url(:medium), width: "200px", height: "200px"
+          .avatar_edit
+            = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { file: :mdl_upload } do |f|
+              = f.input :avatar, as: :file
+              = f.submit "Change", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+      .mdl-cell.mdl-cell--8-col
+        .admin-card-wide.mdl-card.mdl-shadow--2dp
+          table.mdl-data-table.mdl-js-data-table.within-card
+            tbody
+              tr
+                td.mdl-data-table__cell--non-numeric Username
+                td = best_in_place @user, :username, url: [:admins, @user]
+              tr
+                td.mdl-data-table__cell--non-numeric Email
+                td = best_in_place @user, :email, url: [:admins, @user]
+              tr
+                td.mdl-data-table__cell--non-numeric Access token
+                td = best_in_place @user, :access_token, url: [:admins, @user]
+              tr
+                td.mdl-data-table__cell--non-numeric Role
+                td = @user.role.humanize
+              tr
+                td.mdl-data-table__cell--non-numeric Last Logged in
+                td = l(@user.last_sign_in_at) if @user.last_sign_in_at
+              tr
+                td.mdl-data-table__cell--non-numeric Login count
+                td = @user.sign_in_count
+              tr
+                td.mdl-data-table__cell--non-numeric Team
+                td
+                  - if @user.glowball?
+                    = best_in_place @user, :team, as: :select, url: [:admins, @user], place_holder: @user&.team&.name&.humanize, data: { turbolinks: false }, collection: Team.all.map{ |team| [team.id, team.name&.humanize] }.sort_by{ |x| x[0]==@user.team&.id ? 0 : 1 }
+                  -else
+                    - link = link_to @user.team&.name, admins_user_team_path(@user, @user.team) if @user.team.present?
+                    - link = link_to new_admins_user_team_path(@user), title: 'Create Team', class: "mdl-button mdl-button--icon" do
+                      button.icon.material-icons id="create_team" group_add
+                    = link
+  .mdl-layout-spacer
+
+- if @user.team_invitations.where.not(active: true).any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title
+          .mdl-cell.mdl-cell--12-col
+            i.material-icons cast_connected
+            | Invitations
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Team
+              th
+          tbody
+            - @user.team_invitations.where.not(active: true).each do |invitation|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Team" = invitation.team.name
+                td.table-actions
+                  .table-action
+                    = link_to admins_user_accept_invitation_path(@user, invitation: { id: invitation.id }), method: :put do
+                      button.icon.material-icons check
+                  .table-action
+                    = link_to admins_user_refuse_invitation_path(@user, invitation: { id: invitation.id }), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons close
+    .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+      = simple_form_for [:admins, @user], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+        .field
+          = f.input :password, autocomplete: "off", required: true
+        .field
+          = f.input :password_confirmation, autocomplete: "off", required: true
+        .form-actions
+          = f.button :submit, "Change password", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer

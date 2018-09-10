@@ -1,0 +1,74 @@
+/* ------------------------------------------------------- *\
+
+  Typography base configuration. This should not be changed.
+  To configure these values, redefine them in typography.scss
+
+\* ------------------------------------------------------- */
+
+// Ratios
+
+// Select your scale, remember in relation with device output
+$golden: 1.618;  // Golden Ratio
+$double_octave: 4;    // 1:4
+$major_twelfth: 3;    // 1:3
+$major_eleventh: 2.668;  // 3:8
+$major_tenth: 2.5;  // 2:5
+$octave: 2; // 1:2
+$major_seventh: 1.875;  // 8:15
+$minor_seventh: 1.778;  // 9:16
+$major_sixth: 1.667;  // 3:5
+$minor_sixth: 1.6;  // 5:8
+$fifth: 1.5;  // 2:3
+$augmented_fourth: 1.414;  // 1:√2
+$fourth: 1.333;  // 3:4
+$major_third: 1.25; // 4:5
+$minor_third: 1.2;  // 5:6
+$major_second: 1.125;  // 8:9
+$minor_second: 1.067;  // 15:17
+
+// Default values
+
+// Sizes
+$base_font_size: 16;
+$base_line_height_size: 24;
+
+// Units
+$scale_unit_type: rem;
+
+// In small sizes, under of font size base, it's necessary indicate how many lines enter in one module of vertical rhythm. This number can be float
+$lines_for_small_sizes: 1.5;
+
+$class_list: h1, h2, h3, p, '.small';
+$base_tag: p;
+
+// Ratio
+$default_ratio: $fourth;
+
+// Colors
+$body_copy_color: $color_text;
+$heading_color: #000;
+$background_debug_color: rgba(#ffd05a, 0.7);
+
+// Feature for opentype fonts
+// Posible options [kern on, liga off, calt off, dlig, hlig, swsh, salt, smcp, c2sc, ordn, lnum, onum, tnum, pnum, numr, dnom, sups, sinf, frac, zero];
+$body_font_features: "kern" on, "liga" off, "calt" off;
+$header_font_features: "kern" on, "liga" off, "calt" off;
+
+$default_word_wrap: normal !default;
+
+// Font families
+$serif_family: $georgia;
+$sans_family: $helvetica;
+$default_weight: normal;
+$default_style: normal;
+
+$base_font_family: $serif_family;
+$base_font_file_path: '';
+$heading_font_family: $serif_family;
+$heading_font_file_path: '';
+
+$text_rendering: optimizeLegibility !default; // Possible values: auto, optimizeSpeed, optimizeLegibility, geometricPrecision
+$font_smoothing: true !default;
+
+// Debug
+$debug: 'false';

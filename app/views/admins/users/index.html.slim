@@ -1,0 +1,51 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Users
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_users_path do |f|
+    = f.search_field :email_or_username_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_user_path, id:"new_user_link" do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" New
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @users
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card#user_list
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Email
+              th.mdl-data-table__cell--non-numeric Username
+              th.mdl-data-table__cell--non-numeric Role
+              th.mdl-data-table__cell--non-numeric Events
+              th.mdl-data-table__cell--non-numeric Last Event
+              th
+          tbody
+            - @users.each do |user|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to user.email, [:admins, user], id: "user_#{user.id}_email"
+                td.mdl-data-table__cell--non-numeric data-label="Username" = best_in_place user, :username, url: [:admins, user]
+                td.mdl-data-table__cell--non-numeric data-label="Role" = best_in_place user, :role, as: :select, collection: User.roles.keys.map{ |format| [format, format.to_s.humanize] }, url: [:admins, user]
+                td.mdl-data-table__cell--non-numeric data-label="Events" = user.events.count
+                td.mdl-data-table__cell--non-numeric data-label="Last Event" = link_to "#{user.events.last.name} (#{user.event_registrations.find_by(event: user.events.last).role})", [:admins, user.events.last] if user.events.last
+                td.table-actions
+                  .table-action
+                    = link_to [:admins, user], method: :delete, data: { confirm: t("alerts.confirm_delete") }, id: "user_#{user.id}_delete" do
+                      button.material-icons delete_forever
+
+    = render "layouts/pagination", objects: @users
+  .mdl-layout-spacer

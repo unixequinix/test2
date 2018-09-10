@@ -1,0 +1,40 @@
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Counters
+              th.mdl-data-table__cell--non-numeric Order
+              th Gateway
+              th State
+              th Credits
+              th Money Paid
+              th Completed
+              th Redeemed
+              th
+          tbody
+            - customer.orders.includes(order_items: :catalog_item).order(:status, :id).each do |order|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Counters" = order.order_items.map(&:counter).sort.to_sentence
+                td.mdl-data-table__cell--non-numeric data-label="Order" = link_to order.number, admins_event_order_path(@current_event, order)
+                td data-label="Gateway" = order.gateway.to_s.humanize
+                td data-label="State" = order.status.humanize
+                td data-label="Items" = number_to_token(order.credits)
+                td data-label="Total" = number_to_event_currency order.money_total
+                td data-label="Completed" = l order.completed_at if order.completed_at
+                td data-label="Redeemed"
+                  - if order.redeemed?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
+                td
+                  - if current_user.admin?
+                    = link_to [:admins, @current_event, order], method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id="delete_order_#{order.id}" delete_forever
+              span.mdl-tooltip data-mdl-for="delete_order_#{order.id}" Delete
+  .mdl-layout-spacer
+
+

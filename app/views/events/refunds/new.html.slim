@@ -1,0 +1,37 @@
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" = t("actions.back")
+
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    h4 = t('refunds.title')
+    table.table-order
+      tr.border-bottom
+        td = t('refunds.product_description')
+        td.table-amount#refund_amount = number_to_token(@refund.credit_total)
+      tr.border-bottom
+        td = t('refunds.fee')
+        td.table-amount#online_refund_fee = number_to_token(@refund.credit_fee)
+      tr.border-bottom
+        td = t('refunds.total_credits')
+        td.table-amount#refund_credits = number_to_token(@refund.credit_base)
+      tr.border-bottom
+        td
+        td.table-amount @ #{number_to_token(@current_event.credit.value)} / #{@current_event.currency}
+      tr.border-bottom
+        td
+          .total-text = t('orders.total')
+          .vat-text = t('orders.vat')
+        td.total-amount#refund_money = number_to_event_currency(@refund.money_base)
+
+.mdl-cell.mdl-cell--12-col
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    = simple_form_for [@current_event, @refund], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit } do |f|
+      = f.input :gateway, :as => :hidden, :input_html => { :value => "bank_account" }
+
+      = f.simple_fields_for(:fields) do |ff|
+        - @current_event.refund_fields.each do |extra_field|
+          = ff.input extra_field.to_sym
+      = f.button :submit, t('refunds.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"

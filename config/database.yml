@@ -1,0 +1,44 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  port: 5432
+  host: <%= ENV["POSTGRES_HOST"] || ENV["pg_host"] %>
+  username: <%= ENV["POSTGRES_USERNAME"] || ENV["pg_username"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] || ENV["pg_password"] %>
+
+development:
+  <<: *default
+  pool: 10
+  database: cloud_development
+  host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
+  username: <%= ENV["POSTGRES_USERNAME"] %>
+
+test:
+  <<: *default
+  pool: 10
+  database: cloud_test
+  host: <%= ENV["POSTGRES_HOST"] || 'localhost' %>
+  username: <%= ENV["POSTGRES_USERNAME"] %>
+
+integration:
+  <<: *default
+  database: cloud_integration
+
+sandbox:
+  <<: *default
+  database: cloud_sandbox
+
+staging:
+  <<: *default
+  database: cloud_staging
+
+bacardi:
+  <<: *default
+  database: cloud_bacardi
+  pool: 10
+
+production:
+  <<: *default
+  database: cloud_production
+  pool: 10

@@ -1,0 +1,12 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, access], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, access], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs.short-input
+      = f.input :mode, collection: Access::MODES.collect { |mode| [mode.humanize, mode] }, include_blank: false
+      = f.input :name, autofocus: false, placeholder: true
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

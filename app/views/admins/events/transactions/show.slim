@@ -1,0 +1,169 @@
+- content_for(:title) do
+  | #{@type.to_s.humanize} Transaction
+  | #{@type.to_s.humanize} Transaction
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--6-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons info_outline
+              | General
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric id
+                  td = @transaction.id
+                tr
+                  td.mdl-data-table__cell--non-numeric Event
+                  td = "#{@transaction.event.name} (#{@transaction.event.id})"
+                tr
+                  td.mdl-data-table__cell--non-numeric Transaction origin
+                  td = @transaction.transaction_origin&.humanize
+                tr
+                  td.mdl-data-table__cell--non-numeric Action
+                  td = @transaction.action&.humanize
+                tr
+                  td.mdl-data-table__cell--non-numeric Gtag counter
+                  td = @transaction.gtag_counter
+                tr
+                  td.mdl-data-table__cell--non-numeric Status code
+                  td = @transaction.status_code
+                tr
+                  td.mdl-data-table__cell--non-numeric Status message
+                  td = @transaction.status_message
+                tr
+                  td.mdl-data-table__cell--non-numeric Created in device at
+                  td = l Time.zone.parse(@transaction.device_created_at) if @transaction.device_created_at
+                tr
+                  td.mdl-data-table__cell--non-numeric Saved in server at
+                  td = l @transaction.created_at
+                tr
+                  td.mdl-data-table__cell--non-numeric Last modified at
+                  td = l @transaction.updated_at
+
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons info_outline
+              | Device
+          .mdl-card__supporting-text
+            .table-fix
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Device
+                    - name = @transaction.device.asset_tracker.blank? ? @transaction.device.mac : @transaction.device.asset_tracker
+                    td = link_to(name, admins_user_team_device_path(@current_user, @transaction.device)) if @transaction.device
+                  tr
+                    td.mdl-data-table__cell--non-numeric Device db index
+                    td = @transaction.device_db_index
+                  tr
+                    td.mdl-data-table__cell--non-numeric Operator tag uid
+                    td
+                      - if @operator
+                        = link_to @operator.tag_uid, admins_event_gtag_path(@current_event.id, @operator)
+                      - else
+                        = @transaction.operator_tag_uid
+
+  .mdl-cell.mdl-cell--6-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons view_module
+              | More Info
+          .mdl-card__supporting-text
+            .table-fix
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Gtag
+                    td
+                      - if @gtag
+                        = link_to @gtag.tag_uid, [:admins, @current_event, @gtag]
+                      - else
+                        = @transaction.customer_tag_uid
+                  tr
+                    td.mdl-data-table__cell--non-numeric Customer
+                    td
+                      - if @customer
+                        = link_to @customer.name, admins_event_customer_path(@current_event, @customer)
+                      - else
+                        = @transaction.customer_id
+
+                  - if @transaction.station
+                    tr
+                      td.mdl-data-table__cell--non-numeric Station
+                      td = link_to @transaction.station.name, admins_event_station_path(@current_event, @transaction.station)
+
+                  - if @transaction.catalog_item
+                    tr
+                      td.mdl-data-table__cell--non-numeric Catalog Item
+                      td = link_to_if can_link?(@transaction.catalog_item), "#{@transaction.catalog_item.name} (#{@transaction.catalog_item.class.to_s.humanize})", [:admins, @current_event, @transaction.catalog_item]
+
+      - if @transaction.order
+        - order = @transaction.order
+        .mdl-cell.mdl-cell--12-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons shopping_cart
+                | Order
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                thead
+                  tr
+                    th.mdl-data-table__cell--non-numeric Number
+                    th.mdl-data-table__cell--non-numeric Customer
+                    th Amount
+                    th Catalog Item
+                    th Redeemed
+                tbody
+                  - order.order_items.each do |order_item|
+                    tr
+                      td.mdl-data-table__cell--non-numeric = link_to order.number, [:admins, @current_event, order]
+                      td.mdl-data-table__cell--non-numeric = link_to order_item.order.customer&.name, admins_event_customer_path(@current_event, order_item.order.customer.id)
+                      td = order_item.amount
+                      td = order_item.catalog_item.name
+                      td
+                        - if order_item.redeemed?
+                          i.material-icons done
+                        - else
+                          i.material-icons clear
+
+      - if @transaction.ticket
+        - ticket = @transaction.ticket
+        - catalog_item = ticket.ticket_type.catalog_item
+
+        .mdl-cell.mdl-cell--12-col
+          .transaction-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons bookmark_border
+                | Ticket
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                thead
+                  tr
+                    th.mdl-data-table__cell--non-numeric Code
+                    th Ticket Type
+                    th Ticket Catalog Item
+                    th Redeemed?
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric = link_to ticket.code, [:admins ,@current_event, ticket]
+                    td = link_to ticket.ticket_type.name, [:admins, @current_event, ticket.ticket_type] if ticket.ticket_type
+                    td = link_to_if can_link?(catalog_item), "#{catalog_item.name} (#{catalog_item.class.to_s.humanize})", [:admins, @current_event, catalog_item]
+                    td
+                      - if ticket.redeemed?
+                        i.material-icons done
+                      - else
+                        i.material-icons clear
+
+      = render(partial: "admins/events/transactions/categories/#{@transaction.category}") if lookup_context.template_exists?("admins/events/transactions/categories/_#{@transaction.category}")

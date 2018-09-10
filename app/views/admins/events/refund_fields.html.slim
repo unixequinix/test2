@@ -1,0 +1,46 @@
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+          i.material-icons info_outline
+          | Refund Fields
+
+      .mdl-card__supporting-text
+        = simple_form_for [:admins, @current_event], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+          .form-inputs.short-input
+            #refund_fields
+              - @current_event.refund_fields.each_with_index do |extra_field, index|
+                .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                  = text_field_tag "event[refund_fields][]", nil, id: "extra_field_#{index}", value: @current_event.refund_fields[index], class: "mdl-textfield__input"
+                  label.mdl-textfield__label.string.optional for="extra_field_#{index}" #{extra_field.humanize}
+                  button.mdl-button.mdl-js-button.mdl-button--icon.btn-remove-fields id="remove_extra_field_#{index}" type='button' onclick="removeExtraFields(this)"
+                    i.mdl-textfield__icon.material-icons highlight_off
+
+            button#add_extra_field.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored type='button' onclick="addExtraFields()"
+              'Add extra field
+
+
+          .form-actions
+            = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer
+javascript:
+    function addExtraFields() {
+        let div = $('<div>', {class: 'mdl-textfield mdl-js-textfield'});
+        let container = $("#refund_fields").append(div);
+        let index = container.children('div').length + 1;
+        let class_name = "mdl-textfield__input";
+        let id = (`extra_field_${index}`);
+        let label = $(`<label class='mdl-textfield__label string optional' for=${id}></label>`);
+        let input = $(`<input type='text' id=${id} name='event[refund_fields][]' />`).addClass(class_name);
+        let remove_button = $(`<button type='button' id='remove_${id}' class='mdl-button mdl-js-button mdl-button--icon btn-remove-fields'><icon class='mdl-textfield__icon material-icons'>highlight_off</icon></button>`).click(function(e) {
+            removeExtraFields(e.currentTarget);
+        });
+        div.append(input).append(label).append(remove_button);
+        componentHandler.upgradeDom();
+    };
+
+    function removeExtraFields(button) {
+        $(button.parentElement).remove();
+    };

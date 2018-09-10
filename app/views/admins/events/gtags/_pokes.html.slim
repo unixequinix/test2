@@ -1,0 +1,91 @@
+- pokes = gtag.pokes.includes(:credit, :operation, :event, :station, :product).order(:gtag_counter, :line_counter, :date)
+
+- if pokes.any?
+  - closed ||= false
+  - colors = { 0 => "fff", 1 => "e8e8e8", 2 => "efefef" }
+  - credits = pokes.map(&:credit).compact.uniq.sort_by(&:id)
+  - all_counters = (1..pokes.last.gtag_counter)
+  - missing_counters = gtag.missing_counters
+
+  .mdl-grid.light-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .mdl-card__title class="#{active ? "good_header" : "bad_header"}"
+          .mdl-cell.mdl-cell--6-col = title
+          .mdl-cell.mdl-cell--6-col.right
+            a.collapse-link-closed
+              - if closed
+                i.fa.fa-chevron-down
+              - else
+                i.fa.fa-chevron-up
+        .table-responsive style="display: #{closed ? 'none' : 'true'}"
+          table.mdl-data-table.mdl-js-data-table.within-card
+            thead
+              tr
+                th colspan="3"
+                - credits.each.with_index do |credit, index|
+                  th #{credit.name} Amount
+                  th #{credit.name} Balance
+
+            tbody
+              - all_counters.each do |counter|
+
+                - pokes_in = pokes.select { |p| p.gtag_counter == counter }
+                - missing = counter.in?(missing_counters)
+
+                - if missing
+                  tr class="danger"
+                    td colspan="2"
+                    td.mdl-data-table__cell--non-numeric colspan="#{1 + (credits.size * 2)}"
+                      i Missing poke #{counter}
+
+                - else
+                  - poke = pokes_in.first
+                  - next unless poke
+                  tr class="#{"danger" if poke.operation.status_not_ok?}"
+                    td data-label="Actions" style="width: 10px"
+                      - if policy(poke).status_9? ||  policy(poke).status_0?
+                        - if poke.ok?
+                          = link_to status_9_admins_event_poke_path(@current_event, poke), class: "mdl-button mdl-button--icon" do
+                            button.icon.material-icons id="cancel_tr_#{poke.id}" close
+                        - else
+                          = link_to status_0_admins_event_poke_path(@current_event, poke), class: "mdl-button mdl-button--icon" do
+                            button.icon.material-icons id="accept_tr_#{poke.id}" check
+                    td.mdl-data-table__cell--non-numeric data-label="Date"
+                      span style="color: #848482; font-size: 12px"
+                        = poke.date.strftime("%d %b")
+                        br
+                        b = poke.date.strftime("%H:%M")
+
+                    td.mdl-data-table__cell--non-numeric data-label="Action"
+                      - name = pokes_in.size == 1 ? poke.name : "Sale of #{pokes_in.size} items"
+                      - if pokes_in.size == 1
+                        span = poke.name
+                      - else
+                        span id="poke_#{poke.id}_products"
+                          | Sale of
+                          span style="color: #009688" &nbsp;#{pokes_in.size} items
+
+
+                      - if poke.station
+                        | &nbsp; @ &nbsp;
+                        = link_to admins_event_station_path(@current_event, poke.station) do
+                          = poke.station.name
+
+                    - credits.each.with_index do |credit, index|
+                      - pks = pokes_in.select { |poke| poke.credit == credit }
+                      - if pks.any?
+                        td style="background-color: ##{colors[index] || 'white'}" = number_to_credit(pks.sum(&:credit_amount), credit)
+                        td style="background-color: ##{colors[index] || 'white'}" = number_to_credit(pks.last.final_balance, credit)
+                      - else
+                        td style="background-color: ##{colors[index] || 'white'}"
+                        td style="background-color: ##{colors[index] || 'white'}"
+
+                  span.mdl-tooltip data-mdl-for="cancel_tr_#{poke.id}" Invalidate
+                  span.mdl-tooltip data-mdl-for="accept_tr_#{poke.id}" Accept
+                  - if pokes_in.size > 1
+                    span.mdl-tooltip.mdl-tooltip--right for="poke_#{poke.id}_products"
+                      - pokes_in.each do |pk|
+                        div style="text-align: left" #{pk.sale_item_quantity} x #{pk.product&.name || pk.description&.humanize}
+    .mdl-layout-spacer

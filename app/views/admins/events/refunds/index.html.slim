@@ -1,0 +1,81 @@
+- content_for(:title) do
+  | Refunds
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_refunds_path do |f|
+    = f.search_field :field_a_or_field_b_or_customer_first_name_or_customer_last_name_or_customer_email_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_refunds_path(@current_event, format: "csv") do
+          button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_download
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download CSV
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+
+- if policy(@current_event.refunds.new).analytics? && @refunds.any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col
+      .mdl-grid
+
+        .mdl-cell.mdl-cell--6-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-text#refund_credits_completed = number_to_reports_currency @current_event.refunds.where(status: "completed").sum(&:credit_base)
+            .mdl-card__supporting-text
+              span.good_info = "Completed Fees: "
+              span#refund_fee_completed = number_to_reports_currency @current_event.refunds.where(status: "completed").sum(:credit_fee)
+
+        .mdl-cell.mdl-cell--6-col
+          .customer-card.mdl-card.mdl-shadow--2dp
+            .mdl-card__title.mdl-card--expand
+              h3.mdl-card__title-texttext#refund_credits_started = number_to_reports_currency @current_event.refunds.where(status: "started").sum(&:credit_base)
+            .mdl-card__supporting-text
+              span.bad_info = "Started Fees: "
+              span#refund_fee_started = number_to_reports_currency @current_event.refunds.where(status: "started").sum(:credit_fee)
+
+
+    .mdl-layout-spacer
+
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col
+      .data-card-wide.mdl-card.mdl-shadow--2dp
+        = line_chart @graph, title: "Credits Flow", legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
+    .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @refunds
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Number
+              th.mdl-data-table__cell--non-numeric Customer email
+              th Status
+              th Credits
+              th Fee
+              th Money
+              th Created
+          tbody
+            - @refunds.each do |refund|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="ID" = link_to (refund.number), admins_event_refund_path(@current_event, refund)
+                td.mdl-data-table__cell--non-numeric data-label="Customer email" = link_to refund.customer.email, admins_event_customer_path(@current_event, refund.customer)
+                td data-label="Status" = refund.status.humanize
+                td data-label="Credits" = number_to_token refund.credit_base
+                td data-label="Fee" = number_to_token refund.credit_fee
+                td data-label="Money" = number_to_event_currency refund.money_total
+                td data-label="Created" = l refund.created_at
+    = render "layouts/pagination", objects: @refunds
+  .mdl-layout-spacer

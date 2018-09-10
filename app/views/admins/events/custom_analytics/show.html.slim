@@ -1,0 +1,85 @@
+- content_for(:javascripts) do
+  = javascript_include_tag 'specific/pivot_tables'
+
+- content_for(:title) do
+  | Custom Analytics
+
+.mdl-grid.light-grid
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+        .mdl-tabs__tab-bar
+          - if admin_or_promoter
+            = link_to money_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab ", "data-spinner" => "content" do
+              | Money
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if admin_or_promoter
+            = link_to credits_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Credits
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if admin_or_promoter
+            = link_to sales_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Sales
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if admin_or_promoter_or(:gates_manager)
+            = link_to checkin_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Checkin
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+
+          - if @current_event.stations.pluck(:category).include?("access_control") && admin_or_promoter_or(:gates_manager)
+            = link_to access_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Access Capacity
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if @current_event.stations.pluck(:category).include?("access_control") && admin_or_promoter_or(:gates_manager)
+            = link_to access_ticket_type_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Unique Access by Ticket Type
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          - if @current_event.stations.pluck(:category).include?("exhibitor")
+            = link_to engagement_admins_event_custom_analytics_path(@current_event), remote: true, class: "mdl-tabs__tab", "data-spinner" => "content" do
+              | Exibitor Notes
+              span.mdl-tabs__ripple-container.mdl-js-ripple-effect
+                span.mdl-ripple
+          .fake_tab#export-pdf title='Download PDF' onClick="downloadPDF($('.mdl-tabs__tab.is-active').text())"
+            i.material-icons#downloadIcon file_download
+
+        .mdl-cell.mdl-cell--12-col#select-tab-message
+          .center-card-title
+            h2 style="text-align: center; width: 100%; color: #999" Select a tab to display data
+
+        #load-report
+          = render 'admins/events/spinner'
+          #content
+      .mdl-layout-spacer
+
+      - if @current_event.launched?
+        .mdl-cell.mdl-cell--12-col
+          .center-card-title
+            span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
+
+javascript:
+  $(window).load(function(e) {
+    $(".is-active").click();
+
+  });
+
+  $(document).ready(function() {
+    $(".mdl-tabs__tab").click(function(e) {
+      var elem = e.currentTarget;
+      var elems = $(".mdl-tabs__tab");
+      elems.splice($.inArray(elem, elems), 1);
+      elems.removeClass("is-active");
+      $(elem).addClass("is-active");
+
+    });
+  });
+
+  function downloadPDF(previousName) {
+    var eventData = JSON.parse("#{escape_javascript(@current_event.attributes.slice("name", "support_email").merge({logo_url: @current_event.logo.url(:panel)}).to_json.html_safe)}");
+    canvasToPDF($('.mdl-tabs__panel.is-active'), previousName, eventData);
+  }

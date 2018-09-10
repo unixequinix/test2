@@ -1,0 +1,58 @@
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mld-card
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
+          .mdl-grid.no-wrapper-style.padding
+            .mdl-cell.mdl-cell--4-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12,
+                              no_content: true,
+                              custom_class: 'cash_flow_card',
+                              style: 'padding: 0 5px',
+                              icon_name: "remove",
+                              colors: ['#1A2980', '#26D0CE'],
+                              icon: 'input',
+                              title_text: 'Inflow',
+                              title_number: number_to_reports_currency(@current_event.money_income_total)
+              = render "subcard", cols: 12,
+                                  no_content: true,
+                                  custom_class: 'cash_flow_card',
+                                  style: 'padding: 0 5px',
+                                  subtitle:   { onsite_topups: { value: @current_event.money_topups_total, data: "money_topups", filter: { group: :hour }},
+                                                online_topups: { value: @current_event.money_online_orders_base_total, data: "money_orders", filter: { group: :hour }},
+                                                box_office: { value: @current_event.money_box_office_total, data: "money_box_office", filter: { group: :hour, station_type: %w[box_office] }},
+                                                online_topup_fees: { value: @current_event.money_online_orders_fee_total, data: "money_topup_fees", filter: { group: :hour }},
+                                                online_refund_fees: { value: @current_event.money_online_refunds_fee_total, data: "money_refund_fees", filter: { group: :hour }},
+                                              }
+            .mdl-cell.mdl-cell--4-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12,
+                              no_content: true,
+                              custom_class: 'cash_flow_card',
+                              style: 'padding: 0 5px',
+                              icon_name: "drag_handle",
+                              colors: ['#FF5050', '#F3A183'],
+                              icon: 'money_off',
+                              title_text: 'Outflow',
+                              title_number: number_to_reports_currency(@current_event.money_outcome_total)
+              = render "subcard", cols: 12,
+                                  no_content: true,
+                                  custom_class: 'cash_flow_card',
+                                  style: 'padding: 0 5px',
+                                  subtitle: { onsite_refunds: { value: @current_event.money_onsite_refunds_total, data: "money_onsite_refunds", filter: { group: :hour } },
+                                              online_refunds: {value: @current_event.money_online_refunds_total, data: "money_online_refunds", filter: { group: :hour } }}
+            .mdl-cell.mdl-cell--4-col.no-wrapper-style.margin-auto
+              = render "box", cols: 12,
+                              no_content: true,
+                              custom_class: 'cash_flow_card',
+                              style: 'padding: 0 5px',
+                              colors: ['#001510', '#00bf8f'],
+                              icon: 'account_balance_wallet',
+                              title_text: 'Outstanding',
+                              title_number: number_to_reports_currency(@current_event.money_outstanding_total)
+
+.mdl-grid.no-wrapper-style.padding
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
+        = render 'admins/events/spinner'
+        #render_data_analytics

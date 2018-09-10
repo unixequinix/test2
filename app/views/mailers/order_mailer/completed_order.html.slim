@@ -1,0 +1,27 @@
+tr
+  //Order id and date
+  td.bodyContent colspan="2"
+    table cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+      tr
+        td colspan="2" = t('email.order.success')
+      tr
+        td cellpadding="0" cellspacing="0" style="text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold;" #{t('email.order.order_number')}: ##{@order.number}
+        td cellpadding="0" cellspacing="0" style="text-align: right; color: #2c2c2c; font-size: 12px; font-weight: bold;" = l @order.completed_at
+
+tr
+  td colspan="2"
+    //Resume table
+    table align="center" border="0" cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+      tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
+        //Products
+        th style="background-color: #f2f2f2; color: #616161; font-size: 14px;" = t('orders.products')
+        //Products
+        th style="width: 30%; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;"  = t('orders.price')
+      - @order.order_items.each do |order_item|
+        tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
+          //Product quantity
+          td style="vertical-align: middle; font-size: 14px; color: #616161;" = pluralize(order_item.amount, order_item.catalog_item.name)
+      tr
+        //Product total
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @order.money_total, unit: @event.currency, format: "%u %n"

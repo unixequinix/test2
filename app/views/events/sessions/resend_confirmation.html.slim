@@ -1,0 +1,12 @@
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+      h4.center-text = t("User activation")
+      .wrapper-redirect-sessions.center-text
+        p = t("The user account is not activated yet!")
+      = simple_form_for resource, url: event_send_email_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit} do |f|
+        = f.error_notification
+        h4.center-text = t("Enter your email:")
+        = f.input :event_id, as: :hidden, input_html: {value: @current_event.id}
+        = f.input :email, autofocus: true, autofocus: true, input_html: {class: 'session-input'}, as: :string
+        = f.button :submit, t('email.confirmation.confirm'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
+

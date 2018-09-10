@@ -1,0 +1,295 @@
+@import colors
+
+.fixed-background
+  background: no-repeat center center fixed
+  background-size: cover
+  -o-background-size: cover
+  -moz-background-size: cover
+  -webkit-background-size: cover
+
+.dashboard_link
+  &:hover
+    .customer-card
+      background-color: #f2f2f2
+
+      .mdl-card__title.mdl-card--expand
+        .mdl-card__title-text
+          color: #4d5965
+
+
+.danger
+  td
+    background-color: #ffe3e1
+
+.good_header
+  background-color: #e0f3cb !important
+
+.bad_header
+  background-color: #ffb2b2 !important
+
+.neutral_header
+  background-color: #fedebd !important
+
+.neutral2_header
+  background-color: #b8cce8 !important
+
+.unknown_header
+  background-color: #e1b8e8 !important
+
+.good_info
+  color: #9ecf68 !important
+
+.bad_info
+  color: #e26465 !important
+
+.neutral_info
+  color: #e8b14f !important
+
+.neutral2_info
+  color: #7282e8 !important
+
+.unknown_info
+  color: #7a4284 !important
+
+.mdl-card__title
+  height: 80px
+
+.mdl-layout__header-row
+  mdl-button
+    a.material-icons
+      color: #e7e7e7
+
+    &:hover
+      .material-icons
+        color: white
+
+.mdl-data-table.within-card
+  width: 100% !important
+  border: none !important
+  table-layout: fixed
+  white-space: normal
+
+.ellipsis
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+  max-width: 0
+
+.ellipsis:hover
+  text-overflow: clip
+  white-space: normal
+  word-break: break-all
+
+.mdl-button.within-card
+  min-width: none !important
+  padding: 0 !important
+
+.admin-card-wide
+  width: 100% !important
+  min-height: auto !important
+
+.mce-panel
+  border: 0 !important
+
+.best_in_place
+  cursor: pointer
+
+  &:hover
+    font-style: italic
+
+  .material-icons
+    color: $green
+
+
+.filters
+  &__item
+    padding: 0 5px
+    color: $grayAsh
+    transition: color 0.2s
+    text-decoration: none
+
+    &--active
+      color: $grayDark
+      text-decoration: underline
+
+    &:hover
+      color: $grayDark
+      text-decoration: none
+
+    &:last-child
+      margin-right: 0
+
+.event-submit
+  margin-left: 5% !important
+
+.checkbox
+  input[type=checkbox]
+    display: none
+
+.btn-dashboard
+  width: 100%
+
+.btn-dashboard-created
+  background-color: $amber !important
+  color: white !important
+
+  &:hover, &:focus
+    background-color: lighten($amber,10%) !important
+    outline: none !important
+
+.btn-dashboard-launched
+  background-color: $amber !important
+  color: white !important
+
+  &:hover, &:focus
+    background-color: lighten($amber,10%) !important
+    outline: none !important
+
+.btn-dashboard-started
+  background-color: $goGreen !important
+  color: white !important
+
+  &:hover, &:focus
+    background-color: lighten($goGreen,10%) !important
+    outline: none !important
+
+.btn-dashboard-finished
+  background-color: $red !important
+  color: white !important
+
+  &:hover, &:focus
+    background-color: lighten($red,10%) !important
+    outline: none !important
+
+.btn-dashboard-claiming_started
+  background-color: $red !important
+  color: white !important
+
+  &:hover, &:focus
+    background-color: lighten($goGreen,10%) !important
+    outline: none !important
+
+.btn-dashboard-closed
+  background-color: $amber !important
+  color: white !important
+
+  &:hover, &:focus
+    background-color: lighten($amber,10%) !important
+    outline: none !important
+
+.data-card-wide
+  width: 100% !important
+  .info-container
+    width: 80%
+    margin: 2% auto
+
+//SPINNER LOADER//
+.loader-container
+  text-align: center
+  margin: 0 auto
+  .loader
+    margin: 40px
+    width: 100px
+    height: auto
+  .message
+    color: $deep_green
+    margin-left: -8.4rem
+    position: relative
+    -webkit-animation: pulse 0.8s ease-in-out infinite alternate
+    animation: pulse 0.8s ease-in-out infinite alternate
+
+//PROGRESS BAR//
+.status-container
+  text-align: center
+  margin: 0 auto
+
+.radio
+  display: none
+
+.status-container
+  label
+    display: inline-block
+    margin: 0 5px
+    padding: 3px 8px
+    color: #aaa
+    border-radius: 3px
+    cursor: pointer
+
+.radio:checked + label
+  color: white
+  background: rgba(0, 0, 0, 0.25)
+
+.event-img-preview
+  width: 100%
+
+.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+  tbody
+    tr
+      td:first-of-type
+        width: 48px !important
+
+.group-select, .station-select
+  position: relative
+  #hidden-group, #hidden-station
+    width: 200%
+    color: #757575
+    font-size: 12px
+    position: absolute
+    top: 20px
+    display: none
+
+.collapse-link-closed
+  cursor: pointer
+
+.asset_btn
+  cursor: pointer
+
+#live, #locked, #staged, #no_idea
+  display: none
+
+.dropdown
+  position: relative
+  display: inline-block
+  min-width: 80px
+
+
+.dropdown-content
+  display: none
+  position: absolute
+  left: -30px
+  background-color: #f9f9f9
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+  min-width: 160px
+  z-index: 1
+
+.dropdown:hover .dropdown-content
+  display: block
+
+.dropdown-item
+  display: block
+  color: #757575 !important
+  text-decoration: none
+  margin: 0
+  font-size: 14px
+  font-weight: 400
+  line-height: 12px
+  letter-spacing: 0
+  min-width: 160px
+  padding: 12px 16px
+  opacity: .87
+
+.dropdown-item:hover
+  background-color: #e0e0e0
+
+.pdf
+  .title
+    color: $green
+  .footer
+    width: 100%
+    height: 5%
+    color: #e0e0e0
+    background-color: $grayDark
+    overflow: hidden
+    p
+      padding: 2%
+      font-size: 22px

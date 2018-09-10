@@ -1,0 +1,262 @@
+/* ------------------------------------------------------- *\
+
+  Typography functions and mixins
+
+\* ------------------------------------------------------- */
+
+//
+// Functions
+//
+
+@function modular-scale-value($base, $increment, $ratio) {
+  $value: $base;
+
+  @if $increment > 1 {
+    @for $i from 2 through $increment {
+      $value: $base * $ratio;
+      $base: $value;
+    }
+  }
+  @if $increment < 1 {
+    @for $i from 0 through -$increment {
+      $value: $base / $ratio;
+      $base: $value;
+    }
+  }
+  @return $value;
+}
+
+// How much space for maintenance of vertical rhythm
+@function line-height-for-font-size($font_size, $base_lh_size, $base_fz) {
+  $lines: $font_size/$base_lh_size;
+
+  @if $font_size > ($base_fz * 1.5) {
+    @return ceil($lines);
+  } @else {
+    @return round($lines);
+  }
+}
+
+// Small font sizes
+@function small-size($font_size, $type_unit) {
+
+  @if $type_unit == "px" {
+    @return $base_line_height_size/$lines_for_small_sizes;
+  } @else {
+     @return ($base_line_height_size/$font_size)/$lines_for_small_sizes;
+  }
+}
+
+@function em($px, $base: $base_font_size) {
+  @return ($px / $base) * 1em;
+}
+
+@function rem($px) {
+  @return ($px / $base_font_size) * 1rem;
+}
+
+// Create font size
+@function generate-font-size($element_size_px) {
+
+  $value: 1;
+  @if $scale_unit_type == "px" {
+    $value: ceil($element_size_px)#{px};
+  } @else if $scale_unit_type == "em" {
+    $value: em($element_size_px);
+  } @else {
+    $value: rem($element_size_px);
+  }
+
+  @return $value;
+}
+
+// Create line height
+@function generate-line-height($element_size) {
+
+  $value: 1;
+  $line_height_for_fz: line-height-for-font-size($element_size, $base_line_height_size, $base_font_size);
+
+  @if $scale_unit_type == "px" {
+    @if $element_size < $base_font_size {
+      $value: small-size($element_size, $scale_unit_type)#{px};
+    } @else {
+      $value: $base_line_height_size * $line_height_for_fz#{px};
+    }
+  } @else if $scale_unit_type == "em" {
+    @if $element_size < $base_font_size {
+      $value: small-size($element_size, $scale_unit_type)#{em};
+    } @else {
+      $value: ($base_line_height_size/$element_size) * $line_height_for_fz#{em};
+    }
+  } @else {
+    @if $element_size < $base_font_size {
+      $value: small-size($element_size, $scale_unit_type);
+    } @else {
+      $value: ($base_line_height_size/$element_size) * $line_height_for_fz;
+    }
+  }
+
+  @return $value;
+}
+
+// Create margin
+@function generate-margin($element_size, $base_lh, $module_size : 1) {
+
+  $value: $base_lh;
+  @if $scale_unit_type == "px" {
+    $value: ($base_line_height_size * $module_size)#{px};
+  } @else if $scale_unit_type == "em" {
+    $value: ((($base_font_size * $base_lh)/$element_size) * $module_size)#{em};
+  } @else {
+    $value: ($base_lh * $module_size)#{$scale_unit_type};
+  }
+  @return $value;
+}
+
+// Get a size value given the number of modules
+// with an extra param: $breakpoint: $bp1
+@function modules($modules_count) {
+  $base_lh: $base_line_height_size/$base_font_size;
+  $value: 1;
+  @if $scale_unit_type == "px" {
+    $value: ($base_line_height_size * $modules_count)#{px};
+  } @else {
+    $value: ($base_lh * $modules_count)#{$scale_unit_type};
+  }
+  @return $value;
+}
+
+//
+// Mixins
+//
+
+@mixin headings-init {
+
+  h1, h2, h3, h4, h5, h6 {
+    @include font-feature-settings($header_font_features);
+    font-family: $heading_font_family;
+    color: $heading_color;
+  }
+}
+
+// Modular scale configuration
+@mixin modular-scale-setup($font_size, $line_height) {
+  font-size: generate-font-size($font_size);
+  line-height: generate-line-height($font_size);
+  margin-bottom: generate-margin($font_size, $line_height);
+}
+
+// Sets the typography elements based on current config
+//
+@mixin typography-setup($fz, $lh, $ratio, $namespace) {
+  $base_font_size: $fz;
+  $base_line_height_size: $lh;
+  $base_ratio: $ratio;
+
+  // Font size calculations.
+  $font_size_rel_to_browser: (($base_font_size * 100) / 16)#{'%'};
+  $base_line_height: $base_line_height_size/$base_font_size;
+
+  @if $debug == 'true' {
+    @debug '****************************';
+    @debug 'Namespace:' $namespace;
+    @debug 'Ratio:' $ratio;
+    @debug 'Font size relative to browser:' $font_size_rel_to_browser;
+    @debug 'Base line height in pixels' $base_line_height_size;
+    @debug 'Base font size in pixels' $base_font_size;
+    @debug 'Base line height:' $base_line_height;
+  }
+
+  // Configura html, body and headings
+  html {
+    font-size: $font_size_rel_to_browser;
+  }
+
+  body#{$namespace} {
+    @include word-wrap($default_word_wrap);
+    @include font-feature-settings($body_font_features);
+    color: $body_copy_color;
+    font: $default_weight $font_size_rel_to_browser/$base_line_height $base_font_family;
+    text-rendering: $text_rendering;
+
+    @if $font_smoothing {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+
+  @if $namespace != '' {
+    #{$namespace} { @include headings-init; }
+  }
+  @else { @include headings-init; }
+
+  // Create all font sizes and line heights for the elements in the configuration list.
+  //
+  // Sort list from highest to lowest
+  $position_of_base_tag: length($class_list) - index($class_list, $base_tag);
+  $max_increment: length($class_list) - $position_of_base_tag;
+
+  // Get list of class and sizes
+  $list_of_sizes: ();
+  @while ($max_increment + 1) > 0 {
+    $new_size: modular-scale-value($base_font_size, $max_increment, $base_ratio);
+    $list_of_sizes: append($list_of_sizes, $new_size, space);
+    $max_increment: $max_increment - 1;
+  }
+
+  // Apply modular scale to all classes using the calculated sizes
+  $classes_with_sizes: zip($class_list, $list_of_sizes);
+
+  @each $class_and_size in $classes_with_sizes {
+
+    @if $debug == 'true' {
+      @debug '------------------------------';
+      @debug 'Tag: ' nth($class_and_size, 1);
+      @debug 'Size (unitless and with ratio applied): ' nth($class_and_size, 2);
+      @debug 'font-size --> '  generate-font-size(nth($class_and_size, 2));
+    }
+
+    @if $namespace != '' {
+      #{$namespace} {
+        #{nth($class_and_size, 1)} {
+          margin-top: 0;
+          @include modular-scale-setup(nth($class_and_size, 2), $base_line_height);
+          @if $debug == 'true' {
+            background-color: $background_debug_color;
+          }
+        }
+      }
+    } @else {
+
+      #{nth($class_and_size, 1)} {
+        margin-top: 0;
+        @include modular-scale-setup(nth($class_and_size, 2), $base_line_height);
+        @if $debug == 'true' {
+          background-color: $background_debug_color;
+        }
+      }
+    }
+
+    @if $debug == 'true' {
+      @debug '>>>> Modular scale info:';
+      @debug 'font-size --> '  generate-font-size(nth($class_and_size, 2));
+      @debug 'line-height --> '  generate-line-height(nth($class_and_size, 2));
+      @debug 'margin-bottom --> '  generate-margin(nth($class_and_size, 2), $base_line_height);
+    }
+  }
+}
+
+//
+// Typography intialization.
+// This mixin can be included as many times as required per responsive breakpoint.
+//
+
+@mixin intialize-typography($font_size: $base_font_size, $line_height: $base_line_height_size, $breakpoint: 0, $ratio: $default_ratio, $namespace: '') {
+
+  @if $breakpoint > 0 {
+     @include min-screen($breakpoint) { @include typography-setup($font_size, $line_height, $ratio, $namespace); }
+  } @else {
+    @include typography-setup($font_size, $line_height, $ratio, $namespace);
+  }
+}
+

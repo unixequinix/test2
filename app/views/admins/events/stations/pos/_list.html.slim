@@ -1,0 +1,61 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp
+  table.mdl-data-table.within-card.sortable
+    thead
+      tr
+        th.table-sortable-field #
+        th.mdl-data-table__cell--non-numeric Name
+        th Price
+        th VAT
+        th Alcohol
+        th Hidden
+        th
+
+    tbody
+      - @items.each do |product|
+        tr data-id="#{product.id}" class="#{'resource-hidden' if product.hidden?}"
+          td.table-sortable-field = fa_icon("bars")
+          td.mdl-data-table__cell--non-numeric = best_in_place product, :name, as: :input, url: [:admins, @current_event, product.station, product]
+          td = best_in_place product, :price, as: :input, url: [:admins, @current_event, product.station, product]
+          td = best_in_place product, :vat, as: :input, url: [:admins, @current_event, product.station, product]
+          td = best_in_place product, :is_alcohol, best_in_place_checkbox([:admins, @current_event, product.station, product])
+          td = best_in_place product, :hidden, best_in_place_checkbox([:admins, @current_event, product.station, product])
+          td.table-actions
+            .table-action
+              - if StationItemPolicy.new(@current_user, product).destroy?
+                = link_to admins_event_station_station_item_path(@current_event, @station, product, item_type: "product"), id:"delete_#{product.id}", method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                  button.icon.material-icons delete_forever
+
+
+javascript:
+  function setPositions() {
+    $('.sortable tr').each(function(i) {
+        $(this).attr("data-pos", i + 1);
+    });
+  }
+
+  function sortPosition() {
+    setPositions();
+    $('.sortable').sortable({
+      items: 'tr' ,
+      placeholder: '<tr><td class="sortable-placeholder" colspan="6">&nbsp;</td></tr>',
+      handle: '.table-sortable-field i'
+    });
+    $('.sortable').sortable().bind('sortupdate', function(e, ui) {
+        updated_order = [];
+        setPositions();
+
+        $('.sortable tr').each(function(i){
+            updated_order.push({ id: $(this).data("id"), position: i + 1 });
+        });
+
+
+        $.ajax({
+            type: "PUT",
+            url: "#{sort_admins_event_station_station_items_path(@current_event, @station, item_type: 'product')}",
+            data: { order: updated_order }
+        });
+    });
+  }
+
+  $(document).ready(sortPosition);
+  $(document).on('turbolinks:load', sortPosition);

@@ -1,0 +1,180 @@
+- items = @current_event.catalog_items.where(id: @current_event.monetary_box_office(station_filter: @station).select(:catalog_item_id).distinct.pluck(:catalog_item_id))
+- payments = @current_event.monetary_box_office(station_filter: @station).select(:payment_method).distinct.pluck(:payment_method)
+- purchases = @current_event.count_money_box_office.reject { |_, v| v.zero? }
+- dates = purchases.keys
+
+- if admin_or_promoter_or(:monetary_manager, :vendor_manager)
+  .mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--11-col
+      .mdl-grid
+        = render "admins/events/analytics/box", cols: 4,
+                id: 'topups',
+                custom_class: 'hovering',
+                colors: ['#009688', '#66FF99'],
+                icon: 'attach_money',
+                title_text: "Topups",
+                title_number: number_to_reports(purchases.values.sum),
+                subtitle: payments.map { |payment| { text: payment.humanize, number: number_to_reports_currency(@current_event.money_box_office_total(payment_filter: payment, station_filter: @station)) } }
+        = render "admins/events/analytics/box", cols: 4,
+                id: 'devices',
+                custom_class: 'hovering',
+                colors: ['#FF4E50', '#F9D423'],
+                icon: 'attach_money',
+                title_text: "Devices",
+                title_number: @station.count_devices,
+                subtitle: [{ text: 'Avg devices per operator', number: number_to_reports(@station.count_devices.to_f / @station.count_operators.to_f) }, { text: 'Avg sale per device', number: number_to_reports_currency(purchases.values.sum / @station.count_devices) }]
+        = render "admins/events/analytics/box", cols: 4,
+                id: 'operators',
+                custom_class: 'hovering',
+                colors: ['#FF5050', '#F3A183'],
+                icon: 'attach_money',
+                title_text: "Operators",
+                title_number: @station.count_operators,
+                subtitle: [{ text: 'Avg sale', number: number_to_reports_currency(purchases.values.sum / @station.count_operators.to_f) }, { text: 'Avg sale per day', number: number_to_reports_currency(purchases.values.sum / @station.count_operators.to_f / dates.size) }]
+    .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col.analytics
+    .mdl-card__title.mdl-card--expand
+      .mdl-card__title-text Box Office Analytics
+
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = payments.count + 1
+          - dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - dates.each do |date|
+            th.pvtColLabel.low-contrast Qty
+            - payments.each do |payment|
+              th.pvtColLabel.low-contrast = payment.humanize
+          th.pvtColLabel.low-contrast Qty
+          - payments.each do |payment|
+            th.pvtColLabel.low-contrast = payment.humanize
+
+      tbody
+        - items.each do |item|
+          - data = payments.map { |payment| [payment, @current_event.money_box_office(catalog_filter: item, payment_filter: payment)] }.to_h
+          - quantity = @current_event.count_money_box_office(catalog_filter: item)
+
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
+          tr
+            th.pvtRowLabel.low-contrast = item.name
+            - dates.each do |date|
+              td = quantity[date] unless quantity[date].to_f.zero?
+              - payments.each do |payment|
+                td = number_to_reports(data[payment][date]) unless data[payment][date].to_f.zero?
+
+            td.totals
+              b = quantity.values.sum
+
+            - payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @current_event.count_money_box_office
+          - data = payments.map { |payment| [payment, @current_event.money_box_office(payment_filter: payment)] }.to_h
+
+          - dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[payment][date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - payments.each do |payment|
+            td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+
+    .mdl-layout-spacer
+
+- if admin_or_promoter_or(:monetary_manager)
+  - data = @current_event.plot(items.map { |item| [item.name.underscore, @current_event.money_box_office(grouping: :hour, station_filter: @station, catalog_filter: item)] }.to_h)
+  - chart_data = { chart_id: "box_office_flow", cols: [@current_event.currency_symbol], currency: @current_event.currency_symbol, data: data, metric: [@current_event.currency_symbol], decimals: 2 }
+  - top_items = @station.pokes.top_items.as_json
+  
+  .content-grid.mdl-grid
+    .mdl-cell.mdl-cell--12-col
+      .mdl-grid
+        - unless(chart_data[:data].empty?)
+          .mdl-cell.mdl-cell--6-col
+            = render 'admins/events/analytics/line_chart', chart_data: chart_data, name: 'Box office purchases per hour'
+
+        - unless(top_items.empty?)
+          .mdl-cell.mdl-cell--6-col
+            .content-grid.mdl-grid
+              .mdl-cell.mdl-cell--12-col
+                .mdl-card__title.mdl-card--expand
+                  .mdl-card__title-text Top 10 items
+                canvas#top_items
+
+
+  javascript:
+      function gradientSector(ctx, colors) {
+          var gradient = ctx.createLinearGradient(0, 200, 100, 20);
+          gradient.addColorStop(0, colors[0]);
+          gradient.addColorStop(1, colors[1]);
+          return gradient
+      }
+
+      var data_p = #{top_items.to_json.html_safe};
+      if(data_p.length != 0) {
+        var credit_symbol = '#{ @current_event.credit.symbol }'
+        var color_scale_p = [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
+        var product_name = data_p.map(function (e) {
+          return e.product_name
+        });
+        var credits = data_p.map(function (e) {
+          return e.credits
+        });
+        var ctx_products = document.getElementById("top_items").getContext('2d');
+
+        new Chart(ctx_products, {
+            type: 'doughnut',
+            data: {
+                labels: product_name,
+                datasets: [
+                    {
+                        label: "Product" + credit_symbol,
+                        data: credits,
+                        backgroundColor: color_scale_p.map(function (colors) {
+                            return gradientSector(ctx_products, colors)
+                        }),
+                        hoverBackgroundColor: color_scale_p.map(function (colors) {
+                            return gradientSector(ctx_products, colors)
+                        }),
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: '#CCCCCC'
+                    }
+                ]
+            },
+            options: {
+                legend: {
+                    position: 'right'
+                },
+                tooltips: {
+                    custom: function (tooltip) {
+                        if (!tooltip) return;
+                        tooltip.displayColors = false;
+                    },
+                    callbacks: {
+                        title: function (tooltipItem, data) {
+                          return [data.labels[tooltipItem[0].index]]
+                        },
+                        label: function (tooltipItem, data) {
+                            return [
+                                "Credits: " + data.datasets[0].data[tooltipItem.index] + " " + "#{@event_currency}"
+                            ]
+                        }
+                    }
+                }
+            }
+        });
+      } 

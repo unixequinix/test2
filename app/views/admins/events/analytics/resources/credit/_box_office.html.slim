@@ -1,0 +1,61 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col.analytics
+    .mdl-card__title.mdl-card--expand
+      .mdl-card__title-text Box Office Analytics
+
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = @credits.count + 1
+          - @dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - @dates.each do |date|
+            th.pvtColLabel.low-contrast Qty
+            - @credits.each do |credit|
+              th.pvtColLabel.low-contrast = credit.name
+          th.pvtColLabel.low-contrast Qty
+          - @credits.each do |credit|
+            th.pvtColLabel.low-contrast = credit.name
+
+      tbody
+        - @stations.each do |station|
+          - quantity = @current_event.count_box_office(station_filter: station, credit_filter: @credits)
+          - data = @credits.map { |credit| [credit, @current_event.credit_box_office(station_filter: station, credit_filter: credit)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
+          tr
+            th.pvtRowLabel.low-contrast = station.name
+            - @dates.each do |date|
+              td = quantity[date] unless quantity[date].to_f.zero?
+              - @credits.each do |credit|
+                td = number_to_reports(data[credit][date]) unless data[credit][date].to_f.zero?
+
+            td.totals
+              b = quantity.values.sum
+
+            - @credits.each do |credit|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[credit].values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @current_event.count_box_office
+          - data = @credits.map { |credit| [credit, @current_event.credit_box_office(credit_filter: credit)] }.to_h
+
+          - @dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - @credits.each do |credit|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[credit][date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - @credits.each do |credit|
+            td.pvtTotal.rowTotal.totals = number_to_reports(data[credit].values.sum)
+
+    .mdl-layout-spacer
+
+= render 'line_chart', chart_data: @pos_views, name: 'Box office purchasers per hour', label_filter: @stations.pluck(:name)

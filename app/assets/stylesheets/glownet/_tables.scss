@@ -1,0 +1,13 @@
+.sortable {
+  .tablesorter-header:hover {
+    cursor: pointer;
+  }
+}
+
+.pvtCheckContainer{
+    overflow-x: scroll;
+}
+
+.mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
+  word-wrap: break-word
+}

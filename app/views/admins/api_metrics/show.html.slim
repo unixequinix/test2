@@ -1,0 +1,25 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item API analytics for #{@event.name}
+
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card#users_metrics
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric User
+              th.mdl-data-table__cell--non-numeric Endpoint
+              th.mdl-data-table__cell--non-numeric Status
+              th.mdl-data-table__cell--non-numeric No. of requests
+          tbody
+            - @api_metrics.each do |key, value|
+              - user = User.find(key.first)
+              tr class="#{"danger" unless key.fourth.starts_with?("2") }"
+                td.mdl-data-table__cell--non-numeric data-label="User" = link_to user.username, [:admins, user]
+                td.mdl-data-table__cell--non-numeric data-label="Controller" #{key.second.humanize} => #{key.third}
+                td.mdl-data-table__cell--non-numeric data-label="Status" = key.fourth
+                td.mdl-data-table__cell--non-numeric data-label="No of requests" = value
+  .mdl-layout-spacer
+

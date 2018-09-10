@@ -1,0 +1,61 @@
+- content_for(:title) do
+  - if @operator_mode
+    | Operators
+  - else
+    | Customers
+
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_customers_path do |f|
+    = f.search_field :email_or_first_name_or_last_name_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to admins_event_customers_path(format: "csv") do
+          button#download.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons file_download
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="download" Download CSV
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+- any_orders = @current_event.orders.completed.any?
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @customers
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Email
+              th.mdl-data-table__cell--non-numeric Name
+              th Tickets
+              th Gtags
+              - if any_orders
+                th Orders
+          tbody
+            - @customers.each do |customer|
+              tr [id="customer-#{customer.id}"]
+                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to customer.full_email, admins_event_customer_path(@current_event, customer), id:"email_#{customer.id}"
+                td.mdl-data-table__cell--non-numeric data-label="First name" = customer.name
+                td data-label="Tickets"
+                  -  if customer.tickets.any?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
+                td data-label="Gtags"
+                  - if customer.active_gtag.present?
+                    i.material-icons done
+                  - else
+                    i.material-icons clear
+                - if any_orders
+                  td data-label="Orders"
+                    = customer.orders.size
+
+    = render "layouts/pagination", objects: @customers
+  .mdl-layout-spacer

@@ -1,0 +1,58 @@
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons local_atm
+        |Credit
+    .mdl-card__supporting-text
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          - if @transaction.payments.present?
+            - @transaction.payments.each do |credit_id, payment|
+              - credit = CatalogItem.find(credit_id)
+              tr
+                td.mdl-data-table__cell--non-numeric Credit
+                td #{credit.name} (#{credit.symbol})
+              tr
+                td.mdl-data-table__cell--non-numeric Amount
+                td = number_to_credit(payment["amount"].to_f, credit)
+              tr
+                td.mdl-data-table__cell--non-numeric Final Balance
+                td = number_to_credit(payment["final_balance"].to_f, credit)
+          - else
+            tr
+              td.mdl-data-table__cell--non-numeric Credits
+              td = @transaction.credits
+            tr
+              td.mdl-data-table__cell--non-numeric Refundable credits
+              td = @transaction.refundable_credits
+            tr
+              td.mdl-data-table__cell--non-numeric Final balance
+              td = @transaction.final_balance
+            tr
+              td.mdl-data-table__cell--non-numeric Final refundable balance
+              td = @transaction.final_refundable_balance
+
+- if @transaction.sale_items.present?
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        h2.mdl-card__title-text
+          i.material-icons donut_large
+          | Sale Items
+      .mdl-card__supporting-text
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Product
+              th Quantity
+              th Unit price
+              th Total
+          tbody
+            - @transaction.sale_items.each do |item|
+              tr
+                td.mdl-data-table__cell--non-numeric = item.product&.name || item.sale_item_type.humanize
+                td = item.quantity
+                td = item.standard_unit_price
+                td = item.standard_total_price
+

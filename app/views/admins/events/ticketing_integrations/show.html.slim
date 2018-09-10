@@ -1,0 +1,58 @@
+- content_for(:title) do
+  - if @integration.integration_event_name
+    | Connected to #{@integration.integration_event_name}
+  - else
+    | Not connected
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Type
+              td = @integration.name.humanize
+            tr
+              td.mdl-data-table__cell--non-numeric Status
+              td = @integration.status.humanize
+            tr
+              td.mdl-data-table__cell--non-numeric Ticket Types
+              td = @integration.ticket_types.count
+            tr
+              td.mdl-data-table__cell--non-numeric Tickets
+              td = @current_event.tickets.where(ticket_type: @integration.ticket_types).count
+  .mdl-layout-spacer
+
+
+= render @integration.name
+
+
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        - if @integration.inactive?
+          = link_to activate_admins_event_ticketing_integration_path(@current_event, @integration) do
+            button#activate_integration.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons sync
+              span.mdl-tooltip.mdl-tooltip--top data-mdl-for="activate_integration" Activate
+        - else
+          = link_to deactivate_admins_event_ticketing_integration_path(@current_event, @integration) do
+            button#deactivate_integration.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons sync_disabled
+              span.mdl-tooltip.mdl-tooltip--top data-mdl-for="deactivate_integration" Deactivate
+
+      - if policy(@integration).destroy?
+        li.floaty-list-item
+          = link_to admins_event_ticketing_integration_path(@current_event, @integration) do
+            button#destroy_integration.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+              i.material-icons delete_forever
+              span.mdl-tooltip.mdl-tooltip--top data-mdl-for="destroy_integration" Destroy
+
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build

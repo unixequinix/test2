@@ -1,0 +1,29 @@
+.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-grid
+      - all_products = Product.where(id: @current_event.voucher_sales.where.not(voucher_amount: 0).pluck(:product_id).uniq)
+      = render "admins/events/analytics/box", cols: 6,
+              id: 'voucher_products',
+              custom_class: 'hovering',
+              colors: ['#009688', '#66FF99'],
+              icon: 'attach_money',
+              title_text: "Products",
+              title_number: all_products.count,
+              subtitle: [{ text: 'Avg price', number: number_to_reports_credit(all_products.sum(:price) / all_products.count.to_f, @current_event.credit) }, { text: 'Max Price', number: number_to_reports_credit(all_products.maximum(:price), @current_event.credit) }]
+      = render "admins/events/analytics/box", cols: 6,
+              id: 'voucher_use',
+              custom_class: 'hovering',
+              colors: ['#FF4E50', '#F9D423'],
+              icon: 'attach_money',
+              title_text: "Vouchers left over",
+              title_number: @current_event.voucher_topups_total - @current_event.voucher_sales_total,
+              subtitle: [{ text: 'Topped Up', number: @current_event.voucher_topups_total }, { text: 'Used', number: @current_event.voucher_sales_total }]
+  .mdl-layout-spacer
+
+
+.mdl-cell.mdl-cell--12-col
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col.analytics
+      = render 'custom_voucher_table'

@@ -1,0 +1,5 @@
+.mdl-cell.mdl-cell--12-col
+  .mdl-grid
+    - views.each do |view|
+      .mdl-cell.mdl-cell--6-col
+        = render "report_card", chart_id: view[:chart_id], title: view[:title] , cols: view[:cols] , rows: view[:rows] , data: view[:data] , metric: view[:metric] , decimals: view[:decimals], type: view[:type]

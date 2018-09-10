@@ -1,0 +1,39 @@
+.transaction-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      i.material-icons loyalty
+      | Customer Service
+  .mdl-card__supporting-text
+    .table-responsive
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Customers", [:admins, @current_event, :customers]
+            td
+              = @current_event.customers.where(operator: false).count if @current_event.customers.where(operator: false).any?
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Gtags", [:admins, @current_event, :gtags]
+            td
+              = @current_event.gtags.where(operator: false).count if @current_event.gtags.where(operator: false).any?
+              = link_to [:new, :admins, @current_event, :gtag] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Tickets Types", [:admins, @current_event, :ticket_types]
+            td
+              = @current_event.ticket_types.where(operator: false).count if @current_event.ticket_types.where(operator: false).any?
+              = link_to [:new, :admins, @current_event, :ticket_type] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Tickets", [:admins, @current_event, :tickets]
+            td
+              = @current_event.tickets.where(operator: false).count if @current_event.tickets.where(operator: false).any?
+              = link_to [:new, :admins, @current_event, :ticket] do
+                span.material-icons add_circle_outline
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Orders", [:admins, @current_event, :orders]
+            td
+              = @current_event.orders.count if @current_event.orders.any?
+          tr
+            td.mdl-data-table__cell--non-numeric = link_to "Refunds", [:admins, @current_event, :refunds]
+            td
+              = @current_event.refunds.count if @current_event.refunds.any?

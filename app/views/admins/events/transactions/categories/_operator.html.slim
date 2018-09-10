@@ -1,0 +1,34 @@
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons store
+        |Operator
+    .mdl-card__supporting-text
+      - permission = @current_event.operator_permissions.find_by(id: @transaction.catalog_item_id)
+      - if permission
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Role
+              td = permission.role.humanize
+            tr
+              td.mdl-data-table__cell--non-numeric Group
+              td = permission.group&.humanize
+            tr
+              td.mdl-data-table__cell--non-numeric Station
+              td = permission.station&.name
+      - else
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Role
+              td = @transaction.role&.humanize
+            - if @transaction.group.present?
+              tr
+                td.mdl-data-table__cell--non-numeric Group
+                td = @transaction.group.humanize
+            - if @transaction.station_permission_id.present?
+              tr
+                td.mdl-data-table__cell--non-numeric Station
+                td = @current_event.stations.find(@transaction.station_permission_id)&.name

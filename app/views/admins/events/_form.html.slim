@@ -1,0 +1,29 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, event], html: { multipart: true }, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+    .fieldset
+      .section-header
+        i.material-icons info_outline
+        span Event Info
+      .form-inputs
+        = f.input :name, placeholder: true, autofocus: true
+        = f.input :event_serie_id, as: :select, collection: @event_series
+        = f.input :timezone, as: :time_zone, include_blank: false
+        = f.input :start_date, as: :string, input_html: { class: "date-time-picker", value: event.start_date.strftime('%Y-%m-%d %I:%M %P') }
+        = f.input :end_date, as: :string, input_html: { class: "date-time-picker", value: event.end_date.strftime('%Y-%m-%d %I:%M %P') }
+
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
+javascript:
+    $('.date-time-picker').each(function (i, elem) {
+        $("#" + elem.id).datetimepicker({
+            timeInput: true,
+            timeFormat: "hh:mm tt",
+            currentText: 'Time now',
+            closeText: 'Update'
+        });
+    });
+
+
+

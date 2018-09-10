@@ -1,0 +1,11 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  - @item ||= StationCatalogItem.new
+  = simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station), wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs
+      = hidden_field_tag :item_type, "station_catalog_item"
+      = f.input :price
+      = f.input :catalog_item_id, collection: @catalog_items_collection, include_blank: false, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.catalog_item_id == obj.id }
+      = f.input :station_id, as: :hidden, input_html: { value: @station.id }
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+br

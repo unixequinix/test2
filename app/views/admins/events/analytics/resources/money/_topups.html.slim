@@ -1,0 +1,97 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col.analytics
+    .mdl-card__title.mdl-card--expand
+      .mdl-card__title-text Topup Analytics
+
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = @payments.count + 1
+          - @dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - @dates.each do |date|
+            th.pvtColLabel.low-contrast Qty
+            - @payments.each do |payment|
+              th.pvtColLabel.low-contrast = payment.humanize
+          th.pvtColLabel.low-contrast Qty
+          - @payments.each do |payment|
+            th.pvtColLabel.low-contrast = payment.humanize
+
+      tbody
+        - @stations.each do |station|
+          - quantity = @current_event.count_topups(grouping: :day, station_filter: station)
+          - data = @payments.map { |payment| [payment, @current_event.money_topups(grouping: :day, payment_filter: payment, station_filter: station)] }.to_h
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+          
+          tr
+            th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
+            - @dates.each do |date|
+              td = quantity[date] unless quantity[date].to_f.zero?
+              - @payments.each do |payment|
+                td = number_to_reports(data[payment][date]) unless data[payment][date].to_f.zero?
+
+            td.totals
+              b = quantity.values.sum
+
+            - @payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @current_event.count_topups(grouping: :day, station_filter: @stations)
+
+          - @dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - @payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_topups(grouping: :day, payment_filter: payment, station_filter: @stations)[date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - @payments.each do |payment|
+            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.money_topups_total(payment_filter: payment, station_filter: @stations))
+
+  .mdl-layout-spacer
+
+- if @cash_recon.present?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col.analytics
+      .mdl-card__title.mdl-card--expand
+        .mdl-card__title-text Cash Reconciliation
+
+      table.pvtTable
+        thead
+          tr
+            th.pvtColLabel.high-contrast Operator
+            th.pvtColLabel.high-contrast UID
+            th.pvtColLabel.high-contrast Location
+            th.pvtColLabel.high-contrast Station
+            th.pvtColLabel.high-contrast Device
+            th.pvtColLabel.high-contrast Session finish
+            th.pvtColLabel.high-contrast Record result
+
+
+        tbody
+          - @cash_recon.each do |poke|
+            - danger = !poke.monetary_total_price.zero?
+            tr
+              th.pvtRowLabel.low-contrast style="#{'color: #d9534f' if danger }" = poke.operator.name
+              td style="#{'color: #d9534f' if danger }" = poke.operator_gtag.tag_uid
+              td style="#{'color: #d9534f' if danger }" = poke.station.location
+              td style="#{'color: #d9534f' if danger }" = poke.station.name
+              td style="#{'color: #d9534f' if danger }" = poke.device.asset_tracker
+              td style="#{'color: #d9534f' if danger }" = l(poke.date)
+              td style="#{'color: #d9534f' if danger }" = number_to_reports(poke.monetary_total_price)
+            tr
+              th.pvtRowLabel.low-contrast style="#{'color: #d9534f' if danger }" = poke.operator.name
+
+
+
+  .mdl-layout-spacer
+
+= render 'line_chart', credits: @credits, chart_data: @pos_views, name: 'Topups per hour'

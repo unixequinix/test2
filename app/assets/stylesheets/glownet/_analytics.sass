@@ -1,0 +1,228 @@
+.mdl-tabs__tab
+  color: #666666 !important
+  &.is-active
+    font-weight: bold !important
+
+.analytic-grid-container
+  margin: 0 !important
+
+.analytic-grid-graph-container
+  padding: 3% 0 !important
+
+.subtitle-container
+  h6
+    margin: 0
+
+.center-card-title
+  text-align: center
+  margin: 2.5rem 0
+
+.report_card
+  overflow-x: scroll
+  table
+
+    .pvtColTotalLabel, .pvtAxisLabel
+      max-width: 15%
+
+.report_card_access
+  table
+
+    tbody
+      tr
+        th.pvtColTotalLabel, td.colTotal, td.pvtGrandTotal
+          display: none
+
+.report_chart
+  .pvtAxisContainer, .pvtVals
+    display: none
+
+  overflow-x: scroll
+  table
+    width: 100%
+
+    .pvtColTotalLabel, .pvtAxisLabel
+      max-width: 15%
+
+.chart_size
+  padding: 0
+  margin: auto
+  display: block
+
+.full-height
+  min-height: 100vh
+
+.reports-grid
+  overflow-x: scroll
+  background-color: white
+  margin: 1.75rem
+  border-radius: 3px
+
+.analytics-card-back
+  background-color: #F0F0F0
+  border-radius: 5px
+  margin: auto
+
+.analytics-card-front
+  background-color: white
+  border-radius: 5px
+  margin: auto
+  padding: 2px
+
+.analytics-text
+  color: rgb(0,150,136)
+
+.no-wrapper-style
+  &.padding
+    padding: 0 !important
+  &.margin
+    margin: 0 !important
+  &.margin-auto
+    margin: 0 auto !important
+
+.vertical-center-items
+  width: 100%
+  align-items: center !important
+
+.analytic-card-front
+  color: white
+  border-radius: 5px
+  margin: auto
+  padding: 2px
+  transition: all .2s ease-in-out
+  min-height: 100% !important
+  position: relative
+
+  &.hovering:hover
+    transform: scale(1.1)
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2)
+
+  .icon
+    display: block
+    position: absolute
+    top: 40%
+    right: -20%
+    border-radius: 15px
+    color: #fff
+    background-color: #A1A1A1
+    z-index: 2
+
+.analytic-card
+  margin: 5px
+  padding: 5px
+
+.analytic-card-title, .analytic-card-subtitle
+    margin: 0 auto !important
+    padding: 0
+    .mdl-grid
+      padding: 0
+    .hovering
+      text-decoration: none
+      color: white !important
+      &:hover
+        text-shadow: 0 0 3px white
+      &.active
+        text-shadow: 0 0 3px white
+
+
+.analytic-card-icon
+  text-align: center
+  background-color: #F2F2F2
+  border-radius: 4px
+  height: 40px !important
+  width: 40px !important
+  position: relative
+
+  i
+    position: absolute
+    top: 23%
+    left: 0
+    height: 100%
+    width: 100%
+    color: black
+
+.icon-container
+  position: absolute
+  top: 7%
+  left: 7%
+
+.text-container
+  position: absolute
+  top: 7%
+  left: 7%
+
+.analytic-card-content
+  font-weight: bold
+  padding: 0
+
+  .text
+    font-size: 14px
+  .number
+    font-size: 20px
+    word-wrap: break-word
+    &.small
+      font-size: 17px !important
+  &.dark
+    color: #79858a
+    a
+      text-decoration: none
+      color: inherit !important
+      font-weight: inherit !important
+      padding: inherit !important
+.cash_flow_card
+  width: 85%
+  min-height: 100% !important
+
+
+.mdl-progress
+  height: 15px !important
+  > .bufferbar
+    background-image: linear-gradient(to right, $light_green, 0.7, $light_green, 0.7), linear-gradient(to right, $light_green, $light_green)  !important
+  > .auxbar
+    background-image: linear-gradient(to right, $light_green, 0.9, $light_green, 0.9), linear-gradient(to right, $light_green, $light_green)  !important
+  > .progressbar
+    background-color: #FFCC66 !important
+
+.slide-content
+  max-height: 0px
+  transition-property: all
+  transition-duration: 0.7s
+  overflow: hidden
+
+  &.open
+    max-height: 500px
+
+.slide-icon-container
+  text-align: center
+  cursor: pointer
+
+
+// Tables
+.analytics
+  min-width: 100%
+  overflow-x: auto
+
+  table.pvtTable
+    width: 100%
+    thead
+      th
+        white-space: nowrap
+        &.empty
+          border: 0
+          background-color: transparent
+        &.high-contrast
+          border-color: #b4b2b2
+        &.low-contrast
+          text-align: end
+    tbody
+      text-align: center
+      th
+        width: 15%
+        text-align: left
+      tr
+        border-color: #e8e6e6
+  .totals
+    background-color: #f6f6f6
+  .high-contrast
+    background-color: $graySilver
+  .low-contrast
+    background-color: $form_gray

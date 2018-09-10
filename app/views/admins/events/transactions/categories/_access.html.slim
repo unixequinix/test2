@@ -1,0 +1,18 @@
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons import_export
+        |Access
+    .mdl-card__supporting-text
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Access
+            td = link_to @transaction.access.name, admins_event_access_path(@current_event, @transaction.access)
+          tr
+            td.mdl-data-table__cell--non-numeric Direction
+            td = @transaction.direction
+          tr
+            td.mdl-data-table__cell--non-numeric Final value
+            td = @transaction.final_access_value

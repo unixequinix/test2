@@ -1,0 +1,31 @@
+- eb_event = @integration.remote_event
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Start
+            td = Time.parse(eb_event.start.local).to_s(:long)
+          tr
+            td.mdl-data-table__cell--non-numeric End
+            td = Time.parse(eb_event.end.local).to_s(:long)
+          tr
+            td.mdl-data-table__cell--non-numeric Capacity
+            td = eb_event.capacity.to_i
+          tr
+            td.mdl-data-table__cell--non-numeric Status
+            td = eb_event.status
+          tr
+            td.mdl-data-table__cell--non-numeric Currency
+            td = eb_event.currency
+          tr
+            td.mdl-data-table__cell--non-numeric ID
+            td = eb_event.id
+          tr
+            td.mdl-data-table__cell--non-numeric URL
+            td = link_to eb_event.url, eb_event.url, target: "_blank"
+  .mdl-layout-spacer
+

@@ -1,0 +1,21 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, @station], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs
+      = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
+      = f.input :group, as: :hidden, input_html: { value: group }
+      = f.input :name, placeholder: true
+      = f.input :location, placeholder: true
+      = f.input :reporting_category
+      = f.input :official_name, placeholder: true
+      = f.input :address, placeholder: true
+      = f.input :registration_num, placeholder: true
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='stats'
+        span.mdl-switch__label.form-label Enable Stats
+        = f.input :device_stats_enabled, :input_html => { :id => 'stats' }
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='hidden'
+        span.mdl-switch__label.form-label Hidden
+        = f.input :hidden, :input_html => { :id => 'hidden' }
+      - if @station.new_record?
+        = f.input :category, collection: @categories, include_blank: false, as: :grouped_select, group_method: :last, group_label_method: :first, selected: ->(obj){ f.object.category == obj }
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

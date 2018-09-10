@@ -1,0 +1,19 @@
+- content_for(:navigation_actions) do
+  = link_to admins_event_gtags_path, class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, gtag], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs.short-input
+      = f.input :operator, as: :hidden, input_html: { value: @operator_mode }
+      = f.input :tag_uid, placeholder: true, as: :string, autofocus: true
+      = f.input :ticket_type_id, as: :select, collection: @current_event.ticket_types.where(operator: @operator_mode).pluck(:name, :id), include_blank: true, placeholder: true
+    .file
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='banned'
+        span.mdl-switch__label.form-label Banned
+        = f.input :banned, input_html: { id: 'banned' }
+
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+

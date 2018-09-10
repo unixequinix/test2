@@ -1,0 +1,184 @@
+- credit ||= @credits.size > 1 ? nil : @credits.first
+- col_size = credit.nil? ? 4 : 3
+
+.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col style="text-align: center"
+    = link_to_unless(@credits.size.eql?(2), "All Credits", credits_flow_admins_event_analytics_path(@current_event), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+      button.mdl-button.mdl-js-button.mdl-button--raised disabled=true  = "All Credits"
+    | &nbsp;
+    = link_to_unless((@credits.include?(@current_event.credit) && @credits.size.eql?(1)), "Standard Credits", credits_flow_admins_event_analytics_path(@current_event, credit_filter: @current_event.credit.id), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+      button.mdl-button.mdl-js-button.mdl-button--raised disabled=true = "Standard Credits"
+    | &nbsp;
+    = link_to_unless((@credits.include?(@current_event.virtual_credit) && @credits.size.eql?(1)), "Virtual Credits", credits_flow_admins_event_analytics_path(@current_event, credit_filter: @current_event.virtual_credit.id), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+      button.mdl-button.mdl-js-button.mdl-button--raised disabled=true = "Virtual Credits"
+  .mdl-layout-spacer
+
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mld-card
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
+          .mdl-grid.no-wrapper-style.padding
+            .mdl-layout-spacer
+            - if admin_or_promoter_or(:monetary_manager)
+              .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
+                = render "box", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        icon_name: "#{'remove' if @credits.size.eql?(1)}",
+                        colors: ['#1A2980', '#26D0CE'],
+                        icon: 'input',
+                        title_text: 'Inflow',
+                        title_number: number_to_reports_credit(@current_event.credit_income_total(credit_filter: @credits), credit)
+                = render "subcard", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        credit: credit,
+                        type: :credit,
+                        subtitle: { online_topups: { value: @current_event.credit_online_orders_income_total(credit_filter: @credits), data: "credit_orders", filter: { group: :hour } },
+                                    onsite_topups: { value: @current_event.credit_topups_total(credit_filter: @credits), data: "credit_topups", filter: { group: :hour } },
+                                    ticket_bundles: { value: @current_event.credit_credential_total(credit_filter: @credits), data: "credit_credentials", filter: { group: :hour } },
+                                    box_office: { value:  @current_event.credit_box_office_total(credit_filter: @credits) , data: "credit_box_office", filter: { group: :hour } },
+                                    gtag_return_fee: { value: @current_event.credit_gtag_return_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "gtag_return" } },
+                                  }
+
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
+              - subtitle = { bars: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'bar')), data: "credit_sales", filter: { group: :hour, station_type: 'bar' } }, vendors: { value: @current_event.credit_sales_total(credit_filter: @credits, station_filter: @current_event.stations.where(category: 'vendor')), data: "credit_sales", filter: { group: :hour, station_type: 'vendor' } } }
+              .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
+                = render "box", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        icon_name: "#{'remove' if @credits.size.eql?(1)}",
+                        colors: ['#FF4E50', '#F9D423'],
+                        icon: 'equalizer',
+                        title_text: 'Sales',
+                        credit: credit,
+                        type: :credit,
+                        title_number: number_to_reports_credit(@current_event.credit_sales_total(credit_filter: @credits), credit)
+                = render "subcard", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        credit: credit,
+                        type: :credit,
+                        subtitle: subtitle
+
+              - if admin_or_promoter_or(:monetary_manager)
+                .mdl-cell.no-wrapper-style.margin-auto class="mdl-cell--#{col_size}-col"
+                  = render "box", cols: 12,
+                          no_content: true,
+                          custom_class: 'cash_flow_card',
+                          style: 'padding: 0 5px',
+                          icon_name: "#{'drag_handle' if @credits.size.eql?(1)}",
+                          colors: ['#FF5050', '#F3A183'],
+                          icon: 'money_off',
+                          title_text: 'Outflow',
+                          credit: credit,
+                          type: :credit,
+                          title_number: number_to_reports_credit(@current_event.credit_outcome_total(credit_filter: @credits), credit)
+                  = render "subcard", cols: 12,
+                          no_content: true,
+                          custom_class: 'cash_flow_card',
+                          style: 'padding: 0 5px',
+                          credit: credit,
+                          type: :credit,
+                          subtitle: { online_refunds: { value: @current_event.credit_online_refunds_total(credit_filter: @credits), data: "credit_online_refunds", filter: { group: :hour } },
+                                      onsite_refunds: { value: @current_event.credit_onsite_refunds_base_total(credit_filter: @credits), data: "credit_onsite_refunds", filter: { group: :hour } },
+                                      negative_orders: { value: @current_event.credit_online_orders_outcome_total(credit_filter: @credits), data: "credit_outcome_orders", filter: { group: :hour } },
+                                      gtag_deposit_fee: { value: @current_event.credit_gtag_deposit_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "gtag_deposit" } },
+                                      onsite_initial_topup_fee: { value: @current_event.credit_onsite_initial_topup_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "initial" } },
+                                      every_onsite_topup_fee: { value: @current_event.credit_every_onsite_topup_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "topup" } },
+                                      every_onsite_refund_fee: { value: @current_event.credit_every_onsite_refund_fee_total(credit_filter: @credits), data: "credit_fees", filter: { group: :hour, fee_type: "refund" } },
+                                    }
+
+            - if @credits.size.eql?(1) && admin_or_promoter_or(:monetary_manager)
+              .mdl-cell.mdl-cell--3-col.no-wrapper-style.margin-auto
+                = render "box", cols: 12,
+                        no_content: true,
+                        custom_class: 'cash_flow_card',
+                        style: 'padding: 0 5px',
+                        colors: ['#001510', '#00bf8f'],
+                        icon: 'account_balance_wallet',
+                        title_text: 'Outstanding',
+                        credit: credit,
+                        type: :credit,
+                        title_number: number_to_reports_credit(@current_event.credit_outstanding_total(credit_filter: @credits), credit)
+            .mdl-layout-spacer
+
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
+        = render 'admins/events/spinner'
+        #render_data_analytics
+
+
+javascript:
+    var selected = "#{@selected_report}"
+    if(selected) { $('a[name=' + selected + ']').click(); }
+    
+    var ctx = document.getElementById("cash_flow").getContext('2d');
+    var views = JSON.parse("#{escape_javascript(views.to_json.html_safe)}");
+    var eventData = views.data;
+    var money_symbol = '#{ @current_event.currency_symbol }';
+
+    var datasets = {
+        income: {label: 'Income', data: [], fill: false, borderColor: "#26D0CE", extraData: []},
+        sales: {label: 'Sales', data: [], fill: false, borderColor: "#F9D423", extraData: []},
+        refunds: {label: 'Refunds', data: [], fill: false, borderColor: "#F3A183", extraData: []}
+    };
+
+    $.each(eventData, function (i, item) {
+        datasets.income.data.push(item.income);
+        datasets.sales.data.push(item.sales);
+        datasets.refunds.data.push(item.refunds);
+    });
+
+    ctx.canvas.height = 100;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: eventData.map(function (item) {
+                return item.date_time
+            }),
+            datasets: Object.keys(datasets).map(function (key) {
+                return datasets[key]
+            })
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            legend: {
+                position: 'bottom'
+            },
+            tooltips: {
+                custom: function (tooltip) {
+                    if (!tooltip) return;
+                    tooltip.displayColors = false;
+                },
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        var titleData = tooltipItem[0];
+                        var key = Object.keys(datasets)[titleData.datasetIndex];
+                        return [
+                            key.charAt(0).toUpperCase() + key.slice(1),
+                            titleData.xLabel
+                        ]
+                    },
+                    label: function (tooltipItem, data) {
+                        var key = Object.keys(datasets)[tooltipItem.datasetIndex];
+                        return ["Credits: " + datasets[key]['data'][tooltipItem.index] + " " + views.currency]
+                    }
+                }
+            }
+        }
+    });

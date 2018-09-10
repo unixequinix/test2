@@ -1,0 +1,2 @@
+class CatalogItemPolicy < ApplicationPolicy
+end

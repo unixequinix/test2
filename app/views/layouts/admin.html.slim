@@ -1,0 +1,97 @@
+doctype html
+html
+  head
+    title = title
+    = stylesheet_link_tag "layout"
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
+    = javascript_include_tag "https://www.google.com/jsapi", "chartkick"
+
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+    link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet"
+    script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"
+    script src="https://cdn.tinymce.com/4/tinymce.min.js"
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
+    = csrf_meta_tags
+
+  body class=("#{controller_name} #{action_name} fixed-background") style=("background-image: url(#{image_path('background-default.jpg')})")
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          .event_name_header = yield(:title)
+          .mdl-layout-spacer
+          .mdl-layout-title.header-item
+          .mdl-layout-spacer
+
+          - if @q
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+              label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
+                i.material-icons id="search_icon" search
+              .mdl-textfield__expandable-holder = yield(:search)
+            div style="width: 30px;"
+
+      .mdl-layout__drawer
+        #event_logo = link_to image_tag("glownet-event-logo.png"), admins_events_path
+        nav.mdl-navigation.global-nav
+          = link_to [:admins, @current_user], class: "mdl-navigation__link", id: "profile_layout_link" do
+            i.mdl-color-text--teal-200.material-icons account_circle
+            | My Profile
+          - if current_user.team
+            = link_to admins_user_team_path(current_user), class: "mdl-navigation__link", id: "teams_layout_link" do
+              i.mdl-color-text--teal-200.material-icons group
+              | My Team
+          = link_to admins_events_path(status: "users"), class: "mdl-navigation__link", id: "events_layout_link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Events
+          = link_to admins_event_series_index_path, class: "mdl-navigation__link", id: "event_series_layout_link" do
+            i.mdl-color-text--teal-200.material-icons stars
+            |  Event Series
+          - if @current_user.glowball?
+            nav.mdl-navigation.global-nav
+              span.nav-title ADMIN
+            = link_to admins_api_metrics_path, class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons developer_board
+              |  API analytics
+            = link_to admins_sidekiq_web_path, target: "_blank", class: "mdl-navigation__link" do
+              i.mdl-color-text--teal-200.material-icons markunread_mailbox
+              |  Sidekiq
+            = link_to admins_users_path, class: "mdl-navigation__link", id: "users_layout_link" do
+              i.mdl-color-text--teal-200.material-icons people
+              |  Users
+            = link_to admins_user_team_devices_path(@current_user), class: "mdl-navigation__link", id: "devices_layout_link" do
+              i.mdl-color-text--teal-200.material-icons settings_cell
+              |  Devices
+          = link_to destroy_user_session_path, method: :delete, class: "mdl-navigation__link", id: "log_out_link", data: { confirm: "Are you sure?" } do
+            i.mdl-color-text--teal-200.material-icons power_settings_new
+            |  Log out
+
+
+
+
+        span.web-version = WEB_VERSION
+
+      main.mdl-layout__content
+        #notifications
+          = render 'layouts/notifications'
+
+        .page-content.remodal-bg
+          = yield
+
+    = yield(:actions)
+
+javascript:
+  var floaty = $('#floaty');
+  $(floaty).find('.floaty-btn button').on('mouseenter click', floatyMouseEnter);
+  floaty.on('mouseleave', floatyMouseLeave);
+
+  function floatyMouseEnter() {
+    $('#button').toggleClass('on');
+    $('#changeIcon').html('clear');
+    $('#actions-list').toggleClass('show');
+  }
+
+  function floatyMouseLeave() {
+    $('#button').removeClass('on');
+    $('#changeIcon').html('build');
+    $('#actions-list').removeClass('show');
+  }

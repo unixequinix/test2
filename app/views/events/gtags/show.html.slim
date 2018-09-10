@@ -1,0 +1,67 @@
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" Back
+
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title style="display: #{@gtag.banned? ? 'block' : 'inherit'}"
+    .mdl-cell.mdl-cell--12-col
+      h4 = @gtag.tag_uid
+    - if @gtag.banned?
+      div
+        h6 = t("gtag_unsubscribe.flash_message")
+        ul style="text-align: left"
+          li
+            = t('gtag_unsubscribe.modal.statements.first')
+          li
+            = t('gtag_unsubscribe.modal.statements.second')
+          li
+            = t('gtag_unsubscribe.modal.statements.third')
+
+    - else
+      .wrapper-session.wrapper-module-centered.edit-customer-form
+        =link_to "#ban-gtag-modal", id:"unassign_gtag" do
+          button#ban_link.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored 
+            i.material-icons highlight_off
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="ban_link" = t('gtag_unsubscribe.ban')
+
+      .remodal data-remodal-id="ban-gtag-modal"
+        button.remodal-close data-remodal-action="close"
+
+        h3.remodal__title = t('gtag_unsubscribe.modal.title')
+
+        = t('gtag_unsubscribe.modal.subtitle')
+
+        ul style="text-align: left"
+          li
+            b = t('gtag_unsubscribe.modal.statements.first')
+          li
+            b = t('gtag_unsubscribe.modal.statements.second')
+          li
+            b = t('gtag_unsubscribe.modal.statements.third')
+
+        h6 style="text-align: center" = t('gtag_unsubscribe.modal.confirmation')
+
+
+        h4 style="text-align: center"
+          = link_to ban_event_gtag_path(@current_event, @gtag), method: :patch, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent", style: "width: 100%", id:"ban_confirmation" do
+            span.mdl-button__ripple-container = t('gtag_unsubscribe.modal.confirm')
+          = button_tag "#", data: { "remodal-action" => "close" }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+            span.mdl-button__ripple-container = t('gtag_unsubscribe.modal.cancel')
+
+  - if @item
+    - if @item.is_a?(Pack)
+      .mdl-card__supporting-text
+        h5 = @gtag.ticket_type.name
+      .mdl-card__supporting-text
+        span.ticket_label Includes: &nbsp;
+        ul
+          - @item.pack_catalog_items.each do |p_item|
+            - next if p_item.amount.zero?
+            li #{p_item.amount.to_i} x #{p_item.catalog_item.name}
+    - else
+      .mdl-card__supporting-text
+        h5 = @item.name
+  - else
+    .mdl-card__supporting-text
+      h5.ticket_code = t("dashboard.gtag_registration.no_items")

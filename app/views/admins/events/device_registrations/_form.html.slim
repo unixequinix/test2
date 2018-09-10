@@ -1,0 +1,78 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp
+  - form_disable = form_disable.present? ? form_disable : false
+  - selector = "#{form_disable ? "delete" : "add"}_devices" 
+  - if form_disable
+    - url = disable_admins_event_device_registrations_path(@current_event)
+    - method = 'put' 
+    - search = @r
+    - search_fields = "device_mac_or_device_asset_tracker_cont".to_sym
+    - search_key = :p
+  - else
+    - url = admins_event_device_registrations_path(@current_event)
+    - method = 'post'
+    - search = @s
+    - search_fields = "mac_or_asset_tracker_cont".to_sym
+    - search_key = :q
+
+  = search_form_for search, url: admins_event_device_registrations_path(@current_event), as: search_key do |s|
+    .mdl-card__title
+      i.material-icons search
+      .mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
+        = s.search_field search_fields, class: "mdl-textfield__input"
+        label.mdl-textfield__label for="search-available-devices" Search devices
+
+  .table-responsive
+    = simple_form_for :device_registration, url: url, method: method, html: { id: "#{selector}_form", _method: method }, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, file: :mdl_upload} do |f|
+      .mdl-card__title
+        .mdl-cell.mdl-cell--8-col
+          - unless form_disable
+            = f.input :action, collection: @actions.map { |type| [type.to_s.humanize.gsub("initialization", ""), type]}, :include_blank => false, label: "Initialization type"
+        .mdl-cell.mdl-cell--4-col.right
+          button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.form-submit id=selector
+            = selector.humanize
+
+      = render "layouts/pagination", objects: resources, param_name: param_name
+
+      table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card.droppable.sortable id="#{selector}_table"
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Asset
+            th.mdl-data-table__cell--non-numeric Serial
+            th Initialization
+            th
+
+        - resources.each do |resource|
+          - device = resource.class.to_s == 'DeviceRegistration' ? resource.device : resource
+          tr
+            td.mdl-data-table__cell--non-numeric data-label="Asset" 
+              span = best_in_place device, :asset_tracker, url: [:admins, @current_user, :team, device]
+            td.mdl-data-table__cell--non-numeric data-label="Serial"
+              span = device.serial
+            td data-label="Initialization"
+              - if form_disable
+                span = best_in_place resource, :initialization_type, as: :select, collection: @actions.map { |type| [type, type.to_s.humanize.gsub("initialization", "")]}, url: admins_event_device_registration_path(@current_event, resource), data: { turbolinks: false }
+              - else
+                span -
+            td.table-actions
+              .table-action
+                = check_box_tag 'device_registration[device_ids][]', device.id, false, id: "device_registration_#{device.id}", style: 'visibility:hidden'
+
+javascript:
+  $(document).ready(function() { 
+    var selector = "#{selector}";
+    
+    $('#' + selector).click(function(e) {
+      e.preventDefault();
+
+      var selected = $('tr.is-selected');
+      
+      selected.each(function(i, elem) {
+        var input = $(elem).find('td.table-actions div.table-action input')[0];
+        input.checked ? $(input).removeAttr('checked') : $(input).attr("checked", true)
+      });
+      
+      if(selected.length > 0) { $('#' + selector + '_form').submit(); }
+    })
+
+    $("table.sortable").tablesorter(); 
+  });

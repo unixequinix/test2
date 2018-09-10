@@ -1,0 +1,373 @@
+---
+en:
+  actions:
+    back: Back
+    check_news: Home
+    delete: Delete
+    edit: Edit
+    complete: Complete
+    repeat: Repeat
+  admissions:
+    button: Activate
+    call_to_action: Activate your Event Ticket!
+    description: Please enter the code that is printed on your event ticket just below the barcode.
+    placeholders:
+      ticket_code: Event Ticket Code Number
+  alerts:
+    request_captcha: Max requests exceeded.
+    created: Succesfully created
+    cancelled: Cancelled successfully
+    customer_without_transactions: The customer doesn't have credit transactions
+    destroyed: Succesfully deleted
+    error: The form contains errors
+    only_letters_and_numbers: May only contain letters and numbers
+    order_complete: Your Order has been completed successfully!
+    order_error: There was a problem with your order
+    updated: Succesfully updated
+    not_authorized: You are not authorized to perform this action
+    max_credits_reached: have reached the maximum allowed balance
+    import:
+      delayed: "%{count} %{item} were delayed for import, please check in a few minutes"
+      success: "%{count} %{item} successfully imported"
+      error: There has been an error with the import process
+    confirm_delete: |
+      This action cannot be undone.
+
+      Are you sure you want to continue?
+  checkout:
+    button: Checkout
+    description: Ordering online is a great way to save time at the event. Avoid the hassle of standing in line by selecting what would you like to purchase here.
+    store: " store"
+    total: Total
+  conditions:
+    action: I accept
+    conjunction: and
+    privacy_conditions: the privacy policy
+    terms_of_use: the terms of use
+  gdpr: "I want to receive the latest news & offers regarding events organized or promoted by %{event}"
+  credentials:
+    reference: Reference
+    name: Credential
+    new_button: Continue
+    already_assigned: "%{item} already assigned"
+    without_credential: "%{item} is empty and cannot be assigned. Please try later"
+    no_item_assigned: "The %{item} you entered is still being processed by our system and cannot be assigned yet. Please, come back later or contact support"
+    blacklisted: "%{item} is Blacklisted"
+    inactive: "%{item} is Inactive, this means it has been replaced for another. Please enter the active credential"
+    assigned: "%{item} successfully assigned"
+    not_found: "%{item} not found. If you have purchased it within the last 48 hours, please try again later until we update out system with your purchase. Otherwise contact support."
+    unassigned: "%{item} successfully unassigned"
+    invalid: "There seems to be a problem with this %{item}. Please contact customer support at support@glownet.com or through Intercom"
+    same_credential: "You cannot assign a %{item} with the same content twice"
+  dashboard:
+    header:
+      home: Home
+      edit_account: Edit Account
+      change_password: Change Password
+      log_out: Log Out
+    confirm_log_out: Do you want to end this session?
+    topup: Top Up
+    refund: Refund
+    order: Order
+    orders:
+      success_title: Thank you for your purchase
+      credits: Credits
+      catalog_items: Other Items
+      disclaimer: Online purchases will be applied onsite at the event. Just arrive and start spending right away!
+      complete: Complete
+      cancel: Cancel
+      initial_topup_fee: Initial topup fee
+      payment_gateway_fee: Payment gateway fee
+    admissions:
+      call_to_action: Do you want to remove this ticket?
+      call_to_action_started: The event just started so you cannot change the ticket
+    credits:
+      button: Top-up
+      calculating_balance: Please contact us at %{email} in order to process your refund.
+      call_to_action_no_admission_html: To buy your Online Top-up,<br>please activate a Event Ticket first
+      call_to_action_started: The event just started so you cannot topup anymore
+      header: Your balance
+      header_invalid: We are currently retrieving all your purchases. Your final balance will be shown shortly.
+      body_invalid: However, if you want to know your current, up-to-date balance, it can be checked at any device. Any Point of Sale, Topup or any other station. You can also contact us through the intercom icon at the bottom right. Or email us at
+      body_credits: Your last recorded transaction was a '%{action}' at '%{station}' %{time} ago
+      body_balance: Your onsite balance at the time was
+      refundable: Refundable
+    credits_history:
+      button: Download Transactions
+      header: Transaction history
+    event_started:
+      description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
+      title: Ultimating details!
+    first_register:
+      gtag:
+        both: Add Card or Wristband
+        card: Add Card
+        wristband: Add Wristband
+      ticket: Add ticket
+    ticket_registration:
+      title: Tickets
+    gtag_registration:
+      title:
+        both: Wristband/Card ID
+        card: Card ID
+        wristband: Wristband ID
+      card: Card
+      wristband: Wristband
+      no_items: No items included
+    paypal:
+      button: Pay with PayPal
+    portal_closed:
+      claim: Sorry
+      description: The customer portal for this event is closed, If you have any question contact support.
+  email:
+    communication: This is an automated communication from %{event_name}. Replies will not be read.
+    follow_on_twitter: Follow on Twitter
+    footer_glownet: Have a question about the online portal? Message us at
+    footer_organizer: Have a question for the event organiser? Contact them directly at
+    like_on_facebook: Like on Facebook
+    order:
+      description: All your purchases will be automatically applied to your Card or Wristband once you enter the event. Your Event Card or Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
+      greet: Thank you for your purchase, %{name}!
+      order_number: Order Number
+      subject: Purchase at %{event}
+      success: 'Here are your order details:'
+    our_company: Learn more about Glownet
+    refund:
+      subject: Refund at %{event}
+      refund_number: Refund number
+      success: Your refund is being processed
+      cancel: Your refund has been cancelled
+    reset_password:
+      greet: Hello, %{name}!
+      mail_body: We have received a request to change your password. Click the link below to change it.
+      mail_link: Change my password
+      subject: Reset password instructions
+    confirmation:
+      subject: "Confirm your email"
+      flash_message: 'We have sent you a verification email to confirm your account. Please, check your email and follows the link to active it.'
+      description: 'Click the following link to confirm your account'
+      error: 'An error has occurred validating your account'
+      confirm: 'Confirm'
+    welcome:
+      subject: Registration confirmation for %{event_name}
+      greet: Hello, %{name}!
+      mail_body: Thank you for registering with us.
+      mail_body2: To be able to enjoy the benefits of this online portal, the first thing you will need to do is assign your ticket, card or wristband.
+      event_url: "For your convenience, here is the event url:"
+    suscribe_on_you_tube: Subscribe on YouTube
+  event:
+    locales:
+      en: ENG
+      es: ESP
+      de: DEU
+      it: ITA
+      pt: POR
+      br: BRA
+    subject_support: Need help for %{event}
+  footer:
+    copyright: "© Glownet"
+    privacy: Privacy policy
+    support: Support
+    use: Terms of use
+  gtag_assignations:
+    button: Accept
+    call_to_action:
+      both: Assign your Card or Wristband and go!
+      card: Assign your Card and go!
+      wristband: Assign your Wristband and go!
+    description:
+      standard: Read the second row of numbers and letters (yellow highlighted)
+    info: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
+    placeholder: 'e.g: BA6D7DC0'
+    block: "Vanish your wristband"
+  gtag_unsubscribe:
+    banned: "Banned"
+    ban: "Unsubscribe your wristband"
+    flash_message: "Your wristband was succesfully unsubscribed"
+    modal:
+      title: "Are you sure?"
+      subtitle: "After confirm"
+      statements:
+        first: "You won't be able to use the gtag or move around the event gates anymore"
+        second: "Devices that have no internet will not receive notice of this blocking and therefore operations could be done after blocking"
+        third: "This action cannot be undone"
+      confirmation: "Still want to confirm?"
+      confirm: "Confirm"
+      cancel: "Cancel"
+  links:
+    buttons:
+      sign_in: Login
+    forgot: Forgot your password?
+  orders:
+    cancel_confirmation: "Are you sure you want to cancel payment of %{price}?"
+    already_cancelled: Order already cancelled
+    already_finalised: This order has already been finalised
+    button: Pay
+    card_code_verification: Card code verification (CCV)
+    card_expiration_date: Card expiration date
+    card_info: Card info
+    card_number: Card number
+    first_name: First name
+    last_name: Last name
+    order_review: Order review
+    payment: Payment Details
+    payment-buttons:
+      bank_account:
+        icon: credit-card
+        name: Bank Account
+      paypal:
+        icon: paypal
+        name: PayPal
+      wiredlion:
+        icon: globe
+        name: Rest of payment methods
+    price: Price
+    products: Products
+    total: Total
+    vat: VAT Included
+    card_name: "card name"
+    card_doc_type: "document type"
+    card_doc_number: "document number"
+  passwords:
+    edit:
+      button: Change my password
+      header: New password
+      password: New password
+      password_confirmation: Confirm your new password
+    new:
+      button: Send me password instructions
+      title: Forgot your password?
+  pdf:
+    actions:
+      refund: Refund
+      sale: Sale
+      topup: Topup
+    amount: Amount
+    date: Date
+    pdf_title: Transaction history
+    station: Station
+    type: Type
+  refunds:
+    title: Refunds
+    amount: Amount
+    button: Refund
+    fee: Refund fee
+    total_credits: Total credits
+    product_description: Balance to be refunded
+    products: Products
+    success: Refund successfully claimed, soon you will receive your transfer
+    min_refund: The minimum refund amount is %{minimum} %{currency}. You do not have sufficient balance.
+  registration:
+    edit:
+      button: Update
+      password_hint: Leave it blank if you don't want to change it
+    new:
+      button: Sign up
+      or: or
+      title: Get started
+      credential: Please enter your ticket reference, card or wristband UID to proceed
+  sessions:
+    call_to_action: Sign in with your favourite Social profile or simply create an account!
+    create_account:
+      link: Create an account
+      lost_password: Lost password?
+    log_in:
+      link: Log in here
+      title: Already have an account?
+      success: "Welcome to %{event}"
+      account_error: "There is an error with your account credentials or it has not already been validated"
+      confirmed_not_logged_error: "Log into your account"
+    log_out:
+      success: "See you soon!"
+    placeholder:
+      email: e.g. nickname@mail.com
+      password: e.g. · · · · · ·
+  social_login:
+    facebook: "Sign in with Facebook"
+    google: "Sign in with Google"
+  time:
+    am: am
+    pm: pm
+    formats:
+      default: "%d/%h/%y %H:%M"
+      long: "%a, %d %b %Y %H:%M:%S"
+      short: "%d %b %H:%M"
+      zone_description: "%:z %Z"
+
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: Last &raquo;
+      next: Next &rsaquo;
+      previous: "&lsaquo; Prev"
+      truncate: "&hellip;"
+
+# Used in array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " and "
+      last_word_connector: ", and "
+
+  teams:
+    created: Team was successfully created.
+    destroyed: Team destroyed.
+    not_belong: You do not belong to any team.
+    already_belong: You already belong to a team.
+    unable_change_role: Unable to change role.
+    role_changed: Role changed succesfully.
+    remove_users:
+      current_user: You have been removed successfully from team.
+      user: User has been removed successfully from team.
+    add_users:
+      added: User added to team successfully.
+      exists: User already belongs to a team.
+    add_devices:
+      added: Device added successfully.
+      already_belong: Device is already part of a team.
+      import: 
+        not_supplied: Extension file not suported.
+    remove_devices:
+      removed: Devices removed successfully.
+      failed: Something went wrong.
+
+
+  number:
+    # Used in NumberHelper.number_to_delimited()
+    # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
+    format:
+      # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
+      separator: "."
+      # Delimits thousands (e.g. 1,000,000 is a million) (always in groups of three)
+      delimiter: ","
+      # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
+      precision: 3
+      # If set to true, precision will mean the number of significant digits instead
+      # of the number of decimal digits (1234 with precision 2 becomes 1200, 1.23543 becomes 1.2)
+      significant: false
+      # If set, the zeros after the decimal separator will always be stripped (eg.: 1.200 will be 1.2)
+      strip_insignificant_zeros: false
+
+    # Used in NumberHelper.number_to_currency()
+    currency:
+      format:
+        # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
+        format: "%n %u"
+        unit: "€"
+        # These five are to override number.format and are optional
+        separator: "."
+        delimiter: ","
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+
+    human:
+      # Used in NumberHelper.number_to_human()
+      decimal_units:
+        format: "%n %u"
+        units:
+          thousand: K
+          million: M
+          billion: Bn
+          trillion: Tn
+          quadrillion: Qn

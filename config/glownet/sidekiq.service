@@ -1,0 +1,36 @@
+# sudo apt-get update -y && sudo apt-get dist-upgrade -y &&  sudo apt-get upgrade -y && sudo apt autoremove -y && df -h
+# sudo apt-get install redis-server -y
+# sudo vi /lib/systemd/system/sidekiq.service
+# copy file down
+# sudo systemctl disable sidekiq.service
+# sudo systemctl enable sidekiq.service
+# sudo systemctl daemon-reload
+# sudo systemctl restart sidekiq.service
+# sudo reboot
+
+
+[Unit]
+Description=sidekiq
+After=syslog.target network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/deploy/current
+ExecStart=/home/deploy/.rvm/gems/ruby-2.5.0/wrappers/bundle exec sidekiq --index 0 --pidfile /home/deploy/shared/tmp/pids/sidekiq-0.pid --environment ENVIRONMENT --logfile /home/deploy/shared/log/sidekiq.log --config /home/deploy/current/config/sidekiq.yml
+User=deploy
+Group=deploy
+UMask=0002
+
+# if we crash, restart
+RestartSec=1
+Restart=on-failure
+
+# output goes to /var/log/syslog
+StandardOutput=syslog
+StandardError=syslog
+
+# This will default to "bundler" if we don't specify it
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=multi-user.target

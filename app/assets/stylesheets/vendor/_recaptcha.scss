@@ -1,0 +1,25 @@
+
+.recaptcha {
+    width: 22rem;
+    margin: 0 auto;
+  @media (max-width: 900px) {
+    width: 33rem;
+    transform: scale(1.09);
+    -webkit-transform: scale(1.09);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+  }
+  @media (max-width: 650px) {
+    transform: scale(0.77);
+    -webkit-transform: scale(0.77);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+  }
+  @media (max-width: 400px) {
+    width: 100%;
+    transform: scale(0.60);
+    -webkit-transform: scale(0.60);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+  }
+}

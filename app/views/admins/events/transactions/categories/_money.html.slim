@@ -1,0 +1,22 @@
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons attach_money
+        |Money
+    .mdl-card__supporting-text
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Items amount
+            td = @transaction.items_amount
+          tr
+            td.mdl-data-table__cell--non-numeric Price
+            td = @transaction.price
+          tr
+            td.mdl-data-table__cell--non-numeric Payment method
+            td = @transaction.payment_method
+          tr
+            td.mdl-data-table__cell--non-numeric Payment gateway
+            td = @transaction.payment_gateway
+

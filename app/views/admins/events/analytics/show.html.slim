@@ -1,0 +1,55 @@
+- content_for(:javascripts) do
+  = javascript_include_tag 'specific/pivot_tables'
+  = javascript_include_tag 'specific/reports'
+
+- content_for(:title) do
+  | Analytics
+
+.remodal data-remodal-id="danger-modal"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Why are some numbers in red?
+  p
+    | Numbers in read represent credits which
+    b
+      | &nbsp;do not have money backing.
+    | Meaning these credits were given, for free, at some point during the event.
+
+  p Virtual credits cannot be refunded, and suppose less of a risk, but real credits given out can cause discrepancy, even losses in your cashflow.
+
+  p Beware if this numbers get too high in topups.
+
+  h4 style="text-align: center"
+    = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container OK
+
+.mdl-grid.light-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-layout__content.transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-tabs.mdl-js-tabs
+        .mdl-tabs__tab-bar.analytics-card-back
+          = link_to "Dashboard", dashboard_admins_event_analytics_path(@current_event), remote: true, id: "dashboard", class: "mdl-tabs__tab spinneable #{'is-active' unless @parking}", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+          = link_to "Money", cash_flow_admins_event_analytics_path(@current_event), remote: true, id: "money", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+          = link_to "Credits", credits_flow_admins_event_analytics_path(@current_event), remote: true, id: "credits", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
+          = link_to 'Gates', gates_admins_event_analytics_path(@current_event), remote: true, id: "gates", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:gates_manager)
+          = link_to 'Partner Reports', partner_reports_admins_event_analytics_path(@current_event), remote: true, id: "partners", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if ((@current_user.team&.id==2 || @current_event.id.eql?(439) || @current_user.glowball?) && Rails.env.production?)
+
+          - if @current_event.id.eql?(469) || !Rails.env.production?
+            = link_to 'Custom Lambeth', custom_lambeth_admins_event_analytics_path(@current_event), remote: true, id: "parking", class: "mdl-tabs__tab spinneable #{'is-active' if @parking}", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+          - if @current_event.id.eql?(461) || !Rails.env.production?
+            = link_to 'Custom Seasplash', custom_seasplash_admins_event_analytics_path(@current_event), remote: true, id: "custom_seasplash", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+          - if @current_event.id.eql?(428) || !Rails.env.production?
+            = link_to 'Custom BBF', custom_voucher_admins_event_analytics_path(@current_event), remote: true, id: "custom_voucher", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+          - if @current_event.id.eql?(439) || !Rails.env.production?
+            = link_to 'Custom WeWork', custom_voucher_admins_event_analytics_path(@current_event), remote: true, id: "custom_voucher", class: "mdl-tabs__tab spinneable", "data-spinner" => "content" if admin_or_promoter_or(:monetary_manager)
+
+        #load-view
+          = render 'admins/events/spinner'
+          #content= render @partial if @parking
+
+      .mdl-layout-spacer
+
+      - if @current_event.launched?
+        .mdl-cell.mdl-cell--12-col
+          .center-card-title
+            span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
+  
