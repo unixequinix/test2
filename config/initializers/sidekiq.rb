@@ -1,6 +1,6 @@
 require 'sidekiq/middleware/i18n'
 
-url = ENV["JOB_WORKER_URL"] || "redis://localhost:6379"
+url = ENV["JOB_WORKER_URL"] || "redis://redis-prod.5ouanv.0001.euw1.cache.amazonaws.com:6379"
 
 Sidekiq.configure_server do |config|
   config.redis = { url: url, network_timeout: 5 }
