@@ -1,7 +1,5 @@
 #!/bin/bash
 
-service nginx stop
-service redis-server stop
-service sidekiq stop
+RAILS_ENV=production bundle exec sidekiq stop
 rm -rf /home/deploy/current
 
