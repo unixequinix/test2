@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export RAILS_ENV=bacardi
 mkdir -p /home/deploy/current
 cd /home/deploy/current
 ln -s /home/deploy/shared/config/application.yml /home/deploy/current/config/application.yml
