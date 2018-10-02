@@ -1,0 +1,63 @@
+- topups = local_assigns[:topups] ? topups : @current_event.credit_topups(station_filter: @station)
+- dates = local_assigns[:dates] ? dates : topups.reject { |_, v| v.zero? }.keys
+- credits = local_assigns[:credits] ? credits : @current_event.credits
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col.analytics.no-pdf
+    .small = link_to "*Why red numbers?", '#danger-modal', style: "float: right" 
+
+  .mdl-cell.mdl-cell--12-col.analytics
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = credits.count + 1
+          - dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - dates.each do |date|
+            th.pvtColLabel.low-contrast Qty
+            - credits.each do |credit|
+              th.pvtColLabel.low-contrast = credit.name
+          th.pvtColLabel.low-contrast Qty
+          - credits.each do |credit|
+            th.pvtColLabel.low-contrast = credit.name
+
+      tbody
+        - @station.operators.each do |operator|
+          - quantity = @current_event.count_topups(grouping: :day, station_filter: @station, operator_filter: operator)
+          - data = credits.map { |credit| [credit, @current_event.credit_topups(grouping: :day, credit_filter: credit, station_filter: @station, operator_filter: operator)] }.to_h
+
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
+          tr
+            th.pvtRowLabel.low-contrast = link_to operator.name, [:admins, @current_event, operator, operator: operator.operator?]
+            - dates.each do |date|
+              td style="#{'color: #d9534f'}" = quantity[date] unless quantity[date].to_f.zero?
+              - credits.each do |credit|
+                td style="#{'color: #d9534f'}" = number_to_reports(data[credit][date]) unless data[credit][date].to_f.zero?
+
+            td.totals style="#{'color: #d9534f'}"
+              b = quantity.values.sum
+
+            - credits.each do |credit|
+              td.pvtTotal.rowTotal.totals style="#{'color: #d9534f'}" = number_to_reports(data[credit].values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @current_event.count_topups(grouping: :day, station_filter: @station)
+
+          - dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - credits.each do |credit|
+              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_topups(grouping: :day, credit_filter: credit, station_filter: @station)[date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - credits.each do |credit|
+            td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.credit_topups_total(credit_filter: credit, station_filter: @station))
+
+  .mdl-layout-spacer

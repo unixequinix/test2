@@ -1,0 +1,44 @@
+- if @current_event.created?
+  - packs = @current_event.packs.where(id: PackCatalogItem.where(catalog_item: credit).pluck(:pack_id))
+  - ticket_types = @current_event.ticket_types.includes(:catalog_item).where(catalog_items: { id: [packs.pluck(:id), credit.id].flatten }) 
+  - orders = @current_event.online_orders_tokens(credit_filter: credit)
+  - products = Product.where("prices -> '#{credit.id}' IS NOT NULL")
+
+  .remodal data-remodal-id="currency-#{credit.id}-modal"
+    button.remodal-close data-remodal-action="close"
+    - if [packs, ticket_types, orders, products].flatten.any?
+      h3.remodal__title Very Important!
+        | After Close
+      ul style="text-align: left"
+        li  
+          | We will remove this record from:
+          ul style="text-align: left"
+          - if ticket_types.count.positive?
+            li 
+              | #{ticket_types.count} TicketTypes in system will lose this item.
+              ul style="text-align: left"
+                - ticket_types.each do |ticket_type|
+                  li = link_to ticket_type.name.humanize, admins_event_ticket_type_path(@current_event, ticket_type)
+          - if orders.count.positive?
+            li 
+              | #{orders.count} Orders in system will lose this item or will be deleted.
+          - if packs.count.positive?
+            li 
+              | #{packs.count} Packs in system will lose this item or will be deleted.
+              ul style="text-align: left"
+                - packs.each do |pack|
+                  li = link_to pack.name.humanize, admins_event_pack_path(@current_event, pack)
+          - if products.count.positive?
+            li 
+              | #{products.count} Product prices will be updated.
+    
+        li
+          b This action cannot be undone
+
+    h6 style="text-align: center" Still want to delete?
+    h4 style="text-align: center"
+      = link_to admins_event_credit_path(@current_event, credit, current_tab: 'credits_panel'), method: :delete, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container Yes
+      br
+      = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+        span.mdl-button__ripple-container No

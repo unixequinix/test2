@@ -1,0 +1,158 @@
+$main-color: rgb(255,82,82)
+
+$track-color: #cecece !default
+$thumb-color: $main-color !default
+
+$thumb-radius: 100% !default
+$thumb-height: 25px !default
+$thumb-width: 25px !default
+$thumb-border-width: 5px !default
+$thumb-border-color: rgba(255,255,255,0.5) !default
+
+$track-width: 100% !default
+$track-height: 5px !default
+$track-border-width: 0px !default
+$track-border-color: #000 !default
+$track-radius: 0px !default
+$contrast: 0% !default
+
+@mixin track()
+  width: $track-width
+  height: $track-height
+  cursor: pointer
+  transition: all .2s ease
+
+@mixin thumb()
+  position: relative
+  border: $thumb-border-width solid $thumb-border-color
+  height: $thumb-height
+  width: $thumb-width
+  border-radius: $thumb-radius
+  background: $thumb-color
+  cursor: pointer
+  z-index: 1
+
+input[type=range]
+  -webkit-appearance: none
+  margin: $thumb-height / 2 0
+  width: $track-width
+
+  &:focus
+    outline: none
+
+  &::-webkit-slider-runnable-track
+    @include track()
+    background: $track-color
+    border: $track-border-width solid $track-border-color
+    border-radius: $track-radius
+
+  &::-webkit-slider-thumb
+    @include thumb()
+    -webkit-appearance: none
+    margin-top: ((-$track-border-width * 2 + $track-height) / 2) - ($thumb-height / 2)
+
+  &:focus::-webkit-slider-runnable-track
+    background: lighten($track-color, $contrast)
+
+  &::-moz-range-track
+    @include track()
+    background: $track-color
+    border: $track-border-width solid $track-border-color
+    border-radius: $track-radius
+
+  &::-moz-range-thumb
+    @include thumb()
+
+  &::-ms-track
+    @include track()
+    background: transparent
+    border-color: transparent
+    border-width: $thumb-width 0
+    color: transparent
+
+  &::-ms-fill-lower
+    background: darken($track-color, $contrast)
+    border: $track-border-width solid $track-border-color
+    border-radius: $track-radius * 2
+
+  &::-ms-fill-upper
+    background: $track-color
+    border: $track-border-width solid $track-border-color
+    border-radius: $track-radius * 2
+
+  &::-ms-thumb
+    @include thumb()
+
+  &:focus::-ms-fill-lower
+    background: $track-color
+
+  &:focus::-ms-fill-upper
+    background: lighten($track-color, $contrast)
+
+
+.range
+  box-sizing: border-box
+  position: relative
+  padding: 0 50px
+  width: 100%
+
+  // @for $i from 0 through 400
+    // &[data-value='#{$i}'] .label
+      // left: percentage($i/400)
+
+.label
+  position: relative
+  top: 0
+  margin-left: -40px
+  margin-bottom: 20px
+  width: 80px
+
+  .value
+    position: absolute
+    top: 25px
+    left: 0
+    right: 0
+    margin: 0 auto
+    text-align: center
+    font-size: 20px
+    font-weight: 700
+    color: #fff
+    z-index: 1
+
+  #credits
+    position: absolute
+    z-index: 99
+    color: white
+    font-weight: 800
+    bottom: 15px
+    margin-left: auto
+    margin-right: auto
+    left: 0
+    right: 0
+    text-align: center
+
+  .drop
+    box-sizing: content-box
+    width: 80px
+    height: 80px
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%
+    background: $main-color
+    -webkit-transform: rotateZ(135deg)
+    transform: rotateZ(135deg)
+
+.input-box
+  position: relative
+  margin: 0 -12.5px
+  height: 60px
+
+  input[type="range"]
+    display: block
+    padding: 0
+    margin: 0
+    width: 100%
+    height: 60px
+
+.top-up-amount
+  position: absolute
+  top: 0
+  right: 0

@@ -1,0 +1,100 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp
+  - form_disable ||= false
+  - selector = "#{form_disable ? "arrow_back_ios" : "arrow_forward_ios"}"
+  - search_fields = "mac_or_asset_tracker_start".to_sym
+  - if form_disable
+    - search = @d2
+    - search_key = :d2
+  - else
+    - search = @d
+    - search_key = :d
+
+  = search_form_for search, url: move_devices_admins_user_team_path(current_user), as: search_key do |f|
+    .mdl-card__title
+      i.material-icons search
+      .mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
+        = f.select :team_id_eq, options_for_select(@teams.map {|t| [t.name, t.id]}, team.id), {}, class: "mdl-textfield__input", onchange: 'this.form.submit();'
+  
+  = search_form_for search, url: move_devices_admins_user_team_path(@current_user), as: "#{search_key}_devices" do |s|
+    .mdl-card__title
+      i.material-icons search
+      .mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
+        = s.search_field search_fields, class: "mdl-textfield__input"
+        label.mdl-textfield__label for="search-available-devices" Search devices
+
+  .table-responsive
+    = simple_form_for :device, url: update_devices_admins_user_team_path(current_user), method: :patch, remote:  true, html: { id: "#{selector}_form", _method: :patch  }, data: { origin_team: team.id, destination_team: dest_team.id, direction: (form_disable ? 'left' : 'right') }, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, file: :mdl_upload} do |f|
+      = hidden_field_tag 'device[destination_team_id]', dest_team.id
+      = hidden_field_tag 'device[origin_team_id]', team.id
+      = hidden_field_tag 'device[direction]', form_disable ? 'left' : 'right'
+
+      .mdl-card__title
+        .mdl-cell.mdl-cell--12-col class= (form_disable ? 'left' : 'right')
+          button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.form-submit id=selector
+            = 'Move ' unless form_disable
+            i.material-icons
+              = selector
+            = 'Move' if form_disable
+      = render "layouts/pagination", objects: resources, param_name: param_name
+
+      table.mdl-data-table.mdl-js-data-table.within-card.droppable.sortable id="#{selector}_table"
+        thead
+          tr
+            th.no-icon.sorter-false.center
+              .table-action
+                label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect.mdl-data-table__select for="#{form_disable}_all_checkboxes"
+                  = check_box_tag '#', "#", false, id: "#{form_disable}_all_checkboxes", class: "mdl-checkbox__input select-all", style: 'visibility:hidden'
+            th.mdl-data-table__cell--non-numeric Current Use
+            th.mdl-data-table__cell--non-numeric Asset
+            th Mac
+        tbody
+          - resources.each do |device|
+            tr class="#{'ui-state-disabled' if device.device_registration.present?}"
+              td.table-actions.center
+                .table-action
+                  - if device.device_registration.present?
+                    i.material-icons title="This device is currently being used in an event" phonelink_locked
+                  - else  
+                    label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect.mdl-data-table__select for="device#{device.id}"
+                      = check_box_tag 'device[ids][]', device.id, false, id: "device#{device.id}", class: "mdl-checkbox__input #{'ui-state-disabled' if device.device_registration.present?}", style: 'visibility:hidden'
+              td.mdl-data-table__cell--non-numeric data-label="Event"
+                span= link_to device.event.name, admins_event_path(device.event) if device.event.present?
+              td.mdl-data-table__cell--non-numeric data-label="Asset"
+                span= link_to (device.asset_tracker.present? ? device.asset_tracker : "NONE"), admins_user_team_device_path(@current_user, device)
+              td data-label="Mac"
+                span = device.mac
+javascript:
+  $(window).load(function() { 
+    var selector = "#{selector}";
+    
+    $('#' + selector).click(function(e) {
+      e.preventDefault();
+      var selected = $($(e.currentTarget).closest('form').find('table')).find('label:not(:first).is-checked').closest('tr');
+      
+      selected.each(function(i, elem) {
+        var input = $(elem).find('td.table-actions div.table-action input')[0];
+        
+        if(input.checked) {
+          $(input).closest('tr').removeClass('is-selected');
+        } else {
+          $(input).closest('tr').addClass('is-selected');
+        }
+      });
+      if(selected.length > 0) { $('#' + selector + '_form').submit(); }
+    })
+  });
+
+  $(document).ready(function() {
+    var table = $("#" + "#{selector}_table");
+    multipleSelect("#{selector}_table");
+    loadTable(table[0].id, function(form, ids) {
+      return [{ 
+                device: {
+                  ids: ids,
+                  destination_team_id: form.data('destinationTeam'),
+                  origin_team_id: form.data('originTeam'),
+                  direction: form.data('direction')
+                }
+              }][0]
+    })
+  })

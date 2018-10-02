@@ -1,0 +1,14 @@
+- red_numbers ||= false
+.mdl-cell.mdl-cell--12-col
+  .mdl-grid
+    .mdl-cell.mdl-cell--6-col
+      .mdl-card__title-text
+        = title
+    .mdl-cell.mdl-cell--6-col.no-pdf.right
+      .red-numbers = link_to "*Why red numbers?", '#danger-modal' if red_numbers
+      - if @current_user.glowball?
+        = link_to excel_path do
+          button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect title="Export raw data to excel" Excel
+        '
+        = link_to pdf_path, target: '_blank' do
+          button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect title="Export table to pdf" PDF

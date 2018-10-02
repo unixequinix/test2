@@ -1,0 +1,35 @@
+tr
+  //Order id and date
+  td.bodyContent colspan="2"
+    table cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+      tr
+        td colspan="2" = t('email.refund.cancel')
+      tr
+        td cellpadding="0" cellspacing="0" style="text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold;" #{t('email.refund.refund_number')}: ##{@refund.number}
+        td cellpadding="0" cellspacing="0" style="text-align: right; color: #2c2c2c; font-size: 12px; font-weight: bold;" = l @refund.created_at
+
+tr
+  td colspan="2"
+    //Resume table
+    table align="center" border="0" cellpadding="20" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+      tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
+        //Products
+        th style="background-color: #f2f2f2; color: #616161; font-size: 14px;" = t('orders.products')
+        //Products
+        th style="width: 30%; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;" = t('orders.price')
+      tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
+        //Product quantity
+        td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.product_description')
+        //Product price
+        td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.credit_total, unit: @event.credit.name, format: "%u %n"
+
+      - if @refund.credit_fee > 0
+        tr style="border-top: 1px solid #C2C2C2; border-bottom: 1px solid #C2C2C2;"
+          //Product quantity
+          td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;" = t('refunds.fee')
+          //Product price
+          td style="width: 30%; padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;" = number_to_currency @refund.credit_fee * -1, unit: @event.credit.name, format: "%u %n"
+      tr
+        // Refund total
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: left;" = t('orders.total')
+        td style="font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = number_to_currency @refund.money_base, unit: @event.currency, format: "%u %n"

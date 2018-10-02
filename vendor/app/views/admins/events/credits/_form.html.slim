@@ -1,0 +1,12 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card.currencies
+  - url = local_assigns[:update] ? admins_event_credit_path(@current_event, @credit) : [:admins, @current_event, :credits]
+  = simple_form_for @credit, as: :credit, url: url, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs.short-input
+      = f.input :name
+      - if @credit.is_a?(Credit)
+        = f.input :value
+      = f.input :symbol
+      = f.input :max_balance
+      = f.input :color, as: :minicolors, placeholder: false, input_html: { class: "color-input", data: { minicolors: { theme: :bootstrap, position: :right } } }
+    .form-actions
+      = f.submit "Save", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

@@ -1,0 +1,8 @@
+<% if @data.eql?("[]") %>
+  $("#analytics-text").hide();
+  $('#select-tab-message').hide();
+  $("#load-report #content").html("<%= escape_javascript(render partial: 'no_report', locals: { name: @name }) %>");
+<% else %>
+  $('#select-tab-message').hide();
+  $("#load-report #content").html("<%= escape_javascript(render partial: 'report', locals: { name: @name, cols: String(@cols), rows: String(@rows), metric: String(@metric), decimals: @decimals, data: @data, action: @action, aggregator: @aggregator}) %>");
+<% end %>

@@ -1,0 +1,48 @@
+- tooltip ||= {}
+- subtitle ||= []
+- grouped ||= 0
+
+
+.mdl-cell class="mdl-cell--#{cols}-col" style="#{style if local_assigns[:style]}"
+  .mld-card.analytic-card-front id="#{id if local_assigns[:id]}" class="#{custom_class if local_assigns[:custom_class]}" style="background: linear-gradient(to bottom right, #{colors[0]}, #{colors[1]});"
+    .mdl-grid.no-wrapper-style.padding
+      .mdl-cell.mdl-cell--12-col.analytic-card-title
+        .mdl-grid.vertical-center-items
+          .mdl-cell.mdl-cell--2-col.analytic-card-icon
+            i.material-icons #{icon}
+          .mdl-cell.mdl-cell--9-col
+            .mdl-cell.mdl-cell--12-col.analytic-card-content.no-wrapper-style.margin-auto.padding
+              span.text = title_text
+              - if tooltip.present?
+                i.material-icons style="float: right" id="#{tooltip[:id]}" info_outline
+                span.mdl-tooltip.mdl-tooltip--right data-mdl-for="#{tooltip[:id]}"
+                  div style="text-align: left"
+                    p.no-wrapper-style.margin
+                      b = tooltip[:title]
+                    ul.no-wrapper-style.padding
+                      - tooltip[:text].each do |text|
+                        li = text
+            .mdl-cell.mdl-cell--12-col.analytic-card-content
+              .number = title_number
+
+    - unless local_assigns[:no_content]
+      .mdl-cell.mdl-cell--12-col.analytic-card-subtitle
+        .mdl-grid
+          - if grouped.zero?
+            - subtitle.each do |sub|
+              .mdl-cell class="mdl-cell--#{12 /subtitle.count}-col"
+                .mdl-cell.mdl-cell--12-col.analytic-card-content
+                  .text = sub[:text]
+                .mdl-cell.mdl-cell--12-col.analytic-card-content
+                  .number.small = sub[:number]
+          - else
+            - subtitle.in_groups_of(2, false).each do |subs|
+              - subs.each do |sub|
+                .mdl-cell.mdl-cell--6-col
+                  .mdl-cell.mdl-cell--12-col.analytic-card-content
+                    .text = sub[:text]
+                  .mdl-cell.mdl-cell--12-col.analytic-card-content
+                    .number.small = sub[:number]
+
+    - if local_assigns[:icon_name]
+      i.material-icons.icon #{icon_name}

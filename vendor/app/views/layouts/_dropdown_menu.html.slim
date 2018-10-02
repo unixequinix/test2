@@ -1,0 +1,31 @@
+.dropdown#user_dropdown
+  i.mdl-color-text--gray-50.material-icons account_circle
+  span.title =  @current_user.username.mb_chars.capitalize.to_s
+  .dropdown-content
+    = link_to [:admins, @current_user], class: "dropdown-item", id: "profile_layout_link" do
+      i.mdl-color-text--teal-200.material-icons account_circle
+      | My Profile
+    - if current_user.team  
+      = link_to admins_user_team_path(current_user), class: "dropdown-item", id: "teams_layout_link" do
+        i.mdl-color-text--teal-200.material-icons group
+        | My Team
+    = link_to admins_events_path(status: "users"), class: "dropdown-item", id: "events_layout_link" do
+      i.mdl-color-text--teal-200.material-icons stars
+      |  Events
+    = link_to admins_event_series_index_path, class: "dropdown-item", id: "event_series_layout_link" do
+      i.mdl-color-text--teal-200.material-icons stars
+      |  Event Series
+    - if @current_user.glowball?
+      = link_to admins_sidekiq_web_path, target: "_blank", class: "dropdown-item" do
+        i.mdl-color-text--teal-200.material-icons markunread_mailbox
+        |  Sidekiq
+      = link_to admins_users_path, class: "dropdown-item", id: "users_layout_link" do
+        i.mdl-color-text--teal-200.material-icons people
+        |  Users
+    - if @current_user.team.present?
+      = link_to admins_user_team_devices_path(@current_user), class: "dropdown-item", id: "devices_layout_link" do
+        i.mdl-color-text--teal-200.material-icons settings_cell
+        |  Devices
+    = link_to destroy_user_session_path, method: :delete, class: "dropdown-item", id: "log_out_link" do
+      i.mdl-color-text--teal-200.material-icons power_settings_new
+      |  Log out

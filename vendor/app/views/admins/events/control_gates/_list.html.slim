@@ -1,0 +1,32 @@
+.mdl-cell.mdl-cell--6-col
+	.admin-card-wide.mdl-card.mdl-shadow--2dp
+		.mdl-card__title
+			h4 = title
+
+		= search_form_for search, url: admins_event_control_gates_path(@current_event), as: search_key do |s|
+			.mdl-card__title
+				i.material-icons search
+				.mdl-textfield.mdl-js-textfield.mdl-cell.mdl-cell--12-col
+					= s.search_field search_params, class: "mdl-textfield__input"
+					label.mdl-textfield__label for="search-available-devices" = search_title
+		
+		= render "layouts/pagination", objects: resources, param_name: param_name
+
+		.table-responsive
+			table.mdl-data-table.mdl-js-data-table.within-card.sortable
+				thead
+					tr
+						th.mdl-data-table__cell--non-numeric Email
+						th.mdl-data-table__cell--non-numeric Name
+						- if resources.first.is_a?(Transaction)
+							th.mdl-data-table__cell--non-numeric Tag UID
+							th Station name
+
+				tbody
+					- resources.each do |control_gate|
+						tr 
+							td.mdl-data-table__cell--non-numeric data-label="Email" = link_to control_gate.customer.full_email, admins_event_customer_path(@current_event, control_gate.customer), id:"email_#{control_gate.customer.id}"
+							td.mdl-data-table__cell--non-numeric data-label="First name" = control_gate.customer.name
+							- if control_gate.is_a?(Transaction)
+								td.mdl-data-table__cell--non-numeric data-label="Gtag" = link_to control_gate.customer_tag_uid, admins_event_gtag_path(@current_event, control_gate.customer_tag_uid), id:"gtag_#{control_gate.customer_tag_uid}"
+								td data-label="Station" = link_to control_gate.station.name, admins_event_station_path(@current_event, control_gate.station), id:"station_#{control_gate.station.id}"

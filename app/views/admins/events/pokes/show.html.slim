@@ -1,0 +1,216 @@
+- content_for(:title) do
+  | #{@type.to_s.humanize} Transaction
+  | #{@type.to_s.humanize} Transaction
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--6-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .poke-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons info_outline
+              | General
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Operation
+                  td = @poke.operation_id
+                tr
+                  td.mdl-data-table__cell--non-numeric Action
+                  td = @poke.action&.humanize
+                tr
+                  td.mdl-data-table__cell--non-numeric Gtag counter
+                  td = @poke.gtag_counter
+                tr
+                  td.mdl-data-table__cell--non-numeric Created in device at
+                  td = l @poke.date
+                tr
+                  td.mdl-data-table__cell--non-numeric Device
+                  - name = @poke.device.asset_tracker.blank? ? @poke.device.mac : @poke.device.asset_tracker
+                  td = link_to(name, admins_user_team_device_path(@current_user, @poke.device)) if @poke.device
+                tr
+                  td.mdl-data-table__cell--non-numeric Operator
+                  td = link_to @poke.operator.name, admins_event_gtag_path(@current_event, @poke.operator)
+                tr
+                  td.mdl-data-table__cell--non-numeric Station
+                  td = link_to @poke.station.name, admins_event_station_path(@current_event, @poke.station)
+
+  .mdl-cell.mdl-cell--6-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .poke-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons view_module
+              | More Info
+          .mdl-card__supporting-text
+            .table-fix
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Gtag
+                    td = link_to @poke.customer_gtag.tag_uid, [:admins, @current_event, @poke.customer_gtag]
+                  tr
+                    td.mdl-data-table__cell--non-numeric Customer
+                    td = link_to @poke.customer.name, admins_event_customer_path(@current_event, @poke.customer)
+
+                  - if @poke.catalog_item
+                    tr
+                      td.mdl-data-table__cell--non-numeric Catalog Item
+                      td = link_to_if can_link?(@poke.catalog_item), "#{@poke.catalog_item.name} (#{@poke.catalog_item.class.to_s.humanize})", [:admins, @current_event, @poke.catalog_item]
+
+
+      - if @poke.order
+        - order = @poke.order
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons shopping_cart
+                | Order
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                thead
+                  tr
+                    th.mdl-data-table__cell--non-numeric Number
+                    th.mdl-data-table__cell--non-numeric Customer
+                    th Amount
+                    th Catalog Item
+                    th Redeemed
+                tbody
+                  - order.order_items.each do |order_item|
+                    tr
+                      td.mdl-data-table__cell--non-numeric = link_to order.number, [:admins, @current_event, order]
+                      td.mdl-data-table__cell--non-numeric = link_to order_item.order.customer&.name, admins_event_customer_path(@current_event, order_item.order.customer.id)
+                      td = order_item.amount
+                      td = order_item.catalog_item.name
+                      td
+                        - if order_item.redeemed?
+                          i.material-icons done
+                        - else
+                          i.material-icons clear
+
+      - if @poke.ticket
+        - ticket = @poke.ticket
+        - catalog_item = ticket.ticket_type.catalog_item
+
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons bookmark_border
+                | Ticket
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                thead
+                  tr
+                    th.mdl-data-table__cell--non-numeric Code
+                    th Ticket Type
+                    th Ticket Catalog Item
+                    th Redeemed?
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric = link_to ticket.code, [:admins ,@current_event, ticket]
+                    td = link_to ticket.ticket_type.name, [:admins, @current_event, ticket.ticket_type] if ticket.ticket_type
+                    td = link_to_if can_link?(catalog_item), "#{catalog_item.name} (#{catalog_item.class.to_s.humanize})", [:admins, @current_event, catalog_item]
+                    td
+                      - if ticket.redeemed?
+                        i.material-icons done
+                      - else
+                        i.material-icons clear
+
+      - if @poke.credit.present?
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons local_atm
+                |Credit
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Credit
+                    td #{@poke.credit.name} (#{@poke.credit.symbol})
+                  tr
+                    td.mdl-data-table__cell--non-numeric Amount
+                    td = number_to_credit(@poke.credit_amount, @poke.credit)
+                  tr
+                    td.mdl-data-table__cell--non-numeric Final Balance
+                    td = number_to_credit(@poke.final_balance, @poke.credit)
+
+      - if @poke.monetary_total_price.present?
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons attach_money
+                | Money
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Quantity
+                    td = number_to_event_currency(@poke.monetary_quantity)
+                  tr
+                    td.mdl-data-table__cell--non-numeric Unit Price
+                    td = number_to_event_currency(@poke.monetary_unit_price)
+                  tr
+                    td.mdl-data-table__cell--non-numeric Total
+                    td = number_to_event_currency(@poke.monetary_total_price)
+                  tr
+                    td.mdl-data-table__cell--non-numeric Payment Method
+                    td = @poke.payment_method
+
+      - if @poke.user_flag_value.present?
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons loyalty
+                | User Flag
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric User FLag
+                    td = @poke.catalog_item.name.humanize
+                  tr
+                    td.mdl-data-table__cell--non-numeric Active
+                    td = @poke.user_flag_value
+
+      - if @poke.access_direction.present?
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons import_export
+                | Access
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Access
+                    td = link_to @poke.catalog_item.name, admins_event_access_path(@current_event, @poke.catalog_item)
+                  tr
+                    td.mdl-data-table__cell--non-numeric Direction
+                    td = @poke.access_direction
+
+      - if @poke.action.eql?("exhibitor_note")
+        .mdl-cell.mdl-cell--12-col
+          .poke-card-wide.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              h2.mdl-card__title-text
+                i.material-icons loyalty
+                |User Engagement
+            .mdl-card__supporting-text
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Priority
+                    td = @poke.priority
+                  tr
+                    td.mdl-data-table__cell--non-numeric Message
+                    td = @poke.message

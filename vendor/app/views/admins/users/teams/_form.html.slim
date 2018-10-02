@@ -1,0 +1,11 @@
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for([:admins, user, @team], :url => url_for(:action => action, :controller => 'admins/users/teams'), :method => method, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload }) do |f|
+    .fieldset
+      .section-header
+        i.material-icons info_outline
+        span New Team
+      .form-inputs
+        = f.input :name, placeholder: true, autofocus: true
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

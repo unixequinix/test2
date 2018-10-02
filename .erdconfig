@@ -1,0 +1,22 @@
+attributes:
+  - content
+  - foreign_key
+  - inheritance
+
+disconnected: true
+filename: erd
+filetype: pdf
+indirect: false
+inheritance: true
+markup: true
+notation: simple
+orientation: horizontal
+polymorphism: true
+sort: true
+warn: true
+title: Glownet DB structure
+exclude: OrderTransaction,DeviceTransaction,CredentialTransaction,AccessTransaction,CreditTransaction,MoneyTransaction,BanTransaction,OperatorTransaction,UserEngagementTransaction,UserFlagTransaction,Transaction,PaperTrail::Version,ApplicationRecord
+only: null
+only_recursion_depth: null
+prepend_primary: false
+cluster: false

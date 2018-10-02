@@ -1,0 +1,37 @@
+.mdl-cell class="mdl-cell--#{cols}-col"
+  .mld-card.analytic-card-front style="background: linear-gradient(to bottom right, #{colors[0]}, #{colors[1]});"
+    .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin-auto
+      .mdl-grid.vertical-center-items
+      - data.keys.each do |key|
+        .mdl-cell.mdl-cell--12-col.analytic-card-title
+          .mdl-grid.vertical-center-items
+            .mdl-cell.mdl-cell--2-col.analytic-card-icon
+              i.material-icons = data[key][:icon]
+            .mdl-cell.mdl-cell--10-col
+              .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
+                .mdl-grid.analytic-card-content.dark
+                  .mdl-cell.mdl-cell--12-col.analytic-card-title 
+                  - if data[key][:link_path]
+                    = link_to data[key][:text], data[key][:link_path]
+                  -else
+                    = data[key][:text]
+                  .small &nbsp; #{get_percentage(data[key][:current], data[key][:total])} %
+                  .mdl-cell.mdl-cell--12-col.no-wrapper-style.padding
+                    .mdl-progress.mdl-js-progress.mdl-progress-green data-name=key
+                  .mdl-cell.mdl-cell--12-col.no-wrapper-style.margin
+                    .mdl-cell.mdl-cell--12-col #{data[key][:current]} / #{data[key][:total]}
+     
+javascript:
+  $('.mdl-progress').each(function(i, elem) {
+    var type = $(elem).data('name');
+    $(elem).css('width', '100%');
+    elem.addEventListener('mdl-componentupgraded',
+      function() {
+        var data = JSON.parse("#{escape_javascript(data.to_json.html_safe)}");
+        if(data[type]) {
+          this.MaterialProgress.setProgress(Math.floor(data[type].total) != 0 ? Math.floor((Math.floor(data[type].current)/Math.floor(data[type].total)) * 100) : 0);
+        };
+      }
+    );
+  });
+

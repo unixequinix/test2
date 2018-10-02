@@ -1,0 +1,58 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, pack], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, pack], wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .fieldset
+      .section-header
+        i.material-icons info_outline
+        span General
+      .form-inputs.short-input
+        = f.input :name, placeholder: true
+    .fieldset
+      .section-header
+        i.material-icons turned_in
+        span User Flags
+      .form-inputs
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='alcohol_forbidden'
+          span.mdl-switch__label.form-label Alcohol Forbidden
+          = f.input :alcohol_forbidden, id: "alcohol_flag", value: true, as: :boolean, :input_html => { :id => 'alcohol_forbidden', checked: pack.pack_catalog_items.select{|i| i.catalog_item.eql?(@item) }.first&.amount&.eql?(1) }
+
+    .fieldset
+      .section-header
+        i.material-icons create_new_folder
+        span Pack Items
+      = f.simple_fields_for :pack_catalog_items do |pack_catalog_item, index|
+        - next if pack_catalog_item.object.catalog_item.is_a?(UserFlag)
+        = render 'pack_catalog_item_fields', f: pack_catalog_item
+      = link_to_add_fields(("add item"), f, :pack_catalog_items)
+
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
+
+javascript:
+  var ready;
+
+  ready = function() {
+    $('form').on('click', '.btn-remove-fields', function(event) {
+      $(this).prev('input[type=hidden]').val('true');
+      $(this).closest('fieldset').hide();
+      return event.preventDefault();
+
+    });
+
+    return $('form').on('click', '.add_fields', function(event) {
+      var regexp, time;
+      time = new Date().getTime();
+      regexp = new RegExp($(this).data('id'), 'g');
+      $(this).before($(this).data('fields').replace(regexp, time));
+      return event.preventDefault();
+    });
+  };
+
+  $(document).ready(ready);
+  $(document).on('turbolinks:load', ready);

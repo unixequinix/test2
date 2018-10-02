@@ -1,0 +1,33 @@
+.mdl-grid.light-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Refund
+              th Status
+              th Credits
+              th Fee
+              th Money
+              th Created
+              th
+          tbody
+            - customer.refunds.each do |refund|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Refund" = link_to refund.id, admins_event_refund_path(@current_event, refund)
+                td data-label="State" = refund.status.humanize
+                td data-label="Amount" = refund.credit_base
+                td data-label="Fee" = number_to_token refund.credit_fee
+                td data-label="Money" = number_to_event_currency refund.money_base
+                td data-label="Created" = l refund.created_at
+                td
+                  - if current_user.admin?
+                    = link_to [:admins, @current_event, refund], method: "delete", class: "mdl-button mdl-button--icon", data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id="delete_refund_#{refund.id}" delete_forever
+              span.mdl-tooltip data-mdl-for="delete_refund_#{refund.id}" Delete
+  .mdl-layout-spacer
+
+
+

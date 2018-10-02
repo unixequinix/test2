@@ -1,0 +1,8 @@
+.header
+  - if @current_event.logo.present? && valid_url?(@current_event.logo.url)
+    .logo
+      = pdf_image_tag(@current_event.logo.url)
+  .title
+    h1 = @pdf_title&.humanize
+  .event-title
+    h2 = @current_event.name.truncate(50)&.humanize

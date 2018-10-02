@@ -1,0 +1,93 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'db/**/*'
+    - 'spec/rails_helper.rb'
+    - 'config/initializers/**/*'
+    - 'config/environments/**/*'
+    - 'config/application.rb'
+    - 'config/routes.rb'
+    - 'bin/*'
+    - '**/Guardfile'
+    - '**/Rakefile'
+    - 'lib/tasks/**/*'
+    - 'lib/api_error_log.rb'
+    - '**/*.gemspec'
+    - '**/Gemfile'
+    - '**/i18n/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
+
+Metrics/ParameterLists:
+  Enabled: false
+
+FrozenStringLiteralComment:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+Style/EmptyCaseCondition:
+  Enabled: false
+
+Layout/CaseIndentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+  Max: 150
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: aligned
+
+Metrics/AbcSize:
+  Max: 70
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 15
+  Enabled: false
+
+Lint/RequireParentheses:
+  Enabled: true
+
+Rails:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - staging
+    - integration
+    - sandbox
+    - test
+    - development

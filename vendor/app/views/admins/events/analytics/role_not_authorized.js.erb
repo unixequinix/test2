@@ -1,0 +1,3 @@
+<%- flash[:alert] = @alert || "Role not authorized" %>
+
+$(window.location.replace("<%= admins_event_analytics_url(@current_event) %>"));

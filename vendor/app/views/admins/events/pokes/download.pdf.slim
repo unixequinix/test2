@@ -1,0 +1,28 @@
+#content.container-pokes
+  table.table-pokes
+    thead
+      tr
+        th.left Date
+        th.left Action
+        th.left Station
+        th.left Customer
+        th.left Operator
+        th.right Data
+
+    tbody
+      - @pokes.each do |poke|
+        tr
+          td.left
+            span style="color: #848482; font-size: 12px"
+              = poke.date.strftime("%d %b")
+              br
+              b = poke.date.strftime("%H:%M")
+          td.left.link = poke.name
+          td.left.link = poke.station.name
+          td.left.link = poke.customer.name
+          td.left.link = poke.operator.name
+          td.right
+            = number_to_credit(poke.credit_amount, poke.credit) if poke.credit.present?
+            = number_to_event_currency(poke.monetary_total_price) if poke.monetary_total_price.present?
+            = poke.access_direction.eql?("1") ? "IN" : "OUT" if poke.access_direction
+            = poke.user_flag_value if poke.user_flag_value

@@ -1,0 +1,108 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    - engagement_hours = @current_event.count_engagement(grouping: :hour)
+    - engagement_average = @current_event.average_engagement(grouping: :hour)
+    - engagement_total = @current_event.engagement_total
+
+    .mdl-grid.no-pdf
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--12-col
+        .mdl-grid
+          = render "admins/events/analytics/shared/box", cols: 4,
+                  id: 'avg_engagement',
+                  custom_class: 'hovering',
+                  colors: ['#009688', '#66FF99'],
+                  icon: 'star',
+                  title_text: "Avg Ranking",
+                  title_number: number_to_reports(@current_event.engagement.average(:priority)),
+                  subtitle: [{ text: 'Best Ranked', number: @current_event.engagement.present? ? @current_event.stations.find(@current_event.engagement.group(:station_id).average(:priority).sort_by{ |_, v| v }.first&.first).name : '-' }]
+          = render "admins/events/analytics/shared/box", cols: 4,
+                  id: 'avg_engagement',
+                  custom_class: 'hovering',
+                  colors: ['#FF4E50', '#F9D423'],
+                  icon: 'av_timer',
+                  title_text: "Avg Engagements / hour",
+                  title_number: number_to_reports(engagement_total.zero? ? 0 : (engagement_total / engagement_hours.size)),
+                  subtitle: [{ text: 'Peak engagements in 1h', number: engagement_total.zero? ? 0 : "#{number_with_delimiter(engagement_hours.max_by { |k, v| v }&.last)} @ #{l engagement_hours.max_by { |k, v| v }&.first}" }]
+          = render "admins/events/analytics/shared/box", cols: 4,
+                  id: 'stations',
+                  custom_class: 'hovering',
+                  colors: ['#FF5050', '#F3A183'],
+                  icon: 'store_mall_directory',
+                  title_text: "Stations",
+                  title_number: number_with_delimiter(@stations.size),
+                  subtitle: [{ text: 'Avg Engagements', number: engagement_total.zero? ? 0 : number_to_reports(engagement_total.to_f / @stations.size) }, { text: 'Engagements / hour', number: engagement_total.zero?  ? 0 : number_to_reports(engagement_total / @stations.size.to_f / engagement_hours.size.to_f) }]
+      .mdl-layout-spacer
+      
+    .content-grid.mdl-grid
+      = render 'admins/events/analytics/shared/export_buttons', title: 'Engagement By Station',
+              excel_path: engagement_admins_event_analytics_path(@current_event, format: "xls"),
+              pdf_path: engagement_admins_event_analytics_path(@current_event, format: "pdf")
+
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--12-col.analytics
+        table.pvtTable
+          thead
+            tr
+              th.pvtColLabel.empty rowspan="2"
+              - columns = 3
+              - @dates.each do |date|
+                th.pvtColLabel.high-contrast colspan="#{columns}" = date
+              th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+
+            tr
+              - @dates.each do |date|
+                th.pvtColLabel.low-contrast Engagements
+                th.pvtColLabel.low-contrast Unique Users
+                th.pvtColLabel.low-contrast Avg. Ranking
+              th.pvtColLabel.low-contrast Engagements
+              th.pvtColLabel.low-contrast Unique Users
+              th.pvtColLabel.low-contrast Avg. Ranking
+
+          tbody
+            - @stations.each do |station|
+              - nr_days = 0
+              - counts = station.count_engagement(grouping: :day)
+              - unique_counts = station.unique_engagement(grouping: :day)
+              - avg_counts = station.average_engagement(grouping: :day)
+              - next if counts.values.sum.zero?
+
+              tr
+                th.pvtRowLabel.low-contrast = link_to station.name, [:admins, @current_event, station]
+
+                - @dates.each do |date|
+                  - nr_days += 1 if counts[date].present?
+                  td = counts[date]
+                  td = unique_counts[date]
+                  td = number_to_reports(avg_counts[date])
+
+                td.totals
+                  b = counts.values.sum
+                td.totals
+                  b = unique_counts.values.sum
+                td.totals
+                  b = number_to_reports(station.engagement.average(:priority))
+
+
+            tr
+              th.pvtRowLabel.low-contrast Totals
+              - counts = @current_event.count_engagement(grouping: :day, station_filter: @stations)
+              - unique_counts = @current_event.unique_engagement(grouping: :day, station_filter: @stations)
+              - avg_counts = @current_event.average_engagement(grouping: :day, station_filter: @stations)
+              - @dates.each do |date|
+                td.pvtTotal.rowTotal.totals = counts[date]
+                td.pvtTotal.rowTotal.totals = unique_counts[date]
+                td.pvtTotal.rowTotal.totals = number_to_reports(avg_counts[date])
+
+              td.pvtTotal.rowTotal.totals = counts.values.sum
+              td.pvtTotal.rowTotal.totals = unique_counts.values.sum
+              td.pvtTotal.rowTotal.totals = number_to_reports(@current_event.engagement.average(:priority))
+
+      .mdl-layout-spacer
+
+    - data = @stations.map { |station| [station.name, station.count_engagement(grouping: :hour)] }.to_h
+    - chart_data = { chart_id: "station_engagement_flow", cols: ["Engagement"], currency: 0, data: @current_event.plot(data), metric: ["Engagement"], decimals: 0 }
+    - unless(chart_data[:data].empty?)
+      .content-grid.mdl-grid.no-pdf
+        .mdl-cell.mdl-cell--12-col
+          = render 'admins/events/analytics/shared/line_chart', chart_data: chart_data, name: "Engagement per hour"

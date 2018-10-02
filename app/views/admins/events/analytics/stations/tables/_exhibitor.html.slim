@@ -1,0 +1,32 @@
+- no_pagination = request.format.symbol.eql?(:pdf)
+- items = no_pagination ? @station.engagement : @station.engagement.page(params[:page])
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: items unless no_pagination
+    .mdl-layout-spacer
+      .analytics
+        table.pvtTable
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Date
+              th.mdl-data-table__cell--non-numeric Customer
+              th.mdl-data-table__cell--non-numeric E-Mail
+              th.mdl-data-table__cell--non-numeric Rank
+              th.mdl-data-table__cell--non-numeric Message
+
+          tbody
+            - items.each do |poke|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Date"
+                  span style="color: #848482; font-size: 12px"
+                    = poke.date.strftime("%d %b")
+                    br
+                    b = poke.date.strftime("%H:%M")
+                td.mdl-data-table__cell--non-numeric
+                  = link_to poke.customer.anonymous? ? poke.customer_gtag.tag_uid : poke.customer.name, [:admins, @current_event, poke.customer]
+                td.mdl-data-table__cell--non-numeric = poke.customer.full_email
+                td.mdl-data-table__cell--non-numeric = poke.priority
+                td.mdl-data-table__cell--non-numeric = poke.message
+    = render "layouts/pagination", objects: items unless no_pagination
+  .mdl-layout-spacer

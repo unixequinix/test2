@@ -1,0 +1,29 @@
+- content_for(:navigation_actions) do
+  = link_to [:admins, @current_event, :ticket_types], class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons style="color: white" undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+    
+- content_for(:title) do
+  | Connect Universe and Glownet
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th ID
+              th Connect
+          tbody
+            - if @uv_events.present?
+              - @uv_events.each do |event|
+                tr
+                  td.mdl-data-table__cell--non-numeric data-label="Name" = event.title
+                  td data-label="ID" = event.id
+                  td data-label="Connect" = link_to fa_icon('plug'), [:admins, @current_event, @integration, :connect, uv_event_id: event.id]
+
+
+  .mdl-layout-spacer

@@ -1,0 +1,17 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item
+    | Move devices between teams
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          #origin_devices_table
+            = render 'devices_form', team: @team, dest_team: @dest_team, resources: @devices, param_name: :devicesout
+        .mdl-cell.mdl-cell--6-col
+          #destination_devices_table
+            = render 'devices_form', team: @dest_team, dest_team: @team, resources: @dest_team_devices, form_disable: true, param_name: :devicesin
+
+  .mdl-layout-spacer

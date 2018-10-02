@@ -1,0 +1,89 @@
+@import "_colors";
+@import "glownet/events";
+@import "glownet/analytics";
+@import "pdfs/*";
+
+body {
+	min-width: 100%; 
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+	width: 100%;
+	height: auto;
+	position: relative;
+
+	.title {
+		text-align: center;
+		white-space: nowrap;
+  }
+
+	.event-title {
+		text-align: center;
+    margin-top: -10px;
+	}
+	
+	.logo {
+		max-height: 300px;
+		margin-left: 25px;
+		width: 300px;
+		height: auto;
+		text-align:	start;
+
+		img {
+			max-width: 100%;
+		}
+	}
+}
+
+.header:before {
+	vertical-align: middle;
+}
+
+.header > * {
+	vertical-align: middle;
+}
+
+.footer {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+  color: black;
+
+  .data {
+    color: $green;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+  }
+
+  .powered {
+    text-align: center;
+    color: black;
+    font-size: 20px;
+
+    img {
+      vertical-align: middle;
+    }
+  }
+}
+
+.footer:before {
+	position: absolute;
+	bottom: 0;
+}
+
+.pdf_container {
+	margin: 10px 20px;
+}
+
+.no-pdf {
+	display: none
+}
+
+.analytics {
+	overflow-x: visible !important;
+}
+

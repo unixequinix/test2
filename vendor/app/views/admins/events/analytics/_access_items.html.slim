@@ -1,0 +1,101 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid.no-pdf
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--10-col style="text-align: center"
+        = link_to_unless(@filter.eql?("stations"), "By Station", access_control_admins_event_analytics_path(@current_event, filter: "stations"), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+          button.mdl-button.mdl-js-button.mdl-button--raised disabled=true = "By Station"
+        | &nbsp;
+        = link_to_unless(@filter.eql?("items"), "By Access Type", access_control_admins_event_analytics_path(@current_event, filter: "items"), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+          button.mdl-button.mdl-js-button.mdl-button--raised disabled=true = "By Access Type"
+          | &nbsp;
+      .mdl-layout-spacer
+
+    - checkpoint_hours = @current_event.count_checkpoints(grouping: :hour)
+    - checkpoint_total = @current_event.checkpoints_total
+
+    .mdl-grid.no-pdf
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--12-col
+        .mdl-grid
+          = render "admins/events/analytics/shared/box", cols: 4,
+                  id: 'total_checkpoints',
+                  custom_class: 'hovering',
+                  colors: ['#FF4E50', '#F9D423'],
+                  icon: 'meeting_room',
+                  title_text: "Total Checkpoints",
+                  title_number: number_with_delimiter(checkpoint_total),
+                  subtitle: [{ text: 'In', number: number_with_delimiter(@current_event.checkpoints_total(direction_filter: 1)) }, { text: 'Out', number: number_with_delimiter(@current_event.checkpoints_total(direction_filter: -1)) }]
+          = render "admins/events/analytics/shared/box", cols: 4,
+                  id: 'avg_checkpoints',
+                  custom_class: 'hovering',
+                  colors: ['#FF5050', '#F3A183'],
+                  icon: 'av_timer',
+                  title_text: "Avg Checkpoints per hour",
+                  title_number: number_to_reports(checkpoint_total.zero? ? 0 : (checkpoint_total / checkpoint_hours.size)),
+                  subtitle: [{ text: 'Peak checkpoints in 1h', number: checkpoint_total.zero? ? 0 : "#{number_with_delimiter(checkpoint_hours.max_by { |k, v| v }&.last)} @ #{l checkpoint_hours.max_by { |k, v| v }&.first}" }]
+          = render "admins/events/analytics/shared/box", cols: 4,
+                  id: 'items',
+                  custom_class: 'hovering',
+                  colors: ['#355C7D', '#C06C84'],
+                  icon: 'store_mall_directory',
+                  title_text: "Items",
+                  title_number: number_with_delimiter(@items.size),
+                  subtitle: [{ text: 'Avg Checkpoints', number: number_to_reports(checkpoint_total.zero? ? 0 : (checkpoint_total / @items.size)) }, { text: 'Checkpoints / hour', number: number_to_reports(checkpoint_total.zero? ? 0 : (checkpoint_total / @items.size.to_f / checkpoint_hours.size.to_f)) }]
+      .mdl-layout-spacer
+
+
+    .content-grid.mdl-grid
+      = render 'admins/events/analytics/shared/export_buttons', title: 'Checkpoint By Access Type',
+              excel_path: access_control_admins_event_analytics_path(@current_event, format: "xls", station_category: "access_stations"),
+              pdf_path: access_control_admins_event_analytics_path(@current_event, format: "pdf", station_category: "access_stations")
+
+      .mdl-cell.mdl-cell--12-col.analytics
+        table.pvtTable
+          thead
+            tr
+              th.pvtColLabel.empty rowspan="2"
+              - columns = 2
+              - @dates.each do |date|
+                th.pvtColLabel.high-contrast colspan="#{columns}" = date
+              th.pvtColLabel.high-contrast Totals
+
+            tr
+              - @dates.each do |date|
+                th.pvtColLabel.low-contrast In
+                th.pvtColLabel.low-contrast Out
+              th.pvtColLabel.low-contrast
+
+          tbody
+            - @items.each do |item|
+              - quantity = [1, -1].map { |direction| [direction, @current_event.count_checkpoints(grouping: :day, direction_filter: direction, catalog_item_filter: item)] }.to_h
+              - next if quantity.map { |_, info| info.values.all?(&:zero?) }.all?
+
+              tr
+                th.pvtRowLabel.low-contrast
+                  = link_to_if can_link?(item), item.description, [:admins, @current_event, item]
+
+                - @dates.each do |date|
+                  td = quantity[1][date]
+                  td = quantity[-1][date]
+
+                td.totals
+                  b = quantity[1].values.sum - quantity[-1].values.sum
+
+
+
+            tr
+              th.pvtRowLabel.low-contrast Totals
+              - quantity = [1, -1].map { |direction| [direction, @current_event.count_checkpoints(grouping: :day, catalog_item_filter: @items, direction_filter: direction)] }.to_h
+              - @dates.each do |date|
+                td.pvtTotal.rowTotal.totals = quantity[1][date]
+                td.pvtTotal.rowTotal.totals = quantity[-1][date]
+
+              td.pvtTotal.rowTotal.totals = quantity[1].values.sum - quantity[-1].values.sum
+
+    - data = @items.map { |item| [item.name, @current_event.count_checkpoints(catalog_item_filter: item)] }.to_h
+    - chart_data = { chart_id: "item_checkpoint_flow", cols: ["Checkpoints"], currency: "", data: @current_event.plot(data), metric: ["Checkpoints"], decimals: 0 }
+    - unless(chart_data[:data].empty?)
+      .content-grid.mdl-grid
+        .mdl-cell.mdl-cell--12-col
+          = render 'admins/events/analytics/shared/line_chart', chart_data: chart_data, name: "Checkpoints per hour"

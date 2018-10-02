@@ -1,0 +1,55 @@
+- content_for(:title) do
+  | Accesses
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to new_admins_event_access_path, id: "new_access_link" do
+          button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons add
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="add" Add
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @accesses
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th.mdl-data-table__cell--non-numeric Mode
+              th.mdl-data-table__cell--numeric In
+              th.mdl-data-table__cell--numeric Out
+              th.mdl-data-table__cell--numeric Total
+              - if policy(@current_event.accesses.new).edit? || policy(@current_event.accesses.new).destroy?
+                th
+          tbody
+            - @accesses.each do |access|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Name"= link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
+                td.mdl-data-table__cell--non-numeric data-label="Mode"= access.mode.humanize
+                td.mdl-data-table__cell--numeric data-label="IN"= @current_event.pokes.where(catalog_item_id: access.id, access_direction: 1).joins(:customer).where('customers.operator = false').sum(:access_direction)
+                td.mdl-data-table__cell--numeric data-label="OUT"= @current_event.pokes.where(catalog_item_id: access.id, access_direction: -1).joins(:customer).where('customers.operator = false').sum(:access_direction)
+                td.mdl-data-table__cell--numeric data-label="Total"= @current_event.pokes.where(catalog_item_id: access.id).joins(:customer).where('customers.operator = false').sum(:access_direction)
+                - if policy(access).edit? || policy(access).destroy?
+                  td.table-actions
+                    .table-action
+                      = link_to edit_admins_event_access_path(@current_event, access) do
+                        button.icon.material-icons id ="edit_#{access.id}" edit
+                    .table-action
+                      = link_to admins_event_access_path(@current_event, access), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                        button.icon.material-icons id ="delete_#{access.id}" delete_forever
+
+              span.mdl-tooltip data-mdl-for="edit_#{access.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{access.id}" Delete
+
+    = render "layouts/pagination", objects: @accesses
+  .mdl-layout-spacer

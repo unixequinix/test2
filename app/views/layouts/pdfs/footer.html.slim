@@ -1,0 +1,13 @@
+.footer
+	span
+		| Report downloaded at: #{Time.now.to_datetime.to_s(:db)}
+	.data
+		- if local_assigns[:text]
+			= text
+		- else
+			p Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped.
+		br
+		.powered
+			| Powered by
+			'
+			= link_to image_tag(wicked_pdf_asset_base64('glownet-event-logo.png')), 'https://www.glownet.com'

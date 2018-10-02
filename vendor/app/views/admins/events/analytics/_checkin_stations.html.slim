@@ -1,0 +1,102 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid.no-pdf
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--10-col style="text-align: center"
+        = link_to_unless(@filter.eql?("stations"), "By Station", checkin_admins_event_analytics_path(@current_event, filter: "stations"), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+          button.mdl-button.mdl-js-button.mdl-button--raised disabled=true = "By Station"
+        | &nbsp;
+        = link_to_unless(@filter.eql?("items"), "By Access Type", checkin_admins_event_analytics_path(@current_event, filter: "items"), remote: true, class: "mdl-button mdl-js-button mdl-button--raised") do |b|
+          button.mdl-button.mdl-js-button.mdl-button--raised disabled=true = "By Access Type"
+          | &nbsp;
+      .mdl-layout-spacer
+
+    - checkin_hours = @current_event.count_checkins(grouping: :hour)
+    - checkin_total = @current_event.checkins_total
+
+    .mdl-grid.no-pdf
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--12-col
+        .mdl-grid
+          = render "admins/events/analytics/shared/box", cols: 3,
+                  id: 'tickets',
+                  custom_class: 'hovering',
+                  colors: ['#009688', '#66FF99'],
+                  icon: 'loyalty',
+                  title_text: "Total Tickets",
+                  title_number: number_with_delimiter(@current_event.tickets.count),
+                  subtitle: [{ text: 'Redeemed', number: number_with_delimiter(@current_event.tickets.redeemed.count) }, { text: 'Not Redeemed', number: number_with_delimiter(@current_event.tickets.unredeemed.count) }]
+          = render "admins/events/analytics/shared/box", cols: 3,
+                  id: 'total_checkins',
+                  custom_class: 'hovering',
+                  colors: ['#FF4E50', '#F9D423'],
+                  icon: 'check',
+                  title_text: "Total Checkins",
+                  title_number: number_with_delimiter(checkin_total),
+                  subtitle: [{ text: 'Double Checkins', number: number_with_delimiter(checkin_total - @current_event.tickets.redeemed.count) }]
+          = render "admins/events/analytics/shared/box", cols: 3,
+                  id: 'avg_checkins',
+                  custom_class: 'hovering',
+                  colors: ['#FF5050', '#F3A183'],
+                  icon: 'av_timer',
+                  title_text: "Avg Checkins per hour",
+                  title_number: number_to_reports(checkin_total.zero? ? 0 : (checkin_total / checkin_hours.size)),
+                  subtitle: [{ text: 'Peak checkins in 1h', number: checkin_total.zero? ? 0 : "#{number_with_delimiter(checkin_hours.max_by { |k, v| v }&.last)} @ #{l checkin_hours.max_by { |k, v| v }&.first}" }]
+          = render "admins/events/analytics/shared/box", cols: 3,
+                  id: 'stations',
+                  custom_class: 'hovering',
+                  colors: ['#355C7D', '#C06C84'],
+                  icon: 'store_mall_directory',
+                  title_text: "Stations",
+                  title_number: number_with_delimiter(@stations.size),
+                  subtitle: [{ text: 'Avg Checkins', number: checkin_total.zero? ? 0 : number_to_reports(checkin_total / @stations.size) }, { text: 'Checkins / hour', number: checkin_total.zero?  ? 0 : number_to_reports(checkin_total / @stations.size.to_f / checkin_hours.size.to_f) }]
+      .mdl-layout-spacer
+      
+    .content-grid.mdl-grid
+      = render 'admins/events/analytics/shared/export_buttons', title: 'Checkin By Station',
+              excel_path: checkin_admins_event_analytics_path(@current_event, format: "xls", station_category: "checkin_stations"),
+              pdf_path: checkin_admins_event_analytics_path(@current_event, format: "pdf", station_category: "checkin_stations")
+
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--12-col.analytics
+        table.pvtTable
+          thead
+            tr
+              th.pvtColLabel.empty rowspan="2"
+              - columns = 1
+              - @dates.each do |date|
+                th.pvtColLabel.high-contrast colspan="#{columns}" = date
+              th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+
+          tbody
+            - @stations.each do |station|
+              - quantity = station.count_checkins(grouping: :day)
+              - next if quantity.values.sum.zero?
+
+              tr
+                th.pvtRowLabel.low-contrast
+                  = link_to station.name, [:admins, @current_event, station]
+
+                - @dates.each do |date|
+                  td = quantity[date]
+
+                td.totals
+                  b = quantity.values.sum
+
+
+            tr
+              th.pvtRowLabel.low-contrast Totals
+              - quantity = @current_event.count_checkins(grouping: :day, station_filter: @stations)
+              - @dates.each do |date|
+                td.pvtTotal.rowTotal.totals = quantity[date]
+
+              td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+      .mdl-layout-spacer
+
+    - data = @stations.map { |station| [station.name, station.count_checkins(grouping: :hour)] }.to_h
+    - chart_data = { chart_id: "station_checkin_flow", cols: ["Checkins"], currency: 0, data: @current_event.plot(data), metric: ["Checkins"], decimals: 0 }
+    - unless(chart_data[:data].empty?)
+      .content-grid.mdl-grid.no-pdf
+        .mdl-cell.mdl-cell--12-col
+          = render 'admins/events/analytics/shared/line_chart', chart_data: chart_data, name: "Checkins per hour"

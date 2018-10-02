@@ -1,0 +1,62 @@
+- items = local_assigns[:items] ? items : @current_event.catalog_items.where(id: @current_event.monetary_box_office(station_filter: @station).select(:catalog_item_id).distinct.pluck(:catalog_item_id))
+- payments = local_assigns[:payments] ? payments : @current_event.monetary_box_office(station_filter: @station).select(:payment_method).distinct.pluck(:payment_method)
+- purchases = local_assigns[:purchases] ? purchases : @current_event.count_money_box_office(station_filter: @station).reject { |_, v| v.zero? }
+- dates = local_assigns[:dates] ? dates : purchases.keys
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--11-col.analytics
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = payments.count + 1
+          - dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - dates.each do |date|
+            th.pvtColLabel.low-contrast Qty
+            - payments.each do |payment|
+              th.pvtColLabel.low-contrast = payment.humanize
+          th.pvtColLabel.low-contrast Qty
+          - payments.each do |payment|
+            th.pvtColLabel.low-contrast = payment.humanize
+
+      tbody
+        - items.each do |item|
+          - data = payments.map { |payment| [payment, @current_event.money_box_office(station_filter: @station, catalog_filter: item, payment_filter: payment)] }.to_h
+          - quantity = @current_event.count_money_box_office(station_filter: @station, catalog_filter: item)
+
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
+          tr
+            th.pvtRowLabel.low-contrast = item.name
+            - dates.each do |date|
+              td = quantity[date] unless quantity[date].to_f.zero?
+              - payments.each do |payment|
+                td = number_to_reports(data[payment][date]) unless data[payment][date].to_f.zero?
+
+            td.totals
+              b = quantity.values.sum
+
+            - payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @current_event.count_money_box_office(station_filter: @station)
+          - data = payments.map { |payment| [payment, @current_event.money_box_office(station_filter: @station, payment_filter: payment)] }.to_h
+
+          - dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - payments.each do |payment|
+              td.pvtTotal.rowTotal.totals = number_to_reports(data[payment][date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - payments.each do |payment|
+            td.pvtTotal.rowTotal.totals = number_to_reports(data[payment].values.sum)
+
+    .mdl-layout-spacer

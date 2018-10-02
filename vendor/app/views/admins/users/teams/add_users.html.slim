@@ -1,0 +1,25 @@
+- content_for(:title) do
+  .mdl-layout-title.header-item Teams
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = search_form_for @q, url: admins_user_team_add_users_path do |f|
+      = f.search_field :email_or_username_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--12-col
+      = render "layouts/pagination", objects: @users
+
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        .table-responsive
+          table.mdl-data-table.mdl-js-data-table.within-card#team_user_list
+            thead
+              tr
+                th.mdl-data-table__cell--non-numeric Username
+                th.mdl-data-table__cell--non-numeric Email
+            tbody
+            - @users.each do |user|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Email" = link_to user.email, [:admins, user], id: "user_#{user.id}_email"
+                td.mdl-data-table__cell--non-numeric data-label="Username" = best_in_place user, :username, url: [:admins, user]

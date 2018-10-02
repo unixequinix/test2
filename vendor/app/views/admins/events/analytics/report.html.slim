@@ -1,0 +1,85 @@
+- content_for(:javascripts) do
+  = javascript_include_tag 'specific/pivot_tables'
+  = javascript_include_tag 'specific/reports'
+
+- content_for(:title) do
+  | Analytics
+
+.remodal data-remodal-id="danger-modal"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Why are some numbers in red?
+  p
+    | Numbers in read represent credits which
+    b
+      | &nbsp;do not have money backing.
+    | Meaning these credits were given, for free, at some point during the event.
+
+  p Virtual credits cannot be refunded, and suppose less of a risk, but real credits given out can cause discrepancy, even losses in your cashflow.
+
+  p Beware if this numbers get too high in topups.
+
+  h4 style="text-align: center"
+    = link_to "#", data: { remodal: { action: "close" } }, class: "mdl-button mdl-js-button mdl-js-ripple-effect", style: "width: 100%" do
+      span.mdl-button__ripple-container OK
+
+.mdl-grid.light-grid
+  .mdl-cell.mdl-cell--12-col
+    .mdl-layout__content.poke-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-grid
+        .mdl-cell.mdl-cell--5-col
+          a.right href= admins_event_analytics_path(@current_event)
+            i.material-icons arrow_back
+            span.vertical-bottom RETURN TO ANALYTICS
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          select.mdl-textfield__input name="reports-list" id="reports-list" onchange="window.location = this.value"
+            options
+              - if admin_or_promoter_or(:monetary_manager)
+                option value="#{dashboard_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'dashboard')
+                  | Dashboard
+                option value="#{cash_flow_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'cash_flow')
+                  | Money
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
+                option value="#{credits_flow_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'credits_flow')
+                  | Credits
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager, :pos_stock_manager)
+                option value="#{tokens_flow_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'tokens_flow')
+                  | Tokens
+              - if admin_or_promoter_or(:gates_manager)
+                option value="#{checkin_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'checkin')
+                  | Checkin
+                option value="#{access_control_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'access_control')
+                  | Access Control
+              option value="#{engagement_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'engagement')
+                | Engagement
+              - if @current_user.team&.id==2 || @current_event.id.eql?(439) || @current_user.glowball?
+                option value="#{partner_reports_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'partner_reports')
+                  | Partner reports
+              - if admin_or_promoter_or(:monetary_manager) && (@current_event.id.eql?(469) || !Rails.env.production?)
+                option value="#{custom_lambeth_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'custom_lambeth')
+                  | Custom Lambeth
+              - if admin_or_promoter_or(:monetary_manager) && (@current_event.id.eql?(461) || !Rails.env.production?)
+                option value="#{custom_seasplash_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'custom_seasplash')
+                  | Custom Seasplash
+              - if admin_or_promoter_or(:monetary_manager) && (@current_event.id.eql?(428) || !Rails.env.production?)
+                option value="#{custom_voucher_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'custom_voucher')
+                  | Custom BBF
+              - if admin_or_promoter_or(:monetary_manager) && (@current_event.id.eql?(439) || !Rails.env.production?)
+                option value="#{custom_voucher_admins_event_analytics_path(@current_event)}" selected= ('selected' if params[:action] == 'custom_voucher')
+                  | Custom WeWork
+          label.mdl-textfield__label for="reports-list" GO TO:
+        .mdl-layout-spacer
+      #load-view
+        = render 'admins/events/spinner', show_spinner: true
+        #content= render @partial
+
+      .mdl-layout-spacer
+
+      - if @current_event.launched?
+        .mdl-cell.mdl-cell--12-col
+          .center-card-title
+            span.analytics-text = "Data shown here is provisional until the event is closed, all device are synced & locked, and the event data is fully wrapped."
+  
+javascript:
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementsByClassName('loader-container')[0].style.display = 'none';
+  }, false);

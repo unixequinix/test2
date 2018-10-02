@@ -1,0 +1,99 @@
+/* ------------------------------------------------------- *\
+
+  Font configuration and setup
+
+  All this is an adapatation of:
+  http://comandocran.github.io/cc-fontplate/
+  With the adition of media queries, namespaces and some bourbon functionality:
+  http://bourbon.io/docs/
+  This also depends on the media query library:
+  http://paranoida.com/
+
+\* ------------------------------------------------------- */
+
+@charset "utf-8";
+
+@import "typography/config";
+@import "typography/functions";
+
+// ----------------------------------------------------------------------------
+// Utilities
+//
+
+// Calculate modular scale
+@mixin mscale($font_size) {
+  font-size: generate-font-size($font_size);
+  line-height: generate-line-height($font_size);
+}
+
+// ----------------------------------------------------------------------------
+// Default values redeclaration
+// Uncomment and redefine all possible values
+//
+
+// Units and sizes
+//
+// $base_font_size: 16;
+// $base_line_height_size: 24;
+// $scale_unit_type: rem;
+
+// List of classes affected by type size calculations
+//
+// $class_list: h1, h2, h3, p, '.small';
+// $base_tag: p;
+
+// Ratio
+//
+//$default_ratio: $golden;
+
+// Colors
+//
+// $body_copy_color: #000;
+// $heading_color: #000;
+
+// Font features and legibility
+//
+// Posible options [kern on, liga off, calt off, dlig, hlig, swsh, salt, smcp, c2sc, ordn, lnum, onum, tnum, pnum, numr, dnom, sups, sinf, frac, zero];
+// $body_font_features: "kern" on, "liga" off, "calt" off, "dlig";
+// $header_font_features: "kern" on, "liga" off, "calt" off, "dlig";
+// $text_rendering: optimizeLegibility !default; // Possible values: auto, optimizeSpeed, optimizeLegibility, geometricPrecision
+// $font_smoothing: true !default;
+
+// $default_word_wrap: break-word !default;
+
+// Font families
+//
+// $serif_family: $georgia;
+// $sans_family: $helvetica;
+// $default_weight: normal;
+// $default_style: normal;
+// $base_font_family: $serif_family;
+// $base_font_file_path: '';
+// $heading_font_family: $serif_family;
+// $heading_font_file_path: '';
+
+// Debug
+//
+// $debug: 'true';
+
+// ----------------------------------------------------------------------------
+// Custom typography variables
+//
+
+// ...
+
+// ----------------------------------------------------------------------------
+// Typography initialization.
+//
+// Include the mixin intialize-typography as many times as requred per responsive breakpoint.
+// Params:
+//      - $font_size: The desired font size in pixels, with no unit(default $base_font_size) .
+//      - $line_height: The desired line height and module's size in pixels, with no unit (default $base_line_height_size).
+//      - $breakpoint: the responsive breakpoint. Note: min-screen is used, thus, we follow a mobile first approach.
+//      - $namespace: if set, the styles will only apply to thos pages whose body element presents this selector (class)
+//      - $ratio: the ratio used in this configuration
+// Examples:
+//@include intialize-typography($font_size:12, $line_height: 20);
+//@include intialize-typography($font_size:14, $line_height: 24, $breakpoint: 600px);
+// @include intialize-typography($font_size:16, $line_height: 24, $namespace: '.admin');
+

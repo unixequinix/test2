@@ -1,0 +1,17 @@
+.mdl-cell.mdl-cell--12-col
+.panel-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--8-col
+      h4 = t('alerts.order_error')
+      .mdl-card__supporting-text = t("dashboard.orders.failed")
+
+    .mdl-cell.mdl-cell--2-col
+      = link_to @current_event.store_redirection(@current_customer, :order), class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "topup" do
+        span.material-icons add_shopping_cart
+        span.mdl-tooltip data-mdl-for="topup" = t("dashboard.repeat")
+    .mdl-cell.mdl-cell--2-col
+      = link_to @current_event, class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored", id: "done" do
+        span.material-icons undo
+        span.mdl-tooltip data-mdl-for="done" = t("actions.back")
+
+  .mdl-card__supporting-text = params[:message]

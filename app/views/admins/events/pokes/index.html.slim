@@ -1,0 +1,144 @@
+- content_for(:title) do
+  | Pokes
+
+
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to download_admins_event_pokes_path(format: "pdf", q: params[:q].dup&.permit! || {}), target: '_blank' do
+          button#download_pdf.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons import_contacts
+            span.mdl-tooltip.mdl-tooltip--top data-mdl-for="download_pdf" PDF
+
+      li.floaty-list-item
+        = link_to download_admins_event_pokes_path(format: "xls", q: params[:q].dup&.permit! || {}) do
+          button#download_xlsx.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons border_all
+            span.mdl-tooltip.mdl-tooltip--top data-mdl-for="download_xlsx" XLSX
+
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.search-card
+      .mdl-card__title
+        .mdl-cell.mdl-cell--6-col Advanced Search
+        .mdl-cell.mdl-cell--6-col.right
+          a.collapse-link-closed
+            i.fa.fa-chevron-down
+
+      .table-responsive
+        = search_form_for @q, url: [:admins, @current_event, :pokes]  do |f|
+          .container-search
+            .form-inputs
+              label.mdl-textfield.mdl-js-textfield for='q_action_eq'
+                span.mdl-label.form-label.form-label-fixed Action
+                = f.select :action_eq, @current_event.pokes.select(:action).distinct.pluck(:action).sort.map { |t| [t.humanize, t] }, class: "mdl-textfield__input", include_blank: true
+
+              label.mdl-textfield.mdl-js-textfield for='q_credit_name_eq'
+                span.mdl-label.form-label.form-label-fixed Currency
+                = f.select :credit_name_eq, @credits.pluck(:name).sort.map { |s| [s.humanize, s] }, include_blank: true
+
+              - if @stations.any?
+                label.mdl-textfield.mdl-js-textfield for='q_station_name_eq'
+                  span.mdl-label.form-label.form-label-fixed Station
+                  = f.select :station_name_eq, @stations.pluck(:name).sort.map { |s| [s.humanize, s] }, include_blank: true
+              - if @products.any?
+                label.mdl-textfield.mdl-js-textfield for='q_product_name_eq'
+                  span.mdl-label.form-label.form-label-fixed Product
+                  = f.select :product_name_eq, @products.sort_by(&:station_id).map { |p| ["#{p.station.name}- #{p.name.humanize}", p.name] }, include_blank: true
+              - if @devices.any?
+                label.mdl-textfield.mdl-js-textfield for='q_device_asset_tracker_eq'
+                  span.mdl-label.form-label.form-label-fixed Device
+                  = f.select :device_asset_tracker_eq, @devices.pluck(:asset_tracker).sort.map { |s| [s.humanize, s] }, include_blank: true
+              - if @ticket_types.any?
+                label.mdl-textfield.mdl-js-textfield for='q_ticket_type_name_eq'
+                  span.mdl-label.form-label.form-label-fixed Ticket Type
+                  = f.select :ticket_type_name_eq, @ticket_types.pluck(:name).sort.map { |s| [s.humanize, s] }, include_blank: true
+
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                = f.search_field :customer_gtag_tag_uid_cont, placeholder: "Customer tag", class: "mdl-textfield__input"
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                = f.search_field :customer_first_name_cont, placeholder: "Customer name", class: "mdl-textfield__input"
+
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                = f.search_field :operator_gtag_tag_uid_cont, placeholder: "Operator tag", class: "mdl-textfield__input"
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                = f.search_field :operator_first_name_cont, placeholder: "Operator name", class: "mdl-textfield__input"
+
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                = f.search_field :ticket_code_cont, placeholder: "Ticket Code", class: "mdl-textfield__input"
+
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                - value_g = params[:q]&.permit!.to_h[:date_gteq].present? ? DateTime.parse(params[:q][:date_gteq]).strftime("%Y-%m-%d %H:%M") : ""
+                - value_l = params[:q]&.permit!.to_h[:date_lteq].present? ? DateTime.parse(params[:q][:date_lteq]).strftime("%Y-%m-%d %H:%M") : ""
+
+                .mdl-grid
+                  .mdl-cell.mdl-cell--6-col
+                    span From
+                    = f.search_field :date_gteq, value: value_g, placeholder: "From Date", class: "date-time-picker mdl-textfield__input"
+                  .mdl-cell.mdl-cell--6-col
+                    span To
+                    = f.search_field :date_lteq, value: value_l, placeholder: "To Date", class: "date-time-picker mdl-textfield__input"
+
+            .form-actions
+              = f.submit class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    = render "layouts/pagination", objects: @pokes
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Date
+              th.mdl-data-table__cell--non-numeric Action
+              th.mdl-data-table__cell--non-numeric Station
+              th.mdl-data-table__cell--non-numeric Customer
+              th.mdl-data-table__cell--non-numeric Operator
+              th Data
+
+          tbody
+            - @pokes.each do |poke|
+              tr
+                td.mdl-data-table__cell--non-numeric data-label="Date"
+                  span style="color: #848482; font-size: 12px"
+                    = poke.date.strftime("%d %b")
+                    br
+                    b = poke.date.strftime("%H:%M")
+                td.mdl-data-table__cell--non-numeric = link_to poke.name, [:admins, @current_event, poke]
+                td.mdl-data-table__cell--non-numeric = link_to poke.station.name, [:admins, @current_event, poke.station]
+                td.mdl-data-table__cell--non-numeric = link_to poke.customer.name, [:admins, @current_event, poke.customer]
+                td.mdl-data-table__cell--non-numeric = link_to poke.operator.name, [:admins, @current_event, poke.operator]
+                td
+                  = number_to_credit(poke.credit_amount, poke.credit) if poke.credit.present?
+                  = number_to_event_currency(poke.monetary_total_price) if poke.monetary_total_price.present?
+                  = poke.access_direction.eql?("1") ? "IN" : "OUT" if poke.access_direction
+                  = poke.priority if poke.priority
+                  = poke.user_flag_value if poke.user_flag_value
+
+    = render "layouts/pagination", objects: @pokes
+  .mdl-layout-spacer
+
+javascript:
+    $('.date-time-picker').each(function (i, elem) {
+        $("#" + elem.id).datetimepicker({
+            timeInput: true,
+            format: "hh:mm tt",
+            currentText: 'Time now',
+            closeText: 'Update',
+            onClose: function () {
+                if (elem.value.length) {
+                    $(elem).parent('.mdl-textfield').addClass('is-dirty');
+                }
+                ;
+            }
+        });
+    });

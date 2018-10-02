@@ -1,0 +1,7 @@
+$("#notifications").html("<%= escape_javascript(render partial: 'layouts/notifications', locals: { flash: flash }) %>");
+
+$("#origin_devices_table").html("<%= escape_javascript(render partial: 'devices_form', locals: { team: @team, dest_team: @dest_team, resources: @devices, param_name: :devicesout }) %>");
+
+$("#destination_devices_table").html("<%= escape_javascript(render partial: 'devices_form', locals: { team: @dest_team, dest_team: @team, resources: @dest_team_devices, form_disable: true, param_name: :devicesin }) %>");
+
+componentHandler.upgradeDom();

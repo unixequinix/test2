@@ -1,0 +1,80 @@
+- pos_stats = local_assigns[:pos_stats] ? pos_stats : @station.credit_pos_sales.reject { |k, v| v.zero? }
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--11-col.analytics
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager) ? @current_event.credits.count + 1 : 1
+          - pos_stats.keys.sort.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+        tr
+          - pos_stats.keys.sort.each do |date|
+            th.pvtColLabel.low-contrast Qty
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                th.pvtColLabel.low-contrast = credit.name
+          th.pvtColLabel.low-contrast Qty
+          - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+            - @current_event.credits.each do |credit|
+              th.pvtColLabel.low-contrast = credit.name
+
+      tbody
+        - @station.reload.products.each do |product|
+          - quantity = @station.count_pos_sales(product_filter: product)
+          - data = @current_event.credits.map { |credit| [credit, @station.credit_pos_sales(credit_filter: credit, product_filter: product)] }.to_h if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+
+          - next if data.map { |_, info| info.values.all?(&:zero?) }.all? && quantity.values.sum.zero?
+
+          tr
+            th.pvtRowLabel.low-contrast = product.name
+            - pos_stats.keys.sort.each do |date|
+              td = quantity[date]
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+                - @current_event.credits.each do |credit|
+                  td = number_to_reports(data[credit][date])
+            td = quantity.values.sum
+
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                td.pvtTotal.rowTotal.totals = number_to_reports(data[credit].values.sum)
+
+        - @station.pokes.where.not(description: 'product').pluck(:description).uniq.each do |description|
+          - quantity = @station.count_pos_sales(product_type_filter: description)
+          - data = @current_event.credits.map { |credit| [credit, @station.credit_pos_sales(credit_filter: credit, product_type_filter: description)] }.to_h if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+          tr
+            th.pvtRowLabel = description.humanize
+            - pos_stats.keys.sort.each do |date|
+              td = quantity[date]
+              - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+                - @current_event.credits.each do |credit|
+                  td = number_to_reports(data[credit][date])
+
+            td = quantity.values.sum
+
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                td.pvtTotal.rowTotal = number_to_reports(data[credit].values.sum)
+
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @station.count_pos_sales
+
+          - pos_stats.keys.sort.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+            - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+              - @current_event.credits.each do |credit|
+                td.pvtTotal.rowTotal.totals = number_to_reports(@station.credit_pos_sales(credit_filter: credit)[date].to_f)
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+          - if admin_or_promoter_or(:monetary_manager, :vendor_manager, :pos_money_manager)
+            - @current_event.credits.each do |credit|
+              td.pvtTotal.rowTotal.totals = number_to_reports(@station.credit_pos_sales_total(credit_filter: credit))
+
+  .mdl-layout-spacer

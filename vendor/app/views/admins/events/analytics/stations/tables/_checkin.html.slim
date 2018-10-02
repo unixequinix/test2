@@ -1,0 +1,41 @@
+- total_checkins = local_assigns[:total_checkins] ? total_checkins : @station.checkins_total
+- dates = local_assigns[:dates] ? dates : @station.count_checkins.keys.sort
+- items = local_assigns[:items] ? items : @current_event.catalog_items.where(id: @station.checkins.select(:catalog_item_id).distinct.pluck(:catalog_item_id))
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--11-col.analytics
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = 1
+          - dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast colspan="#{columns}" Totals
+
+      tbody
+        - items.each do |item|
+          - quantity = @station.count_checkins(catalog_item_filter: item)
+          - next if quantity.values.sum.zero?
+
+          tr
+            th.pvtRowLabel.low-contrast
+              = link_to item.name, [:admins, @current_event, item]
+
+            - dates.each do |date|
+              td = quantity[date]
+
+            td.totals
+              b = quantity.values.sum
+
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = @station.count_checkins
+          - dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[date]
+
+          td.pvtTotal.rowTotal.totals = quantity.values.sum
+
+  .mdl-layout-spacer

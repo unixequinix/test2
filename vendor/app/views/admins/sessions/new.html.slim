@@ -1,0 +1,16 @@
+.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-login-card__supporting-text
+      = simple_form_for(:user, url: new_user_session_path, method: :post, html: { id: "new_user" }, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_boolean}) do |f|
+        .form-inputs
+          = f.input :login, autofocus: true
+          = f.input :password
+          .recaptcha
+            = recaptcha_tags_if_under_attack unless Rails.env.development?
+          = f.button :submit, "Log in", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
+  .mdl-layout-spacer
+  .register-action
+    = link_to 'Sign Up', new_admins_user_path
+    | &nbsp; | &nbsp;
+    = link_to "Recover password", new_user_password_path

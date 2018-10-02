@@ -1,0 +1,17 @@
+tr
+  td[align="center" valign="top"]
+    table#templateBody[border="0" cellpadding="0" cellspacing="0" width="600"]
+      tr
+        td.bodyContent[valign="top"]
+          table[border="0" cellpadding="20" cellspacing="0" width="100%"]
+            tr
+              td[valign="top"]
+                div[mc:edit="std_content00"]
+                h3.h3 Hello!
+                p
+                  | You have been invited to participate in #{@registration&.team&.name} team with role &nbsp;
+                  b = 'guest'
+
+                p If you accept the invitation, please register first with us following the link below.
+
+                p style="text-align: center"= link_to "Create an Account", new_admins_user_url(email: @registration.email), { :style => "color: #ff0090; font-size: 18px; text-decoration: none;" }

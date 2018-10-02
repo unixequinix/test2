@@ -1,0 +1,106 @@
+.content-grid.mdl-grid
+	.mdl-layout-spacer
+	.mdl-cell.mdl-cell--10-col
+
+		h5#currency
+			| Set default Event Currency #{best_in_place @current_event, :currency, as: :select, collection: Money::Currency.all.map {|c| [c.id.to_s.upcase, "#{c.symbol} : #{c.name}"]}, url: [:admins, @current_event]}
+		- unless @current_event.max_currencies_reached? || @current_event.launched?
+			h5
+				| Add new currency 
+				= link_to "New currency", new_admins_event_credit_path(@current_event, current_tab: 'credits_panel'), class: "mdl-button mdl-js-button mdl-button--raised"
+		h5
+			| Sort your currency spending preference here:
+		.admin-card-wide.mdl-card.mdl-shadow--2dp
+			table.mdl-data-table.within-card.sortable.currencies
+				thead
+					tr.not-sortable
+						th.no-icon data-sorter="false" #
+						th.no-icon data-sorter="false" Name
+						th.no-icon data-sorter="false" Max Balance
+						th.no-icon data-sorter="false"
+
+				tbody
+					-@current_event.currencies.order(:spending_order).each do |currency|
+						- if currency.type.eql?('Token')
+							= render "currency_modals", credit: currency
+							tr.sortable-tr data-id="#{currency.id}"
+								td.table-sortable-field.collapse-link-closed title='Sort' = fa_icon("bars")
+								td = currency.name
+								td = currency.max_balance
+								td.table-actions
+									.table-action
+									- if @current_event.created?
+										= link_to edit_admins_event_credit_path(@current_event, currency, current_tab: 'credits_panel'), title: 'Edit' do |bt|
+											button.icon.material-icons edit
+										= link_to "#currency-#{currency.id}-modal", title: 'Delete' do
+											button.icon.material-icons delete
+						- elsif currency.type.eql?('Credit')
+							tr
+								td.table-sortable-field.collapse-link-closed title='Sort' = fa_icon("bars")
+								td colspan="3"
+									table.mdl-data-table.within-card.nested-table.nested-sortable
+										tbody
+											- @current_event.credits.order(:spending_order).each do |credit|
+												tr.sortable-tr data-id="#{credit.id}"
+													td.table-nested-sortable-field.collapse-link-closed.toogle-sort title='Sort' = fa_icon("bars")
+													td.center-custom-text 
+														= credit.name
+													td.center-custom-text = credit.max_balance
+													td.table-actions.custom-action
+														.table-action
+															= link_to edit_admins_event_credit_path(@current_event, credit, current_tab: 'credits_panel'), title: 'Edit' do |bt|
+																button.icon.material-icons edit
+														
+	.mdl-layout-spacer
+
+javascript:
+  
+	$(".edit_product").find(".mdl-textfield__input, input.mdl-button").on('click', function(event) {
+    event.stopPropagation();
+  });
+
+  function setPositions() {
+    $('.sortable tbody tr.sortable-tr').each(function(i) {
+      $(this).attr("data-pos", i + 1);
+    });
+  }
+
+  function sortPosition() {
+    setPositions();
+    $('.sortable').sortable({
+      items: 'tr:not(.not-sortable)',
+      placeholder: '<tr><td class="sortable-placeholder" colspan="3">&nbsp;</td></tr>',
+      handle: '.table-sortable-field i'
+    });
+
+		$('.nested-sortable').sortable({
+      items: 'tr:not(.not-sortable)',
+      placeholder: '<tr><td class="sortable-placeholder" colspan="3">&nbsp;</td></tr>',
+      handle: '.table-nested-sortable-field i'
+    });
+
+    $('.sortable').sortable().bind('sortupdate', function(e, ui) {
+			updated_order = [];
+			setPositions();
+
+			$('.sortable tbody tr.sortable-tr').each(function(i){
+				updated_order.push({ id: $(this).data("id"), position: i + 1 });
+			});
+			
+			$.ajax({
+					type: "PUT",
+					url: "#{sort_admins_event_credits_path(@current_event)}",
+					data: { order: updated_order }
+			});
+    });
+  }
+
+	var currency = $('#currency');
+
+  currency.bind('ajax:success', function (event, data) {
+    var result = $.parseJSON(data);
+    exchange.text("1 #{@current_event.credit.name} = #{@current_event.credit.value} " + result.currency)
+  });
+
+  $(document).ready(sortPosition);
+  $(document).on('turbolinks:load', sortPosition);

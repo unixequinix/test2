@@ -1,0 +1,48 @@
+- items = local_assigns[:items] ? items : @current_event.catalog_items.where(id: @station.checkpoints(staff_filter: @staff_filter).select(:catalog_item_id).distinct.pluck(:catalog_item_id)).order(:type, :name)
+- dates = local_assigns[:dates] ? dates : @station.count_checkpoints(staff_filter: @staff_filter).reject { |_, v| v.zero? }.keys
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--11-col.analytics
+    table.pvtTable
+      thead
+        tr
+          th.pvtColLabel.empty rowspan="2"
+          - columns = 2
+          - dates.each do |date|
+            th.pvtColLabel.high-contrast colspan="#{columns}" = date
+          th.pvtColLabel.high-contrast Totals
+
+        tr
+          - dates.each do |date|
+            th.pvtColLabel.low-contrast In
+            th.pvtColLabel.low-contrast Out
+          th.pvtColLabel.low-contrast
+
+      tbody
+        - items.each do |item|
+          - quantity = [1, -1].map { |direction| [direction, @station.count_checkpoints(grouping: :day, direction_filter: direction, catalog_item_filter: item, staff_filter: @staff_filter)] }.to_h
+          - next if quantity.map { |_, info| info.values.all?(&:zero?) }.all?
+
+          tr
+            th.pvtRowLabel.low-contrast
+              = link_to_if can_link?(item), item.description, [:admins, @current_event, item]
+
+            - dates.each do |date|
+              td = quantity[1][date]
+              td = quantity[-1][date]
+
+            td.totals
+              b = quantity[1].values.sum - quantity[-1].values.sum
+
+
+        tr
+          th.pvtRowLabel.low-contrast Totals
+          - quantity = [1, -1].map { |direction| [direction, @station.count_checkpoints(grouping: :day, catalog_item_filter: items, direction_filter: direction, staff_filter: @staff_filter)] }.to_h
+          - dates.each do |date|
+            td.pvtTotal.rowTotal.totals = quantity[1][date]
+            td.pvtTotal.rowTotal.totals = quantity[-1][date]
+
+          td.pvtTotal.rowTotal.totals = quantity[1].values.sum - quantity[-1].values.sum
+
+  .mdl-layout-spacer

@@ -1,0 +1,74 @@
+canvas id=chart_id
+
+javascript:
+  var chartId = "#{chart_id}";
+	var ctx = document.getElementById(chartId).getContext('2d');
+	var rawData = JSON.parse("#{escape_javascript(local_assigns[:raw_data].present? ? raw_data : 'null')}");
+	var chartData = JSON.parse("#{local_assigns[:data].present? ? data : 'null'}");
+	var label = "#{local_assigns[:label].present? ? label : ''}";
+	var labels = JSON.parse("#{escape_javascript(local_assigns[:labels].present? ? labels : 'null')}");
+	var color_scale = JSON.parse("#{escape_javascript(local_assigns[:color_scale].present? ? color_scale : 'null')}") || [["#36D1DC", "#5B86E5"], ["#CAC531", "#F3F9A7"], ["#BC4E9C", "#F80759"], ["#00F260", "#0575E6"], ["#834D9B", "#D04ED6"], ["#11998E", "#38EF7D"], ["#4DA0B0", "#D39D38"], ["#EECDA3", "#EF629F"], ["#FC4A1A", "#F7B733"], ["#FF5F6B", "#FFC371"]];
+	var graph_title = JSON.parse("#{escape_javascript(local_assigns[:graph_title].present? ? graph_title : 'null')}");
+	var legend = JSON.parse("#{escape_javascript(local_assigns[:legend].present? ? legend : 'null')}");
+
+	var data =  { 
+		labels: labels, 
+		datasets: [
+			{ 
+				label: label,
+				data: chartData
+			}
+		] 
+	};
+	
+	if(legend && ("amount" in legend)) { data.amount = legend.amount };
+
+	data.datasets = JSON.parse("#{local_assigns[:gradient].present? ? gradient : 'null'}") ?
+		data.datasets.map(function(dataset, i) { 
+			$.extend(data.datasets[i], {
+				backgroundColor: color_scale.map(function (colors) {
+					return gradientSector(ctx, colors)
+				}),
+				hoverBackgroundColor: color_scale.map(function (colors) {
+					return gradientSector(ctx, colors)
+				}),
+				hoverBorderWidth: 2,
+				hoverBorderColor: '#CCCCCC'
+			})
+			return data.datasets[i];
+		}) : data;
+	
+	var options = {
+		title: {},
+		legend: { position: 'right' },
+		tooltips: {
+			custom: function (tooltip) {
+				if (!tooltip) return;
+				tooltip.displayColors = false;
+			},
+			callbacks: {
+				title: function (tooltipItem, data) {
+					if(data.labels.length) {
+						return [data.labels[tooltipItem[0].index]]
+					};
+				},
+				label: function (tooltipItem, data) {
+					if(data.datasets.length) {
+						return data.datasets.map(function(dataset, i) {
+							return "Credits: " + data.datasets[i].data[tooltipItem.index] + " " + "#{@event_currency}"
+						});
+					};
+				},
+				afterLabel: function(tooltipItem, data) {
+					if("amount" in data) { 
+						return "Amount: " + rawData[tooltipItem.index]["amount"]
+					};
+				}
+			}
+		}
+	};
+
+	if(graph_title) { options.title = graph_title };
+	if(legend) { $.extend(options.legend, legend) };
+
+	doughnutChart(ctx, data, options);

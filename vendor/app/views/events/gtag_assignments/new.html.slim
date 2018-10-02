@@ -1,0 +1,35 @@
+- content_for(:back) do
+  = link_to customer_root_path, class: "header-link" do
+    i#back.mdl-color-text--red.material-icons undo
+    span.mdl-tooltip data-mdl-for="back" = t("actions.back")
+
+.customer-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__supporting-text
+    h4.center-text = t("gtag_assignations.call_to_action.#{@current_event.gtag_format}")
+    p.center-text = t("gtag_assignations.description.standard")
+    p.wristband-hint.center-text
+      = fa_icon "info-circle"
+      |  &nbsp;
+      = t('gtag_assignations.info')
+
+    .content-grid.mdl-grid
+      .mdl-layout-spacer
+      - if @current_event.both? || @current_event.wristband?
+        .mdl-cell.mdl-cell--6-col
+          p.tag-title.center-text = t('dashboard.gtag_registration.wristband')
+          .img-ticket
+            = image_tag "standard-gtag.png"
+
+      - if @current_event.both? || @current_event.card?
+        .mdl-cell.mdl-cell--6-col
+          p.tag-title.center-text = t('dashboard.gtag_registration.card')
+          .img-ticket
+            = image_tag "standard-card.png"
+
+      .mdl-cell.mdl-cell--12-col
+        = simple_form_for @gtag, url: event_gtag_assignments_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_check } do |f|
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            = f.input :reference, autofocus: true, label: t("gtag_assignations.placeholder")
+          = f.button :submit, t('admissions.button'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+
+      .mdl-layout-spacer

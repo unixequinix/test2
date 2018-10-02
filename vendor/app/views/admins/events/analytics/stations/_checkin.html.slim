@@ -1,0 +1,56 @@
+- total_checkins = @station.checkins_total
+- dates = @station.count_checkins.keys.sort
+- items = @current_event.catalog_items.where(id: @station.checkins.select(:catalog_item_id).distinct.pluck(:catalog_item_id))
+
+- if admin_or_promoter_or(:gates_manager)
+  .mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--11-col
+      .mdl-grid
+        = render "admins/events/analytics/shared/box", cols: 3,
+                id: 'checkins',
+                custom_class: 'hovering',
+                colors: ['#009688', '#66FF99'],
+                icon: 'check',
+                title_text: "Checkins",
+                title_number: number_with_delimiter(total_checkins),
+                subtitle: []
+        = render "admins/events/analytics/shared/box", cols: 3,
+                id: 'devices',
+                custom_class: 'hovering',
+                colors: ['#FF4E50', '#F9D423'],
+                icon: 'phone_android',
+                title_text: "Devices",
+                title_number: number_with_delimiter(@station.count_devices),
+                subtitle: [{ text: 'Avg Checkins', number: number_to_reports(total_checkins / (@station.count_devices.zero? ? 1 : @station.count_devices)) }, { text: 'Per operator', number: number_to_reports(@station.count_devices.to_f / (@station.count_operators.zero? ? 1 : @station.count_operators.to_f)) }]
+        = render "admins/events/analytics/shared/box", cols: 3,
+                id: 'operators',
+                custom_class: 'hovering',
+                colors: ['#FF5050', '#F3A183'],
+                icon: 'attach_money',
+                title_text: "Operators",
+                title_number: number_with_delimiter(@station.count_operators),
+                subtitle: [{ text: 'Avg Checkins', number: number_to_reports(total_checkins / (@station.count_operators.zero? ? 1 : @station.count_operators.to_f)) }, { text: 'Max Checkins 1h', number: number_to_reports(@station.count_checkins(grouping: :hour).max_by{|k,v| v}&.last) }]
+        = render "admins/events/analytics/shared/box", cols: 3,
+                id: 'items',
+                custom_class: 'hovering',
+                colors: ['#355C7D', '#C06C84'],
+                icon: 'attach_money',
+                title_text: "Items",
+                title_number: number_with_delimiter(items.count),
+                subtitle: [{ text: 'Avg Checkins', number: number_to_reports(total_checkins / (items.blank? ? 1 : items.count)) }]
+    .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  = render 'admins/events/analytics/shared/export_buttons', title: 'Chekins per day',
+          excel_path: admins_event_station_path(@current_event, format: "xls", station_category: "checkin"),
+          pdf_path: admins_event_station_path(@current_event, format: "pdf", station_category: "checkin")
+
+= render "admins/events/analytics/stations/tables/checkin", total_checkins: total_checkins, dates: dates, items: items
+
+- data = items.map { |item| [item.description, @station.count_checkins(grouping: :hour, catalog_item_filter: item)] }.to_h
+- chart_data = { chart_id: "station_checkin_flow", cols: ["Checkins"], currency: "", data: @current_event.plot(data), metric: ["Checkins"], decimals: 0 }
+- unless(chart_data[:data].empty?)
+  .content-grid.mdl-grid
+    .mdl-cell.mdl-cell--12-col
+      = render 'admins/events/analytics/shared/line_chart', chart_data: chart_data, name: "Checkins per hour"

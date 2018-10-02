@@ -1,0 +1,31 @@
+// Taken form Compass library, which is based on a [blog post by Ryan Fait](http://ryanfait.com/resources/footer-stick-to-bottom-of-page/).
+//
+// Must be mixed into the top level of your stylesheet.
+//
+// Footer element must be outside of root wrapper element.
+//
+// Footer must be a fixed height.
+
+@mixin sticky-footer($footer_height,
+  $wrapper_selector: unquote(".container-main"),
+  $container_selector: unquote(".wrapper-main"),
+  $footer_selector: unquote("footer")) {
+
+  html, body {
+    height: 100%;
+  }
+
+  #{$wrapper_selector} {
+    clear: both;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin-bottom: -$footer_height;
+
+    #{$container_selector} {
+      padding-bottom: $footer_height;
+    }
+  }
+
+
+}

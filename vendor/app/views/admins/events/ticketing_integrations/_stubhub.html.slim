@@ -1,0 +1,40 @@
+- p4_event = @integration.remote_event
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Session ID
+              td = p4_event.sessionId
+            tr
+              td.mdl-data-table__cell--non-numeric Session Name
+              td = p4_event.sessionName
+            tr
+              td.mdl-data-table__cell--non-numeric Session Date
+              td = Time.parse(p4_event.sessionDateStr).to_s(:long)
+            tr
+              td.mdl-data-table__cell--non-numeric Session UUID
+              td = p4_event.sessionUUID
+            tr
+              td.mdl-data-table__cell--non-numeric Event Name
+              td = p4_event.eventName
+            tr
+              td.mdl-data-table__cell--non-numeric Active
+              td = p4_event.active
+            tr
+              td.mdl-data-table__cell--non-numeric Company Name
+              td = p4_event.companyLegalName
+            tr
+              td.mdl-data-table__cell--non-numeric Promoter Name
+              td = p4_event.promoterLegalName
+            tr
+              td.mdl-data-table__cell--non-numeric Room Name
+              td = p4_event.roomName
+            tr
+              td.mdl-data-table__cell--non-numeric Venue Name
+              td = p4_event.venueName
+  .mdl-layout-spacer

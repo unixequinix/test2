@@ -1,0 +1,42 @@
+.customer-card-wide.mdl-card.mdl-shadow--2dp.main
+  .mdl-card__supporting-text
+    - if @current_event.created?
+      .wrapper-module-restriction
+        = image_tag "img-open-event.png"
+        h4.center-text = t('dashboard.event_started.title')
+        p.center-text = t('dashboard.event_started.description')
+
+    - elsif @current_event.closed? || !@current_event.open_portal?
+      .wrapper-module-restriction
+        = image_tag "img-closed-event.png", class: "event-state-image state-illustration"
+        h4.center-text = t('dashboard.portal_closed.claim')
+        p.center-text = t('dashboard.portal_closed.description')
+
+    - else
+      .call-to-action = t("sessions.call_to_action")
+      .social-login
+        .content-grid.mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            = link_to customer_google_oauth2_omniauth_authorize_path(event: @current_event.slug), class: "social-btn social-btn--google" do
+              = fa_icon "google"
+              = t("social_login.google")
+
+          .mdl-cell.mdl-cell--6-col
+            = link_to event_register_path(@current_event), class: "social-btn social-btn--account" do
+              = t('sessions.create_account.link')
+
+      .traditional-login
+        .content-grid.mdl-grid
+          .mdl-cell.mdl-cell--12-col
+            = simple_form_for :customer, url: event_login_path(@current_event), method: :post, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit} do |f|
+              = f.input :event_id, as: :hidden, input_html: { value: @current_event.id, class: 'session-input' }
+              = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
+              = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
+              .recaptcha
+                = recaptcha_tags_if_under_attack unless Rails.env.development? 
+              .content-grid.mdl-grid
+                .mdl-cell.mdl-cell--6-col
+                  = f.button :submit, t('links.buttons.sign_in'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                .mdl-cell.mdl-cell--6-col
+                  = link_to event_recover_password_path(@current_event), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" do
+                    = t('sessions.create_account.lost_password')

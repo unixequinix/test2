@@ -1,0 +1,41 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    - engagement_hours = @station.count_engagement(grouping: :hour)
+    - engagement_average = @station.average_engagement(grouping: :hour)
+    - engagement_total = @station.engagement_total
+
+    .mdl-grid.no-pdf
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--12-col
+        .mdl-grid
+          = render "admins/events/analytics/shared/box", cols: 6,
+                  id: 'avg_engagement',
+                  custom_class: 'hovering',
+                  colors: ['#009688', '#66FF99'],
+                  icon: 'star',
+                  title_text: "Avg Ranking",
+                  title_number: number_to_reports(@station.engagement.average(:priority)),
+                  subtitle: []
+          = render "admins/events/analytics/shared/box", cols: 6,
+                  id: 'avg_engagement',
+                  custom_class: 'hovering',
+                  colors: ['#FF4E50', '#F9D423'],
+                  icon: 'av_timer',
+                  title_text: "Avg Engagement per hour",
+                  title_number: number_to_reports(engagement_total.zero? ? 0 : (engagement_total / engagement_hours.size)),
+                  subtitle: [{ text: 'Peak engagement in 1h', number: engagement_total.zero? ? 0 : "#{number_with_delimiter(engagement_hours.max_by { |k, v| v }&.last)} @ #{l engagement_hours.max_by { |k, v| v }&.first}" }]
+      .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  = render 'admins/events/analytics/shared/export_buttons', title: 'Engagement Analytics',
+          excel_path: admins_event_station_path(@current_event, format: "xls", station_category: "exhibitor"),
+          pdf_path: admins_event_station_path(@current_event, format: "pdf", station_category: "exhibitor")
+
+= render "admins/events/analytics/stations/tables/exhibitor"
+
+- data = {@station.name => @station.count_engagement(grouping: :hour)}
+- chart_data = { chart_id: "station_engagement_flow", cols: ["Engagement"], currency: 0, data: @current_event.plot(data), metric: ["Engagement"], decimals: 0 }
+- unless(chart_data[:data].empty?)
+  .content-grid.mdl-grid.no-pdf
+    .mdl-cell.mdl-cell--12-col
+      = render 'admins/events/analytics/shared/line_chart', chart_data: chart_data, name: "Engagement per hour"

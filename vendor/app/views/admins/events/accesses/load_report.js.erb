@@ -1,0 +1,6 @@
+<% if @views.length > 0 %>
+  $("#load-report .content").html("<%= escape_javascript(render partial: @name, locals: { views: @views, name: @name}) %>");
+<% else %>
+  $("#analytics-text").hide();
+  $("#load-report .content").html("<%= escape_javascript(render partial: 'no_report', locals: { name: @name }) %>");
+<% end %>

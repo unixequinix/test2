@@ -1,0 +1,32 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .table-responsive
+        table.mdl-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Counter
+              th.mdl-data-table__cell--non-numeric Date
+              th.mdl-data-table__cell--non-numeric Action
+              th.mdl-data-table__cell--non-numeric Station
+              th Credit
+              th Credit Amount
+              th Final Balance
+
+          tbody
+            - @pokes.each do |poke|
+              tr
+                td.mdl-data-table__cell--non-numeric = poke.gtag_counter
+                td.mdl-data-table__cell--non-numeric data-label="Date"
+                  span style="color: #848482; font-size: 12px"
+                    = poke.date.strftime("%d %b")
+                    br
+                    b = poke.date.strftime("%H:%M")
+                td.mdl-data-table__cell--non-numeric = link_to poke.name, [:admins, @current_event, poke]
+                td.mdl-data-table__cell--non-numeric = link_to poke.station.name, [:admins, @current_event, poke.station]
+                td = best_in_place poke, :credit_id, as: :select, collection: @current_event.credits.pluck(:id, :name), url: [:admins, @current_event, poke]
+                td = best_in_place poke, :credit_amount, url: [:admins, @current_event, poke]
+                td = best_in_place poke, :final_balance, url: [:admins, @current_event, poke]
+
+  .mdl-layout-spacer

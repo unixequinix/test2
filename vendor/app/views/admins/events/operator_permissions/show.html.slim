@@ -1,0 +1,42 @@
+- content_for(:navigation_actions) do
+  = link_to admins_event_operator_permissions_path, class: "mdl-button mdl-button--icon" do
+    span#undo_link.icon.material-icons undo
+    span.mdl-tooltip data-mdl-for="undo_link" Back
+
+- content_for(:actions) do
+  .floaty#floaty
+    ul.floaty-list#actions-list
+      li.floaty-list-item
+        = link_to edit_admins_event_operator_permission_path(@current_event, @permission) do
+          button#edit.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons edit
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="edit" Edit
+      li.floaty-list-item
+        = link_to admins_event_operator_permission_path(@current_event, @permission), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+          button#delete.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored
+            i.material-icons delete
+            span.mdl-tooltip.mdl-tooltip--left data-mdl-for="delete" Delete
+    ul.floaty-btn#button
+      li
+        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored
+          i.material-icons#changeIcon build
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Name
+            td = @permission.name
+          tr
+            td.mdl-data-table__cell--non-numeric Role
+            td = best_in_place @permission, :role, as: :select, collection: OperatorPermission.roles.keys.map{ |key| [key, key.humanize] }, url: [:admins, @current_event, @permission]
+          tr
+            td.mdl-data-table__cell--non-numeric Group
+            td = best_in_place @permission, :group, as: :select, collection: OperatorPermission.groups.keys.map{|key| [key, key.humanize]}, url: [:admins, @current_event, @permission]
+          tr
+            td.mdl-data-table__cell--non-numeric Group
+            td = best_in_place @permission, :group, as: :select, collection: @current_event.stations.collect { |station| [station.id, station.name.humanize] }, url: [:admins, @current_event, @permission]
+  .mdl-layout-spacer

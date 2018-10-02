@@ -1,0 +1,32 @@
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--8-col
+    .mdl-card__title-text = title
+  .mdl-cell.mdl-cell--2-col.right data-html2canvas-ignore="true"
+    button.mdl-button.mdl-js-button.mdl-button--raised id="#{chart_id}_button" name="export-button"
+      | EXPORT
+.mdl-card__supporting-text
+  .report_card_access id=chart_id
+  .report_card_access style="display: none;" id="#{chart_id}_hidden"
+
+javascript:
+  $(document).ready(function() {
+    var data = JSON.parse("#{escape_javascript(data.html_safe)}");
+    var cols = JSON.parse("#{escape_javascript(cols.to_json.html_safe)}");
+    var rows = JSON.parse("#{escape_javascript(rows.to_json.html_safe)}");
+    var metric = JSON.parse("#{escape_javascript(metric.to_json.html_safe)}");
+    var decimals = #{decimals};
+    var title = "#{title}";
+    var chartId = "#"+"#{chart_id}";
+    var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
+    var sum = $.pivotUtilities.aggregatorTemplates.sum;
+    var frFormat = $.pivotUtilities.numberFormat({digitsAfterDecimal: decimals});
+    var type = "TSV Export"
+    var show = "_hidden"
+
+    setTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat);
+    setPivotTable(data, rows, cols, metric, decimals, chartId, title, renderers, sum, frFormat, type, show);
+
+    $("#" + "#{chart_id}_button").click(function() {
+      exportCSV("#{chart_id}_hidden", "#{title}");
+    });
+  });
