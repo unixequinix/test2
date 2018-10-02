@@ -13,9 +13,11 @@ permissions:
 hooks:
   AfterInstall:
     - location: afterdeploy.sh
+      runas: deploy
       timeout: 120
       mode: 755
   BeforeInstall:
     - location: beforedeploy.sh
+      runas: deploy
       timeout: 120
       mode: 755
