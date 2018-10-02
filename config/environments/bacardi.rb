@@ -19,7 +19,8 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Needed for paperclip default images
-  config.asset_host = 'https://elastic.glownet.com'
+  # config.asset_host = 'https://bacardi.glownet.com'
+  config.asset_host = '34.248.147.167'
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = Uglifier.new(harmony: true)
