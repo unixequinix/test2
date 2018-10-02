@@ -13,6 +13,6 @@ rm -f /home/deploy/current/appspec.yml
 rm -f /home/deploy/current/afterdeploy.sh
 cd /home/deploy/current
 
-service nginx restart
+#service nginx restart
 
 
