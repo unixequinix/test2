@@ -20,7 +20,7 @@ Rails.application.configure do
 
   # Needed for paperclip default images
   # config.asset_host = 'https://bacardi.glownet.com'
-  config.asset_host = 'https://34.242.95.28'
+  config.asset_host = 'https://bacardi.glownet.com'
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = Uglifier.new(harmony: true)
