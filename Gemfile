@@ -29,6 +29,7 @@ gem 'deep_cloneable'
 gem 'pg', '~> 1.1', '>= 1.1.2' # Use pg as the database for Active Record
 gem 'json'
 gem 'paper_trail'
+gem 'aws-codedeploy-agent'
 
 # Assets
 gem 'jquery-rails'

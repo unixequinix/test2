@@ -35,7 +35,7 @@ staging:
 
 bacardi:
   <<: *default
-  database: cloud_bacardi
+  database: cloud_staging
   pool: 10
 
 production:
