@@ -2,7 +2,7 @@
 
 mkdir -p /home/deploy/current
 
-.rvm/bin/rvm 2.5.1 do bundle install --path /home/deploy/shared/bundle --without development test --deployment --quiet
+/home/deploy/.rvm/bin/rvm 2.5.1 do bundle install --path /home/deploy/shared/bundle --without development test --deployment --quiet
 rm -f /home/deploy/current/beforedeploy.sh
 rm -f /home/deploy/current/appspec.yml
 rm -f /home/deploy/current/afterdeploy.sh
