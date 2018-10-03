@@ -14,6 +14,7 @@ cp /home/deploy/current/public/assets/.sprockets-manifest-32331ec6f60c14fa5941f6
 rm -f /home/deploy/current/beforedeploy.sh
 rm -f /home/deploy/current/appspec.yml
 rm -f /home/deploy/current/afterdeploy.sh
+
 passenger-config restart-app /home/deploy --ignore-app-not-running
 #service nginx restart
 
