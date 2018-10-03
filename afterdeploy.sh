@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+
 export RAILS_ENV=bacardi
 mkdir -p /home/deploy/current
 cd /home/deploy/current
